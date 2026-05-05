@@ -167,8 +167,38 @@ app_html = f"""
             box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.4s; z-index: 10000;
         }}
         #google-alert.show {{ top: 20px; }}
-        .tab-btn {{ padding: 8px 15px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 4px 4px 0 0; font-weight: bold; }}
-        .tab-btn.active {{ background: #333; color: white; }}
+/* Pestañas Modernas con Volumen */
+.tab-btn {{ 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    border: 1px solid #bbb; 
+    background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
+    border-radius: 8px 8px 0 0; 
+    font-weight: bold; 
+    font-size: 13px;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
+    margin-right: 2px;
+    outline: none;
+}}
+
+/* Efecto al pasar el mouse (Hover) */
+.tab-btn:hover {{ 
+    background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+    color: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px); /* Se levanta un poco */
+}}
+
+/* Pestaña Activa (Seleccionada) */
+.tab-btn.active {{
+    background: linear-gradient(180deg, #444 0%, #000 100%); /* Color oscuro profundo */
+    color: #fff; 
+    border-bottom: none;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    transform: translateY(0); /* Se queda pegada abajo */
+}}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
         .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
