@@ -100,13 +100,54 @@ def gen_poligonos():
         </div>'''
     return polys
 
+# ... (tu código anterior de las funciones)
+
 app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
-<head>
     <style>
-        /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
+        /* ESTILOS DE LOS BOTONES ACTIVAS / TODAS */
+        .filter-btn {{
+            cursor: pointer;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.1s ease;
+            border: 1px solid rgba(0,0,0,0.2);
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            outline: none;
+        }}
+
+        .btn-activas {{
+            background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            box-shadow: 0 4px 0 #1e8449, 0 5px 10px rgba(0,0,0,0.2);
+            margin-right: 8px;
+        }}
+
+        .btn-todas {{
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+            color: #333;
+            box-shadow: 0 4px 0 #b3b3b3, 0 5px 10px rgba(0,0,0,0.15);
+        }}
+
+        .filter-btn:hover {{
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }}
+
+        .filter-btn:active {{
+            box-shadow: 0 0 0 transparent, inset 0 2px 5px rgba(0,0,0,0.2);
+            transform: translateY(4px);
+        }}
+
+        /* Aquí puedes seguir pegando los otros estilos (meli-table, tab-btn, etc.) */
+    </style>
+</head>
 
         /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
         
