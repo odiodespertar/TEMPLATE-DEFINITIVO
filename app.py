@@ -61,8 +61,8 @@ def gen_poligonos():
     </tr>'''
     for i in range(1, 11):
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; background: white; border: 1px solid #ccc;">
-            <table style="width: 100%; border-collapse: collapse;">
+# Busca esta línea dentro de gen_poligonos():
+<div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">            <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #888888 0%, #696969 100%); color: white; font-size: 12px; height: 35px;">
                         <th style="padding: 0 10px;">PLAN / RUTA</th>
