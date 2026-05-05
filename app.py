@@ -246,7 +246,7 @@ app_html = f"""
             </div>
             <div style="padding-bottom: 3px;">
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background:#D3D3D3; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold; box-shadow: 0 2px 0 #bbb; transition: all 0.05s;">
+        style="cursor:pointer; background:#C0C0C0; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold; box-shadow: 0 2px 0 #bbb; transition: all 0.05s;">
         ACTIVAS
     </button>
     <button class="filter-btn" onclick="filterRows(false)" 
