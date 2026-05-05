@@ -246,25 +246,73 @@ app_html = f"""
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS -->
         <div id="tab-2" class="t-content">
             <table class="meli-table">
-                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
+<thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
+    <tr>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
+        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+    </tr>
+    <tr>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+    </tr>
+</thead>
                 <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
             </table>
         </div>
         <div id="tab-3" class="t-content" style="display:none;">
             <table class="meli-table">
-                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
+<thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
+    <tr>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
+        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+    </tr>
+    <tr>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+    </tr>
+</thead>
                 <tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody>
             </table>
         </div>
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table">
-                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
+<thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
+    <tr>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
+        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+    </tr>
+    <tr>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+    </tr>
+</thead>
                 <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table">
-                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
+<thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
+    <tr>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
+        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+    </tr>
+    <tr>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
+        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+    </tr>
+</thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
