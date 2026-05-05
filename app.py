@@ -127,6 +127,13 @@ app_html = f"""
             box-shadow: 0 0px 0px transparent;
             transform: translateY(1px); /* Se hunde al presionar */
         }}
+
+         /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
+.filter-btn:active {{
+    transform: translateY(2px); /* Se desplaza hacia abajo */
+    box-shadow: none !important; /* Elimina la sombra para simular profundidad */
+}}
+        
     </style>
 </head>
 
