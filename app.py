@@ -3,7 +3,7 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
 
-# CSS para ocultar elementos de Streamlit y forzar el diseño limpio
+# CSS para diseño limpio
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
@@ -12,7 +12,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- DATOS BASE (Sin cambios) ---
+# --- DATOS BASE ---
 u_SDE = {"CROWD 5 HRS": [25, 28], "CROWD 5 HRS EXTENDIDA": [25, 28], "CROWD 3 HRS": [25, 28], "MOTO 3 HRS": [25, 28]}
 u_SD = {"MOTO 3 HRS": [25, 25], "MOTO NEWBIE": [20, 22], "CROWD 5 HRS / SMALL VAN": [35, 37]}
 u_C1 = {
@@ -29,10 +29,11 @@ def gen_master_rows(data_dict, table_id):
     for i in range(15):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        st_base = "background: #ebebeb; color: #969696;" if is_real else "background: #fcfcfc; color: #C0C0C0;"
+        # Todas inician sombreadas/bloqueadas
+        st_base = "background: #ebebeb; color: #969696;"
         rows += f'''
         <tr data-table="{table_id}" class="master-row" style="{st_base}">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px; white-space: nowrap;">{name}</td>
+            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
             <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
             <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
             <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
@@ -62,11 +63,11 @@ def gen_poligonos():
     for i in range(1, 11):
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; background: white; border: 1px solid #ccc;">
-            <table style="width: 100%; border-collapse: collapse; table-layout: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #888888 0%, #696969 100%); color: white; font-size: 12px; height: 35px;">
-                        <th style="padding: 0 10px; min-width: 80px; white-space: nowrap;">PLAN / RUTA</th>
-                        <th style="min-width: 80px; white-space: nowrap;">VOL. TOTAL</th>
+                        <th style="padding: 0 10px;">PLAN / RUTA</th>
+                        <th>VOL. TOTAL</th>
                         <th style="width: 110px;"># ASIGNADAS</th>
                         <th style="width: 110px;">SPR REAL</th>
                         <th>TIPO DE UNIDAD</th>
@@ -75,8 +76,8 @@ def gen_poligonos():
                 </thead>
                 <tbody>
                     <tr class="calc-row">
-                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; white-space: nowrap; padding: 5px; color:#333;">PLAN {i}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; white-space: nowrap; padding: 5px;">0</td>
+                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">PLAN {i}</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
@@ -101,7 +102,6 @@ def gen_poligonos():
         </div>'''
     return polys
 
-# --- 3. ENSAMBLAJE FINAL ---
 app_html = f"""
 <!DOCTYPE html>
 <html>
@@ -109,166 +109,101 @@ app_html = f"""
     <style>
         body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
         .meli-table {{ border-collapse: collapse; width: 100%; table-layout: fixed; }}
-        .meli-table th, .meli-table td {{ border: 1px solid #ccc; font-size: 12px; height: 30px; }}
+        .meli-table th, .meli-table td {{ border: 1px solid #ccc; font-size: 11px; height: 30px; }}
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: #d32f2f; color: white; padding: 15px 25px; border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.4s; z-index: 10000;
         }}
         #google-alert.show {{ top: 20px; }}
-        .tab-btn {{ padding: 8px 15px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 4px 4px 0 0; font-weight: bold; margin-right: 2px; }}
+        .tab-btn {{ padding: 8px 15px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 4px 4px 0 0; font-weight: bold; }}
         .tab-btn.active {{ background: #333; color: white; }}
         
-        .activas-todas-btn {{ 
-            background: linear-gradient(180deg, #5ae0d9 0%, #20B2AA 100%); 
-            color: white; border: none; padding: 6px 12px; border-radius: 4px; 
-            cursor: pointer; font-weight: bold; font-size: 11px; box-shadow: 2px 2px 4px rgba(0,0,0,0.1); 
-        }}
-        .activas-todas-btn:active {{ transform: translateY(1px); box-shadow: none; }}
-
-        /* ESTILOS HERRAMIENTAS (IMAGEN 2) */
+        /* Herramientas */
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        
-        .google-tool {{ background: #dfdff5; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid #ccc; text-align: center; }}
-        .google-tool-title {{ font-size: 11px; font-weight: bold; color: #4e3396; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 5px; }}
-        .google-input {{ border: 1px solid #ccc; border-radius: 5px; height: 30px; text-align: center; font-weight: bold; margin: 0 5px; width: 60px; }}
+        .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
         .google-res {{ font-size: 20px; font-weight: bold; color: #ac40de; }}
+        
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; }}
+        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; }}
+        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }}
+        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 10px; cursor: pointer; box-shadow: 0 3px #ccc; }}
+        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }}
 
-        /* CALCULADORA AQUA (CALCADA DE LA IMAGEN) */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border: 1px solid #1a1a1a; }}
-        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 15px; position: relative; border: 1px solid rgba(0,0,0,0.1); }}
-        #calc_h {{ font-size: 12px; color: #666; height: 15px; font-family: monospace; }}
-        #calc_r {{ font-size: 26px; font-weight: bold; color: black; font-family: monospace; }}
-        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }}
-        .btn-c {{ background: white; color: black; border: none; font-size: 16px; font-weight: bold; border-radius: 10px; padding: 12px; cursor: pointer; box-shadow: 0 4px #ccc; transition: 0.1s; }}
-        .btn-c:active {{ transform: translateY(2px); box-shadow: 0 2px #ccc; }}
-        .btn-c-op {{ background: #f0f0f0; }}
-        .btn-c-eq {{ background: #FF00FF; color: white; border-radius: 10px; padding: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px #c200c2; transition: 0.1s; }}
-        .btn-c-eq:active {{ transform: translateY(2px); box-shadow: 0 2px #c200c2; }}
-
-        /* CRONÓMETRO */
-        .crono-box {{ background: #1a1a1a; padding: 15px; border-radius: 15px; color: white; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.3); }}
-        .crono-time {{ font-size: 36px; font-weight: bold; font-family: monospace; letter-spacing: -2px; margin: 5px 0; color: white; text-shadow: 0 0 10px rgba(255,255,255,0.2); }}
+        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
     </style>
 </head>
 <body>
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
-<div style="display: flex; gap: 20px; max-width: 1700px; margin: auto;">
-    
-    <!-- COLUMNA IZQUIERDA: PLANES -->
-    <div style="flex: 1; min-width: 700px; width: 0;">
-        <div style="background: linear-gradient(180deg, #888888 0%, #696969 100%); color: white; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+<div style="display: flex; gap: 20px;">
+    <!-- COLUMNA IZQUIERDA -->
+    <div style="flex: 1;">
+        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos()}</div>
         <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos()}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos()}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos()}</div>
     </div>
 
-    <!-- COLUMNA DERECHA: FLOTA Y HERRAMIENTAS -->
-    <div style="width: 470px; flex-shrink: 0; position: sticky; top: 10px; height: fit-content;">
-        
-        <div style="background: linear-gradient(180deg, #333 0%, #000 100%); color: white; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">🚚 DISPONIBILIDAD DE FLOTA</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0;">
-            <div>
-                <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
-                <button class="tab-btn" onclick="showTab(3, this)">C2</button>
-                <button class="tab-btn" onclick="showTab(1, this)">SD</button>
-                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
-            </div>
-            <!-- BOTONES RESTAURADOS -->
-            <div style="display:flex; gap:5px; padding-bottom:5px;">
-                <button onclick="filterFlota(true)" class="activas-todas-btn" style="background:#C0C0C0; color:#333;">ACTIVAS</button>
-                <button onclick="filterFlota(false)" class="activas-todas-btn">TODAS</button>
-            </div>
+    <!-- COLUMNA DERECHA -->
+    <div style="width: 420px; position: sticky; top: 10px; height: fit-content;">
+        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
+        <div>
+            <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+            <button class="tab-btn" onclick="showTab(3, this)">C2</button>
+            <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+            <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
         </div>
-        <div style="background: white; padding: 10px; border: 1px solid #ccc; border-radius: 0 0 6px 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div id="tab-2" class="t-content"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th>REST</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
-            <div id="tab-3" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th>REST</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
-            <div id="tab-1" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th>REST</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
-            <div id="tab-4" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th>REST</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
+        <div style="background: white; padding: 10px; border: 1px solid #ccc;">
+            <div id="tab-2" class="t-content"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
+            <div id="tab-3" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
+            <div id="tab-1" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
+            <div id="tab-4" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
         </div>
 
         <div class="tools-panel">
-            <!-- CONVERTIDOR ESTILO IMAGEN 2 -->
             <div class="google-tool">
-                <div class="google-tool-title">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <div style="display: flex; align-items: center; justify-content: center; margin-top: 5px;">
-                    <input type="number" id="min-in" placeholder="Min" class="google-input" oninput="convertTime()">
-                    <span id="time-res" class="google-res">0h 0m</span>
-                </div>
+                <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
+                <input type="number" id="min-in" class="google-input" style="width:60px; text-align:center;" oninput="convertTime()">
+                <span id="time-res" class="google-res">0h 0m</span>
             </div>
 
-            <!-- CALCULADORA AQUA ESTILO IMAGEN 2 -->
             <div id="calc_wrapper">
                 <div id="calc_display_box">
-                    <div id="calc_h">0</div>
-                    <div id="calc_r">0</div>
+                    <div id="calc_h" style="font-size:10px; color:#666;"></div>
+                    <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
                 </div>
                 <div class="calc-grid">
                     <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
-                    <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c btn-c-op">÷</button>
-                    <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c btn-c-op">×</button>
-                    <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c btn-c-op">-</button>
-                    <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c btn-c-op">+</button>
+                    <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
+                    <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
+                    <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c">+</button>
                     <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
                 </div>
             </div>
 
-            # --- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REFORMADO ---
-        <div class="tools-panel">
-            
-            <!-- 1. CONVERTIDOR DE TIEMPO -->
-            <div class="google-tool">
-                <div class="google-tool-title">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <div style="display: flex; align-items: center; justify-content: center; margin-top: 5px;">
-                    <input type="number" id="min-in" placeholder="Min" class="google-input" oninput="convertTime()">
-                    <span id="time-res" class="google-res">0h 0m</span>
-                </div>
-            </div>
-
-            <!-- 2. CALCULADORA AQUA -->
-            <div id="calc_wrapper">
-                <div id="calc_display_box">
-                    <div id="calc_h">0</div>
-                    <div id="calc_r">0</div>
-                </div>
-                <div class="calc-grid">
-                    <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
-                    <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c btn-c-op">÷</button>
-                    <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c btn-c-op">×</button>
-                    <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c btn-c-op">-</button>
-                    <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c btn-c-op">+</button>
-                    <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
-                </div>
-            </div>
-
-            <!-- 3. CRONÓMETRO (DISEÑO SEGÚN IMAGEN_CBEDBF.PNG) -->
-            <div class="crono-card" style="background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace;">
-                <div class="crono-header" style="display: flex; justify-content: space-between; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 10px;">
-                    <span style="font-size: 10px; color: #888;">HORA ACTUAL</span>
-                    <span id="reloj-actual" style="font-size: 14px; color: #00e5ff; font-weight: bold;">00:00:00</span>
-                </div>
-                <div id="crono-main" style="font-size: 38px; text-align: center; font-weight: bold; margin-bottom: 15px;">00:00:00.0</div>
-                <div class="crono-controls" style="display: flex; justify-content: center; gap: 10px;">
-                    <button onclick="startC()" style="width:50px; height:50px; background:#28a745; border:none; border-radius:8px; color:white; cursor:pointer;">▶</button>
-                    <button onclick="stopC()" style="width:50px; height:50px; background:#ffc107; border:none; border-radius:8px; color:white; cursor:pointer;">⏸</button>
-                    <button onclick="resetC()" style="width:50px; height:50px; background:#dc3545; border:none; border-radius:8px; color:white; cursor:pointer;">🔄</button>
+            <div class="crono-card">
+                <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
+                <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
+                <div>
+                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px;">▶</button>
+                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px;">⏸</button>
+                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px;">🔄</button>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
     let currentTab = 2;
     let editedRowsPlan = new Set();
-    let alertShownSD = false;
-    let chronoInterval;
-    let seconds = 0;
     let curC = "";
+    let chronoInterval;
+    let startTime;
+    let elapsedTime = 0;
 
     function showTab(n, btn) {{
         currentTab = n;
@@ -280,18 +215,10 @@ app_html = f"""
         recalc();
     }}
 
-    function filterFlota(hide) {{
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            row.style.display = (hide && stock === 0) ? 'none' : '';
-        }});
-    }}
-
     function showAlert(msg) {{
         document.getElementById('alert-msg').innerText = msg;
         document.getElementById('google-alert').classList.add('show');
     }}
-
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
     function stepVal(btn, delta, type) {{
@@ -299,21 +226,28 @@ app_html = f"""
         let sel = row.querySelector('.s-type').value;
         if(sel === "SELECCIONAR...") return;
 
-        let fRow = Array.from(document.querySelectorAll('#body-'+currentTab+' tr')).find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+        let fRows = Array.from(document.querySelectorAll('#body-'+currentTab+' tr'));
+        let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
         let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+        let schedule = parseInt(fRow.querySelector('.f-stock').innerText) || 0;
 
         if(type === 'u') {{
             let span = row.querySelector('.u-manual');
             let val = parseInt(span.innerText) || 0;
-            if (delta > 0 && left <= 0 && currentTab !== 4) {{ // Bloqueo si no es SDE
-                if (currentTab === 1 && !alertShownSD) {{ showAlert("⚠️ AGOTADO EN SD."); alertShownSD = true; }}
-                else if (currentTab !== 1) {{ showAlert("⚠️ AGOTADO. Bloqueo asignación SVC."); return; }}
+            
+            if (delta > 0 && left <= 0) {{
+                if (currentTab === 4) {{
+                    showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
+                }} else {{
+                    showAlert("⚠️ AGOTADO. No se puede aumentar.");
+                    return;
+                }}
             }}
             span.innerText = Math.max(0, val + delta);
         }} else {{
             let span = row.querySelector('.spr-real-val');
             let val = parseFloat(span.innerText) || 0;
-            span.innerText = Math.max(0, val + delta);
+            span.innerText = Math.max(0, val + delta).toFixed(1);
         }}
         editedRowsPlan.add(row);
         recalc();
@@ -321,31 +255,36 @@ app_html = f"""
 
     function recalc() {{
         let fleet = {{}};
-        let hasOverGlobal = false;
+        let anyOver = false;
 
+        // 1. Leer Flota
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let n = row.querySelector('.edit-name').innerText.trim();
-            let s = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fS = row.querySelector('.f-stock'), nC = row.querySelector('.edit-name');
+            let name = row.querySelector('.edit-name').innerText.trim();
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock'), nc = row.querySelector('.edit-name');
             
-            // Colores Dinámicos
-            if(s > 0) {{
-                nC.style.background = "white"; nC.style.color="black";
-                fS.style.background = "#e3defa"; mi.style.background = "#def3ed"; ma.style.background = "#def3ed";
+            if(sch > 0) {{
+                row.style.background = "white"; row.style.color = "black";
+                fs.style.background = "#e3defa"; mi.style.background = "#def3ed"; ma.style.background = "#def3ed";
             }} else {{
-                nC.style.background = "#ebebeb"; nC.style.color="#969696";
-                fS.style.background = "#ebebeb"; mi.style.background = "#ebebeb"; ma.style.background = "#ebebeb";
+                row.style.background = "#ebebeb"; row.style.color = "#969696";
+                fs.style.background = "#ebebeb"; mi.style.background = "#ebebeb"; ma.style.background = "#ebebeb";
             }}
-            if(n !== "" && n !== "NUEVA UNIDAD") fleet[n] = {{ max: parseFloat(ma.innerText)||0, stock: s, used: 0 }};
+            
+            if(name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+            }}
         }});
 
+        // 2. Calcular Planes
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
-                    fleet[s].used += u; vA += (u * parseFloat(sp.innerText));
+                    fleet[s].used += u; 
+                    vA += (u * parseFloat(sp.innerText));
                 }}
             }});
             bl.querySelector('.v-calculado-total').innerText = Math.round(vA);
@@ -357,28 +296,30 @@ app_html = f"""
             }}
         }});
 
+        // 3. Actualizar Columna Restante
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
-                let res = fleet[n].stock - fleet[n].used, cL = row.querySelector('.f-left');
-                cL.innerText = Math.abs(res);
+                let diff = fleet[n].stock - fleet[n].used;
+                let cL = row.querySelector('.f-left');
+                cL.innerText = diff;
                 
-                if (res <= 0) {{
-                    cL.style.background = "#d32f2f"; // Rojo brillante
-                    cL.style.color = "white";
+                if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.background = "#d32f2f"; cL.style.color = "white";
+                }} else if (diff < 0) {{
+                    cL.style.background = "white"; cL.style.color = "red";
+                    anyOver = true;
                 }} else {{
-                    cL.style.background = "#fff";
-                    cL.style.color = "green";
+                    cL.style.background = "transparent"; cL.style.color = "black";
                 }}
-                if(res < 0) hasOverGlobal = true;
             }}
         }});
 
-        // Cambio Título ME QUEDAN / ME PASÉ (Solo SDE)
-        let h = document.querySelector('#tab-' + currentTab + ' .header-flota[rowspan="2"]:last-child');
-        if(h) h.innerText = (currentTab === 4 && hasOverGlobal) ? "ME PASÉ POR" : "ME QUEDAN";
+        // Cambiar encabezado si hay exceso en SDE
+        let header = document.querySelector('#tab-' + currentTab + ' .header-res');
+        if(header) header.innerText = (currentTab === 4 && anyOver) ? "ME PASÉ POR" : "ME QUEDAN";
 
-        // Actualizar dropdowns
+        // Actualizar Selects
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value, opt = '<option>SELECCIONAR...</option>';
             Object.keys(fleet).forEach(k => {{ if(fleet[k].stock > 0 || k === cur) opt += `<option value="${{k}}">${{k}}</option>`; }});
@@ -386,28 +327,41 @@ app_html = f"""
         }});
     }}
 
-    // HERRAMIENTAS
+    // Herramientas JS
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
         document.getElementById('time-res').innerText = Math.floor(m/60) + "h " + (m%60) + "m";
     }}
     function an(n) {{ curC += n; updateCalc(); }}
     function ao(o) {{ curC += " " + o + " "; updateCalc(); }}
-    function cl() {{ curC = ""; updateCalc(); }}
+    function cl() {{ curC = ""; updateCalc(); document.getElementById('calc_h').innerText = ""; }}
     function del() {{ curC = curC.trim().slice(0, -1); updateCalc(); }}
     function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
-    function startChrono() {{ if(chronoInterval) return; chronoInterval = setInterval(()=>{{ seconds++; updateChrono(); }}, 1000); }}
-    function stopChrono() {{ clearInterval(chronoInterval); chronoInterval = null; }}
-    function resetChrono() {{ stopChrono(); seconds = 0; updateChrono(); }}
-    function updateChrono() {{ let h=Math.floor(seconds/3600), m=Math.floor((seconds%3600)/60), s=seconds%60; document.getElementById('chrono-display').innerText = String(h).padStart(2,'0')+":"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0'); }}
-    document.addEventListener('keydown', (e) => {{ if(e.key === 'Enter') hideAlert(); }});
+    
+    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
+    setInterval(updateReloj, 1000);
+
+    function startC() {{ if(!chronoInterval) {{ startTime = Date.now() - elapsedTime; chronoInterval = setInterval(()=>{{ elapsedTime = Date.now() - startTime; updateCDisplay(); }}, 100); }} }}
+    function stopC() {{ clearInterval(chronoInterval); chronoInterval = null; }}
+    function resetC() {{ stopC(); elapsedTime = 0; updateCDisplay(); }}
+    function updateCDisplay() {{ 
+        let d = new Date(elapsedTime);
+        let h = String(Math.floor(elapsedTime/3600000)).padStart(2,'0');
+        let m = String(d.getUTCMinutes()).padStart(2,'0');
+        let s = String(d.getUTCSeconds()).padStart(2,'0');
+        let ms = Math.floor(d.getUTCMilliseconds()/100);
+        document.getElementById('crono-main').innerText = `${{h}}:${{m}}:${{s}}.${{ms}}`;
+    }}
+
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
+    document.addEventListener('keydown', (e) => {{ if(e.key === 'Enter') hideAlert(); }});
+    
     recalc();
 </script>
 </body>
 </html>
 """
 
-html(app_html, height=1300, scrolling=True)
+html(app_html, height=1000, scrolling=True)
