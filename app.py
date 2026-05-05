@@ -248,15 +248,15 @@ app_html = f"""
             <table class="meli-table">
 <thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
     <tr>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
-        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
-        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MIN</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MAX</th>
     </tr>
 </thead>
                 <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -266,15 +266,15 @@ app_html = f"""
             <table class="meli-table">
 <thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
     <tr>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
-        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
-        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MIN</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MAX</th>
     </tr>
 </thead>
                 <tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody>
@@ -284,15 +284,15 @@ app_html = f"""
             <table class="meli-table">
 <thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
     <tr>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
-        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
-        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MIN</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MAX</th>
     </tr>
 </thead>
                 <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
@@ -302,15 +302,15 @@ app_html = f"""
             <table class="meli-table">
 <thead style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
     <tr>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">UNIDAD</th>
-        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 5px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1);">SPR</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">MINS</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">STOCK</th>
-        <th rowspan="2" style="padding: 10px; font-size: 13px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);">REST</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
+        <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">MINS</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MIN</th>
-        <th style="border-right: 2px solid white; padding: 5px; font-size: 10px; background: rgba(255,255,255,0.05);">MAX</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MIN</th>
+        <th style="border-right: 2px solid white; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1;">MAX</th>
     </tr>
 </thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
