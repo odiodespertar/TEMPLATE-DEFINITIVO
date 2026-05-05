@@ -107,9 +107,33 @@ app_html = f"""
 <head>
     <style>
         body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
-        .meli-table {{ border-collapse: collapse; width: 100%; table-layout: fixed; }}
-        .meli-table th {{ background: #333; color: white; font-size: 10px; height: 25px; border: 1px solid #ccc; }}
-        .meli-table td {{ border: 1px solid #ccc; font-size: 11px; height: 30px; }}
+       .meli-table {{ 
+    border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
+    border-spacing: 0;
+    width: 100%; 
+    table-layout: fixed; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
+    border: 1px solid #ccc;
+}}
+
+.meli-table th {{
+    background: linear-gradient(180deg, #444 0%, #222 100%); /* Gradiente para volumen */
+    color: white; 
+    font-size: 11px; 
+    height: 35px; 
+    border-bottom: 2px solid #000;
+    text-transform: uppercase;
+}}
+
+.meli-table td {{ 
+    border-bottom: 1px solid #eee; 
+    border-right: 1px solid #eee;
+    font-size: 11px; 
+    height: 32px; 
+    transition: background 0.2s; /* Animación sutil al pasar el mouse */
+}}
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
