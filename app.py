@@ -159,9 +159,9 @@ app_html = f"""
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
             <div style="padding-bottom: 5px;">
-                <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:10px; padding:2px 5px; border-radius:3px;">ACTIVAS</button>
-                <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:10px; padding:2px 5px; border-radius:3px; font-weight:bold;">TODAS</button>
-            </div>
+    <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold;">ACTIVAS</button>
+    <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold;">TODAS</button>
+</div>
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS -->
