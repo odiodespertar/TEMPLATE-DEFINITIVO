@@ -131,6 +131,19 @@ app_html = f"""
 </head>
 
     <style>
+
+    /* COPIA Y PEGA ESTO AQUÍ: */
+        .filter-btn {{ 
+            cursor: pointer; font-size: 14px; padding: 8px 15px; border-radius: 6px; 
+            font-weight: bold; border: none; transition: all 0.1s ease; outline: none;
+        }}
+        .btn-activas {{ background: #f0f0f0; color: #333; box-shadow: 0 4px #bbb; margin-right: 8px; border: 1px solid #ccc; }
+        .btn-activas:active {{ box-shadow: 0 1px #bbb; transform: translateY(3px); }}
+
+        .btn-todas {{ background: #20B2AA; color: white; box-shadow: 0 4px #167d77; }}
+        .btn-todas:active {{ box-shadow: 0 1px #167d77; transform: translateY(3px); }}
+        /* HASTA AQUÍ */
+        
         body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
        .meli-table {{ 
     border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
@@ -237,9 +250,9 @@ app_html = f"""
                 <button class="tab-btn" onclick="showTab(1, this)">SD</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
-            <div style="padding-bottom: 5px;">
-    <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold;">ACTIVAS</button>
-    <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold;">TODAS</button>
+            <div style="padding-bottom: 10px;">
+    <button onclick="filterRows(true)" class="filter-btn btn-activas">ACTIVAS</button>
+    <button onclick="filterRows(false)" class="filter-btn btn-todas">TODAS</button>
 </div>
         </div>
 
