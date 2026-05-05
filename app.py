@@ -10,7 +10,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- CATÁLOGOS INICIALES ---
+# --- CATÁLOGOS ---
 u_SDE = {"CROWD 5 HRS": [25, 28], "CROWD 5 HRS EXTENDIDA": [25, 28], "CROWD 3 HRS": [25, 28], "MOTO 3 HRS": [25, 28]}
 u_SD = {"MOTO 3 HRS": [25, 25], "MOTO NEWBIE": [20, 22], "CROWD 5 HRS / SMALL VAN": [35, 37]}
 u_C1 = {
@@ -27,43 +27,39 @@ def gen_master_rows(data_dict, table_id):
     for i in range(15):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        # Estilos base y colores restaurados
-        st_name = "color: #555; background: #ebebeb;" if is_real else "color: #C0C0C0; background: #fcfcfc;"
-        st_spr = "background: #def3ed; color: #000; font-weight: bold;" # Color Agua
-        st_sched = "background: #e3defa; color: #000; font-weight: bold;" # Color Lila
-        
+        st_base = "background: #ebebeb; color: #555;" if is_real else "background: #fcfcfc; color: #ccc;"
         rows += f'''
         <tr data-table="{table_id}" class="master-row">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="{st_name} text-align: left; padding-left: 10px; border: 0.5px solid #ccc;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="{st_spr} text-align: center; border: 0.5px solid #ccc;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="{st_spr} text-align: center; border: 0.5px solid #ccc;">{spr[1]}</td>
-            <td contenteditable="true" class="edit-orh" style="{st_name} text-align: center; border: 0.5px solid #ccc;">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()" style="{st_sched} text-align: center; border: 0.5px solid #ccc;">0</td>
+            <td contenteditable="true" class="edit-name" oninput="recalc()" style="{st_base} text-align: left; padding-left: 10px; border: 0.5px solid #ccc; font-weight: bold;">{name}</td>
+            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">{spr[0]}</td>
+            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">{spr[1]}</td>
+            <td contenteditable="true" class="edit-orh" style="{st_base} text-align: center; border: 0.5px solid #ccc;">480</td>
+            <td contenteditable="true" class="f-stock" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">0</td>
             <td class="f-left" style="background: #fff; font-weight: bold; text-align: center; border: 0.5px solid #ccc;">0</td>
         </tr>'''
     return rows
 
 def gen_poligonos():
     polys = ""
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:22px; height:22px; border-radius:4px; margin:0 2px;"
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.1); font-weight:bold; width:22px; height:22px; border-radius:4px;"
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #f8f9fa; text-align: center; border: 0.5px solid #ccc;">
+        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
         </td>
-        <td class="spr-real-cell" style="background: #f8f9fa; text-align: center; border: 0.5px solid #ccc;">
+        <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
-        <td style="border: 0.5px solid #ccc;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold;"><option>SELECCIONAR...</option></select></td>
+        <td style="border: 0.5px solid #ccc;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; color:#333;"><option>SELECCIONAR...</option></select></td>
         <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.8); cursor:pointer;"></td>
     </tr>'''
     for i in range(1, 11):
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; background: white;">
+        <div class="poligono-bloque" style="margin-bottom: 15px; border-radius: 10px; overflow: hidden; background: white; border: 1px solid #ccc;">
             <table class="meli-table tabla-planes" style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr><th class="header-poly">PLAN {i}</th><th class="header-poly">VOL. TOTAL</th><th class="header-poly" style="width:100px;"># ASIGNADAS</th><th class="header-poly" style="width:100px;">SPR REAL</th><th class="header-poly">TIPO DE UNIDAD</th><th class="header-poly" style="width:55px;">OK</th></tr>
@@ -72,17 +68,17 @@ def gen_poligonos():
                     <tr class="calc-row">
                         <td rowspan="5" contenteditable="true" class="v-total" style="background: #D3D3D3; font-weight:bold; text-align:center; border: 1px solid #808080;">P{i}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 16px; text-align: center; border: 1px solid #808080;">0</td>
-                        <td class="u-manual-cell" style="background: #f8f9fa; text-align: center; border: 0.5px solid #ccc;">
+                        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
-                        <td class="spr-real-cell" style="background: #f8f9fa; text-align: center; border: 0.5px solid #ccc;">
+                        <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
-                        <td style="border: 0.5px solid #ccc;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold;"><option>SELECCIONAR...</option></select></td>
+                        <td style="border: 0.5px solid #ccc;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; color:#333;"><option>SELECCIONAR...</option></select></td>
                         <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.8); cursor:pointer;"></td>
                     </tr>
                     {fila_inner * 4}
@@ -98,36 +94,33 @@ full_html = f"""
 <head>
     <style>
         body {{ font-family: 'Segoe UI', sans-serif; background: #f5f7f9; padding: 20px; }}
-        .header-poly {{ background: linear-gradient(180deg, #888888 0%, #696969 100%) !important; color: white; padding: 8px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }}
+        .header-poly {{ background: linear-gradient(180deg, #888888 0%, #696969 100%) !important; color: white; padding: 8px; }}
         .header-flota {{ background: linear-gradient(180deg, #333333 0%, #000000 100%) !important; color: white; padding: 8px; text-align: center; }}
-        .main-header-flota {{ background: linear-gradient(90deg, #000000, #444444); color: white; padding: 12px; border-radius: 10px; font-weight: bold; margin-bottom: 15px; }}
+        .main-header-flota {{ background: #000; color: white; padding: 12px; border-radius: 10px; font-weight: bold; margin-bottom: 15px; }}
         .tab-btn {{ padding: 10px 20px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 8px 8px 0 0; font-weight: bold; }}
-        .tab-btn.active {{ background: #000000 !important; color: white !important; }}
+        .tab-btn.active {{ background: #000 !important; color: white !important; }}
         
-        /* ALERTA GIGANTE ESTILO GOOGLE */
         #google-alert {{ 
-            position: fixed; top: -150px; left: 50%; transform: translateX(-50%);
-            background: #d32f2f; color: white; padding: 20px 40px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            z-index: 99999; display: flex; flex-direction: column; align-items: center; gap: 10px; 
-            min-width: 400px; text-align: center; border: 2px solid #fff;
+            position: fixed; top: -200px; left: 50%; transform: translateX(-50%);
+            background: #d32f2f; color: white; padding: 25px 50px; border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: 0.4s;
+            z-index: 99999; text-align: center; border: 3px solid #fff; min-width: 450px;
         }}
-        #google-alert.show {{ top: 30px; }}
-        #google-alert b {{ font-size: 18px; }}
+        #google-alert.show {{ top: 40px; }}
         
-        #calc_container {{ background: linear-gradient(145deg, #22c5bc, #1da29b); border-radius: 25px; padding: 20px; box-shadow: 8px 8px 16px #acacac, -8px -8px 16px #ffffff; outline:none; }}
+        #calc_container {{ background: linear-gradient(145deg, #22c5bc, #1da29b); border-radius: 25px; padding: 20px; outline:none; }}
+        #calc_container:focus {{ outline: 5px solid #FF00FF; }}
         .btn-calc {{ border-radius: 8px; background: white; cursor: pointer; font-weight: bold; padding: 10px; border: 1px solid #ccc; }}
         
         .u-manual, .spr-real-val {{ margin: 0 8px; display: inline-block; min-width: 25px; font-weight: bold; }}
-        .meli-table td {{ height: 35px; }}
     </style>
 </head>
 <body>
 
 <div id="google-alert">
-    <b id="alert-title">⚠️ ATENCIÓN</b>
-    <span id="alert-msg">Mensaje de alerta</span>
-    <div style="font-size: 12px; margin-top: 5px; opacity: 0.9;">Presiona [ENTER] para cerrar</div>
+    <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">⚠️ ALERTA CRÍTICA</div>
+    <div id="alert-msg" style="font-size: 18px;">Mensaje</div>
+    <div style="margin-top: 15px; font-size: 14px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 5px;">Presiona [ENTER] para continuar</div>
 </div>
 
 <div style="display: flex; gap: 20px;">
@@ -154,14 +147,14 @@ full_html = f"""
             </div>
         </div>
 
-        <div style="background: white; padding: 15px; border-radius: 0 0 12px 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.15);">
+        <div style="background: white; padding: 15px; border-radius: 0 0 12px 12px; border: 1px solid #ccc;">
             <div id="tab-2" class="t-content"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C1)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
             <div id="tab-3" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C2)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
             <div id="tab-1" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SD)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
             <div id="tab-4" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SDE)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
         </div>
 
-        <!-- Componentes Intocables -->
+        <!-- Componentes -->
         <div style="background: #e2dcf5; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center;">
             <div style="font-size: 11px; font-weight: bold; color: #4e3396;">🕑 CONVERTIDOR DE TIEMPO</div>
             <input type="number" id="minInp" oninput="convertirMin()" style="width: 80px; height: 30px; text-align: center;">
@@ -169,7 +162,7 @@ full_html = f"""
         </div>
 
         <div id="calc_container" tabindex="0">
-            <div style="background: #fffacd; padding: 10px; border-radius: 10px; text-align: right; margin-bottom: 15px;">
+            <div style="background: #fffacd; padding: 10px; border-radius: 10px; text-align: right; margin-bottom: 15px; border: 1px solid #ccc;">
                 <div id="h_calc" style="font-size: 12px; color: #666; height: 15px;">0</div>
                 <div id="r_calc" style="font-size: 26px; font-weight: bold;">0</div>
             </div>
@@ -200,15 +193,12 @@ full_html = f"""
 <script>
     let curTab = 2;
     let edited = new Set();
+    let alertShownSD = false;
     let curC = "";
-    let alertTimer;
 
     function showAlert(msg) {{
-        const alert = document.getElementById('google-alert');
         document.getElementById('alert-msg').innerText = msg;
-        alert.classList.add('show');
-        clearTimeout(alertTimer);
-        alertTimer = setTimeout(hideAlert, 5000);
+        document.getElementById('google-alert').classList.add('show');
     }}
 
     function hideAlert() {{
@@ -232,51 +222,36 @@ full_html = f"""
         }});
     }}
 
-    function manualEdit(el) {{ edited.add(el.closest('tr')); recalc(); }}
-
-    function resetRow(sel) {{
-        let row = sel.closest('tr');
-        row.querySelector('.u-manual').innerText = "0";
-        row.querySelector('.spr-real-val').innerText = "0";
-        edited.delete(row);
-        recalc();
-    }}
-
     function stepVal(btn, d, type) {{
         let row = btn.closest('tr');
         let sel = row.querySelector('.s-type');
         if(sel.value === "SELECCIONAR...") return;
 
-        let fleetRows = document.querySelectorAll('#body-' + curTab + ' tr');
         let fData = null;
-        for(let r of fleetRows) {{
+        document.querySelectorAll('#body-' + curTab + ' tr').forEach(r => {{
             if(r.querySelector('.edit-name').innerText.trim() === sel.value) {{
-                fData = {{
-                    left: parseInt(r.querySelector('.f-left').innerText) || 0,
-                    max: parseFloat(r.querySelector('.edit-spr-max').innerText) || 0
-                }};
-                break;
+                fData = {{ left: parseInt(r.querySelector('.f-left').innerText)||0, max: parseFloat(r.querySelector('.edit-spr-max').innerText)||0 }};
             }}
-        }}
+        }});
 
         if(type === 'u') {{
             let span = row.querySelector('.u-manual');
-            let val = parseInt(span.innerText) || 0;
+            let v = parseInt(span.innerText) || 0;
             if(d > 0 && fData && fData.left <= 0) {{
-                showAlert("⚠️ UNIDADES AGOTADAS EN SCHEDULE. Solicitar autorización al SERVICE para proceder.");
-                if(curTab !== 4) return; // BLOQUEO si no es SDE
+                if(curTab === 1 && !alertShownSD) {{ showAlert("⚠️ UNIDADES AGOTADAS EN SD. Solicitar autorización."); alertShownSD = true; }}
+                else if(curTab !== 1 && curTab !== 4) {{ showAlert("⚠️ AGOTADO. Bloqueo de asignación."); return; }}
+                else if(curTab === 4) showAlert("⚠️ EXCESO EN SDE. Bajo supervisión.");
             }}
-            span.innerText = Math.max(0, val + d);
+            span.innerText = Math.max(0, v + d);
         }} else {{
             let span = row.querySelector('.spr-real-val');
-            let val = parseFloat(span.innerText) || 0;
-            if(d > 0 && fData && val >= fData.max) {{
-                showAlert("⚠️ LÍMITE DE SPR MÁXIMO ALCANZADO. No se recomienda exceder la capacidad declarada.");
-                if(curTab !== 4) return; // BLOQUEO si no es SDE
+            let v = parseFloat(span.innerText) || 0;
+            if(d > 0 && fData && v >= fData.max) {{
+                showAlert("⚠️ LÍMITE SPR ALCANZADO.");
+                if(curTab !== 4) return;
             }}
-            span.innerText = Math.max(0, val + d);
+            span.innerText = Math.max(0, v + d);
         }}
-        
         edited.add(row);
         recalc();
     }}
@@ -286,76 +261,75 @@ full_html = f"""
         let hasOver = false;
 
         document.querySelectorAll('#body-' + curTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            let sched = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            if(name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ 
-                    min: parseFloat(row.querySelector('.edit-spr-min').innerText)||0, 
-                    max: parseFloat(row.querySelector('.edit-spr-max').innerText)||0, 
-                    stock: sched, used: 0 
-                }};
-            }}
+            let n = row.querySelector('.edit-name').innerText.trim();
+            let s = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let spMin = row.querySelector('.edit-spr-min'), spMax = row.querySelector('.edit-spr-max'), fSt = row.querySelector('.f-stock');
+            
+            // Colores Dinámicos
+            spMin.style.background = (parseFloat(spMin.innerText) > 0) ? "#def3ed" : "#ebebeb";
+            spMax.style.background = (parseFloat(spMax.innerText) > 0) ? "#def3ed" : "#ebebeb";
+            fSt.style.background = (s > 0) ? "#e3defa" : "#ebebeb";
+
+            if(n !== "" && n !== "NUEVA UNIDAD") fleet[n] = {{ max: parseFloat(spMax.innerText)||0, stock: s, used: 0 }};
         }});
 
         document.querySelectorAll('#polys-' + curTab + ' .poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-            let vA = 0;
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             bl.querySelectorAll('.calc-row').forEach(row => {{
-                let sel = row.querySelector('.s-type');
-                let spanU = row.querySelector('.u-manual'), spanS = row.querySelector('.spr-real-val');
+                let sel = row.querySelector('.s-type'), uS = row.querySelector('.u-manual'), sS = row.querySelector('.spr-real-val');
                 if(sel.value !== "SELECCIONAR..." && fleet[sel.value]) {{
-                    let f = fleet[sel.value];
-                    if(!edited.has(row)) spanS.innerText = f.max;
-                    let u = parseInt(spanU.innerText) || 0;
-                    f.used += u;
-                    vA += (u * parseFloat(spanS.innerText));
+                    if(!edited.has(row)) sS.innerText = fleet[sel.value].max;
+                    let u = parseInt(uS.innerText) || 0;
+                    fleet[sel.value].used += u;
+                    vA += (u * parseFloat(sS.innerText));
                 }}
             }});
-            let res = bl.querySelector('.v-calculado-total'), diff = bl.querySelector('.p-diff');
-            res.innerText = Math.round(vA);
-            if(vT === 0) {{ diff.innerText = "VACÍO"; diff.style.background = "none"; }}
-            else if(vA >= vT) {{ 
-                diff.innerText = (vA === vT) ? "OK" : "EXCESO: " + Math.round(vA-vT);
-                diff.style.background = (vA === vT) ? "#ceedd6" : "#ffe4b5";
-            }} else {{
-                diff.innerText = "FALTAN: " + Math.round(vT - vA); diff.style.background = "#f7cdd1";
+            let r = bl.querySelector('.v-calculado-total'), d = bl.querySelector('.p-diff');
+            r.innerText = Math.round(vA);
+            if(vT === 0) {{ d.innerText = "VACÍO"; d.style.background = "none"; }}
+            else {{
+                d.innerText = (vA >= vT) ? (vA === vT ? "OK" : "EXCESO: " + Math.round(vA-vT)) : "FALTAN: " + Math.round(vT-vA);
+                d.style.background = (vA >= vT) ? (vA === vT ? "#ceedd6" : "#ffe4b5") : "#f7cdd1";
             }}
         }});
 
         document.querySelectorAll('#body-' + curTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            if(fleet[name]) {{
-                let left = fleet[name].stock - fleet[name].used;
-                let cellLeft = row.querySelector('.f-left');
-                cellLeft.innerText = left;
-                
-                // SOMBREAR SI LLEGA A CERO
-                if(left <= 0) {{
-                    cellLeft.style.background = "#f7cdd1"; // Rojo claro
-                    cellLeft.style.color = "#d32f2f";
-                }} else {{
-                    cellLeft.style.background = "#fff";
-                    cellLeft.style.color = "#000";
-                }}
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let left = fleet[n].stock - fleet[n].used;
+                let cL = row.querySelector('.f-left');
+                cL.innerText = left;
+                cL.style.background = (left <= 0) ? "#f7cdd1" : "#fff";
                 if(left < 0) hasOver = true;
             }}
         }});
-
-        let head = document.querySelector('#tab-' + curTab + ' .header-flota[rowspan="2"]:last-child');
-        if(head) head.innerText = (hasOver && curTab === 4) ? "ME PASÉ POR" : "ME QUEDAN";
+        
+        let h = document.querySelector('#tab-' + curTab + ' .header-flota[rowspan="2"]:last-child');
+        if(h) h.innerText = (hasOver && curTab === 4) ? "ME PASÉ POR" : "ME QUEDAN";
 
         document.querySelectorAll('#polys-' + curTab + ' .s-type').forEach(s => {{
-            let curVal = s.value;
-            let options = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).sort().forEach(n => {{
-                if(fleet[n].stock > 0) options += `<option value="${{n}}">${{n}}</option>`;
-            }});
-            s.innerHTML = options;
-            s.value = curVal;
+            let val = s.value, opt = '<option>SELECCIONAR...</option>';
+            Object.keys(fleet).sort().forEach(n => {{ if(fleet[n].stock > 0) opt += `<option value="${{n}}">${{n}}</option>`; }});
+            s.innerHTML = opt; s.value = val;
         }});
     }}
 
-    // Calculadora & Teclado
+    // Teclado Global
+    document.addEventListener('keydown', (e) => {{
+        if(e.key === 'Enter' && document.getElementById('google-alert').classList.contains('show')) {{
+            hideAlert();
+            e.preventDefault();
+        }}
+        if(document.activeElement.id === 'calc_container') {{
+            if(e.key >= '0' && e.key <= '9') an(e.key);
+            if(['+','-','*','/'].includes(e.key)) ao(e.key);
+            if(e.key === 'Enter') calc_eq();
+            if(e.key === 'Backspace') del();
+            e.preventDefault();
+        }}
+    }});
+
+    // Funciones básicas
     const rD = document.getElementById('r_calc'), hD = document.getElementById('h_calc');
     function an(n) {{ curC += n; rD.innerText = curC; }}
     function ao(o) {{ curC += " " + o + " "; rD.innerText = curC; }}
@@ -364,23 +338,16 @@ full_html = f"""
     function calc_eq() {{ try {{ let res = eval(curC); hD.innerText = curC + " ="; rD.innerText = res; curC = res.toString(); }} catch {{ rD.innerText = "Err"; }} }}
     function convertirMin() {{ let m = parseInt(document.getElementById('minInp').value) || 0; document.getElementById('resConv').innerText = Math.floor(m/60) + "h " + (m%60) + "m"; }}
     
-    // Reloj y Crono
     let sT, eT=0, run=false, tInt;
     setInterval(()=>{{ document.getElementById('reloj-f').innerText = new Date().toLocaleTimeString(); }}, 1000);
     function t_start() {{ if(!run) {{ run=true; sT=Date.now()-eT; tInt=setInterval(()=>{{ eT=Date.now()-sT; document.getElementById('display-f').innerText=fmt(eT); }},100); }} }}
     function t_stop() {{ run=false; clearInterval(tInt); }}
     function t_reset() {{ run=false; clearInterval(tInt); eT=0; document.getElementById('display-f').innerText="00:00:00.0"; }}
     function fmt(t) {{ let ms=Math.floor((t%1000)/100), s=Math.floor((t/1000)%60), m=Math.floor((t/60000)%60), h=Math.floor(t/3600000); return `${{h.toString().padStart(2,'0')}}:${{m.toString().padStart(2,'0')}}:${{s.toString().padStart(2,'0')}}.${{ms}}`; }}
-
-    document.addEventListener('keydown', (e) => {{
-        if(e.key === 'Enter') hideAlert();
-        if(document.activeElement.id === 'calc_container') {{
-            if(e.key >= '0' && e.key <= '9') an(e.key);
-            if(['+','-','*','/'].includes(e.key)) ao(e.key);
-            if(e.key === 'Enter') calc_eq(); if(e.key === 'Backspace') del();
-            e.preventDefault();
-        }}
-    }});
+    
+    function manualEdit(el) {{ edited.add(el.closest('tr')); recalc(); }}
+    function resetRow(sel) {{ let r = sel.closest('tr'); r.querySelector('.u-manual').innerText = "0"; r.querySelector('.spr-real-val').innerText = "0"; edited.delete(r); recalc(); }}
+    
     recalc();
 </script>
 </body>
