@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit.components.v1 import html
 
-st.set_page_config(page_title="Monitor Logístico VP04 - Total Pro", layout="wide")
+st.set_page_config(page_title="Monitor Logístico VP04 - Liliana García", layout="wide")
 
 st.markdown("""
     <style>
@@ -27,14 +27,18 @@ def gen_master_rows(data_dict, table_id):
     for i in range(15):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        st_base = "background: #ebebeb; color: #555;" if is_real else "background: #fcfcfc; color: #ccc;"
+        
+        # Estilos: color: #004080 es el color de la letra del nombre.
+        st_name = "background: #ebebeb; color: #004080; font-weight: bold;" if is_real else "background: #fcfcfc; color: #ccc;"
+        st_vals = "background: #ebebeb; color: #333;" if is_real else "background: #fcfcfc; color: #ccc;"
+        
         rows += f'''
         <tr data-table="{table_id}" class="master-row">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="{st_base} text-align: left; padding-left: 10px; border: 0.5px solid #ccc; font-weight: bold;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">{spr[1]}</td>
-            <td contenteditable="true" class="edit-orh" style="{st_base} text-align: center; border: 0.5px solid #ccc;">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()" style="{st_base} text-align: center; border: 0.5px solid #ccc;">0</td>
+            <td contenteditable="true" class="edit-name" oninput="recalc()" style="{st_name} text-align: left; padding-left: 10px; border: 0.5px solid #ccc;">{name}</td>
+            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="{st_vals} text-align: center; border: 0.5px solid #ccc;">{spr[0]}</td>
+            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="{st_vals} text-align: center; border: 0.5px solid #ccc;">{spr[1]}</td>
+            <td contenteditable="true" class="edit-orh" style="{st_vals} text-align: center; border: 0.5px solid #ccc;">480</td>
+            <td contenteditable="true" class="f-stock" oninput="recalc()" style="{st_vals} text-align: center; border: 0.5px solid #ccc; font-weight: bold;">0</td>
             <td class="f-left" style="background: #fff; font-weight: bold; text-align: center; border: 0.5px solid #ccc;">0</td>
         </tr>'''
     return rows
@@ -141,27 +145,17 @@ full_html = f"""
                 <button class="tab-btn" onclick="showTab(1, this)">SD</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
-            <div>
-                <button onclick="filterFlota(true)" style="background:#C0C0C0; border:none; padding: 5px 10px; border-radius: 5px; cursor:pointer;">ACTIVAS</button>
-                <button onclick="filterFlota(false)" style="background:#20B2AA; border:none; padding: 5px 10px; border-radius: 5px; cursor:pointer; color:white;">TODAS</button>
-            </div>
         </div>
 
         <div style="background: white; padding: 15px; border-radius: 0 0 12px 12px; border: 1px solid #ccc;">
-            <div id="tab-2" class="t-content"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C1)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
-            <div id="tab-3" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C2)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
-            <div id="tab-1" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SD)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
-            <div id="tab-4" class="t-content" style="display:none;"><table class="meli-table" style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SDE)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
+            <div id="tab-2" class="t-content"><table style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C1)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
+            <div id="tab-3" class="t-content" style="display:none;"><table style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (C2)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
+            <div id="tab-1" class="t-content" style="display:none;"><table style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SD)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
+            <div id="tab-4" class="t-content" style="display:none;"><table style="width:100%; border-collapse:collapse;"><thead><tr><th class="header-flota" rowspan="2">UNIDADES (SDE)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr><tr><th class="header-flota">min</th><th class="header-flota">max</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
         </div>
 
-        <!-- Componentes -->
-        <div style="background: #e2dcf5; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center;">
-            <div style="font-size: 11px; font-weight: bold; color: #4e3396;">🕑 CONVERTIDOR DE TIEMPO</div>
-            <input type="number" id="minInp" oninput="convertirMin()" style="width: 80px; height: 30px; text-align: center;">
-            <span id="resConv" style="margin-left: 15px; font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
-        </div>
-
-        <div id="calc_container" tabindex="0">
+        <!-- Componentes Laterales -->
+        <div id="calc_container" tabindex="0" style="margin-top:20px;">
             <div style="background: #fffacd; padding: 10px; border-radius: 10px; text-align: right; margin-bottom: 15px; border: 1px solid #ccc;">
                 <div id="h_calc" style="font-size: 12px; color: #666; height: 15px;">0</div>
                 <div id="r_calc" style="font-size: 26px; font-weight: bold;">0</div>
@@ -175,25 +169,14 @@ full_html = f"""
                 <button onclick="an('0')" class="btn-calc" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-calc" style="background: #FF00FF; color: white;">=</button>
             </div>
         </div>
-
-        <div style="background: #1a1a1a; padding: 15px; border-radius: 12px; color: white; margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; font-size: 12px;"><span>HORA ACTUAL</span><span id="reloj-f" style="color: #00d4ff;">00:00:00</span></div>
-            <div style="text-align: center;">
-                <div id="display-f" style="font-size: 32px; font-weight: bold; font-family: monospace;">00:00:00.0</div>
-                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                    <button onclick="t_start()" style="background:#28a745; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">▶</button>
-                    <button onclick="t_stop()" style="background:#ffc107; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">⏸</button>
-                    <button onclick="t_reset()" style="background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">🔄</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
 <script>
     let curTab = 2;
     let edited = new Set();
-    let alertShownSD = false;
+    let alertShownSD = false; 
+    let alertShownSDE = false; // Memoria para SDE
     let curC = "";
 
     function showAlert(msg) {{
@@ -215,13 +198,6 @@ full_html = f"""
         recalc();
     }}
 
-    function filterFlota(hide) {{
-        document.querySelectorAll('#body-' + curTab + ' tr').forEach(row => {{
-            let s = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            row.style.display = (hide && s === 0) ? 'none' : '';
-        }});
-    }}
-
     function stepVal(btn, d, type) {{
         let row = btn.closest('tr');
         let sel = row.querySelector('.s-type');
@@ -238,9 +214,18 @@ full_html = f"""
             let span = row.querySelector('.u-manual');
             let v = parseInt(span.innerText) || 0;
             if(d > 0 && fData && fData.left <= 0) {{
-                if(curTab === 1 && !alertShownSD) {{ showAlert("⚠️ UNIDADES AGOTADAS EN SD. Solicitar autorización."); alertShownSD = true; }}
-                else if(curTab !== 1 && curTab !== 4) {{ showAlert("⚠️ AGOTADO. Bloqueo de asignación."); return; }}
-                else if(curTab === 4) showAlert("⚠️ EXCESO EN SDE. Bajo supervisión.");
+                if(curTab === 1 && !alertShownSD) {{ 
+                    showAlert("⚠️ UNIDADES AGOTADAS EN SD. Solicitar autorización."); 
+                    alertShownSD = true; 
+                }}
+                else if(curTab === 4 && !alertShownSDE) {{ 
+                    showAlert("⚠️ EXCESO EN SDE. Bajo supervisión.");
+                    alertShownSDE = true; 
+                }}
+                else if(curTab !== 1 && curTab !== 4) {{ 
+                    showAlert("⚠️ AGOTADO. Bloqueo de asignación."); 
+                    return; 
+                }}
             }}
             span.innerText = Math.max(0, v + d);
         }} else {{
@@ -258,14 +243,11 @@ full_html = f"""
 
     function recalc() {{
         let fleet = {{}};
-        let hasOver = false;
-
         document.querySelectorAll('#body-' + curTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             let s = parseInt(row.querySelector('.f-stock').innerText) || 0;
             let spMin = row.querySelector('.edit-spr-min'), spMax = row.querySelector('.edit-spr-max'), fSt = row.querySelector('.f-stock');
             
-            // Colores Dinámicos
             spMin.style.background = (parseFloat(spMin.innerText) > 0) ? "#def3ed" : "#ebebeb";
             spMax.style.background = (parseFloat(spMax.innerText) > 0) ? "#def3ed" : "#ebebeb";
             fSt.style.background = (s > 0) ? "#e3defa" : "#ebebeb";
@@ -284,66 +266,28 @@ full_html = f"""
                     vA += (u * parseFloat(sS.innerText));
                 }}
             }});
-            let r = bl.querySelector('.v-calculado-total'), d = bl.querySelector('.p-diff');
-            r.innerText = Math.round(vA);
-            if(vT === 0) {{ d.innerText = "VACÍO"; d.style.background = "none"; }}
-            else {{
-                d.innerText = (vA >= vT) ? (vA === vT ? "OK" : "EXCESO: " + Math.round(vA-vT)) : "FALTAN: " + Math.round(vT-vA);
-                d.style.background = (vA >= vT) ? (vA === vT ? "#ceedd6" : "#ffe4b5") : "#f7cdd1";
-            }}
+            bl.querySelector('.v-calculado-total').innerText = Math.round(vA);
         }});
 
         document.querySelectorAll('#body-' + curTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
-            if(fleet[n]) {{
-                let left = fleet[n].stock - fleet[n].used;
-                let cL = row.querySelector('.f-left');
-                cL.innerText = left;
-                cL.style.background = (left <= 0) ? "#f7cdd1" : "#fff";
-                if(left < 0) hasOver = true;
-            }}
-        }});
-        
-        let h = document.querySelector('#tab-' + curTab + ' .header-flota[rowspan="2"]:last-child');
-        if(h) h.innerText = (hasOver && curTab === 4) ? "ME PASÉ POR" : "ME QUEDAN";
-
-        document.querySelectorAll('#polys-' + curTab + ' .s-type').forEach(s => {{
-            let val = s.value, opt = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).sort().forEach(n => {{ if(fleet[n].stock > 0) opt += `<option value="${{n}}">${{n}}</option>`; }});
-            s.innerHTML = opt; s.value = val;
+            if(fleet[n]) row.querySelector('.f-left').innerText = fleet[n].stock - fleet[n].used;
         }});
     }}
 
-    // Teclado Global
     document.addEventListener('keydown', (e) => {{
         if(e.key === 'Enter' && document.getElementById('google-alert').classList.contains('show')) {{
             hideAlert();
             e.preventDefault();
         }}
-        if(document.activeElement.id === 'calc_container') {{
-            if(e.key >= '0' && e.key <= '9') an(e.key);
-            if(['+','-','*','/'].includes(e.key)) ao(e.key);
-            if(e.key === 'Enter') calc_eq();
-            if(e.key === 'Backspace') del();
-            e.preventDefault();
-        }}
     }});
 
-    // Funciones básicas
     const rD = document.getElementById('r_calc'), hD = document.getElementById('h_calc');
     function an(n) {{ curC += n; rD.innerText = curC; }}
     function ao(o) {{ curC += " " + o + " "; rD.innerText = curC; }}
     function cl() {{ curC = ""; rD.innerText = "0"; hD.innerText = "0"; }}
     function del() {{ curC = curC.trim().slice(0, -1); rD.innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); hD.innerText = curC + " ="; rD.innerText = res; curC = res.toString(); }} catch {{ rD.innerText = "Err"; }} }}
-    function convertirMin() {{ let m = parseInt(document.getElementById('minInp').value) || 0; document.getElementById('resConv').innerText = Math.floor(m/60) + "h " + (m%60) + "m"; }}
-    
-    let sT, eT=0, run=false, tInt;
-    setInterval(()=>{{ document.getElementById('reloj-f').innerText = new Date().toLocaleTimeString(); }}, 1000);
-    function t_start() {{ if(!run) {{ run=true; sT=Date.now()-eT; tInt=setInterval(()=>{{ eT=Date.now()-sT; document.getElementById('display-f').innerText=fmt(eT); }},100); }} }}
-    function t_stop() {{ run=false; clearInterval(tInt); }}
-    function t_reset() {{ run=false; clearInterval(tInt); eT=0; document.getElementById('display-f').innerText="00:00:00.0"; }}
-    function fmt(t) {{ let ms=Math.floor((t%1000)/100), s=Math.floor((t/1000)%60), m=Math.floor((t/60000)%60), h=Math.floor(t/3600000); return `${{h.toString().padStart(2,'0')}}:${{m.toString().padStart(2,'0')}}:${{s.toString().padStart(2,'0')}}.${{ms}}`; }}
     
     function manualEdit(el) {{ edited.add(el.closest('tr')); recalc(); }}
     function resetRow(sel) {{ let r = sel.closest('tr'); r.querySelector('.u-manual').innerText = "0"; r.querySelector('.spr-real-val').innerText = "0"; edited.delete(r); recalc(); }}
@@ -354,4 +298,4 @@ full_html = f"""
 </html>
 """
 
-html(full_html, height=2000, scrolling=True)
+html(full_html, height=1500, scrolling=True)
