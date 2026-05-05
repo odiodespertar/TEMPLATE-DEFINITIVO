@@ -126,7 +126,24 @@ app_html = f"""
         
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; }}
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; }}
-        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }}
+        <div id="calc_wrapper" onclick="focusCalc()" style="outline:none;">
+    <div id="calc_display_box">
+        <div id="calc_h" style="font-size:10px; color:#666;"></div>
+        <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
+    </div>
+    <div class="calc-grid">
+        <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
+        <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
+        
+        <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
+        
+        <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c">-</button>
+        
+        <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c">+</button>
+        
+        <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
+    </div>
+</div>
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 10px; cursor: pointer; box-shadow: 0 3px #ccc; }}
         .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }}
 
@@ -147,21 +164,20 @@ app_html = f"""
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos()}</div>
     </div>
 
-    <!-- COLUMNA DERECHA -->
-    <div style="width: 420px; position: sticky; top: 10px; height: fit-content;">
-        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
-        <div>
-            <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
-            <button class="tab-btn" onclick="showTab(3, this)">C2</button>
-            <button class="tab-btn" onclick="showTab(1, this)">SD</button>
-            <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
-        </div>
-        <div style="background: white; padding: 10px; border: 1px solid #ccc;">
-            <div id="tab-2" class="t-content"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody></table></div>
-            <div id="tab-3" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody></table></div>
-            <div id="tab-1" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody></table></div>
-            <div id="tab-4" class="t-content" style="display:none;"><table class="meli-table"><thead style="background:#333; color:white;"><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>ORH</th><th>SCH</th><th class="header-res">ME QUEDAN</th></tr></thead><tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody></table></div>
-        </div>
+   <!-- COLUMNA DERECHA - CABECERA Y FILTROS -->
+<div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+    <div>
+        <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+        <button class="tab-btn" onclick="showTab(3, this)">C2</button>
+        <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+        <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
+    </div>
+    <div style="padding-bottom: 5px;">
+        <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:10px; padding:2px 5px; border-radius:3px;">ACTIVAS</button>
+        <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:10px; padding:2px 5px; border-radius:3px; font-weight:bold;">TODAS</button>
+    </div>
+</div>
 
         <div class="tools-panel">
             <div class="google-tool">
@@ -327,6 +343,23 @@ app_html = f"""
         }});
     }}
 
+// --- NUEVAS FUNCIONES ---
+    function focusCalc() {
+        const calc = document.getElementById('calc_wrapper');
+        calc.style.background = "#FFC0CB"; // Sombreado Rosa al hacer clic
+        calc.setAttribute('tabindex', '0'); // Asegura que pueda recibir el foco
+        calc.focus();
+    }
+
+    function filterRows(onlyActive) {
+        const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
+        rows.forEach(row => {
+            const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            // Si "onlyActive" es true, esconde las que tienen stock 0
+            row.style.display = (onlyActive && stock === 0) ? 'none' : '';
+        });
+    }
+
     // Herramientas JS
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
@@ -356,7 +389,32 @@ app_html = f"""
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
-    document.addEventListener('keydown', (e) => {{ if(e.key === 'Enter') hideAlert(); }});
+    document.addEventListener('keydown', (e) => {
+        const calc = document.getElementById('calc_wrapper');
+        
+        // Si la alerta está visible, Enter la cierra
+        if(e.key === 'Enter') hideAlert();
+
+        // Lógica de calculadora con teclado (solo si está en rosa/foco)
+        if (document.activeElement === calc) {
+            if (e.key >= '0' && e.key <= '9') an(e.key);
+            if (e.key === '+') ao('+');
+            if (e.key === '-') ao('-');
+            if (e.key === '*') ao('*');
+            if (e.key === '/') { e.preventDefault(); ao('/'); }
+            if (e.key === 'Enter') { e.preventDefault(); calc_eq(); }
+            if (e.key === 'Escape') cl();
+            if (e.key === 'Backspace') del();
+        }
+    });
+
+    // Quitar el color rosa si haces clic en cualquier otro lado
+    document.addEventListener('mousedown', (e) => {
+        const calc = document.getElementById('calc_wrapper');
+        if (calc && !calc.contains(e.target)) {
+            calc.style.background = "#22c5bc"; // Vuelve al color original
+        }
+    });
     
     recalc();
 </script>
