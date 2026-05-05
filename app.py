@@ -245,8 +245,14 @@ app_html = f"""
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
             <div style="padding-bottom: 5px;">
-    <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold;">ACTIVAS</button>
-    <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold;">TODAS</button>
+    <button class="filter-btn" onclick="filterRows(true)" 
+        style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:14px; padding:8px 15px; border-radius:5px; margin-right:5px; font-weight:bold; box-shadow: 0 2px 0 #bbb; transition: all 0.05s;">
+        ACTIVAS
+    </button>
+    <button class="filter-btn" onclick="filterRows(false)" 
+        style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold; box-shadow: 0 2px 0 #167a75; transition: all 0.05s;">
+        TODAS
+    </button>
 </div>
         </div>
 
