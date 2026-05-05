@@ -3,7 +3,7 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
 
-# CSS para diseño limpio
+# CSS para diseño limpio (SOLO ESTILOS AQUÍ)
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
@@ -29,10 +29,9 @@ def gen_master_rows(data_dict, table_id):
     for i in range(15):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        # Todas inician sombreadas/bloqueadas
         st_base = "background: #ebebeb; color: #969696;"
         rows += f'''
-        <tr data-table="{table_id}" class="master-row" style="{st_base}">
+        <tr class="master-row" style="{st_base}">
             <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
             <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
             <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
@@ -119,34 +118,15 @@ app_html = f"""
         .tab-btn {{ padding: 8px 15px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 4px 4px 0 0; font-weight: bold; }}
         .tab-btn.active {{ background: #333; color: white; }}
         
-        /* Herramientas */
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
         .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
         .google-res {{ font-size: 20px; font-weight: bold; color: #ac40de; }}
         
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; }}
-        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; }}
-        <div id="calc_wrapper" onclick="focusCalc()" style="outline:none;">
-    <div id="calc_display_box">
-        <div id="calc_h" style="font-size:10px; color:#666;"></div>
-        <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
-    </div>
-    <div class="calc-grid">
-        <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
-        <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
-        
-        <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
-        
-        <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c">-</button>
-        
-        <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c">+</button>
-        
-        <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
-    </div>
-</div>
-        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 10px; cursor: pointer; box-shadow: 0 3px #ccc; }}
-        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }}
-
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; }}
+        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
+        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
+        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
+        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
         .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
     </style>
 </head>
@@ -164,29 +144,52 @@ app_html = f"""
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos()}</div>
     </div>
 
-   <!-- COLUMNA DERECHA - CABECERA Y FILTROS -->
-<div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
-<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
-    <div>
-        <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
-        <button class="tab-btn" onclick="showTab(3, this)">C2</button>
-        <button class="tab-btn" onclick="showTab(1, this)">SD</button>
-        <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
-    </div>
-    <div style="padding-bottom: 5px;">
-        <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:10px; padding:2px 5px; border-radius:3px;">ACTIVAS</button>
-        <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:10px; padding:2px 5px; border-radius:3px; font-weight:bold;">TODAS</button>
-    </div>
-</div>
+    <!-- COLUMNA DERECHA -->
+    <div style="width: 450px;">
+        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+            <div>
+                <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+                <button class="tab-btn" onclick="showTab(3, this)">C2</button>
+                <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
+            </div>
+            <div style="padding-bottom: 5px;">
+                <button onclick="filterRows(true)" style="cursor:pointer; background:#f0f0f0; border:1px solid #ccc; font-size:10px; padding:2px 5px; border-radius:3px;">ACTIVAS</button>
+                <button onclick="filterRows(false)" style="cursor:pointer; background:#20B2AA; color:white; border:none; font-size:10px; padding:2px 5px; border-radius:3px; font-weight:bold;">TODAS</button>
+            </div>
+        </div>
+
+        <div id="tab-2" class="t-content">
+            <table class="meli-table">
+                <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+            </table>
+        </div>
+        <div id="tab-3" class="t-content" style="display:none;">
+            <table class="meli-table">
+                <tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody>
+            </table>
+        </div>
+        <div id="tab-1" class="t-content" style="display:none;">
+            <table class="meli-table">
+                <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
+            </table>
+        </div>
+        <div id="tab-4" class="t-content" style="display:none;">
+            <table class="meli-table">
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+            </table>
+        </div>
 
         <div class="tools-panel">
             <div class="google-tool">
                 <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
-                <input type="number" id="min-in" class="google-input" style="width:60px; text-align:center;" oninput="convertTime()">
+                <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
                 <span id="time-res" class="google-res">0h 0m</span>
             </div>
 
-            <div id="calc_wrapper">
+            <!-- CALCULADORA MEJORADA -->
+            <div id="calc_wrapper" onclick="focusCalc()" tabindex="0">
                 <div id="calc_display_box">
                     <div id="calc_h" style="font-size:10px; color:#666;"></div>
                     <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
@@ -195,6 +198,7 @@ app_html = f"""
                     <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
                     <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
                     <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
+                    <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c">-</button>
                     <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c">+</button>
                     <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
                 </div>
@@ -204,9 +208,9 @@ app_html = f"""
                 <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
                 <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
                 <div>
-                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px;">▶</button>
-                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px;">⏸</button>
-                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px;">🔄</button>
+                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
+                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
+                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
                 </div>
             </div>
         </div>
@@ -245,12 +249,10 @@ app_html = f"""
         let fRows = Array.from(document.querySelectorAll('#body-'+currentTab+' tr'));
         let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
         let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
-        let schedule = parseInt(fRow.querySelector('.f-stock').innerText) || 0;
 
         if(type === 'u') {{
             let span = row.querySelector('.u-manual');
             let val = parseInt(span.innerText) || 0;
-            
             if (delta > 0 && left <= 0) {{
                 if (currentTab === 4) {{
                     showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
@@ -271,13 +273,10 @@ app_html = f"""
 
     function recalc() {{
         let fleet = {{}};
-        let anyOver = false;
-
-        // 1. Leer Flota
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock'), nc = row.querySelector('.edit-name');
+            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
             if(sch > 0) {{
                 row.style.background = "white"; row.style.color = "black";
@@ -286,13 +285,11 @@ app_html = f"""
                 row.style.background = "#ebebeb"; row.style.color = "#969696";
                 fs.style.background = "#ebebeb"; mi.style.background = "#ebebeb"; ma.style.background = "#ebebeb";
             }}
-            
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
             }}
         }});
 
-        // 2. Calcular Planes
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             bl.querySelectorAll('.calc-row').forEach(r => {{
@@ -312,30 +309,17 @@ app_html = f"""
             }}
         }});
 
-        // 3. Actualizar Columna Restante
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 cL.innerText = diff;
-                
-                if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.background = "#d32f2f"; cL.style.color = "white";
-                }} else if (diff < 0) {{
-                    cL.style.background = "white"; cL.style.color = "red";
-                    anyOver = true;
-                }} else {{
-                    cL.style.background = "transparent"; cL.style.color = "black";
-                }}
+                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
         }});
 
-        // Cambiar encabezado si hay exceso en SDE
-        let header = document.querySelector('#tab-' + currentTab + ' .header-res');
-        if(header) header.innerText = (currentTab === 4 && anyOver) ? "ME PASÉ POR" : "ME QUEDAN";
-
-        // Actualizar Selects
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value, opt = '<option>SELECCIONAR...</option>';
             Object.keys(fleet).forEach(k => {{ if(fleet[k].stock > 0 || k === cur) opt += `<option value="${{k}}">${{k}}</option>`; }});
@@ -343,24 +327,20 @@ app_html = f"""
         }});
     }}
 
-// --- NUEVAS FUNCIONES ---
-    function focusCalc() {
+    function focusCalc() {{
         const calc = document.getElementById('calc_wrapper');
-        calc.style.background = "#FFC0CB"; // Sombreado Rosa al hacer clic
-        calc.setAttribute('tabindex', '0'); // Asegura que pueda recibir el foco
+        calc.style.background = "#FFC0CB";
         calc.focus();
-    }
+    }}
 
-    function filterRows(onlyActive) {
+    function filterRows(onlyActive) {{
         const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
-        rows.forEach(row => {
+        rows.forEach(row => {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            // Si "onlyActive" es true, esconde las que tienen stock 0
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
-        });
-    }
+        }});
+    }}
 
-    // Herramientas JS
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
         document.getElementById('time-res').innerText = Math.floor(m/60) + "h " + (m%60) + "m";
@@ -389,32 +369,28 @@ app_html = f"""
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
-    document.addEventListener('keydown', (e) => {
+    
+    document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
-        
-        // Si la alerta está visible, Enter la cierra
         if(e.key === 'Enter') hideAlert();
-
-        // Lógica de calculadora con teclado (solo si está en rosa/foco)
-        if (document.activeElement === calc) {
+        if (document.activeElement === calc) {{
             if (e.key >= '0' && e.key <= '9') an(e.key);
             if (e.key === '+') ao('+');
             if (e.key === '-') ao('-');
             if (e.key === '*') ao('*');
-            if (e.key === '/') { e.preventDefault(); ao('/'); }
-            if (e.key === 'Enter') { e.preventDefault(); calc_eq(); }
+            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
+            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
             if (e.key === 'Escape') cl();
             if (e.key === 'Backspace') del();
-        }
-    });
+        }}
+    }});
 
-    // Quitar el color rosa si haces clic en cualquier otro lado
-    document.addEventListener('mousedown', (e) => {
+    document.addEventListener('mousedown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
-        if (calc && !calc.contains(e.target)) {
-            calc.style.background = "#22c5bc"; // Vuelve al color original
-        }
-    });
+        if (calc && !calc.contains(e.target)) {{
+            calc.style.background = "#22c5bc";
+        }}
+    }});
     
     recalc();
 </script>
@@ -422,4 +398,4 @@ app_html = f"""
 </html>
 """
 
-html(app_html, height=1000, scrolling=True)
+html(app_html, height=1200, scrolling=True)
