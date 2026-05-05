@@ -1,313 +1,339 @@
 import streamlit as st
-from streamlit.components.v1 import html
+import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
+# Configuración de página para usar todo el ancho
+st.set_page_config(layout="wide", page_title="Tracker Logística VP04")
 
-# Estilos base para limpiar Streamlit
-st.markdown("""
-    <style>
-    .block-container {padding: 0rem !important;}
-    footer, #MainMenu, header {visibility: hidden;}
-    body { background-color: #f0f2f5; }
-    </style>
-""", unsafe_allow_html=True)
-
-# Datos de Flota
-u_C1 = {
-    "RENTAL ELEC LARGE VAN": [120, 120], "RENTAL ELEC SMALL VAN": [120, 120], 
-    "RENTAL LARGE VAN": [120, 120], "RENTAL SMALL VAN": [120, 120], 
-    "LARGE VAN VAR(MLP)": [100, 100], "SMALL VAN VAR(MLP)":[80, 80],
-    "CAR MLP": [50, 50], "MOTO 3 HRS": [28, 28], 
-    "CROWD NEWBIE 3 hrs": [30, 30], "CROWD EXTRA 8 HRS": [80, 85], "CROWD 5 HRS": [60, 60]
+# Estructura de datos inicial (Copiada exactamente de tu lógica)
+unidades_data = {
+    "SDE": {"CROWD 5 HRS": [25, 28], "CROWD 5 HRS EXTENDIDA": [25, 28], "CROWD 3 HRS": [25, 28], "MOTO 3 HRS": [25, 28]},
+    "SD": {"MOTO 3 HRS": [25, 25], "MOTO NEWBIE": [20, 22], "CROWD 5 HRS / SMALL VAN": [35, 37]},
+    "C1": {
+        "RENTAL ELEC LARGE VAN": [120, 120], "RENTAL ELEC SMALL VAN": [120, 120],
+        "RENTAL LARGE VAN": [120, 120], "RENTAL SMALL VAN": [120, 120],
+        "LARGE VAN VAR(MLP)": [100, 100], "SMALL VAN VAR(MLP)":[80, 80],
+        "CAR MLP": [50, 50], "MOTO 3 HRS": [28, 28], "CROWD NEWBIE 3 hrs": [30, 30],
+        "CROWD EXTRA 8 HRS": [80, 85], "CROWD 5 HRS": [60, 60]
+    },
+    "C2": {
+        "RENTAL ELEC LARGE VAN": [120, 120], "RENTAL ELEC SMALL VAN": [120, 120],
+        "RENTAL LARGE VAN": [120, 120], "RENTAL SMALL VAN": [120, 120],
+        "LARGE VAN HÍBRIDA": [100, 100], "LARGE VAN VAR(MLP)": [100, 100],
+        "SMALL VAN VAR(MLP)":[80, 80], "CAR MLP": [50, 50], "MOTO 3 HRS": [28, 28],
+        "CROWD NEWBIE 3 hrs": [30, 30], "CROWD EXTRA 8 HRS": [80, 85], "CROWD 5 HRS": [60, 60]
+    }
 }
 
-def gen_master_rows():
+# Helper para generar filas de flota
+def get_fleet_rows(data, table_id):
     rows = ""
-    items = list(u_C1.items())
-    for i in range(14):
-        is_real = i < len(items)
-        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
+    items = list(data.items())
+    for i in range(15):
+        name, spr = (items[i][0], items[i][1]) if i < len(items) else ("NUEVA UNIDAD", [0, 0])
+        style = "color: #969696; background: #ebebeb;" # Estado inicial desactivado (Imagen 1)
         rows += f'''
-        <tr class="master-row">
-            <td contenteditable="true" class="edit-name" style="text-align:left; padding-left:10px;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" style="color:#20B2AA; font-weight:bold;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" style="color:#20B2AA; font-weight:bold;">{spr[1]}</td>
-            <td contenteditable="true">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()">0</td>
-            <td class="f-left" style="font-weight:bold; color:#2e7d32;">0</td>
+        <tr data-table="{table_id}" class="master-row">
+            <td contenteditable="true" class="edit-name" oninput="recalc()" style="{style} font-weight: bold; text-align: left; padding-left: 10px;">{name}</td>
+            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="{style} font-weight: bold; text-align: center;">{spr[0]}</td>
+            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="{style} font-weight: bold; text-align: center;">{spr[1]}</td>
+            <td contenteditable="true" class="edit-orh" style="{style} font-weight: normal; text-align: center;">480</td>
+            <td contenteditable="true" class="f-stock" style="{style} font-weight: bold; text-align: center; border: 2px solid #4A90E2 !important;" oninput="recalc()">0</td>
+            <td class="f-left" style="{style} font-weight: bold; text-align: center;">0</td>
         </tr>'''
     return rows
 
-def gen_poligonos():
+# Helper para generar polígonos
+def get_polygons(tab_id):
     polys = ""
-    fila_input = '''
-    <tr class="calc-row">
-        <td class="u-manual-cell">
-            <div class="btn-group"><button onclick="step(this,-1)">-</button><span class="u-manual">0</span><button onclick="step(this,1)">+</button></div>
-        </td>
-        <td class="spr-real-cell">
-            <div class="btn-group"><button onclick="step(this,-1)">-</button><span class="spr-real-val">0</span><button onclick="step(this,1)">+</button></div>
-        </td>
-        <td><select class="s-type" onchange="resetRow(this)"><option>SELECCIONAR...</option></select></td>
-        <td><input type="checkbox" class="ok-check"></td>
-    </tr>'''
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.05); color:#696969; font-weight:bold; width:18px; height:18px; border-radius:3px; margin:0 2px;"
     for i in range(1, 11):
+        fila_inner = f'''
+        <tr class="calc-row">
+            <td class="u-manual-cell" style="background: #e3defa; text-align: center;">
+                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+            </td>
+            <td class="spr-real-cell" style="background: #def3ed; text-align: center;">
+                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)">0</span>
+                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+            </td>
+            <td><select class="s-type" onchange="resetRow(this)"><option>SELECCIONAR...</option></select></td>
+            <td style="text-align: center;"><input type="checkbox" class="ok-check"></td>
+        </tr>'''
+        
         polys += f'''
-        <div class="card-poly">
-            <table class="meli-table">
+        <div class="poligono-bloque" style="margin-bottom: 15px;">
+            <table class="meli-table tabla-planes">
                 <thead>
-                    <tr class="header-plan">
-                        <th style="width:60px;">PLAN {i}</th><th style="width:80px;">VOL. TOTAL</th><th style="width:110px;"># ASIGNADAS</th><th style="width:110px;">SPR REAL</th><th style="width:200px;">TIPO DE UNIDAD</th><th style="width:40px;">OK</th>
-                    </tr>
+                    <tr><th class="header-poly">PLAN {i}</th><th class="header-poly">VOL. TOTAL</th><th class="header-poly" style="width:90px;"># ASIGNADAS</th><th class="header-poly" style="width:70px;">SPR REAL</th><th class="header-poly">TIPO</th><th class="header-poly" style="width:35px;">OK</th></tr>
                 </thead>
                 <tbody>
                     <tr class="calc-row">
-                        <td rowspan="5" class="plan-side-label">PLAN {i}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()">0</td>
-                        <td class="u-manual-cell">
-                            <div class="btn-group"><button onclick="step(this,-1)">-</button><span class="u-manual">0</span><button onclick="step(this,1)">+</button></div>
+                        <td rowspan="5" contenteditable="true" class="v-total" style="width:100px; background:#D3D3D3; text-align:center;">PLAN {i}</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="width:70px; color:#20B2AA; font-weight:bold; font-size:16px; text-align:center;">0</td>
+                        <td class="u-manual-cell" style="background: #e3defa; text-align: center;">
+                            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
-                        <td class="spr-real-cell">
-                            <div class="btn-group"><button onclick="step(this,-1)">-</button><span class="spr-real-val">0</span><button onclick="step(this,1)">+</button></div>
+                        <td class="spr-real-cell" style="background: #def3ed; text-align: center;">
+                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
                         <td><select class="s-type" onchange="resetRow(this)"><option>SELECCIONAR...</option></select></td>
-                        <td><input type="checkbox" class="ok-check"></td>
+                        <td style="text-align: center;"><input type="checkbox" class="ok-check"></td>
                     </tr>
-                    {fila_input * 4}
-                    <tr class="footer-row">
-                        <td colspan="1" style="font-weight:bold; background:#f9f9f9;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight:bold; color:red;">0</td>
-                        <td class="p-diff" colspan="3" style="font-weight:bold;">VACÍO</td>
-                    </tr>
+                    {fila_inner * 4}
+                    <tr><td colspan="2" style="text-align:center; font-weight:bold; background:#f8f9fa;">ESTADO:</td><td class="v-calculado-total" style="font-weight:bold; color:#d32f2f; text-align:center;">0</td><td class="p-diff" colspan="3" style="text-align:center; font-size:11px; font-weight:bold;">VACÍO</td></tr>
                 </tbody>
             </table>
         </div>'''
     return polys
 
-# --- INTERFAZ COMPLETA ---
-full_html = f"""
-<!DOCTYPE html>
-<html>
-<head>
+# Construcción del HTML Final para Streamlit
+html_content = f"""
 <style>
-    body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; width: 1400px; margin: auto; }}
-    .layout {{ display: flex; gap: 20px; align-items: flex-start; }}
+    {open("style.css").read() if False else ""} /* Espacio para CSS externo si fuera necesario */
+    body {{ background-color: #f5f7f9; font-family: 'Segoe UI', sans-serif; }}
+    .main-wrapper {{ display: flex; gap: 20px; padding: 10px; min-width: 1200px; }} /* Evita colapso en zoom */
+    .left-panel {{ flex: 1; max-height: 95vh; overflow-y: auto; padding-right: 10px; }}
+    .right-panel {{ width: 450px; position: sticky; top: 0; height: fit-content; }}
     
-    /* Tablas y Tarjetas */
-    .card-poly {{ background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 5px; margin-bottom: 20px; border: 1px solid #ccc; }}
-    .meli-table {{ border-collapse: collapse; width: 100%; table-layout: fixed; border-radius: 8px; overflow: hidden; }}
-    .meli-table th, .meli-table td {{ border: 1px solid #ddd; font-size: 11px; height: 32px; text-align: center; }}
-    .header-plan {{ background: #6d6d6d; color: white; text-transform: uppercase; }}
-    .plan-side-label {{ background: #f1f1f1; font-weight: bold; font-size: 12px; }}
-    
-    /* Estilos Celdas */
-    .v-total-val {{ font-size: 18px; color: #17a2b8; font-weight: bold; background: #fff; }}
-    .u-manual-cell {{ background: #eeebff; }}
-    .spr-real-cell {{ background: #e8f7f3; }}
-    
-    /* Botones +/- dentro de celda */
-    .btn-group {{ display: flex; align-items: center; justify-content: center; gap: 8px; }}
-    .btn-group button {{ border: 1px solid #ccc; background: white; border-radius: 4px; width: 22px; height: 22px; cursor: pointer; font-weight: bold; }}
-    .btn-group button:hover {{ background: #f0f0f0; }}
+    .meli-table {{ width: 100%; border-collapse: separate; border-spacing: 0; border: 2px solid #ccc; border-radius: 10px; overflow: hidden; font-size: 11px; background: white; }}
+    .header-flota {{ background: linear-gradient(180deg, #333, #000); color: white; padding: 8px; text-align: center; border: 0.5px solid #444; }}
+    .header-poly {{ background: linear-gradient(180deg, #888, #696969); color: white; padding: 8px; text-align: center; }}
+    .tabla-flota td, .tabla-planes td {{ border: 0.5px solid #ccc; padding: 5px; }}
 
-    /* Columna Derecha */
-    .right-col {{ width: 500px; position: sticky; top: 10px; display: flex; flex-direction: column; gap: 15px; }}
-    .flota-header {{ background: #1a1a1a; color: white; padding: 12px; border-radius: 10px 10px 0 0; text-align: center; font-weight: bold; font-size: 14px; }}
+    .tab-btn {{ padding: 8px 15px; cursor: pointer; border: none; background: #e0e0e0; border-radius: 8px 8px 0 0; font-weight: bold; margin-right: 2px; }}
+    .tab-btn.active {{ background: #000; color: white; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }}
     
-    /* Convertidor */
-    .tool-box {{ background: #e0dbff; border: 1px solid #c5bcff; border-radius: 15px; padding: 12px; text-align: center; }}
-    .conv-input {{ width: 60px; border-radius: 5px; border: 1px solid #aaa; text-align: center; padding: 3px; }}
-
-    /* Calculadora Estilo Imagen */
-    .calc-container {{ background: #22c5bc; border-radius: 25px; padding: 15px; border: 3px solid #1a1a1a; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }}
-    #display {{ background: #fff9c4; border-radius: 10px; padding: 15px; text-align: right; font-size: 24px; font-weight: bold; margin-bottom: 10px; height: 40px; border: 2px solid #555; }}
-    .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }}
-    .btn {{ background: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }}
-    .btn:active {{ background: #ff00ff; color: white; }}
-    .btn-op {{ background: #f0f0f0; }}
-
-    /* Cronómetro Negro */
-    .timer-box {{ background: #1a1a1a; color: white; border-radius: 15px; padding: 15px; text-align: center; font-family: 'Courier New', monospace; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }}
-    .time-display {{ font-size: 32px; font-weight: bold; color: #fff; margin: 10px 0; }}
-    .timer-btns button {{ padding: 5px 12px; margin: 0 5px; border-radius: 5px; border: none; cursor: pointer; font-weight: bold; }}
+    .btn-calc {{ border: 1px solid #ccc; border-radius: 8px; background: linear-gradient(180deg, #fff, #f0f4f8); font-weight: bold; padding: 10px; cursor: pointer; }}
+    .btn-calc:active {{ transform: translateY(2px); box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3); }}
+    
+    .conv-container {{ background: linear-gradient(145deg, #e2dcf5, #d1c9f0); border-radius: 15px; padding: 10px; margin-top: 10px; text-align: center; border: 2px solid #d1d1d1; }}
+    
+    /* Estilos de la Calculadora Aqua */
+    #calc_container {{
+        background: linear-gradient(145deg, #22c5bc, #1da29b) !important;
+        border-radius: 20px; padding: 15px; margin-top: 10px;
+        box-shadow: 5px 5px 15px #aaa, inset 1px 1px 2px rgba(255,255,255,0.3);
+    }}
 </style>
-</head>
-<body>
 
-<div class="layout">
-    <div style="width: 850px;">
-        <div style="background:#6d6d6d; color:white; padding:12px; border-radius:10px; text-align:center; font-weight:bold; margin-bottom:15px; font-size:16px;">📋 PLANES GENERADOS</div>
-        {gen_poligonos()}
+<div class="main-wrapper">
+    <div class="left-panel">
+        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">📋 PLANES GENERADOS</div>
+        <div id="polys-2" class="poly-tab-content">{get_polygons(2)}</div>
+        <div id="polys-3" class="poly-tab-content" style="display:none;">{get_polygons(3)}</div>
+        <div id="polys-1" class="poly-tab-content" style="display:none;">{get_polygons(1)}</div>
+        <div id="polys-4" class="poly-tab-content" style="display:none;">{get_polygons(4)}</div>
     </div>
 
-    <div class="right-col">
-        <!-- FLOTA -->
-        <div class="card-poly" style="padding:0; margin-bottom:0;">
-            <div class="flota-header">🚚🚚 DISPONIBILIDAD DE FLOTA 🚚🚚</div>
-            <div style="padding:10px; display:flex; gap:5px; background:#f9f9f9;">
-                <button style="flex:1; padding:5px; font-weight:bold; border-radius:5px; background:#000; color:#fff;">C1</button>
-                <button style="flex:1; padding:5px; font-weight:bold; border-radius:5px; background:#ddd;">C2</button>
-                <button style="flex:1; padding:5px; font-weight:bold; border-radius:5px; background:#ddd;">SD</button>
-                <button style="background:#22c5bc; color:white; border:none; padding:5px 15px; border-radius:5px; font-weight:bold;">TODAS</button>
+    <div class="right-panel">
+        <div style="background: linear-gradient(90deg, #000, #444); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+                <button class="tab-btn" onclick="showTab(3, this)">C2</button>
+                <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
-            <table class="meli-table" style="border:none;">
-                <thead style="background:#222; color:white;">
-                    <tr><th style="width:160px;">UNIDADES</th><th>min</th><th>max</th><th>ORH</th><th>SCHED</th><th>QUEDAN</th></tr>
-                </thead>
-                <tbody id="fleet-body">{gen_master_rows()}</tbody>
-            </table>
-        </div>
-
-        <!-- CONVERTIDOR -->
-        <div class="tool-box">
-            <span style="font-size:11px; font-weight:bold; color:#4e3396;">🔮 CONVERTIDOR DE TIEMPO</span><br>
-            <input type="number" class="conv-input" id="min-in" oninput="convertTime()" placeholder="Min">
-            <span id="time-res" style="font-size:22px; font-weight:bold; color:#9c27b0; margin-left:15px;">0h 0m</span>
-        </div>
-
-        <!-- CALCULADORA AQUA -->
-        <div class="calc-container">
-            <div id="display">0</div>
-            <div class="calc-grid">
-                <button class="btn btn-op" onclick="cl()" style="grid-column: span 2;">AC</button>
-                <button class="btn btn-op" onclick="del()">⌫</button>
-                <button class="btn btn-op" onclick="op('/')">÷</button>
-                <button class="btn" onclick="num('7')">7</button><button class="btn" onclick="num('8')">8</button><button class="btn" onclick="num('9')">9</button><button class="btn btn-op" onclick="op('*')">×</button>
-                <button class="btn" onclick="num('4')">4</button><button class="btn" onclick="num('5')">5</button><button class="btn" onclick="num('6')">6</button><button class="btn btn-op" onclick="op('-')">-</button>
-                <button class="btn" onclick="num('1')">1</button><button class="btn" onclick="num('2')">2</button><button class="btn" onclick="num('3')">3</button><button class="btn btn-op" onclick="op('+')">+</button>
-                <button class="btn" onclick="num('0')" style="grid-column: span 2;">0</button>
-                <button class="btn" onclick="eq()" style="background:#ff00ff; color:white;">=</button>
+            <div style="margin-bottom: 5px;">
+                <button onclick="filterFlota(true)" style="background:#C0C0C0; font-weight:bold; cursor:pointer; border-radius:4px; padding:4px 8px;">ACTIVAS</button>
+                <button onclick="filterFlota(false)" style="background:#20B2AA; color:white; font-weight:bold; cursor:pointer; border-radius:4px; padding:4px 8px;">TODAS</button>
             </div>
         </div>
 
-        <!-- CRONÓMETRO NEGRO (DEBAJO) -->
-        <div class="timer-box">
-            <div style="display:flex; justify-content:space-between; font-size:10px; color:#17a2b8;">
-                <span>HORA ACTUAL</span>
-                <span id="wall-clock">00:00:00</span>
+        <div class="master-container" style="background: white; padding: 10px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <div id="tab-flota-2" class="tab-content">
+                <table class="meli-table">
+                    <thead>
+                        <tr><th class="header-flota" rowspan="2">UNIDADES (C1)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr>
+                        <tr><th class="header-flota">min</th><th class="header-flota">max</th></tr>
+                    </thead>
+                    <tbody id="body-2">{get_fleet_rows(unidades_data["C1"], 2)}</tbody>
+                </table>
             </div>
-            <div class="time-display" id="stopwatch">00:00:00.0</div>
-            <div class="timer-btns">
-                <button style="background:#2e7d32; color:white;" onclick="startT()">▶</button>
-                <button style="background:#f9a825; color:white;" onclick="pauseT()">II</button>
-                <button style="background:#c62828; color:white;" onclick="resetT()">🔄</button>
+            <div id="tab-flota-3" class="tab-content" style="display:none;">
+                <table class="meli-table">
+                    <thead>
+                        <tr><th class="header-flota" rowspan="2">UNIDADES (C2)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr>
+                        <tr><th class="header-flota">min</th><th class="header-flota">max</th></tr>
+                    </thead>
+                    <tbody id="body-3">{get_fleet_rows(unidades_data["C2"], 3)}</tbody>
+                </table>
+            </div>
+            <div id="tab-flota-1" class="tab-content" style="display:none;">
+                <table class="meli-table">
+                    <thead>
+                        <tr><th class="header-flota" rowspan="2">UNIDADES (SD)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr>
+                        <tr><th class="header-flota">min</th><th class="header-flota">max</th></tr>
+                    </thead>
+                    <tbody id="body-1">{get_fleet_rows(unidades_data["SD"], 1)}</tbody>
+                </table>
+            </div>
+            <div id="tab-flota-4" class="tab-content" style="display:none;">
+                <table class="meli-table">
+                    <thead>
+                        <tr><th class="header-flota" rowspan="2">UNIDADES (SDE)</th><th class="header-flota" colspan="2">SPR</th><th class="header-flota" rowspan="2">ORH</th><th class="header-flota" rowspan="2">SCHED</th><th class="header-flota" rowspan="2">ME QUEDAN</th></tr>
+                        <tr><th class="header-flota">min</th><th class="header-flota">max</th></tr>
+                    </thead>
+                    <tbody id="body-4">{get_fleet_rows(unidades_data["SDE"], 4)}</tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="conv-container">
+            <div style="font-size: 10px; font-weight: bold; color: #4e3396;">🕑 CONVERTIDOR</div>
+            <input type="number" id="minInp" oninput="convertirMinutos()" placeholder="Min" style="width: 70px; text-align: center; border-radius: 5px; border: 1px solid #b8afde;">
+            <span id="resConv" style="margin-left: 10px; font-size: 16px; font-weight: bold; color: #ac40de;">0h 0m</span>
+        </div>
+
+        <div id="calc_container" tabindex="0">
+            <div style="background: #fffacd; border-radius: 8px; padding: 5px; text-align: right; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.1);">
+                <div id="h_calc" style="font-size:10px; color:#666;">0</div>
+                <div id="r_calc" style="font-size: 20px; font-weight: bold;">0</div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+                <button onclick="cl()" class="btn-calc" style="grid-column: span 2;">AC</button>
+                <button onclick="del()" class="btn-calc">⌫</button>
+                <button onclick="ao('/')" class="btn-calc">÷</button>
+                <button onclick="an('7')" class="btn-calc">7</button><button onclick="an('8')" class="btn-calc">8</button><button onclick="an('9')" class="btn-calc">9</button>
+                <button onclick="ao('*')" class="btn-calc">×</button>
+                <button onclick="an('4')" class="btn-calc">4</button><button onclick="an('5')" class="btn-calc">5</button><button onclick="an('6')" class="btn-calc">6</button>
+                <button onclick="ao('-')" class="btn-calc">-</button>
+                <button onclick="an('1')" class="btn-calc">1</button><button onclick="an('2')" class="btn-calc">2</button><button onclick="an('3')" class="btn-calc">3</button>
+                <button onclick="ao('+')" class="btn-calc">+</button>
+                <button onclick="an('0')" class="btn-calc" style="grid-column: span 2;">0</button>
+                <button onclick="calc_eq()" class="btn-calc" style="background: #FF00FF; color:white;">=</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- LÓGICA CALCULADORA ---
-    let expression = "";
-    function num(n) {{ expression += n; updateDisp(); }}
-    function op(o) {{ expression += " " + o + " "; updateDisp(); }}
-    function cl() {{ expression = ""; updateDisp(); }}
-    function del() {{ expression = expression.trim().slice(0, -1); updateDisp(); }}
-    function updateDisp() {{ document.getElementById('display').innerText = expression || "0"; }}
-    function eq() {{ try {{ expression = eval(expression).toString(); updateDisp(); }} catch {{ expression = "Error"; updateDisp(); }} }}
+    var currentTab = 2;
+    var editedRows = new Set();
 
-    // --- LÓGICA LOGÍSTICA ---
-    function step(btn, delta) {{
-        let span = btn.parentNode.querySelector('span');
+    function showTab(n, btn) {{
+        currentTab = n;
+        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+        document.querySelectorAll('.poly-tab-content').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-flota-' + n).style.display = 'block';
+        document.getElementById('polys-' + n).style.display = 'block';
+        btn.classList.add('active');
+        recalc();
+    }}
+
+    function filterFlota(hide) {{
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            row.style.display = (hide && stock === 0) ? 'none' : '';
+        }});
+    }}
+
+    function stepVal(btn, delta, type) {{
+        let row = btn.closest('tr');
+        let span = (type === 'u') ? row.querySelector('.u-manual') : row.querySelector('.spr-real-val');
         let val = parseInt(span.innerText) || 0;
         span.innerText = Math.max(0, val + delta);
+        editedRows.add(row);
         recalc();
     }}
 
     function recalc() {{
         let fleet = {{}};
-        document.querySelectorAll('#fleet-body tr').forEach(r => {{
-            let name = r.querySelector('.edit-name').innerText.trim();
-            let stock = parseInt(r.querySelector('.f-stock').innerText) || 0;
-            if(name !== "NUEVA UNIDAD") fleet[name] = {{ stock: stock, used: 0 }};
-        }});
-
-        document.querySelectorAll('.card-poly').forEach(card => {{
-            let vTotal = parseFloat(card.querySelector('.v-total-val')?.innerText) || 0;
-            let vCalculado = 0;
+        // 1. Leer flota y aplicar colores de activación (Imagen 2)
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let nC = row.querySelector('.edit-name'), sC = row.querySelector('.f-stock'),
+                miC = row.querySelector('.edit-spr-min'), maC = row.querySelector('.edit-spr-max'),
+                orC = row.querySelector('.edit-orh'), lC = row.querySelector('.f-left');
+            let name = nC.innerText.trim(), stock = parseInt(sC.innerText) || 0;
             
-            card.querySelectorAll('.calc-row').forEach(row => {{
-                let type = row.querySelector('.s-type').value;
-                let q = parseInt(row.querySelector('.u-manual').innerText) || 0;
-                let spr = parseFloat(row.querySelector('.spr-real-val').innerText) || 0;
-                
-                if(fleet[type]) {{
-                    fleet[type].used += q;
-                    vCalculado += (q * spr);
-                }}
-            }});
-
-            let resDisp = card.querySelector('.v-calculado-total');
-            if(resDisp) {{
-                resDisp.innerText = Math.round(vCalculado);
-                let diffLabel = card.querySelector('.p-diff');
-                if(vCalculado >= vTotal && vTotal > 0) {{
-                    diffLabel.innerText = "OK"; diffLabel.style.background = "#d4edda";
+            if (name !== "" && name !== "NUEVA UNIDAD") {{
+                if (stock > 0) {{
+                    nC.style.background = "#ffffff"; nC.style.color = "black";
+                    sC.style.background = "#e3defa"; sC.style.color = "black";
+                    [miC, maC, orC, lC].forEach(c => {{ c.style.background = "#def4ed"; c.style.color = "#008080"; }});
                 }} else {{
-                    diffLabel.innerText = vTotal > 0 ? "FALTAN: " + Math.round(vTotal - vCalculado) : "VACÍO";
-                    diffLabel.style.background = "#f8d7da";
+                    [nC, sC, miC, maC, orC, lC].forEach(c => {{ c.style.background = "#ebebeb"; c.style.color = "#969696"; }});
                 }}
+                fleet[name] = {{ min: parseFloat(miC.innerText)||0, max: parseFloat(maC.innerText)||0, stock: stock, used: 0 }};
             }}
         }});
 
-        document.querySelectorAll('#fleet-body tr').forEach(r => {{
-            let name = r.querySelector('.edit-name').innerText.trim();
-            if(fleet[name]) {{
-                r.querySelector('.f-left').innerText = fleet[name].stock - fleet[name].used;
-            }}
-        }});
+        // 2. Procesar planes
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let volTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let volAsignadoAcumulado = 0;
 
-        // Actualizar Selects dinámicamente
-        document.querySelectorAll('.s-type').forEach(sel => {{
-            let current = sel.value;
-            let options = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).forEach(k => {{
-                if(fleet[k].stock > 0 || k === current) options += `<option value="${{k}}">${{k}}</option>`;
+            bl.querySelectorAll('.calc-row').forEach(row => {{
+                let type = row.querySelector('.s-type').value;
+                let spanU = row.querySelector('.u-manual'), spanS = row.querySelector('.spr-real-val');
+
+                if (type !== "SELECCIONAR..." && fleet[type]) {{
+                    let f = fleet[type];
+                    if (!editedRows.has(row)) {{ spanS.innerText = f.max; editedRows.add(row); }}
+                    let uVal = parseInt(spanU.innerText) || 0;
+                    let sVal = parseInt(spanS.innerText) || 0;
+                    f.used += uVal;
+                    volAsignadoAcumulado += (uVal * sVal);
+                }}
             }});
-            sel.innerHTML = options; sel.value = current;
+
+            let celdaTotal = bl.querySelector('.v-calculado-total');
+            celdaTotal.innerText = Math.round(volAsignadoAcumulado);
+            celdaTotal.style.color = (Math.round(volAsignadoAcumulado) === volTotal && volTotal > 0) ? "#20B2AA" : "#d32f2f";
+            
+            let diffC = bl.querySelector('.p-diff');
+            if (volTotal > 0) {{
+                let diff = Math.round(volAsignadoAcumulado) - volTotal;
+                diffC.innerText = diff === 0 ? "OK" : (diff > 0 ? "EXCESO: "+diff : "FALTAN: "+Math.abs(diff));
+                diffC.style.background = diff === 0 ? "#ceedd6" : (diff > 0 ? "#ffe4b5" : "#f7cdd1");
+            }} else {{ diffC.innerText = "VACÍO"; diffC.style.background = "transparent"; }}
+        }});
+
+        // 3. Actualizar "Me quedan"
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let rest = fleet[n].stock - fleet[n].used;
+                let c = row.querySelector('.f-left');
+                c.innerText = rest;
+                c.style.color = rest < 0 ? "#FF4500" : (rest === 0 ? "#f25a5a" : "#228B22");
+            }}
+        }});
+
+        // 4. Actualizar Selects
+        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
+            let cur = s.value;
+            let h = '<option>SELECCIONAR...</option>';
+            Object.keys(fleet).sort().forEach(name => {{
+                h += `<option value="${{name}}">${{name}}</option>`;
+            }});
+            s.innerHTML = h; s.value = cur;
         }});
     }}
 
-    function resetRow(sel) {{
-        let row = sel.closest('tr');
-        row.querySelector('.u-manual').innerText = "0";
-        row.querySelector('.spr-real-val').innerText = "0";
-        recalc();
+    // Calculadora Logica
+    var cur = ""; const rD = document.getElementById('r_calc'), hD = document.getElementById('h_calc');
+    function an(n) {{ cur += n; rD.innerText = cur; }}
+    function ao(o) {{ if(cur!=="") {{ cur += " " + o + " "; rD.innerText = cur; }} }}
+    function cl() {{ cur = ""; rD.innerText = "0"; hD.innerText = "0"; }}
+    function del() {{ cur = cur.trim().slice(0, -1); rD.innerText = cur || "0"; }}
+    function calc_eq() {{ try {{ let res = eval(cur.replace('×', '*').replace('÷', '/')); hD.innerText = cur + " ="; rD.innerText = res; cur = res.toString(); }} catch {{ rD.innerText = "Err"; }} }}
+    function convertirMinutos() {{
+        let m = parseInt(document.getElementById('minInp').value) || 0;
+        document.getElementById('resConv').innerText = Math.floor(m / 60) + "h " + (m % 60) + "m";
     }}
 
-    function convertTime() {{
-        let m = document.getElementById('min-in').value || 0;
-        document.getElementById('time-res').innerText = Math.floor(m/60) + "h " + (m%60) + "m";
-    }}
-
-    // --- CRONÓMETRO ---
-    let startTime, elapsedTime = 0, timerInterval;
-    function startT() {{
-        if(!timerInterval) {{
-            startTime = Date.now() - elapsedTime;
-            timerInterval = setInterval(updateT, 100);
-        }}
-    }}
-    function pauseT() {{ clearInterval(timerInterval); timerInterval = null; }}
-    function resetT() {{ pauseT(); elapsedTime = 0; document.getElementById('stopwatch').innerText = "00:00:00.0"; }}
-    function updateT() {{
-        elapsedTime = Date.now() - startTime;
-        let diff = elapsedTime;
-        let ms = Math.floor((diff % 1000) / 100);
-        let s = Math.floor((diff / 1000) % 60);
-        let m = Math.floor((diff / 60000) % 60);
-        let h = Math.floor(diff / 3600000);
-        document.getElementById('stopwatch').innerText = 
-            (h<10?'0':'')+h+":"+(m<10?'0':'')+m+":"+(s<10?'0':'')+s+"."+ms;
-    }}
-    setInterval(() => {{
-        document.getElementById('wall-clock').innerText = new Date().toLocaleTimeString();
-    }}, 1000);
-
-    recalc();
+    setTimeout(recalc, 500);
 </script>
-</body>
-</html>
 """
 
-html(full_html, width=1450, height=1800, scrolling=True)
+# Renderizar en Streamlit (con altura suficiente para evitar scrolls internos molestos)
+components.html(html_content, height=1200, scrolling=True)
