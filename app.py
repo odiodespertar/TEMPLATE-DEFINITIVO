@@ -136,7 +136,7 @@ app_html = f"""
     border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
     border-spacing: 0;
     width: 100%; 
-    table-layout: fixed; 
+    table-layout: auto; 
     border-radius: 10px; 
     overflow: hidden; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
