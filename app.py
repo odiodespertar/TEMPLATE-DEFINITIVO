@@ -175,7 +175,7 @@ app_html = f"""
         #google-alert.show {{ top: 20px; }}
 /* Pestañas Modernas con Volumen */
 .tab-btn {{ 
-    padding: 10px 15px; 
+    padding: 10px 12px; 
     cursor: pointer; 
     border: 1px solid #bbb; 
     background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
