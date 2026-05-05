@@ -105,6 +105,32 @@ app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
+<head>
+    <style>
+        /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
+
+        /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
+        
+        /* Efecto de iluminación al pasar el mouse por las filas */
+        tr.master-row:hover, tr.calc-row:hover {{
+            background-color: #f8fbff !important;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            cursor: default;
+        }}
+
+        /* Redondear botones de +/- para que parezcan botones 3D físicos */
+        .poligono-bloque button {{
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.1s;
+        }}
+
+        .poligono-bloque button:active {{
+            box-shadow: 0 0px 0px transparent;
+            transform: translateY(1px); /* Se hunde al presionar */
+        }}
+    </style>
+</head>
+
     <style>
         body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
        .meli-table {{ 
