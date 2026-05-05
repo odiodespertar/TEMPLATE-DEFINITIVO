@@ -3,7 +3,7 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
 
-# CSS para diseño limpio (SOLO ESTILOS AQUÍ)
+# CSS para diseño limpio
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
@@ -108,7 +108,9 @@ app_html = f"""
     <style>
         body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
         .meli-table {{ border-collapse: collapse; width: 100%; table-layout: fixed; }}
-        .meli-table th, .meli-table td {{ border: 1px solid #ccc; font-size: 11px; height: 30px; }}
+        .meli-table th {{ background: #333; color: white; font-size: 10px; height: 25px; border: 1px solid #ccc; }}
+        .meli-table td {{ border: 1px solid #ccc; font-size: 11px; height: 30px; }}
+        
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: #d32f2f; color: white; padding: 15px 25px; border-radius: 8px;
@@ -120,9 +122,11 @@ app_html = f"""
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
         .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
-        .google-res {{ font-size: 20px; font-weight: bold; color: #ac40de; }}
         
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; }}
+        /* CALCULADORA CON RESPLANDOR NEÓN */
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
+        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
+        
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
         .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
@@ -160,23 +164,28 @@ app_html = f"""
             </div>
         </div>
 
+        <!-- TABLAS CON ENCABEZADOS RESTAURADOS -->
         <div id="tab-2" class="t-content">
             <table class="meli-table">
+                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
                 <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
             </table>
         </div>
         <div id="tab-3" class="t-content" style="display:none;">
             <table class="meli-table">
+                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
                 <tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody>
             </table>
         </div>
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table">
+                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
                 <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table">
+                <thead><tr><th>UNIDAD</th><th>MIN</th><th>MAX</th><th>MINS</th><th>STOCK</th><th>REST</th></tr></thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
@@ -185,10 +194,9 @@ app_html = f"""
             <div class="google-tool">
                 <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
                 <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
-                <span id="time-res" class="google-res">0h 0m</span>
+                <span id="time-res" style="font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
             </div>
 
-            <!-- CALCULADORA MEJORADA -->
             <div id="calc_wrapper" onclick="focusCalc()" tabindex="0">
                 <div id="calc_display_box">
                     <div id="calc_h" style="font-size:10px; color:#666;"></div>
@@ -328,9 +336,7 @@ app_html = f"""
     }}
 
     function focusCalc() {{
-        const calc = document.getElementById('calc_wrapper');
-        calc.style.background = "#FFC0CB";
-        calc.focus();
+        document.getElementById('calc_wrapper').focus();
     }}
 
     function filterRows(onlyActive) {{
@@ -382,13 +388,6 @@ app_html = f"""
             if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
             if (e.key === 'Escape') cl();
             if (e.key === 'Backspace') del();
-        }}
-    }});
-
-    document.addEventListener('mousedown', (e) => {{
-        const calc = document.getElementById('calc_wrapper');
-        if (calc && !calc.contains(e.target)) {{
-            calc.style.background = "#22c5bc";
         }}
     }});
     
