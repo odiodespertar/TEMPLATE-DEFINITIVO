@@ -64,7 +64,7 @@ def gen_poligonos():
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:auto; min-width:120px; max-width:250px; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;"><option>SELECCIONAR...</option></select></td>
-<td style="text-align: center; border: 0.5px solid #ccc; width: 50px;"><input type="checkbox" class="ok-check" style="transform: scale(2.5); cursor: pointer;"></td>   
+<td style="text-align: center; border: 0.5px solid #ccc; width: 50px;"><input type="checkbox" class="ok-check" style="transform: scale(2.0); cursor: pointer;"></td>   
 </tr>'''
     for i in range(1, 11):
         polys += f'''
