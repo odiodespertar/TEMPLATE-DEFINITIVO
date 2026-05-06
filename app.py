@@ -547,8 +547,13 @@ html body .meli-table tbody tr:last-child {{
             let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
             if(sch > 0) {{
-                row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#e3defa"; mi.style.background = "#def3ed"; 
+                // ESTADO ACTIVO: Cuando ingresas valor en SCHED
+                row.style.background = "white"; 
+                row.style.color = "black";
+                fs.style.background = "#e3defa"; // Color suave para la columna ME QUEDAN
+
+                // Mantenemos el Turquesa en MIN y MAX
+                mi.style.background = "#def3ed"; 
                 mi.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
                 mi.style.fontWeight = "bold";
                 
@@ -556,15 +561,19 @@ html body .meli-table tbody tr:last-child {{
                 ma.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
                 ma.style.fontWeight = "bold";
             }} else {{
-                row.style.background = "#ebebeb"; 
-                row.style.color = "#969696";
-                fs.style.background = "#ebebeb"; 
-                // Resetear cuando SCHED es 0
-                mi.style.background = "#ebebeb"; 
+                // Cuando NO tiene carga (Inactiva) - AQUÍ REPARAMOS EL SOMBREADO
+                row.style.background = "#ebebeb; // Regresa al gris claro de fondo
+                row.style.color = "#969696"; // Texto gris para que se vea "apagada"
+
+                // Limpieza de las celdas de disponibilidad
+                fs.style.background = "transparent"; 
+                
+                // AQUÍ LA CORRECCIÓN: Volvemos a poner MIN y MAX en gris y sin negritas
+                mi.style.background = "transparent"; 
                 mi.style.color = "#969696";
                 mi.style.fontWeight = "normal";
                 
-                ma.style.background = "#ebebeb";
+                ma.style.background = "transparent";
                 ma.style.color = "#969696";
                 ma.style.fontWeight = "normal";
             }}
