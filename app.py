@@ -187,14 +187,14 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     border-bottom: 1px solid #555 !important;
     
     /* Borde interno (derecho) en gris claro */
-    border-right: 2px solid #bbbbbb !important; 
-    border-left: 2px solid #bbbbbb !important;
+    border-right: 1px solid #bbbbbb !important; 
+    border-left: 1px solid #bbbbbb !important;
     padding: 2px 5px;
 }}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
 .meli-table th:last-child {{
-    border-right: 2 !important;
+    border-right: 1 !important;
 }}
 
 /* Asegurar que la tabla mantenga su borde externo principal */
