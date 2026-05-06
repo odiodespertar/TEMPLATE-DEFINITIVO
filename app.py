@@ -253,7 +253,20 @@ app_html = f"""
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: #93c4c4; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
+        .google-tool {{ background: linear-gradient(145deg, #ffffff, #f0f0f0); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
+        .google-tool:hover {{
+            transform: translateY(-3px);
+        }}
+        .google-tool input {{
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: inset 2px 2px 5px #e0e0e0;
+        }}
+
+
         
         /* CALCULADORA CON RESPLANDOR NEÓN */
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
