@@ -185,7 +185,6 @@ app_html = f"""
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
-
 /* Ajuste específico para la última fila de las tablas de polígonos */
 .meli-table tr:last-child td {{
     height: 15px !important; /* Ajusta este valor (ej. 15px, 20px) según lo que necesites */
