@@ -187,11 +187,11 @@ app_html = f"""
 }}
 /* Ajuste específico para la última fila de las tablas de polígonos */
 .meli-table tr:last-child td {{
-    height: 20px !important; /* Ajusta este valor (ej. 15px, 20px) según lo que necesites */
+    height: 25px !important; /* Ajusta este valor (ej. 15px, 20px) según lo que necesites */
     line-height: 18px !important;
     font-size: 14px !important; /* Opcional: reducir un poco la letra si es muy delgada */
-    padding-bottom: 2px !important;
-    padding-top: 2px !important;
+    padding-bottom: 3px !important;
+    padding-top: 3px !important;
 }}
         
         #google-alert {{ 
