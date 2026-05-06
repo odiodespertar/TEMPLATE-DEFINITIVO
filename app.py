@@ -451,33 +451,13 @@ app_html = f"""
                     vA += (u * parseFloat(sp.innerText));
                 }}
             }});
-            // PEGA ESTO:
-let vCalcEl = bl.querySelector('.v-calculado-total'); 
-vCalcEl.innerText = Math.round(vA);
-
-let d = bl.querySelector('.p-diff');
-if (vT === 0) {
-    d.innerText = "VACÍO";
-    d.style.background = "none";
-    vCalcEl.style.color = "#d32f2f"; 
-    vCalcEl.style.background = "transparent";
-} else {
-    if (Math.round(vA) === Math.round(vT)) {
-        d.innerText = "OK";
-        d.style.background = "#ceedd6"; 
-        vCalcEl.style.color = "white";   
-        vCalcEl.style.background = "#20B2AA"; // Color Aqua
-    } else if (vA > vT) {
-        d.innerText = "EXCESO: " + Math.round(vA - vT);
-        d.style.background = "#ffe4b5";
-        vCalcEl.style.color = "#d32f2f";
-        vCalcEl.style.background = "transparent";
-    } else {
-        d.innerText = "FALTAN: " + Math.round(vT - vA);
-        d.style.background = "#f7cdd1";
-        vCalcEl.style.color = "#d32f2f";
-        vCalcEl.style.background = "transparent";
-      }}
+            bl.querySelector('.v-calculado-total').innerText = Math.round(vA);
+            let d = bl.querySelector('.p-diff');
+            if(vT===0) {{ d.innerText="VACÍO"; d.style.background="none"; }}
+            else {{
+                d.innerText = (vA >= vT) ? (vA===vT ? "OK" : "EXCESO: "+Math.round(vA-vT)) : "FALTAN: "+Math.round(vT-vA);
+                d.style.background = (vA >= vT) ? (vA===vT ? "#ceedd6":"#ffe4b5") : "#f7cdd1";
+            }}
         }});
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
