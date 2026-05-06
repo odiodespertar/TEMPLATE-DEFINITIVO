@@ -389,13 +389,45 @@ html body .meli-table tbody tr:last-child {{
     height: 40px !important; /* Altura mínima para que respire la celda */
 }}
 
+
+
 /* Cambiar el color de la casilla OK cuando se selecciona */
 #body-plan input[type="checkbox"] {{
     accent-color: #FF00FF; /* Este es el Rosa Flúor (Magenta) */
     transform: scale(2); /* Aprovechamos para hacerla un poquito más grande y fácil de picar */
     cursor: pointer;
 }}
-    
+
+/////////////////////////////////
+/* 1. Forzar color Rosa Flúor en el Checkbox y agrandarlo */
+#body-plan input[type="checkbox"] {{
+    appearance: none; /* Quitamos el diseño aburrido del navegador */
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #FF00FF; /* Borde rosa */
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+    outline: none !important;
+}}
+
+/* 2. Cuando se marca (Check), se rellena de Rosa Flúor */
+#body-plan input[type="checkbox"]:checked {{
+    background-color: #FF00FF !important;
+}}
+
+/* 3. La palomita blanca dentro del cuadro rosa */
+#body-plan input[type="checkbox"]:checked::after {{
+    content: '✔';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    left: 3px;
+    top: -2px;
+}}
+/////////////////////////////    
     </style>
 
     
