@@ -66,7 +66,7 @@ def gen_poligonos():
                 <thead>
 <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        <th style="padding: 0 10px;">PLAN / RUTA</th>
                         <th>VOL. TOTAL</th>
-                        <th style="width: 110px;"># ASIGNADAS</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px;"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px;">SPR REAL</th>
                         <th>TIPO DE UNIDAD</th>
                         <th style="width: 40px;">OK</th>
