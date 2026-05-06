@@ -119,7 +119,7 @@ def gen_poligonos():
     <!-- Aquí bajamos el colspan de 3 a 2 para dejarle espacio a la columna OK -->
     <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 16px;">VACÍO</td>
     <!-- Esta es la celda que cierra la columna OK al final de la tabla -->
-    <td style="width: 45px !important; border: 1px solid #ccc; background: #f0f0f0;"></td>
+    <td style="width: 45px !important; border: 1px solid #ccc; background: #FFFFFF;"></td>
 </tr>
                 </tbody>
             </table>
