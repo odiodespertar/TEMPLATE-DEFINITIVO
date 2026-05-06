@@ -268,13 +268,13 @@ app_html = f"""
 
 /* SELECTOR DE ALTA ESPECIFICIDAD PARA LA FILA DE ESTADO */
 html body .meli-table tbody tr:last-child td {{
-    height: 16px !important;       /* Altura sin reducción */
-    min-height: 16px !important;   /* Elimina restricciones */
-    max-height: 16px !important;   /* Bloquea el crecimiento */
+    height: 20px !important;       /* Altura sin reducción */
+    min-height: 20px !important;   /* Elimina restricciones */
+    max-height: 20px !important;   /* Bloquea el crecimiento */
     padding-top: 2px !important;
     padding-bottom: 2px !important;
-    line-height: 16px !important;  /* Centra el texto en el nuevo alto */
-    font-size: 16px !important;    /* Reduce un poco la letra */
+    line-height: 20px !important;  /* Centra el texto en el nuevo alto */
+    font-size: 12px !important;    /* Reduce un poco la letra */
 }}
 
 /* Forzar que la fila misma no tenga altura mínima */
