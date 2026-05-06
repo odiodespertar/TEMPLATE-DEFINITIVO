@@ -68,11 +68,12 @@ def gen_poligonos():
 
 <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">            <table style="width: 100%; border-collapse: collapse;">
                 <thead>
-<tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        <th style="padding: 0 10px;">PLAN</th>
-                        <th>VOL. TOTAL</th>
-                        <th style="width: 80px; min-width: 80px; max-width: 80px;"># ASIGNADAS</th>
-                        <th style="width: 110px; min-width: 110px; max-width: 110px;">SPR REAL</th>
-                        <th>TIPO DE UNIDAD</th>
+<tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
+                        <th style="padding: 0 10px; border-right: 1px solid rgba(255,255,255,0.2);">PLAN</th>
+                        <th style="border-right: 1px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
+                        <th style="border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
                         <th style="width: 40px;">OK</th>
                     </tr>
                 </thead>
