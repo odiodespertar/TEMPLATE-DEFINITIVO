@@ -179,7 +179,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* Bordes internos gris claro para el encabezado */
 .meli-table th {{
     background: linear-gradient(180deg, #444444 0%, #111111 100%);
-    color: white;
+    color: FFFFFF;
     font-size: 11px;
     height: 40px;
     font-weight: bold;
@@ -358,7 +358,7 @@ html body .meli-table tbody tr:last-child {{
 /* Ajuste específico para los encabezados de Polígonos */
 #body-plan-container th, 
 .meli-table:nth-of-type(2) th {{
-    font-size: 20px !important;    /* Tamaño de la letra */
+    font-size: 22px !important;    /* Tamaño de la letra */
     height: 90px !important;      /* Alto de la celda */
     padding: 11px 6px !important; /* Espacio interno */
     vertical-align: middle !important;
