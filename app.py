@@ -358,9 +358,9 @@ html body .meli-table tbody tr:last-child {{
 /* Ajuste específico para los encabezados de Polígonos */
 #body-plan-container th, 
 .meli-table:nth-of-type(2) th {{
-    font-size: 18px !important;    /* Tamaño de la letra */
-    height: 60px !important;      /* Alto de la celda */
-    padding: 10px 5px !important; /* Espacio interno */
+    font-size: 20px !important;    /* Tamaño de la letra */
+    height: 70px !important;      /* Alto de la celda */
+    padding: 11px 6px !important; /* Espacio interno */
     vertical-align: middle !important;
 }}
 
