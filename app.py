@@ -46,12 +46,12 @@ def gen_poligonos():
     # Definimos btn_s para que Python lo reconozca y no de error
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:22px; height:22px; border-radius:4px; margin:0 2px;"
     
-    # He cambiado {btn_u} por {btn_s} aquí abajo para que coincida con tu variable
+    # CORRECCIÓN AQUÍ: Se añade background: #e3defa a la primera celda de fila_inner
     fila_inner = f'''
     <tr class="calc-row">
-        <td style="text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
+        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-            <span class="u-manual" style="font-weight: bold; margin:0 5px;">0</span>
+            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
         </td>
         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
