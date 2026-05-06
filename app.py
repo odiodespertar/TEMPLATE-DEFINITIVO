@@ -354,6 +354,16 @@ html body .meli-table tbody tr:last-child {{
 .crono-card button:hover {{
     filter: brightness(1.1);
 }}
+
+/* Ajuste específico para los encabezados de Polígonos */
+#body-plan-container th, 
+.meli-table:nth-of-type(2) th {{
+    font-size: 14px !important;    /* Tamaño de la letra */
+    height: 50px !important;      /* Alto de la celda */
+    padding: 10px 5px !important; /* Espacio interno */
+    vertical-align: middle !important;
+}}
+
     
     </style>
 
