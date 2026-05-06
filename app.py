@@ -114,7 +114,7 @@ def gen_poligonos():
                     
                     
                     <tr style="background:#f8f9fa;">
-                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 11px; color:#333;">ESTADO:</td>
+                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 12px; color:#333;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
                         <td class="p-diff" colspan="3" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 11px;">VACÍO</td>
                     </tr>
