@@ -386,7 +386,7 @@ html body .meli-table tbody tr:last-child {{
 /* Alineación para que no se vea desfasado */
 #body-plan tr:first-child td {{
     vertical-align: middle !important;
-    height: 45px !important; /* Altura mínima para que respire la celda */
+    height: 40px !important; /* Altura mínima para que respire la celda */
 }}
     
     </style>
