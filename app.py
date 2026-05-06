@@ -249,7 +249,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* Efecto al pasar el mouse (Hover) */
 .tab-btn:hover {{ 
-    background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
     color: #000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transform: translateY(-2px); /* Se levanta un poco */
