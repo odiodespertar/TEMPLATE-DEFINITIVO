@@ -278,34 +278,16 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             box-shadow: inset 2px 2px 5px #e0e0e0;
         }}
 
-
         
-        /* CALCULADORA CON RESPLANDOR NEÓN */
-        /* El cuerpo de la calculadora con relieve hacia afuera */
-        #calc_wrapper {{ 
-            background: #22c5bc; /* Mantenemos tu color Aqua */
-            border-radius: 25px; 
-            padding: 20px; 
-            border: none !important; /* Quitamos el borde negro rígido */
-            outline: none;
-            /* Sombras neomórficas: una clara y una oscura para el relieve */
-            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
-            transition: all 0.3s ease;
-        }}
-
-        /* La pantalla de la calculadora con efecto "hundido" (inset) */
-        #calc_display_box {{ 
-            background: #fffacd; /* Tu color amarillo crema */
-            border-radius: 15px; 
-            padding: 15px; 
-            text-align: right; 
-            margin-bottom: 15px; 
-            min-height: 70px;
-            /* Sombra interna para que parezca que la pantalla está sumergida */
-            box-shadow: inset 3px 3px 7px #b8b191, inset -3px -3px 7px #ffffff;
-            border: none;
-        }}
-
+       /* CALCULADORA CON RESPLANDOR NEÓN */
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
+        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
+        
+        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
+        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
+        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
+        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
+        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
         /* Botones con un relieve sutil */
         .btn-c {{
             background: #f0f0f0; 
@@ -324,6 +306,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             transform: scale(0.95);
             box-shadow: inset 2px 2px 5px #b1b1b1;
         }}
+
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
