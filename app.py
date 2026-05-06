@@ -576,42 +576,32 @@ html body .meli-table tbody tr:last-child {{
             let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
             let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
-           if(sch > 0) {{
-            // --- ESTADO ACTIVO: Efecto de botón presionado o resaltado ---
-            row.style.background = "#ffffff"; 
-            row.style.color = "black";
-            // Sombra suave para que la fila parezca elevarse
-            row.style.boxShadow = "4px 4px 10px #d1d1d1, -4px -4px 10px #ffffff";
-            
-            fs.style.background = "#e3defa"; 
-            
-            // Celdas MIN y MAX con resaltado turquesa
-            mi.style.background = "#def3ed"; 
-            mi.style.color = "#008B8B"; 
-            mi.style.fontWeight = "bold";
-            
-            ma.style.background = "#def3ed";
-            ma.style.color = "#008B8B";
-            ma.style.fontWeight = "bold";
-        }} else {{
-            // --- ESTADO APAGADO: Efecto plano o hundido sutil ---
-            row.style.background = "#f5f7f9"; // Color del fondo de la app
-            row.style.color = "#969696";
-            // Sombra interna o nula para que parezca al nivel del fondo
-            row.style.boxShadow = "inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff";
-            
-            fs.style.background = "transparent"; 
-            
-            // Resetear celdas a estado apagado
-            mi.style.background = "transparent"; 
-            mi.style.color = "#969696";
-            mi.style.fontWeight = "normal";
-            
-            ma.style.background = "transparent";
-            ma.style.color = "#969696";
-            ma.style.fontWeight = "normal";
-        }}
-
+            if(sch > 0) {{
+                row.style.background = "white"; row.style.color = "black";
+                fs.style.background = "#e3defa"; mi.style.background = "#def3ed"; 
+                mi.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
+                mi.style.fontWeight = "bold";
+                
+                ma.style.background = "#def3ed";
+                ma.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
+                ma.style.fontWeight = "bold";
+            }} else {{
+                row.style.background = "#ebebeb"; 
+                row.style.color = "#969696";
+                fs.style.background = "#ebebeb"; 
+                // Resetear cuando SCHED es 0
+                mi.style.background = "#ebebeb"; 
+                mi.style.color = "#969696";
+                mi.style.fontWeight = "normal";
+                
+                ma.style.background = "#ebebeb";
+                ma.style.color = "#969696";
+                ma.style.fontWeight = "normal";
+            }}
+            if(name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+            }}
+        }});
 
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
