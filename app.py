@@ -372,25 +372,6 @@ html body .meli-table tbody tr:last-child {{
     filter: brightness(1.1);
 }}
 
-/* AJUSTE FINAL: Letra grande y filas con espacio */
-.meli-table tr:last-child td {{
-    height: auto !important;
-    padding: 12px 6px !important; 
-    font-size: 18px !important;   
-    font-weight: 900 !important;
-    vertical-align: middle !important;
-    color: #000000 !important;
-}}
-
-#body-plan tr:first-child td, 
-#body-plan tr:first-child td input, 
-#body-plan tr:first-child td select {{
-    padding: 12px 6px !important;
-    font-size: 18px !important;   
-    font-weight: bold !important;
-    color: #000000 !important;
-}}
-
     
     </style>
 
