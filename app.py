@@ -13,12 +13,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"CROWD 5 HRS": [25, 28], "CROWD 5 HRS EXT": [25, 28], "CROWD 3 HRS": [25, 28], "MOTO 3 HRS": [25, 28]}
-u_SD = {"MOTO 3 HRS": [25, 25], "MOTO NEW": [20, 22], "CROWD 5 HRS / SMALL V": [35, 37]}
+u_SDE = {"CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28], "MOTO 3H": [25, 28]}
+u_SD = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
 u_C1 = {
-    "RENTAL ELEC LARGE V": [120, 120], "RENTAL ELEC SMALL V": [120, 120], "RENTAL LARGE V": [120, 120], 
-    "RENTAL SMALL V": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
-    "CAR MLP": [50, 50], "MOTO 3 HRS": [28, 28], "CROWD NEW 3 hrs": [30, 30], "CROWD EXT 8 HRS": [80, 85], "CROWD 5 HRS": [60, 60]
+    "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
+    "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
+    "CAR MLP": [50, 50], "MOTO 3H": [28, 28], "CROWD NEW 3 hrs": [30, 30], "CROWD EXT 8H": [80, 85], "CROWD 5H": [60, 60]
 }
 u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
