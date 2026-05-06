@@ -227,11 +227,11 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* Última fila de Disponibilidad de Flota */
 .meli-table tr:last-child td {{
     height: auto !important; /* Permite que la celda crezca */
-    padding: 10px 5px !important; /* Da espacio arriba y abajo del texto */
+    padding: 11px 6px !important; /* Da espacio arriba y abajo del texto */
 }}
 
 .meli-table tr:last-child .f-left {{
-    font-size: 22px !important; /* Tamaño de letra grande */
+    font-size: 16px !important; /* Tamaño de letra grande */
     font-weight: 900 !important;
     line-height: 1.2; /* Ajusta el espacio entre líneas */
 }}
