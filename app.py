@@ -229,7 +229,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     height: auto !important; /* Permite que la celda crezca */
     padding: 12px 6px !important; /* Da espacio arriba y abajo del texto */
     /* --- AQUÍ AGREGAMOS EL TAMAÑO DE LETRA --- */
-    font-size: 20px !important; 
+    font-size: 18px !important; 
     font-weight: 900 !important;
     vertical-align: middle !important; /* Centra el texto verticalmente */
     line-height: 1.2 !important;
@@ -370,30 +370,6 @@ html body .meli-table tbody tr:last-child {{
 /* Efecto Hover (brillo sutil al pasar el mouse) */
 .crono-card button:hover {{
     filter: brightness(1.1);
-}}
-
-
-/* Corregir el tamaño del primer select y sus contenedores */
-#body-plan tr:first-child select,
-#body-plan tr:first-child input {{
-    height: 40px !important;    /* Forzamos una altura cómoda */
-    font-size: 18px !important;  /* Tamaño de letra claro */
-    width: 80% !important;     /* Que ocupe todo el ancho de su celda */
-    padding: 6px !important;
-    box-sizing: border-box !important;
-}}
-
-/* Alineación para que no se vea desfasado */
-#body-plan tr:first-child td {{
-    vertical-align: middle !important;
-    height: 40px !important; /* Altura mínima para que respire la celda */
-}}
-
-/* Cambiar el color de la casilla OK cuando se selecciona */
-#body-plan input[type="checkbox"] {{
-    accent-color: #FF00FF; /* Este es el Rosa Flúor (Magenta) */
-    transform: scale(2); /* Aprovechamos para hacerla un poquito más grande y fácil de picar */
-    cursor: pointer;
 }}
     
     </style>
