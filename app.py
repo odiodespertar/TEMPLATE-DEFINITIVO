@@ -268,18 +268,18 @@ app_html = f"""
 
 /* SELECTOR DE ALTA ESPECIFICIDAD PARA LA FILA DE ESTADO */
 html body .meli-table tbody tr:last-child td {{
-    height: 14px !important;       /* Altura ultra reducida */
-    min-height: 14px !important;   /* Elimina restricciones */
-    max-height: 14px !important;   /* Bloquea el crecimiento */
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-    line-height: 14px !important;  /* Centra el texto en el nuevo alto */
-    font-size: 10px !important;    /* Reduce un poco la letra */
+    height: 16px !important;       /* Altura sin reducción */
+    min-height: 16px !important;   /* Elimina restricciones */
+    max-height: 16px !important;   /* Bloquea el crecimiento */
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    line-height: 16px !important;  /* Centra el texto en el nuevo alto */
+    font-size: 16px !important;    /* Reduce un poco la letra */
 }}
 
 /* Forzar que la fila misma no tenga altura mínima */
 html body .meli-table tbody tr:last-child {{
-    height: 14px !important;
+    height: 16px !important;
 }}
 
 /* Estilo base para los botones del cronómetro */
