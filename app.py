@@ -164,7 +164,7 @@ app_html = f"""
 </head>
 
     <style>
-body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
+body {{ font-family: sans-serif; background: #efefef; padding: 15px; }}
 .meli-table {{ 
     border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
     border-spacing: 0 8px;
@@ -172,8 +172,8 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     table-layout: auto; 
     border-radius: 10px; 
     overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.19), inset 0 0 2px white; /* Efecto de profundidad */
-    border: 2px solid #ccc;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
+    border: 1px solid #ccc;
 }}
 
 /* Bordes internos gris claro para el encabezado */
@@ -189,12 +189,12 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     /* Borde interno (derecho) en gris claro */
     border-right: 1px solid #bbbbbb !important; 
     border-left: 1px solid #bbbbbb !important;
-    padding: 1px 4px;
+    padding: 2px 5px;
 }}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
 .meli-table th:last-child {{
-    border-right: 1 !important;
+    border-right: 2 !important;
 }}
 
 /* Asegurar que la tabla mantenga su borde externo principal */
@@ -210,7 +210,7 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     font-size: 13px; 
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
-    padding: 2px 4px;
+    padding: 1px 3px;
 }}
 
 /* El efecto Neomórfico en cada fila */
