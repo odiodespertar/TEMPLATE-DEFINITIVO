@@ -189,7 +189,7 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     /* Borde interno (derecho) en gris claro */
     border-right: 1px solid #bbbbbb !important; 
     border-left: 1px solid #bbbbbb !important;
-    padding: 2px 5px;
+    padding: 1px 4px;
 }}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
@@ -216,7 +216,7 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
 /* El efecto Neomórfico en cada fila */
         .master-row {{
             border-radius: 9px;
-            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #F5F5F5;
+            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #FFFFFF;
             transition: all 0.2s ease;
         }}
 
