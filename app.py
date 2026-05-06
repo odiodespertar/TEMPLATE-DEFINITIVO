@@ -231,8 +231,8 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 .meli-table tr:last-child .f-left {{
-    font-size: 20px !important; /* Tamaño de letra grande */
-    font-weight: 700 !important;
+    font-size: 18px !important; /* Tamaño de letra grande */
+    font-weight: 600 !important;
     line-height: 1.2; /* Ajusta el espacio entre líneas */
 }}
 ////////////
