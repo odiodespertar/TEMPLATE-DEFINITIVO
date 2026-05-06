@@ -576,7 +576,7 @@ html body .meli-table tbody tr:last-child {{
 // CAMBIO: Aplicar color turquesa al SPR REAL cuando hay una unidad seleccionada
         sp.style.color = "#008B8B"; 
         sp.style.fontWeight = "bold";
-    } else {
+    }} else {{
         // Resetear color si no hay selección (opcional, para limpieza)
         sp.style.color = "#969696";
         sp.style.fontWeight = "normal";   
