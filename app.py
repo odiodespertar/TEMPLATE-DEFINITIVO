@@ -253,7 +253,7 @@ app_html = f"""
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
+        .google-tool {{ background: #93c4c4; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
         
         /* CALCULADORA CON RESPLANDOR NEÓN */
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
