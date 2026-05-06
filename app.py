@@ -519,13 +519,24 @@ html body .meli-table tbody tr:last-child {{
             }}
             span.innerText = Math.max(0, val + delta);
         }} else {{
+            // --- INICIO DE LA NUEVA LÓGICA DE ALERTA SPR ---
             let span = row.querySelector('.spr-real-val');
             let val = parseFloat(span.innerText) || 0;
+            
+            // Obtenemos el límite máximo desde la tabla de flota activa
+            let sprMax = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
+
+            // Si intentas subir (delta > 0) y el nuevo valor superaría el máximo
+            if (delta > 0 && (val + delta) > sprMax) {{
+                showAlert("⚠️ LÍMITE ALCANZADO. El SPR Real no puede ser mayor al SPR Máximo (" + sprMax + ").");
+                return; // Detiene el incremento
+            }}
+
             span.innerText = Math.max(0, val + delta).toFixed(1);
+            // --- FIN DE LA NUEVA LÓGICA ---
         }}
         editedRowsPlan.add(row);
         recalc();
-    }}
 
         
     function recalc() {{
@@ -536,20 +547,40 @@ html body .meli-table tbody tr:last-child {{
             let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
             if(sch > 0) {{
-                row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#e3defa"; mi.style.background = "#def3ed"; ma.style.background = "#def3ed";
+                // ESTADO ACTIVO: Cuando ingresas valor en SCHED
+                row.style.background = "white"; 
+                row.style.color = "black";
+                fs.style.background = "#e3defa"; // Color suave para la columna ME QUEDAN
+
+                // Mantenemos el Turquesa en MIN y MAX
+                mi.style.background = "#def3ed"; 
+                mi.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
+                mi.style.fontWeight = "bold";
+                
+                ma.style.background = "#def3ed";
+                ma.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
+                ma.style.fontWeight = "bold";
             }} else {{
-                row.style.background = "#ebebeb"; row.style.color = "#969696";
-                fs.style.background = "#ebebeb"; mi.style.background = "#ebebeb"; ma.style.background = "#ebebeb";
+                // Cuando NO tiene carga (Inactiva) - AQUÍ REPARAMOS EL SOMBREADO
+                row.style.background = "#ebebeb; // Regresa al gris claro de fondo
+                row.style.color = "#969696"; // Texto gris para que se vea "apagada"
+
+                // Limpieza de las celdas de disponibilidad
+                fs.style.background = "transparent"; 
+                
+                // AQUÍ LA CORRECCIÓN: Volvemos a poner MIN y MAX en gris y sin negritas
+                mi.style.background = "transparent"; 
+                mi.style.color = "#969696";
+                mi.style.fontWeight = "normal";
+                
+                ma.style.background = "transparent";
+                ma.style.color = "#969696";
+                ma.style.fontWeight = "normal";
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
             }}
         }});
-
-
-
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
 
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
