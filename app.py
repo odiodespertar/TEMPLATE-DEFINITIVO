@@ -186,12 +186,19 @@ app_html = f"""
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
 /* Ajuste específico para la última fila de las tablas de polígonos */
+.meli-table tr:last-child, 
 .meli-table tr:last-child td {{
-    height: 25px !important; /* Ajusta este valor (ej. 15px, 20px) según lo que necesites */
-    line-height: 18px !important;
-    font-size: 14px !important; /* Opcional: reducir un poco la letra si es muy delgada */
-    padding-bottom: 3px !important;
-    padding-top: 3px !important;
+    height: 20px !important;       /* Altura total de la celda */
+    line-height: 1 !important;     /* Ajusta el interlineado */
+    padding-top: 2px !important;    /* Reduce espacio arriba del texto */
+    padding-bottom: 2px !important; /* Reduce espacio debajo del texto */
+    vertical-align: middle !important;
+}}
+
+/* Si el texto "ESTADO" o "VACÍO" están dentro de un div o span */
+.meli-table tr:last-child td * {{
+    margin: 0 !important;
+    padding: 0 !important;
 }}
         
         #google-alert {{ 
