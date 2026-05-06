@@ -113,11 +113,11 @@ def gen_poligonos():
                 {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     
                     
-                    <tr style="background:#f8f9fa;">
-    <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 11px; color:#333;">ESTADO:</td>
+                    <tr style="background:#f8f9fa; height: 32px;"> <!-- Añadimos height: 32px -->
+    <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 16px; color:#333;">ESTADO:</td>
     <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
     <!-- Aquí bajamos el colspan de 3 a 2 para dejarle espacio a la columna OK -->
-    <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 12px;">VACÍO</td>
+    <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 16px;">VACÍO</td>
     <!-- Esta es la celda que cierra la columna OK al final de la tabla -->
     <td style="width: 45px !important; border: 1px solid #ccc; background: #f0f0f0;"></td>
 </tr>
