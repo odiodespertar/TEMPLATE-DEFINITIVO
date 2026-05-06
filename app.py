@@ -76,28 +76,40 @@ def gen_poligonos():
                         <th style="width: 40px;">OK</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="calc-row">
-                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">PLAN {i}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
-                        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
-                            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-                        </td>
-<!-- Busca la celda que dice spr-real-cell y déjala así: -->
-<td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px; min-width: 110px; max-width: 110px;">
-    <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-    <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-</td>                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-                        </td>
-                        <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;"><option>SELECCIONAR...</option></select></td>
-                        <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.3);"></td>
-                    </tr>
-                    {fila_inner}{fila_inner}{fila_inner}{fila_inner}
+
+                
+                # --- DENTRO DE gen_poligonos() ---
+# Sustituye desde la etiqueta <tbody> hasta el final del loop de la siguiente manera:
+
+            <tbody>
+                <tr class="calc-row">
+                    <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">PLAN {i}</td>
+                    <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
+                    
+                    # Celda de Unidades Asignadas
+                    <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
+                        <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                        <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                        <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                    </td>
+
+                    # Celda de SPR Real
+                    <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
+                        <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                        <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                        <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                    </td>
+
+                    <td style="border: 0.5px solid #ccc; padding: 2px;">
+                        <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
+                            <option>SELECCIONAR...</option>
+                        </select>
+                    </td>
+                    <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.3);"></td>
+                </tr>
+                {fila_inner}{fila_inner}{fila_inner}{fila_inner}
+                    
+                    
                     <tr style="background:#f8f9fa;">
                         <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 11px; color:#333;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
