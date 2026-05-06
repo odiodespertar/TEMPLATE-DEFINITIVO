@@ -43,8 +43,12 @@ def gen_master_rows(data_dict, table_id):
 
 def gen_poligonos():
     polys = ""
-    # Definimos btn_s para que Python lo reconozca y no de error
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:22px; height:22px; border-radius:4px; margin:0 2px;"
+    # Estilo de botones mejorado para que no se deformen
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
+    
+    # Celda con Flexbox para mantener alineación
+    # 'display:flex; justify-content:space-between; align-items:center;' es la clave
+    cell_style_flex = "display:flex; justify-content:space-between; align-items:center; padding: 5px; min-height: 30px;"
     
     # CORRECCIÓN AQUÍ: Se añade background: #e3defa a la primera celda de fila_inner
     fila_inner = f'''
