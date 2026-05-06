@@ -354,6 +354,12 @@ html body .meli-table tbody tr:last-child {{
 .crono-card button:hover {{
     filter: brightness(1.1);
 }}
+
+.f-left {{
+            font-size: 20px !important; /* Aquí controlas el tamaño */
+            font-weight: 900 !important; /* Aquí lo grueso de la letra */
+            text-align: center;
+        }}
     
     </style>
 
