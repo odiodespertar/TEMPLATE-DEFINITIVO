@@ -185,20 +185,33 @@ app_html = f"""
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
-/* Ajuste específico para la última fila de las tablas de polígonos */
+/* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
+
+/* 1. Forzamos la fila y sus celdas a ignorar cualquier altura mínima */
 .meli-table tr:last-child, 
 .meli-table tr:last-child td {{
-    height: 40px !important;       /* Altura total de la celda */
-    line-height: 1 !important;     /* Ajusta el interlineado */
-    padding-top: 4px !important;    /* Reduce espacio arriba del texto */
-    padding-bottom: 4px !important; /* Reduce espacio debajo del texto */
-    vertical-align: middle !important;
+    height: 1px !important;        /* El navegador lo ajustará al mínimo posible del texto */
+    min-height: 1px !important;    /* Rompe cualquier restricción previa */
+    line-height: 1 !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+    border-top: 1px solid #ccc !important; /* Mantiene la línea divisoria */
 }}
 
-/* Si el texto "ESTADO" o "VACÍO" están dentro de un div o span */
-.meli-table tr:last-child td * {{
+/* 2. Reducimos el tamaño de la fuente solo en esa fila para ganar espacio */
+.meli-table tr:last-child td {{
+    font-size: 9px !important; 
+    font-weight: bold !important;
+    color: #333 !important;
+}}
+
+/* 3. IMPORTANTE: Si estás usando divs dentro de las celdas para el texto */
+.meli-table tr:last-child td div,
+.meli-table tr:last-child td span {{
     margin: 0 !important;
     padding: 0 !important;
+    line-height: 1 !important;
+    height: auto !important;
 }}
         
         #google-alert {{ 
