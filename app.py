@@ -376,10 +376,10 @@ html body .meli-table tbody tr:last-child {{
 /* Corregir el tamaño del primer select y sus contenedores */
 #body-plan tr:first-child select,
 #body-plan tr:first-child input {{
-    height: 38px !important;    /* Forzamos una altura cómoda */
-    font-size: 16px !important;  /* Tamaño de letra claro */
+    height: 40px !important;    /* Forzamos una altura cómoda */
+    font-size: 18px !important;  /* Tamaño de letra claro */
     width: 100% !important;     /* Que ocupe todo el ancho de su celda */
-    padding: 5px !important;
+    padding: 6px !important;
     box-sizing: border-box !important;
 }}
 
