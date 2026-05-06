@@ -498,41 +498,51 @@ html body .meli-table tbody tr:last-child {{
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
     function stepVal(btn, delta, type) {{
-        let row = btn.closest('tr');
-        let sel = row.querySelector('.s-type').value;
-        if(sel === "SELECCIONAR...") return;
+    let row = btn.closest('tr');
+    let sel = row.querySelector('.s-type').value;
+    
+    // Si no hay unidad seleccionada, no hace nada
+    if(sel === "SELECCIONAR...") return;
 
-        let fRows = Array.from(document.querySelectorAll('#body-'+currentTab+' tr'));
-        let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
-        let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
+    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
+    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+    
+    if (!fRow) return; // Seguridad por si no encuentra la unidad
 
-        if(type === 'u') {{
-            let span = row.querySelector('.u-manual');
-            let val = parseInt(span.innerText) || 0;
-            if (delta > 0 && left <= 0) {{
-                if (currentTab === 4) {{
-                    showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
-                }} else {{
-                    showAlert("⚠️ AGOTADO. No se puede aumentar.");
-                    return;
-                }}
+    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
+
+    if(type === 'u') {{
+        let span = row.querySelector('.u-manual');
+        let val = parseInt(span.innerText) || 0;
+        if (delta > 0 && left <= 0) {{
+            if (currentTab === 4) {{
+                showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
+            }} else {{
+                showAlert("⚠️ AGOTADO. No se puede aumentar.");
+                return;
             }}
-            span.innerText = Math.max(0, val + delta);
-        }} else {{
-            let span = row.querySelector('.spr-real-val');
-            let val = parseFloat(span.innerText) || 0;
-            let newVal = Math.max(0, val + delta);
-
-            // --- BLOQUEO DE SPR REAL ---
-            if (delta > 0 && newVal > sprMaxReal) {{
-                showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
-                return; // Bloquea el aumento
-            }}
-            span.innerText = newVal.toFixed(1);
         }}
-        editedRowsPlan.add(row);
-        recalc();
+        span.innerText = Math.max(0, val + delta);
+                }} else {{
+        let span = row.querySelector('.spr-real-val');
+        let val = parseFloat(span.innerText) || 0;
+        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
+
+        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
+        if (delta > 0 && newVal > sprMaxReal) {{
+            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
+            return; 
+        }}
+        
+        // Si es para bajar o está dentro del rango, permite el cambio
+        span.innerText = Math.max(0, newVal).toFixed(1);
     }}
+    
+    editedRowsPlan.add(row);
+    recalc();
+}}
 
     function recalc() {{
         let fleet = {{}};
