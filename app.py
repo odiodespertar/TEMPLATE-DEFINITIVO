@@ -220,6 +220,10 @@ app_html = f"""
             transition: all 0.2s ease;
         }}
 
+/* Redondear las esquinas de las filas */
+        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
+        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
+
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
