@@ -281,15 +281,20 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
         
         /* CALCULADORA CON RESPLANDOR NEÓN */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 25px; padding: 20px; border: none !important; outline: none; transition: 0.3s; }}
-        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; 
-        /* Sombras neomórficas: una clara y una oscura para el relieve */
+        /* El cuerpo de la calculadora con relieve hacia afuera */
+        #calc_wrapper {{ 
+            background: #22c5bc; /* Mantenemos tu color Aqua */
+            border-radius: 25px; 
+            padding: 20px; 
+            border: none !important; /* Quitamos el borde negro rígido */
+            outline: none;
+            /* Sombras neomórficas: una clara y una oscura para el relieve */
             box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
             transition: all 0.3s ease;
         }}
-        
-      /* La pantalla de la calculadora con efecto "hundido" (inset) */
-        #calc_display_box {{
+
+        /* La pantalla de la calculadora con efecto "hundido" (inset) */
+        #calc_display_box {{ 
             background: #fffacd; /* Tu color amarillo crema */
             border-radius: 15px; 
             padding: 15px; 
@@ -299,6 +304,25 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             /* Sombra interna para que parezca que la pantalla está sumergida */
             box-shadow: inset 3px 3px 7px #b8b191, inset -3px -3px 7px #ffffff;
             border: none;
+        }}
+
+        /* Botones con un relieve sutil */
+        .btn-c {{
+            background: #f0f0f0; 
+            border: none; 
+            font-weight: bold; 
+            border-radius: 12px; 
+            padding: 12px; 
+            cursor: pointer; 
+            /* Sombra pequeña para que cada botón destaque */
+            box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2;
+            transition: transform 0.1s;
+        }}
+
+        /* Efecto de "clic" real */
+        .btn-c:active {{
+            transform: scale(0.95);
+            box-shadow: inset 2px 2px 5px #b1b1b1;
         }}
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
