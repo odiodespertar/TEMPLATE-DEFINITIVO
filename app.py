@@ -43,23 +43,26 @@ def gen_master_rows(data_dict, table_id):
 
 def gen_poligonos():
     polys = ""
+    # Definimos btn_s para que Python lo reconozca y no de error
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:22px; height:22px; border-radius:4px; margin:0 2px;"
+    
+    # He cambiado {btn_u} por {btn_s} aquí abajo para que coincida con tu variable
     fila_inner = f'''
     <tr class="calc-row">
-       // Busca donde definiste fila_inner y modifica la celda de las unidades:
-<td style="text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
-    <button style="{btn_u}" onclick="stepVal(this, -1, 'u')">-</button>
-    <span class="u-manual" style="font-weight: bold; margin:0 5px;">0</span>
-    <button style="{btn_u}" onclick="stepVal(this, 1, 'u')">+</button>
-</td>
+        <td style="text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
+            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+            <span class="u-manual" style="font-weight: bold; margin:0 5px;">0</span>
+            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+        </td>
         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
-    <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-    <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-</td>
+            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+        </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:auto; min-width:120px; max-width:250px; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;"><option>SELECCIONAR...</option></select></td>
         <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.3);"></td>
     </tr>'''
+    
     for i in range(1, 11):
         polys += f'''
 
