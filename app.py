@@ -108,7 +108,7 @@ def gen_poligonos():
                             <option>SELECCIONAR...</option>
                         </select>
                     </td>
-                    <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1);"></td>
+                    <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                 </tr>
                 {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     
