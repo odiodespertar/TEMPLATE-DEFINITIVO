@@ -169,19 +169,21 @@ app_html = f"""
     border: 1px solid #ccc;
 }}
 
+/* Bordes internos gris claro para el encabezado */
 .meli-table th {{
-    background: linear-gradient(180deg, #444 0%, #222 100%); /* Gradiente para volumen */
-    color: white; 
-    font-size: 11px; 
-    height: 35px; 
-    border-bottom: 2px solid #000;
-    text-transform: uppercase;
-
-/* Borde interno (derecho) en gris claro */
+    background: linear-gradient(180deg, #888 0%, #666 100%);
+    color: white;
+    font-size: 11px;
+    height: 40px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #555 !important;
+    
+    /* Borde interno (derecho) en gris claro */
     border-right: 1px solid #bbbbbb !important; 
     border-left: none !important;
     padding: 2px 5px;
-}
+}}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
 .meli-table th:last-child {{
