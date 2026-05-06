@@ -212,6 +212,14 @@ app_html = f"""
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
     padding: 2px 4px;
 }}
+
+/* El efecto Neomórfico en cada fila */
+        .master-row {{
+            border-radius: 12px;
+            box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff;
+            transition: all 0.3s ease;
+        }}
+
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
