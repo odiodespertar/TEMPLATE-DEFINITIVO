@@ -187,8 +187,8 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 15px; }}
     border-bottom: 1px solid #555 !important;
     
     /* Borde interno (derecho) en gris claro */
-    border-right: 1px solid #bbbbbb !important; 
-    border-left: 1px solid #bbbbbb !important;
+    border-right: 1px solid #808080 !important; 
+    border-left: 1px solid #808080 !important;
     padding: 2px 5px;
 }}
 
