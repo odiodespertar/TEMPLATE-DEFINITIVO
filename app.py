@@ -377,15 +377,15 @@ html body .meli-table tbody tr:last-child {{
             <table class="meli-table">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">UNIDAD</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); line-height: 1.2;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.05); line-height: 1.2;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">SCHED</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); line-height: 1.2;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05; line-height: 1.2;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">ME QUEDAN</th>
                     </tr>
                     <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.03); line-height: 1.2;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.03); line-height: 1.2;">MAX</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1.2;">MIN</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: rgba(255,255,255,0.05); line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
