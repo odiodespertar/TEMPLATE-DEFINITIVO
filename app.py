@@ -186,7 +186,14 @@ app_html = f"""
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
 
-
+/* Ajuste específico para la última fila de las tablas de polígonos */
+.meli-table tr:last-child td {{
+    height: 15px !important; /* Ajusta este valor (ej. 15px, 20px) según lo que necesites */
+    line-height: 15px !important;
+    font-size: 10px !important; /* Opcional: reducir un poco la letra si es muy delgada */
+    padding-bottom: 2px !important;
+    padding-top: 2px !important;
+}}
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
