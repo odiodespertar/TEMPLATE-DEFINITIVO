@@ -194,7 +194,7 @@ app_html = f"""
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
 .meli-table th:last-child {{
-    border-right: none !important;
+    border-right: 1 !important;
 }}
 
 /* Asegurar que la tabla mantenga su borde externo principal */
