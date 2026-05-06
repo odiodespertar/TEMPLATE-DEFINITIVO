@@ -64,7 +64,7 @@ def gen_poligonos():
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:auto; min-width:120px; max-width:250px; border:none; background:transparent; font-weight:bold; font-size:12px; color:#333;"><option>SELECCIONAR...</option></select></td>
-<td style="text-align: center; border: 0.5px solid #ccc; width: 40px;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); cursor: pointer;"></td>   
+        <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1);"></td>
 </tr>'''
     for i in range(1, 11):
         polys += f'''
@@ -77,7 +77,7 @@ def gen_poligonos():
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 50px !important; min-width: 50px !important; max-width: 50px !important; text-align: center; padding: 4px 0;">OK</th>
+                        <th style="width: 45px !important; text-align: center;">OK</th>
                     </tr>
                 </thead>
 
@@ -108,16 +108,19 @@ def gen_poligonos():
                             <option>SELECCIONAR...</option>
                         </select>
                     </td>
-                    <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.3);"></td>
+                    <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1);"></td>
                 </tr>
                 {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     
                     
                     <tr style="background:#f8f9fa;">
-                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 12px; color:#333;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
-                        <td class="p-diff" colspan="3" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 11px;">VACÍO</td>
-                    </tr>
+    <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 11px; color:#333;">ESTADO:</td>
+    <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
+    <!-- Aquí bajamos el colspan de 3 a 2 para dejarle espacio a la columna OK -->
+    <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 11px;">VACÍO</td>
+    <!-- Esta es la celda que cierra la columna OK al final de la tabla -->
+    <td style="width: 45px !important; border: 1px solid #ccc; background: #f0f0f0;"></td>
+</tr>
                 </tbody>
             </table>
         </div>'''
