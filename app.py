@@ -645,7 +645,7 @@ html body .meli-table tbody tr:last-child {{
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
     
-   document.addEventListener('keydown', (e) => {{
+   document.addEventListener('keydown', (e) => {
         const calc = document.getElementById('calc_wrapper');
         
         // 1. PRIORIDAD: Si hay una alerta, el Enter la quita y detiene lo demás
@@ -669,7 +669,7 @@ html body .meli-table tbody tr:last-child {{
             if (e.key === 'Escape') cl();
             if (e.key === 'Backspace') del();
         }
-    }});
+    });
 
 
     
