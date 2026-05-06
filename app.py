@@ -228,6 +228,9 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table tr:last-child td {{
     height: auto !important; /* Permite que la celda crezca */
     padding: 11px 6px !important; /* Da espacio arriba y abajo del texto */
+    /* --- AQUÍ AGREGAMOS EL TAMAÑO DE LETRA --- */
+    font-size: 18px !important; 
+    font-weight: 900 !important;
 }}
 
 .meli-table tr:last-child .f-left {{
