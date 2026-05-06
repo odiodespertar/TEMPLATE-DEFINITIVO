@@ -646,31 +646,28 @@ html body .meli-table tbody tr:last-child {{
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
     
    document.addEventListener('keydown', (e) => {{
-
         const calc = document.getElementById('calc_wrapper');
+        const alerta = document.getElementById('google-alert');
 
-        if(e.key === 'Enter') hideAlert();
-
-        if (document.activeElement === calc) {{
-
-            if (e.key >= '0' && e.key <= '9') an(e.key);
-
-            if (e.key === '+') ao('+');
-
-            if (e.key === '-') ao('-');
-
-            if (e.key === '*') ao('*');
-
-            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
-
-            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
-
-            if (e.key === 'Escape') cl();
-
-            if (e.key === 'Backspace') del();
-
+        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
+        if (e.key === 'Enter' && alerta.classList.contains('show')) {{
+            e.preventDefault();
+            e.stopPropagation();
+            hideAlert();
+            return; // Detiene la ejecución aquí para que no afecte a la calculadora
         }}
 
+        // Lógica de la calculadora (solo si está seleccionada)
+        if (document.activeElement === calc) {{
+            if (e.key >= '0' && e.key <= '9') an(e.key);
+            if (e.key === '+') ao('+');
+            if (e.key === '-') ao('-');
+            if (e.key === '*') ao('*');
+            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
+            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
+            if (e.key === 'Escape') cl();
+            if (e.key === 'Backspace') del();
+        }}
     }});
 
 
