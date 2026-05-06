@@ -280,7 +280,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
         
        /* CALCULADORA CON RESPLANDOR NEÓN */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
         #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
         
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
