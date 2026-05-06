@@ -64,9 +64,8 @@ def gen_poligonos():
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:auto; min-width:120px; max-width:250px; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;"><option>SELECCIONAR...</option></select></td>
-        <td style="text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.3);"></td>
-    </tr>'''
-    
+<td style="text-align: center; border: 0.5px solid #ccc; width: 50px;"><input type="checkbox" class="ok-check" style="transform: scale(1.8); cursor: pointer;"></td>   
+</tr>'''
     for i in range(1, 11):
         polys += f'''
 
@@ -78,7 +77,7 @@ def gen_poligonos():
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 40px;">OK</th>
+                        <th style="width: 50px;">OK</th>
                     </tr>
                 </thead>
 
