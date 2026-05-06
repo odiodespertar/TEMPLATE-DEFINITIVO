@@ -393,13 +393,21 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
+        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
         <div class="tools-panel">
-            <div class="google-tool">
-                <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
-                <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
-                <span id="time-res" style="font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
+            
+            <!-- 1. CRONÓMETRO (Ahora primero) -->
+            <div class="crono-card">
+                <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
+                <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
+                <div>
+                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
+                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
+                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
+                </div>
             </div>
 
+            <!-- 2. CALCULADORA (Ahora segunda) -->
             <div id="calc_wrapper" onclick="focusCalc()" tabindex="0">
                 <div id="calc_display_box">
                     <div id="calc_h" style="font-size:10px; color:#666;"></div>
@@ -415,18 +423,19 @@ html body .meli-table tbody tr:last-child {{
                 </div>
             </div>
 
-            <div class="crono-card">
-                <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
-                <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
-                <div>
-                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
-                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
-                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
-                </div>
+            <!-- 3. CONVERTIDOR (Ahora al final) -->
+            <div class="google-tool">
+                <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
+                <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
+                <span id="time-res" style="font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
             </div>
+
+        </div>
         </div>
     </div>
 </div>
+
+
 
 <script>
     let currentTab = 2;
