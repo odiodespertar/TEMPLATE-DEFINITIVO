@@ -48,7 +48,10 @@ def gen_poligonos():
     
     # Celda con Flexbox para mantener alineación
     # 'display:flex; justify-content:space-between; align-items:center;' es la clave
-    cell_style_flex = "display:flex; justify-content:space-between; align-items:center; padding: 5px; min-height: 30px;"
+    cell_style_flex = "display:flex; justify-content:space-between; align-items:center; padding: 5px; min-height: 32px;"
+
+    # Estilo para el checkbox más grande y centrado
+    check_style = "transform: scale(1.6); cursor: pointer; accent-color: #4CAF50; margin: 0;"
     
     # CORRECCIÓN AQUÍ: Se añade background: #e3defa a la primera celda de fila_inner
     fila_inner = f'''
@@ -71,14 +74,15 @@ def gen_poligonos():
         polys += f'''
 
 <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">            <table style="width: 100%; border-collapse: collapse;">
+             <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
                 <thead>
-<tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
+                    <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
                         <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 40px;">OK</th>
+                        <th style="width: 60px;">OK</th>
                     </tr>
                 </thead>
 
