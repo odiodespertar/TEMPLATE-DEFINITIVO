@@ -275,6 +275,35 @@ html body .meli-table tbody tr:last-child td {{
 html body .meli-table tbody tr:last-child {{
     height: 14px !important;
 }}
+
+/* Estilo base para los botones del cronómetro */
+.crono-card button {{
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.1s ease; /* Transición rápida para el rebote */
+    margin: 5px;
+    font-weight: bold;
+}}
+
+/* Colores y sombras (la sombra da el efecto de grosor) */
+.btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
+.btn-stop  {{ background: #ffc107; color: #333;  box-shadow: 0 5px 0 #d39e00; }}
+.btn-reset {{ background: #dc3545; color: white; box-shadow: 0 5px 0 #bd2130; }}
+
+/* EFECTO DE CLIC (REACCIÓN) */
+.crono-card button:active {{
+    transform: translateY(4px); /* El botón baja físicamente */
+    box-shadow: 0 1px 0 #333;   /* La sombra se reduce, pareciendo que se hunde */
+}}
+
+/* Efecto Hover (brillo sutil al pasar el mouse) */
+.crono-card button:hover {{
+    filter: brightness(1.1);
+}}
     
     </style>
 
