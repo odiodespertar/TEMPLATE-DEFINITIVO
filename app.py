@@ -200,7 +200,7 @@ app_html = f"""
 
 /* 2. Reducimos el tamaño de la fuente solo en esa fila para ganar espacio */
 .meli-table tr:last-child td {{
-    font-size: 9px !important; 
+    font-size: 16px !important; 
     font-weight: bold !important;
     color: #333 !important;
 }}
@@ -208,8 +208,8 @@ app_html = f"""
 /* 3. IMPORTANTE: Si estás usando divs dentro de las celdas para el texto */
 .meli-table tr:last-child td div,
 .meli-table tr:last-child td span {{
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 1 !important;
+    padding: 1 !important;
     line-height: 1 !important;
     height: auto !important;
 }}
