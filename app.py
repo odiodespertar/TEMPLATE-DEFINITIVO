@@ -37,7 +37,8 @@ def gen_master_rows(data_dict, table_id):
             <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
             <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
             <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-<td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 16px;">0</td>        </tr>'''
+            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
+        </tr>'''
     return rows
 
 def gen_poligonos():
@@ -223,19 +224,6 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
         .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
 
-//////////
-/* Última fila de Disponibilidad de Flota */
-.meli-table tr:last-child td {{
-    height: auto !important; /* Permite que la celda crezca */
-    padding: 11px 6px !important; /* Da espacio arriba y abajo del texto */
-}}
-
-.meli-table tr:last-child .f-left {{
-    font-size: 16px !important; /* Tamaño de letra grande */
-    font-weight: 900 !important;
-    line-height: 1.2; /* Ajusta el espacio entre líneas */
-}}
-////////////
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
