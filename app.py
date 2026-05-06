@@ -364,6 +364,13 @@ html body .meli-table tbody tr:last-child {{
     vertical-align: middle !important;
 }}
 
+/////////////////
+
+/* Agrégalo al final de tu sección <style> */
+.ok-check {{
+    accent-color: #FF00FF !important; /* Cambia aquí el color (ej. #20B2AA para Turquesa) */
+    cursor: pointer;
+}}
     
     </style>
 
