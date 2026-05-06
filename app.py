@@ -185,34 +185,6 @@ app_html = f"""
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
-/* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
-
-/* 1. Forzamos la fila y sus celdas a ignorar cualquier altura mínima */
-.meli-table tr:last-child, 
-.meli-table tr:last-child td {{
-    height: 1px !important;        /* El navegador lo ajustará al mínimo posible del texto */
-    min-height: 1px !important;    /* Rompe cualquier restricción previa */
-    line-height: 1 !important;
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
-    border-top: 1px solid #ccc !important; /* Mantiene la línea divisoria */
-}}
-
-/* 2. Reducimos el tamaño de la fuente solo en esa fila para ganar espacio */
-.meli-table tr:last-child td {{
-    font-size: 16px !important; 
-    font-weight: bold !important;
-    color: #333 !important;
-}}
-
-/* 3. IMPORTANTE: Si estás usando divs dentro de las celdas para el texto */
-.meli-table tr:last-child td div,
-.meli-table tr:last-child td span {{
-    margin: 1 !important;
-    padding: 1 !important;
-    line-height: 1 !important;
-    height: auto !important;
-}}
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
@@ -265,7 +237,39 @@ app_html = f"""
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
         .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
         .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
+
+   /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
+
+/* 1. Forzamos la fila y sus celdas a ignorar cualquier altura mínima */
+.meli-table tr:last-child, 
+.meli-table tr:last-child td {{
+    height: 1px !important;        /* El navegador lo ajustará al mínimo posible del texto */
+    min-height: 1px !important;    /* Rompe cualquier restricción previa */
+    line-height: 1 !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+    border-top: 1px solid #ccc !important; /* Mantiene la línea divisoria */
+}}
+
+/* 2. Reducimos el tamaño de la fuente solo en esa fila para ganar espacio */
+.meli-table tr:last-child td {{
+    font-size: 16px !important; 
+    font-weight: bold !important;
+    color: #333 !important;
+}}
+
+/* 3. IMPORTANTE: Si estás usando divs dentro de las celdas para el texto */
+.meli-table tr:last-child td div,
+.meli-table tr:last-child td span {{
+    margin: 1 !important;
+    padding: 1 !important;
+    line-height: 1 !important;
+    height: auto !important;
+}}
+    
     </style>
+
+    
 </head>
 <body>
 
