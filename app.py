@@ -46,11 +46,12 @@ def gen_poligonos():
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:22px; height:22px; border-radius:4px; margin:0 2px;"
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px;">
-            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-        </td>
+       // Busca donde definiste fila_inner y modifica la celda de las unidades:
+<td style="text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
+    <button style="{btn_u}" onclick="stepVal(this, -1, 'u')">-</button>
+    <span class="u-manual" style="font-weight: bold; margin:0 5px;">0</span>
+    <button style="{btn_u}" onclick="stepVal(this, 1, 'u')">+</button>
+</td>
         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
     <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
     <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
