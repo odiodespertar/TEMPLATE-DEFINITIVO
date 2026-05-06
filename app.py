@@ -444,7 +444,7 @@ app_html = f"""
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             
-            // Referencia al cuadro de ESTADO (Número asignado)
+            // Referencia al número de ASIGNADAS
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
             bl.querySelectorAll('.calc-row').forEach(r => {{
@@ -459,28 +459,27 @@ app_html = f"""
             vCalcEl.innerText = Math.round(vA);
             let d = bl.querySelector('.p-diff');
 
+            // Mantenemos la celda blanca siempre
+            vCalcEl.style.background = "white";
+
             if (vT === 0) {{
                 d.innerText = "VACÍO";
                 d.style.background = "none";
-                vCalcEl.style.color = "#d32f2f"; 
-                vCalcEl.style.background = "transparent";
+                vCalcEl.style.color = "#d32f2f"; // Rojo si no hay nada
             }} else {{
                 if (Math.round(vA) === Math.round(vT)) {{
-                    // COINCIDENCIA: CAMBIO A COLOR AQUA
+                    // COINCIDENCIA: SOLO CAMBIA EL COLOR DEL TEXTO
                     d.innerText = "OK";
                     d.style.background = "#ceedd6"; 
-                    vCalcEl.style.color = "white";   
-                    vCalcEl.style.background = "#20B2AA"; 
+                    vCalcEl.style.color = "#20B2AA"; // Texto en AQUA
                 }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT);
                     d.style.background = "#ffe4b5";
                     vCalcEl.style.color = "#d32f2f";
-                    vCalcEl.style.background = "transparent";
                 }} else {{
                     d.innerText = "FALTAN: " + Math.round(vT - vA);
                     d.style.background = "#f7cdd1";
                     vCalcEl.style.color = "#d32f2f";
-                    vCalcEl.style.background = "transparent";
                 }}
             }}
         }});
