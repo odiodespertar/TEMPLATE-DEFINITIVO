@@ -288,13 +288,18 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             transition: all 0.3s ease;
         }}
         
-      #calc_display_box {{ background: #fffacd; border-radius: 15px; padding: 10px; text-align: right; margin-bottom: 15px; min-height: 70px; }}
-        /* Sombra interna para que parezca que la pantalla está sumergida */
-        box-shadow: inset 3px 3px 7px #b8b191, inset -3px -3px 7px #ffffff; border: none;
-        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
-        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
-        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
-        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
+      /* La pantalla de la calculadora con efecto "hundido" (inset) */
+        #calc_display_box {{
+            background: #fffacd; /* Tu color amarillo crema */
+            border-radius: 15px; 
+            padding: 15px; 
+            text-align: right; 
+            margin-bottom: 15px; 
+            min-height: 70px;
+            /* Sombra interna para que parezca que la pantalla está sumergida */
+            box-shadow: inset 3px 3px 7px #b8b191, inset -3px -3px 7px #ffffff;
+            border: none;
+        }}
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
