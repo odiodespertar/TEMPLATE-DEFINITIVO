@@ -604,15 +604,15 @@ html body .meli-table tbody tr:last-child {{
                 ma.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
                 ma.style.fontWeight = "bold";
             }} else {{
-                row.style.background = "#D3D3D3"; 
+                row.style.background = "#DCDCDC"; 
                 row.style.color = "#969696";
-                fs.style.background = "#D3D3D3"; 
+                fs.style.background = "#DCDCDC"; 
                 // Resetear cuando SCHED es 0
-                mi.style.background = "#D3D3D3"; 
+                mi.style.background = "#DCDCDC"; 
                 mi.style.color = "#969696";
                 mi.style.fontWeight = "normal";
                 
-                ma.style.background = "#D3D3D3";
+                ma.style.background = "#DCDCDC";
                 ma.style.color = "#969696";
                 ma.style.fontWeight = "normal";
             }}
