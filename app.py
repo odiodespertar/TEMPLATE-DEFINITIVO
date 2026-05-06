@@ -77,7 +77,7 @@ def gen_poligonos():
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 50px;">OK</th>
+                        <th style="width: 60px; text-align: center;">OK</th>
                     </tr>
                 </thead>
 
