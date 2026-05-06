@@ -474,12 +474,12 @@ html body .meli-table tbody tr:last-child {{
 
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool">
-                <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
-                <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
-                <span id="time-res" style="font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
-            </div>
-
-        </div>
+                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
+                <div style="margin-top:10px;">
+                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #20B2AA; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
+                 </div>
+             </div>
         </div>
     </div>
 </div>
