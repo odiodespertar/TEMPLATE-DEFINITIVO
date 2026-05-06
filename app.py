@@ -359,7 +359,7 @@ html body .meli-table tbody tr:last-child {{
 #body-plan-container th, 
 .meli-table:nth-of-type(2) th {{
     font-size: 20px !important;    /* Tamaño de la letra */
-    height: 70px !important;      /* Alto de la celda */
+    height: 90px !important;      /* Alto de la celda */
     padding: 11px 6px !important; /* Espacio interno */
     vertical-align: middle !important;
 }}
