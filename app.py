@@ -172,7 +172,7 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
     table-layout: auto; 
     border-radius: 10px; 
     overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.17), inset 0 0 2px white; /* Efecto de profundidad */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.19), inset 0 0 2px white; /* Efecto de profundidad */
     border: 2px solid #ccc;
 }}
 
