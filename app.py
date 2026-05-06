@@ -210,7 +210,7 @@ app_html = f"""
     font-size: 11px; 
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
-    padding: 4px 8px;
+    padding: 2px 4px;
 }}
         
         #google-alert {{ 
