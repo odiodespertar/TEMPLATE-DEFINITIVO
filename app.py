@@ -265,7 +265,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: linear-gradient(145deg, #ffffff, #AFEEEE); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
+        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
         .google-tool:hover {{
             transform: translateY(-3px);
         }}
