@@ -176,6 +176,23 @@ app_html = f"""
     height: 35px; 
     border-bottom: 2px solid #000;
     text-transform: uppercase;
+
+/* Borde interno (derecho) en gris claro */
+    border-right: 1px solid #bbbbbb !important; 
+    border-left: none !important;
+    padding: 2px 5px;
+}
+
+/* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
+.meli-table th:last-child {{
+    border-right: none !important;
+}}
+
+/* Asegurar que la tabla mantenga su borde externo principal */
+.meli-table {{
+    border: 1px solid #777 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
 }}
 
 .meli-table td {{ 
