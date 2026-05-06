@@ -392,34 +392,56 @@ html body .meli-table tbody tr:last-child {{
 
 
 /////////////////////////////////
-/* 1. Forzar color Rosa Flúor en el Checkbox y agrandarlo */
-#body-plan input[type="checkbox"] {{
-    appearance: none; /* Quitamos el diseño aburrido del navegador */
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #FF00FF; /* Borde rosa */
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
-    position: relative;
+/* 1. ELIMINAR EL FONDO GRIS DE LA CELDA */
+#body-plan td, 
+#body-plan tr,
+.meli-table td,
+.meli-table tr {{
+    -webkit-tap-highlight-color: transparent !important; /* Quita el gris en navegadores Chrome/Móvil */
     outline: none !important;
 }}
 
-/* 2. Cuando se marca (Check), se rellena de Rosa Flúor */
-#body-plan input[type="checkbox"]:checked {{
-    background-color: #FF00FF !important;
+/* Forzamos que la celda OK nunca se pinte de gris, ni al hacer clic ni al estar activa */
+#body-plan td:last-child,
+#body-plan td:last-child:active,
+#body-plan td:last-child:focus,
+#body-plan td:last-child:hover {{
+    background-color: transparent !important;
+    background: none !important;
+    box-shadow: none !important;
 }}
 
-/* 3. La palomita blanca dentro del cuadro rosa */
-#body-plan input[type="checkbox"]:checked::after {{
-    content: '✔';
-    position: absolute;
-    color: white;
-    font-size: 14px;
-    left: 3px;
-    top: -2px;
+/* 2. DISEÑO DEL CHECKBOX ROSA FLÚOR (Totalmente personalizado) */
+#body-plan input[type="checkbox"] {{
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 22px !important;
+    height: 22px !important;
+    border: 2px solid #FF00FF !important; /* Borde Rosa Flúor */
+    border-radius: 5px !important;
+    background-color: #ffffff !important;
+    cursor: pointer;
+    position: relative;
+    outline: none !important;
+    display: inline-block;
+    vertical-align: middle;
 }}
+
+/* Cuando la casilla está marcada */
+#body-plan input[type="checkbox"]:checked {{
+    background-color: #FF00FF !important; /* Relleno Rosa Flúor */
+}}
+
+/* La palomita blanca */
+#body-plan input[type="checkbox"]:checked::after {{
+    content: '✔' !important;
+    position: absolute !important;
+    color: white !important;
+    font-size: 16px !important;
+    left: 3px !important;
+    top: -1px !important;
+}}
+
 /////////////////////////////    
     </style>
 
