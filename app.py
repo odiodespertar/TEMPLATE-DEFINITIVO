@@ -207,7 +207,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 .meli-table td {{ 
     border-bottom: 1px solid #333232; 
-    border-right: 1px solid #eee;
+    border-right: 1px solid #333232;
     font-size: 14px; 
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
