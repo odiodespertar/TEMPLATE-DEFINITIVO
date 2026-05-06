@@ -216,7 +216,7 @@ body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
 /* El efecto Neomórfico en cada fila */
         .master-row {{
             border-radius: 9px;
-            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #ffffff;
+            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #F5F5F5;
             transition: all 0.2s ease;
         }}
 
