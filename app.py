@@ -443,6 +443,10 @@ app_html = f"""
 
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+            
+            // Referencia al cuadro de ESTADO (Número asignado)
+            let vCalcEl = bl.querySelector('.v-calculado-total'); 
+
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
@@ -451,12 +455,33 @@ app_html = f"""
                     vA += (u * parseFloat(sp.innerText));
                 }}
             }});
-            bl.querySelector('.v-calculado-total').innerText = Math.round(vA);
+
+            vCalcEl.innerText = Math.round(vA);
             let d = bl.querySelector('.p-diff');
-            if(vT===0) {{ d.innerText="VACÍO"; d.style.background="none"; }}
-            else {{
-                d.innerText = (vA >= vT) ? (vA===vT ? "OK" : "EXCESO: "+Math.round(vA-vT)) : "FALTAN: "+Math.round(vT-vA);
-                d.style.background = (vA >= vT) ? (vA===vT ? "#ceedd6":"#ffe4b5") : "#f7cdd1";
+
+            if (vT === 0) {{
+                d.innerText = "VACÍO";
+                d.style.background = "none";
+                vCalcEl.style.color = "#d32f2f"; 
+                vCalcEl.style.background = "transparent";
+            }} else {{
+                if (Math.round(vA) === Math.round(vT)) {{
+                    // COINCIDENCIA: CAMBIO A COLOR AQUA
+                    d.innerText = "OK";
+                    d.style.background = "#ceedd6"; 
+                    vCalcEl.style.color = "white";   
+                    vCalcEl.style.background = "#20B2AA"; 
+                }} else if (vA > vT) {{
+                    d.innerText = "EXCESO: " + Math.round(vA - vT);
+                    d.style.background = "#ffe4b5";
+                    vCalcEl.style.color = "#d32f2f";
+                    vCalcEl.style.background = "transparent";
+                }} else {{
+                    d.innerText = "FALTAN: " + Math.round(vT - vA);
+                    d.style.background = "#f7cdd1";
+                    vCalcEl.style.color = "#d32f2f";
+                    vCalcEl.style.background = "transparent";
+                }}
             }}
         }});
 
