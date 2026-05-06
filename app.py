@@ -519,6 +519,13 @@ html body .meli-table tbody tr:last-child {{
             }}
             span.innerText = Math.max(0, val + delta);
         }} else {{
+            let span = row.querySelector('.spr-real-val');
+            let val = parseFloat(span.innerText) || 0;
+            span.innerText = Math.max(0, val + delta).toFixed(1);
+        }}
+        editedRowsPlan.add(row);
+        recalc();
+    }}
 
         
     function recalc() {{
