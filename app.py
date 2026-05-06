@@ -188,10 +188,10 @@ app_html = f"""
 /* Ajuste específico para la última fila de las tablas de polígonos */
 .meli-table tr:last-child, 
 .meli-table tr:last-child td {{
-    height: 20px !important;       /* Altura total de la celda */
+    height: 30px !important;       /* Altura total de la celda */
     line-height: 1 !important;     /* Ajusta el interlineado */
-    padding-top: 2px !important;    /* Reduce espacio arriba del texto */
-    padding-bottom: 2px !important; /* Reduce espacio debajo del texto */
+    padding-top: 1px !important;    /* Reduce espacio arriba del texto */
+    padding-bottom: 1px !important; /* Reduce espacio debajo del texto */
     vertical-align: middle !important;
 }}
 
