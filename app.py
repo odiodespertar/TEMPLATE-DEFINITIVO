@@ -164,8 +164,8 @@ app_html = f"""
 </head>
 
     <style>
-        body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
-       .meli-table {{ 
+body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
+.meli-table {{ 
     border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
     border-spacing: 0 8px;
     width: 100%; 
@@ -199,7 +199,7 @@ app_html = f"""
 
 /* Asegurar que la tabla mantenga su borde externo principal */
 .meli-table {{
-    border: 1px solid #777 !important;
+    border: none !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
 }}
