@@ -521,7 +521,14 @@ html body .meli-table tbody tr:last-child {{
         }} else {{
             let span = row.querySelector('.spr-real-val');
             let val = parseFloat(span.innerText) || 0;
-            span.innerText = Math.max(0, val + delta).toFixed(1);
+            let newVal = Math.max(0, val + delta);
+
+            // --- BLOQUEO DE SPR REAL ---
+            if (delta > 0 && newVal > sprMaxReal) {{
+                showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
+                return; // Bloquea el aumento
+            }}
+            span.innerText = newVal.toFixed(1);
         }}
         editedRowsPlan.add(row);
         recalc();
