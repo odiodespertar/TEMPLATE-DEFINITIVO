@@ -281,8 +281,13 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
         
         /* CALCULADORA CON RESPLANDOR NEÓN */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
-        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
+        #calc_wrapper {{ background: #22c5bc; border-radius: 25px; padding: 20px; border: none !important; outline: none; transition: 0.3s; }}
+        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; 
+        /* Sombras neomórficas: una clara y una oscura para el relieve */
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            transition: all 0.3s ease;
+        }}
+        
         
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
         .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
