@@ -378,7 +378,7 @@ html body .meli-table tbody tr:last-child {{
 #body-plan tr:first-child input {{
     height: 40px !important;    /* Forzamos una altura cómoda */
     font-size: 18px !important;  /* Tamaño de letra claro */
-    width: 100% !important;     /* Que ocupe todo el ancho de su celda */
+    width: 80% !important;     /* Que ocupe todo el ancho de su celda */
     padding: 6px !important;
     box-sizing: border-box !important;
 }}
@@ -387,6 +387,13 @@ html body .meli-table tbody tr:last-child {{
 #body-plan tr:first-child td {{
     vertical-align: middle !important;
     height: 40px !important; /* Altura mínima para que respire la celda */
+}}
+
+/* Cambiar el color de la casilla OK cuando se selecciona */
+#body-plan input[type="checkbox"] {{
+    accent-color: #FF00FF; /* Este es el Rosa Flúor (Magenta) */
+    transform: scale(1.3); /* Aprovechamos para hacerla un poquito más grande y fácil de picar */
+    cursor: pointer;
 }}
     
     </style>
