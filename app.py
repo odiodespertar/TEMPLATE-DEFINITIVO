@@ -207,7 +207,7 @@ app_html = f"""
 .meli-table td {{ 
     border-bottom: 1px solid #eee; 
     border-right: 1px solid #eee;
-    font-size: 11px; 
+    font-size: 13px; 
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
     padding: 2px 4px;
