@@ -215,8 +215,8 @@ app_html = f"""
 
 /* El efecto Neomórfico en cada fila */
         .master-row {{
-            border-radius: 10px;
-            box-shadow: 3px 3px 7px #DCDCDC, -3px -3px 7px #ffffff;
+            border-radius: 9px;
+            box-shadow: 2px 2px 6px #DCDCDC, -3px -3px 7px #ffffff;
             transition: all 0.2s ease;
         }}
 
