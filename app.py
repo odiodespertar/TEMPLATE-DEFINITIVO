@@ -37,7 +37,8 @@ def gen_master_rows(data_dict, table_id):
             <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
             <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
             <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-<td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 16px;">0</td>        </tr>'''
+            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 16px;">0</td>
+        </tr>'''
     return rows
 
 def gen_poligonos():
@@ -163,16 +164,16 @@ app_html = f"""
 </head>
 
     <style>
-body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
-.meli-table {{ 
+        body {{ font-family: sans-serif; background: #f5f7f9; padding: 15px; }}
+       .meli-table {{ 
     border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
-    border-spacing: 0 8px;
+    border-spacing: 0;
     width: 100%; 
     table-layout: auto; 
     border-radius: 10px; 
     overflow: hidden; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
-    border: 1px solid #696969;
+    border: 1px solid #ccc;
 }}
 
 /* Bordes internos gris claro para el encabezado */
@@ -186,19 +187,19 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-bottom: 1px solid #555 !important;
     
     /* Borde interno (derecho) en gris claro */
-    border-right: 1px solid #808080 !important; 
-    border-left: 1px solid #808080 !important;
+    border-right: 1px solid #bbbbbb !important; 
+    border-left: none !important;
     padding: 2px 5px;
 }}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
 .meli-table th:last-child {{
-    border-right: 2 !important;
+    border-right: 1 !important;
 }}
 
 /* Asegurar que la tabla mantenga su borde externo principal */
 .meli-table {{
-    border: none !important;
+    border: 1px solid #777 !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
 }}
@@ -206,41 +207,11 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table td {{ 
     border-bottom: 1px solid #eee; 
     border-right: 1px solid #eee;
-    font-size: 14px; 
+    font-size: 13px; 
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
-    padding: 1px 3px;
+    padding: 2px 4px;
 }}
-
-/* El efecto Neomórfico en cada fila */
-        .master-row {{
-            border-radius: 9px;
-            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
-            transition: all 0.2s ease;
-        }}
-
-/* Redondear las esquinas de las filas */
-        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
-        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
-
-//////////
-/* Última fila de Disponibilidad de Flota */
-.meli-table tr:last-child td {{
-    height: auto !important; /* Permite que la celda crezca */
-    padding: 12px 6px !important; /* Da espacio arriba y abajo del texto */
-    /* --- AQUÍ AGREGAMOS EL TAMAÑO DE LETRA --- */
-    font-size: 20px !important; 
-    font-weight: 900 !important;
-    vertical-align: middle !important; /* Centra el texto verticalmente */
-    line-height: 1.2 !important;
-}}
-
-.meli-table tr:last-child .f-left {{
-    font-size: 18px !important; /* Tamaño de letra grande */
-    font-weight: 600 !important;
-    line-height: 1.2; /* Ajusta el espacio entre líneas */
-}}
-////////////
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
@@ -282,22 +253,10 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: linear-gradient(145deg, #ffffff, #f0f0f0); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
-        .google-tool:hover {{
-            transform: translateY(-3px);
-        }}
-        .google-tool input {{
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            padding: 5px;
-            font-size: 16px;
-            outline: none;
-            box-shadow: inset 2px 2px 5px #e0e0e0;
-        }}
-
+        .google-tool {{ background: #dfdff5; padding: 10px; border-radius: 12px; border: 1px solid #ccc; text-align: center; }}
         
-       /* CALCULADORA CON RESPLANDOR NEÓN */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
+        /* CALCULADORA CON RESPLANDOR NEÓN */
+        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: 1px solid #1a1a1a; outline: none; transition: 0.3s; }}
         #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
         
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
@@ -305,25 +264,6 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
         .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
         .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
-        /* Botones con un relieve sutil */
-        .btn-c {{
-            background: #f0f0f0; 
-            border: none; 
-            font-weight: bold; 
-            border-radius: 12px; 
-            padding: 12px; 
-            cursor: pointer; 
-            /* Sombra pequeña para que cada botón destaque */
-            box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2;
-            transition: transform 0.1s;
-        }}
-
-        /* Efecto de "clic" real */
-        .btn-c:active {{
-            transform: scale(0.95);
-            box-shadow: inset 2px 2px 5px #b1b1b1;
-        }}
-
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
@@ -371,78 +311,7 @@ html body .meli-table tbody tr:last-child {{
 .crono-card button:hover {{
     filter: brightness(1.1);
 }}
-
-
-/* Corregir el tamaño del primer select y sus contenedores */
-#body-plan tr:first-child select,
-#body-plan tr:first-child input {{
-    height: 40px !important;    /* Forzamos una altura cómoda */
-    font-size: 18px !important;  /* Tamaño de letra claro */
-    width: 80% !important;     /* Que ocupe todo el ancho de su celda */
-    padding: 6px !important;
-    box-sizing: border-box !important;
-}}
-
-/* Alineación para que no se vea desfasado */
-#body-plan tr:first-child td {{
-    vertical-align: middle !important;
-    height: 40px !important; /* Altura mínima para que respire la celda */
-}}
-
-
-
-/////////////////////////////////
-/* 1. ELIMINAR EL FONDO GRIS DE LA CELDA */
-#body-plan td, 
-#body-plan tr,
-.meli-table td,
-.meli-table tr {{
-    -webkit-tap-highlight-color: transparent !important; /* Quita el gris en navegadores Chrome/Móvil */
-    outline: none !important;
-}}
-
-/* Forzamos que la celda OK nunca se pinte de gris, ni al hacer clic ni al estar activa */
-#body-plan td:last-child,
-#body-plan td:last-child:active,
-#body-plan td:last-child:focus,
-#body-plan td:last-child:hover {{
-    background-color: transparent !important;
-    background: none !important;
-    box-shadow: none !important;
-}}
-
-/* 2. DISEÑO DEL CHECKBOX ROSA FLÚOR (Totalmente personalizado) */
-#body-plan input[type="checkbox"] {{
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    width: 22px !important;
-    height: 22px !important;
-    border: 2px solid #FF00FF !important; /* Borde Rosa Flúor */
-    border-radius: 5px !important;
-    background-color: #ffffff !important;
-    cursor: pointer;
-    position: relative;
-    outline: none !important;
-    display: inline-block;
-    vertical-align: middle;
-}}
-
-/* Cuando la casilla está marcada */
-#body-plan input[type="checkbox"]:checked {{
-    background-color: #FF00FF !important; /* Relleno Rosa Flúor */
-}}
-
-/* La palomita blanca */
-#body-plan input[type="checkbox"]:checked::after {{
-    content: '✔' !important;
-    position: absolute !important;
-    color: white !important;
-    font-size: 16px !important;
-    left: 3px !important;
-    top: -1px !important;
-}}
-
-/////////////////////////////    
+    
     </style>
 
     
@@ -592,12 +461,12 @@ html body .meli-table tbody tr:last-child {{
 
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
-                <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
-                 </div>
-             </div>
+                <div style="font-weight:bold; color:#4e3396;">⏱️ CONVERTIDOR</div>
+                <input type="number" id="min-in" style="width:60px; text-align:center;" oninput="convertTime()">
+                <span id="time-res" style="font-size: 20px; font-weight: bold; color: #ac40de;">0h 0m</span>
+            </div>
+
+        </div>
         </div>
     </div>
 </div>
@@ -629,51 +498,34 @@ html body .meli-table tbody tr:last-child {{
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
     function stepVal(btn, delta, type) {{
-    let row = btn.closest('tr');
-    let sel = row.querySelector('.s-type').value;
-    
-    // Si no hay unidad seleccionada, no hace nada
-    if(sel === "SELECCIONAR...") return;
+        let row = btn.closest('tr');
+        let sel = row.querySelector('.s-type').value;
+        if(sel === "SELECCIONAR...") return;
 
-    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
-    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
-    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
-    
-    if (!fRow) return; // Seguridad por si no encuentra la unidad
+        let fRows = Array.from(document.querySelectorAll('#body-'+currentTab+' tr'));
+        let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+        let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
 
-    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
-    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
-
-    if(type === 'u') {{
-        let span = row.querySelector('.u-manual');
-        let val = parseInt(span.innerText) || 0;
-        if (delta > 0 && left <= 0) {{
-            if (currentTab === 4) {{
-                showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
-            }} else {{
-                showAlert("⚠️ AGOTADO. No se puede aumentar.");
-                return;
-            }}
-        }}
-        span.innerText = Math.max(0, val + delta);
+        if(type === 'u') {{
+            let span = row.querySelector('.u-manual');
+            let val = parseInt(span.innerText) || 0;
+            if (delta > 0 && left <= 0) {{
+                if (currentTab === 4) {{
+                    showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
                 }} else {{
-        let span = row.querySelector('.spr-real-val');
-        let val = parseFloat(span.innerText) || 0;
-        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
-
-        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
-        if (delta > 0 && newVal > sprMaxReal) {{
-            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
-            return; 
+                    showAlert("⚠️ AGOTADO. No se puede aumentar.");
+                    return;
+                }}
+            }}
+            span.innerText = Math.max(0, val + delta);
+        }} else {{
+            let span = row.querySelector('.spr-real-val');
+            let val = parseFloat(span.innerText) || 0;
+            span.innerText = Math.max(0, val + delta).toFixed(1);
         }}
-        
-        // Si es para bajar o está dentro del rango, permite el cambio
-        span.innerText = Math.max(0, newVal).toFixed(1);
+        editedRowsPlan.add(row);
+        recalc();
     }}
-    
-    editedRowsPlan.add(row);
-    recalc();
-}}
 
     function recalc() {{
         let fleet = {{}};
