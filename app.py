@@ -348,9 +348,9 @@ html body .meli-table tbody tr:last-child {{
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); line-height: 1.2;">ME QUEDAN</th>
                     </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: #1a1a1a; line-height: 1.2;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: #1a1a1a; line-height: 1.2;">MAX</th>
+                   <tr>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MIN</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
                 <tbody id="body-3">{gen_master_rows(u_C2, 3)}</tbody>
