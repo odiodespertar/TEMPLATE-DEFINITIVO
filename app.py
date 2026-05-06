@@ -171,7 +171,7 @@ app_html = f"""
 
 /* Bordes internos gris claro para el encabezado */
 .meli-table th {{
-    background: linear-gradient(180deg, #888 0%, #666 100%);
+    background: linear-gradient(180deg, #444444 0%, #111111 100%);
     color: white;
     font-size: 11px;
     height: 40px;
