@@ -240,31 +240,20 @@ app_html = f"""
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
-/* 1. Forzamos la fila y sus celdas a ignorar cualquier altura mínima */
-.meli-table tr:last-child, 
-.meli-table tr:last-child td {{
-    height: 1px !important;        /* El navegador lo ajustará al mínimo posible del texto */
-    min-height: 1px !important;    /* Rompe cualquier restricción previa */
-    line-height: 1 !important;
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
-    border-top: 1px solid #ccc !important; /* Mantiene la línea divisoria */
+/* SELECTOR DE ALTA ESPECIFICIDAD PARA LA FILA DE ESTADO */
+html body .meli-table tbody tr:last-child td {{
+    height: 14px !important;       /* Altura ultra reducida */
+    min-height: 14px !important;   /* Elimina restricciones */
+    max-height: 14px !important;   /* Bloquea el crecimiento */
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    line-height: 14px !important;  /* Centra el texto en el nuevo alto */
+    font-size: 10px !important;    /* Reduce un poco la letra */
 }}
 
-/* 2. Reducimos el tamaño de la fuente solo en esa fila para ganar espacio */
-.meli-table tr:last-child td {{
-    font-size: 16px !important; 
-    font-weight: bold !important;
-    color: #333 !important;
-}}
-
-/* 3. IMPORTANTE: Si estás usando divs dentro de las celdas para el texto */
-.meli-table tr:last-child td div,
-.meli-table tr:last-child td span {{
-    margin: 1 !important;
-    padding: 1 !important;
-    line-height: 1 !important;
-    height: auto !important;
+/* Forzar que la fila misma no tenga altura mínima */
+html body .meli-table tbody tr:last-child {{
+    height: 14px !important;
 }}
     
     </style>
