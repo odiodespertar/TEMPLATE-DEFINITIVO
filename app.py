@@ -506,7 +506,7 @@ html body .meli-table tbody tr:last-child {{
         let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
         let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
 
-       if(type === 'u') {{
+        if(type === 'u') {{
             let span = row.querySelector('.u-manual');
             let val = parseInt(span.innerText) || 0;
             if (delta > 0 && left <= 0) {{
@@ -519,26 +519,14 @@ html body .meli-table tbody tr:last-child {{
             }}
             span.innerText = Math.max(0, val + delta);
         }} else {{
-            // --- INICIO DE LA NUEVA LÓGICA DE ALERTA SPR ---
             let span = row.querySelector('.spr-real-val');
             let val = parseFloat(span.innerText) || 0;
-            
-            // Obtenemos el límite máximo desde la tabla de flota activa
-            let sprMax = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
-
-            // Si intentas subir (delta > 0) y el nuevo valor superaría el máximo
-            if (delta > 0 && (val + delta) > sprMax) {{
-                showAlert("⚠️ LÍMITE ALCANZADO. El SPR Real no puede ser mayor al SPR Máximo (" + sprMax + ").");
-                return; // Detiene el incremento
-            }}
-
             span.innerText = Math.max(0, val + delta).toFixed(1);
-            // --- FIN DE LA NUEVA LÓGICA ---
         }}
         editedRowsPlan.add(row);
         recalc();
+    }}
 
-        
     function recalc() {{
         let fleet = {{}};
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
