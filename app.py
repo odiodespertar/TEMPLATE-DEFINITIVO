@@ -67,7 +67,7 @@ def gen_poligonos():
 <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        <th style="padding: 0 10px;">PLAN / RUTA</th>
                         <th>VOL. TOTAL</th>
                         <th style="width: 110px;"># ASIGNADAS</th>
-                        <th style="width: 110px;">SPR REAL</th>
+                        <th style="width: 110px; min-width: 110px; max-width: 110px;">SPR REAL</th>
                         <th>TIPO DE UNIDAD</th>
                         <th style="width: 40px;">OK</th>
                     </tr>
@@ -81,8 +81,12 @@ def gen_poligonos():
                             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
-                        <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc;">
-                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+<!-- Busca la celda que dice spr-real-cell y déjala así: -->
+<td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px; min-width: 110px; max-width: 110px;">
+    <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+    <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+</td>                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
