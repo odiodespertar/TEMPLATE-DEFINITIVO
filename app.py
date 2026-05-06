@@ -78,8 +78,7 @@ def gen_poligonos():
                 </thead>
 
                 
-                # --- DENTRO DE gen_poligonos() ---
-# Sustituye desde la etiqueta <tbody> hasta el final del loop de la siguiente manera:
+               
 
             <tbody>
                 <tr class="calc-row">
