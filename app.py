@@ -646,29 +646,31 @@ html body .meli-table tbody tr:last-child {{
     function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
     
    document.addEventListener('keydown', (e) => {{
+
         const calc = document.getElementById('calc_wrapper');
-        
-        // 1. PRIORIDAD: Si hay una alerta, el Enter la quita y detiene lo demás
-        if (e.key === 'Enter') {{
-            const alertBox = document.getElementById('alert_box'); // Asegúrate que este sea el ID de tu alerta
-            if (alertBox && alertBox.style.display !== 'none') {{
-                e.preventDefault();
-                hideAlert();
-                return; // Se sale aquí para que no active la calculadora al mismo tiempo
-            }}
+
+        if(e.key === 'Enter') hideAlert();
+
+        if (document.activeElement === calc) {{
+
+            if (e.key >= '0' && e.key <= '9') an(e.key);
+
+            if (e.key === '+') ao('+');
+
+            if (e.key === '-') ao('-');
+
+            if (e.key === '*') ao('*');
+
+            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
+
+            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
+
+            if (e.key === 'Escape') cl();
+
+            if (e.key === 'Backspace') del();
+
         }}
 
-        // 2. LÓGICA DE CALCULADORA: Solo si el foco está en ella
-        if (document.activeElement === calc) {{
-            if (e.key >= '0' && e.key <= '9') an(e.key);
-            if (e.key === '+') ao('+');
-            if (e.key === '-') ao('-');
-            if (e.key === '*') ao('*');
-            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
-            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
-            if (e.key === 'Escape') cl();
-            if (e.key === 'Backspace') del();
-        }}
     }});
 
 
