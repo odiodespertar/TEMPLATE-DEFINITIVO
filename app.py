@@ -391,13 +391,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-/* Cambiar el color de la casilla OK cuando se selecciona */
-#body-plan input[type="checkbox"] {{
-    accent-color: #FF00FF; /* Este es el Rosa Flúor (Magenta) */
-    transform: scale(2); /* Aprovechamos para hacerla un poquito más grande y fácil de picar */
-    cursor: pointer;
-}}
-
 /////////////////////////////////
 /* 1. Forzar color Rosa Flúor en el Checkbox y agrandarlo */
 #body-plan input[type="checkbox"] {{
