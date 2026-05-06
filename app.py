@@ -130,11 +130,11 @@ app_html = f"""
 
          /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
 .filter-btn:active {{
-    transform: translateY(4px); /* Se desplaza hacia abajo */
-    box-shadow: none !important; /* Elimina la sombra para simular profundidad */
-}}
-        
+    transform: translateY(4px); 
+    box-shadow: none !important;
+}}     
     </style>
+    
 </head>
 
     <style>
