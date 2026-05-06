@@ -553,9 +553,6 @@ html body .meli-table tbody tr:last-child {{
                 // Cuando NO tiene carga (Inactiva) - AQUÍ REPARAMOS EL SOMBREADO
                 row.style.background = "#ebebeb; // Regresa al gris claro de fondo
                 row.style.color = "#969696"; // Texto gris para que se vea "apagada"
-
-                // Limpieza de las celdas de disponibilidad
-                fs.style.background = "transparent"; 
                 
                 // AQUÍ LA CORRECCIÓN: Volvemos a poner MIN y MAX en gris y sin negritas
                 mi.style.background = "transparent"; 
