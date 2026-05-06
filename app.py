@@ -307,7 +307,7 @@ html body .meli-table tbody tr:last-child {{
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
         <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">ORH</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">SCHED</th>
         <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
@@ -325,7 +325,7 @@ html body .meli-table tbody tr:last-child {{
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
         <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">ORH</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">SCHED</th>
         <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
@@ -343,7 +343,7 @@ html body .meli-table tbody tr:last-child {{
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
         <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">ORH</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">SCHED</th>
         <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
@@ -361,7 +361,7 @@ html body .meli-table tbody tr:last-child {{
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">UNIDAD</th>
         <th colspan="2" style="border-bottom: 1px solid white; border-right: 2px solid white; padding: 2px; font-size: 11px; letter-spacing: 1px; background: rgba(255,255,255,0.1); line-height: 1;">SPR</th>
         <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">ORH</th>
-        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">STOCK</th>
+        <th rowspan="2" style="border-right: 2px solid white; padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">SCHED</th>
         <th rowspan="2" style="padding: 4px 8px; font-size: 12px; text-shadow: 1px 1px 2px #000; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); line-height: 1;">REST</th>
     </tr>
     <tr>
