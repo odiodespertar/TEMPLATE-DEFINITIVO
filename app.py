@@ -185,6 +185,8 @@ app_html = f"""
     height: 32px; 
     transition: background 0.2s; /* Animación sutil al pasar el mouse */
 }}
+
+
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
