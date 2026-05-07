@@ -174,7 +174,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-radius: 10px; 
     overflow: hidden; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
-    border: 1px solid #404040;
+    border: 1px solid #000000;
 }}
 
 /* Bordes internos gris claro para el encabezado */
