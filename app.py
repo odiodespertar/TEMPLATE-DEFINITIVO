@@ -793,11 +793,11 @@ html(app_html, height=1200, scrolling=True)
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. ENLACE DE IMAGEN DE GOOGLE DRIVE (Thumbnail)
+# 1. ENLACE DE IMAGEN (Mapa de regiones)
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
 url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
 
-# 2. INFORMACIÓN OPERATIVA COMPLETA (Restaurada al 100%)
+# 2. INFORMACIÓN OPERATIVA ACTUALIZADA (Incluyendo los ruteos faltantes)
 info_operativa = {
     "SDE": f"""
         <div style='text-align: center; margin-bottom: 25px;'>
@@ -812,8 +812,7 @@ info_operativa = {
             - 🔷 Revisar si SVC agrega blancos<br>
             - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa...<br>
             - SPR 30<br>
-            - ❌ delimitación / ❌ restricción<br>
-            - Quito puntos muy lejanos</p>
+            - ❌ delimitación / ❌ restricción / Quito puntos muy lejanos</p>
         </div>
 
         <h3 style='color: #000; margin-top: 25px;'>‼️⚠️ ROL Y PARTICULARIDADES ⚠️‼️</h3>
@@ -822,8 +821,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
             - ✅ delimitación (salen planes) / ❌ restricción<br>
-            - SPR 30/Moto y Crowd<br>
-            - 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco</p>
+            - SPR 30/Moto y Crowd / 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
@@ -837,79 +835,67 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
-            - 👉 Sin schedule / contemplo crowd 5 hrs<br>
-            - 🚛 SVC indica en cuantas unidades y el SPR<br>
-            - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:10 pm</strong></p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
+            - 👉 Sin schedule / contemplo crowd 5 hrs / 🚛 SVC indica unidades y SPR</p>
         </div>
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong>● SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX2 PM2 - ⏰ 0:00 pm</strong><br>
+            - 👉 Sin schedule</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
             - 👉 Origen 20 / ❌ SPR / ❌ Ocupación<br>
             - 👉 Meto ORH de 4 hrs para crowd 5 hrs / SPR 21<br>
             - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong>● SHM1 PM2 - ⏰ 7:20 pm</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX8 PM2 - ⏰ 0:00 pm</strong><br>
+            - 👉 Sin schedule</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SBJ1 PM2 - ⏰ 0:00 pm</strong><br>
+            - 👉 Pido autorización para iniciar ruteo</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SHM1 PM2 - ⏰ 7:20 pm</strong><br>
             - 👉 SPR 21 / crowd 5 hrs</p>
         </div>
     """,
     "SIDE_LINE": """
         <h3 style='color: #000; margin-bottom: 5px;'>¿CÓMO LO HAGO?</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
-        
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
-            <p style='margin: 0;'>1️⃣ Descargo query de places (script job de SVC trabajado ▶️ ejecutar)<br>
-            2️⃣ Routing matutino ▶️ busco lista places (sáb / dom)</p>
-        </div>
-
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
-            <p style='margin: 0;'><strong>PASOS DETALLADOS:</strong><br>
-            ▶️ Docto script job ▶️ BuscarV ▶️ columna U (customer id) ▶️ clic 1a celda<br>
-            ▶️ En archivo places (copio desde place id / 5,0)<br>
-            ▶️ Sale A, B ó C ▶️ copio y pego esos id´s ▶️ nueva pestaña en data (nombro "places")<br>
-            ▶️ En data ▶️ buscarv para buscar en pestaña places<br>
-            ▶️ No deben coincidir todos los id´s<br>
-            ▶️ Lo que salga de cruce = places (no se rutea)</p>
+            <p>1️⃣ Descargo query de places (script job de SVC) / 2️⃣ Routing matutino (sáb/dom)</p>
         </div>
     """,
-    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C1 pendiente...</i></div>",
-    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C2 pendiente...</i></div>",
-    "SD": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de SD pendiente...</i></div>"
+    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Pendiente...</i></div>",
+    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Pendiente...</i></div>",
+    "SD": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Pendiente...</i></div>"
 }
 
-# 3. HTML Y CSS FINAL PARA STREAMLIT
+# 3. HTML/CSS PARA EL DISEÑO EN STREAMLIT
 html_notitas = f"""
 <style>
-    body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; }}
-    .main-box {{ background: #000; padding: 10px; }}
-    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; }}
+    body {{ background-color: #000; font-family: sans-serif; margin: 0; }}
+    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; padding: 10px; }}
     .tab-btn {{
         background: #333; color: white; border: none; padding: 10px 18px;
-        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px;
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
     .content-area {{
-        background: #c8dee0; 
-        border-radius: 12px;
-        padding: 20px;
-        min-height: 500px;
+        background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 500px;
     }}
 </style>
-
-<div class="main-box">
-    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
+<div style="background:#000;">
+    <h3 style="color: #1E90FF; text-align: center; padding-top: 10px;">🍓 NOTITAS OPERATIVAS</h3>
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
@@ -917,11 +903,8 @@ html_notitas = f"""
         <button class="tab-btn" onclick="changeTab(event, 'SD')">SD</button>
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
     </div>
-    <div id="visor" class="content-area">
-        {info_operativa['SDE']}
-    </div>
+    <div id="visor" class="content-area">{info_operativa['SDE']}</div>
 </div>
-
 <script>
     const allData = {info_operativa};
     function changeTab(e, name) {{
@@ -933,6 +916,6 @@ html_notitas = f"""
 </script>
 """
 
-# 4. RENDERIZADO EN STREAMLIT
+# 4. LANZAR EN STREAMLIT
 st.markdown("---")
-components.html(html_notitas, height=850, scrolling=True)
+components.html(html_notitas, height=900, scrolling=True)
