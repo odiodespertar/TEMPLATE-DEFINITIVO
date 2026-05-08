@@ -783,56 +783,151 @@ html body .meli-table tbody tr:last-child {{
 
 html(app_html, height=1200, scrolling=True)
 
+///////////////////////////////////////////////////////////
 
-
-# --- SECCIÓN DE NOTITAS (AL FINAL DEL ARCHIVO) ---
+import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. Definimos la información (las llaves y contenido)
+# 1. ENLACE DE IMAGEN DE GOOGLE DRIVE (Thumbnail)
+ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
+url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
+
+# 2. INFORMACIÓN OPERATIVA COMPLETA (Restaurada al 100%)
 info_operativa = {
-    "SDE": """<div class="role-info"><h3 class="title-3d">ROL VP04</h3><div class="card-con-llave"><p><b>👉👉 PARA TODOS</b><br>- 🔷 Revisar si SVC agrega blancos<br>- Orígenes + onway + despacho...<br>- SPR 30</p></div>...</div>""", # (Aquí va todo tu texto de SDE)
-    "SIDE_LINE": """<div class="role-info"><h3 class="title-3d">¿CÓMO LO HAGO?</h3><div class="card-con-llave"><p>1️⃣ Descargo query de places...</p></div></div>""",
-    "C1": "<div class='card-vacia'><i>Pendiente...</i></div>",
-    "C2": "<div class='card-vacia'><i>Pendiente...</i></div>",
-    "SD": "<div class='card-vacia'><i>Pendiente...</i></div>"
+    "SDE": f"""
+        <div style='text-align: center; margin-bottom: 25px;'>
+            <img src="{url_final}" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        </div>
+
+        <h3 style='color: #000; margin-bottom: 5px;'>ROL VP04</h3>
+        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
+        
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
+            <p style='margin: 0;'><strong>👉👉 PARA TODOS</strong><br>
+            - 🔷 Revisar si SVC agrega blancos<br>
+            - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa...<br>
+            - SPR 30<br>
+            - ❌ delimitación / ❌ restricción<br>
+            - Quito puntos muy lejanos</p>
+        </div>
+
+        <h3 style='color: #000; margin-top: 25px;'>‼️⚠️ ROL Y PARTICULARIDADES ⚠️‼️</h3>
+        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
+        
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
+            - ✅ delimitación (salen planes) / ❌ restricción<br>
+            - SPR 30/Moto y Crowd<br>
+            - 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SGD1 PM2 - ⏰ 4:50 pm</strong></p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMT1 PM2 - ⏰ 5:10 pm</strong><br>
+            - 👉 SVC manda data (la envían tarde, solo hago el cruce para cotejo)</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
+            - 👉 Sin schedule / contemplo crowd 5 hrs<br>
+            - 🚛 SVC indica en cuantas unidades y el SPR<br>
+            - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:10 pm</strong></p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
+        </div>
+
+        <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
+        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong>● SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
+            - 👉 Origen 20 / ❌ SPR / ❌ Ocupación<br>
+            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / SPR 21<br>
+            - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong>● SHM1 PM2 - ⏰ 7:20 pm</strong><br>
+            - 👉 SPR 21 / crowd 5 hrs</p>
+        </div>
+    """,
+    "SIDE_LINE": """
+        <h3 style='color: #000; margin-bottom: 5px;'>¿CÓMO LO HAGO?</h3>
+        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
+        
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
+            <p style='margin: 0;'>1️⃣ Descargo query de places (script job de SVC trabajado ▶️ ejecutar)<br>
+            2️⃣ Routing matutino ▶️ busco lista places (sáb / dom)</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
+            <p style='margin: 0;'><strong>PASOS DETALLADOS:</strong><br>
+            ▶️ Docto script job ▶️ BuscarV ▶️ columna U (customer id) ▶️ clic 1a celda<br>
+            ▶️ En archivo places (copio desde place id / 5,0)<br>
+            ▶️ Sale A, B ó C ▶️ copio y pego esos id´s ▶️ nueva pestaña en data (nombro "places")<br>
+            ▶️ En data ▶️ buscarv para buscar en pestaña places<br>
+            ▶️ No deben coincidir todos los id´s<br>
+            ▶️ Lo que salga de cruce = places (no se rutea)</p>
+        </div>
+    """,
+    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C1 pendiente...</i></div>",
+    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C2 pendiente...</i></div>",
+    "SD": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de SD pendiente...</i></div>"
 }
 
-# 2. Tu CSS y HTML combinados
+# 3. HTML Y CSS FINAL PARA STREAMLIT
 html_notitas = f"""
 <style>
-    .main-box {{ background: #000; padding: 20px; border-radius: 15px; font-family: sans-serif; color: white; }}
-    .tab-bar {{ display: flex; gap: 10px; margin-bottom: 20px; }}
-    .tab-item {{ padding: 10px; cursor: pointer; background: #333; border-radius: 8px; color: white; border: none; }}
-    .tab-item.active {{ background: #1E90FF; color: white; }}
-    .content-box {{ background: #c8dee0; color: black; padding: 15px; border-radius: 10px; min-height: 300px; }}
-    .card-con-llave {{ background: white; padding: 10px; border-left: 5px solid #1E90FF; margin-bottom: 10px; border-radius: 4px; color: black; }}
-    .title-3d {{ border-bottom: 2px solid #1E90FF; color: black; }}
+    body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; }}
+    .main-box {{ background: #000; padding: 10px; }}
+    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; }}
+    .tab-btn {{
+        background: #333; color: white; border: none; padding: 10px 18px;
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
+    }}
+    .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
+    .content-area {{
+        background: #c8dee0; 
+        border-radius: 12px;
+        padding: 20px;
+        min-height: 500px;
+    }}
 </style>
 
 <div class="main-box">
-    <h2 style="text-align:center; color: #1E90FF;">🍓 NOTITAS OPERATIVAS</h2>
+    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
     <div class="tab-bar">
-        <button class="tab-item active" onclick="openTab(event, 'SDE')">SDE</button>
-        <button class="tab-item" onclick="openTab(event, 'C1')">C1</button>
-        <button class="tab-item" onclick="openTab(event, 'C2')">C2</button>
-        <button class="tab-item" onclick="openTab(event, 'SIDE_LINE')">SIDE LINE</button>
+        <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
+        <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
+        <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
+        <button class="tab-btn" onclick="changeTab(event, 'SD')">SD</button>
+        <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
     </div>
-    <div id="visor-notas" class="content-box"></div>
+    <div id="visor" class="content-area">
+        {info_operativa['SDE']}
+    </div>
 </div>
 
 <script>
-    const data = {info_operativa};
-    function openTab(evt, tabName) {{
-        document.getElementById('visor-notas').innerHTML = data[tabName];
-        let tabs = document.getElementsByClassName('tab-item');
-        for (let i = 0; i < tabs.length; i++) {{ tabs[i].className = tabs[i].className.replace(' active', ''); }}
-        evt.currentTarget.className += ' active';
+    const allData = {info_operativa};
+    function changeTab(e, name) {{
+        document.getElementById('visor').innerHTML = allData[name];
+        let btns = document.getElementsByClassName('tab-btn');
+        for (let b of btns) {{ b.classList.remove('active'); }}
+        e.currentTarget.classList.add('active');
     }}
-    // Carga inicial
-    document.getElementById('visor-notas').innerHTML = data['SDE'];
 </script>
 """
 
-# 3. LANZAR EN STREAMLIT
-st.markdown("---") # Una línea divisoria para separar de las tablas
-components.html(html_notitas, height=800, scrolling=True)
+# 4. RENDERIZADO EN STREAMLIT
+st.markdown("---")
+components.html(html_notitas, height=850, scrolling=True)
