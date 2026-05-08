@@ -862,12 +862,12 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
             - 👉 Origen 20 / ❌ SPR / ❌ Ocupación<br>
-            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / SPR 21 / crowd 5 hrs (solo para dividir paquetes uso SPR 30)<br>
+            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / solo para dividir paquetes uso SPR 30<br>
             - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX8 PM2 - ⏰ 0:00 pm</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX8 PM2 - ⏰ 5:30 pm</strong><br>
             - 👉 Sin schedule</p>
         </div>
 
