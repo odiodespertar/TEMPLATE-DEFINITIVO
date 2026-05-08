@@ -783,7 +783,12 @@ html body .meli-table tbody tr:last-child {{
 
 html(app_html, height=1200, scrolling=True)
 
-///////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 import streamlit as st
 import streamlit.components.v1 as components
