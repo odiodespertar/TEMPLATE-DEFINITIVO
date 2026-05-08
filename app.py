@@ -856,6 +856,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX2 PM2 - ⏰ 0:00 pm</strong><br>
             - 👉 Sin schedule</p>
+            - 👉 SPR 28</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
@@ -871,14 +872,37 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SBJ1 PM2 - ⏰ 0:00 pm</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SBJ1 PM2 - ⏰ A partir de las 5:00 pm</strong><br>
             - 👉 Pido autorización para iniciar ruteo</p>
+            - 👉 SPR 28 / 200-300 pqt aprox</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SHM1 PM2 - ⏰ 7:20 pm</strong><br>
             - 👉 SPR 21 / crowd 5 hrs</p>
         </div>
+
+         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMT2 PM2 - ⏰ 5:30 pm</strong><br>
+            - 👉 SPR 27-28 / crowd 5 hrs / 800 pqt aprox</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMT3 PM2 - ⏰ 5:15 pm</strong><br>
+            - 👉 SPR 28 / crowd 5 hrs / 500 pqt aprox</p>
+        </div>
+
+       <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SGD2 PM2 - ⏰ 0:00 pm</strong><br>
+            - 👉 SPR 28</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SGD3 PM2 - ⏰ 4:50 pm</strong><br>
+            - 👉 SPR 30 / crowd 5 y 3 hrs</p>
+        </div>
+
+        
     """,
     "SIDE_LINE": """
         <h3 style='color: #000; margin-bottom: 5px;'>¿CÓMO LO HAGO?</h3>
