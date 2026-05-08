@@ -1,0 +1,249 @@
+#@title </b>🍓🍓🍓NOTITAS🍓🍓🍓</b> { display-mode: "form" }
+from IPython.display import display, HTML
+
+# 1. ENLACE DE IMAGEN
+ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
+url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
+
+# 2. INFORMACIÓN COMPLETA CON "LLAVES" AZULES (Restaura estructura anterior)
+info_operativa = {
+    "SDE": f"""
+    <div style='text-align: center; margin-bottom: 30px;'>
+        <img src="{url_final}" class="img-esquema-css">
+    </div>
+
+    <div class="role-info">
+        <h3 class="title-3d">ROL VP04</h3>
+
+        <div class="card-con-llave">
+            <p><b>👉👉 PARA TODOS</b><br>
+            - 🔷 Revisar si SVC agrega blancos</p>
+            - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa...<br>
+            - SPR 30<br>
+            - ❌ delimitación / ❌ restricción<br>
+            - Quito puntos muy lejanos</p>
+        </div>
+
+         <div class="role-info">
+        <h2 class="title-3d">‼️⚠️ ROL Y PARTICULARIDADES ⚠️‼️</h2>
+
+        <div class="card-con-llave">
+            <p><b>🟣 SMX3 PM2 - ⏰ 4:30 pm</b><br>
+            - ✅ delimitación (salen planes) / ❌ restricción<br>
+            - SPR 30/Moto y Crowd<br>
+            - 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco<br>
+        </div>
+
+        <div class="card-con-llave">
+            <p><b>🟣 SGD1 PM2 - ⏰ 4:50 pm</b><br>
+       </div>
+
+        <div class="card-con-llave">
+            <p><b>🟣 SMT1 PM2 - ⏰ 5:10 pm</b><br>
+            - 👉 SVC manda data (la envían tarde, solo hago el cruce para cotejo)<br>
+ </div>
+
+            <div class="card-con-llave">
+            <p><b>🟣 SMD2 PM1 - ⏰ 5:30 pm</b><br>
+            - 👉 Sin schedule / contemplo crowd 5 hrs<br>
+            - 🚛 SVC indica en cuantas unidades y el SPR<br>
+            - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)<br>
+ </div>
+
+        <div class="card-con-llave">
+            <p><b>🟣 SPB1 PM2 - ⏰ 6:10 pm</b><br>
+      </div>
+
+
+        <div class="card-con-llave">
+            <p><b>🟠 SMX5 AM3 - ⏰ 10:00 pm</b><br>
+        </div>
+        <div class="card-con-llave">
+            <p><b>🟠 SMX2 AM3 - ⏰ 10:50 pm</b><br>
+        </div>
+
+<div class="role-info">
+        <h4 class="title-3d">👉 OTROS RUTEOS PM2 (SDE) </h4>
+
+<div class="card-con-llave">
+            <p>🟣 SMX2 PM2 - ⏰ 0:00 pm<br>
+            - 👉 Sin schedule<br>
+      </div>
+
+<div class="card-con-llave">
+            <p>🟣 SMX20 (SMX10) PM2 - ⏰ 0:20 pm<br>
+            - 👉 Origen 20<br>
+            - 👉 ❌ SPR / ❌ Ocupación<br>
+            - 👉 Meto ORH de 4 hrs para crowd 5 hrs<br>
+            - 👉 SPR 21 /crowd 5 hrs (solo para dividir paquetes uso SPR 30)<br>
+            - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim<br>
+            </div>
+
+      <div class="card-con-llave">
+            <p>🟣 SMX8 PM2 - ⏰ 0:00 pm<br>
+            - 👉 Sin schedule<br>
+            </div>
+
+      <div class="card-con-llave">
+            <p>🟣 SBJ1 PM2 - ⏰ 0:00 pm<br>
+            - 👉 Pido autorización para iniciar ruteo<br>
+            </div>
+
+            <div class="card-con-llave">
+            <p>🟣 SHM1 PM2 - ⏰ 7:20 pm<br>
+            - 👉 SPR 21 /crowd 5 hrs<br>
+            </div>
+
+    </div>
+     """,
+    "SIDE_LINE": """
+    <div class="role-info">
+        <h3 class="title-3d">¿CÓMO LO HAGO?</h3>
+
+        <div class="card-con-llave">
+            <p>1️⃣ Descargo query de places (script job de SVC trabajado ▶️ ejecutar)</p>
+            <p>2️⃣ Routing matutino ▶️ busco lista places (sáb / dom)</p>
+        </div>
+
+        <div class="card-con-llave">
+            <p><b>PASOS DETALLADOS:</b><br>
+            ▶️ Docto script job ▶️ BuscarV ▶️ columna U (customer id) ▶️ clic 1a celda<br>
+            ▶️ En archivo places (copio desde place id / 5,0)<br>
+            ▶️ Sale A, B ó C ▶️ copio y pego esos id´s ▶️ nueva pestaña en data (nombro "places")<br>
+            ▶️ En data ▶️ buscarv para buscar en pestaña places<br>
+            ▶️ No deben coincidir todos los id´s<br>
+            ▶️ Lo que salga de cruce = places (no se rutea)</p>
+        </div>
+
+        <div class="card-con-llave">
+            <p><b>- Elijo "pasar al siguiente día"</b><br>- C1 y C2 es el mismo proceso</p>
+        </div>
+    </div>
+    """,
+    "C1": "<div class='card-vacia'><i>Información de C1 pendiente...</i></div>",
+    "C2": "<div class='card-vacia'><i>Información de C2 pendiente...</i></div>",
+    "SD": "<div class='card-vacia'><i>Información de SD pendiente...</i></div>"
+}
+
+# 3. CSS (Combina Relieve 3D en marcos con "Llaves" azules en contenido)
+html_dashboard = f"""
+<style>
+    /* Efecto relieve 3D en el contenedor principal */
+    .main-box {{
+        background: #000000;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: inset 5px 5px 10px #A9A9A9, inset -5px -5px 10px #DCDCDC;
+        font-family: sans-serif;
+    }}
+
+    .tab-bar {{
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        padding-bottom: 5px;
+    }}
+
+    /* Pestañas inactivas con relieve hacia afuera */
+    .tab-item {{
+        padding: 12px 24px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #F8F8FF;
+        background: #000000;
+        border-radius: 12px;
+        box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #DCDCDC;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 13px;
+    }}
+
+    /* Pestaña activa (Azul y hundida) */
+    .tab-item.active {{
+        background: #ADD8E6;
+        color: #000;
+        box-shadow: inset 4px 4px 8px #92b8c5, inset -4px -4px 8px #c8ffff;
+    }}
+
+    /* Area de contenido (Hundida) */
+    .content-box {{
+        min-height: 450px;
+        background: #c8dee0;
+        border-radius: 15px;
+        padding: 10px;
+        box-shadow: inset 5px 5px 10px #B0C4DE, inset -5px -5px 10px #4682B4;
+    }}
+
+    /* Títulos dentro del contenido */
+    .title-3d {{
+        color: #000;
+        border-bottom: 2px solid #1E90FF;
+        padding-bottom: 8px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }}
+
+    /* Imagen con sombra simple */
+    .img-esquema-css {{
+        width: 100%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px #bebebe;
+    }}
+
+    /* --- AQUÍ ESTÁN LAS "LLAVES" AZULES QUE PEDISTE --- */
+    .card-con-llave {{
+        background: white; /* Tarjeta blanca para contraste */
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        /* La "llave" azul a la izquierda */
+        border-left: 5px solid #1E90FF;
+        /* Sombra suave para que flote sobre el fondo gris */
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    }}
+
+    .card-con-llave p {{
+        margin: 0;
+        color: #000; /* Letras negras para lectura clara */
+        line-height: 1.5;
+    }}
+
+    .card-vacia {{ text-align: center; padding-top: 100px; color: #7f8c8d; font-style: italic; }}
+</style>
+
+<div class="main-box">
+    <div class="tab-bar">
+        <div class="tab-item active" onclick="verTab(event, 'SDE')">SDE</div>
+        <div class="tab-item" onclick="verTab(event, 'C1')">C1</div>
+        <div class="tab-item" onclick="verTab(event, 'C2')">C2</div>
+        <div class="tab-item" onclick="verTab(event, 'SD')">SD</div>
+        <div class="tab-item" onclick="verTab(event, 'SIDE_LINE')">SIDE LINE</div>
+    </div>
+    <div id="visor" class="content-box">
+        <!-- El contenido se carga aquí -->
+    </div>
+</div>
+
+<script>
+    const data = {{
+        "SDE": `{info_operativa['SDE']}`,
+        "C1": `{info_operativa['C1']}`,
+        "C2": `{info_operativa['C2']}`,
+        "SD": `{info_operativa['SD']}`,
+        "SIDE_LINE": `{info_operativa['SIDE_LINE']}`
+    }};
+
+    function verTab(e, tab) {{
+        // Cargar contenido
+        document.getElementById('visor').innerHTML = data[tab];
+        // Gestionar pestañas activas
+        document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+    }}
+
+    // Carga inicial por defecto
+    document.getElementById('visor').innerHTML = data['SDE'];
+</script>
+"""
+display(HTML(html_dashboard))
