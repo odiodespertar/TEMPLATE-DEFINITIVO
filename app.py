@@ -782,3 +782,57 @@ html body .meli-table tbody tr:last-child {{
 """
 
 html(app_html, height=1200, scrolling=True)
+
+
+
+# --- SECCIÓN DE NOTITAS (AL FINAL DEL ARCHIVO) ---
+import streamlit.components.v1 as components
+
+# 1. Definimos la información (las llaves y contenido)
+info_operativa = {
+    "SDE": """<div class="role-info"><h3 class="title-3d">ROL VP04</h3><div class="card-con-llave"><p><b>👉👉 PARA TODOS</b><br>- 🔷 Revisar si SVC agrega blancos<br>- Orígenes + onway + despacho...<br>- SPR 30</p></div>...</div>""", # (Aquí va todo tu texto de SDE)
+    "SIDE_LINE": """<div class="role-info"><h3 class="title-3d">¿CÓMO LO HAGO?</h3><div class="card-con-llave"><p>1️⃣ Descargo query de places...</p></div></div>""",
+    "C1": "<div class='card-vacia'><i>Pendiente...</i></div>",
+    "C2": "<div class='card-vacia'><i>Pendiente...</i></div>",
+    "SD": "<div class='card-vacia'><i>Pendiente...</i></div>"
+}
+
+# 2. Tu CSS y HTML combinados
+html_notitas = f"""
+<style>
+    .main-box {{ background: #000; padding: 20px; border-radius: 15px; font-family: sans-serif; color: white; }}
+    .tab-bar {{ display: flex; gap: 10px; margin-bottom: 20px; }}
+    .tab-item {{ padding: 10px; cursor: pointer; background: #333; border-radius: 8px; color: white; border: none; }}
+    .tab-item.active {{ background: #1E90FF; color: white; }}
+    .content-box {{ background: #c8dee0; color: black; padding: 15px; border-radius: 10px; min-height: 300px; }}
+    .card-con-llave {{ background: white; padding: 10px; border-left: 5px solid #1E90FF; margin-bottom: 10px; border-radius: 4px; color: black; }}
+    .title-3d {{ border-bottom: 2px solid #1E90FF; color: black; }}
+</style>
+
+<div class="main-box">
+    <h2 style="text-align:center; color: #1E90FF;">🍓 NOTITAS OPERATIVAS</h2>
+    <div class="tab-bar">
+        <button class="tab-item active" onclick="openTab(event, 'SDE')">SDE</button>
+        <button class="tab-item" onclick="openTab(event, 'C1')">C1</button>
+        <button class="tab-item" onclick="openTab(event, 'C2')">C2</button>
+        <button class="tab-item" onclick="openTab(event, 'SIDE_LINE')">SIDE LINE</button>
+    </div>
+    <div id="visor-notas" class="content-box"></div>
+</div>
+
+<script>
+    const data = {info_operativa};
+    function openTab(evt, tabName) {{
+        document.getElementById('visor-notas').innerHTML = data[tabName];
+        let tabs = document.getElementsByClassName('tab-item');
+        for (let i = 0; i < tabs.length; i++) {{ tabs[i].className = tabs[i].className.replace(' active', ''); }}
+        evt.currentTarget.className += ' active';
+    }}
+    // Carga inicial
+    document.getElementById('visor-notas').innerHTML = data['SDE'];
+</script>
+"""
+
+# 3. LANZAR EN STREAMLIT
+st.markdown("---") # Una línea divisoria para separar de las tablas
+components.html(html_notitas, height=800, scrolling=True)
