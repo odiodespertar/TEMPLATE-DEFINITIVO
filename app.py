@@ -797,7 +797,7 @@ import streamlit.components.v1 as components
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
 url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
 
-# 2. INFORMACIÓN OPERATIVA 100% COMPLETA
+# 2. INFORMACIÓN OPERATIVA 100% COMPLETA (SDE + OTROS RUTEOS + SIDE LINE + ENLACES)
 info_operativa = {
     "SDE": f"""
         <div style='text-align: center; margin-bottom: 25px;'>
@@ -843,7 +843,7 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong></p>
+            <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:10 pm</strong></p>
         </div>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
@@ -861,7 +861,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
             - 👉 Origen 20 / ❌ SPR / ❌ Ocupación<br>
-            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / SPR 21 /crowd 5 hrs (solo para dividir paquetes uso SPR 30)<br>
+            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / SPR 21 / crowd 5 hrs (solo para dividir paquetes uso SPR 30)<br>
             - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
         </div>
 
@@ -901,27 +901,41 @@ info_operativa = {
             - C1 y C2 es el mismo proceso</p>
         </div>
     """,
+    "ENLACES": """
+        <h3 style='color: #000; margin-bottom: 5px;'>ENLACES</h3>
+        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
+        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
+            <div style='display: flex; flex-direction: column; gap: 15px;'>
+                <a href="https://drive.google.com/drive/folders/1VNCUhdFxnV6MltnBFt4sH6AN_FJjL5jj" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📁 SUBIR DATAS</a>
+                <a href="https://docs.google.com/spreadsheets/d/1mj1krN2hXQQ1yFzswDoPscd9tPhguDnB-mAxB4aLPy0/edit?gid=33118467#gid=33118467" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE METRO</a>
+                <a href="https://docs.google.com/spreadsheets/d/1lcrV9kxqwZB8007DPn4binDfDoD4enX26nISPWkOXDM/edit?pli=1&gid=2038084494#gid=2038084494" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE CENTRO</a>
+                <a href="https://docs.google.com/spreadsheets/d/1Gw1RG4XGfDCyz2lKmoj01OoOHQcaPpVagWCeKj-oCzE/edit?pli=1&gid=235750045#gid=235750045" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE NORTE</a>
+                <a href="https://docs.google.com/spreadsheets/d/1irZgPeFGGtJL2rRu2CYK6NHsjoieX-9DEA-rQCrRjKI/edit?pli=1&gid=179832536#gid=179832536" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE SUR</a>
+                <a href="https://docs.google.com/spreadsheets/d/1coARmuywJ2IqFKEHDYPvxs3WaGtj5weV4GDEkR8f124/edit?pli=1&gid=1576300206#gid=1576300206" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">❓ NO SÉ QUÉ ES</a>
+            </div>
+        </div>
+    """,
     "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C1 pendiente...</i></div>",
     "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C2 pendiente...</i></div>",
     "SD": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de SD pendiente...</i></div>"
 }
 
-# 3. CONSTRUCCIÓN DEL DASHBOARD PARA STREAMLIT
+# 3. HTML/CSS (DISEÑO IDÉNTICO A IMAGEN 1)
 html_notitas = f"""
 <style>
     body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
     .main-box {{ background: #000; padding: 10px; }}
-    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; }}
+    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }}
     .tab-btn {{
         background: #333; color: white; border: none; padding: 10px 18px;
-        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap; transition: 0.3s;
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
     .content-area {{
         background: #c8dee0; 
         border-radius: 12px;
         padding: 20px;
-        min-height: 500px;
+        min-height: 600px;
     }}
 </style>
 
@@ -933,6 +947,7 @@ html_notitas = f"""
         <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
         <button class="tab-btn" onclick="changeTab(event, 'SD')">SD</button>
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
+        <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
     </div>
     <div id="visor" class="content-area">
         {info_operativa['SDE']}
@@ -946,10 +961,11 @@ html_notitas = f"""
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
+        window.scrollTo(0,0);
     }}
 </script>
 """
 
-# 4. RENDERIZADO
+# 4. RENDERIZADO EN STREAMLIT
 st.markdown("---")
-components.html(html_notitas, height=1000, scrolling=True)
+components.html(html_notitas, height=1100, scrolling=True)
