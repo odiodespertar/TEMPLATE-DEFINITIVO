@@ -821,7 +821,7 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
-            - Orígenes: MXCD02, MXCD06<br>
+            - 📌 Orígenes: MXCD02, MXCD06<br>
             - ✅ delimitación (salen planes) / ❌ restricción<br>
             - SPR 30/Moto y Crowd<br>
             - 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco</p>
@@ -829,18 +829,18 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SGD1 PM2 - ⏰ 4:50 pm</strong><br>
-             - 👉 Orígen: MXJC01</p>
+             - 📌 Orígen: MXJC01</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMT1 PM2 - ⏰ 5:10 pm</strong><br>
-            - 👉 Orígen: MXNL01<br>
+            - 📌 Orígen: MXNL01<br>
             - 👉 SVC manda data (la envían tarde, solo hago el cruce para cotejo)</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
-            - 👉 Orígen: MXYU01<br>
+            - 📌 Orígen: MXYU01<br>
             - 👉 Sin schedule / contemplo crowd 5 hrs<br>
             - 🚛 SVC manda en cuantas unidades y el SPR / entre 5 a 6 crowd 5 hrs con SPR 30<br>
             - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)<br>
@@ -850,7 +850,7 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong></p>
-        - 👉 Origen MXPB01<br>
+        - 📌 Origen MXPB01<br>
         - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
         - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
         - 👉 Revisan volumen, notifican con palomita<br>
@@ -872,7 +872,7 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
-            - 👉 Origen 20 / ❌ SPR / ❌ Ocupación<br>
+            - 📌 Origen 20 / ❌ SPR / ❌ Ocupación<br>
             - 👉 Meto ORH de 4 hrs para crowd 5 hrs / solo para dividir paquetes uso SPR 30<br>
             - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
         </div>
