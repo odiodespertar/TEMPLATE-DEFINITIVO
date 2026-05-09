@@ -838,7 +838,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
             - 👉 Sin schedule / contemplo crowd 5 hrs<br>
-            - 🚛 SVC indica en cuantas unidades y el SPR / entre 5 a 6 con SPR 30<br>
+            - 🚛 SVC manda en cuantas unidades y el SPR / entre 5 a 6 crowd 5 hrs con SPR 30<br>
             - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)<br>
             - 👉 Pido validación<br>
             - 👉 Piden mejor dispersion, indico: "Se publicó de acuerdo a la herramienta team, ya no podemos manipular la dispersión como antes"</p>
@@ -846,8 +846,9 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #8a2be2;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong></p>
-        - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
+        - 👉 Origen MXPB01<br>
         - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
+        - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
         - 👉 Revisan volumen, notifican con palomita<br>
         - 👉 Pido validación</p>
         </div>
