@@ -14,21 +14,7 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-
-
-u_PREC = {
-    # --- GRUPO SMX5 ---
-    "SMX5: MOTO 3H": [35, 37],
-    # ... otras unidades ...
-    
-    "------------------": [0, 0], # Este es el separador
-    
-    # --- GRUPO SMX11 ---
-    "SMX11: MOTO 3H": [40, 42],
-    # ... otras unidades ...
-}
-
-
+u_PREC = {"EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50], "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37],}
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
@@ -37,35 +23,23 @@ u_C1 = {
 u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
 
-def gen_master_rows(data_dict):
-    rows_html = ""
-    for name, vals in data_dict.items():
-        if "---" in name:
-            # FILA DIVISORIA: La hacemos gris oscuro, sin bordes internos y NO editable
-            rows_html += f"""
-            <tr class="master-row es-divisor" style="background-color: #444 !important; color: white; height: 30px;">
-                <td colspan="6" style="text-align: center; font-weight: bold; font-size: 12px; letter-spacing: 2px; pointer-events: none;">
-                    ⬇️ SECCIÓN SMX11 ⬇️
-                </td>
-                <td class="edit-name" style="display:none;">{name}</td>
-                <td class="edit-spr-min" style="display:none;">0</td>
-                <td class="edit-spr-max" style="display:none;">0</td>
-                <td class="edit-stock" style="display:none;">0</td>
-            </tr>
-            """
-        else:
-            # FILA NORMAL: Tu código de siempre
-            rows_html += f"""
-            <tr class="master-row">
-                <td class="edit-name" style="font-weight: bold; color: #333;">{name}</td>
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()">{vals[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()">{vals[1]}</td>
-                <td contenteditable="true" class="edit-stock" oninput="recalc()">0</td>
-                <td class="res-sobrante" style="font-weight: bold;">0</td>
-                <td class="res-estado" style="font-weight: bold; color: #888;">-</td>
-            </tr>
-            """
-    return rows_html
+def gen_master_rows(data_dict, table_id):
+    rows = ""
+    items = list(data_dict.items())
+    for i in range(18):
+        is_real = i < len(items)
+        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
+        st_base = "background: #ebebeb; color: #969696;"
+        rows += f'''
+        <tr class="master-row" style="{st_base}">
+            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
+            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
+            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
+            <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
+            <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
+        </tr>'''
+    return rows
 
 def gen_poligonos():
     polys = ""
