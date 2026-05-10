@@ -14,7 +14,7 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28], "MOTO 3H": [25, 28]}
-u_SD = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
+u_PRE-C = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
@@ -398,7 +398,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(3, this)">C2</button>
-                <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+                <button class="tab-btn" onclick="showTab(1, this)">PRE-C</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
             <div style="padding-bottom: 5px;">
@@ -468,7 +468,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PRE-C, 1)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
@@ -857,9 +857,17 @@ info_operativa = {
         - 👉 Pido validación</p>
         </div>
 
+        <h3 style='color: #000; margin-top: 25px;'>👉 PRE-CARGAS</h3>
+
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
         </div>
+
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
+        </div>
+
+        
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
