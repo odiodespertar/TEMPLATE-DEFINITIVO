@@ -798,7 +798,7 @@ import streamlit.components.v1 as components
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
 url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
 
-# 2. INFORMACIÓN OPERATIVA 100% COMPLETA (SDE + OTROS RUTEOS + SIDE LINE + ENLACES)
+# 2. INFORMACIÓN OPERATIVA 100% COMPLETA
 info_operativa = {
     "SDE": f"""
         <div style='text-align: center; margin-bottom: 25px;'>
@@ -870,7 +870,8 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX2 PM2 - ⏰ 0:00 pm</strong><br>
-            - 👉 Sin schedule / SPR 28</p>
+            - 👉 Sin schedule<br>
+            - 👉 SPR 28</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
@@ -881,6 +882,11 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX8 PM2 - ⏰ 5:30 pm</strong><br>
+            - 👉 Sin schedule</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SBJ1 PM2 - ⏰ A partir de las 5:00 pm</strong><br>
             - 👉 Pido autorización para iniciar ruteo / SPR 28 / 200-300 pqt aprox</p>
         </div>
@@ -888,6 +894,26 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SHM1 PM2 - ⏰ 7:20 pm</strong><br>
             - 👉 SPR 21 / crowd 5 hrs</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT2 PM2 - ⏰ 5:30 pm</strong><br>
+            - 👉 SPR 27-28 / crowd 5 hrs / 800 pqt aprox</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT3 PM2 - ⏰ 5:15 pm</strong><br>
+            - 👉 SPR 28 / crowd 5 hrs / 500 pqt aprox</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD2 PM2 - ⏰ 0:00 pm</strong><br>
+            - 👉 SPR 28</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD3 PM2 - ⏰ 4:50 pm</strong><br>
+            - 👉 SPR 30 / crowd 5 y 3 hrs</p>
         </div>
     """,
     "SIDE_LINE": """
@@ -917,28 +943,29 @@ info_operativa = {
                 <a href="https://drive.google.com/drive/folders/1VNCUhdFxnV6MltnBFt4sH6AN_FJjL5jj" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📁 SUBIR DATAS</a>
                 <a href="https://docs.google.com/spreadsheets/d/1mj1krN2hXQQ1yFzswDoPscd9tPhguDnB-mAxB4aLPy0/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE METRO</a>
                 <a href="https://docs.google.com/spreadsheets/d/1lcrV9kxqwZB8007DPn4binDfDoD4enX26nISPWkOXDM/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE CENTRO</a>
+                <a href="https://docs.google.com/spreadsheets/d/1Gw1RG4XGfDCyz2lKmoj01OoOHQcaPpVagWCeKj-oCzE/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE NORTE</a>
+                <a href="https://docs.google.com/spreadsheets/d/1irZgPeFGGtJL2rRu2CYK6NHsjoieX-9DEA-rQCrRjKI/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE SUR</a>
             </div>
         </div>
     """,
-    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info C1</i></div>",
-    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info C2</i></div>",
-    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info PRECARGA</i></div>"
+    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C1 pendiente...</i></div>",
+    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C2 pendiente...</i></div>",
+    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información PRECARGA pendiente...</i></div>"
 }
 
-# 3. HTML/CSS (DISEÑO FINAL: CONSOLA ARRIBA Y NOTAS LIMPIAS ABAJO)
+# 3. HTML/CSS (DISEÑO FINAL)
 html_notitas = f"""
 <style>
     body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
     .main-box {{ background: #000; padding: 10px; }}
     
-    /* Consola Unificada (Reloj + Convertidor + Restador) */
+    /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
         background: #1a1a1a; border-radius: 15px; padding: 15px; 
         margin-bottom: 20px; border: 1px solid #333; text-align: center;
     }}
     .display-screen {{
-        background: #000; border-radius: 10px; padding: 10px; 
-        margin-bottom: 15px; border: 2px solid #222;
+        background: #000; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #222;
     }}
     .btn-3d {{
         background: linear-gradient(145deg, #1e90ff, #1c82e6);
@@ -947,24 +974,20 @@ html_notitas = f"""
     }}
     .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
 
-    /* Pestañas */
-    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }}
+    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; }}
     .tab-btn {{
         background: #333; color: white; border: none; padding: 10px 18px;
-        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap; transition: 0.3s;
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap;
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
     
-    .content-area {{
-        background: #c8dee0; border-radius: 12px; padding: 20px; 
-        min-height: 600px; color: #000;
-    }}
+    .content-area {{ background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 600px; color: #000; }}
 </style>
 
 <div class="main-box">
     <div class="unified-console">
         <div class="display-screen">
-            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / CONVERTIDOR / RESTA</div>
+            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
             <div id="horaReal" style="font-size: 38px; color: #00FF00; font-family: monospace; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
@@ -978,7 +1001,6 @@ html_notitas = f"""
     </div>
 
     <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
-    
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
@@ -987,7 +1009,6 @@ html_notitas = f"""
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
         <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
     </div>
-
     <div id="visor" class="content-area">
         {info_operativa['SDE']}
     </div>
@@ -995,14 +1016,12 @@ html_notitas = f"""
 
 <script>
     const allData = {info_operativa}; 
-
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-
     function ejecutarTodo() {{
         const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
