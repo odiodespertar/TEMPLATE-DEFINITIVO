@@ -708,13 +708,27 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
-            let cur = s.value, opt = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).forEach(k => {{ if(fleet[k].stock > 0 || k === cur) opt += `<option value="${{k}}">${{k}}</option>`; }});
-            s.innerHTML = opt; s.value = cur;
-        }});
-    }}
 
+       // --- ESTA ES LA PARTE QUE FILTRA LA LISTA DESPLEGABLE ---
+        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
+            let cur = s.value; // Guardamos lo que está seleccionado actualmente
+            let opt = '<option>SELECCIONAR...</option>';
+            
+            Object.keys(fleet).forEach(k => {{ 
+                // REGLA: Mostrar en la lista solo si tiene stock > 0 
+                // O si es la unidad que YA está seleccionada en esa fila
+                if (fleet[k].stock - fleet[k].used > 0 || k === cur) {{ 
+                    opt += `<option value="${{k}}">${{k}}</option>`; 
+                }} 
+            }});
+            
+            s.innerHTML = opt; 
+            s.value = cur; // Mantenemos la selección actual para que no se borre lo que ya hiciste
+        }});
+  
+    
+    }}
+    
     function focusCalc() {{
         document.getElementById('calc_wrapper').focus();
     }}
