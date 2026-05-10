@@ -965,7 +965,7 @@ info_operativa = {
     "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de PRECARGA pendiente...</i></div>"
 }
 
-# 3. HTML/CSS (DISEÑO IDÉNTICO A IMAGEN 1)
+# 3. HTML/CSS (DISEÑO CORREGIDO Y ESTABLE)
 html_notitas = f"""
 <style>
     body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
@@ -981,11 +981,22 @@ html_notitas = f"""
         border-radius: 12px;
         padding: 20px;
         min-height: 600px;
+        color: #000;
+    }}
+    .calc-container {{
+        background: #1a1a1a; 
+        border: 2px solid #1E90FF; 
+        border-radius: 12px; 
+        padding: 15px; 
+        margin-top: 20px; 
+        color: white; 
+        text-align: center;
     }}
 </style>
 
 <div class="main-box">
     <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
+    
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
@@ -994,25 +1005,26 @@ html_notitas = f"""
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
         <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
     </div>
+
     <div id="visor" class="content-area">
         {info_operativa['SDE']}
     </div>
 
-
-<div style="background: #1a1a1a; border: 2px solid #1E90FF; border-radius: 12px; padding: 15px; margin-top: 20px; color: white; text-align: center;">
-        <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6; font-weight: bold;">🕒 CALCULADORA DE HORA EXACTA (CHAT)</p>
+    <div class="calc-container">
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6; font-weight: bold;">🕒 RESTADOR DE MINUTOS</p>
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <label style="font-size: 13px;">Minutos atrás:</label>
-            <input type="number" id="minRestar" value="10" oninput="calcularHoraReal()" 
-                style="width: 60px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-weight: bold;">
+            <input type="number" id="minRestar" value="10" 
+                style="width: 70px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-size: 16px; font-weight: bold;">
+            <button onclick="ejecutarResta()" 
+                style="background: #1E90FF; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                CALCULAR
+            </button>
         </div>
-        <div id="horaReal" style="font-size: 24px; color: #00FF00; font-weight: bold; letter-spacing: 2px;">--:--:--</div>
+        <div id="horaReal" style="font-size: 32px; color: #00FF00; font-weight: bold; letter-spacing: 2px;">--:--</div>
     </div>
-    </div>
-
+</div>
 
 <script>
-    // Se agregan las llaves dobles para que Python no se confunda
     const allData = {info_operativa}; 
 
     function changeTab(e, name) {{
@@ -1020,38 +1032,24 @@ html_notitas = f"""
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
-        window.scrollTo(0,0);
     }}
 
-    function calcularHoraReal() {{
-        // Obtenemos el valor del input, si está vacío usamos 0
-        let inputMins = document.getElementById('minRestar').value;
-        let mins = inputMins ? parseInt(inputMins) : 0;
+    function ejecutarResta() {{
+        const mins = document.getElementById('minRestar').value || 0;
+        const ahora = new Date();
+        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
         
-        let fecha = new Date();
-        // Restamos los minutos
-        fecha.setMinutes(fecha.getMinutes() - mins);
+        const h = String(nuevaFecha.getHours()).padStart(2, '0');
+        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
         
-        let h = String(fecha.getHours()).padStart(2, '0');
-        let m = String(fecha.getMinutes()).padStart(2, '0');
-        let s = String(fecha.getSeconds()).padStart(2, '0');
-        
-        document.getElementById('horaReal').innerText = h + ":" + m + ":" + s;
+        document.getElementById('horaReal').innerText = h + ":" + m;
     }}
-
-    // Ejecutamos la función una vez al cargar
-    calcularHoraReal();
-    
-    // Actualizamos cada segundo para que el reloj no se detenga
-    setInterval(calcularHoraReal, 1000);
 </script>
 """
 
 # 4. RENDERIZADO EN STREAMLIT
 st.markdown("---")
-components.html(html_notitas, height=1100, scrolling=True)
-
-
+components.html(html_notitas, height=1200, scrolling=True)
 
 
 
