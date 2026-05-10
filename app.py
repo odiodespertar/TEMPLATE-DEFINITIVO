@@ -992,13 +992,13 @@ html_notitas = f"""
     <div class="unified-console">
         <div class="display-screen">
             <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
-            <div id="horaReal" style="font-size: 38px; color: #00FF00; font-family: monospace; font-weight: bold;">--:--</div>
+            <div id="horaReal" style="font-size: 38px; color: #FF00FF; font-family: monospace; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
             <div>
                 <span style="color: #add8e6; font-size: 11px; display: block;">MINUTOS</span>
                 <input type="number" id="minInput" value="10" 
-                    style="background: #222; color: #00FF00; border: none; padding: 8px; border-radius: 5px; width: 70px; text-align: center; font-size: 18px; font-weight: bold;">
+                    style="background: #222; color: #FF00FF; border: none; padding: 8px; border-radius: 5px; width: 70px; text-align: center; font-size: 18px; font-weight: bold;">
             </div>
             <button class="btn-3d" onclick="ejecutarTodo()">CALCULAR</button>
         </div>
