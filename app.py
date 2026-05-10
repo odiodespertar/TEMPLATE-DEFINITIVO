@@ -68,24 +68,26 @@ u_C2["LARGE VAN HÍB"] = [100, 100]
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
-
-
-# Definimos el límite: 40 para PREC, 18 para el resto
-    num_filas = 40 if table_id == "PREC" else 18
-
+    total_items = len(items)
     
-    for i in range(num_filas):
-        # Verificamos si todavía hay datos en el diccionario para esta fila
-        if i < len(items):
-            name = items[i][0]
-            spr = items[i][1]
+    # Determinamos el total de filas final
+    # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
+    # Si no, las 18 de siempre
+    num_filas_objetivo = 45 if table_id == "PREC" else 18
+    
+    # Usamos el número más grande entre el contenido real y nuestro objetivo
+    # Esto evita que se corte SMX11 si el diccionario crece
+    rango_final = max(total_items, num_filas_objetivo)
+    
+    for i in range(rango_final):
+        if i < total_items:
+            name, spr = items[i][0], items[i][1]
         else:
-            # Si se acaba el diccionario, rellenamos con "NUEVA UNIDAD"
-            name = "NUEVA UNIDAD"
-            spr = [0, 0]
-            
+            name, spr = "NUEVA UNIDAD", [0, 0]
         
-        # SI ES UN ENCABEZADO (SMX5 o SMX11)
+        # --- DISEÑO DE FILAS ---
+        
+        # Caso A: Es un Encabezado/Divisor
         if "---" in name:
             rows += f'''
             <tr class="master-row es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
@@ -99,8 +101,9 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
+        
+        # Caso B: Es una unidad normal o espacio vacío
         else:
-            # FILA NORMAL (Como la tenías antes)
             st_base = "background: #ebebeb; color: #969696;"
             rows += f'''
             <tr class="master-row" style="{st_base}">
@@ -111,6 +114,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
             </tr>'''
+            
     return rows
 
 
