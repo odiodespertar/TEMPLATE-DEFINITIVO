@@ -872,40 +872,7 @@ html(app_html, height=1200, scrolling=True)
 
 
 
-# --- CONTENIDO PARA LA PESTAÑA PREC (Definir antes de info_operativa) ---
-tabla_prec_smx5 = """
-<div style='background:white; padding:15px; border-radius:10px; color:black;'>
-    <h3 style='margin-top:0; color:#1e90ff;'>OPERACIÓN PREC - SMX5</h3>
-    <div style='margin-bottom:15px;'>
-        <button onclick="cambiarService('SMX5')" style='padding:8px 15px; cursor:pointer; background:#1e90ff; color:white; border:none; border-radius:5px; font-weight:bold;'>Ver SMX5</button>
-        <button onclick="cambiarService('SMX11')" style='padding:8px 15px; cursor:pointer; background:#ccc; color:white; border:none; border-radius:5px;'>Ver SMX11</button>
-    </div>
-    <table style='width:100%; border-collapse:collapse;'>
-        <tr style='background:#f2f2f2;'><th>UNIDAD</th><th>SPR SUGERIDO</th></tr>
-        <tr><td>EXT LARGE V MLP</td><td>50-50</td></tr>
-        <tr><td>LARGE V MLP</td><td>80-85</td></tr>
-        <tr><td>SMALL V MLP</td><td>80-85</td></tr>
-        <tr><td>CAR MLP</td><td>50-50</td></tr>
-    </table>
-</div>
-"""
 
-tabla_prec_smx11 = """
-<div style='background:white; padding:15px; border-radius:10px; color:black;'>
-    <h3 style='margin-top:0; color:#1e90ff;'>OPERACIÓN PREC - SMX11</h3>
-    <div style='margin-bottom:15px;'>
-        <button onclick="cambiarService('SMX5')" style='padding:8px 15px; cursor:pointer; background:#ccc; color:white; border:none; border-radius:5px;'>Ver SMX5</button>
-        <button onclick="cambiarService('SMX11')" style='padding:8px 15px; cursor:pointer; background:#1e90ff; color:white; border:none; border-radius:5px; font-weight:bold;'>Ver SMX11</button>
-    </div>
-    <table style='width:100%; border-collapse:collapse;'>
-        <tr style='background:#f2f2f2;'><th>UNIDAD</th><th>SPR SUGERIDO</th></tr>
-        <tr><td>MOTO 3H / 7H</td><td>35-37</td></tr>
-        <tr><td>SMALL V NEW</td><td>35-37</td></tr>
-        <tr><td>CROWD 5H / 8H</td><td>35-37</td></tr>
-        <tr><td>CROWD ZON EXT</td><td>35-37</td></tr>
-    </table>
-</div>
-"""
 
 
 
@@ -1073,8 +1040,7 @@ info_operativa = {
     """,
     "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C1 pendiente...</i></div>",
     "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C2 pendiente...</i></div>",
-    "PREC": tabla_prec_smx5,
-    "PREC_SMX11": tabla_prec_smx11,
+    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información PRECARGA pendiente...</i></div>"
 }
 
 # 3. HTML/CSS (DISEÑO FINAL)
@@ -1140,26 +1106,19 @@ html_notitas = f"""
 
 <script>
     const allData = {info_operativa}; 
-    
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-
-    // === ESTO ES LO QUE DEBES AGREGAR ===
-    function cambiarService(nombre) {{
-        if (nombre === 'SMX5') {{
-            document.getElementById('visor').innerHTML = allData['PREC'];
-        }} else {{
-            document.getElementById('visor').innerHTML = allData['PREC_SMX11'];
-        }}
-    }}
-    // ===================================
-
     function ejecutarTodo() {{
-        // ... (tu código del restador de tiempo que ya tienes)
+        const mins = document.getElementById('minInput').value || 0;
+        const ahora = new Date();
+        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
+        const h = String(nuevaFecha.getHours()).padStart(2, '0');
+        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
+        document.getElementById('horaReal').innerText = h + ":" + m;
     }}
     ejecutarTodo();
 </script>
