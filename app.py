@@ -89,12 +89,13 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
+            # Quitamos 'master-row' de la clase para que el JS de polígonos no la cuente
             rows += f'''
-            <tr class="master-row es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
+            <tr class="es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
                 <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
                     {name}
                 </td>
-                <td class="edit-name" style="display:none;">{name}</td>
+                <td class="edit-name" style="display:none;">IGNORAR</td>
                 <td class="edit-spr-min" style="display:none;">0</td>
                 <td class="edit-spr-max" style="display:none;">0</td>
                 <td class="edit-orh" style="display:none;">0</td>
