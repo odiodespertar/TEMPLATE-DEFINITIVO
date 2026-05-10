@@ -965,17 +965,21 @@ info_operativa = {
     "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de PRECARGA pendiente...</i></div>"
 }
 
-# 3. HTML/CSS (DISEÑO CORREGIDO Y ESTABLE)
+# 3. HTML/CSS (DISEÑO FINAL: CONSOLA ARRIBA Y NOTAS LIMPIAS ABAJO)
 html_notitas = f"""
 <style>
     body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
     .main-box {{ background: #000; padding: 10px; }}
+    
+    /* Pestañas */
     .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }}
     .tab-btn {{
         background: #333; color: white; border: none; padding: 10px 18px;
         border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap; transition: 0.3s;
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
+    
+    /* Área de Notas */
     .content-area {{
         background: #c8dee0; 
         border-radius: 12px;
@@ -983,18 +987,47 @@ html_notitas = f"""
         min-height: 600px;
         color: #000;
     }}
-    .calc-container {{
-        background: #1a1a1a; 
-        border: 2px solid #1E90FF; 
-        border-radius: 12px; 
-        padding: 15px; 
-        margin-top: 20px; 
-        color: white; 
+
+    /* Consola Unificada (La que va arriba con volumen) */
+    .unified-console {{
+        background: #1a1a1a;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #333;
         text-align: center;
     }}
+    .display-screen {{
+        background: #000;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 2px solid #222;
+    }}
+    .btn-3d {{
+        background: linear-gradient(145deg, #1e90ff, #1c82e6);
+        color: white; border: none; padding: 12px 25px; border-radius: 10px;
+        font-weight: bold; cursor: pointer; box-shadow: 0 5px #0a56a3; transition: 0.1s;
+    }}
+    .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
 </style>
 
 <div class="main-box">
+    <div class="unified-console">
+        <div class="display-screen">
+            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA CALCULADA</div>
+            <div id="horaReal" style="font-size: 38px; color: #00FF00; font-family: monospace; font-weight: bold;">--:--</div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+            <div>
+                <span style="color: #add8e6; font-size: 11px; display: block;">MINUTOS</span>
+                <input type="number" id="minInput" value="10" 
+                    style="background: #222; color: #00FF00; border: none; padding: 8px; border-radius: 5px; width: 70px; text-align: center; font-size: 18px; font-weight: bold;">
+            </div>
+            <button class="btn-3d" onclick="ejecutarTodo()">CALCULAR</button>
+        </div>
+    </div>
+
     <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
     
     <div class="tab-bar">
@@ -1009,19 +1042,6 @@ html_notitas = f"""
     <div id="visor" class="content-area">
         {info_operativa['SDE']}
     </div>
-
-    <div class="calc-container">
-        <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6; font-weight: bold;">🕒 RESTADOR DE MINUTOS</p>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <input type="number" id="minRestar" value="10" 
-                style="width: 70px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-size: 18px; font-weight: bold;">
-            <button onclick="ejecutarResta()" 
-                style="background: #1E90FF; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                CALCULAR
-            </button>
-        </div>
-        <div id="horaReal" style="font-size: 33px; color: #FF00FF; font-weight: bold; letter-spacing: 2px;">--:--</div>
-    </div>
 </div>
 
 <script>
@@ -1034,16 +1054,17 @@ html_notitas = f"""
         e.currentTarget.classList.add('active');
     }}
 
-    function ejecutarResta() {{
-        const mins = document.getElementById('minRestar').value || 0;
+    function ejecutarTodo() {{
+        const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
         const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
-        
         const h = String(nuevaFecha.getHours()).padStart(2, '0');
         const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
-        
         document.getElementById('horaReal').innerText = h + ":" + m;
     }}
+    
+    // Iniciar con la hora actual
+    ejecutarTodo();
 </script>
 """
 
