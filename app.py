@@ -1014,13 +1014,13 @@ html_notitas = f"""
         <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6; font-weight: bold;">🕒 RESTADOR DE MINUTOS</p>
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
             <input type="number" id="minRestar" value="10" 
-                style="width: 70px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-size: 16px; font-weight: bold;">
+                style="width: 70px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-size: 18px; font-weight: bold;">
             <button onclick="ejecutarResta()" 
                 style="background: #1E90FF; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
                 CALCULAR
             </button>
         </div>
-        <div id="horaReal" style="font-size: 32px; color: #00FF00; font-weight: bold; letter-spacing: 2px;">--:--</div>
+        <div id="horaReal" style="font-size: 33px; color: #FF00FF; font-weight: bold; letter-spacing: 2px;">--:--</div>
     </div>
 </div>
 
