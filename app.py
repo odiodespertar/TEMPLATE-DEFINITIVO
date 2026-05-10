@@ -54,16 +54,18 @@ def gen_master_rows(data_dict):
             </tr>
             """
         else:
-        rows += f'''
-        <tr class="master-row" style="{st_base}">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
-            <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-        </tr>'''
-    return rows
+            # FILA NORMAL: Tu código de siempre
+            rows_html += f"""
+            <tr class="master-row">
+                <td class="edit-name" style="font-weight: bold; color: #333;">{name}</td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()">{vals[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()">{vals[1]}</td>
+                <td contenteditable="true" class="edit-stock" oninput="recalc()">0</td>
+                <td class="res-sobrante" style="font-weight: bold;">0</td>
+                <td class="res-estado" style="font-weight: bold; color: #888;">-</td>
+            </tr>
+            """
+    return rows_html
 
 def gen_poligonos():
     polys = ""
