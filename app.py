@@ -14,7 +14,7 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28], "MOTO 3H": [25, 28]}
-u_PREC = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
+u_PREC = {"LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CROWD 8H": [35, 37], "CROWD ZON EXT": [35, 37]}
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
