@@ -398,7 +398,6 @@ html body .meli-table tbody tr:last-child {{
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
-                <button class="tab-btn" onclick="showTab(3, this)">C2</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
