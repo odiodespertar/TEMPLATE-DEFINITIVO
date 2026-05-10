@@ -18,7 +18,7 @@ u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "C
 # --- DATOS BASE ORGANIZADOS POR SERVICIO ---
 servicios_prec = {
     "SMX5": {
-        "EXT LARGE V MLP": [50, 50],
+        "PRUEBAS": [50, 50],
         "EXT LARGE V MLP H&B": [50, 50],
         "LARGE V MLP NEW": [50, 50],
         "SMALL V MLP NEW": [50, 50],
