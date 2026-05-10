@@ -402,19 +402,26 @@ html body .meli-table tbody tr:last-child {{
                 <button class="tab-btn" onclick="showTab(1, this)">PREC</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
-            <div style="padding-bottom: 5px;">
-    <!-- BOTÓN ACTIVAS ACTUALIZADO -->
+
+            
+            <div style="padding-bottom: 10px; display: flex; gap: 8px; align-items: center;">
+    <button onclick="distribuirAutomatico()" 
+        style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 14px; padding: 8px 15px; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 0 #b300b3; transition: all 0.05s; outline: none;">
+        ⚡ AUTO-CALCULAR
+    </button>
+    
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 14px; padding: 8px 15px; border-radius: 5px; margin-right: 5px; font-weight: bold; box-shadow: 0 4px 0 #000; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 14px; padding: 8px 15px; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 0 #000; transition: all 0.05s; outline: none;">
         ACTIVAS
     </button>
 
-    <!-- BOTÓN TODAS (Para que hagan juego) -->
     <button class="filter-btn" onclick="filterRows(false)" 
-        style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold; box-shadow: 0 4px 0 #167a75; transition: all 0.05s;">
+        style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:14px; padding:8px 15px; border-radius:5px; font-weight:bold; box-shadow: 0 4px 0 #167a75; transition: all 0.05s; outline: none;">
         TODAS
     </button>
 </div>
+
+
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
@@ -774,6 +781,63 @@ html body .meli-table tbody tr:last-child {{
         }}
     }});
 
+// === AQUÍ PEGAS LA FUNCIÓN NUEVA ===
+    function distribuirAutomatico() {{
+        let fleet = {{}};
+        // 1. Ver qué unidades tienen disponibilidad en la tabla derecha
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim();
+            let cL = row.querySelector('.f-left'); 
+            let ma = row.querySelector('.edit-spr-max');
+            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
+            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+
+            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: sprMax, stock: disponibles }};
+            }}
+        }});
+
+        if (Object.keys(fleet).length === 0) {{
+            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+            return;
+        }}
+
+        // 2. Llenar los polígonos que están vacíos
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
+            let faltante = vT - vA;
+
+            if (faltante > 1) {{
+                bl.querySelectorAll('.calc-row').forEach(r => {{
+                    let s = r.querySelector('.s-type');
+                    let u = r.querySelector('.u-manual');
+                    let sp = r.querySelector('.spr-real-val');
+
+                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
+                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
+                        if (key) {{
+                            let unidad = fleet[key];
+                            let necesito = Math.ceil(faltante / unidad.max);
+                            let asigno = Math.min(necesito, unidad.stock);
+                            
+                            if (asigno > 0) {{
+                                s.value = key;
+                                u.innerText = asigno;
+                                sp.innerText = unidad.max;
+                                unidad.stock -= asigno;
+                                faltante -= (asigno * unidad.max);
+                                editedRowsPlan.add(r); 
+                            }}
+                        }}
+                    }}
+                }});
+            }}
+        }});
+        // 3. Refrescar la armonía de colores y totales
+        recalc();
+    }}
+    // === FIN DE LA FUNCIÓN NUEVA ===
 
     
     recalc();
