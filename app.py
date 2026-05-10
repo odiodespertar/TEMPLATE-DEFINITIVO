@@ -96,22 +96,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-            </tr>'''
-
-
-            # 2. AGREGAR LA FILA PARA NUEVAS UNIDADES (Esto es lo que faltaba)
-    rows += f'''
-    <tr class="new-row-form" style="background: #fdfdfd;">
-        <td style="border: 0.5px solid #ccc;"><input type="text" id="new-name-{table_id}" placeholder="Nueva Unidad..." style="width: 90%; border: none; background: transparent; font-size: 12px;"></td>
-        <td style="border: 0.5px solid #ccc;"><input type="number" id="new-min-{table_id}" placeholder="Min" style="width: 90%; border: none; background: transparent; text-align: center;"></td>
-        <td style="border: 0.5px solid #ccc;"><input type="number" id="new-max-{table_id}" placeholder="Max" style="width: 90%; border: none; background: transparent; text-align: center;"></td>
-        <td colspan="2" style="border: 0.5px solid #ccc; text-align: center; color: #ccc; font-size: 10px;">Auto-calc</td>
-        <td style="border: 0.5px solid #ccc; text-align: center;">
-            <button onclick="addNewRow('{table_id}')" style="background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 2px 8px;">+</button>
-        </td>
-    </tr>'''
-    
-    
+            </tr>'''    
     return rows
 
 
