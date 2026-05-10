@@ -14,7 +14,18 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-u_PREC = {"EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50], "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37],}
+
+u_PREC = {
+    "EXT LARGE V MLP": [50, 50], 
+    # ... (tus otras unidades de SMX5) ...
+    "CROWD 8H": [35, 37],
+    
+    "--- SECCIÓN SMX11 ---": [0, 0], # <--- Agrega esta línea como divisor
+    
+    "MOTO 3H SMX11": [35, 37], # (Unidades de SMX11)
+    # ...
+}
+
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
@@ -23,23 +34,43 @@ u_C1 = {
 u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
 
+
+
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
-    for i in range(18):
-        is_real = i < len(items)
-        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        st_base = "background: #ebebeb; color: #969696;"
-        rows += f'''
-        <tr class="master-row" style="{st_base}">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
-            <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-        </tr>'''
+    for i in range(len(items)): # Usamos el largo real de la lista
+        name, spr = items[i][0], items[i][1]
+        
+        # SI ES EL DIVISOR
+        if "---" in name:
+            rows += f'''
+            <tr class="master-row es-divisor" style="background: #444 !important; color: white; height: 25px;">
+                <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
+                    {name}
+                </td>
+                <td class="edit-name" style="display:none;">{name}</td>
+                <td class="edit-spr-min" style="display:none;">0</td>
+                <td class="edit-spr-max" style="display:none;">0</td>
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="f-stock" style="display:none;">0</td>
+                <td class="f-left" style="display:none;">0</td>
+            </tr>'''
+        else:
+            # FILA NORMAL (Tu diseño original)
+            st_base = "background: #ebebeb; color: #969696;"
+            rows += f'''
+            <tr class="master-row" style="{st_base}">
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
+                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
+            </tr>'''
     return rows
+
+
 
 def gen_poligonos():
     polys = ""
