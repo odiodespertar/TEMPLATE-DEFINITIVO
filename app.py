@@ -403,14 +403,7 @@ html body .meli-table tbody tr:last-child {{
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
             <div style="padding-bottom: 5px;">
-            
     <!-- BOTÓN ACTIVAS ACTUALIZADO -->
-    <div style="padding-bottom: 5px; display: flex; gap: 8px;">
-    <button onclick="distribuirAutomatico()" 
-        style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 14px; padding: 8px 15px; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 0 #b300b3; transition: all 0.05s;">
-        ⚡ AUTO-CALCULAR
-    </button>
-    
     <button class="filter-btn" onclick="filterRows(true)" 
         style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 14px; padding: 8px 15px; border-radius: 5px; margin-right: 5px; font-weight: bold; box-shadow: 0 4px 0 #000; transition: all 0.05s; outline: none;">
         ACTIVAS
