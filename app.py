@@ -621,10 +621,10 @@ html body .meli-table tbody tr:last-child {{
 
 / --- PEGA ESTO JUSTO ARRIBA DE FUNCTION RECALC ---
 
-function distribuirAutomatico() {
-    let fleet = {};
+function distribuirAutomatico() {{
+    let fleet = {{}};
     // 1. Capturar qué unidades tienen SCHED > 0 (Tabla Derecha)
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name').innerText.trim();
         let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
         let ma = row.querySelector('.edit-spr-max');
@@ -634,38 +634,38 @@ function distribuirAutomatico() {
         let disponibles = parseInt(cL.innerText) || 0;
         let sprMax = parseFloat(ma.innerText) || 28;
 
-        if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {
-            fleet[name] = { max: sprMax, stock: disponibles };
-        }
-    });
+        if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+            fleet[name] = {{ max: sprMax, stock: disponibles }};
+        }}
+    }});
 
-    if (Object.keys(fleet).length === 0) {
+    if (Object.keys(fleet).length === 0) {{
         showAlert("⚠️ No hay unidades disponibles (Revisa que SCHED sea mayor a 0)");
         return;
-    }
+    }}
 
     // 2. Llenar polígonos (Tabla Izquierda)
-    document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {
+    document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
         let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
         let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
         let faltante = vT - vA;
 
-        if (faltante > 1) {
-            bl.querySelectorAll('.calc-row').forEach(r => {
+        if (faltante > 1) {{
+            bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type');
                 let u = r.querySelector('.u-manual');
                 let sp = r.querySelector('.spr-real-val');
 
                 // Solo llena si la fila está vacía
-                if (s.value === "SELECCIONAR..." && faltante > 0) {
+                if (s.value === "SELECCIONAR..." && faltante > 0) {{
                     // Buscar la primera unidad en fleet que tenga stock
                     let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
-                    if (key) {
+                    if (key) {{
                         let unidad = fleet[key];
                         let necesito = Math.ceil(faltante / unidad.max);
                         let asigno = Math.min(necesito, unidad.stock);
 
-                        if (asigno > 0) {
+                        if (asigno > 0) {{
                             s.value = key;
                             u.innerText = asigno;
                             sp.innerText = unidad.max;
@@ -673,12 +673,12 @@ function distribuirAutomatico() {
                             unidad.stock -= asigno;
                             faltante -= (asigno * unidad.max);
                             editedRowsPlan.add(r); // Para que no se borre al recalcular
-                        }
-                    }
-                }
-            });
-        }
-    });
+                        }}
+                    }}
+                }}
+            }});
+        }}
+    }});
 
     // 3. Refrescar todo
     recalc();
