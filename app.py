@@ -26,7 +26,7 @@ u_C2["LARGE VAN HÍB"] = [100, 100]
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
-    for i in range(15):
+    for i in range(18):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
         st_base = "background: #ebebeb; color: #969696;"
