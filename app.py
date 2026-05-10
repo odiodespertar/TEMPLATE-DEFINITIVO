@@ -795,14 +795,13 @@ html body .meli-table tbody tr:last-child {{
         }}
     }});
 
-// === AQUÍ PEGAS LA FUNCIÓN NUEVA ===
-    function distribuirAutomatico() {{
+
+function distribuirAutomatico() {{
         let fleet = {{}};
-        // 1. Ver qué unidades tienen disponibilidad en la tabla derecha
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
-            let cL = row.querySelector('.f-left'); 
             let ma = row.querySelector('.edit-spr-max');
+            let cL = row.querySelector('.f-left'); 
             let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
             let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
 
@@ -816,7 +815,6 @@ html body .meli-table tbody tr:last-child {{
             return;
         }}
 
-        // 2. Llenar los polígonos que están vacíos
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
@@ -838,9 +836,18 @@ html body .meli-table tbody tr:last-child {{
                             if (asigno > 0) {{
                                 s.value = key;
                                 u.innerText = asigno;
-                                sp.innerText = unidad.max;
+                                
+                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
+                                // Dividimos el faltante entre las unidades asignadas
+                                let sprSugerido = (faltante / asigno);
+                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
+                                let sprFinal = Math.min(sprSugerido, unidad.max);
+                                
+                                // Redondeamos a 1 decimal para que no se vea feo
+                                sp.innerText = Math.round(sprFinal * 10) / 10;
+                                
                                 unidad.stock -= asigno;
-                                faltante -= (asigno * unidad.max);
+                                faltante -= (asigno * sprFinal);
                                 editedRowsPlan.add(r); 
                             }}
                         }}
@@ -848,10 +855,8 @@ html body .meli-table tbody tr:last-child {{
                 }});
             }}
         }});
-        // 3. Refrescar la armonía de colores y totales
         recalc();
     }}
-    // === FIN DE LA FUNCIÓN NUEVA ===
 
     
     recalc();
