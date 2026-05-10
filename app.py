@@ -998,7 +998,7 @@ html_notitas = f"""
             <div>
                 <span style="color: #add8e6; font-size: 11px; display: block;">MINUTOS</span>
                 <input type="number" id="minInput" value="10" 
-                    style="background: #222; color: #FFE4E1; border: none; padding: 8px; border-radius: 5px; width: 70px; text-align: center; font-size: 18px; font-weight: bold;">
+                    style="background: #222; color: #FFE4E1; border: none; padding: 8px; border-radius: 5px; width: 70px; text-align: center; font-size: 20px; font-weight: bold;">
             </div>
             <button class="btn-3d" onclick="ejecutarTodo()">CALCULAR</button>
         </div>
