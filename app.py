@@ -14,7 +14,7 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28], "MOTO 3H": [25, 28]}
-u_SD = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
+u_PREC = {"MOTO 3H": [25, 25], "MOTO NEW": [20, 22], "CROWD 5H / SMALL V": [35, 37]}
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
@@ -70,7 +70,8 @@ def gen_poligonos():
     for i in range(1, 11):
         polys += f'''
         
-<div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">            <table style="width: 100%; border-collapse: collapse;">
+<div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">           
+<table style="width: 100%; border-collapse: collapse;">
                 <thead>
 <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
                         <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
@@ -398,7 +399,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(3, this)">C2</button>
-                <button class="tab-btn" onclick="showTab(1, this)">SD</button>
+                <button class="tab-btn" onclick="showTab(1, this)">PREC</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
             <div style="padding-bottom: 5px;">
@@ -468,7 +469,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_SD, 1)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
@@ -961,7 +962,7 @@ info_operativa = {
     """,
     "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C1 pendiente...</i></div>",
     "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C2 pendiente...</i></div>",
-    "SD": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de SD pendiente...</i></div>"
+    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de PRECARGA pendiente...</i></div>"
 }
 
 # 3. HTML/CSS (DISEÑO IDÉNTICO A IMAGEN 1)
@@ -989,7 +990,7 @@ html_notitas = f"""
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
         <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
-        <button class="tab-btn" onclick="changeTab(event, 'SD')">SD</button>
+        <button class="tab-btn" onclick="changeTab(event, 'PREC')">PREC</button>
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
         <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
     </div>
