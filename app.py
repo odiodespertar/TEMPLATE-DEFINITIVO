@@ -15,8 +15,7 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
 
-
-# Agrupamos por Service
+# 1. Definimos los dos grupos
 servicios_prec = {
     "SMX5": {
         "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], 
@@ -28,6 +27,9 @@ servicios_prec = {
         "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
     }
 }
+
+# 2. Creamos la variable que el error dice que falta (por defecto SMX5)
+u_PREC = servicios_prec["SMX5"]
         
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
