@@ -52,7 +52,7 @@ u_PREC = {
     "CROWD 5H": [35, 37], 
     "CROWD ZON EXT": [35, 37], 
     "SMALL V 9H": [35, 37], 
-    "CROWD 8H": [35, 37],
+    "CROWD 8H": [35, 37]
 }
 
 u_C1 = {
