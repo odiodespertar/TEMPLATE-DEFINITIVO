@@ -683,7 +683,7 @@ function distribuirAutomatico() {{
     // 3. Refrescar todo
     recalc();
     showAlert("✅ Distribución automática lista");
-}
+}}
 
 
     function recalc() {{
