@@ -1139,7 +1139,7 @@ html_notitas = f"""
         {info_operativa['SDE']}
     </div>
 </div>
-
+ 
 <script>
     const allData = {info_operativa}; 
     
