@@ -1094,6 +1094,7 @@ html_notitas = f"""
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
+        <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
         <button class="tab-btn" onclick="changeTab(event, 'PREC')">PREC</button>
         <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
         <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
@@ -1126,4 +1127,3 @@ html_notitas = f"""
 # 4. RENDERIZADO EN STREAMLIT
 st.markdown("---")
 components.html(html_notitas, height=1200, scrolling=True)
-app.py
