@@ -872,6 +872,40 @@ html(app_html, height=1200, scrolling=True)
 
 
 
+# --- TABLAS PARA LA PESTAÑA PREC (NO TOCAN TUS NOTAS) ---
+tabla_smx5 = """
+<div style='background:white; padding:15px; border-radius:10px; color:black;'>
+    <h3 style='margin-top:0;'>PREC - SMX5</h3>
+    <div style='margin-bottom:15px;'>
+        <button onclick="cambiarService('SMX5')" style='padding:8px 15px; cursor:pointer; background:#1e90ff; color:white; border:none; border-radius:5px;'>Ver SMX5</button>
+        <button onclick="cambiarService('SMX11')" style='padding:8px 15px; cursor:pointer; background:#ccc; color:white; border:none; border-radius:5px;'>Ver SMX11</button>
+    </div>
+    <table style='width:100%; border-collapse:collapse;'>
+        <tr style='background:#f2f2f2;'><th>UNIDAD</th><th>SPR SUGERIDO</th></tr>
+        <tr><td>EXT LARGE V MLP</td><td>50-50</td></tr>
+        <tr><td>LARGE V MLP</td><td>80-85</td></tr>
+        <tr><td>SMALL V MLP</td><td>80-85</td></tr>
+        <tr><td>CAR MLP</td><td>50-50</td></tr>
+    </table>
+</div>
+"""
+
+tabla_smx11 = """
+<div style='background:white; padding:15px; border-radius:10px; color:black;'>
+    <h3 style='margin-top:0;'>PREC - SMX11</h3>
+    <div style='margin-bottom:15px;'>
+        <button onclick="cambiarService('SMX5')" style='padding:8px 15px; cursor:pointer; background:#ccc; color:white; border:none; border-radius:5px;'>Ver SMX5</button>
+        <button onclick="cambiarService('SMX11')" style='padding:8px 15px; cursor:pointer; background:#1e90ff; color:white; border:none; border-radius:5px;'>Ver SMX11</button>
+    </div>
+    <table style='width:100%; border-collapse:collapse;'>
+        <tr style='background:#f2f2f2;'><th>UNIDAD</th><th>SPR SUGERIDO</th></tr>
+        <tr><td>MOTO 3H / 7H</td><td>35-37</td></tr>
+        <tr><td>SMALL V NEW</td><td>35-37</td></tr>
+        <tr><td>CROWD 5H / 8H</td><td>35-37</td></tr>
+        <tr><td>CROWD ZON EXT</td><td>35-37</td></tr>
+    </table>
+</div>
+"""
 
 
 
