@@ -13,8 +13,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
+
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-u_PREC = {"EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50], "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37],}
+
+
+u_PREC_SMX5 = {
+    "EXT LARGE V MLP": [50, 50], 
+    "LARGE V MLP": [80, 85], 
+    "SMALL V MLP": [80, 85], 
+    "CAR MLP": [50, 50]
+}
+
+u_PREC_SMX11 = {
+    "MOTO 3H / 7H": [35, 37], 
+    "SMALL V NEW": [35, 37], 
+    "CROWD 5H / 8H": [35, 37], 
+    "CROWD ZON EXT": [35, 37]
+}
+
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
