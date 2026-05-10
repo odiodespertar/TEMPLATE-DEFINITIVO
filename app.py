@@ -13,6 +13,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
+u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
+
+
+# Agrupamos por Service
 servicios_prec = {
     "SMX5": {
         "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], 
@@ -24,9 +28,6 @@ servicios_prec = {
         "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
     }
 }
-# Variable por defecto para que no truene el programa
-u_PREC = servicios_prec["SMX5"]
-
         
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
@@ -53,13 +54,6 @@ def gen_master_rows(data_dict, table_id):
             <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
         </tr>'''
     return rows
-
-
-# --- ESTO VA AQUÍ AFUERA ---
-# Generamos las filas usando la receta anterior para cada servicio
-filas_smx5 = gen_master_rows(servicios_prec["SMX5"], 1)
-filas_smx11 = gen_master_rows(servicios_prec["SMX11"], 1)
-
 
 def gen_poligonos():
     polys = ""
@@ -882,24 +876,6 @@ function distribuirAutomatico() {{
 
     
     recalc();
-
-
-// PEGA AQUÍ EL NUEVO BLOQUE:
-    const datosPREC = {
-        "SMX5": `{filas_smx5}`,
-        "SMX11": `{filas_smx11}`
-    };
-
-    function cambiarService(nombre) {
-        // 'body-1' es el ID de la tabla de la pestaña PREC
-        const tablaBody = document.getElementById('body-1');
-        if (tablaBody) {
-            tablaBody.innerHTML = datosPREC[nombre];
-            recalc(); // Esto actualiza los cálculos automáticamente
-        }
-    }
-
-    
 </script>
 </body>
 </html>
@@ -1139,29 +1115,24 @@ html_notitas = f"""
         {info_operativa['SDE']}
     </div>
 </div>
- 
+
 <script>
     const allData = {info_operativa}; 
-    
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-
-    const datosPREC = {{
-        "SMX5": `{filas_smx5}`,
-        "SMX11": `{filas_smx11}`
-    }};
-
-    function cambiarService(nombre) {{
-        const tablaBody = document.getElementById('body-1');
-        if (tablaBody) {{
-            tablaBody.innerHTML = datosPREC[nombre];
-            if (typeof recalc === 'function') {{ recalc(); }}
-        }}
+    function ejecutarTodo() {{
+        const mins = document.getElementById('minInput').value || 0;
+        const ahora = new Date();
+        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
+        const h = String(nuevaFecha.getHours()).padStart(2, '0');
+        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
+        document.getElementById('horaReal').innerText = h + ":" + m;
     }}
+    ejecutarTodo();
 </script>
 """
 
