@@ -70,7 +70,7 @@ def gen_master_rows(data_dict, table_id):
     items = list(data_dict.items())
     
     # Mantenemos tus 18 filas fijas
-    for i in range(num_filas):
+    for i in range(18):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
         
