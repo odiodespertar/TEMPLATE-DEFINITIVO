@@ -15,21 +15,17 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
 
+
 u_PREC = {
     # --- GRUPO SMX5 ---
-    "SMX5: EXT LARGE V MLP": [50, 50],
-    "SMX5: LARGE V MLP": [80, 85],
     "SMX5: MOTO 3H": [35, 37],
-    # ... agrega las demás de SMX5 aquí
+    # ... otras unidades ...
     
-    # --- SEPARADOR VISUAL (Opcional) ---
-    "------------------": [0, 0], 
+    "------------------": [0, 0], # Este es el separador
     
     # --- GRUPO SMX11 ---
-    "SMX11: EXT LARGE V MLP": [55, 55],
-    "SMX11: LARGE V MLP": [85, 90],
     "SMX11: MOTO 3H": [40, 42],
-    # ... agrega las demás de SMX11 aquí
+    # ... otras unidades ...
 }
 
 
