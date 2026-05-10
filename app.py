@@ -1106,7 +1106,3 @@ html_notitas = f"""
     setInterval(calcularHora, 1000);
 </script>
 """
-
-# 4. LANZAR
-st.markdown("---")
-components.html(html_notitas, height=1100, scrolling=True)
