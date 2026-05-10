@@ -14,21 +14,7 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-
-
-# Agrupamos por Service
-servicios_prec = {
-    "SMX5": {
-        "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], 
-        "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50]
-    },
-    "SMX11": {
-        "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], 
-        "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], 
-        "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
-    }
-}
-        
+u_PREC = {"EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50], "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37],}
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
@@ -412,6 +398,7 @@ html body .meli-table tbody tr:last-child {{
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+                <button class="tab-btn" onclick="showTab(3, this)">C2</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
