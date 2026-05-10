@@ -850,12 +850,12 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong></p>
-        - 📌 Origen MXPB01<br>
-        - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
-        - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
-        - 👉 Revisan volumen, notifican con palomita<br>
-        - 👉 Pido validación</p>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong><br>
+            - 📌 Origen MXPB01<br>
+            - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
+            - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
+            - 👉 Revisan volumen, notifican con palomita<br>
+            - 👉 Pido validación</p>
         </div>
 
         <h3 style='color: #000; margin-top: 25px;'>👉 PRE-CARGAS</h3>
@@ -864,20 +864,13 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
         </div>
-        
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 10:00 pm</strong></p>
-        </div>
-
-        
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
         <hr style='border: 1px solid #808080; margin-bottom: 20px;'>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX2 PM2 - ⏰ 0:00 pm</strong><br>
-            - 👉 Sin schedule</p>
-            - 👉 SPR 28</p>
+            - 👉 Sin schedule / SPR 28</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
@@ -888,52 +881,22 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX8 PM2 - ⏰ 5:30 pm</strong><br>
-            - 👉 Sin schedule</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SBJ1 PM2 - ⏰ A partir de las 5:00 pm</strong><br>
-            - 👉 Pido autorización para iniciar ruteo</p>
-            - 👉 SPR 28 / 200-300 pqt aprox</p>
+            - 👉 Pido autorización para iniciar ruteo / SPR 28 / 200-300 pqt aprox</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SHM1 PM2 - ⏰ 7:20 pm</strong><br>
             - 👉 SPR 21 / crowd 5 hrs</p>
         </div>
-
-         <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT2 PM2 - ⏰ 5:30 pm</strong><br>
-            - 👉 SPR 27-28 / crowd 5 hrs / 800 pqt aprox</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT3 PM2 - ⏰ 5:15 pm</strong><br>
-            - 👉 SPR 28 / crowd 5 hrs / 500 pqt aprox</p>
-        </div>
-
-       <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD2 PM2 - ⏰ 0:00 pm</strong><br>
-            - 👉 SPR 28</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD3 PM2 - ⏰ 4:50 pm</strong><br>
-            - 👉 SPR 30 / crowd 5 y 3 hrs</p>
-        </div>
-
-        
     """,
     "SIDE_LINE": """
         <h3 style='color: #000; margin-bottom: 5px;'>¿CÓMO LO HAGO?</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
-        
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'>1️⃣ Descargo query de places (script job de SVC trabajado ▶️ ejecutar)<br>
             2️⃣ Routing matutino ▶️ busco lista places (sáb / dom)</p>
         </div>
-
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
             <p style='margin: 0;'><strong>PASOS DETALLADOS:</strong><br>
             ▶️ Docto script job ▶️ BuscarV ▶️ columna U (customer id) ▶️ clic 1a celda<br>
@@ -951,18 +914,15 @@ info_operativa = {
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
             <div style='display: flex; flex-direction: column; gap: 15px;'>
-                <a href="https://drive.google.com/drive/folders/1VNCUhdFxnV6MltnBFt4sH6AN_FJjL5jj" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📁 SUBIR DATAS</a>
-                <a href="https://docs.google.com/spreadsheets/d/1mj1krN2hXQQ1yFzswDoPscd9tPhguDnB-mAxB4aLPy0/edit?gid=33118467#gid=33118467" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE METRO</a>
-                <a href="https://docs.google.com/spreadsheets/d/1lcrV9kxqwZB8007DPn4binDfDoD4enX26nISPWkOXDM/edit?pli=1&gid=2038084494#gid=2038084494" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE CENTRO</a>
-                <a href="https://docs.google.com/spreadsheets/d/1Gw1RG4XGfDCyz2lKmoj01OoOHQcaPpVagWCeKj-oCzE/edit?pli=1&gid=235750045#gid=235750045" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE NORTE</a>
-                <a href="https://docs.google.com/spreadsheets/d/1irZgPeFGGtJL2rRu2CYK6NHsjoieX-9DEA-rQCrRjKI/edit?pli=1&gid=179832536#gid=179832536" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">📅 SCHEDULE SUR</a>
-                <a href="https://docs.google.com/spreadsheets/d/1coARmuywJ2IqFKEHDYPvxs3WaGtj5weV4GDEkR8f124/edit?pli=1&gid=1576300206#gid=1576300206" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold; font-size: 14px;">❓ NO SÉ QUÉ ES</a>
+                <a href="https://drive.google.com/drive/folders/1VNCUhdFxnV6MltnBFt4sH6AN_FJjL5jj" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📁 SUBIR DATAS</a>
+                <a href="https://docs.google.com/spreadsheets/d/1mj1krN2hXQQ1yFzswDoPscd9tPhguDnB-mAxB4aLPy0/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE METRO</a>
+                <a href="https://docs.google.com/spreadsheets/d/1lcrV9kxqwZB8007DPn4binDfDoD4enX26nISPWkOXDM/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE CENTRO</a>
             </div>
         </div>
     """,
-    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C1 pendiente...</i></div>",
-    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de C2 pendiente...</i></div>",
-    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información de PRECARGA pendiente...</i></div>"
+    "C1": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info C1</i></div>",
+    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info C2</i></div>",
+    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Info PRECARGA</i></div>"
 }
 
 # 3. HTML/CSS (DISEÑO FINAL: CONSOLA ARRIBA Y NOTAS LIMPIAS ABAJO)
@@ -971,6 +931,22 @@ html_notitas = f"""
     body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
     .main-box {{ background: #000; padding: 10px; }}
     
+    /* Consola Unificada (Reloj + Convertidor + Restador) */
+    .unified-console {{
+        background: #1a1a1a; border-radius: 15px; padding: 15px; 
+        margin-bottom: 20px; border: 1px solid #333; text-align: center;
+    }}
+    .display-screen {{
+        background: #000; border-radius: 10px; padding: 10px; 
+        margin-bottom: 15px; border: 2px solid #222;
+    }}
+    .btn-3d {{
+        background: linear-gradient(145deg, #1e90ff, #1c82e6);
+        color: white; border: none; padding: 12px 25px; border-radius: 10px;
+        font-weight: bold; cursor: pointer; box-shadow: 0 5px #0a56a3; transition: 0.1s;
+    }}
+    .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
+
     /* Pestañas */
     .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }}
     .tab-btn {{
@@ -979,43 +955,16 @@ html_notitas = f"""
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
     
-    /* Área de Notas */
     .content-area {{
-        background: #c8dee0; 
-        border-radius: 12px;
-        padding: 20px;
-        min-height: 600px;
-        color: #000;
+        background: #c8dee0; border-radius: 12px; padding: 20px; 
+        min-height: 600px; color: #000;
     }}
-
-    /* Consola Unificada (La que va arriba con volumen) */
-    .unified-console {{
-        background: #1a1a1a;
-        border-radius: 15px;
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid #333;
-        text-align: center;
-    }}
-    .display-screen {{
-        background: #000;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 2px solid #222;
-    }}
-    .btn-3d {{
-        background: linear-gradient(145deg, #1e90ff, #1c82e6);
-        color: white; border: none; padding: 12px 25px; border-radius: 10px;
-        font-weight: bold; cursor: pointer; box-shadow: 0 5px #0a56a3; transition: 0.1s;
-    }}
-    .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
 </style>
 
 <div class="main-box">
     <div class="unified-console">
         <div class="display-screen">
-            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA CALCULADA</div>
+            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / CONVERTIDOR / RESTA</div>
             <div id="horaReal" style="font-size: 38px; color: #00FF00; font-family: monospace; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
@@ -1062,8 +1011,6 @@ html_notitas = f"""
         const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
         document.getElementById('horaReal').innerText = h + ":" + m;
     }}
-    
-    // Iniciar con la hora actual
     ejecutarTodo();
 </script>
 """
@@ -1071,6 +1018,3 @@ html_notitas = f"""
 # 4. RENDERIZADO EN STREAMLIT
 st.markdown("---")
 components.html(html_notitas, height=1200, scrolling=True)
-
-
-
