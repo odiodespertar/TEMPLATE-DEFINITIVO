@@ -15,20 +15,16 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
 
-# 1. Definimos los dos grupos
+# Creamos los dos grupos para PREC
 servicios_prec = {
     "SMX5": {
-        "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], 
-        "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50]
+        "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50]
     },
     "SMX11": {
-        "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], 
-        "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], 
-        "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
+        "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
     }
 }
-
-# 2. Creamos la variable que el error dice que falta (por defecto SMX5)
+# Dejamos esta variable para que el código inicial no falle
 u_PREC = servicios_prec["SMX5"]
         
 u_C1 = {
