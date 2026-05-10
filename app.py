@@ -405,8 +405,8 @@ html body .meli-table tbody tr:last-child {{
             <div style="padding-bottom: 5px;">
             
     <!-- BOTÓN ACTIVAS ACTUALIZADO -->
-    <div style="padding-bottom: 5px; display: flex; gap: 8px;">
-    <button onclick="distribuirAutomatico()" 
+        <div style="padding: 10px 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">    <button onclick="distribuirAutomatico()" 
+        <button onclick="distribuirAutomatico()" 
         style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 14px; padding: 8px 15px; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 0 #b300b3; transition: all 0.05s;">
         ⚡ AUTO-CALCULAR
     </button>
