@@ -1012,7 +1012,9 @@ html_notitas = f"""
 
 
 <script>
-    const allData = {info_operativa};
+    // Se agregan las llaves dobles para que Python no se confunda
+    const allData = {info_operativa}; 
+
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
@@ -1021,11 +1023,13 @@ html_notitas = f"""
         window.scrollTo(0,0);
     }}
 
-
-// NUEVA FUNCIÓN PARA LA RESTA
     function calcularHoraReal() {{
-        let mins = document.getElementById('minRestar').value;
+        // Obtenemos el valor del input, si está vacío usamos 0
+        let inputMins = document.getElementById('minRestar').value;
+        let mins = inputMins ? parseInt(inputMins) : 0;
+        
         let fecha = new Date();
+        // Restamos los minutos
         fecha.setMinutes(fecha.getMinutes() - mins);
         
         let h = String(fecha.getHours()).padStart(2, '0');
@@ -1034,12 +1038,12 @@ html_notitas = f"""
         
         document.getElementById('horaReal').innerText = h + ":" + m + ":" + s;
     }}
-    // Esto hace que se calcule en cuanto abres la página
-    setInterval(calcularHoraReal, 1000);
 
-
-
+    // Ejecutamos la función una vez al cargar
+    calcularHoraReal();
     
+    // Actualizamos cada segundo para que el reloj no se detenga
+    setInterval(calcularHoraReal, 1000);
 </script>
 """
 
