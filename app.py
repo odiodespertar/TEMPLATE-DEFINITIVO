@@ -997,8 +997,19 @@ html_notitas = f"""
     <div id="visor" class="content-area">
         {info_operativa['SDE']}
     </div>
-    
-</div>
+
+
+<div style="background: #1a1a1a; border: 2px solid #1E90FF; border-radius: 12px; padding: 15px; margin-top: 20px; color: white; text-align: center;">
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6; font-weight: bold;">🕒 CALCULADORA DE HORA EXACTA (CHAT)</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <label style="font-size: 13px;">Minutos atrás:</label>
+            <input type="number" id="minRestar" value="10" oninput="calcularHoraReal()" 
+                style="width: 60px; padding: 5px; border-radius: 5px; border: none; text-align: center; font-weight: bold;">
+        </div>
+        <div id="horaReal" style="font-size: 24px; color: #00FF00; font-weight: bold; letter-spacing: 2px;">--:--:--</div>
+    </div>
+    </div>
+
 
 <script>
     const allData = {info_operativa};
