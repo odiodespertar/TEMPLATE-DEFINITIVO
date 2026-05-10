@@ -14,8 +14,6 @@ st.markdown("""
 
 # --- DATOS BASE ---
 u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-
-# --- DATOS BASE ORGANIZADOS POR SERVICIO ---
 servicios_prec = {
     "SMX5": {
         "PRUEBAS": [50, 50],
@@ -57,22 +55,17 @@ servicios_prec = {
     }
 }
 
-# Crear el selector en la barra lateral para PREC
-servicio_elegido = st.sidebar.selectbox(
-    "Filtrar Service en PREC",
-    options=list(servicios_prec.keys()),
-    help="Selecciona el tipo de servicio para actualizar la tabla PREC"
-)
+# Selector en la barra lateral para que elijas el service
+service_actual = st.sidebar.selectbox("Service para PREC", options=list(servicios_prec.keys()))
 
-# Esta línea asigna automáticamente las unidades según lo que elijas en el menú
-u_PREC = servicios_prec[servicio_elegido]
+# IMPORTANTE: Aquí asignamos los datos del service elegido a u_PREC
+u_PREC = servicios_prec[service_actual]
 
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
     "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
     "CAR MLP": [50, 50], "MOTO 3H": [28, 28], "CROWD NEW 3 hrs": [30, 30], "CROWD EXT 8H": [80, 85], "CROWD 5H": [60, 60]
 }
-u_C2 = u_C1.copy()
 
 def gen_master_rows(data_dict, table_id):
     rows = ""
