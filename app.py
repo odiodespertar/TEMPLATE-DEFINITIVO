@@ -35,24 +35,24 @@ u_PREC = {
     "SMALL V 9H": [35, 37], 
     "CROWD 8H": [35, 37],
     
-    "--- SECCIÓN SMX11 ---": [0, 0], # <--- Agrega esta línea como divisor
-    "EXT LARGE V MLP": [50, 50], 
-    "EXT LARGE V MLP H&B": [50, 50], 
-    "LARGE V MLP NEW": [50, 50], 
-    "SMALL V MLP NEW": [50, 50], 
-    "LARGE V MLP": [80, 85], 
-    "SMALL V MLP": [80, 85], 
-    "CAR MLP": [50, 50], 
-    "MOTO 3H": [35, 37], 
-    "MOTO 7H": [35, 37], 
-    "SMALL V NEW": [35, 37], 
-    "CROWD NEW": [35, 37], 
-    "CROWD 5H EXT": [35, 37], 
-    "SMALL V 5H": [35, 37], 
-    "CROWD 5H": [35, 37], 
-    "CROWD ZON EXT": [35, 37], 
-    "SMALL V 9H": [35, 37], 
-    "CROWD 8H": [35, 37]
+    "--- SECCIÓN SMX11 ---": [0, 0], 
+    "EXT LARGE V MLP ": [50, 50],  # Nota el espacio al final "MLP "
+    "EXT LARGE V MLP H&B ": [50, 50], 
+    "LARGE V MLP NEW ": [50, 50], 
+    "SMALL V MLP NEW ": [50, 50], 
+    "LARGE V MLP ": [80, 85], 
+    "SMALL V MLP ": [80, 85], 
+    "CAR MLP ": [50, 50], 
+    "MOTO 3H ": [35, 37], 
+    "MOTO 7H ": [35, 37], 
+    "SMALL V NEW ": [35, 37], 
+    "CROWD NEW ": [35, 37], 
+    "CROWD 5H EXT ": [35, 37], 
+    "SMALL V 5H ": [35, 37], 
+    "CROWD 5H ": [35, 37], 
+    "CROWD ZON EXT ": [35, 37], 
+    "SMALL V 9H ": [35, 37], 
+    "CROWD 8H ": [35, 37]
 }
 
 u_C1 = {
