@@ -89,18 +89,16 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
-            # Quitamos 'master-row' de la clase para que el JS de polígonos no la cuente
+            # Usamos un estilo que no sea una fila estándar para engañar al JS
             rows += f'''
-            <tr class="es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
-                <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
-                    {name}
+            <tr class="es-divisor-fake" style="height: 28px; background: #333 !important;">
+                <td colspan="6" style="padding: 0; border: none;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #00e5ff; font-weight: bold; font-size: 11px; letter-spacing: 3px; pointer-events: none;">
+                        {name}
+                    </div>
                 </td>
-                <td class="edit-name" style="display:none;">IGNORAR</td>
-                <td class="edit-spr-min" style="display:none;">0</td>
-                <td class="edit-spr-max" style="display:none;">0</td>
-                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-name" style="display:none;">DUMMY_HEADER</td>
                 <td class="f-stock" style="display:none;">0</td>
-                <td class="f-left" style="display:none;">0</td>
             </tr>'''
         
         # Caso B: Es una unidad normal o espacio vacío
