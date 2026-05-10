@@ -68,11 +68,22 @@ u_C2["LARGE VAN HÍB"] = [100, 100]
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
+
+
+# Definimos el límite: 40 para PREC, 18 para el resto
+    num_filas = 40 if table_id == "PREC" else 18
+
     
-    # Mantenemos tus 18 filas fijas
-    for i in range(18):
-        is_real = i < len(items)
-        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
+    for i in range(num_filas):
+        # Verificamos si todavía hay datos en el diccionario para esta fila
+        if i < len(items):
+            name = items[i][0]
+            spr = items[i][1]
+        else:
+            # Si se acaba el diccionario, rellenamos con "NUEVA UNIDAD"
+            name = "NUEVA UNIDAD"
+            spr = [0, 0]
+            
         
         # SI ES UN ENCABEZADO (SMX5 o SMX11)
         if "---" in name:
