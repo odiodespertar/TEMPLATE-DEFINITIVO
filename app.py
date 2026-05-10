@@ -13,19 +13,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
-
-# Creamos los dos grupos para PREC
 servicios_prec = {
     "SMX5": {
-        "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50]
+        "EXT LARGE V MLP": [50, 50], "EXT LARGE V MLP H&B": [50, 50], "LARGE V MLP NEW": [50, 50], 
+        "SMALL V MLP NEW": [50, 50], "LARGE V MLP": [80, 85], "SMALL V MLP": [80, 85], "CAR MLP": [50, 50]
     },
     "SMX11": {
-        "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
+        "MOTO 3H": [35, 37], "MOTO 7H": [35, 37], "SMALL V NEW": [35, 37], "CROWD NEW": [35, 37], 
+        "CROWD 5H EXT": [35, 37], "SMALL V 5H": [35, 37], "CROWD 5H": [35, 37], "CROWD ZON EXT": [35, 37], 
+        "SMALL V 9H": [35, 37], "CROWD 8H": [35, 37]
     }
 }
-# Dejamos esta variable para que el código inicial no falle
+# Variable por defecto para que no truene el programa
 u_PREC = servicios_prec["SMX5"]
+
         
 u_C1 = {
     "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
@@ -52,6 +53,13 @@ def gen_master_rows(data_dict, table_id):
             <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
         </tr>'''
     return rows
+
+
+# --- ESTO VA AQUÍ AFUERA ---
+# Generamos las filas usando la receta anterior para cada servicio
+filas_smx5 = gen_master_rows(servicios_prec["SMX5"], 1)
+filas_smx11 = gen_master_rows(servicios_prec["SMX11"], 1)
+
 
 def gen_poligonos():
     polys = ""
@@ -874,6 +882,24 @@ function distribuirAutomatico() {{
 
     
     recalc();
+
+
+// PEGA AQUÍ EL NUEVO BLOQUE:
+    const datosPREC = {
+        "SMX5": `{filas_smx5}`,
+        "SMX11": `{filas_smx11}`
+    };
+
+    function cambiarService(nombre) {
+        // 'body-1' es el ID de la tabla de la pestaña PREC
+        const tablaBody = document.getElementById('body-1');
+        if (tablaBody) {
+            tablaBody.innerHTML = datosPREC[nombre];
+            recalc(); // Esto actualiza los cálculos automáticamente
+        }
+    }
+
+    
 </script>
 </body>
 </html>
