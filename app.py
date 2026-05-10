@@ -37,7 +37,7 @@ u_C1 = {
 u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
 
-def gen_master_rows(data_dict, table_id):
+def gen_master_rows(data_dict):
     rows_html = ""
     for name, vals in data_dict.items():
         if "---" in name:
