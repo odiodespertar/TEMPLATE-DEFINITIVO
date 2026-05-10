@@ -38,22 +38,32 @@ u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
 
 def gen_master_rows(data_dict, table_id):
-    rows = ""
-    items = list(data_dict.items())
-    for i in range(18):
-        is_real = i < len(items)
-        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        st_base = "background: #ebebeb; color: #969696;"
-        rows += f'''
-        <tr class="master-row" style="{st_base}">
-            <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
-            <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[0]}</td>
-            <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">{spr[1]}</td>
-            <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
-            <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-            <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-        </tr>'''
-    return rows
+    rows_html = ""
+    for name, vals in data_dict.items():
+        # Si es el separador, lo bloqueamos
+        if "---" in name:
+            rows_html += f"""
+            <tr class="master-row separator-row" style="background-color: #333 !important; color: white; font-weight: bold; text-align: center;">
+                <td colspan="6" style="padding: 5px; cursor: default;"> DIVISIÓN OPERATIVA (SMX5 ↑ / SMX11 ↓) </td>
+                <td style="display:none;" class="edit-name">{name}</td>
+                <td style="display:none;" class="edit-spr-min">0</td>
+                <td style="display:none;" class="edit-spr-max">0</td>
+                <td style="display:none;" class="edit-stock">0</td>
+            </tr>
+            """
+        else:
+            # Tu código normal de filas aquí...
+            rows_html += f"""
+            <tr class="master-row">
+                <td class="edit-name">{name}</td>
+                <td contenteditable="true" class="edit-spr-min">{vals[0]}</td>
+                <td contenteditable="true" class="edit-spr-max">{vals[1]}</td>
+                <td contenteditable="true" class="edit-stock" oninput="recalc()">0</td>
+                <td class="res-sobrante">0</td>
+                <td class="res-estado">-</td>
+            </tr>
+            """
+    return rows_html
 
 def gen_poligonos():
     polys = ""
