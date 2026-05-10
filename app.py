@@ -1020,6 +1020,26 @@ html_notitas = f"""
         e.currentTarget.classList.add('active');
         window.scrollTo(0,0);
     }}
+
+
+// NUEVA FUNCIÓN PARA LA RESTA
+    function calcularHoraReal() {{
+        let mins = document.getElementById('minRestar').value;
+        let fecha = new Date();
+        fecha.setMinutes(fecha.getMinutes() - mins);
+        
+        let h = String(fecha.getHours()).padStart(2, '0');
+        let m = String(fecha.getMinutes()).padStart(2, '0');
+        let s = String(fecha.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('horaReal').innerText = h + ":" + m + ":" + s;
+    }}
+    // Esto hace que se calcule en cuanto abres la página
+    setInterval(calcularHoraReal, 1000);
+
+
+
+    
 </script>
 """
 
