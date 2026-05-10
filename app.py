@@ -38,12 +38,22 @@ u_C2 = u_C1.copy()
 u_C2["LARGE VAN HÍB"] = [100, 100]
 
 def gen_master_rows(data_dict, table_id):
-    rows = ""
-    items = list(data_dict.items())
-    for i in range(18):
-        is_real = i < len(items)
-        name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
-        st_base = "background: #ebebeb; color: #969696;"
+    rows_html = ""
+    for name, vals in data_dict.items():
+        if "---" in name:
+            # FILA DIVISORIA: La hacemos gris oscuro, sin bordes internos y NO editable
+            rows_html += f"""
+            <tr class="master-row es-divisor" style="background-color: #444 !important; color: white; height: 30px;">
+                <td colspan="6" style="text-align: center; font-weight: bold; font-size: 12px; letter-spacing: 2px; pointer-events: none;">
+                    ⬇️ SECCIÓN SMX11 ⬇️
+                </td>
+                <td class="edit-name" style="display:none;">{name}</td>
+                <td class="edit-spr-min" style="display:none;">0</td>
+                <td class="edit-spr-max" style="display:none;">0</td>
+                <td class="edit-stock" style="display:none;">0</td>
+            </tr>
+            """
+        else:
         rows += f'''
         <tr class="master-row" style="{st_base}">
             <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
