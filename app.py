@@ -1014,3 +1014,99 @@ html_notitas = f"""
 # 4. RENDERIZADO EN STREAMLIT
 st.markdown("---")
 components.html(html_notitas, height=1100, scrolling=True)
+
+
+
+
+
+# 3. HTML/CSS CON CALCULADORA DE TIEMPO
+html_notitas = f"""
+<style>
+    body {{ background-color: #000; font-family: 'Segoe UI', sans-serif; margin: 0; }}
+    .main-box {{ background: #000; padding: 10px; }}
+    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; }}
+    .tab-btn {{
+        background: #333; color: white; border: none; padding: 10px 18px;
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap;
+    }}
+    .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
+    .content-area {{ background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 500px; }}
+    
+    /* Estilo de la Calculadora de Resta */
+    .calc-container {{
+        background: #1a1a1a;
+        border: 2px solid #1E90FF;
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 20px;
+        color: white;
+        text-align: center;
+    }}
+    .calc-input {{
+        width: 60px;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        text-align: center;
+        font-weight: bold;
+    }}
+    .result-box {{
+        font-size: 22px;
+        color: #00FF00;
+        font-weight: bold;
+        margin-top: 10px;
+        letter-spacing: 2px;
+    }}
+</style>
+
+<div class="main-box">
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
+        <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
+        <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
+        <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
+        <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
+    </div>
+
+    <div id="visor" class="content-area">
+        {info_operativa['SDE']}
+    </div>
+
+    <div class="calc-container">
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #add8e6;">🕒 CALCULADORA DE HORA EXACTA (CHAT)</p>
+        <label>Minutos atrás: </label>
+        <input type="number" id="minutos" class="calc-input" value="10" oninput="calcularHora()">
+        <div id="resultado" class="result-box">--:--:--</div>
+        <p style="font-size: 10px; color: #888; margin-top: 5px;">(Resta los minutos ingresados a la hora actual)</p>
+    </div>
+</div>
+
+<script>
+    const allData = {info_operativa};
+    function changeTab(e, name) {{
+        document.getElementById('visor').innerHTML = allData[name];
+        let btns = document.getElementsByClassName('tab-btn');
+        for (let b of btns) {{ b.classList.remove('active'); }}
+        e.currentTarget.classList.add('active');
+    }}
+
+    function calcularHora() {{
+        let minsARestar = document.getElementById('minutos').value;
+        let ahora = new Date();
+        ahora.setMinutes(ahora.getMinutes() - minsARestar);
+        
+        let hh = String(ahora.getHours()).padStart(2, '0');
+        let mm = String(ahora.getHours() == ahora.getHours() ? ahora.getMinutes() : ahora.getMinutes()).padStart(2, '0');
+        let ss = String(ahora.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('resultado').innerText = hh + ":" + mm + ":" + ss;
+    }}
+    
+    // Ejecutar al cargar para que no esté vacío
+    setInterval(calcularHora, 1000);
+</script>
+"""
+
+# 4. LANZAR
+st.markdown("---")
+components.html(html_notitas, height=1100, scrolling=True)
