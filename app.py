@@ -74,10 +74,10 @@ def gen_master_rows(data_dict, table_id):
         is_real = i < len(items)
         name, spr = (items[i][0], items[i][1]) if is_real else ("NUEVA UNIDAD", [0, 0])
         
-        # SI ES EL DIVISOR
+        # SI ES UN ENCABEZADO (SMX5 o SMX11)
         if "---" in name:
             rows += f'''
-            <tr class="master-row es-divisor" style="background: #444 !important; color: white; height: 25px;">
+            <tr class="master-row es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
                 <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
                     {name}
                 </td>
@@ -89,7 +89,7 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
         else:
-            # FILA NORMAL (Tu diseño original)
+            # FILA NORMAL (Como la tenías antes)
             st_base = "background: #ebebeb; color: #969696;"
             rows += f'''
             <tr class="master-row" style="{st_base}">
@@ -99,7 +99,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-            </tr>'''    
+            </tr>'''
     return rows
 
 
