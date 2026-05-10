@@ -1142,21 +1142,26 @@ html_notitas = f"""
 
 <script>
     const allData = {info_operativa}; 
+    
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-    function ejecutarTodo() {{
-        const mins = document.getElementById('minInput').value || 0;
-        const ahora = new Date();
-        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
-        const h = String(nuevaFecha.getHours()).padStart(2, '0');
-        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
-        document.getElementById('horaReal').innerText = h + ":" + m;
+
+    const datosPREC = {{
+        "SMX5": `{filas_smx5}`,
+        "SMX11": `{filas_smx11}`
+    }};
+
+    function cambiarService(nombre) {{
+        const tablaBody = document.getElementById('body-1');
+        if (tablaBody) {{
+            tablaBody.innerHTML = datosPREC[nombre];
+            if (typeof recalc === 'function') {{ recalc(); }}
+        }}
     }}
-    ejecutarTodo();
 </script>
 """
 
