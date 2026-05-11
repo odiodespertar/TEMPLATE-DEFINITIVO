@@ -961,7 +961,7 @@ info_operativa = {
             - Quito puntos muy lejanos</p>
         </div>
 
-        <h3 style='color: #000; margin-top: 25px;'>‼️⚠️ ROL ⚠️‼️</h3>
+        <h3 style='color: #000; margin-top: 25px;'>🟪 SDE 🟪</h3>
         <hr style='border: 1px solid #FF00FF; margin-bottom: 20px;'>
         
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
