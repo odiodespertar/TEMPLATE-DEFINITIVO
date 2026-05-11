@@ -13,7 +13,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"MOTO 3H": [25, 28], "CROWD 5H": [25, 28], "CROWD 5H EXT": [25, 28], "CROWD 3H": [25, 28]}
+u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
 
 u_PREC = {
     "Extra large Van MLP": [50, 50], 
@@ -36,12 +36,12 @@ u_PREC = {
 }
 
 u_C1 = {
-    "RENTAL E. LARGE": [120, 120], "RENTAL E. SMALL": [120, 120], "RENTAL LARGE": [120, 120], 
-    "RENTAL SMALL": [120, 120], "LARGE V VAR(MLP)": [100, 100], "SMALL V VAR(MLP)":[80, 80],
-    "CAR MLP": [50, 50], "MOTO 3H": [28, 28], "CROWD NEW 3 hrs": [30, 30], "CROWD EXT 8H": [80, 85], "CROWD 5H": [60, 60]
+    "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
+    "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
+    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
 }
 u_C2 = u_C1.copy()
-u_C2["LARGE VAN HÍB"] = [100, 100]
+u_C2["Large Van Híbrida"] = [100, 100]
 
 
 
