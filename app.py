@@ -1013,7 +1013,9 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:40</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06</p>
+            - 📌 Orígenes: ** A validar **<br>
+            - ‼️ Revisar si habrá forms para rutear<br>
+            - 👉 MLP puede ir  ➡️   Xochimilco / Tlalpan Norte / Sur</p>
         </div>
 
 
