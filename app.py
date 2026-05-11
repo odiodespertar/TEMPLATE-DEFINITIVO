@@ -453,7 +453,7 @@ html body .meli-table tbody tr:last-child {{
 
     <!-- COLUMNA DERECHA -->
     <div style="width: 450px;">
-        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 DISPONIBILIDAD DE FLOTA</div>
+        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
@@ -1000,7 +1000,7 @@ info_operativa = {
             - 👉 Pido validación</p>
         </div>
 
-        <h3 style='color: #000; margin-top: 25px;'>👉 PRE-CARGAS</h3>
+        <h3 style='color: #000; margin-top: 25px;'>🟥 PRE-CARGAS 🟥</h3>
         <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
