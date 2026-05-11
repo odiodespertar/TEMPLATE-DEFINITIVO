@@ -1003,7 +1003,7 @@ info_operativa = {
         <h3 style='color: #000; margin-top: 25px;'>👉 PRE-CARGAS</h3>
         <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
 
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
             - 📌 Origen + onway / si no especifican<br>
             - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
@@ -1035,8 +1035,8 @@ info_operativa = {
             - 👉 Sin schedule</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
             - ✅ delimitación (salen planes) / ❌ restricción<br>
             - SPR 30/Moto y Crowd<br>
@@ -1053,8 +1053,8 @@ info_operativa = {
             - 👉 SPR 21 / crowd 5 hrs</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMT1 PM2 - ⏰ 5:10 pm</strong><br>
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT1 PM2 - ⏰ 5:10 pm</strong><br>
             - 📌 Orígen: MXNL01<br>
             - 👉 SVC manda data (la envían tarde, solo hago el cruce para cotejo)</p>
         </div>
@@ -1064,8 +1064,8 @@ info_operativa = {
             - 👉 SPR 28 / crowd 5 hrs / 500 pqt aprox</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SGD1 PM2 - ⏰ 4:50 pm</strong><br>
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD1 PM2 - ⏰ 4:50 pm</strong><br>
              - 📌 Orígen: MXJC01</p>
         </div>
 
@@ -1079,8 +1079,8 @@ info_operativa = {
             - 👉 SPR 30 / crowd 5 y 3 hrs</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
             - 📌 Orígen: MXYU01<br>
             - 👉 Sin schedule / contemplo crowd 5 hrs<br>
             - 🚛 SVC manda en cuantas unidades y el SPR / entre 5 a 6 crowd 5 hrs con SPR 30<br>
@@ -1089,8 +1089,8 @@ info_operativa = {
             - 👉 Piden mejor dispersion, indico: "Se publicó de acuerdo a la herramienta team, ya no podemos manipular la dispersión como antes"</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong><br>
+        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong><br>
             - 📌 Origen MXPB01<br>
             - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
             - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
