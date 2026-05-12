@@ -21,18 +21,18 @@ u_PREC = {
     "Large Van MLP Newbie": [50, 50], 
     "Small Van MLP Newbie": [50, 50], 
     "Large Van MLP": [80, 85], 
-    "Small Van MLP": [80, 85], 
+    "Small Van MLP": [70, 80], 
     "Car MLP": [50, 50], 
     "Moto - 3h": [35, 37], 
     "Moto - 7h": [35, 37], 
     "Small Van Newbie": [35, 37], 
-    "Car Newbie": [35, 37], 
+    "Car Newbie": [40, 45], 
     "Car - 5h Extendida": [35, 37], 
     "Small Van 5h": [35, 37], 
     "Car - 5h": [35, 37], 
     "Car Zona Extendida": [35, 37], 
     "Small Van 9h": [35, 37], 
-    "Car - 8h": [35, 37]
+    "Car - 8h": [60, 70]
 }
 
 u_C1 = {
@@ -1012,11 +1012,24 @@ info_operativa = {
         </div>
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:40</strong><br>
-            - 📌 Orígenes: ** A validar **<br>
-            - ‼️ Revisar si habrá forms para rutear<br>
-            - 👉 MLP puede ir  ➡️   Xochimilco / Tlalpan Norte / Sur</p>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
+            - 📌 Orígen: MXCD09<br>
+             - 👉 Todo Onway<br>
+             - ➕ Agregan ids a ciclo (revisar forms)<br>
+             - ✅  Validan volumen<br>
+             - 🚛 MLP van a ➡️ Xochimilco ➡️ Tlalpan Norte ➡️ Tlalpan Sur</p>
         </div>
+
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
+            - 📌 Orígen: MXCD09 + MXCD02<br>
+             - 👉 Todo Onway<br>
+             - 👀 Revisar si se agrega ➕ forms<br>
+             - ✅  Validan volumen<br>
+             - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h</p>
+        </div>
+
+
 
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
