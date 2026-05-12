@@ -1007,6 +1007,7 @@ info_operativa = {
             <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
             - 📌 Origen + onway / si no especifican<br>
             - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
+            - 👀 Revisar si mandan blancos<br>
             - ✅ delimitación / ✅ dejar restricción para MLP /  ✅ dejar restricción para Crowd<br>
             - Revisar en qué polígonos acepta MLP para meterlas</p>
         </div>
