@@ -797,22 +797,7 @@ html body .meli-table tbody tr:last-child {{
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-
-
-
-                // Definimos si es una de las pestañas y la unidad permitida
-                let esPestañaPermitida = (currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2' || currentTab === 'SDE');
-                let esUnidadExcepcion = (n.includes('Crow 8 horas') || n.includes('Car 8h'));
-
-                if (esPestañaPermitida && esUnidadExcepcion) {{
-                    // Lógica tipo SDE: Permite ver el número negativo real
-                    cL.innerText = diff;
-                }} else {{
-                    // Lógica estándar: Si es negativo, muestra 0
-                    cL.innerText = (diff < 0) ? 0 : diff;
-                }}
-
-                // Mantenemos tus reglas de colores originales para 'Me quedan'
+                cL.innerText = diff;
                 cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
                 cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
