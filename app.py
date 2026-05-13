@@ -679,23 +679,16 @@ html body .meli-table tbody tr:last-child {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
-        let unitName = row.querySelector('.s-type').value; 
-
         if (delta > 0 && left <= 0) {{
-            // Definimos quiénes tienen el "pase VIP" (SDE completo y Car en PREC)
-            let esSDE = (currentTab === 'SDE');
-            let esPrecEspecial = (currentTab === 'PREC' || currentTab === 'PREC_SMX2') && unitName.includes('8h');
-
-            if (esSDE || esPrecEspecial) {{
-                // Solo mandamos el aviso, pero NO ponemos 'return'.
-                // Al no haber 'else' ni 'return' aquí, el código continúa hacia abajo.
-                showAlert("⚠️ UNIDAD EXTRA REGISTRADA");
+            if (currentTab === 4) {{
+                showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
             }} else {{
-                // Para todas las demás unidades/pestañas, SÍ mantenemos el bloqueo
                 showAlert("⚠️ AGOTADO. No se puede aumentar.");
-                return; // Este es el que detiene la suma
+                return;
             }}
         }}
+        span.innerText = Math.max(0, val + delta);
+                }} else {{
         
         // Esta línea es la que hace la magia. Como el 'return' de arriba no se ejecutó,
         // aquí se suma el delta (1) aunque el inventario esté en cero.
