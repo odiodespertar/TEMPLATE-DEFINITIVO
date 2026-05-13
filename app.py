@@ -441,12 +441,12 @@ html body .meli-table tbody tr:last-child {{
 <div style="display: flex; gap: 20px;">
     <!-- COLUMNA IZQUIERDA -->
     <div style="flex: 1;">
-        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-        <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
-        <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
-    </div>
+    <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+    <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
+    <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
+    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+    <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
+</div>
 
     <!-- COLUMNA DERECHA -->
     <div style="width: 450px;">
