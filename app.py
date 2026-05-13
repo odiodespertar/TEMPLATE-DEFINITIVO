@@ -123,7 +123,7 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_target=None, table_id=None): # Usamos un nombre genérico para evitar errores
+def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar errores
     polys = ""
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
     
@@ -148,10 +148,10 @@ def gen_poligonos(data_target=None, table_id=None): # Usamos un nombre genérico
     </tr>'''
 
     for i in range(1, 11):
-        # Lógica por ID de tabla (Esto es lo que asegura que carguen los nombres)
-        if table_id == 1 and (i-1) < len(nombres_prec):
+        # --- LÓGICA DE NOMBRES CORREGIDA ---
+        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-        elif table_id == 5 and (i-1) < len(nombres_smx2):
+        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             nombre_final = nombres_smx2[i-1]
         else:
             nombre_final = f"PLAN {i}"
@@ -465,11 +465,11 @@ html body .meli-table tbody tr:last-child {{
     <!-- COLUMNA IZQUIERDA -->
     <div style="flex: 1;">
     <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC, 1)}</div>
-    <div id="polys-2" class="p-content">{gen_poligonos(u_SDE, 2)}</div>
-    <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1, 3)}</div>
-    <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2, 4)}</div>
-    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2, 5)}</div>
+    <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
+    <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
+    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
+    <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
 </div>
 
     <!-- COLUMNA DERECHA -->
@@ -479,7 +479,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-                <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
+                <button class="tab-btn" onclick="showTab(3, this)">PREC SMX2</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
 
@@ -559,7 +559,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1" style="display:none;">{gen_master_rows(u_PREC, 1)}</tbody>       <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>  <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>   <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody> <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
@@ -634,26 +634,13 @@ html body .meli-table tbody tr:last-child {{
     let elapsedTime = 0;
 
     function showTab(n, btn) {{
-        // 1. Ocultamos todos los bloques de polígonos y todos los cuerpos de la tabla
-    // Usamos [id^="body-"] para seleccionar todos los que empiezan con "body-"
-    document.querySelectorAll('.p-content, [id^="body-"]').forEach(el => el.style.display = 'none');
-    
-    // 2. Quitamos la clase activa a todos los botones de esa fila
-    const btns = btn.parentElement.querySelectorAll('.tab-btn');
-    btns.forEach(b => b.classList.remove('active'));
-
-    // 3. MOSTRAMOS LOS ELEMENTOS CORRECTOS
-    // Mostramos el bloque de polígonos (abajo)
-    const polyEl = document.getElementById('polys-' + n);
-    if (polyEl) polyEl.style.display = 'block';
-
-    // Mostramos el cuerpo de la tabla de disponibilidad (donde están las unidades)
-    const bodyEl = document.getElementById('body-' + n);
-    if (bodyEl) bodyEl.style.display = ''; // Usamos vacío o table-row-group
-
-    // 4. Activamos el botón y recalculamos
-    btn.classList.add('active');
-    recalc();
+        currentTab = n;
+        document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('polys-'+n).style.display = 'block';
+        document.getElementById('tab-'+n).style.display = 'block';
+        btn.classList.add('active');
+        recalc();
     }}
 
     function showAlert(msg) {{
