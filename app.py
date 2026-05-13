@@ -689,16 +689,9 @@ html body .meli-table tbody tr:last-child {{
         }}
         span.innerText = Math.max(0, val + delta);
                 }} else {{
-        
-        // Esta línea es la que hace la magia. Como el 'return' de arriba no se ejecutó,
-        // aquí se suma el delta (1) aunque el inventario esté en cero.
-        span.innerText = Math.max(0, val + delta);
-    }}
-                
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
-
 
         // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
@@ -760,7 +753,7 @@ html body .meli-table tbody tr:last-child {{
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
                     fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
-// CAMBIO: Aplicar color turquesa al SPR REAL cuando hay una unidad seleccionada 
+// CAMBIO: Aplicar color turquesa al SPR REAL cuando hay una unidad seleccionada
         sp.style.color = "#008B8B"; 
         sp.style.fontWeight = "bold";
     }} else {{
@@ -804,21 +797,11 @@ html body .meli-table tbody tr:last-child {{
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-                // Esta es la lógica que replica el comportamiento de SDE en las otras pestañas
-        // currentTab == 'SDE' es la 4, 'PREC' es la 1, 'PREC_SMX2' es la 5 (según tus botones)
-        let permitirNegativo = (currentTab === 'SDE' || currentTab === 'PREC' || currentTab === 'PREC_SMX2');
-
-        if (permitirNegativo) {{
-            cL.innerText = diff; // Muestra el número real, aunque sea -1, -2, etc.
-        }} else {{
-            cL.innerText = (diff < 0) ? 0 : diff; // Para las demás pestañas, bloquea en 0
-        }}
-
-        // Mantenemos tus colores originales
-        cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
-        cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
-    }}
-}});
+                cL.innerText = diff;
+                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
+            }}
+        }});
     
 
 
