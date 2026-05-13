@@ -684,7 +684,7 @@ html body .meli-table tbody tr:last-child {{
         if (delta > 0 && left <= 0) {{
             // Definimos quiénes tienen permiso de "negativos"
             let esSDE = (currentTab === 'SDE');
-            let esPrecEspecial = (currentTab === 'PREC' || currentTab === 'PREC_SMX2') && (unitName.includes('8h') || unitName.includes('Crow'));
+            let esPrecEspecial = (currentTab === 'PREC' || currentTab === 'PREC_SMX2') && (unitName.includes('8h') || unitName.includes('Crowd'));
 
             if (esSDE || esPrecEspecial) {{
                 showAlert("⚠️ UNIDAD EXTRA: Se registrará en negativo.");
