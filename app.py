@@ -110,6 +110,10 @@ def gen_poligonos(data_dict):
     # Celda con Flexbox para mantener alineación
     # 'display:flex; justify-content:space-between; align-items:center;' es la clave
     cell_style_flex = "display:flex; justify-content:space-between; align-items:center; padding: 5px; min-height: 30px;"
+
+   # La lista de nombres que quieres
+    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+
     
     # CORRECCIÓN AQUÍ: Se añade background: #e3defa a la primera celda de fila_inner
     fila_inner = f'''
