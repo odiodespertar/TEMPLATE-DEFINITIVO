@@ -451,13 +451,12 @@ html body .meli-table tbody tr:last-child {{
 <div style="display: flex; gap: 20px;">
     <!-- COLUMNA IZQUIERDA -->
     <div style="flex: 1;">
-    <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-    <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
-    <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
-    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-    <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
-</div>
+        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
+        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
+        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+    </div>
 
     <!-- COLUMNA DERECHA -->
     <div style="width: 450px;">
@@ -497,6 +496,7 @@ html body .meli-table tbody tr:last-child {{
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
        # --- SUSTITUYE DESDE EL PRIMER <div id="tab-2" HASTA EL CIERRE DE LA TABLA 4 ---
         
+        # PESTAÑA C1 (ID 2)
         # PESTAÑA C1 (ID 2)
         <div id="tab-2" class="t-content">
             <table class="meli-table">
@@ -554,6 +554,26 @@ html body .meli-table tbody tr:last-child {{
                     </tr>
                 </thead>
                 <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+            </table>
+        </div>
+
+        # PESTAÑA SDE (ID 4) - ESTA ES LA QUE TE FALTABA
+        <div id="tab-4" class="t-content" style="display:none;">
+            <table class="meli-table">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                    </tr>
+                    <tr>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                    </tr>
+                </thead>
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
 
