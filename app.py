@@ -102,20 +102,13 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_dict=None):
+def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar errores
     polys = ""
-    # Estilo de botones mejorado para que no se deformen
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
     
-    # Celda con Flexbox para mantener alineación
-    # 'display:flex; justify-content:space-between; align-items:center;' es la clave
-    cell_style_flex = "display:flex; justify-content:space-between; align-items:center; padding: 5px; min-height: 30px;"
-
-   # La lista de nombres que quieres
+    # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-
     
-    # CORRECCIÓN AQUÍ: Se añade background: #e3defa a la primera celda de fila_inner
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
@@ -128,25 +121,23 @@ def gen_poligonos(data_dict=None):
             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
-
-<td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
+        <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
         <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
-</tr>'''
+    </tr>'''
 
-    
     for i in range(1, 11):
-        # LÓGICA INDEPENDIENTE: Solo si le decimos que es la pestaña 'PREC'
-        if nombre_pestana == "PREC" and (i-1) < len(nombres_prec):
+        # LÓGICA DE NOMBRES SEGURA:
+        # Si lo que recibe es el diccionario u_PREC o el texto "PREC"
+        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
         else:
             nombre_final = f"PLAN {i}"
 
-        
         polys += f'''
-<div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">           
-<table style="width: 100%; border-collapse: collapse;">
+        <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">           
+            <table style="width: 100%; border-collapse: collapse;">
                 <thead>
-<tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
+                    <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
                         <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
@@ -155,41 +146,40 @@ def gen_poligonos(data_dict=None):
                         <th style="width: 45px !important; text-align: center;">OK</th>
                     </tr>
                 </thead>
-            <tbody>
-                <tr class="calc-row">
-                    <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
-                    <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
-                    <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
-                        <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                        <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                        <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-                    </td>
-                    <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
-                        <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                        <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                        <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-                    </td>
-                    <td style="border: 0.5px solid #ccc; padding: 2px;">
-                        <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
-                            <option>SELECCIONAR...</option>
-                        </select>
-                    </td>
-                    <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
-                </tr>
-                {fila_inner}{fila_inner}{fila_inner}{fila_inner}
-                    <tr style="background:#f8f9fa; height: 32px;"> <!-- Añadimos height: 32px -->
-    <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 16px; color:#333;">ESTADO:</td>
-    <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
-    <!-- Aquí bajamos el colspan de 3 a 2 para dejarle espacio a la columna OK -->
-    <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 16px;">VACÍO</td>
-    <!-- Esta es la celda que cierra la columna OK al final de la tabla -->
-    <td style="width: 45px !important; border: 1px solid #ccc; background: #FFFFFF;"></td>
-</tr>
+                <tbody>
+                    <tr class="calc-row">
+                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
+                        
+                        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
+                            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                        </td>
+                        <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
+                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                        </td>
+                        <td style="border: 0.5px solid #ccc; padding: 2px;">
+                            <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
+                                <option>SELECCIONAR...</option>
+                            </select>
+                        </td>
+                        <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
+                    </tr>
+                    {fila_inner}{fila_inner}{fila_inner}{fila_inner}
+                    
+                    <tr style="background:#f8f9fa; height: 32px;">
+                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 16px; color:#333;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
+                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 16px;">VACÍO</td>
+                        <td style="width: 45px !important; border: 1px solid #ccc; background: #FFFFFF;"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>'''
     return polys
-
 
 
 
