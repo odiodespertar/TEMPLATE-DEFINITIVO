@@ -15,7 +15,7 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
 
-u_PREC SMX5 = {
+u_PREC = {
     "Extra large Van MLP": [50, 50], 
     "Extra large Van MLP H&B": [50, 50], 
     "Large Van MLP Newbie": [50, 50], 
@@ -35,7 +35,7 @@ u_PREC SMX5 = {
     "Car - 8h": [60, 70]
 }
 
-NOMBRES_PLANES_PREC SMX5 = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
@@ -53,9 +53,9 @@ def gen_master_rows(data_dict, table_id):
     total_items = len(items)
     
     # Determinamos el total de filas final
-    # Si es PREC SMX5, queremos al menos 45 para que quepa todo y sobren espacios
+    # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
     # Si no, las 18 de siempre
-    num_filas_objetivo = 45 if table_id == "PREC SMX5" else 18
+    num_filas_objetivo = 45 if table_id == "PREC" else 18
     
     # Usamos el número más grande entre el contenido real y nuestro objetivo
     # Esto evita que se corte SMX11 si el diccionario crece
@@ -107,7 +107,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
     
     # Tu lista de nombres
-    nombres_prec SMX5 = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     
     fila_inner = f'''
     <tr class="calc-row">
@@ -127,9 +127,9 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
 
     for i in range(1, 11):
         # LÓGICA DE NOMBRES SEGURA:
-        # Si lo que recibe es el diccionario u_PREC SMX5 o el texto "PREC SMX5"
-        if (data_target == u_PREC SMX5) and (i-1) < len(nombres_prec SMX5):
-            nombre_final = nombres_prec SMX5[i-1]
+        # Si lo que recibe es el diccionario u_PREC o el texto "PREC"
+        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
+            nombre_final = nombres_prec[i-1]
         else:
             nombre_final = f"PLAN {i}"
 
@@ -444,7 +444,7 @@ html body .meli-table tbody tr:last-child {{
     <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
     <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
     <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
-    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC SMX5)}</div>
+    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
     <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
 </div>
 
@@ -454,7 +454,7 @@ html body .meli-table tbody tr:last-child {{
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
-                <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
+                <button class="tab-btn" onclick="showTab(1, this)">PREC</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
 
@@ -534,7 +534,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC SMX5, 1)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
