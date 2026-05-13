@@ -791,16 +791,51 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
+        // --- BLOQUE MODIFICADO PARA "ME QUEDAN" ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
-                let diff = fleet[n].stock - fleet[n].used;
+                let rawDiff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-                cL.innerText = diff;
-                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
-                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
+                
+                // CONDICIÓN ESPECIAL: Crow 8 horas en pestañas específicas
+                let esPestañaEspecial = (currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2');
+                let esUnidadPermitida = (n.includes('Crow 8 horas') || n.includes('Car 8h'));
+
+                if (esPestañaEspecial && esUnidadPermitida) {{
+                    // Permite negativos
+                    cL.innerText = rawDiff;
+                }} else {{
+                    // Para las demás, si es negativo muestra 0 (comportamiento estándar)
+                    cL.innerText = rawDiff < 0 ? 0 : rawDiff;
+                }}
+
+                // Colores de la celda "Me quedan"
+                if (rawDiff < 0) {{
+                    cL.style.color = "red";
+                    cL.style.background = "transparent";
+                    cL.style.fontWeight = "bold";
+                }} else if (rawDiff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white";
+                    cL.style.background = "#d32f2f";
+                    cL.style.fontWeight = "normal";
+                }} else {{
+                    cL.style.color = "black";
+                    cL.style.background = "transparent";
+                    cL.style.fontWeight = "normal";
+                }}
             }}
         }});
+        
+        // Mantener la alerta de SDE si el total de flota usada supera la capacidad (opcional según tu lógica previa)
+        if (typeof checkSDEAlert === 'function') {{ checkSDEAlert(); }}
+}}
+
+
+
+
+
+
 
 
        // --- ESTA ES LA PARTE QUE FILTRA LA LISTA DESPLEGABLE ---
