@@ -982,6 +982,7 @@ info_operativa = {
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX4 PM2 - ⏰ 17:40 - 18:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
             - 👉 Vol aprox. 550<br>
+            - 🏍️ Motos en donde sea con SPR 25<br>
             - 👉 fecha promesa + quemada</p>
         </div>
 
