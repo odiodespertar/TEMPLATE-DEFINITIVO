@@ -249,7 +249,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* Bordes internos gris claro para el encabezado */
 .meli-table th {{
     background: linear-gradient(180deg, #444444 0%, #111111 100%);
-    color: FFFFFF;
+    color: #FFFFFF;
     font-size: 11px;
     height: 40px;
     font-weight: bold;
