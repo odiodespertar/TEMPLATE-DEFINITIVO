@@ -148,10 +148,10 @@ def gen_poligonos(data_target=None, table_id=None): # Usamos un nombre genérico
     </tr>'''
 
     for i in range(1, 11):
-        # --- NUEVA LÓGICA POR ID (INFALIBLE) ---
-        if table_id == 1 and (i-1) < len(nombres_prec): # ID 1 es SMX5
+        # Lógica por ID de tabla (Esto es lo que asegura que carguen los nombres)
+        if table_id == 1 and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-        elif table_id == 5 and (i-1) < len(nombres_smx2): # ID 5 es SMX2
+        elif table_id == 5 and (i-1) < len(nombres_smx2):
             nombre_final = nombres_smx2[i-1]
         else:
             nombre_final = f"PLAN {i}"
@@ -465,11 +465,11 @@ html body .meli-table tbody tr:last-child {{
     <!-- COLUMNA IZQUIERDA -->
     <div style="flex: 1;">
     <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC, 1)}</div>
     <div id="polys-2" class="p-content">{gen_poligonos(u_SDE, 2)}</div>
     <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1, 3)}</div>
-    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC, 1)}</div>
-    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2, 5)}</div>
     <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2, 4)}</div>
+    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2, 5)}</div>
 </div>
 
     <!-- COLUMNA DERECHA -->
@@ -479,7 +479,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-                <button class="tab-btn" onclick="showTab(3, this)">PREC SMX2</button>
+                <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
 
