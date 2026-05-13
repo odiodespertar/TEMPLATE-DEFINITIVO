@@ -679,19 +679,28 @@ html body .meli-table tbody tr:last-child {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
+        let unitName = row.querySelector('.s-type').value; // Obtenemos el nombre de la unidad seleccionada
+
         if (delta > 0 && left <= 0) {{
-            if (currentTab === 4 || currentTab === 1 || currentTab === 5) {{
-                showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
+            // Definimos quiénes tienen permiso de "negativos"
+            let esSDE = (currentTab === 'SDE');
+            let esPrecEspecial = (currentTab === 'PREC' || currentTab === 'PREC_SMX2') && (unitName.includes('8h') || unitName.includes('Crow'));
+
+            if (esSDE || esPrecEspecial) {{
+                showAlert("⚠️ UNIDAD EXTRA: Se registrará en negativo.");
+                // NO ponemos return para que deje sumar
             }} else {{
                 showAlert("⚠️ AGOTADO. No se puede aumentar.");
-                return;
+                return; // Bloquea el aumento
             }}
         }}
         span.innerText = Math.max(0, val + delta);
-                }} else {{
+    }} else {{
+                
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
+
 
         // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
