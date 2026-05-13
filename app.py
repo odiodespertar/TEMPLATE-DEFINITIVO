@@ -39,10 +39,9 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 
 
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
-u_PREC = {
+u_PREC_SMX2 = {
     "Car - 8h": [70, 80]
 }
-
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
@@ -71,13 +70,17 @@ def gen_master_rows(data_dict, table_id):
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, 11):
-        # --- LÓGICA DE NOMBRES PARA PREC Y PREG ---
-        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
-            nombre_final = nombres_prec[i-1]
-        elif (data_target == u_PREG) and (i-1) < len(NOMBRES_PLANES_PREG):
+        # Nombres para SMX 5
+        if (data_target == u_PREC) and (i-1) < len(NOMBRES_PLANES_PREC):
+            nombre_final = NOMBRES_PLANES_PREC[i-1]
+        
+        # Nombres para SMX 2 (Chimas, Valle Chalco, etc)
+        elif (data_target == u_PREC_SMX2) and (i-1) < len(NOMBRES_PLANES_PREG):
             nombre_final = NOMBRES_PLANES_PREG[i-1]
+            
         else:
             nombre_final = f"PLAN {i}"
+            
         
         # --- DISEÑO DE FILAS ---
         
@@ -457,7 +460,7 @@ html body .meli-table tbody tr:last-child {{
     <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
     <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
     <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
     <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
 </div>
 
