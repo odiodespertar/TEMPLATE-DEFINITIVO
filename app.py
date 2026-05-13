@@ -626,23 +626,21 @@ html body .meli-table tbody tr:last-child {{
 
     function showTab(n, btn) {{
         currentTab = n;
-    // Oculta polígonos y cuerpos de tabla de unidades
-    document.querySelectorAll('.p-content').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('[id^="body-"]').forEach(el => el.style.display = 'none');
+    // Oculta todo el contenido de polígonos y todas las tablas
+    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
     
-    // Quita clase activa de los botones
-    const btns = btn.parentElement.querySelectorAll('.tab-btn');
-    btns.forEach(b => b.classList.remove('active'));
+    // Quita el color azul a los botones
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     
-    // Muestra el contenido correcto
-    const polyEl = document.getElementById('polys-' + n);
-    if (polyEl) polyEl.style.display = 'block';
+    // Muestra el bloque de polígonos de abajo
+    document.getElementById('polys-' + n).style.display = 'block';
     
-    // ESTA ES LA LÍNEA CLAVE: Busca 'body-' porque así nombraste tus tbodies
-    const bodyEl = document.getElementById('body-' + n);
-    if (bodyEl) bodyEl.style.display = ''; 
-
+    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
+    document.getElementById('tab-' + n).style.display = 'block';
+    
+    // Pone el botón actual en azul
     btn.classList.add('active');
+    
     recalc();
     }}
 
