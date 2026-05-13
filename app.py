@@ -680,7 +680,7 @@ html body .meli-table tbody tr:last-child {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
         if (delta > 0 && left <= 0) {{
-            if (currentTab === 4) {{
+            if (currentTab === 4 || currentTab === 1 || currentTab === 5) {{
                 showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
             }} else {{
                 showAlert("⚠️ AGOTADO. No se puede aumentar.");
@@ -797,11 +797,21 @@ html body .meli-table tbody tr:last-child {{
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-                cL.innerText = diff;
-                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
-                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
-            }}
-        }});
+                // Esta es la lógica que replica el comportamiento de SDE en las otras pestañas
+        // currentTab == 'SDE' es la 4, 'PREC' es la 1, 'PREC_SMX2' es la 5 (según tus botones)
+        let permitirNegativo = (currentTab === 'SDE' || currentTab === 'PREC' || currentTab === 'PREC_SMX2');
+
+        if (permitirNegativo) {{
+            cL.innerText = diff; // Muestra el número real, aunque sea -1, -2, etc.
+        }} else {{
+            cL.innerText = (diff < 0) ? 0 : diff; // Para las demás pestañas, bloquea en 0
+        }}
+
+        // Mantenemos tus colores originales
+        cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+        cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
+    }}
+}});
     
 
 
