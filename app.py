@@ -580,7 +580,7 @@ html body .meli-table tbody tr:last-child {{
                     <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
                 </div>
                 <div class="calc-grid">
-                    <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button>
+                    <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button> 
                     <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
                     <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
                     <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c">-</button>
