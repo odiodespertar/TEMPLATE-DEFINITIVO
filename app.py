@@ -494,9 +494,9 @@ html body .meli-table tbody tr:last-child {{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
+
         
-        # PESTAÑA C1 (ID 2)
-        # PESTAÑA C1 (ID 2)
+       
         <div id="tab-2" class="t-content">
             <table class="meli-table">
                 <thead>
@@ -516,7 +516,7 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
-        # PESTAÑA SMX5 (ID 1)
+       
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
@@ -536,7 +536,7 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
-        # PESTAÑA SMX2 (ID 5)
+       
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
