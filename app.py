@@ -985,8 +985,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM1 - ⏰ 18:00 - 18:20</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 fecha promesa + quemada<br>
-            - 👉 Sin schedule / contemplo crowd 5 hrs<br>
+            - 👉 fecha promesa + quemada</p>
             - 👉 SPR 28</p>
         </div>
 
