@@ -1021,7 +1021,7 @@ info_operativa = {
             - 📌 Orígen: MXCD09<br>
              - 👉 Todo Onway<br>
              - ➕ Agregan ids a ciclo (revisar forms)<br>
-             - ✅  Validan volumen<br>
+             - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 MLP van a ➡️ Xochimilco ➡️ Tlalpan Norte ➡️ Tlalpan Sur</p>
         </div>
 
@@ -1030,7 +1030,7 @@ info_operativa = {
             - 📌 Orígen: MXCD09 + MXCD02<br>
              - 👉 Todo Onway<br>
              - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅  Validan volumen<br>
+             - ✅  Validan volumen / aprox. 1900-2000<br>
              - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h</p>
         </div>
 
