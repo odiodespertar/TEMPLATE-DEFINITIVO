@@ -967,18 +967,21 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
+            - 👉 Vol aprox. 800<br>
             - 👉 fecha promesa</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX5 PM2 - ⏰ 17:20 - 17:40</strong><br>
              - 📌 Orígenes: MXCD02, MXCD06<br>
+             - 👉 Vol aprox. 400<br>
              - 👉 fecha promesa + quemada</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX4 PM2 - ⏰ 17:40 - 18:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
+            - 👉 Vol aprox. 550<br>
             - 👉 fecha promesa + quemada</p>
         </div>
 
@@ -986,6 +989,7 @@ info_operativa = {
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM1 - ⏰ 18:00 - 18:20</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
             - 👉 fecha promesa + quemada</p>
+            - 👉 Vol aprox. 250<br>
             - 👉 SPR 28</p>
         </div>
 
