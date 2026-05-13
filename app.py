@@ -634,13 +634,26 @@ html body .meli-table tbody tr:last-child {{
     let elapsedTime = 0;
 
     function showTab(n, btn) {{
-        currentTab = n;
-        document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('polys-'+n).style.display = 'block';
-        document.getElementById('tab-'+n).style.display = 'block';
-        btn.classList.add('active');
-        recalc();
+        // 1. Ocultamos todos los bloques de polígonos y todos los cuerpos de la tabla
+    // Usamos [id^="body-"] para seleccionar todos los que empiezan con "body-"
+    document.querySelectorAll('.p-content, [id^="body-"]').forEach(el => el.style.display = 'none');
+    
+    // 2. Quitamos la clase activa a todos los botones de esa fila
+    const btns = btn.parentElement.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.classList.remove('active'));
+
+    // 3. MOSTRAMOS LOS ELEMENTOS CORRECTOS
+    // Mostramos el bloque de polígonos (abajo)
+    const polyEl = document.getElementById('polys-' + n);
+    if (polyEl) polyEl.style.display = 'block';
+
+    // Mostramos el cuerpo de la tabla de disponibilidad (donde están las unidades)
+    const bodyEl = document.getElementById('body-' + n);
+    if (bodyEl) bodyEl.style.display = ''; // Usamos vacío o table-row-group
+
+    // 4. Activamos el botón y recalculamos
+    btn.classList.add('active');
+    recalc();
     }}
 
     function showAlert(msg) {{
