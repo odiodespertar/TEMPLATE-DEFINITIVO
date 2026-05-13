@@ -797,7 +797,18 @@ html body .meli-table tbody tr:last-child {{
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-                cL.innerText = diff;
+                
+                // REGLA DE ORO: Si es SDE o las especiales con unidad Car - 8h, permitimos el negativo visual
+                let esEspecial = (currentTab === 'SDE') || 
+                                 ((currentTab === 'PREC' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
+
+                if (esEspecial) {{
+                    cL.innerText = diff; // Mostrará -1, -2, etc.
+                }} else {{
+                    cL.innerText = diff < 0 ? 0 : diff; // Para el resto, bloquea en 0
+                }}
+
+                // Colores originales (Rojo si falta, Blanco sobre Rojo si es exacto)
                 cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
                 cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
