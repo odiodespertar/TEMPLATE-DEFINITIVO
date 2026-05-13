@@ -494,7 +494,6 @@ html body .meli-table tbody tr:last-child {{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
-       # --- SUSTITUYE DESDE EL PRIMER <div id="tab-2" HASTA EL CIERRE DE LA TABLA 4 ---
         
         # PESTAÑA C1 (ID 2)
         # PESTAÑA C1 (ID 2)
@@ -557,7 +556,8 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
-        # PESTAÑA SDE (ID 4) - ESTA ES LA QUE TE FALTABA
+
+        
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
