@@ -55,7 +55,7 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 
-def gen_master_rows(data_dict, table_id):
+def gen_master_rows(data_target, table_id):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
@@ -70,16 +70,13 @@ def gen_master_rows(data_dict, table_id):
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, 11):
-        # Nombres para SMX 5
-        if (data_target == u_PREC) and (i-1) < len(NOMBRES_PLANES_PREC):
-            nombre_final = NOMBRES_PLANES_PREC[i-1]
-        
-        # Nombres para SMX 2 (Chimas, Valle Chalco, etc)
-        elif (data_target == u_PREC_SMX2) and (i-1) < len(NOMBRES_PLANES_PREG):
-            nombre_final = NOMBRES_PLANES_PREG[i-1]
-            
+        # --- LÓGICA DE NOMBRES IGUAL QUE EN POLÍGONOS ---
+        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
+            p_name = nombres_prec[i-1]
+        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
+            p_name = nombres_smx2[i-1]
         else:
-            nombre_final = f"PLAN {i}"
+            p_name = f"PLAN {i}"
             
         
         # --- DISEÑO DE FILAS ---
@@ -551,7 +548,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>   <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody> <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
