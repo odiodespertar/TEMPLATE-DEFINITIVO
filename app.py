@@ -35,6 +35,8 @@ u_PREC = {
     "Car - 8h": [60, 70]
 }
 
+NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
@@ -100,7 +102,7 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos():
+def gen_poligonos(data_dict):
     polys = ""
     # Estilo de botones mejorado para que no se deformen
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
@@ -126,9 +128,19 @@ def gen_poligonos():
 <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
         <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
 </tr>'''
+
+    
     for i in range(1, 11):
-        polys += f'''
+# --- LÓGICA DE NOMBRES ---
+        # Si estamos en la pestaña PREC (usando su diccionario) y hay nombres en la lista:
+        if data_dict == u_PREC and (i-1) < len(nombres_prec):
+            nombre_final = nombres_prec[i-1]
+        else:
+            nombre_final = f"PLAN {i}"
+        # -------------------------
+
         
+        polys += f'''
 <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">           
 <table style="width: 100%; border-collapse: collapse;">
                 <thead>
@@ -141,29 +153,20 @@ def gen_poligonos():
                         <th style="width: 45px !important; text-align: center;">OK</th>
                     </tr>
                 </thead>
-
-                
-               
-
             <tbody>
                 <tr class="calc-row">
-                    <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">PLAN {i}</td>
+                    <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
                     <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
-                    
-                   
                     <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
                         <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                         <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                         <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                     </td>
-
-                   
                     <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
                         <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                         <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                         <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                     </td>
-
                     <td style="border: 0.5px solid #ccc; padding: 2px;">
                         <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
                             <option>SELECCIONAR...</option>
@@ -172,8 +175,6 @@ def gen_poligonos():
                     <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                 </tr>
                 {fila_inner}{fila_inner}{fila_inner}{fila_inner}
-                    
-                    
                     <tr style="background:#f8f9fa; height: 32px;"> <!-- Añadimos height: 32px -->
     <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 16px; color:#333;">ESTADO:</td>
     <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
@@ -186,6 +187,10 @@ def gen_poligonos():
             </table>
         </div>'''
     return polys
+
+
+
+
 
 app_html = f"""
 <!DOCTYPE html>
