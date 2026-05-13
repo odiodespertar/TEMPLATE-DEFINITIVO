@@ -683,7 +683,7 @@ html body .meli-table tbody tr:last-child {{
             if (currentTab === 4) {{
                 showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
             }} else {{
-                showAlert("⚠️ AGOTADO. No se puede aumentar.");
+                showAlert("⚠️ UNIDADES AGOTADAS: Solicita más a SVC.");
                 return;
             }}
         }}
