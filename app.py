@@ -55,10 +55,14 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 
-def gen_master_rows(data_target, table_id):
+def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
+
+   # Listas de nombres para que la función las reconozca
+    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # Determinamos el total de filas final
     # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
@@ -69,14 +73,20 @@ def gen_master_rows(data_target, table_id):
     # Esto evita que se corte SMX11 si el diccionario crece
     rango_final = max(total_items, num_filas_objetivo)
     
-    for i in range(1, 11):
-        # --- LÓGICA DE NOMBRES IGUAL QUE EN POLÍGONOS ---
-        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
+    for i in range(1, rango_final + 1):
+        # Lógica de nombres
+        if (data_dict == u_PREC) and (i-1) < len(nombres_prec):
             p_name = nombres_prec[i-1]
-        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
+        elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             p_name = nombres_smx2[i-1]
         else:
             p_name = f"PLAN {i}"
+            
+        # Obtener datos de la unidad si existe
+        if (i-1) < total_items:
+            name, spr = items[i-1]
+        else:
+            name, spr = "", [0, 0]
             
         
         # --- DISEÑO DE FILAS ---
@@ -99,7 +109,7 @@ def gen_master_rows(data_target, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #ebebeb; color: #969696;"
+            st_base = "background: #ebebeb; color: #969696;" if not name else ""
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #ccc; width: 150px;">{name}</td>
@@ -108,8 +118,7 @@ def gen_master_rows(data_target, table_id):
                 <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #ccc; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #ccc; width: 60px; font-size: 18px;">0</td>
-            </tr>'''
-            
+            </tr>''' 
     return rows
 
 
@@ -120,6 +129,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     fila_inner = f'''
     <tr class="calc-row">
@@ -138,10 +148,11 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     </tr>'''
 
     for i in range(1, 11):
-        # LÓGICA DE NOMBRES SEGURA:
-        # Si lo que recibe es el diccionario u_PREC o el texto "PREC"
+        # --- LÓGICA DE NOMBRES CORREGIDA ---
         if (data_target == u_PREC) and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
+        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
+            nombre_final = nombres_smx2[i-1]
         else:
             nombre_final = f"PLAN {i}"
 
