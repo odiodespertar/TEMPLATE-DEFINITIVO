@@ -508,7 +508,10 @@ html body .meli-table tbody tr:last-child {{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
-       <div id="tab-2" class="t-content">
+       # --- SUSTITUYE DESDE EL PRIMER <div id="tab-2" HASTA EL CIERRE DE LA TABLA 4 ---
+        
+        # PESTAÑA C1 (ID 2)
+        <div id="tab-2" class="t-content">
             <table class="meli-table">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
@@ -527,25 +530,7 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
-        <div id="tab-3" class="t-content" style="display:none;">
-            <table class="meli-table">
-                <thead>
-                    <tr style="background: linear-gradient(180deg, #3c3c3c 0%, #000000 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
-                    </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
-                    </tr>
-                </thead>
-                <tbody id="body-3">{gen_master_rows(u_C1, 3)}</tbody>
-            </table>
-        </div>
-
+        # PESTAÑA SMX5 (ID 1)
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
@@ -565,6 +550,7 @@ html body .meli-table tbody tr:last-child {{
             </table>
         </div>
 
+        # PESTAÑA SMX2 (ID 5)
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
@@ -581,25 +567,6 @@ html body .meli-table tbody tr:last-child {{
                     </tr>
                 </thead>
                 <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-            </table>
-        </div>
-
-        <div id="tab-4" class="t-content" style="display:none;">
-            <table class="meli-table">
-                <thead>
-                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
-                    </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
-                    </tr>
-                </thead>
-                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
 
