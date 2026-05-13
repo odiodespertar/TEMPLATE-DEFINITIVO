@@ -559,7 +559,7 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>   <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody> <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+                <tbody id="body-1" style="display:none;">{gen_master_rows(u_PREC, 1)}</tbody>       <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>  <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
