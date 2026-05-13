@@ -15,23 +15,10 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
 
-u_PREC = {
-    "Extra large Van MLP": [50, 50], 
-    "Extra large Van MLP H&B": [50, 50], 
-    "Large Van MLP Newbie": [50, 50], 
-    "Small Van MLP Newbie": [50, 50], 
+u_PREC = {  
     "Large Van MLP": [80, 85], 
-    "Small Van MLP": [70, 80], 
-    "Car MLP": [50, 50], 
-    "Moto - 3h": [35, 37], 
-    "Moto - 7h": [35, 37], 
-    "Small Van Newbie": [35, 37], 
-    "Car Newbie": [40, 45], 
-    "Car - 5h Extendida": [35, 37], 
-    "Small Van 5h": [35, 37], 
-    "Car - 5h": [35, 37], 
-    "Car Zona Extendida": [35, 37], 
-    "Small Van 9h": [35, 37], 
+    "Small Van MLP": [70, 80],  
+    "Car Newbie": [40, 45],  
     "Car - 8h": [60, 70]
 }
 
@@ -67,7 +54,7 @@ def gen_master_rows(data_dict, table_id):
     # Determinamos el total de filas final
     # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
     # Si no, las 18 de siempre
-    num_filas_objetivo = 45 if table_id == "PREC" else 18
+    num_filas_objetivo = 45 if table_id == "PREC" else 11
     
     # Usamos el número más grande entre el contenido real y nuestro objetivo
     # Esto evita que se corte SMX11 si el diccionario crece
