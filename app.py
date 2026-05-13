@@ -102,7 +102,7 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_dict):
+def gen_poligonos(data_dict=None):
     polys = ""
     # Estilo de botones mejorado para que no se deformen
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
@@ -135,13 +135,11 @@ def gen_poligonos(data_dict):
 
     
     for i in range(1, 11):
-# --- LÓGICA DE NOMBRES ---
-        # Si estamos en la pestaña PREC (usando su diccionario) y hay nombres en la lista:
-        if data_dict == u_PREC and (i-1) < len(nombres_prec):
+        # LÓGICA INDEPENDIENTE: Solo si le decimos que es la pestaña 'PREC'
+        if nombre_pestana == "PREC" and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
         else:
             nombre_final = f"PLAN {i}"
-        # -------------------------
 
         
         polys += f'''
@@ -454,10 +452,10 @@ html body .meli-table tbody tr:last-child {{
     <!-- COLUMNA IZQUIERDA -->
     <div style="flex: 1;">
         <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-        <div id="polys-2" class="p-content">{gen_poligonos()}</div>
-        <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos()}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos()}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos()}</div>
+        <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
+        <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
+        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
     </div>
 
     <!-- COLUMNA DERECHA -->
