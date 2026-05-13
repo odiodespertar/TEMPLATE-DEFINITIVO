@@ -203,6 +203,20 @@ app_html = f"""
         /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
 
         /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
+
+
+        /* Color para las celdas de Mínimo y Máximo */
+        .edit-spr-min, .edit-spr-max {{
+            background-color: #ffffff !important; /* Fondo blanco */
+            color: #111111 !important;           /* Texto casi negro para que se vea bien */
+            font-weight: bold;
+        }}
+
+        /* Si quieres que cuando la fila esté vacía no se vea tan oscura */
+        tr.master-row {{
+            background-color: #ffffff; 
+        }}
+       
         
         /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
