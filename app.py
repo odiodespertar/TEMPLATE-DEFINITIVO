@@ -479,7 +479,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-                <button class="tab-btn" onclick="showTab(3, this)">PREC SMX2</button>
+                <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
 
@@ -559,7 +559,11 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px; background: linear-gradient(180deg, #222 0%, #000 100%); color: white; line-height: 1.2;">MAX</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>   <tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody> <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+                # --- Dentro de la columna de DISPONIBILIDAD DE FLOTA ---
+<tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+<tbody id="body-1" style="display:none;">{gen_master_rows(u_PREC, 1)}</tbody>
+<tbody id="body-5" style="display:none;">{gen_master_rows(u_PREC_SMX2, 5)}</tbody> <tbody id="body-3" style="display:none;">{gen_master_rows(u_C1, 3)}</tbody>
+<tbody id="body-4" style="display:none;">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
         <div id="tab-4" class="t-content" style="display:none;">
@@ -635,13 +639,25 @@ html body .meli-table tbody tr:last-child {{
 
     function showTab(n, btn) {{
         currentTab = n;
-        document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('polys-'+n).style.display = 'block';
-        document.getElementById('tab-'+n).style.display = 'block';
-        btn.classList.add('active');
-        recalc();
+    // Oculta polígonos y cuerpos de tabla de unidades
+    document.querySelectorAll('.p-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('[id^="body-"]').forEach(el => el.style.display = 'none');
+    
+    // Quita clase activa de los botones
+    const btns = btn.parentElement.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    
+    // Muestra el contenido correcto
+    const polyEl = document.getElementById('polys-' + n);
+    if (polyEl) polyEl.style.display = 'block';
+    
+    const bodyEl = document.getElementById('body-' + n);
+    if (bodyEl) bodyEl.style.display = ''; 
+
+    btn.classList.add('active');
+    recalc();
     }}
+
 
     function showAlert(msg) {{
         document.getElementById('alert-msg').innerText = msg;
