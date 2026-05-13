@@ -37,6 +37,15 @@ u_PREC = {
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
+
+# --- AÑADE ESTO DEBAJO DE U_PREC ---
+u_PREC = {
+    "Car - 8h": [70, 80]
+}
+
+NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+
+
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
@@ -61,11 +70,14 @@ def gen_master_rows(data_dict, table_id):
     # Esto evita que se corte SMX11 si el diccionario crece
     rango_final = max(total_items, num_filas_objetivo)
     
-    for i in range(rango_final):
-        if i < total_items:
-            name, spr = items[i][0], items[i][1]
+    for i in range(1, 11):
+        # --- LÓGICA DE NOMBRES PARA PREC Y PREG ---
+        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
+            nombre_final = nombres_prec[i-1]
+        elif (data_target == u_PREG) and (i-1) < len(NOMBRES_PLANES_PREG):
+            nombre_final = NOMBRES_PLANES_PREG[i-1]
         else:
-            name, spr = "NUEVA UNIDAD", [0, 0]
+            nombre_final = f"PLAN {i}"
         
         # --- DISEÑO DE FILAS ---
         
@@ -445,6 +457,7 @@ html body .meli-table tbody tr:last-child {{
     <div id="polys-2" class="p-content">{gen_poligonos(u_SDE)}</div>
     <div id="polys-3" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
     <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
     <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_C2)}</div>
 </div>
 
@@ -455,6 +468,7 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
+                <button class="tab-btn" onclick="showTab(3, this)">PREC SMX2</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
 
