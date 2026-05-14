@@ -43,33 +43,28 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- BARRA LATERAL INFORMATIVA ---
-with st.sidebar:
-    st.title("📌 Guía de Prioridades")
-    
-    # Selector simple para cambiar la info que ves
-    opcion_guia = st.selectbox("Seleccionar Plan:", ["SMX 5 (PREC)", "SMX 2 (PREG)"])
-    
-    st.divider()
+# --- COPIAR Y PEGAR ESTO ---
+st.sidebar.title("📚 GUÍA DE APOYO")
 
-    if opcion_guia == "SMX 5 (PREC)":
-        st.subheader("Reglas SMX 5")
-        st.markdown("""
-        * **CHALCO:** Small Van > Car
-        * **IZTAPALAPA:** Large Van > Small Van
-        * **TLALPAN:** Car 8h > Car 5h
-        * **ZONAS ROJAS:** Sin Motos
-        """)
-    else:
-        st.subheader("Reglas SMX 2")
-        st.markdown("""
-        * **TEXCOCO:** No Motos
-        * **CHIMAS:** No Motos
-        * **PUEBLOS:** Prioridad Van
-        """)
-    
-    st.info("Nota: Esta sección es solo informativa para apoyo visual.")
+# Selector de plan
+plan_seleccionado = st.sidebar.radio(
+    "Selecciona el Plan para consultar:",
+    ["SMX 5 (PREC)", "SMX 2 (PREG)"],
+    index=0
+)
 
+st.sidebar.markdown("---")
+
+if plan_seleccionado == "SMX 5 (PREC)":
+    st.sidebar.subheader("Prioridades SMX 5")
+    st.sidebar.info("• CHALCO: Small Van > Car\n\n• IZTAPALAPA: Large Van > Small Van\n\n• TLALPAN: Car 8h > Car 5h")
+else:
+    st.sidebar.subheader("Prioridades SMX 2")
+    st.sidebar.warning("⚠️ ZONAS ROJAS (Sin Motos):\n\n• TEXCOCO\n\n• CHIMAS\n\n• PUEBLOS")
+
+st.sidebar.markdown("---")
+st.sidebar.caption("Usa esta info como guía visual para el llenado manual.")
+# --- FINAL DEL BLOQUE ---
 
 
 def gen_master_rows(data_dict, table_id):
