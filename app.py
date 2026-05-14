@@ -61,14 +61,14 @@ with st.container():
     with col2:
         with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
             st.markdown("""
-            * **CHALCO:** DC > Crowd (Crowd - ORH 6:00 hrs)
-            * **CHIMAS:** Crowd > MLP (Small - ORH 7:30 hrs)
-            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y crowd - ORH 5:30 hrs)
-            * **IZTAPALAPA 1:** MLP > Crowd (Small - ORH de 3:00 a 7:30 hrs)
-            * **IZTAPALAPA 2** Crowd > MLP (Small - ORH 7:30 hrs / Crowd - 5:30 hrs)
-            * **LA PAZ:** Crowd (ORH 5:30 hrs)
-            * **PUEBLOS:** MLP > Crowd (Crowd - ORH 6:00 hrs)
-            * **TEXCOCO:** Crowd > Car Zona Ext (Crowd - ORH 6:00 hrs)
+            * **CHALCO:** DC > Crowd (Crowd - 6:00 hrs)
+            * **CHIMAS:** Crowd > MLP (Small - 7:30 hrs)
+            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
+            * **IZTAPALAPA 1:** MLP > Crowd (Small - 3:00 a 7:30 hrs)
+            * **IZTAPALAPA 2** Crowd > MLP (Small - 7:30 hrs / Crowd - 5:30 hrs)
+            * **LA PAZ:** Crowd (5:30 hrs)
+            * **PUEBLOS:** MLP > Crowd (Crowd - 6:00 hrs)
+            * **TEXCOCO:** Crowd > Car Zona Ext (Crowd - 6:00 hrs)
             """)
             st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
             st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
