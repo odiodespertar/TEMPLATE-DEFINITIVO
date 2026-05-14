@@ -303,7 +303,6 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.4s; z-index: 10000;
         }}
         #google-alert.show {{ top: 20px; }}
-        
 /* Pestañas Modernas con Volumen */
 .tab-btn {{ 
     padding: 10px 12px; 
@@ -636,23 +635,6 @@ html body .meli-table tbody tr:last-child {{
     let startTime;
     let elapsedTime = 0;
 
-
-    // --- NUEVOS DATOS DE VOLUMEN Y PRIORIDADES ---
-    const reglasPrioridad = {{
-        "TLALPAN NORTE": ["Small Van SDD", "Car - 8h"],
-        "XOCHIMILCO": ["Small Van SDD", "Car - 8h"],
-        "MILPA ALTA": ["Small Van SDD", "Large Van SDD", "Car - 8h"],
-        "IZTAPALAPA": ["Small Van SDD", "Car - 8h"],
-        "TLALPAN SUR": ["Small Van SDD", "Car - 8h"],
-        "TLAHUAC": ["Small Van SDD", "Car - 8h"],
-        "CHALCO": ["Large Van SDD", "Car - 8h"],
-        "COYOACÁN": ["Small Van SDD", "Car - 8h"],
-        "COYOACÁN CENTRO": ["Small Van SDD", "Car - 8h"]
-    }};
-
-
-
-
     function showTab(n, btn) {{
         currentTab = n;
     // Oculta todo el contenido de polígonos y todas las tablas
@@ -761,56 +743,49 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {
-            // 1. Ya no buscamos en 'volumenExcel'. 
-            // Ahora vT lee directamente el valor manual de la celda de la tabla.
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-
-            let vA = 0;
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+            
+            // Referencia al número de ASIGNADAS
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
-            // Procesamos las filas de unidades asignadas
             bl.querySelectorAll('.calc-row').forEach(r => {{
-                let s = r.querySelector('.s-type').value;
-                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                let sp = r.querySelector('.spr-real-val');
-
+                let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    // Si el usuario no ha editado el SPR manualmente, ponemos el máximo de la flota
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
-                    
                     fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
-
-                    // Estilo turquesa para unidades activas
-                    sp.style.color = "#008B8B"; 
-                    sp.style.fontWeight = "bold";
-                }} else {{
-                    sp.style.color = "#969696";
-                    sp.style.fontWeight = "normal";   
+// CAMBIO: Aplicar color turquesa al SPR REAL cuando hay una unidad seleccionada
+        sp.style.color = "#008B8B"; 
+        sp.style.fontWeight = "bold";
+    }} else {{
+        // Resetear color si no hay selección (opcional, para limpieza)
+        sp.style.color = "#969696";
+        sp.style.fontWeight = "normal";   
                 }}
-                    }});
+            }});
 
-            // Actualizamos el total asignado y comparamos con la meta (vT)
             vCalcEl.innerText = Math.round(vA);
-            vCalcEl.style.background = "white";
             let d = bl.querySelector('.p-diff');
+
+            // Mantenemos la celda blanca siempre
+            vCalcEl.style.background = "white";
 
             if (vT === 0) {{
                 d.innerText = "VACÍO";
                 d.style.background = "none";
-                vCalcEl.style.color = "#d32f2f";
-                }} else {{
+                vCalcEl.style.color = "#d32f2f"; // Rojo si no hay nada
+            }} else {{
                 if (Math.round(vA) === Math.round(vT)) {{
+                    // COINCIDENCIA: SOLO CAMBIA EL COLOR DEL TEXTO
                     d.innerText = "OK";
                     d.style.background = "#ceedd6"; 
-                    vCalcEl.style.color = "#20B2AA"; 
+                    vCalcEl.style.color = "#20B2AA"; // Texto en AQUA
                 }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT);
                     d.style.background = "#ffe4b5";
                     vCalcEl.style.color = "#d32f2f";
-                    }} else {{
+                }} else {{
                     d.innerText = "FALTAN: " + Math.round(vT - vA);
                     d.style.background = "#f7cdd1";
                     vCalcEl.style.color = "#d32f2f";
