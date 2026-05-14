@@ -19,7 +19,7 @@ u_PREC = {
     "Large Van MLP": [80, 85], 
     "Small Van MLP": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car - 8h": [60, 70]
+    "Car - 8h": [70, 75]
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -27,7 +27,9 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
-    "Car - 8h": [70, 80]
+    "Small Van MLP": [70, 80],
+    "Car - 8h": [70, 75],
+    "Car Zona Extendida": [65, 65]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
