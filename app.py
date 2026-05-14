@@ -786,6 +786,40 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
+        // 3. Actualizar columna "ME QUEDAN" con Negativos para CARS
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let diff = fleet[n].stock - fleet[n].used;
+                let cL = row.querySelector('.f-left');
+                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD');
+
+                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
+                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
+                cL.style.fontWeight = (diff < 0) ? "bold" : "normal";
+            }}
+        }});
+
+        // 4. Filtrar Lista Desplegable (Solo si tiene SCHED)
+        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
+            let cur = s.value; 
+            let opt = '<option>SELECCIONAR...</option>';
+            Object.keys(fleet).forEach(k => {{ 
+                if (fleet[k].stock > 0) {{
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
+                    if (disp || k === cur || flexible) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
+                    }}
+                }}
+            }});
+            s.innerHTML = opt; s.value = cur; 
+        }});
+    }}
+
+    
+
        // 3. ACTUALIZAR COLUMNA "ME QUEDAN" (REPLICAR COMPORTAMIENTO SDE)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
