@@ -44,22 +44,22 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 # --- PANEL DE REGLAS Y RESTRICCIONES (Sidebar) ---
-with st.sidebar.expander("🛠️ REGLAS Y RESTRICCIONES DE AUTO-CÁLCULO"):
-    st.info("Configura prioridades o restricciones por polígono:")
+with st.sidebar.expander("🛠️ REGLAS Y RESTRICCIONES"):
+    st.info("Configura prioridades por polígono:")
     reglas_config = {}
     
-    # Combinamos todos los polígonos de tus listas
+    # Combinamos las listas
     todos_polis = NOMBRES_PLANES_PREC + NOMBRES_PLANES_PREG
+    todas_unidades = list(set(list(u_PREC.keys()) + list(u_C1.keys())))
     
-    # Obtenemos todos los nombres de unidades posibles para las opciones
-    todas_unidades = list(u_PREC.keys()) + list(u_C1.keys())
-    todas_unidades = list(set(todas_unidades)) # Elimina duplicados
-    
-    for poli in todos_polis:
+    # Usamos enumerate para evitar llaves duplicadas (KeyError)
+    for i, poli in enumerate(todos_polis):
         st.markdown(f"**📍 {poli}**")
-        prio = st.multiselect(f"Prioridad para {poli}:", options=todas_unidades, key=f"prio_{poli}")
-        roja = st.checkbox("Zona Roja / Restricción", key=f"roja_{poli}")
+        # La KEY ahora es única usando el índice i
+        prio = st.multiselect(f"Prioridad:", options=todas_unidades, key=f"prio_{i}_{poli}")
+        roja = st.checkbox("Zona Roja", key=f"roja_{i}_{poli}")
         
+        # Guardamos en el diccionario usando el nombre del polígono como clave
         reglas_config[poli] = {
             "prioridad": prio,
             "zona_roja": roja
@@ -656,7 +656,7 @@ html body .meli-table tbody tr:last-child {{
 
 // --- 1. AQUÍ RECIBES LA TABLA DE REGLAS/RESTRICCIONES ---
     // Esta variable 'ID_REGLAS_DINAMICAS' es la que el .replace() de Python llenará
-    const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
+const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
 
     let currentTab = 2;
     let editedRowsPlan = new Set();
@@ -1013,7 +1013,6 @@ function distribuirAutomatico() {{
 """
 
 html(app_html.replace('ID_REGLAS_DINAMICAS', reglas_json), height=1200, scrolling=True)
-
 
 
 
