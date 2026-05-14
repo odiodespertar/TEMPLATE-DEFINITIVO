@@ -1019,7 +1019,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 800<br>
+            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
             - 👉 fecha promesa</p>
         </div>
 
