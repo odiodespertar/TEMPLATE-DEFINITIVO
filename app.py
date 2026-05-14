@@ -43,29 +43,21 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- COPIAR DESDE AQUÍ ---
-with st.sidebar:
-    st.title("Configuración") # Esto ayuda a que la barra tenga contenido fijo
-    
-    with st.expander("📖 MANUAL DE PRIORIDADES", expanded=True):
-        st.info("Consulta rápida de reglas:")
-        
-        st.markdown("### 📍 SMX 5 (PREC)")
-        st.markdown("""
-        * **CHALCO:** Small Van > Car
-        * **IZTAPALAPA:** Large Van > Small Van
-        * **TLALPAN:** Car 8h > Car 5h
-        """)
-        
-        st.divider()
-        
-        st.markdown("### 📍 SMX 2 (PREG)")
-        st.markdown("""
-        * **TEXCOCO:** Sin Motos
-        * **CHIMAS:** Sin Motos
-        * **PUEBLOS:** Large Van > Small Van
-        """)
-# --- HASTA AQUÍ ---
+# --- BORRA LO ANTERIOR Y PEGA ESTO EXACTAMENTE ---
+st.sidebar.title("📌 GUÍA DE OPERACIÓN")
+
+st.sidebar.header("SMX 5 (PREC)")
+st.sidebar.write("• CHALCO: Small > Car")
+st.sidebar.write("• IZTAPALAPA: Large > Small")
+
+st.sidebar.markdown("---") # Una línea divisoria
+
+st.sidebar.header("SMX 2 (PREG)")
+st.sidebar.write("• TEXCOCO: No Motos")
+st.sidebar.write("• CHIMAS: No Motos")
+
+st.sidebar.info("Usa estos datos como recordatorio antes de Autocalcular.")
+# --- FIN DEL BLOQUE ---
 
 
 def gen_master_rows(data_dict, table_id):
