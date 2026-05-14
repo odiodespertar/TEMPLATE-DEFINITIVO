@@ -812,69 +812,65 @@ html body .meli-table tbody tr:last-child {{
         }});
         
 
-       // --- 1. ACTUALIZAR CONTADORES (TABLA DE ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA: Permitir negativos solo si el nombre contiene "CAR" o "CROWD" o "8H" o "5H" o "3H"
-                let esFlexible = n.toUpperCase().includes('CAR') || 
-                                 n.toUpperCase().includes('CROWD') || 
-                                 n.toUpperCase().includes('H');
+                // REGLA DE ORO: Si es SDE o las especiales con unidad Car - 8h, permitimos el negativo visual
+                let esEspecial = (currentTab === 'SDE') || 
+                                 ((currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
 
-                if (esFlexible) {{
-                    cL.innerText = diff; // Muestra -1, -2, etc.
+                if (esEspecial) {{
+                    cL.innerText = diff; // Mostrará -1, -2, etc.
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans
+                    cL.innerText = diff < 0 ? 0 : diff; // Para el resto, bloquea en 0
                 }}
 
-                // --- COLORES ---
-                if (diff < 0) {{
-                    cL.style.color = "red";
-                    cL.style.fontWeight = "bold";
-                    cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white";
-                    cL.style.background = "#d32f2f";
-                }} else {{
-                    cL.style.color = "black";
-                    cL.style.background = "transparent";
-                    cL.style.fontWeight = "normal";
-                }}
+                // Colores originales (Rojo si falta, Blanco sobre Rojo si es exacto)
+                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
         }});
+    
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (TABLA DE ABAJO) ---
-        // Recuperamos la lógica de que solo aparezcan si tienen SCHED > 0
+
+
+
+
+       // --- ESTA ES LA PARTE QUE FILTRA LA LISTA DESPLEGABLE ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
-            let cur = s.value; 
+            let cur = s.value; // Guardamos lo que está seleccionado actualmente
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                // Condición 1: Tiene stock programado en SCHED (fleet[k].stock > 0)
-                // Condición 2: No se ha agotado (fleet[k].stock - fleet[k].used > 0)
-                // Condición 3: Es la que ya está seleccionada (k === cur)
-                // Condición 4: Es tipo Car/Crowd (permitir que siga apareciendo para negativos)
-                
-                let tieneStockInicial = fleet[k].stock > 0;
-                let tieneEspacio = (fleet[k].stock - fleet[k].used > 0);
-                let esFlexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
-
-                if (tieneStockInicial) {{
-                    if (tieneEspacio || k === cur || esFlexible) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
-                    }}
-                }}
+                // REGLA: Mostrar en la lista solo si tiene stock > 0 
+                // O si es la unidad que YA está seleccionada en esa fila
+                if (fleet[k].stock - fleet[k].used > 0 || k === cur) {{ 
+                    opt += `<option value="${{k}}">${{k}}</option>`; 
+                }} 
             }});
             
             s.innerHTML = opt; 
-            s.value = cur; 
+            s.value = cur; // Mantenemos la selección actual para que no se borre lo que ya hiciste
         }});
+  
+    
+    }}
+    
+    function focusCalc() {{
+        document.getElementById('calc_wrapper').focus();
+    }}
 
+    function filterRows(onlyActive) {{
+        const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
+        rows.forEach(row => {{
+            const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            row.style.display = (onlyActive && stock === 0) ? 'none' : '';
+        }});
+    }}
 
-        
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
         document.getElementById('time-res').innerText = Math.floor(m/60) + "h " + (m%60) + "m";
