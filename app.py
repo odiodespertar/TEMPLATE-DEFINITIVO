@@ -350,34 +350,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
 
         
-       /* CALCULADORA CON RESPLANDOR NEÓN */
-        #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
-        #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
-        
-        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
-        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
-        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
-        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
-        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
-        /* Botones con un relieve sutil */
-        .btn-c {{
-            background: #f0f0f0; 
-            border: none; 
-            font-weight: bold; 
-            border-radius: 12px; 
-            padding: 12px; 
-            cursor: pointer; 
-            /* Sombra pequeña para que cada botón destaque */
-            box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2;
-            transition: transform 0.1s;
-        }}
-
-        /* Efecto de "clic" real */
-        .btn-c:active {{
-            transform: scale(0.95);
-            box-shadow: inset 2px 2px 5px #b1b1b1;
-        }}
-
+      
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
