@@ -47,16 +47,31 @@ u_C2["Large Van Híbrida"] = [100, 100]
 with st.container():
     col1, col2 = st.columns([1, 1])
     with col1:
-        with st.expander("📍 PRIORIDADES SMX 5 (PREC)", expanded=True):
+        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0", expanded=True):
             st.markdown("""
-            * **CHALCO:** Small Van > Car
-            * **IZTAPALAPA:** Large Van > Small Van
-            * **TLALPAN:** Car 8h > Car 5h
+            * **CHALCO:** MLP LV > Crowd 
+            * **COYOACÁN:** MLP > Crowd
+            * **IZTAPALAPA:** MLP > Crowd
+            * **MILPA ALTA:** MLP LV > Crowd 
+            * **TLÁHUAC:** MLP > Crowd
+            * **TLALPAN NTE:** MLP > Crowd
+            * **TLALPAN SUR:** MLP
+            * **XOCHIMILCO:** MLP > Crowd
             """)
     with col2:
-        with st.expander("📍 RESTRICCIONES SMX 2 (PREG)", expanded=True):
-            st.warning("⚠️ **ZONAS ROJAS (Sin Motos):** TEXCOCO, CHIMAS, PUEBLOS")
-            st.write("Prioridad: Large Van en zonas de alta densidad.")
+        with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
+            st.markdown("""
+            * **CHALCO:** DC > Crowd 
+            * **CHIMAS:** Crowd > MLP
+            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd
+            * **IZTAPALAPA 1:** MLP > Crowd 
+            * **IZTAPALAPA 2** Crowd > MLP
+            * **LA PAZ:** Crowd
+            * **PUEBLOS:** MLP > Crowd
+            * **TEXCOCO:** Crowd
+            """)
+            st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
+            st.write("Prioridad: Large Van y MLP en zonas de nodos.")
 
 st.divider() # Una línea para separar la guía de las tablas
 
