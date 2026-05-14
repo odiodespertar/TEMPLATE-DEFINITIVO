@@ -63,23 +63,31 @@ mapeo_cp_poligono = {
 
 if archivo_paquetes:
     try:
-        df_p = pd.read_excel(archivo_paquetes)
+        # Cargamos el archivo usando openpyxl (el motor que faltaba)
+        df_p = pd.read_excel(archivo_paquetes, engine='openpyxl')
         
-        # Si el Excel no tiene columna de volumen, la calculamos:
-        if 'Volumen' not in df_p.columns:
-            # Calculamos Alto * Largo * Ancho (en metros para tener m3)
-            # Asumiendo que tus columnas se llaman 'Alto', 'Largo', 'Ancho'
-            df_p['Volumen'] = (df_p['Alto'] * df_p['Largo'] * df_p['Ancho']) / 1000000 
+        # Limpiamos los nombres de las columnas para evitar errores de espacios o mayúsculas
+        df_p.columns = [str(c).strip().lower() for c in df_p.columns]
+
+        # Calculamos volumen si no existe
+        if 'volumen' not in df_p.columns:
+            l = df_p.get('largo', 0)
+            an = df_p.get('ancho', 0)
+            al = df_p.get('alto', 0)
+            df_p['volumen'] = (l * an * al) / 1000000
         
-        # Asignamos el Polígono a cada paquete usando el CP
-        df_p['Poligono_Asignado'] = df_p['CP'].map(mapeo_cp_poligono)
-        
-        # Agrupamos y sumamos el volumen por Polígono
-        volumen_final_poligonos = df_p.groupby('Poligono_Asignado')['Volumen'].sum().to_dict()
-        
-        st.sidebar.success("✅ Volumen por polígono calculado")
+        # Mapeamos el polígono usando el CP
+        if 'cp' in df_p.columns:
+            df_p['poligono_asignado'] = df_p['cp'].map(mapeo_cp_poligono)
+            
+            # Guardamos los totales en el diccionario
+            volumen_final_poligonos = df_p.groupby('poligono_asignado')['volumen'].sum().to_dict()
+            st.sidebar.success(f"✅ Volumen calculado para {len(volumen_final_poligonos)} polígonos")
+        else:
+            st.sidebar.error("El Excel no tiene columna 'CP'")
+
     except Exception as e:
-        st.sidebar.error(f"Error procesando el Excel: {e}")
+        st.sidebar.error(f"Error al procesar: {e}")
 
 # Convertimos a JSON para que el JavaScript del monitor pueda leerlo
 volumen_json = json.dumps(volumen_final_poligonos)
