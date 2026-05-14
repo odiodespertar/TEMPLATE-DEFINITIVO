@@ -962,17 +962,17 @@ function distribuirAutomatico() {{
                     let u = r.querySelector('.u-manual');
                     let sp = r.querySelector('.spr-real-val');
 
-                    if (s.value === "SELECCIONAR..." && faltante > 0.5) {
+                    if (s.value === "SELECCIONAR..." && faltante > 0.5) {{
                     // 1. BUSCAMOS SEGÚN TU LISTA DE PRIORIDADES (reglasPrioridad)
                     let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
                     let key = orden.find(k => fleet[k] && fleet[k].stock > 0);
 
-                    if (key) {
+                    if (key) {{
                         let unidad = fleet[key];
                         let necesito = Math.ceil(faltante / unidad.max);
                         let asigno = Math.min(necesito, unidad.stock);
                         
-                        if (asigno > 0) {
+                        if (asigno > 0) {{
                             s.value = key;
                             u.innerText = asigno;
                             
