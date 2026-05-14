@@ -720,10 +720,10 @@ html body .meli-table tbody tr:last-child {{
         // Si es para bajar o está dentro del rango, permite el cambio
         span.innerText = newVal.toFixed(1);
     }}
-    
     editedRowsPlan.add(row);
     recalc();
 }}
+
 
     function recalc() {{
         let fleet = {{}};
@@ -794,7 +794,7 @@ html body .meli-table tbody tr:last-child {{
                 // Regla universal para Car 3h, 5h, 8h y Crowd
                 let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
 
-                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
+                cL.innerText = (diff < 0 ? 0 : diff);
                 
                 // Color Rojo si es negativo
                 if (diff < 0) {{
