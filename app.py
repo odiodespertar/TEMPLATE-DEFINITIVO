@@ -1003,8 +1003,7 @@ function distribuirAutomatico() {{
 </html>
 """
 
-html(app_html.format(prioridades_json=prioridades_json), height=1200, scrolling=True)
-
+html(app_html.replace('VARIABLE_PRIORIDADES_AQUÍ', prioridades_json), height=1200, scrolling=True)
 
 
 
