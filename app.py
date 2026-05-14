@@ -1069,8 +1069,9 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
-            - 📌 Orígen: MXCD09<br>
-             - 👉 Todo Onway<br>
+             - 📌 Orígen: MXCD09 / indicado por SVC<br>
+             - 👉 Todo Onway / indicado por SVC<br>
+             - 👉 Si SVC no indica origen, tomo los de playbook<br>
              - ➕ Agregan ids a ciclo (revisar forms)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 MLP van a ➡️ Xochimilco ➡️ Tlalpan Norte ➡️ Tlalpan Sur</p>
@@ -1078,8 +1079,9 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-            - 📌 Orígen: MXCD09 + MXCD02<br>
+             - 📌 Orígen: MXCD09 + MXCD02 / indicados por SVC<br>
              - 👉 Todo Onway<br>
+             - 👉 Si SVC no indica origen, tomo los de playbook / MXCD02 despacho 16:00 / MXCD09  despacho 14:00 / MXCD10  despacho 21:00<br>
              - 👀 Revisar si se agrega ➕ forms<br>
              - ✅  Validan volumen / aprox. 1900-2000<br>
              - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h</p>
