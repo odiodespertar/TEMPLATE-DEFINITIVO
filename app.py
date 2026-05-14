@@ -34,6 +34,25 @@ u_PREC_SMX2 = {
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
+# --- 1. APARTADO DE PRIORIDADES EN LA BARRA LATERAL ---
+with st.sidebar.expander("⚙️ CONFIGURACIÓN DE PRIORIDADES"):
+    st.write("Selecciona el orden de unidades para el Autocalculo:")
+    prioridades_usuario = {}
+    
+    # Creamos un selector para cada polígono
+    for poli in NOMBRES_PLANES_PREC:
+        prioridades_usuario[poli] = st.multiselect(
+            f"Prioridad {poli}:",
+            options=list(u_PREC.keys()),
+            default=["Small Van SDD", "Car - 8h"] if "CHALCO" not in poli else ["Large Van SDD", "Car - 8h"],
+            key=f"pri_{poli}"
+        )
+
+# Convertimos esto a JSON para que el Monitor lo entienda
+import json
+prioridades_json = json.dumps(prioridades_usuario)
+
+
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
@@ -628,6 +647,11 @@ html body .meli-table tbody tr:last-child {{
 
 
 <script>
+
+    // Esta línea debe estar al principio del script dentro de app_html
+    // El {prioridades_json} se reemplazará por el texto que viene de Python
+    const reglasPrioridad = JSON.parse('{prioridades_json}');
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -938,29 +962,31 @@ function distribuirAutomatico() {{
                     let u = r.querySelector('.u-manual');
                     let sp = r.querySelector('.spr-real-val');
 
-                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
-                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
-                        if (key) {{
-                            let unidad = fleet[key];
-                            let necesito = Math.ceil(faltante / unidad.max);
-                            let asigno = Math.min(necesito, unidad.stock);
+                    if (s.value === "SELECCIONAR..." && faltante > 0.5) {
+                    // 1. BUSCAMOS SEGÚN TU LISTA DE PRIORIDADES (reglasPrioridad)
+                    let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
+                    let key = orden.find(k => fleet[k] && fleet[k].stock > 0);
+
+                    if (key) {
+                        let unidad = fleet[key];
+                        let necesito = Math.ceil(faltante / unidad.max);
+                        let asigno = Math.min(necesito, unidad.stock);
+                        
+                        if (asigno > 0) {
+                            s.value = key;
+                            u.innerText = asigno;
                             
-                            if (asigno > 0) {{
-                                s.value = key;
-                                u.innerText = asigno;
-                                
-                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
-                                // Dividimos el faltante entre las unidades asignadas
-                                let sprSugerido = (faltante / asigno);
-                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
-                                let sprFinal = Math.min(sprSugerido, unidad.max);
-                                
-                                // Redondeamos a 1 decimal para que no se vea feo
-                                sp.innerText = Math.round(sprFinal * 10) / 10;
-                                
-                                unidad.stock -= asigno;
-                                faltante -= (asigno * sprFinal);
-                                editedRowsPlan.add(r); 
+                            // 2. TU LÓGICA DE AJUSTE AUTOMÁTICO DE SPR
+                            let sprSugerido = (faltante / asigno);
+                            let sprFinal = Math.min(sprSugerido, unidad.max);
+                            
+                            // Redondeamos a 1 decimal
+                            sp.innerText = Math.round(sprFinal * 10) / 10;
+                            
+                            unidad.stock -= asigno;
+                            // Restamos lo asignado realmente al faltante del polígono
+                            faltante -= (asigno * sprFinal);
+                            editedRowsPlan.add(r); 
                             }}
                         }}
                     }}
@@ -977,7 +1003,7 @@ function distribuirAutomatico() {{
 </html>
 """
 
-html(app_html, height=1200, scrolling=True)
+html(app_html.format(prioridades_json=prioridades_json), height=1200, scrolling=True)
 
 
 
