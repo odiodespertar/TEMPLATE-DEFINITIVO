@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit.components.v1 import html 
-import pandas as pd  # Asegúrate de tener esta importación
+import pandas as pd  # Asegúrate de tener esta importación 
 import json
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
