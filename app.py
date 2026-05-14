@@ -940,10 +940,9 @@ const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
 
 function distribuirAutomatico() {{
     let fleet = {{}};
-    // 1. Capturar flota disponible
+    // 1. Mapear flota disponible
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let nameEl = row.querySelector('.edit-name');
-        let name = nameEl ? nameEl.innerText.trim() : "";
+        let name = row.querySelector('.edit-name').innerText.trim();
         let ma = row.querySelector('.edit-spr-max');
         let cL = row.querySelector('.f-left'); 
         let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
@@ -959,33 +958,42 @@ function distribuirAutomatico() {{
         return;
     }}
 
-    // 2. Procesar cada polígono
+    // --- MAPA DE MEMORIA DE PRIORIDADES (Edita esto a tu gusto) ---
+    // Aquí defines qué unidades quieres que vayan primero según el polígono
+    const memoriaPrioridades = {{
+        "CHALCO": ["Large Van SDD", "Small Van SDD", "Car - 8h"],
+        "IZTAPALAPA": ["Small Van SDD", "Car Newbie"],
+        "TLALPAN SUR": ["Car - 8h", "Small Van SDD"],
+        "ZONA ROJA": ["Car - 8h", "Large Van SDD"] // Ejemplo para restringir motos
+    }};
+
+    // 2. Procesar polígonos
     document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-        let pNameEl = bl.querySelector('.p-name');
-        let nombrePoli = pNameEl ? pNameEl.innerText.trim().toUpperCase() : "";
-        
+        let pName = bl.querySelector('.p-name').innerText.trim().toUpperCase();
         let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
         let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
         let faltante = vT - vA;
 
         if (faltante > 0.5) {{
-            // LEER REGLAS DESDE EL SIDEBAR
-            let config = reglasEspeciales[nombrePoli] || {{ prioridad: [], zona_roja: false }};
+            // DETERMINAR EL ORDEN PARA ESTE POLÍGONO
+            let orden = [];
+            
+            // Si el polígono tiene prioridad grabada en la memoria:
+            if (memoriaPrioridades[pName]) {{
+                orden = [...memoriaPrioridades[pName]];
+                // Agregamos el resto de la flota disponible como respaldo
+                Object.keys(fleet).forEach(u => {{
+                    if (!orden.includes(u)) orden.push(u);
+                }});
+            }} else {{
+                // Si no tiene memoria, usa el orden de la tabla de arriba
+                orden = Object.keys(fleet);
+            }}
 
-// 1. Empezamos con las unidades que tú elegiste en el Sidebar
-let orden = [...config.prioridad];
-
-// 2. Agregamos el resto de la flota que NO elegiste, por si falta carga por cubrir
-Object.keys(fleet).forEach(unidad => {{
-    if (!orden.includes(unidad)) {{
-        orden.push(unidad);
-    }}
-}});
-
-// 3. Si marcaste Zona Roja, filtramos las Motos para que no se usen aquí
-if (config.zona_roja) {{
-    orden = orden.filter(u => !u.toLowerCase().includes('moto'));
-}}
+            // Si es un polígono peligroso o con restricción de moto (puedes añadir lógica aquí)
+            if (pName.includes("PUEBLOS") || pName.includes("ALTA")) {{
+                orden = orden.filter(u => !u.toLowerCase().includes("moto"));
+            }}
 
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type');
@@ -1003,8 +1011,6 @@ if (config.zona_roja) {{
                         if (asigno > 0) {{
                             s.value = key;
                             u.innerText = asigno;
-                            
-                            // Ajuste de SPR para llegar al OK
                             let sprFinal = Math.min((faltante / asigno), unidad.max);
                             sp.innerText = Math.round(sprFinal * 10) / 10;
                             
