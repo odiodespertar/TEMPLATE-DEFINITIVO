@@ -814,30 +814,32 @@ html body .meli-table tbody tr:last-child {{
 
         // --- 1. ACTUALIZAR CONTADORES Y COLORES DE LA FLOTA (ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let n = row.querySelector('.edit-name').innerText.trim();
-            if(fleet[n]) {{
-                let diff = fleet[n].stock - fleet[n].used;
+            let n = row.querySelector('.edit-name').innerText.trim().toUpperCase();
+            if(fleet[n] || fleet[row.querySelector('.edit-name').innerText.trim()]) {{
+                let nombreReal = row.querySelector('.edit-name').innerText.trim();
+                let diff = fleet[nombreReal].stock - fleet[nombreReal].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA UNIVERSAL: Permitir negativos si es SDE O si el nombre de la unidad contiene "CAR" o "CROWD"
-                let esUnidadFlexible = (currentTab === 'SDE') || 
-                                       n.toUpperCase().includes('CAR') || 
-                                       n.toUpperCase().includes('CROWD');
+                // REGLA UNIVERSAL: Si el nombre contiene CAR, CROWD o estamos en SDE, permitimos negativos
+                let permiteNegativo = n.includes('CAR') || 
+                                       n.includes('CROWD') || 
+                                       currentTab === 'SDE';
 
-                if (esUnidadFlexible) {{
-                    cL.innerText = diff; // Muestra -1, -2, -3...
+                if (permiteNegativo) {{
+                    cL.innerText = diff; // Mostrará -1, -2, -3...
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans en PREC
+                    // Para Vans y otros, bloqueamos en 0 para que no te pases
+                    cL.innerText = diff < 0 ? 0 : diff; 
                 }}
 
-                // Colores de alerta (Igual que en SDE)
+                // --- COLORES ---
                 if (diff < 0) {{
-                    cL.style.color = "red";
+                    cL.style.color = "#ff4b4b"; // Rojo brillante
                     cL.style.fontWeight = "bold";
                     cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                }} else if (diff === 0 && fleet[nombreReal].stock > 0) {{
                     cL.style.color = "white";
-                    cL.style.background = "#d32f2f"; // Fondo rojo si se agotó exacto
+                    cL.style.background = "#d32f2f"; // Fondo rojo si es exacto
                 }} else {{
                     cL.style.color = "black";
                     cL.style.background = "transparent";
@@ -846,20 +848,18 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE NO DESAPAREZCAN LAS CAR) ---
+        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE LAS CAR NO DESAPAREZCAN) ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                let tieneStock = (fleet[k].stock - fleet[k].used > 0);
-                let esCarOCrowd = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
+                let stockDisponible = (fleet[k].stock - fleet[k].used > 0);
+                let esFlexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
                 
-                // Se muestra en la lista si: 
-                // 1. Tiene stock disponible
-                // 2. O si es la que ya está seleccionada en esa fila
-                // 3. O si es una unidad flexible (Car/Crowd) que permitimos sobrepasar
-                if (tieneStock || k === cur || esCarOCrowd) {{ 
+                // Se muestra en la lista si hay stock, si ya está seleccionada,
+                // o si es una unidad que permitimos aumentar (Car/Crowd)
+                if (stockDisponible || k === cur || esFlexible) {{ 
                     opt += `<option value="${{k}}">${{k}}</option>`; 
                 }} 
             }});
