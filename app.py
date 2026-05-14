@@ -1,8 +1,7 @@
 import streamlit as st
 from streamlit.components.v1 import html 
 
-st.set_page_config(page_title="Monitor Logístico", layout="wide", initial_sidebar_state="expanded")
-
+st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
 # CSS para diseño limpio
 st.markdown("""
@@ -24,6 +23,30 @@ u_PREC = {
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+
+
+# --- PANEL LATERAL DE CONSULTA ---
+with st.sidebar:
+    st.title("📖 GUÍA DE APOYO")
+    
+    # Lista desplegable para elegir el plan
+    plan_guia = st.selectbox(
+        "Ver prioridades de:",
+        ["SMX 5 (PREC)", "SMX 2 (PREG)"],
+        index=0
+    )
+    
+    st.divider() # Línea divisoria
+
+    if plan_guia == "SMX 5 (PREC)":
+        st.subheader("📍 Prioridades SMX 5")
+        st.info("• CHALCO: Small Van > Car\n\n• IZTAPALAPA: Large Van > Small\n\n• TLALPAN: Car 8h > Car 5h")
+    else:
+        st.subheader("📍 Prioridades SMX 2")
+        st.warning("⚠️ ZONAS ROJAS (Sin Motos):\n\n• TEXCOCO\n\n• CHIMAS\n\n• PUEBLOS")
+    
+    st.divider()
+    st.caption("Usa esta información para el llenado manual de las tablas.")
 
 
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
