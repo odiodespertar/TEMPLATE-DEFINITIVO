@@ -786,30 +786,44 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
+
+
+       // 3. ACTUALIZACIÓN UNIVERSAL DE CONTADORES (REPLICAR SDE EN TODO)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // Regla universal para Car 3h, 5h, 8h y Crowd
-                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
+                // CRÍTICO: Si el nombre tiene "CAR", "CROWD" o "H" (3h, 5h, 8h), permite negativo
+                // Esto hace que PREC SMX2 y SMX5 funcionen igual que SDE
+                let esUnidadFlexible = n.toUpperCase().includes('CAR') || 
+                                       n.toUpperCase().includes('CROWD') || 
+                                       n.toUpperCase().includes('H');
 
-                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
-                
-                // Color Rojo si es negativo
-                if (diff < 0) {{
-                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#d32f2f";
+                if (esUnidadFlexible) {{
+                    cL.innerText = diff; // Muestra negativos
                 }} else {{
-                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
+                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea Vans en 0
+                }}
+
+                // --- ESTILOS DE ALERTA ---
+                if (diff < 0) {{
+                    cL.style.color = "red";
+                    cL.style.fontWeight = "bold";
+                    cL.style.background = "transparent";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white";
+                    cL.style.background = "#d32f2f";
+                }} else {{
+                    cL.style.color = "black";
+                    cL.style.background = "transparent";
+                    cL.style.fontWeight = "normal";
                 }}
             }}
         }});
 
-        // 4. FILTRAR LISTA SIN ROMPER SCHED
+        // 4. FILTRAR LISTA DESPLEGABLE (REPLICAR SDE)
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
@@ -824,18 +838,14 @@ html body .meli-table tbody tr:last-child {{
             }});
             s.innerHTML = opt; s.value = cur; 
         }});
-    }}
+    }} // AQUÍ CIERRA RECALC
 
-    // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
-    document.addEventListener('keydown', function(event) {{
-        if (event.key === 'Enter') {{
-            // Busca cualquier div de alerta o mensaje de error y lo cierra/limpia
-            let alerta = document.querySelector('.alerta-roja, .p-diff'); 
-            if (alerta && alerta.innerText.includes('EXCESO')) {{
-                // Si tienes una función específica para cerrar, llámala aquí
-                // O simplemente quita el foco para que no bloquee
-                document.activeElement.blur();
-            }}
+    // --- SOLUCIÓN AL ENTER (FUERA DE RECALC) ---
+    // Este bloque asegura que el Enter procese los datos y quite la alerta sin romper el diseño
+    document.addEventListener('keydown', function(e) {{
+        if (e.key === 'Enter') {{
+            e.preventDefault(); // Evita que el Enter haga un salto de línea o refresque mal
+            document.activeElement.blur(); // Cierra el modo edición y dispara el recalc
         }}
     }});
 
