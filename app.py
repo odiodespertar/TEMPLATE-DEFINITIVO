@@ -797,7 +797,7 @@ html body .meli-table tbody tr:last-child {{
 
 
                 console.log("Diferencia calculada:", diff);
-                cL.innerText = (diff < 0 ? 0 : diff);
+                cL.innerText = diff;
                 
                 // Color Rojo si es negativo
                 if (diff < 0) {{
