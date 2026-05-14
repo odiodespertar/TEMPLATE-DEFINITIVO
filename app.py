@@ -43,31 +43,6 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- PANEL DE REGLAS (Sidebar) ---
-with st.sidebar.expander("🛠️ REGLAS Y RESTRICCIONES"):
-    st.info("Configura prioridades por polígono:")
-    reglas_config = {}
-    
-    # Unificamos todos los nombres de polígonos
-    todos_polis = NOMBRES_PLANES_PREC + NOMBRES_PLANES_PREG
-    # Unificamos todas las unidades disponibles
-    todas_unidades = list(set(list(u_PREC.keys()) + list(u_C1.keys()) + list(u_SDE.keys())))
-    
-    for i, poli in enumerate(todos_polis):
-        st.markdown(f"**📍 {poli}**")
-        # Usamos i para que la key sea 100% única para Streamlit
-        prio = st.multiselect(f"Prioridad:", options=todas_unidades, key=f"R_prio_{i}")
-        roja = st.checkbox("Zona Roja", key=f"R_roja_{i}")
-        
-        # Pero guardamos en el JSON con el nombre del polígono para que el JS lo encuentre
-        reglas_config[poli.upper()] = {  # Usar .upper() aquí es la clave
-    "prioridad": prio,
-    "zona_roja": roja
-}
-
-import json
-reglas_json = json.dumps(reglas_config)
-
 
 def gen_master_rows(data_dict, table_id):
     rows = ""
@@ -653,11 +628,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 <script>
-
-// --- 1. AQUÍ RECIBES LA TABLA DE REGLAS/RESTRICCIONES ---
-    // Esta variable 'ID_REGLAS_DINAMICAS' es la que el .replace() de Python llenará
-const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
-
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -939,84 +909,58 @@ const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
 
 
 function distribuirAutomatico() {{
-    let fleet = {{}};
-    // 1. Mapear flota disponible
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let name = row.querySelector('.edit-name').innerText.trim();
-        let ma = row.querySelector('.edit-spr-max');
-        let cL = row.querySelector('.f-left'); 
-        let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
-        let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+        let fleet = {{}};
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim();
+            let ma = row.querySelector('.edit-spr-max');
+            let cL = row.querySelector('.f-left'); 
+            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
+            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
 
-        if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
-            fleet[name] = {{ max: sprMax, stock: disponibles }};
+            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: sprMax, stock: disponibles }};
+            }}
+        }});
+
+        if (Object.keys(fleet).length === 0) {{
+            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+            return;
         }}
-    }});
 
-    if (Object.keys(fleet).length === 0) {{
-        alert("⚠️ No hay unidades disponibles en SCHED.");
-        return;
-    }}
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
+            let faltante = vT - vA;
 
-    // --- MAPA DE MEMORIA DE PRIORIDADES (Edita esto a tu gusto) ---
-    // Aquí defines qué unidades quieres que vayan primero según el polígono
-    const memoriaPrioridades = {{
-        "CHALCO": ["Large Van SDD", "Small Van SDD", "Car - 8h"],
-        "IZTAPALAPA": ["Small Van SDD", "Car Newbie"],
-        "TLALPAN SUR": ["Car - 8h", "Small Van SDD"],
-        "ZONA ROJA": ["Car - 8h", "Large Van SDD"] // Ejemplo para restringir motos
-    }};
+            if (faltante > 1) {{
+                bl.querySelectorAll('.calc-row').forEach(r => {{
+                    let s = r.querySelector('.s-type');
+                    let u = r.querySelector('.u-manual');
+                    let sp = r.querySelector('.spr-real-val');
 
-    // 2. Procesar polígonos
-    document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-        let pName = bl.querySelector('.p-name').innerText.trim().toUpperCase();
-        let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-        let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
-        let faltante = vT - vA;
-
-        if (faltante > 0.5) {{
-            // DETERMINAR EL ORDEN PARA ESTE POLÍGONO
-            let orden = [];
-            
-            // Si el polígono tiene prioridad grabada en la memoria:
-            if (memoriaPrioridades[pName]) {{
-                orden = [...memoriaPrioridades[pName]];
-                // Agregamos el resto de la flota disponible como respaldo
-                Object.keys(fleet).forEach(u => {{
-                    if (!orden.includes(u)) orden.push(u);
-                }});
-            }} else {{
-                // Si no tiene memoria, usa el orden de la tabla de arriba
-                orden = Object.keys(fleet);
-            }}
-
-            // Si es un polígono peligroso o con restricción de moto (puedes añadir lógica aquí)
-            if (pName.includes("PUEBLOS") || pName.includes("ALTA")) {{
-                orden = orden.filter(u => !u.toLowerCase().includes("moto"));
-            }}
-
-            bl.querySelectorAll('.calc-row').forEach(r => {{
-                let s = r.querySelector('.s-type');
-                let u = r.querySelector('.u-manual');
-                let sp = r.querySelector('.spr-real-val');
-
-                if (s && s.value === "SELECCIONAR..." && faltante > 0.5) {{
-                    let key = orden.find(k => fleet[k] && fleet[k].stock > 0);
-
-                    if (key) {{
-                        let unidad = fleet[key];
-                        let necesito = Math.ceil(faltante / unidad.max);
-                        let asigno = Math.min(necesito, unidad.stock);
-                        
-                        if (asigno > 0) {{
-                            s.value = key;
-                            u.innerText = asigno;
-                            let sprFinal = Math.min((faltante / asigno), unidad.max);
-                            sp.innerText = Math.round(sprFinal * 10) / 10;
+                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
+                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
+                        if (key) {{
+                            let unidad = fleet[key];
+                            let necesito = Math.ceil(faltante / unidad.max);
+                            let asigno = Math.min(necesito, unidad.stock);
                             
-                            unidad.stock -= asigno;
-                            faltante -= (asigno * sprFinal);
-                            editedRowsPlan.add(r);
+                            if (asigno > 0) {{
+                                s.value = key;
+                                u.innerText = asigno;
+                                
+                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
+                                // Dividimos el faltante entre las unidades asignadas
+                                let sprSugerido = (faltante / asigno);
+                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
+                                let sprFinal = Math.min(sprSugerido, unidad.max);
+                                
+                                // Redondeamos a 1 decimal para que no se vea feo
+                                sp.innerText = Math.round(sprFinal * 10) / 10;
+                                
+                                unidad.stock -= asigno;
+                                faltante -= (asigno * sprFinal);
+                                editedRowsPlan.add(r); 
                             }}
                         }}
                     }}
@@ -1033,7 +977,11 @@ function distribuirAutomatico() {{
 </html>
 """
 
-html(app_html.replace('ID_REGLAS_DINAMICAS', reglas_json), height=1200, scrolling=True)
+html(app_html, height=1200, scrolling=True)
+
+
+
+
 
 
 
