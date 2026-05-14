@@ -620,21 +620,7 @@ html body .meli-table tbody tr:last-child {{
                 </div>
             </div>
 
-            <!-- 2. CALCULADORA (Ahora segunda) -->
-            <div id="calc_wrapper" onclick="focusCalc()" tabindex="0">
-                <div id="calc_display_box">
-                    <div id="calc_h" style="font-size:10px; color:#666;"></div>
-                    <div id="calc_r" style="font-size:24px; font-weight:bold;">0</div>
-                </div>
-                <div class="calc-grid">
-                    <button onclick="cl()" class="btn-c" style="grid-column: span 2;">AC</button> 
-                    <button onclick="del()" class="btn-c">⌫</button><button onclick="ao('/')" class="btn-c">÷</button>
-                    <button onclick="an('7')" class="btn-c">7</button><button onclick="an('8')" class="btn-c">8</button><button onclick="an('9')" class="btn-c">9</button><button onclick="ao('*')" class="btn-c">×</button>
-                    <button onclick="an('4')" class="btn-c">4</button><button onclick="an('5')" class="btn-c">5</button><button onclick="an('6')" class="btn-c">6</button><button onclick="ao('-')" class="btn-c">-</button>
-                    <button onclick="an('1')" class="btn-c">1</button><button onclick="an('2')" class="btn-c">2</button><button onclick="an('3')" class="btn-c">3</button><button onclick="ao('+')" class="btn-c">+</button>
-                    <button onclick="an('0')" class="btn-c" style="grid-column: span 2;">0</button><button onclick="calc_eq()" class="btn-c-eq">=</button>
-                </div>
-            </div>
+            
 
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool">
