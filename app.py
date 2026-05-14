@@ -820,7 +820,7 @@ html body .meli-table tbody tr:last-child {{
                 
                 // REGLA DE ORO: Si es SDE o las especiales con unidad Car - 8h, permitimos el negativo visual
                 let esEspecial = (currentTab === 'SDE') || 
-                                 ((currentTab === 'PREC' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
+                                 ((currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
 
                 if (esEspecial) {{
                     cL.innerText = diff; // Mostrará -1, -2, etc.
