@@ -727,32 +727,41 @@ html body .meli-table tbody tr:last-child {{
     recalc();
 }}
 
-    function recalc() {{
+   function recalc() {{
+        // Determinamos la pestaña actual
+        let visor = document.getElementById('visor');
+        
         let fleet = {{}};
-        // 1. Capturar datos de la flota (Tabla de arriba)
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
+        // 1. CAPTURAR FLOTA (TABLA DE ARRIBA) - BUSCA EN CUALQUIER PESTAÑA ACTIVA
+        document.querySelectorAll('.f-stock').forEach(fs => {{
+            let row = fs.closest('tr');
+            if (!row) return;
+            let nameEl = row.querySelector('.edit-name');
+            if (!nameEl) return;
+            
+            let name = nameEl.innerText.trim();
+            let sch = parseInt(fs.innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min');
+            let ma = row.querySelector('.edit-spr-max');
             
             if(sch > 0) {{
                 row.style.background = "white"; row.style.color = "black";
                 fs.style.background = "#e3defa"; 
-                mi.style.background = "#def3ed"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-                ma.style.background = "#def3ed"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+                if(mi) {{ mi.style.background = "#def3ed"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold"; }}
+                if(ma) {{ ma.style.background = "#def3ed"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold"; }}
             }} else {{
                 row.style.background = "#ebebeb"; row.style.color = "#969696";
                 fs.style.background = "#ebebeb"; 
-                mi.style.background = "#ebebeb"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-                ma.style.background = "#ebebeb"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+                if(mi) {{ mi.style.background = "#ebebeb"; mi.style.color = "#969696"; mi.style.fontWeight = "normal"; }}
+                if(ma) {{ ma.style.background = "#ebebeb"; ma.style.color = "#969696"; ma.style.fontWeight = "normal"; }}
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+                fleet[name] = {{ max: parseFloat(ma ? ma.innerText : 0)||0, stock: sch, used: 0 }};
             }}
         }});
 
-        // 2. Calcular ocupación por polígono (Tabla de abajo)
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // 2. CALCULAR OCUPACIÓN (POLÍGONOS)
+        document.querySelectorAll('.poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
@@ -775,8 +784,7 @@ html body .meli-table tbody tr:last-child {{
             if (vT === 0) {{
                 d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
             }} else {{
-                let diffVal = Math.round(vA);
-                if (diffVal === Math.round(vT)) {{
+                if (Math.round(vA) === Math.round(vT)) {{
                     d.innerText = "OK"; d.style.background = "#ceedd6"; vCalcEl.style.color = "#20B2AA";
                 }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#ffe4b5"; vCalcEl.style.color = "#d32f2f";
@@ -786,51 +794,41 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-
-
-       // 3. ACTUALIZACIÓN UNIVERSAL DE CONTADORES (REPLICAR SDE EN TODO)
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        // 3. ACTUALIZAR "ME QUEDAN" CON LÓGICA SDE (UNIVERSAL)
+        document.querySelectorAll('.f-left').forEach(cL => {{
+            let row = cL.closest('tr');
+            if (!row) return;
             let n = row.querySelector('.edit-name').innerText.trim();
+            
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
-                let cL = row.querySelector('.f-left');
                 
-                // CRÍTICO: Si el nombre tiene "CAR", "CROWD" o "H" (3h, 5h, 8h), permite negativo
-                // Esto hace que PREC SMX2 y SMX5 funcionen igual que SDE
-                let esUnidadFlexible = n.toUpperCase().includes('CAR') || 
-                                       n.toUpperCase().includes('CROWD') || 
-                                       n.toUpperCase().includes('H');
+                // REGLA SDE PARA TODAS LAS PESTAÑAS:
+                // Si el nombre tiene "CAR", "CROWD" o "H" (como en 8h, 5h, 3h), permite negativo
+                let nUpper = n.toUpperCase();
+                let esFlexible = nUpper.includes('CAR') || nUpper.includes('CROWD') || nUpper.includes('H');
 
-                if (esUnidadFlexible) {{
-                    cL.innerText = diff; // Muestra negativos
-                }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea Vans en 0
-                }}
-
-                // --- ESTILOS DE ALERTA ---
+                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
+                
                 if (diff < 0) {{
-                    cL.style.color = "red";
-                    cL.style.fontWeight = "bold";
-                    cL.style.background = "transparent";
+                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white";
-                    cL.style.background = "#d32f2f";
+                    cL.style.color = "white"; cL.style.background = "#d32f2f";
                 }} else {{
-                    cL.style.color = "black";
-                    cL.style.background = "transparent";
-                    cL.style.fontWeight = "normal";
+                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
             }}
         }});
 
-        // 4. FILTRAR LISTA DESPLEGABLE (REPLICAR SDE)
-        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
+        // 4. FILTRAR LISTA DESPLEGABLE
+        document.querySelectorAll('.s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             Object.keys(fleet).forEach(k => {{ 
                 if (fleet[k].stock > 0) {{
                     let disp = (fleet[k].stock - fleet[k].used > 0);
-                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                    let kUpper = k.toUpperCase();
+                    let flexible = kUpper.includes('CAR') || kUpper.includes('H');
                     if (disp || k === cur || flexible) {{
                         opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
@@ -838,8 +836,10 @@ html body .meli-table tbody tr:last-child {{
             }});
             s.innerHTML = opt; s.value = cur; 
         }});
-    }} // AQUÍ CIERRA RECALC
+    }}
 
+
+    
     // --- SOLUCIÓN AL ENTER (FUERA DE RECALC) ---
     // Este bloque asegura que el Enter procese los datos y quite la alerta sin romper el diseño
     document.addEventListener('keydown', function(e) {{
