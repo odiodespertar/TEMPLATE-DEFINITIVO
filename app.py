@@ -628,6 +628,23 @@ html body .meli-table tbody tr:last-child {{
 
 
 <script>
+
+
+const reglasPrioridad = {{
+        "TLALPAN NORTE": ["Small Van SDD", "Car - 8h"],
+        "XOCHIMILCO": ["Small Van SDD", "Car - 8h"],
+        "MILPA ALTA": ["Small Van SDD", "Large Van SDD", "Car - 8h"],
+        "IZTAPALAPA": ["Small Van SDD", "Car - 8h"],
+        "TLALPAN SUR": ["Small Van SDD", "Car - 8h"],
+        "TLAHUAC": ["Small Van SDD", "Car - 8h"],
+        "CHALCO": ["Large Van SDD", "Car - 8h"],
+        "COYOACÁN": ["Small Van SDD", "Car - 8h"],
+        "COYOACÁN CENTRO": ["Small Van SDD", "Car - 8h"]
+}};
+
+
+
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -923,44 +940,43 @@ function distribuirAutomatico() {{
         }});
 
         if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+            alert("⚠️ No hay unidades disponibles en SCHEDULE para esta pestaña.");
             return;
         }}
 
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
-            let faltante = vT - vA;
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {
+        let nombrePoli = bl.querySelector('.p-name').innerText.trim().toUpperCase();
+        let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+        let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
+        let faltante = vT - vA;
 
-            if (faltante > 1) {{
-                bl.querySelectorAll('.calc-row').forEach(r => {{
-                    let s = r.querySelector('.s-type');
-                    let u = r.querySelector('.u-manual');
-                    let sp = r.querySelector('.spr-real-val');
+        if (faltante > 0) {
+            // Buscamos el orden de prioridad para este polígono específico
+            let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
 
-                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
-                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
-                        if (key) {{
-                            let unidad = fleet[key];
-                            let necesito = Math.ceil(faltante / unidad.max);
-                            let asigno = Math.min(necesito, unidad.stock);
+            bl.querySelectorAll('.calc-row').forEach(r => {
+                let s = r.querySelector('.s-type');
+                let u = r.querySelector('.u-manual');
+                let sp = r.querySelector('.spr-real-val');
+
+                if (s.value === "SELECCIONAR..." && faltante > 0) {
+                    // Selecciona la unidad que sigue según la prioridad y que tenga stock
+                    let unidadNombre = orden.find(k => fleet[k] && fleet[k].stock > 0);
+
+                    if (unidadNombre) {
+                        let infoUnidad = fleet[unidadNombre];
+                        let necesito = Math.ceil(faltante / infoUnidad.max);
+                        let asigno = Math.min(necesito, infoUnidad.stock);
+                        
+                        if (asigno > 0) {
+                            s.value = unidadNombre;
+                            u.innerText = asigno;
+                            sp.innerText = infoUnidad.max; // Pone el SPR máximo automáticamente
                             
-                            if (asigno > 0) {{
-                                s.value = key;
-                                u.innerText = asigno;
-                                
-                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
-                                // Dividimos el faltante entre las unidades asignadas
-                                let sprSugerido = (faltante / asigno);
-                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
-                                let sprFinal = Math.min(sprSugerido, unidad.max);
-                                
-                                // Redondeamos a 1 decimal para que no se vea feo
-                                sp.innerText = Math.round(sprFinal * 10) / 10;
-                                
-                                unidad.stock -= asigno;
-                                faltante -= (asigno * sprFinal);
-                                editedRowsPlan.add(r); 
+                            // Actualizamos stock interno para el siguiente polígono
+                            infoUnidad.stock -= asigno;
+                            faltante -= (asigno * infoUnidad.max);
+                            editedRowsPlan.add(r); 
                             }}
                         }}
                     }}
