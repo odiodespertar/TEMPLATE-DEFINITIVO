@@ -794,6 +794,8 @@ html body .meli-table tbody tr:last-child {{
                 // Regla universal para Car 3h, 5h, 8h y Crowd
                 let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
 
+
+                console.log("Diferencia calculada:", diff);
                 cL.innerText = (diff < 0 ? 0 : diff);
                 
                 // Color Rojo si es negativo
