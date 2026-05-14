@@ -83,11 +83,11 @@ if archivo_paquetes:
             # Guardamos los totales en el diccionario
             volumen_final_poligonos = df_p.groupby('poligono_asignado')['volumen'].sum().to_dict()
             st.sidebar.success(f"✅ Volumen calculado para {len(volumen_final_poligonos)} polígonos")
-        
-        
-        st.sidebar.subheader("Resumen de Carga:")
+
+            # --- RESUMEN VISUAL CORREGIDO ---
+            st.sidebar.subheader("Resumen de Carga:")
             for poli, vol in volumen_final_poligonos.items():
-                # poli será el nombre (CHALCO, etc) y vol el número
+                # Esta línea debe tener exactamente 4 espacios más que el 'for'
                 st.sidebar.write(f"📍 {poli}: {vol:.4f} m³")
         
         
