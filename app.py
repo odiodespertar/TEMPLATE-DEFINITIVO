@@ -812,36 +812,30 @@ html body .meli-table tbody tr:last-child {{
         }});
         
 
-       // --- 1. ACTUALIZAR CONTADORES Y COLORES DE LA FLOTA (ARRIBA) ---
+        // --- 1. ACTUALIZAR CONTADORES Y COLORES DE LA FLOTA (ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let rawName = row.querySelector('.edit-name').innerText.trim();
-            let n = rawName.toUpperCase(); // Nombre en mayúsculas para comparar
-            
-            if(fleet[rawName]) {{
-                let diff = fleet[rawName].stock - fleet[rawName].used;
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA UNIVERSAL MEJORADA:
-                // Permitir negativos si: es SDE, o el nombre tiene "CAR", o tiene "CROWD", o tiene "8H"
-                let esFlexible = n.includes('CAR') || 
-                                 n.includes('CROWD') || 
-                                 n.includes('8H') ||
-                                 currentTab === 'SDE';
+                // REGLA: Permitir negativos si es SDE o si el nombre contiene "Car" (para Car-8h, Newbie, etc.)
+                let permiteNegativo = (currentTab === 'SDE') || n.toUpperCase().includes('CAR');
 
-                if (esFlexible) {{
-                    cL.innerText = diff; // Muestra -1, -2, -3...
+                if (permiteNegativo) {{
+                    cL.innerText = diff; // Muestra -1, -2, etc.
                 }} else {{
-                    // Para Vans, bloqueamos en 0
-                    cL.innerText = diff < 0 ? 0 : diff; 
+                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans
                 }}
 
-                // --- COLORES ---
+                // Colores de alerta
                 if (diff < 0) {{
-                    cL.style.color = "#ff4b4b"; // Rojo brillante
+                    cL.style.color = "red";
                     cL.style.fontWeight = "bold";
-                }} else if (diff === 0 && fleet[rawName].stock > 0) {{
+                    cL.style.background = "transparent";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
                     cL.style.color = "white";
-                    cL.style.background = "#d32f2f"; // Fondo rojo si llegó a cero
+                    cL.style.background = "#d32f2f"; // Fondo rojo si se agotó exacto
                 }} else {{
                     cL.style.color = "black";
                     cL.style.background = "transparent";
@@ -850,19 +844,17 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE NO DESAPAREZCAN LAS UNIDADES FLEXIBLES) ---
+        // --- 2. FILTRAR LISTA DESPLEGABLE (ABAJO) ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                let stockDisponible = (fleet[k].stock - fleet[k].used > 0);
-                let nameK = k.toUpperCase();
-                let esFlexible = nameK.includes('CAR') || nameK.includes('CROWD') || nameK.includes('8H');
+                let disponible = (fleet[k].stock - fleet[k].used > 0);
+                let esUnidadInfinita = k.toUpperCase().includes('CAR'); // Las "Car" nunca desaparecen de la lista
                 
-                // Se muestra en la lista si hay stock, si ya está seleccionada,
-                // o si es una unidad flexible (Car/Crowd/8h)
-                if (stockDisponible || k === cur || esFlexible) {{ 
+                // Se muestra si: hay stock, o ya está seleccionada, o es tipo Car
+                if (disponible || k === cur || esUnidadInfinita) {{ 
                     opt += `<option value="${{k}}">${{k}}</option>`; 
                 }} 
             }});
@@ -870,6 +862,7 @@ html body .meli-table tbody tr:last-child {{
             s.innerHTML = opt; 
             s.value = cur; 
         }});
+  
     
     }}
     
