@@ -34,25 +34,6 @@ u_PREC_SMX2 = {
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
-# --- 1. APARTADO DE PRIORIDADES EN LA BARRA LATERAL ---
-with st.sidebar.expander("⚙️ CONFIGURACIÓN DE PRIORIDADES"):
-    st.write("Selecciona el orden de unidades para el Autocalculo:")
-    prioridades_usuario = {}
-    
-    # Creamos un selector para cada polígono
-    for poli in NOMBRES_PLANES_PREC:
-        prioridades_usuario[poli] = st.multiselect(
-            f"Prioridad {poli}:",
-            options=list(u_PREC.keys()),
-            default=["Small Van SDD", "Car - 8h"] if "CHALCO" not in poli else ["Large Van SDD", "Car - 8h"],
-            key=f"pri_{poli}"
-        )
-
-# Convertimos esto a JSON para que el Monitor lo entienda
-import json
-prioridades_json = json.dumps(prioridades_usuario)
-
-
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
@@ -647,11 +628,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 <script>
-
-    // Esta línea debe estar al principio del script dentro de app_html
-    // El {prioridades_json} se reemplazará por el texto que viene de Python
-    const reglasPrioridad = JSON.parse('{prioridades_json}');
-
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -933,69 +909,58 @@ html body .meli-table tbody tr:last-child {{
 
 
 function distribuirAutomatico() {{
-    let fleet = {{}};
-    // 1. Mapeamos la flota disponible en la tabla superior
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let name = row.querySelector('.edit-name').innerText.trim();
-        let ma = row.querySelector('.edit-spr-max');
-        let cL = row.querySelector('.f-left'); 
-        let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
-        let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+        let fleet = {{}};
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim();
+            let ma = row.querySelector('.edit-spr-max');
+            let cL = row.querySelector('.f-left'); 
+            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
+            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
 
-        if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
-            fleet[name] = {{ max: sprMax, stock: disponibles }};
+            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: sprMax, stock: disponibles }};
+            }}
+        }});
+
+        if (Object.keys(fleet).length === 0) {{
+            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+            return;
         }}
-    }});
 
-    // ALERTAS: Si no hay nada en SCHED, detenemos el proceso
-    if (Object.keys(fleet).length === 0) {{
-        alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
-        return;
-    }}
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
+            let faltante = vT - vA;
 
-    // 2. Recorremos cada polígono (bloque)
-    document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-        // EXTRAEMOS EL NOMBRE DEL POLÍGONO (Vital para las prioridades)
-        let nombrePoli = bl.querySelector('.p-name').innerText.trim().toUpperCase();
-        
-        let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-        let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
-        let faltante = vT - vA;
+            if (faltante > 1) {{
+                bl.querySelectorAll('.calc-row').forEach(r => {{
+                    let s = r.querySelector('.s-type');
+                    let u = r.querySelector('.u-manual');
+                    let sp = r.querySelector('.spr-real-val');
 
-        // Solo actuamos si realmente faltan paquetes
-        if (faltante > 1) {{
-            // BUSCAMOS LA PRIORIDAD QUE ELEGISTE EN EL SIDEBAR
-            let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
-
-            bl.querySelectorAll('.calc-row').forEach(r => {{
-                let s = r.querySelector('.s-type');
-                let u = r.querySelector('.u-manual');
-                let sp = r.querySelector('.spr-real-val');
-
-                if (s.value === "SELECCIONAR..." && faltante > 0.5) {{
-                    // Buscamos la unidad que sigue según tu lista de prioridad
-                    let key = orden.find(k => fleet[k] && fleet[k].stock > 0);
-
-                    if (key) {{
-                        let unidad = fleet[key];
-                        let necesito = Math.ceil(faltante / unidad.max);
-                        let asigno = Math.min(necesito, unidad.stock);
-                        
-                        if (asigno > 0) {{
-                            s.value = key;
-                            u.innerText = asigno;
+                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
+                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
+                        if (key) {{
+                            let unidad = fleet[key];
+                            let necesito = Math.ceil(faltante / unidad.max);
+                            let asigno = Math.min(necesito, unidad.stock);
                             
-                            // TU LÓGICA DE AJUSTE AUTOMÁTICO DE SPR
-                            let sprSugerido = (faltante / asigno);
-                            let sprFinal = Math.min(sprSugerido, unidad.max);
-                            
-                            // Redondeamos a 1 decimal
-                            sp.innerText = Math.round(sprFinal * 10) / 10;
-                            
-                            // Actualizamos inventario y faltante
-                            unidad.stock -= asigno;
-                            faltante -= (asigno * sprFinal);
-                            editedRowsPlan.add(r); 
+                            if (asigno > 0) {{
+                                s.value = key;
+                                u.innerText = asigno;
+                                
+                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
+                                // Dividimos el faltante entre las unidades asignadas
+                                let sprSugerido = (faltante / asigno);
+                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
+                                let sprFinal = Math.min(sprSugerido, unidad.max);
+                                
+                                // Redondeamos a 1 decimal para que no se vea feo
+                                sp.innerText = Math.round(sprFinal * 10) / 10;
+                                
+                                unidad.stock -= asigno;
+                                faltante -= (asigno * sprFinal);
+                                editedRowsPlan.add(r); 
                             }}
                         }}
                     }}
@@ -1012,7 +977,8 @@ function distribuirAutomatico() {{
 </html>
 """
 
-html(app_html.replace('VARIABLE_PRIORIDADES_AQUÍ', prioridades_json), height=1200, scrolling=True)
+html(app_html, height=1200, scrolling=True)
+
 
 
 
