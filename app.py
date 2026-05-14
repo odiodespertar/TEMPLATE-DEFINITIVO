@@ -350,6 +350,13 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
 
         
+
+
+        /* Efecto de "clic" real */
+        .btn-c:active {{
+            transform: scale(0.95);
+            box-shadow: inset 2px 2px 5px #b1b1b1;
+        }}
       
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
