@@ -43,6 +43,31 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# --- PANEL DE REGLAS Y RESTRICCIONES (Sidebar) ---
+with st.sidebar.expander("🛠️ REGLAS Y RESTRICCIONES DE AUTO-CÁLCULO"):
+    st.info("Configura prioridades o restricciones por polígono:")
+    reglas_config = {}
+    
+    # Combinamos todos los polígonos de tus listas
+    todos_polis = NOMBRES_PLANES_PREC + NOMBRES_PLANES_PREG
+    
+    # Obtenemos todos los nombres de unidades posibles para las opciones
+    todas_unidades = list(u_PREC.keys()) + list(u_C1.keys())
+    todas_unidades = list(set(todas_unidades)) # Elimina duplicados
+    
+    for poli in todos_polis:
+        st.markdown(f"**📍 {poli}**")
+        prio = st.multiselect(f"Prioridad para {poli}:", options=todas_unidades, key=f"prio_{poli}")
+        roja = st.checkbox("Zona Roja / Restricción", key=f"roja_{poli}")
+        
+        reglas_config[poli] = {
+            "prioridad": prio,
+            "zona_roja": roja
+        }
+
+import json
+reglas_json = json.dumps(reglas_config)
+
 
 def gen_master_rows(data_dict, table_id):
     rows = ""
@@ -628,6 +653,11 @@ html body .meli-table tbody tr:last-child {{
 
 
 <script>
+
+// --- 1. AQUÍ RECIBES LA TABLA DE REGLAS/RESTRICCIONES ---
+    // Esta variable 'ID_REGLAS_DINAMICAS' es la que el .replace() de Python llenará
+    const reglasEspeciales = JSON.parse('ID_REGLAS_DINAMICAS');
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -928,6 +958,8 @@ function distribuirAutomatico() {{
         }}
 
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let nombrePoli = bl.querySelector('.p-name').innerText.trim().toUpperCase();
+            
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
@@ -939,28 +971,31 @@ function distribuirAutomatico() {{
                     let sp = r.querySelector('.spr-real-val');
 
                     if (s.value === "SELECCIONAR..." && faltante > 0) {{
-                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
-                        if (key) {{
-                            let unidad = fleet[key];
-                            let necesito = Math.ceil(faltante / unidad.max);
-                            let asigno = Math.min(necesito, unidad.stock);
+                    
+                        // --- 2. NUEVO: BUSCAR PRIORIDAD SEGÚN TU TABLA DE RESTRICCIONES ---
+                    // Si el polígono tiene una prioridad guardada, la usa. Si no, usa toda la flota.
+                    let configPoli = reglasEspeciales[nombrePoli] || {{ prioridad: [], zona_roja: false }};
+                    let ordenBusqueda = configPoli.prioridad.length > 0 ? configPoli.prioridad : Object.keys(fleet);
+
+                    // Buscamos la unidad que toque según el orden de prioridad
+                    let key = ordenBusqueda.find(k => fleet[k] && fleet[k].stock > 0);
+                    
+                    if (key) {{
+                        let unidad = fleet[key];
+                        let necesito = Math.ceil(faltante / unidad.max);
+                        let asigno = Math.min(necesito, unidad.stock);
+                        
+                        if (asigno > 0) {{
+                            s.value = key;
+                            u.innerText = asigno;
                             
-                            if (asigno > 0) {{
-                                s.value = key;
-                                u.innerText = asigno;
-                                
-                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
-                                // Dividimos el faltante entre las unidades asignadas
-                                let sprSugerido = (faltante / asigno);
-                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
-                                let sprFinal = Math.min(sprSugerido, unidad.max);
-                                
-                                // Redondeamos a 1 decimal para que no se vea feo
-                                sp.innerText = Math.round(sprFinal * 10) / 10;
-                                
-                                unidad.stock -= asigno;
-                                faltante -= (asigno * sprFinal);
-                                editedRowsPlan.add(r); 
+                            let sprSugerido = (faltante / asigno);
+                            let sprFinal = Math.min(sprSugerido, unidad.max);
+                            sp.innerText = Math.round(sprFinal * 10) / 10;
+                            
+                            unidad.stock -= asigno;
+                            faltante -= (asigno * sprFinal);
+                            editedRowsPlan.add(r);
                             }}
                         }}
                     }}
@@ -977,9 +1012,7 @@ function distribuirAutomatico() {{
 </html>
 """
 
-html(app_html, height=1200, scrolling=True)
-
-
+html(app_html.replace('ID_REGLAS_DINAMICAS', reglas_json), height=1200, scrolling=True)
 
 
 
