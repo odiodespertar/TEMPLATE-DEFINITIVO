@@ -1,7 +1,5 @@
 import streamlit as st
 from streamlit.components.v1 import html 
-import pandas as pd  # Asegúrate de tener esta importación
-import json
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide")
 
@@ -43,46 +41,6 @@ u_C1 = {
 }
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
-
-
-# --- NUEVA LÓGICA DE VOLUMEN Y CP ---
-st.sidebar.header("📦 Gestión de Carga")
-archivo_paquetes = st.sidebar.file_uploader("Subir Data de Excel (CP y Dimensiones)", type=['xlsx'])
-
-# Diccionario donde guardaremos el volumen total por polígono
-volumen_final_poligonos = {}
-
-# MAPEO DE CPs A POLÍGONOS (Aquí es donde alimentas tu base de datos)
-# Ejemplo: CP: "Nombre del Polígono"
-mapeo_cp_poligono = {
-    56600: "CHALCO",
-    56605: "CHALCO",
-    13200: "IZTAPALAPA",
-    # ... agrega aquí todos tus CPs
-}
-
-if archivo_paquetes:
-    try:
-        df_p = pd.read_excel(archivo_paquetes)
-        
-        # Si el Excel no tiene columna de volumen, la calculamos:
-        if 'Volumen' not in df_p.columns:
-            # Calculamos Alto * Largo * Ancho (en metros para tener m3)
-            # Asumiendo que tus columnas se llaman 'Alto', 'Largo', 'Ancho'
-            df_p['Volumen'] = (df_p['Alto'] * df_p['Largo'] * df_p['Ancho']) / 1000000 
-        
-        # Asignamos el Polígono a cada paquete usando el CP
-        df_p['Poligono_Asignado'] = df_p['CP'].map(mapeo_cp_poligono)
-        
-        # Agrupamos y sumamos el volumen por Polígono
-        volumen_final_poligonos = df_p.groupby('Poligono_Asignado')['Volumen'].sum().to_dict()
-        
-        st.sidebar.success("✅ Volumen por polígono calculado")
-    except Exception as e:
-        st.sidebar.error(f"Error procesando el Excel: {e}")
-
-# Convertimos a JSON para que el JavaScript del monitor pueda leerlo
-volumen_json = json.dumps(volumen_final_poligonos)
 
 
 
