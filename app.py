@@ -705,7 +705,7 @@ html body .meli-table tbody tr:last-child {{
         if (delta > 0 && left <= 0) {{
                 showAlert("⚠️ EXCESO DE UNIDADES. Se registrará como negativo.");
         }}
-        span.innerText = Math.max(0, val + delta);
+        span.innerText = val + delta;
                 }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
@@ -718,7 +718,7 @@ html body .meli-table tbody tr:last-child {{
         }}
         
         // Si es para bajar o está dentro del rango, permite el cambio
-        span.innerText = Math.max(0, newVal).toFixed(1);
+        span.innerText = newVal.toFixed(1);
     }}
     
     editedRowsPlan.add(row);
