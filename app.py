@@ -812,57 +812,48 @@ html body .meli-table tbody tr:last-child {{
         }});
         
 
-        // --- 1. ACTUALIZAR CONTADORES (TABLA DE ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA: Permitir negativos si el nombre contiene "Car" o "CROWD"
-                // Esto cubrirá Car - 5h, Car - 3h, Car - 8h, etc., en C1, SDE y PREC.
-                let permiteNegativo = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD');
+                // REGLA DE ORO: Si es SDE o las especiales con unidad Car - 8h, permitimos el negativo visual
+                let esEspecial = (currentTab === 'SDE') || 
+                                 ((currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
 
-                if (permiteNegativo) {{
-                    cL.innerText = diff; // Muestra -1, -2, etc.
+                if (esEspecial) {{
+                    cL.innerText = diff; // Mostrará -1, -2, etc.
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans o Motos
+                    cL.innerText = diff < 0 ? 0 : diff; // Para el resto, bloquea en 0
                 }}
 
-                // --- COLORES ---
-                if (diff < 0) {{
-                    cL.style.color = "red";
-                    cL.style.fontWeight = "bold";
-                    cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white";
-                    cL.style.background = "#d32f2f";
-                }} else {{
-                    cL.style.color = "black";
-                    cL.style.background = "transparent";
-                    cL.style.fontWeight = "normal";
-                }}
+                // Colores originales (Rojo si falta, Blanco sobre Rojo si es exacto)
+                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
+                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
         }});
+    
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (TABLA DE ABAJO) ---
+
+
+
+
+       // --- ESTA ES LA PARTE QUE FILTRA LA LISTA DESPLEGABLE ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
-            let cur = s.value; 
+            let cur = s.value; // Guardamos lo que está seleccionado actualmente
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                let tieneStock = (fleet[k].stock - fleet[k].used > 0);
-                let esFlexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
-                
-                // Se mantiene en la lista si tiene stock, si ya está seleccionada,
-                // o si es un Car (para permitir que sigas aumentando en negativo)
-                if (tieneStock || k === cur || esFlexible) {{ 
+                // REGLA: Mostrar en la lista solo si tiene stock > 0 
+                // O si es la unidad que YA está seleccionada en esa fila
+                if (fleet[k].stock - fleet[k].used > 0 || k === cur) {{ 
                     opt += `<option value="${{k}}">${{k}}</option>`; 
                 }} 
             }});
             
             s.innerHTML = opt; 
-            s.value = cur; 
+            s.value = cur; // Mantenemos la selección actual para que no se borre lo que ya hiciste
         }});
   
     
