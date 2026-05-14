@@ -786,38 +786,59 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // 3. Actualizar columna "ME QUEDAN" con Negativos para CARS
+       // 3. ACTUALIZAR COLUMNA "ME QUEDAN" (REPLICAR COMPORTAMIENTO SDE)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
-                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD');
+                
+                // Esta es la llave: permitimos negativos si es SDE O si el nombre tiene "CAR" o "H"
+                let esUnidadFlexible = (currentTab === 'SDE') || 
+                                       n.toUpperCase().includes('CAR') || 
+                                       n.toUpperCase().includes('H');
 
-                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
-                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
-                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
-                cL.style.fontWeight = (diff < 0) ? "bold" : "normal";
+                if (esUnidadFlexible) {{
+                    cL.innerText = diff; // Aquí es donde aparecen los negativos
+                }} else {{
+                    cL.innerText = diff < 0 ? 0 : diff; // Las Vans se quedan en 0
+                }}
+
+                // --- ESTILO DE ALERTA ---
+                if (diff < 0) {{
+                    cL.style.color = "red";
+                    cL.style.fontWeight = "bold";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white";
+                    cL.style.background = "#d32f2f"; // Fondo rojo si está en 0 exacto
+                }} else {{
+                    cL.style.color = "black";
+                    cL.style.background = "transparent";
+                    cL.style.fontWeight = "normal";
+                }}
             }}
         }});
 
-        // 4. Filtrar Lista Desplegable (Solo si tiene SCHED)
+        // 4. FILTRAR LISTA DESPLEGABLE (REPLICAR COMPORTAMIENTO SDE)
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
+            
             Object.keys(fleet).forEach(k => {{ 
+                // Regla de oro: Solo mostrar si tiene SCHED > 0
                 if (fleet[k].stock > 0) {{
                     let disp = (fleet[k].stock - fleet[k].used > 0);
-                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                    
+                    // Se muestra si hay stock, o si ya la elegiste, o si es flexible
                     if (disp || k === cur || flexible) {{
                         opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }}
             }});
-            s.innerHTML = opt; s.value = cur; 
+            s.innerHTML = opt; 
+            s.value = cur; 
         }});
-    }}
-
 
     
     function focusCalc() {{
