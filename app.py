@@ -933,38 +933,47 @@ html body .meli-table tbody tr:last-child {{
 
 
 function distribuirAutomatico() {{
-        let fleet = {{}};
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            let ma = row.querySelector('.edit-spr-max');
-            let cL = row.querySelector('.f-left'); 
-            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
-            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+    let fleet = {{}};
+    // 1. Mapeamos la flota disponible en la tabla superior
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        let name = row.querySelector('.edit-name').innerText.trim();
+        let ma = row.querySelector('.edit-spr-max');
+        let cL = row.querySelector('.f-left'); 
+        let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
+        let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
 
-            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: sprMax, stock: disponibles }};
-            }}
-        }});
-
-        if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
-            return;
+        if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+            fleet[name] = {{ max: sprMax, stock: disponibles }};
         }}
+    }});
 
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
-            let faltante = vT - vA;
+    // ALERTAS: Si no hay nada en SCHED, detenemos el proceso
+    if (Object.keys(fleet).length === 0) {{
+        alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+        return;
+    }}
 
-            if (faltante > 1) {{
-                bl.querySelectorAll('.calc-row').forEach(r => {{
-                    let s = r.querySelector('.s-type');
-                    let u = r.querySelector('.u-manual');
-                    let sp = r.querySelector('.spr-real-val');
+    // 2. Recorremos cada polígono (bloque)
+    document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // EXTRAEMOS EL NOMBRE DEL POLÍGONO (Vital para las prioridades)
+        let nombrePoli = bl.querySelector('.p-name').innerText.trim().toUpperCase();
+        
+        let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+        let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
+        let faltante = vT - vA;
 
-                    if (s.value === "SELECCIONAR..." && faltante > 0.5) {{
-                    // 1. BUSCAMOS SEGÚN TU LISTA DE PRIORIDADES (reglasPrioridad)
-                    let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
+        // Solo actuamos si realmente faltan paquetes
+        if (faltante > 1) {{
+            // BUSCAMOS LA PRIORIDAD QUE ELEGISTE EN EL SIDEBAR
+            let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
+
+            bl.querySelectorAll('.calc-row').forEach(r => {{
+                let s = r.querySelector('.s-type');
+                let u = r.querySelector('.u-manual');
+                let sp = r.querySelector('.spr-real-val');
+
+                if (s.value === "SELECCIONAR..." && faltante > 0.5) {{
+                    // Buscamos la unidad que sigue según tu lista de prioridad
                     let key = orden.find(k => fleet[k] && fleet[k].stock > 0);
 
                     if (key) {{
@@ -976,15 +985,15 @@ function distribuirAutomatico() {{
                             s.value = key;
                             u.innerText = asigno;
                             
-                            // 2. TU LÓGICA DE AJUSTE AUTOMÁTICO DE SPR
+                            // TU LÓGICA DE AJUSTE AUTOMÁTICO DE SPR
                             let sprSugerido = (faltante / asigno);
                             let sprFinal = Math.min(sprSugerido, unidad.max);
                             
                             // Redondeamos a 1 decimal
                             sp.innerText = Math.round(sprFinal * 10) / 10;
                             
+                            // Actualizamos inventario y faltante
                             unidad.stock -= asigno;
-                            // Restamos lo asignado realmente al faltante del polígono
                             faltante -= (asigno * sprFinal);
                             editedRowsPlan.add(r); 
                             }}
