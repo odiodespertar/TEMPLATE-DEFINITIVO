@@ -47,28 +47,28 @@ u_C2["Large Van Híbrida"] = [100, 100]
 with st.container():
     col1, col2 = st.columns([1, 1])
     with col1:
-        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0", expanded=True):
+        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
             st.markdown("""
-            * **CHALCO:** MLP LV > Crowd 
-            * **COYOACÁN:** MLP > Crowd
-            * **IZTAPALAPA:** MLP > Crowd
-            * **MILPA ALTA:** MLP LV > Crowd 
-            * **TLÁHUAC:** MLP > Crowd
-            * **TLALPAN NTE:** MLP > Crowd
-            * **TLALPAN SUR:** MLP
-            * **XOCHIMILCO:** MLP > Crowd
+            * **CHALCO:** LV MLP SDD > Crowd (Crowd - 6:00 hrs)
+            * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd (Crowd - 6:00 hrs)
+            * **IZTAPALAPA:** MLP SDD> Newbie > Crowd (Crowd - 6:00 hrs / Newbie - 4:30 hrs)
+            * **MILPA ALTA:** LV MLP SDD> Crowd (Crowd - 6:00 hrs)
+            * **TLÁHUAC:** MLP SDD> Crowd (Crowd - 6:00 hrs)
+            * **TLALPAN NTE:** MLP SDD > Crowd (Large - 9:00 hrs / Small - 8:30 hrs / Crowd - 6:00 hrs)
+            * **TLALPAN SUR:** MLP SDD (Large - 9:00 hrs)
+            * **XOCHIMILCO:** MLP SDD> Crowd (Large y Small - 9:00 hrs aprox.)
             """)
     with col2:
         with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
             st.markdown("""
-            * **CHALCO:** DC > Crowd 
-            * **CHIMAS:** Crowd > MLP
-            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd
-            * **IZTAPALAPA 1:** MLP > Crowd 
-            * **IZTAPALAPA 2** Crowd > MLP
-            * **LA PAZ:** Crowd
-            * **PUEBLOS:** MLP > Crowd
-            * **TEXCOCO:** Crowd
+            * **CHALCO:** DC > Crowd (Crowd - ORH 6:00 hrs)
+            * **CHIMAS:** Crowd > MLP (Small - ORH 7:30 hrs)
+            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y crowd - ORH 5:30 hrs)
+            * **IZTAPALAPA 1:** MLP > Crowd (Small - ORH de 3:00 a 7:30 hrs)
+            * **IZTAPALAPA 2** Crowd > MLP (Small - ORH 7:30 hrs / Crowd - 5:30 hrs)
+            * **LA PAZ:** Crowd (ORH 5:30 hrs)
+            * **PUEBLOS:** MLP > Crowd (Crowd - ORH 6:00 hrs)
+            * **TEXCOCO:** Crowd > Car Zona Ext (Crowd - ORH 6:00 hrs)
             """)
             st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
             st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
