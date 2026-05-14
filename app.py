@@ -729,6 +729,7 @@ html body .meli-table tbody tr:last-child {{
 
     function recalc() {{
         let fleet = {{}};
+        // 1. Capturar datos de la flota (Tabla de arriba)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
@@ -736,35 +737,23 @@ html body .meli-table tbody tr:last-child {{
             
             if(sch > 0) {{
                 row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#e3defa"; mi.style.background = "#def3ed"; 
-                mi.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
-                mi.style.fontWeight = "bold";
-                
-                ma.style.background = "#def3ed";
-                ma.style.color = "#008B8B"; // Color Aqua (DarkTurquoise)
-                ma.style.fontWeight = "bold";
+                fs.style.background = "#e3defa"; 
+                mi.style.background = "#def3ed"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+                ma.style.background = "#def3ed"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
             }} else {{
-                row.style.background = "#ebebeb"; 
-                row.style.color = "#969696";
+                row.style.background = "#ebebeb"; row.style.color = "#969696";
                 fs.style.background = "#ebebeb"; 
-                // Resetear cuando SCHED es 0
-                mi.style.background = "#ebebeb"; 
-                mi.style.color = "#969696";
-                mi.style.fontWeight = "normal";
-                
-                ma.style.background = "#ebebeb";
-                ma.style.color = "#969696";
-                ma.style.fontWeight = "normal";
+                mi.style.background = "#ebebeb"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+                ma.style.background = "#ebebeb"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
             }}
         }});
 
+        // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-            
-            // Referencia al número de ASIGNADAS
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
             bl.querySelectorAll('.calc-row').forEach(r => {{
@@ -773,91 +762,84 @@ html body .meli-table tbody tr:last-child {{
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
                     fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
-// CAMBIO: Aplicar color turquesa al SPR REAL cuando hay una unidad seleccionada
-        sp.style.color = "#008B8B"; 
-        sp.style.fontWeight = "bold";
-    }} else {{
-        // Resetear color si no hay selección (opcional, para limpieza)
-        sp.style.color = "#969696";
-        sp.style.fontWeight = "normal";   
+                    sp.style.color = "#008B8B"; sp.style.fontWeight = "bold";
+                }} else {{
+                    sp.style.color = "#969696"; sp.style.fontWeight = "normal";   
                 }}
             }});
 
             vCalcEl.innerText = Math.round(vA);
+            vCalcEl.style.background = "white";
             let d = bl.querySelector('.p-diff');
 
-            // Mantenemos la celda blanca siempre
-            vCalcEl.style.background = "white";
-
             if (vT === 0) {{
-                d.innerText = "VACÍO";
-                d.style.background = "none";
-                vCalcEl.style.color = "#d32f2f"; // Rojo si no hay nada
+                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
             }} else {{
-                if (Math.round(vA) === Math.round(vT)) {{
-                    // COINCIDENCIA: SOLO CAMBIA EL COLOR DEL TEXTO
-                    d.innerText = "OK";
-                    d.style.background = "#ceedd6"; 
-                    vCalcEl.style.color = "#20B2AA"; // Texto en AQUA
+                let diffVal = Math.round(vA);
+                if (diffVal === Math.round(vT)) {{
+                    d.innerText = "OK"; d.style.background = "#ceedd6"; vCalcEl.style.color = "#20B2AA";
                 }} else if (vA > vT) {{
-                    d.innerText = "EXCESO: " + Math.round(vA - vT);
-                    d.style.background = "#ffe4b5";
-                    vCalcEl.style.color = "#d32f2f";
+                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#ffe4b5"; vCalcEl.style.color = "#d32f2f";
                 }} else {{
-                    d.innerText = "FALTAN: " + Math.round(vT - vA);
-                    d.style.background = "#f7cdd1";
-                    vCalcEl.style.color = "#d32f2f";
+                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#f7cdd1"; vCalcEl.style.color = "#d32f2f";
                 }}
             }}
         }});
-        
 
+        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA DE ORO: Si es SDE o las especiales con unidad Car - 8h, permitimos el negativo visual
-                let esEspecial = (currentTab === 'SDE') || 
-                                 ((currentTab === 'PREC_SMX5' || currentTab === 'PREC_SMX2') && (n.includes('Car - 8h') || n.includes('Car')));
+                // Regla universal para Car 3h, 5h, 8h y Crowd
+                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
 
-                if (esEspecial) {{
-                    cL.innerText = diff; // Mostrará -1, -2, etc.
+                cL.innerText = esFlexible ? diff : (diff < 0 ? 0 : diff);
+                
+                // Color Rojo si es negativo
+                if (diff < 0) {{
+                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white"; cL.style.background = "#d32f2f";
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Para el resto, bloquea en 0
+                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
-
-                // Colores originales (Rojo si falta, Blanco sobre Rojo si es exacto)
-                cL.style.color = (diff < 0) ? "red" : (diff === 0 && fleet[n].stock > 0 ? "white" : "black");
-                cL.style.background = (diff === 0 && fleet[n].stock > 0 ? "#d32f2f" : "transparent");
             }}
         }});
-    
 
-
-
-
-
-       // --- ESTA ES LA PARTE QUE FILTRA LA LISTA DESPLEGABLE ---
+        // 4. FILTRAR LISTA SIN ROMPER SCHED
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
-            let cur = s.value; // Guardamos lo que está seleccionado actualmente
+            let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
-            
             Object.keys(fleet).forEach(k => {{ 
-                // REGLA: Mostrar en la lista solo si tiene stock > 0 
-                // O si es la unidad que YA está seleccionada en esa fila
-                if (fleet[k].stock - fleet[k].used > 0 || k === cur) {{ 
-                    opt += `<option value="${{k}}">${{k}}</option>`; 
-                }} 
+                if (fleet[k].stock > 0) {{
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                    if (disp || k === cur || flexible) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
+                    }}
+                }}
             }});
-            
-            s.innerHTML = opt; 
-            s.value = cur; // Mantenemos la selección actual para que no se borre lo que ya hiciste
+            s.innerHTML = opt; s.value = cur; 
         }});
-  
-    
     }}
+
+    // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
+    document.addEventListener('keydown', function(event) {{
+        if (event.key === 'Enter') {{
+            // Busca cualquier div de alerta o mensaje de error y lo cierra/limpia
+            let alerta = document.querySelector('.alerta-roja, .p-diff'); 
+            if (alerta && alerta.innerText.includes('EXCESO')) {{
+                // Si tienes una función específica para cerrar, llámala aquí
+                // O simplemente quita el foco para que no bloquee
+                document.activeElement.blur();
+            }}
+        }}
+    }});
+
+
     
     function focusCalc() {{
         document.getElementById('calc_wrapper').focus();
