@@ -812,23 +812,26 @@ html body .meli-table tbody tr:last-child {{
         }});
         
 
-        // --- 1. ACTUALIZAR CONTADORES Y COLORES DE LA FLOTA (ARRIBA) ---
+       // --- 1. ACTUALIZAR CONTADORES Y COLORES DE LA FLOTA (ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let n = row.querySelector('.edit-name').innerText.trim().toUpperCase();
-            if(fleet[n] || fleet[row.querySelector('.edit-name').innerText.trim()]) {{
-                let nombreReal = row.querySelector('.edit-name').innerText.trim();
-                let diff = fleet[nombreReal].stock - fleet[nombreReal].used;
+            let rawName = row.querySelector('.edit-name').innerText.trim();
+            let n = rawName.toUpperCase(); // Nombre en mayúsculas para comparar
+            
+            if(fleet[rawName]) {{
+                let diff = fleet[rawName].stock - fleet[rawName].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA UNIVERSAL: Si el nombre contiene CAR, CROWD o estamos en SDE, permitimos negativos
-                let permiteNegativo = n.includes('CAR') || 
-                                       n.includes('CROWD') || 
-                                       currentTab === 'SDE';
+                // REGLA UNIVERSAL MEJORADA:
+                // Permitir negativos si: es SDE, o el nombre tiene "CAR", o tiene "CROWD", o tiene "8H"
+                let esFlexible = n.includes('CAR') || 
+                                 n.includes('CROWD') || 
+                                 n.includes('8H') ||
+                                 currentTab === 'SDE';
 
-                if (permiteNegativo) {{
-                    cL.innerText = diff; // Mostrará -1, -2, -3...
+                if (esFlexible) {{
+                    cL.innerText = diff; // Muestra -1, -2, -3...
                 }} else {{
-                    // Para Vans y otros, bloqueamos en 0 para que no te pases
+                    // Para Vans, bloqueamos en 0
                     cL.innerText = diff < 0 ? 0 : diff; 
                 }}
 
@@ -836,10 +839,9 @@ html body .meli-table tbody tr:last-child {{
                 if (diff < 0) {{
                     cL.style.color = "#ff4b4b"; // Rojo brillante
                     cL.style.fontWeight = "bold";
-                    cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[nombreReal].stock > 0) {{
+                }} else if (diff === 0 && fleet[rawName].stock > 0) {{
                     cL.style.color = "white";
-                    cL.style.background = "#d32f2f"; // Fondo rojo si es exacto
+                    cL.style.background = "#d32f2f"; // Fondo rojo si llegó a cero
                 }} else {{
                     cL.style.color = "black";
                     cL.style.background = "transparent";
@@ -848,17 +850,18 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE LAS CAR NO DESAPAREZCAN) ---
+        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE NO DESAPAREZCAN LAS UNIDADES FLEXIBLES) ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
                 let stockDisponible = (fleet[k].stock - fleet[k].used > 0);
-                let esFlexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
+                let nameK = k.toUpperCase();
+                let esFlexible = nameK.includes('CAR') || nameK.includes('CROWD') || nameK.includes('8H');
                 
                 // Se muestra en la lista si hay stock, si ya está seleccionada,
-                // o si es una unidad que permitimos aumentar (Car/Crowd)
+                // o si es una unidad flexible (Car/Crowd/8h)
                 if (stockDisponible || k === cur || esFlexible) {{ 
                     opt += `<option value="${{k}}">${{k}}</option>`; 
                 }} 
