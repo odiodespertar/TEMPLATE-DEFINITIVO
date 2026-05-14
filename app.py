@@ -43,28 +43,28 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- COPIAR Y PEGAR ESTO ---
-st.sidebar.title("📚 GUÍA DE APOYO")
+# --- BUSCA ESTA LÍNEA Y PEGA EL BLOQUE JUSTO DEBAJO ---
+NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
-# Selector de plan
-plan_seleccionado = st.sidebar.radio(
-    "Selecciona el Plan para consultar:",
-    ["SMX 5 (PREC)", "SMX 2 (PREG)"],
-    index=0
-)
-
-st.sidebar.markdown("---")
-
-if plan_seleccionado == "SMX 5 (PREC)":
-    st.sidebar.subheader("Prioridades SMX 5")
-    st.sidebar.info("• CHALCO: Small Van > Car\n\n• IZTAPALAPA: Large Van > Small Van\n\n• TLALPAN: Car 8h > Car 5h")
-else:
-    st.sidebar.subheader("Prioridades SMX 2")
-    st.sidebar.warning("⚠️ ZONAS ROJAS (Sin Motos):\n\n• TEXCOCO\n\n• CHIMAS\n\n• PUEBLOS")
-
-st.sidebar.markdown("---")
-st.sidebar.caption("Usa esta info como guía visual para el llenado manual.")
-# --- FINAL DEL BLOQUE ---
+# Bloque de barra lateral forzado
+with st.sidebar:
+    st.header("📌 PRIORIDADES")
+    
+    # Esto crea una lista desplegable que no se oculta
+    guia = st.selectbox("Seleccionar Guía:", ["SMX 5", "SMX 2"])
+    
+    st.markdown("---")
+    
+    if guia == "SMX 5":
+        st.write("**CHALCO:** Small Van > Car")
+        st.write("**IZTAPALAPA:** Large Van > Small")
+        st.write("**TLALPAN:** Car 8h > Car 5h")
+    else:
+        st.write("**ZONAS ROJAS (Sin Motos):**")
+        st.error("TEXCOCO / CHIMAS / PUEBLOS")
+    
+    st.markdown("---")
+    st.info("Consulta esta info para el llenado manual.")
 
 
 def gen_master_rows(data_dict, table_id):
