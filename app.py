@@ -812,26 +812,28 @@ html body .meli-table tbody tr:last-child {{
         }});
         
 
-        // 1. ACTUALIZAR CONTADORES DE FLOTA (ARRIBA)
+        // --- 1. ACTUALIZAR CONTADORES (TABLA DE ARRIBA) ---
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA: Solo Car-5h, Car-3h y Car-8h pueden ser negativos
-                let esCarFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD');
+                // REGLA: Permitir negativos si el nombre contiene "Car" o "CROWD"
+                // Esto cubrirá Car - 5h, Car - 3h, Car - 8h, etc., en C1, SDE y PREC.
+                let permiteNegativo = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD');
 
-                if (esCarFlexible) {{
-                    cL.innerText = diff;
+                if (permiteNegativo) {{
+                    cL.innerText = diff; // Muestra -1, -2, etc.
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff;
+                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans o Motos
                 }}
 
-                // Colores
+                // --- COLORES ---
                 if (diff < 0) {{
                     cL.style.color = "red";
                     cL.style.fontWeight = "bold";
+                    cL.style.background = "transparent";
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
                     cL.style.color = "white";
                     cL.style.background = "#d32f2f";
@@ -843,27 +845,25 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // 2. FILTRAR LISTA DESPLEGABLE (ABAJO)
+        // --- 2. FILTRAR LISTA DESPLEGABLE (TABLA DE ABAJO) ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                // Solo mostrar si tiene cantidad en la columna SCHED (fleet[k].stock > 0)
-                if (fleet[k].stock > 0) {{
-                    let disponible = (fleet[k].stock - fleet[k].used > 0);
-                    let esCar = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
-
-                    // Se muestra si hay stock, o si ya la elegiste, o si es un Car
-                    if (disponible || k === cur || esCar) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
-                    }}
-                }}
+                let tieneStock = (fleet[k].stock - fleet[k].used > 0);
+                let esFlexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
+                
+                // Se mantiene en la lista si tiene stock, si ya está seleccionada,
+                // o si es un Car (para permitir que sigas aumentando en negativo)
+                if (tieneStock || k === cur || esFlexible) {{ 
+                    opt += `<option value="${{k}}">${{k}}</option>`; 
+                }} 
             }});
+            
             s.innerHTML = opt; 
             s.value = cur; 
         }});
-    }} // <--- Aquí cierra la función recalc
   
     
     }}
