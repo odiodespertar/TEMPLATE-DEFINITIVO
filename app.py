@@ -944,31 +944,31 @@ function distribuirAutomatico() {{
             return;
         }}
 
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
         let nombrePoli = bl.querySelector('.p-name').innerText.trim().toUpperCase();
         let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
         let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
         let faltante = vT - vA;
 
-        if (faltante > 0) {
+        if (faltante > 0) {{
             // Buscamos el orden de prioridad para este polígono específico
             let orden = reglasPrioridad[nombrePoli] || Object.keys(fleet);
 
-            bl.querySelectorAll('.calc-row').forEach(r => {
+            bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type');
                 let u = r.querySelector('.u-manual');
                 let sp = r.querySelector('.spr-real-val');
 
-                if (s.value === "SELECCIONAR..." && faltante > 0) {
+                if (s.value === "SELECCIONAR..." && faltante > 0) {{
                     // Selecciona la unidad que sigue según la prioridad y que tenga stock
                     let unidadNombre = orden.find(k => fleet[k] && fleet[k].stock > 0);
 
-                    if (unidadNombre) {
+                    if (unidadNombre) {{
                         let infoUnidad = fleet[unidadNombre];
                         let necesito = Math.ceil(faltante / infoUnidad.max);
                         let asigno = Math.min(necesito, infoUnidad.stock);
                         
-                        if (asigno > 0) {
+                        if (asigno > 0) {{
                             s.value = unidadNombre;
                             u.innerText = asigno;
                             sp.innerText = infoUnidad.max; // Pone el SPR máximo automáticamente
