@@ -819,16 +819,18 @@ html body .meli-table tbody tr:last-child {{
                 let diff = fleet[n].stock - fleet[n].used;
                 let cL = row.querySelector('.f-left');
                 
-                // REGLA: Permitir negativos si es SDE o si el nombre contiene "Car" (para Car-8h, Newbie, etc.)
-                let permiteNegativo = (currentTab === 'SDE') || n.toUpperCase().includes('CAR');
+                // REGLA UNIVERSAL: Permitir negativos si es SDE O si el nombre de la unidad contiene "CAR" o "CROWD"
+                let esUnidadFlexible = (currentTab === 'SDE') || 
+                                       n.toUpperCase().includes('CAR') || 
+                                       n.toUpperCase().includes('CROWD');
 
-                if (permiteNegativo) {{
-                    cL.innerText = diff; // Muestra -1, -2, etc.
+                if (esUnidadFlexible) {{
+                    cL.innerText = diff; // Muestra -1, -2, -3...
                 }} else {{
-                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans
+                    cL.innerText = diff < 0 ? 0 : diff; // Bloquea en 0 para Vans en PREC
                 }}
 
-                // Colores de alerta
+                // Colores de alerta (Igual que en SDE)
                 if (diff < 0) {{
                     cL.style.color = "red";
                     cL.style.fontWeight = "bold";
@@ -844,17 +846,20 @@ html body .meli-table tbody tr:last-child {{
             }}
         }});
 
-        // --- 2. FILTRAR LISTA DESPLEGABLE (ABAJO) ---
+        // --- 2. FILTRAR LISTA DESPLEGABLE (PARA QUE NO DESAPAREZCAN LAS CAR) ---
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             
             Object.keys(fleet).forEach(k => {{ 
-                let disponible = (fleet[k].stock - fleet[k].used > 0);
-                let esUnidadInfinita = k.toUpperCase().includes('CAR'); // Las "Car" nunca desaparecen de la lista
+                let tieneStock = (fleet[k].stock - fleet[k].used > 0);
+                let esCarOCrowd = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('CROWD');
                 
-                // Se muestra si: hay stock, o ya está seleccionada, o es tipo Car
-                if (disponible || k === cur || esUnidadInfinita) {{ 
+                // Se muestra en la lista si: 
+                // 1. Tiene stock disponible
+                // 2. O si es la que ya está seleccionada en esa fila
+                // 3. O si es una unidad flexible (Car/Crowd) que permitimos sobrepasar
+                if (tieneStock || k === cur || esCarOCrowd) {{ 
                     opt += `<option value="${{k}}">${{k}}</option>`; 
                 }} 
             }});
@@ -862,7 +867,6 @@ html body .meli-table tbody tr:last-child {{
             s.innerHTML = opt; 
             s.value = cur; 
         }});
-  
     
     }}
     
