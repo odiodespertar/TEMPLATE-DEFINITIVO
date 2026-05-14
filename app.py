@@ -43,8 +43,8 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- AQUÍ COLOCAS EL PANEL DE CONSULTA ---
-with st.sidebar.expander("📖 MANUAL DE PRIORIDADES Y ZONAS"):
+# Asegúrate de que NO tenga espacios al principio de la línea
+with st.sidebar.expander("📖 MANUAL DE PRIORIDADES Y ZONAS", expanded=True): # Añadimos expanded=True
     st.info("Consulta aquí las reglas antes de calcular:")
     
     tab_prio1, tab_prio2 = st.tabs(["SMX 5 (PREC)", "SMX 2 (PREG)"])
@@ -54,7 +54,6 @@ with st.sidebar.expander("📖 MANUAL DE PRIORIDADES Y ZONAS"):
         **Prioridades Sugeridas (SMX5):**
         * **CHALCO:** Small Van > Car
         * **IZTAPALAPA:** Large Van > Small Van
-        * **TLALPAN:** Car 8h > Car 5h
         """)
     
     with tab_prio2:
@@ -62,7 +61,6 @@ with st.sidebar.expander("📖 MANUAL DE PRIORIDADES Y ZONAS"):
         **Zonas Restringidas (No Motos):**
         * **TEXCOCO**
         * **CHIMAS**
-        * **PUEBLOS**
         """)
 
 
