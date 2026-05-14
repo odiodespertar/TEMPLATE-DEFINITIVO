@@ -43,6 +43,34 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# --- BARRA LATERAL INFORMATIVA ---
+with st.sidebar:
+    st.title("📌 Guía de Prioridades")
+    
+    # Selector simple para cambiar la info que ves
+    opcion_guia = st.selectbox("Seleccionar Plan:", ["SMX 5 (PREC)", "SMX 2 (PREG)"])
+    
+    st.divider()
+
+    if opcion_guia == "SMX 5 (PREC)":
+        st.subheader("Reglas SMX 5")
+        st.markdown("""
+        * **CHALCO:** Small Van > Car
+        * **IZTAPALAPA:** Large Van > Small Van
+        * **TLALPAN:** Car 8h > Car 5h
+        * **ZONAS ROJAS:** Sin Motos
+        """)
+    else:
+        st.subheader("Reglas SMX 2")
+        st.markdown("""
+        * **TEXCOCO:** No Motos
+        * **CHIMAS:** No Motos
+        * **PUEBLOS:** Prioridad Van
+        """)
+    
+    st.info("Nota: Esta sección es solo informativa para apoyo visual.")
+
+
 
 def gen_master_rows(data_dict, table_id):
     rows = ""
