@@ -703,12 +703,7 @@ html body .meli-table tbody tr:last-child {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
         if (delta > 0 && left <= 0) {{
-            if (currentTab === 4) {{
-                showAlert("⚠️ EXCESO EN SDE. Se registrará como negativo.");
-            }} else {{
-                showAlert("⚠️ UNIDADES AGOTADAS: Solicita más a SVC.");
-                return;
-            }}
+                showAlert("⚠️ EXCESO DE UNIDADES. Se registrará como negativo.");
         }}
         span.innerText = Math.max(0, val + delta);
                 }} else {{
