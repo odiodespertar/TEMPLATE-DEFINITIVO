@@ -56,7 +56,7 @@ volumen_final_poligonos = {}
 # Ejemplo: CP: "Nombre del Polígono"
 mapeo_cp_poligono = {
     56600: "CHALCO",
-    56605: "CHALCO",
+    56607: "CHALCO",
     13200: "IZTAPALAPA",
     # ... agrega aquí todos tus CPs
 }
@@ -83,6 +83,14 @@ if archivo_paquetes:
             # Guardamos los totales en el diccionario
             volumen_final_poligonos = df_p.groupby('poligono_asignado')['volumen'].sum().to_dict()
             st.sidebar.success(f"✅ Volumen calculado para {len(volumen_final_poligonos)} polígonos")
+        
+        
+        st.sidebar.subheader("Resumen de Carga:")
+            for poli, vol in volumen_final_poligonos.items():
+                # poli será el nombre (CHALCO, etc) y vol el número
+                st.sidebar.write(f"📍 {poli}: {vol:.4f} m³")
+        
+        
         else:
             st.sidebar.error("El Excel no tiene columna 'CP'")
 
