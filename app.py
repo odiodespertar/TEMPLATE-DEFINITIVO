@@ -25,30 +25,6 @@ u_PREC = {
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
 
-# --- PANEL LATERAL DE CONSULTA ---
-with st.sidebar:
-    st.title("📖 GUÍA DE APOYO")
-    
-    # Lista desplegable para elegir el plan
-    plan_guia = st.selectbox(
-        "Ver prioridades de:",
-        ["SMX 5 (PREC)", "SMX 2 (PREG)"],
-        index=0
-    )
-    
-    st.divider() # Línea divisoria
-
-    if plan_guia == "SMX 5 (PREC)":
-        st.subheader("📍 Prioridades SMX 5")
-        st.info("• CHALCO: Small Van > Car\n\n• IZTAPALAPA: Large Van > Small\n\n• TLALPAN: Car 8h > Car 5h")
-    else:
-        st.subheader("📍 Prioridades SMX 2")
-        st.warning("⚠️ ZONAS ROJAS (Sin Motos):\n\n• TEXCOCO\n\n• CHIMAS\n\n• PUEBLOS")
-    
-    st.divider()
-    st.caption("Usa esta información para el llenado manual de las tablas.")
-
-
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
@@ -67,6 +43,22 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# --- CABECERA DE PRIORIDADES (Siempre visible) ---
+with st.container():
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        with st.expander("📍 PRIORIDADES SMX 5 (PREC)", expanded=True):
+            st.markdown("""
+            * **CHALCO:** Small Van > Car
+            * **IZTAPALAPA:** Large Van > Small Van
+            * **TLALPAN:** Car 8h > Car 5h
+            """)
+    with col2:
+        with st.expander("📍 RESTRICCIONES SMX 2 (PREG)", expanded=True):
+            st.warning("⚠️ **ZONAS ROJAS (Sin Motos):** TEXCOCO, CHIMAS, PUEBLOS")
+            st.write("Prioridad: Large Van en zonas de alta densidad.")
+
+st.divider() # Una línea para separar la guía de las tablas
 
 
 def gen_master_rows(data_dict, table_id):
