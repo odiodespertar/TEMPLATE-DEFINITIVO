@@ -43,25 +43,29 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# Asegúrate de que NO tenga espacios al principio de la línea
-with st.sidebar.expander("📖 MANUAL DE PRIORIDADES Y ZONAS", expanded=True): # Añadimos expanded=True
-    st.info("Consulta aquí las reglas antes de calcular:")
+# --- COPIAR DESDE AQUÍ ---
+with st.sidebar:
+    st.title("Configuración") # Esto ayuda a que la barra tenga contenido fijo
     
-    tab_prio1, tab_prio2 = st.tabs(["SMX 5 (PREC)", "SMX 2 (PREG)"])
-    
-    with tab_prio1:
+    with st.expander("📖 MANUAL DE PRIORIDADES", expanded=True):
+        st.info("Consulta rápida de reglas:")
+        
+        st.markdown("### 📍 SMX 5 (PREC)")
         st.markdown("""
-        **Prioridades Sugeridas (SMX5):**
         * **CHALCO:** Small Van > Car
         * **IZTAPALAPA:** Large Van > Small Van
+        * **TLALPAN:** Car 8h > Car 5h
         """)
-    
-    with tab_prio2:
+        
+        st.divider()
+        
+        st.markdown("### 📍 SMX 2 (PREG)")
         st.markdown("""
-        **Zonas Restringidas (No Motos):**
-        * **TEXCOCO**
-        * **CHIMAS**
+        * **TEXCOCO:** Sin Motos
+        * **CHIMAS:** Sin Motos
+        * **PUEBLOS:** Large Van > Small Van
         """)
+# --- HASTA AQUÍ ---
 
 
 def gen_master_rows(data_dict, table_id):
