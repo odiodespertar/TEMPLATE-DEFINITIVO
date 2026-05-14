@@ -71,7 +71,7 @@ with st.container():
             * **TEXCOCO:** Crowd
             """)
             st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
-            st.write("Prioridad: Large Van y MLP en zonas de nodos.")
+            st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
 
 st.divider() # Una línea para separar la guía de las tablas
 
