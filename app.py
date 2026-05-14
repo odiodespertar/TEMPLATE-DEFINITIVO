@@ -789,6 +789,7 @@ html body .meli-table tbody tr:last-child {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
+                console.log("Diferencia calculada:", diff);
                 let cL = row.querySelector('.f-left');
                 
                 // Regla universal para Car 3h, 5h, 8h y Crowd
