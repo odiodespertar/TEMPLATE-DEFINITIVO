@@ -60,10 +60,10 @@ with st.sidebar.expander("🛠️ REGLAS Y RESTRICCIONES"):
         roja = st.checkbox("Zona Roja", key=f"R_roja_{i}")
         
         # Pero guardamos en el JSON con el nombre del polígono para que el JS lo encuentre
-        reglas_config[poli] = {
-            "prioridad": prio,
-            "zona_roja": roja
-        }
+        reglas_config[poli.upper()] = {  # Usar .upper() aquí es la clave
+    "prioridad": prio,
+    "zona_roja": roja
+}
 
 import json
 reglas_json = json.dumps(reglas_config)
@@ -971,7 +971,21 @@ function distribuirAutomatico() {{
         if (faltante > 0.5) {{
             // LEER REGLAS DESDE EL SIDEBAR
             let config = reglasEspeciales[nombrePoli] || {{ prioridad: [], zona_roja: false }};
-            let orden = config.prioridad.length > 0 ? config.prioridad : Object.keys(fleet);
+
+// 1. Empezamos con las unidades que tú elegiste en el Sidebar
+let orden = [...config.prioridad];
+
+// 2. Agregamos el resto de la flota que NO elegiste, por si falta carga por cubrir
+Object.keys(fleet).forEach(unidad => {{
+    if (!orden.includes(unidad)) {{
+        orden.push(unidad);
+    }}
+}});
+
+// 3. Si marcaste Zona Roja, filtramos las Motos para que no se usen aquí
+if (config.zona_roja) {{
+    orden = orden.filter(u => !u.toLowerCase().includes('moto'));
+}}
 
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type');
