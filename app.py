@@ -44,28 +44,6 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- BUSCA ESTA LÍNEA Y PEGA EL BLOQUE JUSTO DEBAJO ---
-NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-
-# Bloque de barra lateral forzado
-with st.sidebar:
-    st.header("📌 PRIORIDADES")
-    
-    # Esto crea una lista desplegable que no se oculta
-    guia = st.selectbox("Seleccionar Guía:", ["SMX 5", "SMX 2"])
-    
-    st.markdown("---")
-    
-    if guia == "SMX 5":
-        st.write("**CHALCO:** Small Van > Car")
-        st.write("**IZTAPALAPA:** Large Van > Small")
-        st.write("**TLALPAN:** Car 8h > Car 5h")
-    else:
-        st.write("**ZONAS ROJAS (Sin Motos):**")
-        st.error("TEXCOCO / CHIMAS / PUEBLOS")
-    
-    st.markdown("---")
-    st.info("Consulta esta info para el llenado manual.")
 
 
 def gen_master_rows(data_dict, table_id):
