@@ -43,23 +43,6 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- BORRA LO ANTERIOR Y PEGA ESTO EXACTAMENTE ---
-st.sidebar.title("📌 GUÍA DE OPERACIÓN")
-
-st.sidebar.header("SMX 5 (PREC)")
-st.sidebar.write("• CHALCO: Small > Car")
-st.sidebar.write("• IZTAPALAPA: Large > Small")
-
-st.sidebar.markdown("---") # Una línea divisoria
-
-st.sidebar.header("SMX 2 (PREG)")
-st.sidebar.write("• TEXCOCO: No Motos")
-st.sidebar.write("• CHIMAS: No Motos")
-
-st.sidebar.info("Usa estos datos como recordatorio antes de Autocalcular.")
-# --- FIN DEL BLOQUE ---
-
-
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
