@@ -43,6 +43,7 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
@@ -350,8 +351,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
 
         
-
-/* CALCULADORA CON RESPLANDOR NEÓN */
+       /* CALCULADORA CON RESPLANDOR NEÓN */
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
         #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
         
@@ -378,7 +378,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             transform: scale(0.95);
             box-shadow: inset 2px 2px 5px #b1b1b1;
         }}
-      
+
 
    /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
