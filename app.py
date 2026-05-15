@@ -1239,6 +1239,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }});
             s.innerHTML = opt; s.value = cur; 
         }});
+
+actualizarTotales();
     }}
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
