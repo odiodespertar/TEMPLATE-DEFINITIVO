@@ -46,29 +46,29 @@ u_C2["Large Van Híbrida"] = [100, 100]
 # ================= ORH POR UNIDAD =================
 
 ORH_FIJOS = {
-    "Rental E. Large Van": "500/70",
-    "Rental E. Small Van": "450/70",
-    "Rental Large Van": "540/70",
-    "Rental Small Van": "480/70",
+    "Rental E. Large Van": ["500", "70"],
+    "Rental E. Small Van": ["450", "70"],
+    "Rental Large Van": ["54", "70"],
+    "Rental Small Van": ["480", "70"],
 
-    "Large Van MLP": "500/80",
-    "Small Van MLP": "486/80",
-    "Large Van SDD": "486/80",
-    "Small Van SDD": "486/80",
+    "Large Van MLP": ["500", "80"],
+    "Small Van MLP": ["486", "80"],
+    "Large Van SDD": ["486", "80"],
+    "Small Van SDD": ["486", "80"],
 
-    "Car MLP": "300/66",
-    "Car Newbie 3h": "180/66",
-    "Car Newbie": "180/66",
+    "Car MLP": ["300", "66"],
+    "Car Newbie 3h": ["180", "66"],
+    "Car Newbie": ["180", "266"],
 
-    "Car - 8h": "360/66",
-    "Car - 5h": "300/66",
-    "Car - 3h": "300/66",
+    "Car - 8h": ["360", "66"],
+    "Car - 5h": ["300", "66"],
+    "Car - 3h": ["300", "66"],
 
-    "Moto - 3h": "180/66",
+    "Moto - 3h": ["180", "66"],
 
-    "Small Van SDD": "540/66",
-    "Car Zona Extendida": "330/66",
-    "Car - 5h Extendida": "330/66"
+    "Small Van SDD": ["540", "66"],
+    "Car Zona Extendida": ["330", "66"],
+    "Car - 5h Extendida": ["330", "66"]
 }
 
 
@@ -133,7 +133,8 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">{ORH_FIJOS.get(name, "480/66")}</td>
+<td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">{ORH_FIJOS.get(name, ["480","66"])[0]}</td>
+<td contenteditable="true" class="edit-ocup" style="text-align: center; border: 0.2px solid #A9A9A9; width: 40px;">{ORH_FIJOS.get(name, ["480","66"])[1]}</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #A9A9A9; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
@@ -539,13 +540,16 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -559,13 +563,16 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
@@ -579,13 +586,16 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
@@ -600,13 +610,16 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
+                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
