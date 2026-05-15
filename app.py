@@ -43,39 +43,53 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
-# --- CABECERA DE PRIORIDADES (Siempre visible) ---
-with st.container():
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
-            st.markdown("""
-            ## **(Revisar ORH y ocupación por día en summary)**
-            * **CHALCO:** LV MLP SDD > Crowd(6:00 hrs) / METÍ SOLO CROWD 
-            * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs) / METÍ SOLO CROWD
-            * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs) / METÍ LAS 3 NEWBIES Y CROWD
-            * **MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs) / METÍ SOLO CROWD
-            * **TLÁHUAC:** MLP SDD> > Newbie > Crowd(6:00 hrs)  / METÍ SMALL VAN SDD Y CROWD
-            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs) > Newbie > Crowd(6:00 hrs) / METÍ PURA SMALL VAN SDD
-            * **TLALPAN SUR:** MLP SDD(L - 9:00 hrs) / METÍ PURA SMALL VAN SDD
-            * **XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd / METÍ SMALL VAN SDD Y CROWD
-            """)
-    with col2:
-        with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
-            st.markdown("""
-            ## **(Revisar ORH y ocupación por día en summary)**
-            * **CHALCO:** DC > Crowd(6:00 hrs) / METÍ CROWD 
-            * **CHIMAS:** Newbie > Crowd > MLP(S - 7:30 hrs) / METÍ CROWD 
-            * **IXTAPALUCA-VALLE CHALCO:** Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs) / METÍ SMALL VAN SDD 
-            * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd / METÍ SMALL VAN SDD Y CROWD 
-            * **IZTAPALAPA 2:** Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) / METÍ SMALL VAN SDD Y CROWD 
-            * **LA PAZ:** Newbie > Crowd (5:30 hrs) / METÍ SMALL VAN SDD Y CROWD 
-            * **PUEBLOS:** MLP > Crowd(6:00 hrs) / METÍ SMALL VAN SDD Y CROWD 
-            * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext / METÍ EXTENDIDA Y CROWD 
-            """)
-            st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
-            st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
 
-st.divider() # Una línea para separar la guía de las tablas
+<!-- ================= PRIORIDADES Y RESTRICCIONES ================= -->
+
+<div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+
+    <!-- SMX5 -->
+    <details style="border:1px solid #ccc; border-radius:8px; padding:10px; background:#f8f8f8;">
+        <summary style="cursor:pointer; font-weight:bold; font-size:14px;">
+            📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
+        </summary>
+
+        <div style="margin-top:10px; font-size:13px; line-height:1.5;">
+            ## <b>(Revisar ORH y ocupación por día en summary)</b>
+            • <b>CHALCO:</b> LV MLP SDD > Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
+            • <b>COYOACÁN CENTRO:</b> MLP SDD> Newbie > Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
+            • <b>IZTAPALAPA:</b> MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs) / METÍ LAS 3 NEWBIES Y CROWD<br>
+            • <b>MILPA ALTA:</b> LV MLP SDD> Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
+            • <b>TLÁHUAC:</b> MLP SDD> > Newbie > Crowd(6:00 hrs)  / METÍ SMALL VAN SDD Y CROWD<br>
+            • <b>TLALPAN NTE:</b> MLP SDD(L - 9:00 hrs / S - 8:30 hrs) > Newbie > Crowd(6:00 hrs) / METÍ PURA SMALL VAN SDD<br>
+            • <b>TLALPAN SUR:</b> MLP SDD(L - 9:00 hrs) / METÍ PURA SMALL VAN SDD<br>
+            • <b>XOCHIMILCO:</b> MLP SDD(L/S - 9:00 hrs aprox.) > Crowd / METÍ SMALL VAN SDD Y CROWD
+            </div>
+    </details>
+
+    <!-- SMX2 -->
+    <details style="border:1px solid #ccc; border-radius:8px; padding:10px; background:#f8f8f8;">
+        <summary style="cursor:pointer; font-weight:bold; font-size:14px;">
+            📍 PRIORIDADES Y RESTRICCIONES SMX2 (AM0)
+        </summary>
+
+        <div style="margin-top:10px; font-size:13px; line-height:1.5;">
+            ## <b>(Revisar ORH y ocupación por día en summary)</b>
+            • <b>CHALCO:</b> DC > Crowd(6:00 hrs) / METÍ CROWD<br>
+            • <b>CHIMAS:</b> Newbie > Crowd > MLP(S - 7:30 hrs) / METÍ CROWD<br>
+            • <b>IXTAPALUCA-VALLE CHALCO:</b> Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs) / METÍ SMALL VAN SDD<br> 
+            • <b>IZTAPALAPA 1:</b> MLP(S - 3:00 a 7:30 hrs) > Crowd / METÍ SMALL VAN SDD Y CROWD<br>
+            • <b>IZTAPALAPA 2:</b> Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) / METÍ SMALL VAN SDD Y CROWD<br>
+            • <b>LA PAZ:</b> Newbie > Crowd (5:30 hrs) / METÍ SMALL VAN SDD Y CROWD<br>
+            • <b>PUEBLOS:</b> MLP > Crowd(6:00 hrs) / METÍ SMALL VAN SDD Y CROWD<br> 
+            • <b>TEXCOCO:</b> Crowd(6:00 hrs) > Car Zona Ext / METÍ EXTENDIDA Y CROWD<br><br>
+
+           ⚠️ <b>ZONA ROJA:</b> IXTAPALUCA-VALLE CHALCO<br>
+            📦 <b>Prioridad:</b> Large Van y MLP en zonas de nodos
+        </div>
+    </details>
+
+</div>
 
 
 def gen_master_rows(data_dict, table_id):
