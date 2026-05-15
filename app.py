@@ -1171,7 +1171,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
                     fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
                     sp.style.color = "#008B8B"; sp.style.fontWeight = "bold";
@@ -1386,71 +1386,75 @@ function distribuirAutomatico() {{
     }}
 
 
+
 // =========================
 // TOTALES FINALES
 // =========================
 
-let totalNoCar = 0;
-let totalCarReal = 0;
+function actualizarTotales() {{
 
-document.querySelectorAll('#body-' + currentTab + ' tr').forEach(r => {
+    let totalNoCar = 0;
+    let totalCarReal = 0;
 
-    let unidad =
-        r.querySelector('.edit-name')?.innerText.toUpperCase() || "";
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(r => {{
 
-    let sched =
-        parseInt(r.querySelector('.f-stock')?.innerText) || 0;
+        let unidad =
+            r.querySelector('.edit-name')?.innerText.toUpperCase() || "";
 
-    let quedan =
-        parseInt(r.querySelector('.f-left')?.innerText) || 0;
+        let sched =
+            parseInt(r.querySelector('.f-stock')?.innerText) || 0;
 
-    // =========================
-    // CAR + MOTO
-    // =========================
+        let quedan =
+            parseInt(r.querySelector('.f-left')?.innerText) || 0;
 
-    if (
-        unidad.includes("CAR") ||
-        unidad.includes("MOTO")
-    ) {
+        // =========================
+        // CAR + MOTO
+        // =========================
 
-        totalCarReal += sched;
-
-        // SOLO CAR suma negativos
         if (
-            unidad.includes("CAR") &&
-            quedan < 0
-        ) {
+            unidad.includes("CAR") ||
+            unidad.includes("MOTO")
+        ) {{
 
-            totalCarReal += Math.abs(quedan);
+            totalCarReal += sched;
 
-        }
+            // SOLO CAR suma negativos
+            if (
+                unidad.includes("CAR") &&
+                quedan < 0
+            ) {{
 
-    }
+                totalCarReal += Math.abs(quedan);
 
-    // =========================
-    // RESTO
-    // =========================
+            }}
 
-    else {
+        }}
 
-        totalNoCar += sched;
+        // =========================
+        // RESTO
+        // =========================
 
-    }
+        else {{
 
-});
+            totalNoCar += sched;
 
-// ACTUALIZAR TABLA ACTUAL
-let noCarCell =
-document.getElementById('total-no-car-' + currentTab);
+        }}
 
-let carCell =
-document.getElementById('total-car-real-' + currentTab);
+    }});
 
-if (noCarCell)
-    noCarCell.innerText = totalNoCar;
+    let noCarCell =
+    document.getElementById('total-no-car-' + currentTab);
 
-if (carCell)
-    carCell.innerText = totalCarReal;
+    let carCell =
+    document.getElementById('total-car-real-' + currentTab);
+
+    if (noCarCell)
+        noCarCell.innerText = totalNoCar;
+
+    if (carCell)
+        carCell.innerText = totalCarReal;
+
+}}
 
     
     recalc();
