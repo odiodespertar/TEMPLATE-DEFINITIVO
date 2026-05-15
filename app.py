@@ -206,6 +206,31 @@ app_html = f"""
 
         /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
 
+
+
+/* DISEÑO SOLICITADO: NÚMERO GRANDE Y CENTRADO (Imagen 2) */
+    .u-manual {{
+        font-size: 24px !important;    
+        font-weight: bold !important;
+        color: #1a1a1a;
+        background-color: #f0f2f6;     
+        border-radius: 6px;
+        padding: 2px 12px;
+        min-width: 55px;
+        display: inline-block;
+        text-align: center;
+        border: 1px solid #d1d5db;
+        margin: 0 8px !important;
+    }}
+
+    .u-manual-cell button {{
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 18px !important;
+        vertical-align: middle !important;
+    }}
+
+
        
         
         /* Efecto de iluminación al pasar el mouse por las filas */
@@ -230,7 +255,7 @@ app_html = f"""
 .filter-btn:active {{
     transform: translateY(4px); 
     box-shadow: none !important;
-}}     
+}}    
     </style>
     
 </head>
