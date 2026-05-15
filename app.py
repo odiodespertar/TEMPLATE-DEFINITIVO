@@ -498,7 +498,7 @@ html body .meli-table tbody tr:last-child {{
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
     </div>
 
-    <!-- COLUMNA DERECHA -->
+    <!-- COLUMNA DERECHA --> 
 <div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
 
         <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
