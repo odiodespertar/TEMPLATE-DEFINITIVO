@@ -805,7 +805,7 @@ html body .meli-table tbody tr:last-child {{
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>IXTAPALUCA-VALLE CHALCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)</td>
-                        <td style="padding:8px; border:1px solid #ddd;">MALL VAN SDD</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
