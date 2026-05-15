@@ -629,7 +629,7 @@ html body .meli-table tbody tr:last-child {{
 
                 <thead>
                     <tr style="
-                        background:linear-gradient(180deg,#555 0%, #333 100%);
+                        background:linear-gradient(180deg,#FF6347 0%, #FF0000 100%);
                         color:white;
                     ">
                         <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
