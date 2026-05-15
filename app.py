@@ -895,43 +895,44 @@ html body .meli-table tbody tr:last-child {{
     }}
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
-
-
     function stepVal(btn, delta, type) {{
-    const row = btn.closest('tr');
-    const span = row.querySelector(type === 'u' ? '.u-manual' : '.spr-real-val');
-    let val = parseFloat(span.innerText) || 0;
+    let row = btn.closest('tr');
+    let sel = row.querySelector('.s-type').value;
     
-    // --- LÓGICA DEL CANDADO ---
-    if (type === 'u' && delta > 0) {{
-        const select = row.querySelector('.s-type');
-        const unitName = select.value.toUpperCase(); // Obtenemos el nombre en mayúsculas
-        
-        // Verificamos si NO contiene la palabra "CAR"
-        if (!unitName.includes("CAR") && unitName !== "SELECCIONAR...") {{
-            // Buscamos cuánto queda disponible de esa unidad en la tabla de arriba
-            const masterRows = document.querySelectorAll('.master-row');
-            let disponible = 0;
-            
-            masterRows.forEach(mr => {{
-                if (mr.cells[1].innerText.toUpperCase() === unitName) {{
-                    disponible = parseFloat(mr.cells[6].innerText) || 0; // Columna "Me Queda"
-                }}
-            }});
+    // Si no hay unidad seleccionada, no hace nada
+    if(sel === "SELECCIONAR...") return;
 
-            // Si ya no queda nada, detenemos la ejecución y no sumamos
-            if (disponible <= 0) {{
-                console.log("Bloqueo: No hay más unidades de tipo " + unitName);
-                return; 
-            }}
+    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
+    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
+    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+    
+    if (!fRow) return; // Seguridad por si no encuentra la unidad
+
+    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
+
+    if(type === 'u') {{
+        let span = row.querySelector('.u-manual');
+        let val = parseInt(span.innerText) || 0;
+        if (delta > 0 && left <= 0) {{
+                showAlert("⚠️ EXCESO DE UNIDADES. Se registrará como negativo.");
         }}
-    }}
-    // --- FIN DEL CANDADO ---
+        span.innerText = val + delta;
+                }} else {{
+        let span = row.querySelector('.spr-real-val');
+        let val = parseFloat(span.innerText) || 0;
+        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
 
-    val += delta;
-    if (type === 's' && val < 0) val = 0; // SPR Real nunca negativo
-    
-    span.innerText = val;
+        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
+        if (delta > 0 && newVal > sprMaxReal) {{
+            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
+            return; 
+        }}
+        
+        // Si es para bajar o está dentro del rango, permite el cambio
+        span.innerText = newVal.toFixed(1);
+    }}
+    editedRowsPlan.add(row);
     recalc();
 }}
 
