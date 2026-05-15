@@ -773,7 +773,7 @@ style="text-align:center; color:#00BFFF;">
             font-size:14px;
             padding:12px;
             background:linear-gradient(180deg, #ddcce8 0%, #ddcce8 100%);
-            color:white;
+            color: #696969;
             user-select:none;
         ">
             📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
@@ -798,7 +798,7 @@ style="text-align:center; color:#00BFFF;">
                 width:100%;
                 border-collapse:collapse;
                 font-size:12px;
-                background:black;
+                background:white;
             ">
 
                 <thead>
@@ -890,7 +890,7 @@ style="text-align:center; color:#00BFFF;">
             font-size:14px;
             padding:12px;
             background:linear-gradient(180deg, #d5cce8 0%, #d5cce8 100%);
-            color:white;
+            color: #696969;
             user-select:none;
         ">
             📍 PRIORIDADES Y RESTRICCIONES SMX2 (AM0)
