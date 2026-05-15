@@ -134,7 +134,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
 <td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #A9A9A9; border-left: 0.2px solid #A9A9A9; border-righ: 0.2px solid #DCDCDC; width: 45px;">{ORH_FIJOS.get(name, ["480","66"])[0]}</td>
-<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #A9A9A9; border-left: 0.2px solid #A9A9A9; border-righ: 0.2px solid #DCDCDC; width: 45px;">{ORH_FIJOS.get(name, ["480","66"])[0]}</td>
+<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #A9A9A9; border-left: 0.2px solid #DCDCDC; border-righ: 0.2px solid #A9A9A9; width: 45px;">{ORH_FIJOS.get(name, ["480","66"])[0]}</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #A9A9A9; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
