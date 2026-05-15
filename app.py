@@ -1408,69 +1408,34 @@ function distribuirAutomatico() {{
 // =========================
 
 function actualizarTotales() {{
+        let totalAsignadas = 0;
+        let totalUnidadesFisicas = 0;
 
-    let totalNoCar = 0;
-    let totalCarReal = 0;
+        // Mapeamos 'C1' para que busque correctamente en '#polys-2' y '#body-2'
+        let tabTarget = currentTab;
+        if (currentTab === 'C1') {{
+            tabTarget = '2';
+        }}
 
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(r => {{
+        // 1. Sumar el volumen calculado total de los bloques de abajo
+        document.querySelectorAll('#polys-' + tabTarget + ' .v-calculado-total').forEach(el => {{
+            totalAsignadas += parseFloat(el.innerText) || 0;
+        }});
 
-        let unidad =
-            r.querySelector('.edit-name')?.innerText.toUpperCase() || "";
-
-        let sched =
-            parseInt(r.querySelector('.f-stock')?.innerText) || 0;
-
-        let quedan =
-            parseInt(r.querySelector('.f-left')?.innerText) || 0;
-
-        // =========================
-        // CAR + MOTO
-        // =========================
-
-        if (
-            unidad.includes("CAR") ||
-            unidad.includes("MOTO")
-        ) {{
-
-            totalCarReal += sched;
-
-            // SOLO CAR suma negativos
-            if (
-                unidad.includes("CAR") &&
-                quedan < 0
-            ) {{
-
-                totalCarReal += Math.abs(quedan);
-
+        // 2. Sumar las unidades asignadas reales de la tabla de disponibilidad (columna ASIG que es la celda índice 5)
+        document.querySelectorAll('#body-' + tabTarget + ' tr').forEach(row => {{
+            if (row.cells && row.cells[5]) {{
+                totalUnidadesFisicas += parseFloat(row.cells[5].innerText) || 0;
             }}
+        }});
 
-        }}
+        // 3. Pintar los resultados en los contenedores globales del tablero superior
+        let indicadorVol = document.getElementById('total-vol-asignado');
+        let indicadorUnidades = document.getElementById('total-unidades-asignadas');
 
-        // =========================
-        // RESTO
-        // =========================
-
-        else {{
-
-            totalNoCar += sched;
-
-        }}
-
-    }});
-
-    let noCarCell =
-    document.getElementById('total-no-car-' + currentTab);
-
-    let carCell =
-    document.getElementById('total-car-real-' + currentTab);
-
-    if (noCarCell)
-        noCarCell.innerText = totalNoCar;
-
-    if (carCell)
-        carCell.innerText = totalCarReal;
-
-}}
+        if (indicadorVol) indicadorVol.innerText = Math.round(totalAsignadas).toLocaleString();
+        if (indicadorUnidades) indicadorUnidades.innerText = Math.round(totalUnidadesFisicas).toLocaleString();
+    }}
 
     
     recalc();
