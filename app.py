@@ -676,6 +676,7 @@ html body .meli-table tbody tr:last-child {{
                     ">
                         <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
                         <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">VOL REAL APROX</th>
                         <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
                     </tr>
                 </thead>
@@ -685,48 +686,56 @@ html body .meli-table tbody tr:last-child {{
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>CHALCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">260</td>
                         <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>COYOACÁN CENTRO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">500</td>
                         <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie(4:30 hrs) > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">300</td>
                         <td style="padding:8px; border:1px solid #ddd;">NEWBIES Y CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>MILPA ALTA</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">170</td>
                         <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>TLÁHUAC</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">750</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>TLALPAN NTE</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs / S-8:30 hrs) > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">580</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>TLALPAN SUR</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">90</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>XOCHIMILCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L/S-9:00 hrs aprox.) > Crowd</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">660</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
@@ -793,48 +802,56 @@ html body .meli-table tbody tr:last-child {{
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>CHALCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">DC > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">300</td>
                         <td style="padding:8px; border:1px solid #ddd;">CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>CHIMAS</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd > MLP(S-7:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">750</td>
                         <td style="padding:8px; border:1px solid #ddd;">CROWD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>IXTAPALUCA-VALLE CHALCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">1100</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA 1</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP(S-3:00 a 7:30 hrs) > Crowd</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">150</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA 2</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs) > MLP(S-7:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">480</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>LA PAZ</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">450</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
                     <tr>
                         <td style="padding:8px; border:1px solid #ddd;"><b>PUEBLOS</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">MLP > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">240</td>
                         <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
                         <td style="padding:8px; border:1px solid #ddd;"><b>TEXCOCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Crowd(6:00 hrs) > Car Zona Ext</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">340</td>
                         <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD</td>
                     </tr>
 
