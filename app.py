@@ -793,6 +793,7 @@ html body .meli-table tbody tr:last-child {{
                     ">
                         <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
                         <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">VOL REAL APROX</th>
                         <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
                     </tr>
                 </thead>
