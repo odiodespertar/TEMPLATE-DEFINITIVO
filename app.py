@@ -914,9 +914,19 @@ html body .meli-table tbody tr:last-child {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
-        if (delta > 0 && left <= 0) {{
-                showAlert("⚠️ EXCESO DE UNIDADES. Se registrará como negativo.");
-        }}
+        // Detectar si la unidad es CAR
+let esCAR = sel.toUpperCase().includes("CAR");
+
+// Si NO es CAR, bloquear cuando ya no hay disponibles
+if (delta > 0 && left <= 0 && !esCAR) {{
+        showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
+        return;
+}}
+
+// Si SÍ es CAR, permitir negativos pero mostrar alerta
+if (delta > 0 && left <= 0 && esCAR) {{
+        showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+}}
         span.innerText = val + delta;
                 }} else {{
         let span = row.querySelector('.spr-real-val');
