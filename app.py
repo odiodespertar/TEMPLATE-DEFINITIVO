@@ -124,13 +124,13 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 120px; min-width: 120px; max-width: 120px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+<button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
         </td>
         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+<button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
         <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
@@ -165,13 +165,13 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                         
                         <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+<button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
                         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
+<button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
                         <td style="border: 0.5px solid #ccc; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
