@@ -699,7 +699,7 @@ html body .meli-table tbody tr:last-child {{
 
 
     <!-- ================= SMX2 ================= -->
-    <details style="border:1px solid #cfcfcf; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+    <details style="border:1px solid #FF0000; border-radius:10px; background:#f8f8f8; overflow:hidden;">
         
         <summary style="
             cursor:pointer;
