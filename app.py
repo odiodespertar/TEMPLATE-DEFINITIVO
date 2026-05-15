@@ -65,7 +65,7 @@ with st.container():
             * **CHIMAS:** Newbie > Crowd > MLP(S - 7:30 hrs)
             * **IXTAPALUCA-VALLE CHALCO:** Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
             * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd 
-            * **IZTAPALAPA 2** Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
+            * **IZTAPALAPA 2:** Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
             * **LA PAZ:** Newbie > Crowd (5:30 hrs)
             * **PUEBLOS:** MLP > Crowd(6:00 hrs)
             * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext 
