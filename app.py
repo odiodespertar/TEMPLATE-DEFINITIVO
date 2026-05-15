@@ -31,7 +31,7 @@ u_PREC_SMX2 = {
     "Car - 8h": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
-NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
 u_C1 = {
@@ -49,26 +49,28 @@ with st.container():
     with col1:
         with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
             st.markdown("""
-            * **CHALCO:** LV MLP SDD > Crowd(6:00 hrs)
-            * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs)
-            * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs)
-            * **MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs)
-            * **TLÁHUAC:** MLP SDD> Crowd(6:00 hrs)
-            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs)  > Crowd(6:00 hrs)
-            * **TLALPAN SUR:** MLP SDD(L - 9:00 hrs)
-            * **XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd 
+            ## **(Revisar ORH y ocupación por día en summary)**
+            * **CHALCO:** LV MLP SDD > Crowd(6:00 hrs) / METÍ SOLO CROWD 
+            * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs) / METÍ SOLO CROWD
+            * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs) / METÍ LAS 3 NEWBIES Y CROWD
+            * **MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs) / METÍ SOLO CROWD
+            * **TLÁHUAC:** MLP SDD> > Newbie > Crowd(6:00 hrs)  / METÍ SMALL VAN SDD Y CROWD
+            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs) > Newbie > Crowd(6:00 hrs) / METÍ PURA SMALL VAN SDD
+            * **TLALPAN SUR:** MLP SDD(L - 9:00 hrs) / METÍ PURA SMALL VAN SDD
+            * **XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd / METÍ SMALL VAN SDD Y CROWD
             """)
     with col2:
         with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
             st.markdown("""
-            * **CHALCO:** DC > Crowd(6:00 hrs)
-            * **CHIMAS:** Crowd > MLP(S - 7:30 hrs)
-            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
-            * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd 
-            * **IZTAPALAPA 2** Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
-            * **LA PAZ:** Crowd (5:30 hrs)
-            * **PUEBLOS:** MLP > Crowd(6:00 hrs)
-            * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext 
+            ## **(Revisar ORH y ocupación por día en summary)**
+            * **CHALCO:** DC > Crowd(6:00 hrs) / METÍ CROWD 
+            * **CHIMAS:** Newbie > Crowd > MLP(S - 7:30 hrs) / METÍ CROWD 
+            * **IXTAPALUCA-VALLE CHALCO:** Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs) / METÍ SMALL VAN SDD 
+            * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd / METÍ SMALL VAN SDD Y CROWD 
+            * **IZTAPALAPA 2:** Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) / METÍ SMALL VAN SDD Y CROWD 
+            * **LA PAZ:** Newbie > Crowd (5:30 hrs) / METÍ SMALL VAN SDD Y CROWD 
+            * **PUEBLOS:** MLP > Crowd(6:00 hrs) / METÍ SMALL VAN SDD Y CROWD 
+            * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext / METÍ EXTENDIDA Y CROWD 
             """)
             st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
             st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
@@ -83,7 +85,7 @@ def gen_master_rows(data_dict, table_id):
 
    # Listas de nombres para que la función las reconozca
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # Determinamos el total de filas final
     # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
@@ -150,7 +152,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     fila_inner = f'''
     <tr class="calc-row">
@@ -496,7 +498,7 @@ html body .meli-table tbody tr:last-child {{
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
     </div>
 
-    <!-- COLUMNA DERECHA -->
+    <!-- COLUMNA DERECHA --> 
 <div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
 
         <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
@@ -797,7 +799,7 @@ html body .meli-table tbody tr:last-child {{
 
 
                 console.log("Diferencia calculada:", diff);
-                cL.innerText = (diff < 0 ? 0 : diff);
+                cL.innerText = diff;
                 
                 // Color Rojo si es negativo
                 if (diff < 0) {{
@@ -1019,7 +1021,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 800<br>
+            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
             - 👉 fecha promesa</p>
         </div>
 
