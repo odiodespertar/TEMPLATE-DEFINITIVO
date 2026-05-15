@@ -53,8 +53,8 @@ with st.container():
             * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs)
             * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs)
             * **MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs)
-            * **TLÁHUAC:** MLP SDD> Crowd(6:00 hrs)
-            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs)  > Crowd(6:00 hrs)
+            * **TLÁHUAC:** MLP SDD> > Newbie > Crowd(6:00 hrs) 
+            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs) > Newbie > Crowd(6:00 hrs) 
             * **TLALPAN SUR:** MLP SDD(L - 9:00 hrs)
             * **XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd 
             """)
@@ -62,11 +62,11 @@ with st.container():
         with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
             st.markdown("""
             * **CHALCO:** DC > Crowd(6:00 hrs)
-            * **CHIMAS:** Crowd > MLP(S - 7:30 hrs)
-            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
+            * **CHIMAS:** Newbie > Crowd > MLP(S - 7:30 hrs)
+            * **IXTAPALUCA-VALLE CHALCO:** Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
             * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd 
-            * **IZTAPALAPA 2** Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
-            * **LA PAZ:** Crowd (5:30 hrs)
+            * **IZTAPALAPA 2** Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
+            * **LA PAZ:** Newbie > Crowd (5:30 hrs)
             * **PUEBLOS:** MLP > Crowd(6:00 hrs)
             * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext 
             """)
