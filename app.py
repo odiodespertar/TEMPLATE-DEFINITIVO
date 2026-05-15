@@ -561,7 +561,7 @@ html body .meli-table tbody tr:last-child {{
 
 <td colspan="5"
 style="padding:6px; text-align:right;">
-TOTAL NO CAR
+TOTAL MLP
 </td>
 
 <td id="total-no-car"
@@ -616,7 +616,7 @@ style="text-align:center; color:#00BFFF;">
 
 <td colspan="5"
 style="padding:6px; text-align:right;">
-TOTAL NO CAR
+TOTAL MLP
 </td>
 
 <td id="total-no-car-1"
@@ -672,7 +672,7 @@ style="text-align:center; color:#00BFFF;">
 
 <td colspan="5"
 style="padding:6px; text-align:right;">
-TOTAL NO CAR
+TOTAL MLP
 </td>
 
 <td id="total-no-car-5"
@@ -729,7 +729,7 @@ style="text-align:center; color:#00BFFF;">
 
 <td colspan="5"
 style="padding:6px; text-align:right;">
-TOTAL NO CAR
+TOTAL MLP
 </td>
 
 <td id="total-no-car-4"
