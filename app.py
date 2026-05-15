@@ -947,9 +947,9 @@ html body .meli-table tbody tr:last-child {{
             
             if(sch > 0) {{
                 row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#e3defa"; 
-                mi.style.background = "#def3ed"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-                ma.style.background = "#def3ed"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+                fs.style.background = "#fcfbc7"; 
+                mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+                ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
             }} else {{
                 row.style.background = "#ebebeb"; row.style.color = "#969696";
                 fs.style.background = "#ebebeb"; 
