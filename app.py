@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit.components.v1 import html   
+from streamlit.components.v1 import html  
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
@@ -31,7 +31,7 @@ u_PREC_SMX2 = {
     "Car - 8h": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
-NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
 u_C1 = {
@@ -43,6 +43,37 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# --- CABECERA DE PRIORIDADES (Siempre visible) ---
+with st.container():
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
+            st.markdown("""
+            * **CHALCO:** LV MLP SDD > Crowd(6:00 hrs)
+            * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs)
+            * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs)
+            * **MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs)
+            * **TLÁHUAC:** MLP SDD> Crowd(6:00 hrs)
+            * **TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs)  > Crowd(6:00 hrs)
+            * **TLALPAN SUR:** MLP SDD(L - 9:00 hrs)
+            * **XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd 
+            """)
+    with col2:
+        with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
+            st.markdown("""
+            * **CHALCO:** DC > Crowd(6:00 hrs)
+            * **CHIMAS:** Crowd > MLP(S - 7:30 hrs)
+            * **IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
+            * **IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd 
+            * **IZTAPALAPA 2** Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
+            * **LA PAZ:** Crowd (5:30 hrs)
+            * **PUEBLOS:** MLP > Crowd(6:00 hrs)
+            * **TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext 
+            """)
+            st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
+            st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
+
+st.divider() # Una línea para separar la guía de las tablas
 
 
 def gen_master_rows(data_dict, table_id):
@@ -52,7 +83,7 @@ def gen_master_rows(data_dict, table_id):
 
    # Listas de nombres para que la función las reconozca
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # Determinamos el total de filas final
     # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
@@ -119,7 +150,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     fila_inner = f'''
     <tr class="calc-row">
@@ -465,7 +496,7 @@ html body .meli-table tbody tr:last-child {{
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
     </div>
 
-    <!-- COLUMNA DERECHA --> 
+    <!-- COLUMNA DERECHA -->
 <div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
 
         <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
@@ -497,6 +528,8 @@ html body .meli-table tbody tr:last-child {{
         TODAS
     </button>
 </div>
+
+
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
@@ -582,41 +615,6 @@ html body .meli-table tbody tr:last-child {{
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
             </table>
         </div>
-
-
-
-
-# --- CABECERA DE PRIORIDADES (Siempre visible) ---
-with st.container():
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
-            st.markdown("""
-            ***CHALCO:** LV MLP SDD > Crowd(6:00 hrs)
-            ***COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs)
-            ***IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs)
-            ***MILPA ALTA:** LV MLP SDD> Crowd(6:00 hrs)
-            ***TLÁHUAC:** MLP SDD> Crowd(6:00 hrs)
-            ***TLALPAN NTE:** MLP SDD(L - 9:00 hrs / S - 8:30 hrs)  > Crowd(6:00 hrs)
-            ***TLALPAN SUR:** MLP SDD(L - 9:00 hrs)
-            ***XOCHIMILCO:** MLP SDD(L/S - 9:00 hrs aprox.) > Crowd 
-            """)
-    with col2:
-        with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
-            st.markdown("""
-            ***CHALCO:** DC > Crowd(6:00 hrs)
-            ***CHIMAS:** Crowd > MLP(S - 7:30 hrs)
-            ***IXTAPALUCA-VALLE CHALCO:** MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)
-            ***IZTAPALAPA 1:** MLP(S - 3:00 a 7:30 hrs) > Crowd 
-            ***IZTAPALAPA 2** Crowd(5:30 hrs) > MLP (S - 7:30 hrs) 
-            ***LA PAZ:** Crowd (5:30 hrs)
-            ***PUEBLOS:** MLP > Crowd(6:00 hrs)
-            ***TEXCOCO:** Crowd(6:00 hrs) > Car Zona Ext 
-            """)
-            st.warning("⚠️ **ZONA ROJA (Restricción):** IXTAPALUCA-VALLE CHALCO")
-            st.write("📦  **Prioridad: Large Van y MLP en zonas de nodos**.")
-
-st.divider() # Una línea para separar la guía de las tablas
 
 
         
@@ -799,7 +797,7 @@ st.divider() # Una línea para separar la guía de las tablas
 
 
                 console.log("Diferencia calculada:", diff);
-                cL.innerText = diff;
+                cL.innerText = (diff < 0 ? 0 : diff);
                 
                 // Color Rojo si es negativo
                 if (diff < 0) {{
@@ -1021,7 +1019,7 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
+            - 👉 Vol aprox. 800<br>
             - 👉 fecha promesa</p>
         </div>
 
