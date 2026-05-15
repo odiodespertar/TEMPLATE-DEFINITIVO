@@ -1386,6 +1386,72 @@ function distribuirAutomatico() {{
     }}
 
 
+// =========================
+// TOTALES FINALES
+// =========================
+
+let totalNoCar = 0;
+let totalCarReal = 0;
+
+document.querySelectorAll('#body-' + currentTab + ' tr').forEach(r => {
+
+    let unidad =
+        r.querySelector('.edit-name')?.innerText.toUpperCase() || "";
+
+    let sched =
+        parseInt(r.querySelector('.f-stock')?.innerText) || 0;
+
+    let quedan =
+        parseInt(r.querySelector('.f-left')?.innerText) || 0;
+
+    // =========================
+    // CAR + MOTO
+    // =========================
+
+    if (
+        unidad.includes("CAR") ||
+        unidad.includes("MOTO")
+    ) {
+
+        totalCarReal += sched;
+
+        // SOLO CAR suma negativos
+        if (
+            unidad.includes("CAR") &&
+            quedan < 0
+        ) {
+
+            totalCarReal += Math.abs(quedan);
+
+        }
+
+    }
+
+    // =========================
+    // RESTO
+    // =========================
+
+    else {
+
+        totalNoCar += sched;
+
+    }
+
+});
+
+// ACTUALIZAR TABLA ACTUAL
+let noCarCell =
+document.getElementById('total-no-car-' + currentTab);
+
+let carCell =
+document.getElementById('total-car-real-' + currentTab);
+
+if (noCarCell)
+    noCarCell.innerText = totalNoCar;
+
+if (carCell)
+    carCell.innerText = totalCarReal;
+
     
     recalc();
 </script>
