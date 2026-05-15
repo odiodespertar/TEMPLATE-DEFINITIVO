@@ -610,6 +610,38 @@ style="text-align:center; color:#00BFFF;">
                     </tr>
                 </thead>
                 <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+           <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL NO CAR
+</td>
+
+<td id="total-no-car-1"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-1"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
@@ -633,6 +665,39 @@ style="text-align:center; color:#00BFFF;">
                     </tr>
                 </thead>
                 <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+
+             <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL NO CAR
+</td>
+
+<td id="total-no-car-5"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-5"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
@@ -657,6 +722,39 @@ style="text-align:center; color:#00BFFF;">
                     </tr>
                 </thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+
+              <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL NO CAR
+</td>
+
+<td id="total-no-car-4"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-4"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
@@ -1144,7 +1242,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
     }}
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
-    document.addEventListener('keydown', function(event) {{
+    document.addEventListener('keydown', function(event) {{ 
         if (event.key === 'Enter') {{
             // Busca cualquier div de alerta o mensaje de error y lo cierra/limpia
             let alerta = document.querySelector('.alerta-roja, .p-diff'); 
