@@ -1333,7 +1333,9 @@ actualizarTotales();
 
 function distribuirAutomatico() {{
         let fleet = {{}};
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let ma = row.querySelector('.edit-spr-max');
             let cL = row.querySelector('.f-left'); 
