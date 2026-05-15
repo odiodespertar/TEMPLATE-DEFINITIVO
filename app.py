@@ -150,7 +150,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     fila_inner = f'''
     <tr class="calc-row">
