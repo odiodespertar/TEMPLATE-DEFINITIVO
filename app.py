@@ -45,7 +45,7 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 # ================= ORH POR UNIDAD =================
 
-ORH_FIJOS = {{
+ORH_FIJOS = {
     "Rental E. Large Van": "500",
     "Rental E. Small Van": "450",
     "Rental Large Van": "540",
@@ -64,7 +64,7 @@ ORH_FIJOS = {{
 
     "Small Van SDD": "540",
     "Car Zona Extendida": "330"
-}}
+}
 
 
 
