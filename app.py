@@ -552,7 +552,41 @@ html body .meli-table tbody tr:last-child {{
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+
+            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+
+<tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL NO CAR
+</td>
+
+<td id="total-no-car"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+            
             </table>
         </div>
 
@@ -1252,6 +1286,7 @@ function distribuirAutomatico() {{
         }});
         recalc();
     }}
+
 
     
     recalc();
