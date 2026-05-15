@@ -1393,7 +1393,7 @@ function distribuirAutomatico() {{
                                 faltante -= (asigno * sprFinal);
                                 editedRowsPlan.add(r); 
                             }}
-                        }}
+                        }} 
                     }}
                 }});
             }}
