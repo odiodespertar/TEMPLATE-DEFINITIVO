@@ -591,7 +591,7 @@ html body .meli-table tbody tr:last-child {{
 <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
 
     <!-- ================= SMX5 ================= -->
-    <details style="border:1px solid #cfcfcf; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+    <details style="border:1px solid #FF6347; border-radius:10px; background:#f8f8f8; overflow:hidden;">
         
         <summary style="
             cursor:pointer;
@@ -629,7 +629,7 @@ html body .meli-table tbody tr:last-child {{
 
                 <thead>
                     <tr style="
-                        background:linear-gradient(180deg,#FF6347 0%, #FF0000 100%);
+                        background:linear-gradient(180deg,#555 0%, #333 100%);
                         color:white;
                     ">
                         <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
