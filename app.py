@@ -640,7 +640,7 @@ html body .meli-table tbody tr:last-child {{
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #FF6347 0%, #FFA07A 100%);
+            background:linear-gradient(180deg, #FF6347 0%, #FF6347 100%);
             color:white;
             user-select:none;
         ">
@@ -757,7 +757,7 @@ html body .meli-table tbody tr:last-child {{
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #FF6347 0%, #FFA07A 100%);
+            background:linear-gradient(180deg, #FF6347 0%, #FF6347 100%);
             color:white;
             user-select:none;
         ">
