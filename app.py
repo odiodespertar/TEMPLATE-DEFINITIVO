@@ -49,7 +49,7 @@ with st.container():
     with col1:
         with st.expander("📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)", expanded=True):
             st.markdown("""
-            # **(Revisar ORH y ocupación por día en summary)**
+            ## **(Revisar ORH y ocupación por día en summary)**
             * **CHALCO:** LV MLP SDD > Crowd(6:00 hrs) / METÍ SOLO CROWD 
             * **COYOACÁN CENTRO:** MLP SDD> Newbie > Crowd(6:00 hrs) / METÍ SOLO CROWD
             * **IZTAPALAPA:** MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs) / METÍ LAS 3 NEWBIES Y CROWD
@@ -62,7 +62,7 @@ with st.container():
     with col2:
         with st.expander("📍 RIORIDADES Y RESTRICCIONES SMX2 (AM0)", expanded=True):
             st.markdown("""
-            # **(Revisar ORH y ocupación por día en summary)**
+            ## **(Revisar ORH y ocupación por día en summary)**
             * **CHALCO:** DC > Crowd(6:00 hrs) / METÍ CROWD 
             * **CHIMAS:** Newbie > Crowd > MLP(S - 7:30 hrs) / METÍ CROWD 
             * **IXTAPALUCA-VALLE CHALCO:** Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs) / METÍ SMALL VAN SDD 
