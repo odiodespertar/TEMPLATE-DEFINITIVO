@@ -591,14 +591,14 @@ html body .meli-table tbody tr:last-child {{
 <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
 
     <!-- ================= SMX5 ================= -->
-    <details style="border:1px solid #FF6347; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+    <details style="border:1px solid #FF0000; border-radius:10px; background:#f8f8f8; overflow:hidden;">
         
         <summary style="
             cursor:pointer;
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg,#4d4d4d 0%, #2f2f2f 100%);
+            background:linear-gradient(180deg,#FF6347 0%, #FF0000 100%);
             color:white;
             user-select:none;
         ">
