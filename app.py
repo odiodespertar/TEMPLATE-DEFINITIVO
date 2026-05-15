@@ -1400,69 +1400,34 @@ function distribuirAutomatico() {{
 // =========================
 
 function actualizarTotales() {{
+        let totalNoCar = 0;
+        let totalCarReal = 0;
 
-    let totalNoCar = 0;
-    let totalCarReal = 0;
+        let tabId = (currentTab === 'C1') ? '2' : currentTab;
 
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(r => {{
+        // Sumar datos desde la tabla de disponibilidad activa
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim().toUpperCase();
+            let left = parseInt(row.querySelector('.f-left').innerText) || 0;
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let asig = sch - left;
 
-        let unidad =
-            r.querySelector('.edit-name')?.innerText.toUpperCase() || "";
-
-        let sched =
-            parseInt(r.querySelector('.f-stock')?.innerText) || 0;
-
-        let quedan =
-            parseInt(r.querySelector('.f-left')?.innerText) || 0;
-
-        // =========================
-        // CAR + MOTO
-        // =========================
-
-        if (
-            unidad.includes("CAR") ||
-            unidad.includes("MOTO")
-        ) {{
-
-            totalCarReal += sched;
-
-            // SOLO CAR suma negativos
-            if (
-                unidad.includes("CAR") &&
-                quedan < 0
-            ) {{
-
-                totalCarReal += Math.abs(quedan);
-
+            if (name && name !== "IGNORAR" && name !== "NUEVA UNIDAD") {{
+                if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
+                    totalCarReal += asig;
+                }} else {{
+                    totalNoCar += asig;
+                }}
             }}
+        }});
 
-        }}
+        // Pintar en los tfoots correspondientes de la pestaña activa
+        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
+        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
 
-        // =========================
-        // RESTO
-        // =========================
-
-        else {{
-
-            totalNoCar += sched;
-
-        }}
-
-    }});
-
-    let noCarCell =
-    document.getElementById('total-no-car-' + currentTab);
-
-    let carCell =
-    document.getElementById('total-car-real-' + currentTab);
-
-    if (noCarCell)
-        noCarCell.innerText = totalNoCar;
-
-    if (carCell)
-        carCell.innerText = totalCarReal;
-
-}}
+        if (noCarCell) noCarCell.innerText = totalNoCar;
+        if (carCell) carCell.innerText = totalCarReal;
+    }}
 
     
     recalc();
