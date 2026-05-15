@@ -46,24 +46,29 @@ u_C2["Large Van Híbrida"] = [100, 100]
 # ================= ORH POR UNIDAD =================
 
 ORH_FIJOS = {
-    "Rental E. Large Van": "500",
-    "Rental E. Small Van": "450",
-    "Rental Large Van": "540",
-    "Rental Small Van": "480",
+    "Rental E. Large Van": "500/70",
+    "Rental E. Small Van": "450/70",
+    "Rental Large Van": "540/70",
+    "Rental Small Van": "480/70",
 
-    "Large Van MLP": "500",
-    "Small Van MLP": "486",
+    "Large Van MLP": "500/80",
+    "Small Van MLP": "486/80",
+    "Large Van SDD": "486/80",
+    "Small Van SDD": "486/80",
 
-    "Car MLP": "300",
-    "Car Newbie 3h": "180",
+    "Car MLP": "300/66",
+    "Car Newbie 3h": "180/66",
+    "Car Newbie": "180/66",
 
-    "Car - 8h": "360",
-    "Car - 5h": "300",
+    "Car - 8h": "360/66",
+    "Car - 5h": "300/66",
+    "Car - 3h": "300/66",
 
-    "Moto - 3h": "180",
+    "Moto - 3h": "180/66",
 
-    "Small Van SDD": "540",
-    "Car Zona Extendida": "330"
+    "Small Van SDD": "540/66",
+    "Car Zona Extendida": "330/66",
+    "Car - 5h Extendida": "330/66"
 }
 
 
