@@ -104,7 +104,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">480</td>
+                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">480/66</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #A9A9A9; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
@@ -510,7 +510,7 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
@@ -530,7 +530,7 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
@@ -550,7 +550,7 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
@@ -571,7 +571,7 @@ html body .meli-table tbody tr:last-child {{
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">ORH/%</th>
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
                         <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
                     </tr>
