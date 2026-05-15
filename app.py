@@ -590,49 +590,243 @@ html body .meli-table tbody tr:last-child {{
 
 <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
 
-    <!-- SMX5 -->
-    <details style="border:1px solid #ccc; border-radius:8px; padding:10px; background:#f8f8f8;">
-        <summary style="cursor:pointer; font-weight:bold; font-size:14px;">
+    <!-- ================= SMX5 ================= -->
+    <details style="border:1px solid #cfcfcf; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+        
+        <summary style="
+            cursor:pointer;
+            font-weight:bold;
+            font-size:14px;
+            padding:12px;
+            background:linear-gradient(180deg,#4d4d4d 0%, #2f2f2f 100%);
+            color:white;
+            user-select:none;
+        ">
             📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
         </summary>
 
-        <div style="margin-top:10px; font-size:13px; line-height:1.5;">
-            ## <b>(Revisar ORH y ocupación por día en summary)</b>
-            • <b>CHALCO:</b> LV MLP SDD > Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
-            • <b>COYOACÁN CENTRO:</b> MLP SDD> Newbie > Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
-            • <b>IZTAPALAPA:</b> MLP SDD> Newbie(4:30 hrs) > Crowd (6:00 hrs) / METÍ LAS 3 NEWBIES Y CROWD<br>
-            • <b>MILPA ALTA:</b> LV MLP SDD> Crowd(6:00 hrs) / METÍ SOLO CROWD<br>
-            • <b>TLÁHUAC:</b> MLP SDD> > Newbie > Crowd(6:00 hrs)  / METÍ SMALL VAN SDD Y CROWD<br>
-            • <b>TLALPAN NTE:</b> MLP SDD(L - 9:00 hrs / S - 8:30 hrs) > Newbie > Crowd(6:00 hrs) / METÍ PURA SMALL VAN SDD<br>
-            • <b>TLALPAN SUR:</b> MLP SDD(L - 9:00 hrs) / METÍ PURA SMALL VAN SDD<br>
-            • <b>XOCHIMILCO:</b> MLP SDD(L/S - 9:00 hrs aprox.) > Crowd / METÍ SMALL VAN SDD Y CROWD
+        <div style="padding:12px;">
+
+            <div style="
+                background:#fff3cd;
+                border:1px solid #ffe69c;
+                color:#856404;
+                padding:8px;
+                border-radius:6px;
+                margin-bottom:10px;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                ⚠️ Revisar ORH y ocupación por día en summary
             </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:12px;
+                background:white;
+            ">
+
+                <thead>
+                    <tr style="
+                        background:linear-gradient(180deg,#555 0%, #333 100%);
+                        color:white;
+                    ">
+                        <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
+                        <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SOLO CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>COYOACÁN CENTRO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SOLO CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie(4:30 hrs) > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ LAS 3 NEWBIES Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>MILPA ALTA</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SOLO CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>TLÁHUAC</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>TLALPAN NTE</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs / S-8:30 hrs) > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ PURA SMALL VAN SDD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>TLALPAN SUR</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ PURA SMALL VAN SDD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>XOCHIMILCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L/S-9:00 hrs aprox.) > Crowd</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </details>
 
-    <!-- SMX2 -->
-    <details style="border:1px solid #ccc; border-radius:8px; padding:10px; background:#f8f8f8;">
-        <summary style="cursor:pointer; font-weight:bold; font-size:14px;">
+
+
+    <!-- ================= SMX2 ================= -->
+    <details style="border:1px solid #cfcfcf; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+        
+        <summary style="
+            cursor:pointer;
+            font-weight:bold;
+            font-size:14px;
+            padding:12px;
+            background:linear-gradient(180deg,#4d4d4d 0%, #2f2f2f 100%);
+            color:white;
+            user-select:none;
+        ">
             📍 PRIORIDADES Y RESTRICCIONES SMX2 (AM0)
         </summary>
 
-        <div style="margin-top:10px; font-size:13px; line-height:1.5;">
-            ## <b>(Revisar ORH y ocupación por día en summary)</b>
-            • <b>CHALCO:</b> DC > Crowd(6:00 hrs) / METÍ CROWD<br>
-            • <b>CHIMAS:</b> Newbie > Crowd > MLP(S - 7:30 hrs) / METÍ CROWD<br>
-            • <b>IXTAPALUCA-VALLE CHALCO:</b> Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs) / METÍ SMALL VAN SDD<br> 
-            • <b>IZTAPALAPA 1:</b> MLP(S - 3:00 a 7:30 hrs) > Crowd / METÍ SMALL VAN SDD Y CROWD<br>
-            • <b>IZTAPALAPA 2:</b> Newbie > Crowd(5:30 hrs) > MLP (S - 7:30 hrs) / METÍ SMALL VAN SDD Y CROWD<br>
-            • <b>LA PAZ:</b> Newbie > Crowd (5:30 hrs) / METÍ SMALL VAN SDD Y CROWD<br>
-            • <b>PUEBLOS:</b> MLP > Crowd(6:00 hrs) / METÍ SMALL VAN SDD Y CROWD<br> 
-            • <b>TEXCOCO:</b> Crowd(6:00 hrs) > Car Zona Ext / METÍ EXTENDIDA Y CROWD<br><br>
+        <div style="padding:12px;">
 
-           ⚠️ <b>ZONA ROJA:</b> IXTAPALUCA-VALLE CHALCO<br>
-            📦 <b>Prioridad:</b> Large Van y MLP en zonas de nodos
+            <div style="
+                background:#fff3cd;
+                border:1px solid #ffe69c;
+                color:#856404;
+                padding:8px;
+                border-radius:6px;
+                margin-bottom:10px;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                ⚠️ Revisar ORH y ocupación por día en summary
+            </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:12px;
+                background:white;
+            ">
+
+                <thead>
+                    <tr style="
+                        background:linear-gradient(180deg,#555 0%, #333 100%);
+                        color:white;
+                    ">
+                        <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
+                        <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">DC > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>CHIMAS</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd > MLP(S-7:30 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>IXTAPALUCA-VALLE CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA 1</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP(S-3:00 a 7:30 hrs) > Crowd</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>IZTAPALAPA 2</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs) > MLP(S-7:30 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>LA PAZ</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>PUEBLOS</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP > Crowd(6:00 hrs)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>TEXCOCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Crowd(6:00 hrs) > Car Zona Ext</td>
+                        <td style="padding:8px; border:1px solid #ddd;">METÍ EXTENDIDA Y CROWD</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div style="
+                margin-top:12px;
+                padding:10px;
+                background:#ffe5e5;
+                border:1px solid #ffb3b3;
+                border-radius:6px;
+                font-size:12px;
+            ">
+                ⚠️ <b>ZONA ROJA:</b> IXTAPALUCA-VALLE CHALCO
+            </div>
+
+            <div style="
+                margin-top:8px;
+                padding:10px;
+                background:#e8f4ff;
+                border:1px solid #b5dbff;
+                border-radius:6px;
+                font-size:12px;
+            ">
+                📦 <b>Prioridad:</b> Large Van y MLP en zonas de nodos
+            </div>
+
         </div>
+
     </details>
 
 </div>
-
 
 
         
