@@ -122,7 +122,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
+        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 120px; min-width: 120px; max-width: 120px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
