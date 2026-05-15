@@ -159,7 +159,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="calc-row">
+                    <tr class="calc-row"> 
                         <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
                         
