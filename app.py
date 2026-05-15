@@ -43,6 +43,30 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# ================= ORH POR UNIDAD =================
+
+ORH_FIJOS = {{
+    "Rental E. Large Van": "500",
+    "Rental E. Small Van": "450",
+    "Rental Large Van": "540",
+    "Rental Small Van": "480",
+
+    "Large Van MLP": "500",
+    "Small Van MLP": "486",
+
+    "Car MLP": "300",
+    "Car Newbie 3h": "180",
+
+    "Car - 8h": "360",
+    "Car - 5h": "300",
+
+    "Moto - 3h": "180",
+
+    "Small Van SDD": "540",
+    "Car Zona Extendida": "330"
+}}
+
+
 
 def gen_master_rows(data_dict, table_id):
     rows = ""
@@ -104,7 +128,7 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">480/ 66</td>
+                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #A9A9A9; width: 45px;">{ORH_FIJOS.get(name, "480 / 66")}</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #A9A9A9; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
