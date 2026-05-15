@@ -772,7 +772,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #ddcce8 0%, #ddcce8 100%);
+            background:linear-gradient(180deg, #cfcce8 0%, #cfcce8 100%);
             color: #696969;
             user-select:none;
         ">
