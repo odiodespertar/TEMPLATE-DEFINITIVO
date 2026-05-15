@@ -101,11 +101,11 @@ def gen_master_rows(data_dict, table_id):
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #696969; width: 150px;">{name}</td>
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.5px solid #696969; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.5px solid #696969; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.5px solid #ccc; width: 45px;">480</td>
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.5px solid #696969; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #696969; width: 150px;">{name}</td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #696969; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #696969; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
+                <td contenteditable="true" class="edit-orh" style="text-align: center; border: 0.2px solid #696969; width: 45px;">480</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #696969; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #696969; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
     return rows
