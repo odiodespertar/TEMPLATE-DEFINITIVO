@@ -889,7 +889,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #d5cce8 0%, #d5cce8 100%);
+            background:linear-gradient(180deg, #dccce8 0%, #dccce8 100%);
             color: #696969;
             user-select:none;
         ">
