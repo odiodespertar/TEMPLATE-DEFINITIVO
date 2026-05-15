@@ -1142,21 +1142,13 @@ if (delta > 0 && left <= 0 && esCAR) {{
     function recalc() {{
         let fleet = {{}};
         
-        // --- ASIGNACIÓN DE ID CORRECTO PARA CADA PESTAÑA ---
-        let targetBody = currentTab;
-        let targetPolys = currentTab;
-        
-        if (currentTab === 'C1') {{
-            targetBody = '2'; // Fuerza a JavaScript a buscar "body-2" en C1
-            // Si tus polígonos de C1 también usan número (ej. polys-2), agrégalo aquí:
-            // targetPolys = '2'; 
-        }}
+        // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
+        // Guardamos el identificador real que usan los elementos HTML en pantalla
+        let tabId = (currentTab === 'C1') ? '2' : currentTab;
         // ----------------------------------------------------
 
-
-        
         // 1. Capturar datos de la flota (Tabla de arriba)
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
             let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
@@ -1178,7 +1170,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
         }});
 
         // 2. Calcular ocupación por polígono (Tabla de abajo)
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
@@ -1213,7 +1205,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
         }});
 
         // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let n = row.querySelector('.edit-name').innerText.trim();
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
@@ -1239,7 +1231,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
         }});
 
         // 4. FILTRAR LISTA SIN ROMPER SCHED
-        document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(s => {{
+        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(s => {{
             let cur = s.value; 
             let opt = '<option>SELECCIONAR...</option>';
             Object.keys(fleet).forEach(k => {{ 
