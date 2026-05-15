@@ -31,7 +31,7 @@ u_PREC_SMX2 = {
     "Car - 8h": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
-NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA-VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
 u_C1 = {
@@ -83,7 +83,7 @@ def gen_master_rows(data_dict, table_id):
 
    # Listas de nombres para que la función las reconozca
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA-VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # Determinamos el total de filas final
     # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
