@@ -1141,6 +1141,20 @@ if (delta > 0 && left <= 0 && esCAR) {{
 
     function recalc() {{
         let fleet = {{}};
+        
+        // --- ASIGNACIÓN DE ID CORRECTO PARA CADA PESTAÑA ---
+        let targetBody = currentTab;
+        let targetPolys = currentTab;
+        
+        if (currentTab === 'C1') {{
+            targetBody = '2'; // Fuerza a JavaScript a buscar "body-2" en C1
+            // Si tus polígonos de C1 también usan número (ej. polys-2), agrégalo aquí:
+            // targetPolys = '2'; 
+        }}
+        // ----------------------------------------------------
+
+
+        
         // 1. Capturar datos de la flota (Tabla de arriba)
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
