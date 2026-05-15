@@ -122,15 +122,15 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 120px; min-width: 120px; max-width: 120px;">
+        <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 80px; min-width: 80px; max-width: 80px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
-<button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
         </td>
         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
-<button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
         <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
         <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
@@ -140,7 +140,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
         # --- LÓGICA DE NOMBRES CORREGIDA ---
         if (data_target == u_PREC) and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2): 
+        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             nombre_final = nombres_smx2[i-1]
         else:
             nombre_final = f"PLAN {i}"
@@ -152,7 +152,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                     <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
                         <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
-                        <th style="width: 120px; min-width: 120px; max-width: 120px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 110px; min-width: 110px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
                         <th style="width: 45px !important; text-align: center;">OK</th>
@@ -165,13 +165,13 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                         
                         <td class="u-manual-cell" style="background: #e3defa; text-align: center; border: 0.5px solid #ccc;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
-<button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
                         <td class="spr-real-cell" style="background: #def3ed; text-align: center; border: 0.5px solid #ccc; width: 110px;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-<span contenteditable="true" class="u-manual" oninput="manualEdit(this)">0</span>
-<button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
+                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
                         <td style="border: 0.5px solid #ccc; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
@@ -206,31 +206,6 @@ app_html = f"""
 
         /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
 
-
-
-/* DISEÑO SOLICITADO: NÚMERO GRANDE Y CENTRADO (Imagen 2) */
-    .u-manual {{
-        font-size: 24px !important;    
-        font-weight: bold !important;
-        color: #1a1a1a;
-        background-color: #f0f2f6;     
-        border-radius: 6px;
-        padding: 2px 12px;
-        min-width: 55px;
-        display: inline-block;
-        text-align: center;
-        border: 1px solid #d1d5db;
-        margin: 0 8px !important;
-    }}
-
-    .u-manual-cell button {{
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 18px !important;
-        vertical-align: middle !important;
-    }}
-
-
        
         
         /* Efecto de iluminación al pasar el mouse por las filas */
@@ -255,7 +230,7 @@ app_html = f"""
 .filter-btn:active {{
     transform: translateY(4px); 
     box-shadow: none !important;
-}}    
+}}     
     </style>
     
 </head>
