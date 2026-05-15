@@ -895,46 +895,49 @@ html body .meli-table tbody tr:last-child {{
     }}
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
+
+
+
     function stepVal(btn, delta, type) {{
-    let row = btn.closest('tr');
-    let sel = row.querySelector('.s-type').value;
-    
-    // Si no hay unidad seleccionada, no hace nada
-    if(sel === "SELECCIONAR...") return;
-
-    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
-    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
-    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
-    
-    if (!fRow) return; // Seguridad por si no encuentra la unidad
-
-    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
-    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
-
-    if(type === 'u') {{
-        let span = row.querySelector('.u-manual');
-        let val = parseInt(span.innerText) || 0;
-        if (delta > 0 && left <= 0) {{
-                showAlert("⚠️ EXCESO DE UNIDADES. Se registrará como negativo.");
-        }}
-        span.innerText = val + delta;
-                }} else {{
-        let span = row.querySelector('.spr-real-val');
+        const row = btn.closest('tr');
+        const span = row.querySelector(type === 'u' ? '.u-manual' : '.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
-        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
 
-        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
-        if (delta > 0 && newVal > sprMaxReal) {{
-            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
-            return; 
+        // --- BLOQUE DE SEGURIDAD (SOLO PARA UNIDADES QUE NO SON "CAR") ---
+        if (type === 'u' && delta > 0) {{
+            const select = row.querySelector('.s-type');
+            const unitName = select.value.trim().toUpperCase();
+            
+            // Si el nombre NO contiene "CAR" y no es la opción por defecto
+            if (!unitName.includes("CAR") && unitName !== "SELECCIONAR...") {{
+                // Buscamos en la tabla de disponibilidad (master-row)
+                const masterRows = document.querySelectorAll('.master-row');
+                let disponible = 0;
+                let encontrada = false;
+
+                masterRows.forEach(mr => {{
+                    if (mr.cells[1].innerText.trim().toUpperCase() === unitName) {{
+                        encontrada = true;
+                        // La columna 6 es "ME QUEDA".
+                        disponible = parseFloat(mr.cells[6].innerText) || 0;
+                    }}
+                }});
+
+                // Si la unidad existe y ya no hay stock (0 o menos), bloqueamos el botón "+"
+                if (encontrada && disponible <= 0) {{
+                    console.log("Bloqueo de seguridad: Sin disponibilidad para " + unitName);
+                    return; 
+                }}
+            }}
         }}
+        // --- FIN DEL BLOQUE DE SEGURIDAD ---
+
+        val += delta;
+        if (type === 's' && val < 0) val = 0; 
         
-        // Si es para bajar o está dentro del rango, permite el cambio
-        span.innerText = newVal.toFixed(1);
+        span.innerText = val;
+        recalc(); 
     }}
-    editedRowsPlan.add(row);
-    recalc();
-}}
 
 
     function recalc() {{
