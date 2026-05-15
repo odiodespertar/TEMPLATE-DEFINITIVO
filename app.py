@@ -798,7 +798,7 @@ style="text-align:center; color:#00BFFF;">
                 width:100%;
                 border-collapse:collapse;
                 font-size:12px;
-                background:white;
+                background:black;
             ">
 
                 <thead>
