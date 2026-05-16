@@ -541,12 +541,13 @@ html body .meli-table tbody tr:last-child {{
         TODAS
     </button>
 
-<button id="toggle-tools-btn" onclick="toggleTools()" 
-    style="cursor:pointer; background: #696969; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #474747; transition: all 0.05s; outline: none; margin-left: 10px;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #474747';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #474747';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #474747';">
-    ❌ OCULTAR UTILERÍAS
+<div style="text-align: center; margin-bottom: 15px;">
+    <button id="toggle-tools-btn" onclick="toggleTools()" 
+        style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 16px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; letter-spacing: 0.5px;"
+        onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #111';"
+        onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #111';"
+        onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #111';">
+        ❌ OCULTAR UTILERÍAS
 </button>
 
     
@@ -1464,23 +1465,23 @@ actualizarTotales();
     let herramientasVisibles = true;
 
     function toggleTools() {{
-        const panel = document.getElementById('panel-utilerias');
+        const crono = document.querySelector('.crono-card');
+        const convertidor = document.querySelector('.google-tool');
         const boton = document.getElementById('toggle-tools-btn');
 
         herramientasVisibles = !herramientasVisibles;
 
-        if (panel) {{
-            panel.style.display = herramientasVisibles ? '' : 'none';
-        }}
+        if (crono) crono.style.display = herramientasVisibles ? '' : 'none';
+        if (convertidor) convertidor.style.display = herramientasVisibles ? '' : 'none';
 
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-            boton.style.background = '#8b0000'; 
-            boton.style.boxShadow = '0 3px 0 #5a0000';
+            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; // Azul turquesa discreto
+            boton.style.boxShadow = '0 3px 0 #0e524e';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = '#696969'; 
-            boton.style.boxShadow = '0 3px 0 #474747';
+            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; // Gris oscuro original
+            boton.style.boxShadow = '0 3px 0 #111';
         }}
     }}
 
