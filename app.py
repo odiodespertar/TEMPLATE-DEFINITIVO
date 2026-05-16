@@ -947,10 +947,10 @@ style="text-align:center; color:#00BFFF;">
                     </tr>
 
                     <tr>
-                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 IXTAPALUCA-VALLE CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🔴 IXTAPALUCA-VALLE CHALCO</b></td>
                         <td style="padding:8px; border:1px solid #ddd;">Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)</td>
                         <td style="border:1px solid #ccc; padding:5px; text-align:center;">1100</td>
-                        <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD (🛑⚠️ ZONA ROJA)</td>
+                        <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD (⚠️ *Zona roja* ⚠️)</td>
                     </tr>
 
                     <tr style="background:#f9f9f9;">
