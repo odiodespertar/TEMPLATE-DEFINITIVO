@@ -554,10 +554,10 @@ html body .meli-table tbody tr:last-child {{
                 <thead>
                     <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
