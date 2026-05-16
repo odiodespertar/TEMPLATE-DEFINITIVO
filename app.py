@@ -1051,35 +1051,29 @@ style="text-align:center; color:#00BFFF;">
 
         
         <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
-     <div class="tools-panel" id="panel-utilerias">  
-     
-            <!-- 1. CRONÓMETRO (Ahora primero) -->
-            <div class="crono-card">
-                <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
-                <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
-                <div>
-                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
-                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
-                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
-                </div>
-            </div>
+     <div class="tools-panel" id="panel-utilerias">
+    
+    <div class="crono-card" style="position: relative; padding-top: 40px;">
+        
+        <button id="toggle-tools-btn" onclick="toggleTools()" 
+            style="cursor:pointer; position: absolute; top: 10px; right: 10px; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:10px; padding:4px 10px; border-radius:4px; font-weight:bold; box-shadow: 0 2px 0 #111; transition: all 0.05s; outline: none;">
+            ❌ OCULTAR CONVERTIDOR
+        </button>
 
-            
+        <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
+        <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
+        <div>
+            <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
+            <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
+            <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
+        </div>
+    </div>
 
-            <!-- 3. CONVERTIDOR (Ahora al final) -->
-            <div class="google-tool" style="
-                /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
-                background: linear-gradient(135deg, #D3D3D3 0%, #DCDCDC 100%) !important;
-                padding: 15px;
-                border-radius: 10px;
-            ">
-            
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
-                <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
-                 </div>
-             </div>
+    <div class="google-tool" style="background: linear-gradient(135deg, #D3D3D3 0%, #DCDCDC 100%) !important; padding: 15px; border-radius: 10px;">
+        <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+        <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
+        <div style="margin-top:10px;">
+            <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
         </div>
     </div>
 </div>
@@ -1465,23 +1459,24 @@ actualizarTotales();
     let herramientasVisibles = true;
 
     function toggleTools() {{
-        const crono = document.querySelector('.crono-card');
+        // Va directo únicamente al convertidor de minutos
         const convertidor = document.querySelector('.google-tool');
         const boton = document.getElementById('toggle-tools-btn');
 
         herramientasVisibles = !herramientasVisibles;
 
-        if (crono) crono.style.display = herramientasVisibles ? '' : 'none';
-        if (convertidor) convertidor.style.display = herramientasVisibles ? '' : 'none';
+        if (convertidor) {{
+            convertidor.style.display = herramientasVisibles ? '' : 'none';
+        }}
 
         if (!herramientasVisibles) {{
-            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; // Azul turquesa discreto
-            boton.style.boxShadow = '0 3px 0 #0e524e';
+            boton.innerHTML = '🛠️ MOSTRAR CONVERTIDOR';
+            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; 
+            boton.style.boxShadow = '0 2px 0 #0e524e';
         }} else {{
-            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; // Gris oscuro original
-            boton.style.boxShadow = '0 3px 0 #111';
+            boton.innerHTML = '❌ OCULTAR CONVERTIDOR';
+            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; 
+            boton.style.boxShadow = '0 2px 0 #111';
         }}
     }}
 
