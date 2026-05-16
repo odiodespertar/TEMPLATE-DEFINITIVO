@@ -1147,7 +1147,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
 }}
 
 
-   function recalc() {{
+    function recalc() {{
         let fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
@@ -1189,9 +1189,9 @@ if (delta > 0 && left <= 0 && esCAR) {{
                     fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
                     sp.style.color = "#008B8B"; sp.style.fontWeight = "bold";
-                } else {{
+                }} else {{
                     sp.style.color = "#969696"; sp.style.fontWeight = "normal";   
-                }
+                }}
             }});
 
             vCalcEl.innerText = Math.round(vA);
@@ -1204,9 +1204,9 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 let diffVal = Math.round(vA);
                 if (diffVal === Math.round(vT)) {{
                     d.innerText = "OK"; d.style.background = "#ceedd6"; vCalcEl.style.color = "#20B2AA";
-                } else if (vA > vT) {{
+                }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#ffe4b5"; vCalcEl.style.color = "#d32f2f";
-                } else {{
+                }} else {{
                     d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#f7cdd1"; vCalcEl.style.color = "#d32f2f";
                 }}
             }}
@@ -1223,6 +1223,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 // Regla universal para Car 3h, 5h, 8h y Crowd
                 let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
 
+
                 console.log("Diferencia calculada:", diff);
                 cL.innerText = diff;
                 
@@ -1237,43 +1238,23 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-
-       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
-        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            // Capturamos el nombre del plan/polígono de este bloque específico
-            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
-
-            bl.querySelectorAll('.s-type').forEach(s => {{
-                let cur = s.value; 
-                let opt = '<option>SELECCIONAR...</option>';
-                Object.keys(fleet).forEach(k => {{ 
-                    if (fleet[k].stock > 0) {{
-                        let disp = (fleet[k].stock - fleet[k].used > 0);
-                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
-                        if (disp || k === cur || flexible) {{
-                            opt += `<option value="${{k}}">${{k}}</option>`;
-                        }}
+        // 4. FILTRAR LISTA SIN ROMPER SCHED
+        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(s => {{
+            let cur = s.value; 
+            let opt = '<option>SELECCIONAR...</option>';
+            Object.keys(fleet).forEach(k => {{ 
+                if (fleet[k].stock > 0) {{
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                    if (disp || k === cur || flexible) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
-                }});
-                
-                s.innerHTML = opt; 
-                s.value = cur; 
-
-                // 🚨 CANDADO VISUAL ULTRA SEGURO (SIN COMPLICACIONES DE LLAVES PARA PYTHON)
-                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
-                    let unidadTxt = cur.toUpperCase();
-                    let esInvalida = (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CROWD") && !unidadTxt.includes("EXTENDIDA"));
-                    
-                    // Si es inválida aplica los estilos de alerta, si no, los limpia (todo en una sola línea continua)
-                    s.style.setProperty("background-color", esInvalida ? "#ffcccc" : "", esInvalida ? "important" : "");
-                    s.style.setProperty("color", esInvalida ? "#8b0000" : "", esInvalida ? "important" : "");
-                    s.style.setProperty("font-weight", esInvalida ? "bold" : "", esInvalida ? "important" : "");
                 }}
             }});
+            s.innerHTML = opt; s.value = cur; 
         }});
-        
 
-        actualizarTotales();
+actualizarTotales();
     }}
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
