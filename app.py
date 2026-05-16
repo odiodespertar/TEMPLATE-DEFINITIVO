@@ -1043,16 +1043,7 @@ style="text-align:center; color:#00BFFF;">
         <div class="tools-panel">
             
             <!-- 1. CRONÓMETRO (Ahora primero) -->
-            <div class="crono-card" style="margin-bottom: 15px;">
-                
-                <button id="toggle-tools-btn" onclick="toggleTools()" 
-                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;"
-                    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #111';"
-                    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #111';"
-                    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #111';">
-                    ❌ OCULTAR UTILERÍAS
-                </button>
-
+            <div class="crono-card">
                 <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
                 <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
                 <div>
@@ -1071,6 +1062,11 @@ style="text-align:center; color:#00BFFF;">
                 padding: 15px;
                 border-radius: 10px;
             ">
+                <button id="toggle-tools-btn" onclick="toggleTools()" 
+                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
+                    ❌ OCULTAR UTILERÍAS
+                </button>
+            
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
@@ -1409,37 +1405,28 @@ actualizarTotales();
 // ==========================================
     let herramientasVisibles = true;
 
-    let herramientasVisibles = true;
-
-
     function toggleTools() {{
-        // Seleccionamos la tarjeta del convertidor completa
-        const convertidor = document.querySelector('.google-tool');
-        
-        // Seleccionamos los elementos internos del cronómetro que queremos ocultar (excepto el botón)
-        const cronoContenido = document.querySelectorAll('.crono-card > *:not(#toggle-tools-btn)');
+        const crono = document.querySelector('.crono-card');
+        const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
         const boton = document.getElementById('toggle-tools-btn');
 
         herramientasVisibles = !herramientasVisibles;
 
-        // Oculta o muestra el convertidor
-        if (convertidor) {{
-            convertidor.style.display = herramientasVisibles ? '' : 'none';
+        if (crono) {{
+            crono.style.display = herramientasVisibles ? '' : 'none';
         }}
 
-        // Oculta o muestra el contenido del cronómetro dejando vivo el botón
-        cronoContenido.forEach(elemento => {{
+        convertidorContenido.forEach(elemento => {{
             elemento.style.display = herramientasVisibles ? '' : 'none';
         }});
 
-        // Cambios visuales del botón según el estado
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; // Azul turquesa limpio
+            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; 
             boton.style.boxShadow = '0 3px 0 #0e524e';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; // Gris oscuro original
+            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; 
             boton.style.boxShadow = '0 3px 0 #111';
         }}
     }}
