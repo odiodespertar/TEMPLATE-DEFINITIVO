@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit.components.v1 import html    
+from streamlit.components.v1 import html     
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
@@ -142,88 +142,103 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar errores
+def gen_poligonos(data_target=None):
     polys = ""
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
+    # Botones con dimensiones totalmente congeladas a nivel píxel
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
-    # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
+    # Contenedor flex con ancho bloqueado al 100% de la celda
+    div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
+    
+    # Cajas de texto para números (Unidades y SPR)
+    span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
+    span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 48px; min-width: 48px; max-width: 48px; flex-shrink: 0;"
+    
+    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
+    select_style = "width:100%; border:none; background:transparent; font-weight:600; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
+
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.6px solid #808080; padding: 10px 5px; width: 100px; min-width: 100px; max-width: 100px;">
-            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.6px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+            <div style="{div_flex}">
+                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
+                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+            </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.6px solid #808080; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
-            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #808080; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
+            <div style="{div_flex}">
+                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
+                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+            </div>
         </td>
-        <td style="border: 0.5px solid #808080; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
-        <td style="width: 45px !important; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
+        <td style="border: 0.5px solid #808080; padding: 2px;">
+            <select class="s-type" onchange="resetRow(this)" style="{select_style}"><option>SELECCIONAR...</option></select>
+        </td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
     for i in range(1, 11):
-        # --- LÓGICA DE NOMBRES CORREGIDA ---
-        if (data_target == u_PREC) and (i-1) < len(nombres_prec):
+        if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-        elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
+        elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
             nombre_final = nombres_smx2[i-1]
         else:
             nombre_final = f"PLAN {i}"
 
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #808080; transform: translateZ(0);">           
+        <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #808080;">           
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
-                        <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
-                        <th style="border-right: 2px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
-                        <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
-                        <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
-                        <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 45px !important; text-align: center;">OK</th>
+                        <th style="padding: 0 10px; border-right: 1px solid rgba(255,255,255,0.2);">PLAN</th>
+                        <th style="border-right: 1px solid rgba(255,255,255,0.2); width: 85px;">VOL. TOTAL</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
+                        <th style="width: 80px, border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
+                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
                         <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #808080; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #808080; padding: 5px;">0</td>
-                        
-                        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.5px solid #808080;">
-                            <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                            <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                            <div style="{div_flex}">
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                            </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.5px solid #808080; width: 110px;">
-                            <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                            <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
-                            <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #808080; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
+                            <div style="{div_flex}">
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                            </div>
                         </td>
                         <td style="border: 0.5px solid #808080; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
+                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
                                 <option>SELECCIONAR...</option>
                             </select>
                         </td>
-                        <td style="width: 45px !important; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
-                    
                     <tr style="background:#f8f9fa; height: 32px;">
-                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #808080; font-size: 16px; color:#333;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #808080; text-align: center;">0</td>
-                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #808080; font-size: 16px;">VACÍO</td>
-                        <td style="width: 45px !important; border: 1px solid #808080; background: #FFFFFF;"></td>
+                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #808080; font-size: 14px; color:#333;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #808080; text-align: center;">0</td>
+                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #808080; font-size: 14px;">VACÍO</td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; border: 1px solid #808080; background: #FFFFFF;"></td>
                     </tr>
                 </tbody>
             </table>
         </div>'''
     return polys
-
-
 
 
 app_html = f"""
@@ -539,10 +554,10 @@ html body .meli-table tbody tr:last-child {{
                 <thead>
                     <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
@@ -596,10 +611,10 @@ style="text-align:center; color:#00BFFF;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
@@ -651,10 +666,10 @@ style="text-align:center; color:#00BFFF;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
@@ -708,10 +723,10 @@ style="text-align:center; color:#00BFFF;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
+                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHED</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">ME QUEDAN</th>
+                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
+                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
                     </tr>
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
@@ -1238,20 +1253,54 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-        // 4. FILTRAR LISTA SIN ROMPER SCHED
-        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(s => {{
-            let cur = s.value; 
-            let opt = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).forEach(k => {{ 
-                if (fleet[k].stock > 0) {{
-                    let disp = (fleet[k].stock - fleet[k].used > 0);
-                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
-                    if (disp || k === cur || flexible) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
+       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            // Capturamos el nombre del plan/polígono de este bloque específico
+            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+
+            bl.querySelectorAll('.s-type').forEach(s => {{
+                let cur = s.value; 
+                let opt = '<option>SELECCIONAR...</option>';
+                Object.keys(fleet).forEach(k => {{ 
+                    if (fleet[k].stock > 0) {{
+                        let disp = (fleet[k].stock - fleet[k].used > 0);
+                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                        if (disp || k === cur || flexible) {{
+                            opt += `<option value="${{k}}">${{k}}</option>`;
+                        }}
+                    }}
+                }});
+                
+                s.innerHTML = opt; 
+                s.value = cur; 
+
+                // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
+                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
+                    let unidadTxt = cur.toUpperCase();
+                    
+                    // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
+                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
+                        
+                        // Capturamos si ya tenía el color de advertencia puesto para no duplicar la alerta
+                        let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
+
+                        // 1. Aplicamos el diseño visual de advertencia al selector
+                        s.style.setProperty("background-color", "#ffcccc", "important");
+                        s.style.setProperty("color", "#8b0000", "important");
+                        s.style.setProperty("font-weight", "bold", "important");
+                        
+                        // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
+                        if (!yaTieneAlerta) {{
+                            showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
+                        }}
+                    }} else {{
+                        // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
+                        s.style.removeProperty("background-color");
+                        s.style.removeProperty("color");
+                        s.style.removeProperty("font-weight");
                     }}
                 }}
             }});
-            s.innerHTML = opt; s.value = cur; 
         }});
 
 actualizarTotales();
@@ -1277,10 +1326,72 @@ actualizarTotales();
     }}
 
     function filterRows(onlyActive) {{
-        const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
+        // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
+        const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
         rows.forEach(row => {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
+        }});
+
+        // 2. Filtrar los bloques, celdas y filas de ESTADO de los Polígonos (Izquierda)
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let filasVisiblesEnBloque = 0;
+            let vTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+
+            // Buscamos todas las filas de asignación en la tabla del polígono
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
+                let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                let sTypeSelect = r.querySelector('.s-type');
+                let sType = sTypeSelect ? sTypeSelect.value : "SELECCIONAR...";
+
+                if (onlyActive) {{
+                    // Si está en "ACTIVAS", ocultamos las filas vacías y sin selección
+                    if (uManual === 0 && (sType === "SELECCIONAR..." || sType === "")) {{
+                        r.style.display = 'none';
+                    }} else {{
+                        r.style.display = '';
+                        filasVisiblesEnBloque++;
+                    }}
+                }} else {{
+                    // Si es "TODAS", mostramos todo el desglose original
+                    r.style.display = '';
+                    filasVisiblesEnBloque++;
+                }}
+            }});
+
+            // 🔥 NUEVO: Ocultar o mostrar la fila de ESTADO (la última fila del tbody)
+            // Buscamos la fila que no tiene la clase 'calc-row' (que es tu fila de ESTADO)
+            let filaEstado = bl.querySelector('tbody tr:not(.calc-row)');
+            if (filaEstado) {{
+                // Si está en ACTIVAS se oculta por completo, si está en TODAS se vuelve a mostrar
+                filaEstado.style.display = onlyActive ? 'none' : '';
+            }}
+
+            // CORRECCIÓN REFORZADA CON setAttribute Y rowSpan
+            let nuevoRowspan = Math.max(1, filasVisiblesEnBloque); 
+            
+            let celdaPlan = bl.querySelector('tbody tr.calc-row td[rowspan]');
+            let celdaVolumen = bl.querySelector('tbody tr.calc-row .v-total-val');
+            
+            if (celdaPlan) {{ 
+                celdaPlan.rowSpan = nuevoRowspan;
+                celdaPlan.setAttribute('rowspan', nuevoRowspan);
+            }}
+            if (celdaVolumen) {{ 
+                celdaVolumen.rowSpan = nuevoRowspan;
+                celdaVolumen.setAttribute('rowspan', nuevoRowspan);
+            }}
+
+            // Control visual del bloque completo (Polígono)
+            if (onlyActive) {{
+                if (vTotal === 0 && filasVisiblesEnBloque === 0) {{
+                    bl.style.display = 'none';
+                }} else {{
+                    bl.style.display = '';
+                }}
+            }} else {{
+                bl.style.display = '';
+            }}
         }});
     }}
 
