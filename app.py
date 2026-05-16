@@ -1276,7 +1276,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                         
                         // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
                         if (!yaTieneAlerta) {{
-                            showAlert("🚨 ¡PELIGRO! EN IXTAPALUCA VALLE CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR.");
+                            showAlert("🚨 ⚠️⚠️ PELIGRO  ❕❕ EN IXTAPALUCA VALLE CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR.");
                         }}
                     }} else {{
                         // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
