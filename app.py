@@ -555,8 +555,6 @@ html body .meli-table tbody tr:last-child {{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
-
-        
        
         <div id="tab-2" class="t-content">
             <table class="meli-table">
@@ -1334,6 +1332,7 @@ actualizarTotales();
         document.getElementById('calc_wrapper').focus();
     }}
 
+
     function filterRows(onlyActive) {{
         // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
         const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
@@ -1408,26 +1407,41 @@ actualizarTotales();
     // 🛠️ VARIABLE Y FUNCIÓN NUEVA PARA OCULTAR EL CONVERTIDOR Y CRONÓMETRO
     let herramientasVisibles = true;
 
+    // 🛠️ FUNCIÓN CON FILTRADO ULTRA SEGURO POR ELEMENTO INDIVIDUAL
+    let herramientasVisibles = true;
+
     function toggleTools() {{
-        // Busca automáticamente las cajas de utilerías por su clase o estructura contenedora
-        const herramientas = document.querySelectorAll('.tool-card, .card, #cronometro-wrapper, #calc_wrapper > div:first-child');
+        // Buscamos directamente el input de minutos del convertidor
+        const inputMinutos = document.getElementById('minInput') || document.getElementById('min-in');
+        
+        // Buscamos el elemento del reloj o cronómetro
+        const txtCronometro = document.getElementById('crono-main') || document.getElementById('reloj-actual');
+        
         const boton = document.getElementById('toggle-tools-btn');
 
         herramientasVisibles = !herramientasVisibles;
 
-        herramientas.forEach(box => {{
-            if (!box.contains(boton)) {{
-                box.style.display = herramientasVisibles ? '' : 'none';
-            }}
-        }});
+        // Subimos a la caja contenedora ("card") de cada uno usando closest()
+        // Buscamos contenedores comunes como clases de tarjeta o divs con sombra de tu diseño
+        const cardConvertidor = inputMinutos ? inputMinutos.closest('.tool-card, .card, div[style*="box-shadow"]') : null;
+        const cardCronometro = txtCronometro ? txtCronometro.closest('.tool-card, .card, div[style*="box-shadow"]') : null;
 
+        // Ocultamos de forma individual y estricta SOLO el convertidor y el cronómetro
+        if (cardConvertidor) {{
+            cardConvertidor.style.display = herramientasVisibles ? '' : 'none';
+        }}
+        if (cardCronometro) {{
+            cardCronometro.style.display = herramientasVisibles ? '' : 'none';
+        }}
+
+        // Control estético del botón de utilerías
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-            boton.style.background = '#8b0000'; // Rojo oscuro al ocultar
+            boton.style.background = '#8b0000'; // Rojo oscuro cuando están ocultas
             boton.style.boxShadow = '0 3px 0 #5a0000';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = '#696969'; // Gris original
+            boton.style.background = '#696969'; // Gris original cuando están visibles
             boton.style.boxShadow = '0 3px 0 #474747';
         }}
     }}
@@ -1444,6 +1458,8 @@ actualizarTotales();
     function del() {{ curC = curC.trim().slice(0, -1); updateCalc(); }}
     function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
+
+
     
     function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
     setInterval(updateReloj, 1000);
