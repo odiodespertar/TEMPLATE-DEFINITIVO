@@ -1333,7 +1333,7 @@ actualizarTotales();
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
 
-        // 2. Filtrar los bloques y celdas de los Polígonos (Izquierda)
+        // 2. Filtrar los bloques, celdas y filas de ESTADO de los Polígonos (Izquierda)
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let filasVisiblesEnBloque = 0;
             let vTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
@@ -1350,7 +1350,7 @@ actualizarTotales();
                         r.style.display = 'none';
                     }} else {{
                         r.style.display = '';
-                        filasVisiblesEnBloque++; // Contamos las que sí se quedan
+                        filasVisiblesEnBloque++;
                     }}
                 }} else {{
                     // Si es "TODAS", mostramos todo el desglose original
@@ -1359,15 +1359,20 @@ actualizarTotales();
                 }}
             }});
 
-            // 🔥 CORRECCIÓN DEFINITIVA REFORZADA CON setAttribute Y rowSpan
+            // 🔥 NUEVO: Ocultar o mostrar la fila de ESTADO (la última fila del tbody)
+            // Buscamos la fila que no tiene la clase 'calc-row' (que es tu fila de ESTADO)
+            let filaEstado = bl.querySelector('tbody tr:not(.calc-row)');
+            if (filaEstado) {{
+                // Si está en ACTIVAS se oculta por completo, si está en TODAS se vuelve a mostrar
+                filaEstado.style.display = onlyActive ? 'none' : '';
+            }}
+
+            // CORRECCIÓN REFORZADA CON setAttribute Y rowSpan
             let nuevoRowspan = Math.max(1, filasVisiblesEnBloque); 
             
-            // Buscamos la celda del Nombre del Plan (el primer td de la primera fila)
             let celdaPlan = bl.querySelector('tbody tr.calc-row td[rowspan]');
-            // Buscamos la celda del Vol. Total
             let celdaVolumen = bl.querySelector('tbody tr.calc-row .v-total-val');
             
-            // Aplicamos el cambio usando tanto la propiedad nativa como el atributo HTML para obligar al navegador
             if (celdaPlan) {{ 
                 celdaPlan.rowSpan = nuevoRowspan;
                 celdaPlan.setAttribute('rowspan', nuevoRowspan);
@@ -1379,7 +1384,6 @@ actualizarTotales();
 
             // Control visual del bloque completo (Polígono)
             if (onlyActive) {{
-                // Si el plan no tiene volumen Y tampoco le quedaron filas vivas, se esconde por completo
                 if (vTotal === 0 && filasVisiblesEnBloque === 0) {{
                     bl.style.display = 'none';
                 }} else {{
@@ -1390,7 +1394,6 @@ actualizarTotales();
             }}
         }});
     }}
-
 
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
