@@ -890,7 +890,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #F4A460 0%, #FFA500100%);
+            background:linear-gradient(180deg, #F4A460 0%, #FFA500 100%);
             color: #696969;
             user-select:none;
         ">
