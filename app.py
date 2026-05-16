@@ -127,7 +127,12 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #c9c7c7; color: #969696;" if not name else "background-color: #D3D3D3;"
+            st_base = "background: #C0C0C0; color: #969696;" if not name else ""
+
+            # 🎨 AQUÍ ELIGES EL COLOR DE FONDO QUE DEBERÁN TENER LAS CELDAS
+            # Reemplaza '#C0C0C0' (blanco) por el color hexadecimal que más te guste
+            color_fondo_celda = "background-color: #ffffff;" if name else ""
+            
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
