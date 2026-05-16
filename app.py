@@ -131,7 +131,7 @@ def gen_master_rows(data_dict, table_id):
 
             # 🎨 AQUÍ ELIGES EL COLOR DE FONDO QUE DEBERÁN TENER LAS CELDAS
             # Reemplaza '#C0C0C0' (blanco) por el color hexadecimal que más te guste
-            color_fondo_celda = "background-color: #ffffff;" if name else ""
+            color_fondo_celda = "background-color: #C0C0C0;" if name else ""
             
             rows += f'''
             <tr class="master-row" style="{st_base}">
