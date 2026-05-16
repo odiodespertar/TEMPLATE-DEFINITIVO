@@ -1238,7 +1238,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
         }});
 
 
-        // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
+       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             // Capturamos el nombre del plan/polígono de este bloque específico
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
@@ -1259,22 +1259,15 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 s.innerHTML = opt; 
                 s.value = cur; 
 
-                // 🚨 CANDADO VISUAL: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
+                // 🚨 CANDADO VISUAL ULTRA SEGURO (SIN COMPLICACIONES DE LLAVES PARA PYTHON)
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
                     let unidadTxt = cur.toUpperCase();
+                    let esInvalida = (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CROWD") && !unidadTxt.includes("EXTENDIDA"));
                     
-                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" &&
-                        !unidadTxt.includes("CROWD") && 
-                        !unidadTxt.includes("EXTENDIDA")) {{
-                        
-                        s.style.setProperty("background-color", "#ffcccc", "important");
-                        s.style.setProperty("color", "#8b0000", "important");
-                        s.style.setProperty("font-weight", "bold", "important");
-                    }} else {{
-                        s.style.backgroundColor = "";
-                        s.style.color = "";
-                        s.style.fontWeight = "";
-                    }}
+                    // Si es inválida aplica los estilos de alerta, si no, los limpia (todo en una sola línea continua)
+                    s.style.setProperty("background-color", esInvalida ? "#ffcccc" : "", esInvalida ? "important" : "");
+                    s.style.setProperty("color", esInvalida ? "#8b0000" : "", esInvalida ? "important" : "");
+                    s.style.setProperty("font-weight", esInvalida ? "bold" : "", esInvalida ? "important" : "");
                 }}
             }});
         }});
