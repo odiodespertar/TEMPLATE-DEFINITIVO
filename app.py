@@ -176,7 +176,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
             nombre_final = f"PLAN {i}"
 
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #e1e1e1; transform: translateZ(0);">           
+        <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #808080; transform: translateZ(0);">           
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
@@ -191,24 +191,24 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                 <tbody>
                     <tr class="calc-row"> 
                         <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #ccc; padding: 5px;">0</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #808080; padding: 5px;">0</td>
                         
-                        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.5px solid #ccc;">
+                        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.5px solid #808080;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.5px solid #ccc; width: 110px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.5px solid #808080; width: 110px;">
                             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
                             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                         </td>
-                        <td style="border: 0.5px solid #ccc; padding: 2px;">
+                        <td style="border: 0.5px solid #808080; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
                                 <option>SELECCIONAR...</option>
                             </select>
                         </td>
-                        <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
+                        <td style="width: 45px !important; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     
