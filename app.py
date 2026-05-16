@@ -1039,7 +1039,13 @@ style="text-align:center; color:#00BFFF;">
             
 
             <!-- 3. CONVERTIDOR (Ahora al final) -->
-            <div class="google-tool">
+            <div class="google-tool" style="
+                /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
+                background: linear-gradient(135deg, #D3D3D3 0%, #DCDCDC 100%) !important;
+                padding: 15px;
+                border-radius: 10px;
+            ">
+            
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
