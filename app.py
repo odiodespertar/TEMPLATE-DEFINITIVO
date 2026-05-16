@@ -83,9 +83,12 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # Determinamos el total de filas final
+    # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
+    # Si no, las 18 de siempre
     num_filas_objetivo = 45 if table_id == "PREC" else 11
     
     # Usamos el número más grande entre el contenido real y nuestro objetivo
+    # Esto evita que se corte SMX11 si el diccionario crece
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, rango_final + 1):
@@ -108,6 +111,7 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
+            # Quitamos 'master-row' de la clase para que el JS de polígonos no la cuente
             rows += f'''
             <tr class="es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
                 <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
@@ -129,8 +133,8 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
-                <td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
+<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
+<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
@@ -138,10 +142,11 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_target=None): 
+def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar errores
     polys = ""
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; height:24px; border-radius:4px; flex-shrink:0;"
     
+    # Tu lista de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
@@ -162,6 +167,7 @@ def gen_poligonos(data_target=None):
     </tr>'''
 
     for i in range(1, 11):
+        # --- LÓGICA DE NOMBRES CORREGIDA ---
         if (data_target == u_PREC) and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
         elif (data_target == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
@@ -218,59 +224,28 @@ def gen_poligonos(data_target=None):
     return polys
 
 
+
+
 app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
+<head>
     <style>
-        body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
-        .meli-table {{ 
-            border-collapse: separate !important; 
-            border-spacing: 0 !important;
-            width: 100%; 
-            table-layout: auto; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; 
-        }}
+        /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
 
-        .meli-table th {{
-            background: linear-gradient(180deg, #444444 0%, #111111 100%);
-            color: #FFFFFF;
-            font-size: 11px;
-            height: 40px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 1px solid #555 !important;
-            border-right: 1px solid #808080 !important; 
-            border-left: 1px solid #808080 !important;
-            padding: 2px 5px;
-        }}
+        /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
 
-        .meli-table td {{ 
-            border-bottom: 1px solid #333232; 
-            border-right: 1px solid #333232;
-            font-size: 14px; 
-            height: 32px; 
-            transition: background 0.2s; 
-            padding: 1px 3px;
-        }}
-
-        .master-row {{ 
-            border-radius: 9px;
-            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
-            transition: all 0.2s ease;
-        }}
-
-        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
-        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
-
+       
+        
+        /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
             background-color: #f8fbff !important;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
             cursor: default;
         }}
 
+        /* Redondear botones de +/- para que parezcan botones 3D físicos */
         .poligono-bloque button {{
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: all 0.1s;
@@ -278,111 +253,240 @@ app_html = f"""
 
         .poligono-bloque button:active {{
             box-shadow: 0 0px 0px transparent;
-            transform: translateY(1px);
+            transform: translateY(1px); /* Se hunde al presionar */
         }}
 
-        .filter-btn:active {{
-            transform: translateY(4px); 
-            box-shadow: none !important;
-        }}     
+         /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
+.filter-btn:active {{
+    transform: translateY(4px); 
+    box-shadow: none !important;
+}}     
+    </style>
+    
+</head>
 
+    <style>
+body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
+.meli-table {{ 
+    border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
+    border-spacing: 0 8px;
+    width: 100%; 
+    table-layout: auto; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
+    border: 1px solid #000000;
+}}
+
+/* Bordes internos gris claro para el encabezado */
+.meli-table th {{
+    background: linear-gradient(180deg, #444444 0%, #111111 100%);
+    color: #FFFFFF;
+    font-size: 11px;
+    height: 40px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #555 !important;
+    
+    /* Borde interno (derecho) en gris claro */
+    border-right: 1px solid #808080 !important; 
+    border-left: 1px solid #808080 !important;
+    padding: 2px 5px;
+}}
+
+/* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
+.meli-table th:last-child {{
+    border-right: 2 !important;
+}}
+
+/* Asegurar que la tabla mantenga su borde externo principal */
+.meli-table {{
+    border: none !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}}
+
+.meli-table td {{ 
+    border-bottom: 1px solid #333232; 
+    border-right: 1px solid #333232;
+    font-size: 14px; 
+    height: 32px; 
+    transition: background 0.2s; /* Animación sutil al pasar el mouse */
+    padding: 1px 3px;
+}}
+
+/* El efecto Neomórfico en cada fila */
+        .master-row {{ 
+            border-radius: 9px;
+            box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
+            transition: all 0.2s ease;
+        }}
+
+/* Redondear las esquinas de las filas */
+        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
+        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
+
+        
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: #d32f2f; color: white; padding: 15px 25px; border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.4s; z-index: 10000;
         }}
         #google-alert.show {{ top: 20px; }}
+/* Pestañas Modernas con Volumen */
+.tab-btn {{ 
+    padding: 10px 12px; 
+    cursor: pointer; 
+    border: 1px solid #bbb; 
+    background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
+    border-radius: 8px 8px 0 0; 
+    font-weight: bold; 
+    font-size: 13px;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
+    margin-right: 2px;
+    outline: none;
+}}
 
-        .tab-btn {{ 
-            padding: 10px 12px; 
-            cursor: pointer; 
-            border: 1px solid #bbb; 
-            background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); 
-            border-radius: 8px 8px 0 0; 
-            font-weight: bold; 
-            font-size: 13px;
-            color: #333;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
-            margin-right: 2px;
-            outline: none;
-        }}
+/* Efecto al pasar el mouse (Hover) */
+.tab-btn:hover {{ 
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    color: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px); /* Se levanta un poco */
+}}
 
-        .tab-btn:hover {{ 
-            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-            color: #000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transform: translateY(-2px);
-        }}
-
-        .tab-btn.active {{
-            background: linear-gradient(180deg, #444 0%, #000 100%); 
-            color: #fff; 
-            border-bottom: none;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-            transform: translateY(0); 
-        }}
+/* Pestaña Activa (Seleccionada) */
+.tab-btn.active {{
+    background: linear-gradient(180deg, #444 0%, #000 100%); /* Color oscuro profundo */
+    color: #fff; 
+    border-bottom: none;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    transform: translateY(0); /* Se queda pegada abajo */
+}}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
+        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
+        .google-tool:hover {{
+            transform: translateY(-3px);
+        }}
+        .google-tool input {{
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: inset 2px 2px 5px #e0e0e0;
+        }}
+
         
+       /* CALCULADORA CON RESPLANDOR NEÓN */
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
         #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
         
+        #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
+        .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
+        .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
+        .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
+        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
+        /* Botones con un relieve sutil */
         .btn-c {{
-            background: #f0f0f0; border: none; font-weight: bold; border-radius: 12px; padding: 12px; cursor: pointer; 
-            box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2; transition: transform 0.1s;
+            background: #f0f0f0; 
+            border: none; 
+            font-weight: bold; 
+            border-radius: 12px; 
+            padding: 12px; 
+            cursor: pointer; 
+            /* Sombra pequeña para que cada botón destaque */
+            box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2;
+            transition: transform 0.1s;
         }}
 
+        /* Efecto de "clic" real */
         .btn-c:active {{
             transform: scale(0.95);
             box-shadow: inset 2px 2px 5px #b1b1b1;
         }}
 
-        html body .meli-table tbody tr:last-child td {{
-            height: 25px !important;       
-            min-height: 25px !important;   
-            max-height: 20px !important;   
-            padding-top: 2px !important;
-            padding-bottom: 3px !important;
-            line-height: 25px !important;  
-            font-size: 11px !important;    
-        }}
 
-        html body .meli-table tbody tr:last-child {{
-            height: 16px !important;
-        }}
+   /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
 
-        .crono-card button {{
-            position: relative; border: none; border-radius: 6px; padding: 10px 18px; font-size: 18px; cursor: pointer; transition: all 0.1s ease; margin: 5px; font-weight: bold;
-        }}
+/* SELECTOR DE ALTA ESPECIFICIDAD PARA LA FILA DE ESTADO */
+html body .meli-table tbody tr:last-child td {{
+    height: 25px !important;       /* Altura sin reducción */
+    min-height: 25px !important;   /* Elimina restricciones */
+    max-height: 20px !important;   /* Bloquea el crecimiento */
+    padding-top: 2px !important;
+    padding-bottom: 3px !important;
+    line-height: 25px !important;  /* Centra el texto en el nuevo alto */
+    font-size: 11px !important;    /* Reduce un poco la letra */
+}}
 
-        .btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
-        .btn-stop  {{ background: #ffc107; color: #333;  box-shadow: 0 5px 0 #d39e00; }}
-        .btn-reset {{ background: #dc3545; color: white; box-shadow: 0 5px 0 #bd2130; }}
+/* Forzar que la fila misma no tenga altura mínima */
+html body .meli-table tbody tr:last-child {{
+    height: 16px !important;
+}}
 
-        .crono-card button:active {{
-            transform: translateY(4px); 
-            box-shadow: 0 1px 0 #333;   
-        }}
+/* Estilo base para los botones del cronómetro */
+.crono-card button {{
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.1s ease; /* Transición rápida para el rebote */
+    margin: 5px;
+    font-weight: bold;
+}}
 
-        .crono-card button:hover {{ filter: brightness(1.1); }}
+/* Colores y sombras (la sombra da el efecto de grosor) */
+.btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
+.btn-stop  {{ background: #ffc107; color: #333;  box-shadow: 0 5px 0 #d39e00; }}
+.btn-reset {{ background: #dc3545; color: white; box-shadow: 0 5px 0 #bd2130; }}
 
-        #body-plan-container th, .meli-table:nth-of-type(2) th {{
-            font-size: 22px !important; height: 90px !important; padding: 11px 6px !important; vertical-align: middle !important;
-        }}
+/* EFECTO DE CLIC (REACCIÓN) */
+.crono-card button:active {{
+    transform: translateY(4px); /* El botón baja físicamente */
+    box-shadow: 0 1px 0 #333;   /* La sombra se reduce, pareciendo que se hunde */
+}}
 
-        .ok-check {{
-            accent-color: #FF00FF !important; cursor: pointer;
-        }}
+/* Efecto Hover (brillo sutil al pasar el mouse) */
+.crono-card button:hover {{
+    filter: brightness(1.1);
+}}
+
+/* Ajuste específico para los encabezados de Polígonos */
+#body-plan-container th, 
+.meli-table:nth-of-type(2) th {{
+    font-size: 22px !important;    /* Tamaño de la letra */
+    height: 90px !important;      /* Alto de la celda */
+    padding: 11px 6px !important; /* Espacio interno */
+    vertical-align: middle !important;
+}}
+
+/////////////////
+
+/* Agrégalo al final de tu sección <style> */
+.ok-check {{
+    accent-color: #FF00FF !important; /* Cambia aquí el color (ej. #20B2AA para Turquesa) */
+    cursor: pointer;
+}}
+    
     </style>
+
+    
 </head>
 <body>
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
-<div style="display: flex; gap: 20px; align-items: flex-start; height: 92vh;">
+<div style=" display: flex; gap: 20px; align-items: flex-start; height: 92vh;">
 
-    <div style="flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 92vh; padding-right: 16px; border-right: 3px solid #d9d9d9;">
+<!-- COLUMNA IZQUIERDA -->
+<div style=" flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 92vh; padding-right: 16px; border-right: 3px solid #d9d9d9; ">
+    
         <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
@@ -390,7 +494,9 @@ app_html = f"""
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
     </div>
 
-    <div style="width: 450px; min-width: 450px; padding-left: 10px;">
+    <!-- COLUMNA DERECHA --> 
+<div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
+
         <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
@@ -399,14 +505,35 @@ app_html = f"""
                 <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div>
+
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;">
-                <button onclick="distribuirAutomatico()" style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3;">⚡ AUTO-CALCULAR</button>
-                <button class="filter-btn" onclick="filterRows(true)" style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #000;">ACTIVAS</button>
-                <button class="filter-btn" onclick="filterRows(false)" style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #167a75;">TODAS</button>
-            </div>
+    <button onclick="distribuirAutomatico()" 
+    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
+    ⚡ AUTO-CALCULAR
+</button>
+    
+    <button class="filter-btn" onclick="filterRows(true)" 
+        style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #000; transition: all 0.05s; outline: none;">
+        ACTIVAS
+    </button>
+
+    <button class="filter-btn" onclick="filterRows(false)" 
+        style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #167a75; transition: all 0.05s; outline: none;">
+        TODAS
+    </button>
+</div>
+
+
         </div>
 
+        <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
+
+        
+       
         <div id="tab-2" class="t-content">
             <table class="meli-table">
                 <thead>
@@ -420,30 +547,54 @@ app_html = f"""
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-                <tfoot>
-                    <tr style="background:#1a1a1a; color:white; font-weight:bold;">
-                        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
-                        <td id="total-no-car-2" style="text-align:center; color:#00ff99;">0</td>
-                        <td></td>
-                    </tr>
-                    <tr style="background:#111; color:white; font-weight:bold;">
-                        <td colspan="5" style="padding:6px; text-align:right;">TOTAL CARS REALES</td>
-                        <td id="total-car-real-2" style="text-align:center; color:#00ff99;">0</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
+
+            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+
+<tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL MLP
+</td>
+
+<td id="total-no-car"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+            
             </table>
         </div>
 
+       
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
-                    <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
@@ -453,25 +604,52 @@ app_html = f"""
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, "PREC")}</tbody>
-                <tfoot>
-                    <tr style="background:#1a1a1a; color:white; font-weight:bold;">
-                        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
-                        <td id="total-no-car-1" style="text-align:center; color:#00ff99;">0</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+           <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL MLP
+</td>
+
+<td id="total-no-car-1"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-1"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
+       
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
-                    <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
@@ -481,25 +659,54 @@ app_html = f"""
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-                <tfoot>
-                    <tr style="background:#1a1a1a; color:white; font-weight:bold;">
-                        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
-                        <td id="total-no-car-5" style="text-align:center; color:#00ff99;">0</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
+
+             <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL MLP
+</td>
+
+<td id="total-no-car-5"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-5"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
+
+        
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table">
                 <thead>
-                    <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
                         <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR</th>
                         <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
@@ -509,166 +716,488 @@ app_html = f"""
                     <tr>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
+                        
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
                 <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-                <tfoot>
-                    <tr style="background:#1a1a1a; color:white; font-weight:bold;">
-                        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
-                        <td id="total-no-car-4" style="text-align:center; color:#00ff99;">0</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
+
+              <tfoot>
+
+<tr style="background:#1a1a1a; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL MLP
+</td>
+
+<td id="total-no-car-4"
+style="text-align:center; color:#00ff99;">
+0
+</td>
+
+</tr>
+
+<tr style="background:#111; color:white; font-weight:bold;">
+
+<td colspan="5"
+style="padding:6px; text-align:right;">
+TOTAL CAR REAL
+</td>
+
+<td id="total-car-real-4"
+style="text-align:center; color:#00BFFF;">
+0
+</td>
+
+</tr>
+
+</tfoot>
+                
             </table>
         </div>
 
+
+
+<!-- ================= PRIORIDADES Y RESTRICCIONES ================= -->
+
+<div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+
+    <!-- ================= SMX5 ================= -->
+    <details style="border:1px solid #696969; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+        
+        <summary style="
+            cursor:pointer;
+            font-weight:bold;
+            font-size:14px;
+            padding:12px;
+            background:linear-gradient(180deg, #008080 0%, #20B2AA 100%);
+            color: #ffffff;
+            user-select:none;
+        ">
+            📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
+        </summary>
+
+        <div style="padding:12px;">
+
+            <div style="
+                background:#fff3cd;
+                border:1px solid #ffe69c;
+                color:#856404;
+                padding:8px;
+                border-radius:6px;
+                margin-bottom:10px;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                ⚠️ Revisar ORH y ocupación por día en summary<br>
+                Distancia de SVC 🟢🟡🟠🔴
+            </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:12px;
+                background:white;
+            ">
+
+                <thead>
+                    <tr style="
+                        background:linear-gradient(180deg,#555 0%, #333 100%);
+                        color:white;
+                    ">
+                        <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
+                        <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">VOL REAL APROX</th>
+                        <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">260</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 COYOACÁN CENTRO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">500</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 IZTAPALAPA</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie(4:30 hrs) > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">300</td>
+                        <td style="padding:8px; border:1px solid #ddd;">NEWBIES Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 MILPA ALTA</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">LV MLP SDD > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">170</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SOLO CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 TLÁHUAC</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">750</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 TLALPAN NTE</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs / S-8:30 hrs) > Newbie > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">580</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 TLALPAN SUR</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L-9:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">90</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟡 XOCHIMILCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP SDD(L/S-9:00 hrs aprox.) > Crowd</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">660</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </details>
+
+
+
+    <!-- ================= SMX2 ================= -->
+    <details style="border:1px solid #696969; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+        
+        <summary style="
+            cursor:pointer;
+            font-weight:bold;
+            font-size:14px;
+            padding:12px;
+            background:linear-gradient(180deg, #2b2929 0%, #696969 100%);
+            color: #ffffff;
+            user-select:none;
+        ">
+            📍 PRIORIDADES Y RESTRICCIONES SMX2 (AM0)
+        </summary>
+
+        <div style="padding:12px;">
+
+            <div style="
+                background:#fff3cd;
+                border:1px solid #ffe69c;
+                color:#856404;
+                padding:8px;
+                border-radius:6px;
+                margin-bottom:10px;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                ⚠️ Revisar ORH y ocupación por día en summary<br>
+                Distancia de SVC 🟢🟡🟠🔴
+            </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:12px;
+                background:white;
+            ">
+
+                <thead>
+                    <tr style="
+                        background:linear-gradient(180deg,#555 0%, #333 100%);
+                        color:white;
+                    ">
+                        <th style="padding:8px; border:1px solid #ccc;">POLÍGONO</th>
+                        <th style="padding:8px; border:1px solid #ccc;">PRIORIDAD / RESTRICCIÓN</th>
+                        <th style="padding:8px; border:1px solid #ccc;">VOL REAL APROX</th>
+                        <th style="padding:8px; border:1px solid #ccc;">ASIGNACIÓN REAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">DC > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">300</td>
+                        <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟡 CHIMAS</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd > MLP(S-7:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">750</td>
+                        <td style="padding:8px; border:1px solid #ddd;">CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🔴 IXTAPALUCA-VALLE CHALCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > MLP > Crowd > Car Zona Ext ⚠️ (Ext y Crowd - 5:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">1100</td>
+                        <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD (⚠️ *Zona roja* ⚠️)</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 IZTAPALAPA 1</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP(S-3:00 a 7:30 hrs) > Crowd</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">150</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 IZTAPALAPA 2</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs) > MLP(S-7:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">480</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟢 LA PAZ</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Newbie > Crowd(5:30 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">450</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD Y CROWD</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 PUEBLOS</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">MLP > Crowd(6:00 hrs)</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">240</td>
+                        <td style="padding:8px; border:1px solid #ddd;">SMALL VAN SDD, EXTENDIDA Y CROWD</td>
+                    </tr>
+
+                    <tr style="background:#f9f9f9;">
+                        <td style="padding:8px; border:1px solid #ddd;"><b>🟠 TEXCOCO</b></td>
+                        <td style="padding:8px; border:1px solid #ddd;">Crowd(6:00 hrs) > Car Zona Ext</td>
+                        <td style="border:1px solid #ccc; padding:5px; text-align:center;">340</td>
+                        <td style="padding:8px; border:1px solid #ddd;">EXTENDIDA Y CROWD</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div style="
+                margin-top:12px;
+                padding:10px;
+                background:#ffe5e5;
+                border:1px solid #ffb3b3;
+                border-radius:6px;
+                font-size:12px;
+            ">
+                ⚠️ <b>ZONA ROJA:</b> IXTAPALUCA-VALLE CHALCO
+            </div>
+
+            <div style="
+                margin-top:8px;
+                padding:10px;
+                background:#e8f4ff;
+                border:1px solid #b5dbff;
+                border-radius:6px;
+                font-size:12px;
+            ">
+                📦 <b>Prioridad:</b> Large Van y MLP en zonas de nodos
+            </div>
+
+        </div>
+
+    </details>
+
+</div>
+
+
+        
+        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
         <div class="tools-panel">
+            
+            <!-- 1. CRONÓMETRO (Ahora primero) -->
             <div class="crono-card">
                 <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
                 <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
                 <div>
-                    <button class="btn-start" onclick="startC()">▶</button>
-                    <button class="btn-stop" onclick="stopC()">⏸</button>
-                    <button class="btn-reset" onclick="resetC()">🔄</button>
+                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
+                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
+                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
                 </div>
             </div>
+
+            
+
+            <!-- 3. CONVERTIDOR (Ahora al final) -->
+            <div class="google-tool" style="
+                /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
+                background: linear-gradient(135deg, #D3D3D3 0%, #DCDCDC 100%) !important;
+                padding: 15px;
+                border-radius: 10px;
+            ">
+            
+                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
+                <div style="margin-top:10px;">
+                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
+                 </div>
+             </div>
         </div>
     </div>
 </div>
 
+
+
 <script>
-    let currentTab = 'C1';
+    let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
-    let cronoInterval = null, startTime = 0, elapsedTime = 0;
+    let chronoInterval;
+    let startTime;
+    let elapsedTime = 0;
 
-    function showTab(id, btn) {{
-        document.querySelectorAll('.t-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.p-content').forEach(el => el.style.display = 'none');
-        
-        let realTab = id === 2 ? '2' : id;
-        let pTarget = document.getElementById('tab-' + realTab);
-        if(pTarget) pTarget.style.display = 'block';
-        
-        let polyTarget = document.getElementById('polys-' + realTab);
-        if(polyTarget) polyTarget.style.display = 'block';
-        
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        currentTab = id === 2 ? 'C1' : (id === 1 ? '1' : (id === 5 ? '5' : '4'));
-        recalc();
+    function showTab(n, btn) {{
+        currentTab = n;
+    // Oculta todo el contenido de polígonos y todas las tablas
+    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
+    
+    // Quita el color azul a los botones
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    // Muestra el bloque de polígonos de abajo
+    document.getElementById('polys-' + n).style.display = 'block';
+    
+    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
+    document.getElementById('tab-' + n).style.display = 'block';
+    
+    // Pone el botón actual en azul
+    btn.classList.add('active');
+    
+    recalc();
     }}
 
-    function stepVal(btn, delta, type) {{
-        let row = btn.closest('.calc-row');
-        let sel = row.querySelector('.s-type').value;
-        if (sel === "SELECCIONAR...") {{
-            showAlert("⚠️ SELECCIONA UN TIPO DE UNIDAD PRIMERO.");
-            return;
-        }}
-        
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
-        let fRow = Array.from(document.querySelectorAll('#body-' + tabId + ' tr')).find(r => r.querySelector('.edit-name').innerText.trim() === sel);
-        if(!fRow) return;
-        
-        let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
-        let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
-        
-        if(type === 'u') {{
-            let span = row.querySelector('.u-manual');
-            let val = parseInt(span.innerText) || 0;
-            let esCAR = sel.toUpperCase().includes("CAR");
-            
-            if (delta > 0 && left <= 0 && !esCAR) {{
-                showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
-                return;
-            }}
-            if (delta > 0 && left <= 0 && esCAR) {{
-                showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
-            }}
-            span.innerText = val + delta;
-        }} else {{
-            let span = row.querySelector('.spr-real-val');
-            let val = parseFloat(span.innerText) || 0;
-            let newVal = parseFloat((val + delta).toFixed(1));
-            
-            if (delta > 0 && newVal > sprMaxReal) {{
-                showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
-                return;
-            }}
-            span.innerText = newVal.toFixed(1);
-        }}
-        editedRowsPlan.add(row);
-        recalc();
-    }}
-
-    function manualEdit(span) {{
-        let row = span.closest('.calc-row');
-        editedRowsPlan.add(row);
-        recalc();
-    }}
-
-    function resetRow(selEl) {{
-        let row = selEl.closest('.calc-row');
-        row.querySelector('.u-manual').innerText = "0";
-        row.querySelector('.spr-real-val').innerText = "0";
-        editedRowsPlan.delete(row);
-        recalc();
-    }}
 
     function showAlert(msg) {{
-        let el = document.getElementById('google-alert');
         document.getElementById('alert-msg').innerText = msg;
-        el.classList.add('show');
+        document.getElementById('google-alert').classList.add('show');
     }}
+    function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
-    window.addEventListener('keydown', (e) => {{
-        if (e.key === 'Enter' && document.getElementById('google-alert').classList.contains('show')) {{
-            e.preventDefault();
-            document.getElementById('google-alert').classList.remove('show');
+    function stepVal(btn, delta, type) {{
+    let row = btn.closest('tr');
+    let sel = row.querySelector('.s-type').value;
+    
+    // Si no hay unidad seleccionada, no hace nada
+    if(sel === "SELECCIONAR...") return;
+
+    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
+    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
+    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+    
+    if (!fRow) return; // Seguridad por si no encuentra la unidad
+
+    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
+
+    if(type === 'u') {{
+        let span = row.querySelector('.u-manual');
+        let val = parseInt(span.innerText) || 0;
+        // Detectar si la unidad es CAR
+let esCAR = sel.toUpperCase().includes("CAR");
+
+// Si NO es CAR, bloquear cuando ya no hay disponibles
+if (delta > 0 && left <= 0 && !esCAR) {{
+        showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
+        return;
+}}
+
+// Si SÍ es CAR, permitir negativos pero mostrar alerta
+if (delta > 0 && left <= 0 && esCAR) {{
+        showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+}}
+        span.innerText = val + delta;
+                }} else {{
+        let span = row.querySelector('.spr-real-val');
+        let val = parseFloat(span.innerText) || 0;
+        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
+
+        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
+        if (delta > 0 && newVal > sprMaxReal) {{
+            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
+            return; 
         }}
-    }});
+        
+        // Si es para bajar o está dentro del rango, permite el cambio
+        span.innerText = newVal.toFixed(1);
+    }}
+    editedRowsPlan.add(row);
+    recalc();
+}}
+
 
     function recalc() {{
         let fleet = {{}};
+        
+        // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
+        // Guardamos el identificador real que usan los elementos HTML en pantalla
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
+        // ----------------------------------------------------
 
-        // Cargar flota activa
+        // 1. Capturar datos de la flota (Tabla de arriba)
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            if(row.classList.contains('es-divisor')) return;
             let name = row.querySelector('.edit-name').innerText.trim();
-            let min = parseFloat(row.querySelector('.edit-spr-min').innerText) || 0;
-            let max = parseFloat(row.querySelector('.edit-spr-max').innerText) || 0;
-            let stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            if (name && name !== "IGNORAR") {{
-                fleet[name] = {{ min: min, max: max, stock: stock, used: 0 }};
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
+            
+            if(sch > 0) {{
+                row.style.background = "white"; row.style.color = "black";
+                fs.style.background = "#fcfbc7"; 
+                mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+                ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+            }} else {{
+                row.style.background = "#DCDCDC"; row.style.color = "#969696";
+                fs.style.background = "#DCDCDC"; 
+                mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+                ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+            }}
+            if(name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
             }}
         }});
 
-        // Calcular consumos desde polígonos
+        // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-            let vCalcEl = bl.querySelector('.v-calculado-total');
-            
+            let vCalcEl = bl.querySelector('.v-calculado-total'); 
+
             bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
-                    fleet[s].used += u;
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
+                    fleet[s].used += u; 
                     vA += (u * parseFloat(sp.innerText));
-                    sp.style.color = "#008B8B";
-                    sp.style.fontWeight = "bold";
+                    sp.style.color = "#008B8B"; sp.style.fontWeight = "bold";
                 }} else {{
-                    sp.style.color = "#969696";
-                    sp.style.fontWeight = "normal";
+                    sp.style.color = "#969696"; sp.style.fontWeight = "normal";   
                 }}
             }});
 
             vCalcEl.innerText = Math.round(vA);
+            vCalcEl.style.background = "white";
             let d = bl.querySelector('.p-diff');
+
             if (vT === 0) {{
                 d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
             }} else {{
@@ -678,70 +1207,149 @@ app_html = f"""
                 }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#ffe4b5"; vCalcEl.style.color = "#d32f2f";
                 }} else {{
-                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#afdfef"; vCalcEl.style.color = "#4682B4";
+                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#f7cdd1"; vCalcEl.style.color = "#d32f2f";
                 }}
             }}
         }});
 
-        // Actualizar columna 'ME QUEDAN' y calcular totales finales de flota
-        let totalNoCar = 0, totalCarReal = 0;
+        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            if(row.classList.contains('es-divisor')) return;
-            let name = row.querySelector('.edit-name').innerText.trim();
-            if(name && fleet[name]) {{
-                let left = fleet[name].stock - fleet[name].used;
-                row.querySelector('.f-left').innerText = left;
-                if(left < 0) {{
-                    row.querySelector('.f-left').style.color = "red";
-                }} else if(left === 0) {{
-                    row.querySelector('.f-left').style.color = "#808080";
-                }} else {{
-                    row.querySelector('.f-left').style.color = "green";
-                }}
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let diff = fleet[n].stock - fleet[n].used;
+                console.log("Diferencia calculada:", diff);
+                let cL = row.querySelector('.f-left');
+                
+                // Regla universal para Car 3h, 5h, 8h y Crowd
+                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
 
-                let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-                let asig = sch - left;
-                if (name !== "NUEVA UNIDAD") {{
-                    if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
-                        totalCarReal += asig;
-                    }} else {{
-                        totalNoCar += asig;
+
+                console.log("Diferencia calculada:", diff);
+                cL.innerText = diff;
+                
+                // Color Rojo si es negativo
+                if (diff < 0) {{
+                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white"; cL.style.background = "#d32f2f";
+                }} else {{
+                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
+                }}
+            }}
+        }});
+
+        // 4. FILTRAR LISTA SIN ROMPER SCHED
+        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(s => {{
+            let cur = s.value; 
+            let opt = '<option>SELECCIONAR...</option>';
+            Object.keys(fleet).forEach(k => {{ 
+                if (fleet[k].stock > 0) {{
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                    if (disp || k === cur || flexible) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }}
-            }}
+            }});
+            s.innerHTML = opt; s.value = cur; 
         }});
 
-        // Pintar totales en tfoot correspondientes de la pestaña activa
-        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
-        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
-        if (noCarCell) noCarCell.innerText = totalNoCar;
-        if (carCell) carCell.innerText = totalCarReal;
+actualizarTotales();
+    }}
 
-        // Actualizar selectores dinámicamente manteniendo la regla de ocultar si stock es 0
-        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(sel => {{
-            let curr = sel.value;
-            sel.innerHTML = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).forEach(k => {{
-                if(fleet[k].stock > 0 || k === curr) {{
-                    let opt = document.createElement('option');
-                    opt.innerText = k; opt.value = k;
-                    if(k === curr) opt.selected = true;
-                    sel.appendChild(opt);
-                }}
-            }});
+    // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
+    document.addEventListener('keydown', function(event) {{ 
+        if (event.key === 'Enter') {{
+            // Busca cualquier div de alerta o mensaje de error y lo cierra/limpia
+            let alerta = document.querySelector('.alerta-roja, .p-diff'); 
+            if (alerta && alerta.innerText.includes('EXCESO')) {{
+                // Si tienes una función específica para cerrar, llámala aquí
+                // O simplemente quita el foco para que no bloquee
+                document.activeElement.blur();
+            }}
+        }}
+    }});
+
+
+    
+    function focusCalc() {{
+        document.getElementById('calc_wrapper').focus();
+    }}
+
+    function filterRows(onlyActive) {{
+        const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
+        rows.forEach(row => {{
+            const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
     }}
 
-    function distribuirAutomatico() {{
+    function convertTime() {{
+        let m = parseInt(document.getElementById('min-in').value) || 0;
+        document.getElementById('time-res').innerText = Math.floor(m/60) + "h " + (m%60) + "m";
+    }}
+    function an(n) {{ curC += n; updateCalc(); }}
+    function ao(o) {{ curC += " " + o + " "; updateCalc(); }}
+    function cl() {{ curC = ""; updateCalc(); document.getElementById('calc_h').innerText = ""; }}
+    function del() {{ curC = curC.trim().slice(0, -1); updateCalc(); }}
+    function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
+    function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
+    
+    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
+    setInterval(updateReloj, 1000);
+
+    function startC() {{ if(!chronoInterval) {{ startTime = Date.now() - elapsedTime; chronoInterval = setInterval(()=>{{ elapsedTime = Date.now() - startTime; updateCDisplay(); }}, 100); }} }}
+    function stopC() {{ clearInterval(chronoInterval); chronoInterval = null; }}
+    function resetC() {{ stopC(); elapsedTime = 0; updateCDisplay(); }}
+    function updateCDisplay() {{ 
+        let d = new Date(elapsedTime);
+        let h = String(Math.floor(elapsedTime/3600000)).padStart(2,'0');
+        let m = String(d.getUTCMinutes()).padStart(2,'0');
+        let s = String(d.getUTCSeconds()).padStart(2,'0');
+        let ms = Math.floor(d.getUTCMilliseconds()/100);
+        document.getElementById('crono-main').innerText = `${{h}}:${{m}}:${{s}}.${{ms}}`;
+    }}
+
+    function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
+    function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
+    
+   document.addEventListener('keydown', (e) => {{
+        const calc = document.getElementById('calc_wrapper');
+        const alerta = document.getElementById('google-alert');
+
+        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
+        if (e.key === 'Enter' && alerta.classList.contains('show')) {{
+            e.preventDefault();
+            e.stopPropagation();
+            hideAlert();
+            return; // Detiene la ejecución aquí para que no afecte a la calculadora
+        }}
+
+        // Lógica de la calculadora (solo si está seleccionada)
+        if (document.activeElement === calc) {{
+            if (e.key >= '0' && e.key <= '9') an(e.key);
+            if (e.key === '+') ao('+');
+            if (e.key === '-') ao('-');
+            if (e.key === '*') ao('*');
+            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
+            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
+            if (e.key === 'Escape') cl();
+            if (e.key === 'Backspace') del();
+        }}
+    }});
+
+
+function distribuirAutomatico() {{
         let fleet = {{}};
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
+
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            if(row.classList.contains('es-divisor')) return;
             let name = row.querySelector('.edit-name').innerText.trim();
             let ma = row.querySelector('.edit-spr-max');
-            let cL = row.querySelector('.f-left');
+            let cL = row.querySelector('.f-left'); 
             let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
             let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+
             if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: sprMax, stock: disponibles }};
             }}
@@ -756,27 +1364,38 @@ app_html = f"""
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
+
             if (faltante > 1) {{
                 bl.querySelectorAll('.calc-row').forEach(r => {{
                     let s = r.querySelector('.s-type');
                     let u = r.querySelector('.u-manual');
                     let sp = r.querySelector('.spr-real-val');
-                    if (s.value === "SELECCIONAR...") {{
-                        let mejorUnidad = null, maxCap = 0;
-                        Object.keys(fleet).forEach(k => {{
-                            if (fleet[k].stock > 0 && fleet[k].max > maxCap) {{
-                                maxCap = fleet[k].max; mejorUnidad = k;
+
+                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
+                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
+                        if (key) {{
+                            let unidad = fleet[key];
+                            let necesito = Math.ceil(faltante / unidad.max);
+                            let asigno = Math.min(necesito, unidad.stock);
+                            
+                            if (asigno > 0) {{
+                                s.value = key;
+                                u.innerText = asigno;
+                                
+                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
+                                // Dividimos el faltante entre las unidades asignadas
+                                let sprSugerido = (faltante / asigno);
+                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
+                                let sprFinal = Math.min(sprSugerido, unidad.max);
+                                
+                                // Redondeamos a 1 decimal para que no se vea feo
+                                sp.innerText = Math.round(sprFinal * 10) / 10;
+                                
+                                unidad.stock -= asigno;
+                                faltante -= (asigno * sprFinal);
+                                editedRowsPlan.add(r); 
                             }}
-                        }});
-                        if (mejorUnidad) {{
-                            s.value = mejorUnidad;
-                            let nCuentas = Math.min(fleet[mejorUnidad].stock, Math.ceil(faltante / fleet[mejorUnidad].max));
-                            u.innerText = nCuentas;
-                            sp.innerText = fleet[mejorUnidad].max;
-                            fleet[mejorUnidad].stock -= nCuentas;
-                            faltante -= (nCuentas * fleet[mejorUnidad].max);
-                            editedRowsPlan.add(r);
-                        }}
+                        }} 
                     }}
                 }});
             }}
@@ -784,35 +1403,44 @@ app_html = f"""
         recalc();
     }}
 
-    function filterRows(onlyActive) {{
+
+
+// =========================
+// TOTALES FINALES
+// =========================
+
+function actualizarTotales() {{
+        let totalNoCar = 0;
+        let totalCarReal = 0;
+
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
-        const rows = document.querySelectorAll('#body-' + tabId + ' tr');
-        rows.forEach(row => {{
-            if(row.classList.contains('es-divisor')) return;
-            const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            row.style.display = (onlyActive && stock === 0) ? 'none' : '';
+
+        // Sumar datos desde la tabla de disponibilidad activa
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim().toUpperCase();
+            let left = parseInt(row.querySelector('.f-left').innerText) || 0;
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let asig = sch - left;
+
+            if (name && name !== "IGNORAR" && name !== "NUEVA UNIDAD") {{
+                if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
+                    totalCarReal += asig;
+                }} else {{
+                    totalNoCar += asig;
+                }}
+            }}
         }});
+
+        // Pintar en los tfoots correspondientes de la pestaña activa
+        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
+        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
+
+        if (noCarCell) noCarCell.innerText = totalNoCar;
+        if (carCell) carCell.innerText = totalCarReal;
     }}
 
-    function startC() {{ if(!cronoInterval) {{ startTime = Date.now() - elapsedTime; cronoInterval = setInterval(updateC, 100); }} }}
-    function stopC() {{ if(cronoInterval) {{ clearInterval(cronoInterval); cronoInterval = null; }} }}
-    function resetC() {{ stopC(); elapsedTime = 0; document.getElementById('crono-main').innerText = "00:00:00.0"; }}
-    function updateC() {{
-        elapsedTime = Date.now() - startTime;
-        let ms = Math.floor((elapsedTime % 1000) / 100);
-        let s = Math.floor((elapsedTime / 1000) % 60);
-        let m = Math.floor((elapsedTime / 60000) % 60);
-        let h = Math.floor(elapsedTime / 3600000);
-        document.getElementById('crono-main').innerText = 
-            String(h).padStart(2,'0') + ":" + String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0') + "." + ms;
-    }}
-
-    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
-    setInterval(updateReloj, 1000);
-    updateReloj();
     
-    // Ejecución inicial de recálculo
-    setTimeout(recalc, 300);
+    recalc();
 </script>
 </body>
 </html>
