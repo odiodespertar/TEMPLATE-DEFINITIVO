@@ -1265,14 +1265,24 @@ if (delta > 0 && left <= 0 && esCAR) {{
                     
                     // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
                     if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
+                        
+                        // Capturamos si ya tenía el color de advertencia puesto para no duplicar la alerta
+                        let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
+
+                        // 1. Aplicamos el diseño visual de advertencia al selector
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
                         s.style.setProperty("font-weight", "bold", "important");
+                        
+                        // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
+                        if (!yaTieneAlerta) {{
+                            showAlert("🚨 ¡PELIGRO! EN IXTAPALUCA VALLE CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR.");
+                        }}
                     }} else {{
-                        // Si es un "CAR" o está en "SELECCIONAR...", se limpia el estilo y se queda normal
-                        s.style.backgroundColor = "";
-                        s.style.color = "";
-                        s.style.fontWeight = "";
+                        // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
+                        s.style.removeProperty("background-color");
+                        s.style.removeProperty("color");
+                        s.style.removeProperty("font-weight");
                     }}
                 }}
             }});
