@@ -792,6 +792,7 @@ style="text-align:center; color:#00BFFF;">
                 font-weight:bold;
             ">
                 ⚠️ Revisar ORH y ocupación por día en summary
+                Distancia de SVC 🟢🟡🟠🔴
             </div>
 
             <table style="
@@ -909,6 +910,7 @@ style="text-align:center; color:#00BFFF;">
                 font-weight:bold;
             ">
                 ⚠️ Revisar ORH y ocupación por día en summary
+                Distancia de SVC 🟢🟡🟠🔴
             </div>
 
             <table style="
