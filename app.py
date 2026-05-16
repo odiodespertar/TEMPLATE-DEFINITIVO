@@ -127,7 +127,7 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #C0C0C0; color: #969696;" if not name else ""
+            st_base = "background: #bab8b8; color: #969696;" if not name else ""
 
             # 🎨 AQUÍ SE DEFINE EL NUEVO COLOR PARA LAS CELDAS DE LAS UNIDADES ACTIVAS
             # Te lo dejé en blanco puro (#ffffff) para que limpie el gris de tu captura.
