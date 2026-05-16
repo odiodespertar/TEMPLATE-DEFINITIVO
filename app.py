@@ -1040,8 +1040,8 @@ style="text-align:center; color:#00BFFF;">
 
         
         <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
-        <div class="tools-panel">
-            
+     <div class="tools-panel" id="panel-utilerias">  
+     
             <!-- 1. CRONÓMETRO (Ahora primero) -->
             <div class="crono-card">
                 <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
@@ -1448,6 +1448,31 @@ actualizarTotales();
             if (e.key === 'Backspace') del();
         }}
     }});
+
+
+// 🛠️ BOTÓN PARA OCULTAR EL PANEL DE UTILERÍAS (CRONÓMETRO Y CONVERTIDOR)
+    let herramientasVisibles = true;
+
+    function toggleTools() {{
+        const panel = document.getElementById('panel-utilerias');
+        const boton = document.getElementById('toggle-tools-btn');
+
+        herramientasVisibles = !herramientasVisibles;
+
+        if (panel) {{
+            panel.style.display = herramientasVisibles ? '' : 'none';
+        }}
+
+        if (!herramientasVisibles) {{
+            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
+            boton.style.background = '#8b0000'; 
+            boton.style.boxShadow = '0 3px 0 #5a0000';
+        }} else {{
+            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
+            boton.style.background = '#696969'; 
+            boton.style.boxShadow = '0 3px 0 #474747';
+        }}
+    }}
 
 
 function distribuirAutomatico() {{
