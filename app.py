@@ -1062,6 +1062,10 @@ style="text-align:center; color:#00BFFF;">
                 padding: 15px;
                 border-radius: 10px;
             ">
+                <button id="toggle-tools-btn" onclick="toggleTools()" 
+                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
+                    ❌ OCULTAR UTILERÍAS
+                </button>
             
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
@@ -1394,6 +1398,39 @@ actualizarTotales();
             }}
         }});
     }}
+
+
+    // ==========================================
+// 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
+// ==========================================
+    let herramientasVisibles = true;
+
+    function toggleTools() {{
+        const crono = document.querySelector('.crono-card');
+        const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
+        const boton = document.getElementById('toggle-tools-btn');
+
+        herramientasVisibles = !herramientasVisibles;
+
+        if (crono) {{
+            crono.style.display = herramientasVisibles ? '' : 'none';
+        }}
+
+        convertidorContenido.forEach(elemento => {{
+            elemento.style.display = herramientasVisibles ? '' : 'none';
+        }});
+
+        if (!herramientasVisibles) {{
+            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
+            boton.style.background = 'linear-gradient(180deg, #20B2AA 0%, #167a75 100%)'; 
+            boton.style.boxShadow = '0 3px 0 #0e524e';
+        }} else {{
+            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
+            boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; 
+            boton.style.boxShadow = '0 3px 0 #111';
+        }}
+    }}
+
 
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
