@@ -1311,12 +1311,57 @@ actualizarTotales();
     }}
 
     function filterRows(onlyActive) {{
-        const rows = document.querySelectorAll('#body-' + currentTab + ' tr');
-        rows.forEach(row => {{
+        // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
+        document.querySelectorAll('#body-' + currentTab + ' .master-row').forEach(row => {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
+
+        // 2. Filtrar los bloques y renglones de los Polígonos (Izquierda)
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let tieneFilasActivas = false;
+            
+            // Evaluamos el volumen total asignado al plan
+            let vTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+
+            // Buscamos todas las filas de cálculo (calc-row) EXCEPTUANDO la fila final de ESTADO
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
+                let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                
+                // Selector de tipo de unidad en esta fila
+                let sTypeSelect = r.querySelector('.s-type');
+                let sType = sTypeSelect ? sTypeSelect.value : "SELECCIONAR...";
+
+                if (onlyActive) {{
+                    // Si el renglón no tiene unidades asignadas y sigue en "SELECCIONAR...", se oculta
+                    if (uManual === 0 && (sType === "SELECCIONAR..." || sType === "")) {{
+                        r.style.display = 'none';
+                 }} else {{
+                        r.style.display = '';
+                        tieneFilasActivas = true; // Esta fila tiene datos válidos
+                    }}
+                }} else {{
+                    // Si presionan "TODAS", restauramos la visualización completa
+                    r.style.display = '';
+                    tieneFilasActivas = true;
+                }}
+            }});
+
+            // Control visual del bloque/tabla completa del Polígono
+            if (onlyActive) {{
+                // Si el Plan viene en 0 de volumen y tampoco se le programó ninguna unidad, ocultamos el bloque entero
+                if (vTotal === 0 && !tieneFilasActivas) {{
+                    bl.style.display = 'none';
+            }} else {{
+                    bl.style.display = '';
+                }}
+            }} else {{
+                // Si presionan "TODAS", se muestran absolutamente todos los polígonos
+                bl.style.display = '';
+            }}
+        }});
     }}
+
 
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
