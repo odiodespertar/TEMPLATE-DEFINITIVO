@@ -540,6 +540,15 @@ html body .meli-table tbody tr:last-child {{
         style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #167a75; transition: all 0.05s; outline: none;">
         TODAS
     </button>
+
+<button id="toggle-tools-btn" onclick="toggleTools()" 
+    style="cursor:pointer; background: #696969; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #474747; transition: all 0.05s; outline: none; margin-left: 10px;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #474747';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #474747';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #474747';">
+    ❌ OCULTAR UTILERÍAS
+</button>
+    
 </div>
 
 
@@ -1394,6 +1403,36 @@ actualizarTotales();
             }}
         }});
     }}
+
+
+    // 🛠️ VARIABLE Y FUNCIÓN NUEVA PARA OCULTAR EL CONVERTIDOR Y CRONÓMETRO
+    let herramientasVisibles = true;
+
+    function toggleTools() {{
+        // Busca automáticamente las cajas de utilerías por su clase o estructura contenedora
+        const herramientas = document.querySelectorAll('.tool-card, .card, #cronometro-wrapper, #calc_wrapper > div:first-child');
+        const boton = document.getElementById('toggle-tools-btn');
+
+        herramientasVisibles = !herramientasVisibles;
+
+        herramientas.forEach(box => {{
+            if (!box.contains(boton)) {{
+                box.style.display = herramientasVisibles ? '' : 'none';
+            }}
+        }});
+
+        if (!herramientasVisibles) {{
+            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
+            boton.style.background = '#8b0000'; // Rojo oscuro al ocultar
+            boton.style.boxShadow = '0 3px 0 #5a0000';
+        }} else {{
+            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
+            boton.style.background = '#696969'; // Gris original
+            boton.style.boxShadow = '0 3px 0 #474747';
+        }}
+    }}
+
+    
 
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
