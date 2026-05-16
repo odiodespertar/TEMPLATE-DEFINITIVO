@@ -791,7 +791,7 @@ style="text-align:center; color:#00BFFF;">
                 font-size:12px;
                 font-weight:bold;
             ">
-                ⚠️ Revisar ORH y ocupación por día en summary
+                ⚠️ Revisar ORH y ocupación por día en summary<br>
                 Distancia de SVC 🟢🟡🟠🔴
             </div>
 
