@@ -152,18 +152,18 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 100px; min-width: 100px; max-width: 100px;">
+        <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.6px solid #808080; padding: 10px 5px; width: 100px; min-width: 100px; max-width: 100px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
             <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.6px solid #ccc; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; text-align: center; border: 0.6px solid #808080; padding: 10px 5px; width: 110px; min-width: 110px; max-width: 110px;">
             <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
             <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; margin:0 5px;">0</span>
             <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
         </td>
-        <td style="border: 0.5px solid #ccc; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
-        <td style="width: 45px !important; text-align: center; border: 0.5px solid #ccc;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
+        <td style="border: 0.5px solid #808080; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px !important; color:#333; appearance:none; -webkit-appearance:none;"><option>SELECCIONAR...</option></select></td>
+        <td style="width: 45px !important; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
     for i in range(1, 11):
@@ -190,7 +190,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #ccc; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #808080; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #808080; padding: 5px;">0</td>
                         
                         <td class="u-manual-cell" style="background: #fcfbc7; text-align: center; border: 0.5px solid #808080;">
@@ -213,10 +213,10 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     
                     <tr style="background:#f8f9fa; height: 32px;">
-                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #ccc; font-size: 16px; color:#333;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #ccc; text-align: center;">0</td>
-                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #ccc; font-size: 16px;">VACÍO</td>
-                        <td style="width: 45px !important; border: 1px solid #ccc; background: #FFFFFF;"></td>
+                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #808080; font-size: 16px; color:#333;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 16px; color: #d32f2f; border: 1px solid #808080; text-align: center;">0</td>
+                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #808080; font-size: 16px;">VACÍO</td>
+                        <td style="width: 45px !important; border: 1px solid #808080; background: #FFFFFF;"></td>
                     </tr>
                 </tbody>
             </table>
