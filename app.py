@@ -1344,16 +1344,23 @@ actualizarTotales();
                 }}
             }});
 
-            // 🔥 CORRECCIÓN DEL ROWSPAN: Ajusta las celdas grandes al número real de filas visibles
-            // Si ocultó todo pero el volumen tiene datos, dejamos mínimo 1 para que no se rompa el diseño
+            // 🔥 CORRECCIÓN DEFINITIVA REFORZADA CON setAttribute Y rowSpan
             let nuevoRowspan = Math.max(1, filasVisiblesEnBloque); 
             
-            // Buscamos la celda del Nombre del Plan y del Vol. Total (que son las que tienen el rowspan)
+            // Buscamos la celda del Nombre del Plan (el primer td de la primera fila)
             let celdaPlan = bl.querySelector('tbody tr.calc-row td[rowspan]');
+            // Buscamos la celda del Vol. Total
             let celdaVolumen = bl.querySelector('tbody tr.calc-row .v-total-val');
             
-            if (celdaPlan) {{ celdaPlan.rowspan = nuevoRowspan; }}
-            if (celdaVolumen) {{ celdaVolumen.rowspan = nuevoRowspan; }}
+            // Aplicamos el cambio usando tanto la propiedad nativa como el atributo HTML para obligar al navegador
+            if (celdaPlan) {{ 
+                celdaPlan.rowSpan = nuevoRowspan;
+                celdaPlan.setAttribute('rowspan', nuevoRowspan);
+            }}
+            if (celdaVolumen) {{ 
+                celdaVolumen.rowSpan = nuevoRowspan;
+                celdaVolumen.setAttribute('rowspan', nuevoRowspan);
+            }}
 
             // Control visual del bloque completo (Polígono)
             if (onlyActive) {{
