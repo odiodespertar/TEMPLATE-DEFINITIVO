@@ -1238,20 +1238,44 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-        // 4. FILTRAR LISTA SIN ROMPER SCHED
-        document.querySelectorAll('#polys-' + tabId + ' .s-type').forEach(s => {{
-            let cur = s.value; 
-            let opt = '<option>SELECCIONAR...</option>';
-            Object.keys(fleet).forEach(k => {{ 
-                if (fleet[k].stock > 0) {{
-                    let disp = (fleet[k].stock - fleet[k].used > 0);
-                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
-                    if (disp || k === cur || flexible) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
+       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            // Capturamos el nombre del plan/polígono de este bloque específico
+            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+
+            bl.querySelectorAll('.s-type').forEach(s => {{
+                let cur = s.value; 
+                let opt = '<option>SELECCIONAR...</option>';
+                Object.keys(fleet).forEach(k => {{ 
+                    if (fleet[k].stock > 0) {{
+                        let disp = (fleet[k].stock - fleet[k].used > 0);
+                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                        if (disp || k === cur || flexible) {{
+                            opt += `<option value="${{k}}">${{k}}</option>`;
+                        }}
+                    }}
+                }});
+                
+                s.innerHTML = opt; 
+                s.value = cur; 
+
+                // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
+                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
+                    let unidadTxt = cur.toUpperCase();
+                    
+                    // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
+                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
+                        s.style.setProperty("background-color", "#ffcccc", "important");
+                        s.style.setProperty("color", "#8b0000", "important");
+                        s.style.setProperty("font-weight", "bold", "important");
+                    }} else {{
+                        // Si es un "CAR" o está en "SELECCIONAR...", se limpia el estilo y se queda normal
+                        s.style.backgroundColor = "";
+                        s.style.color = "";
+                        s.style.fontWeight = "";
                     }}
                 }}
             }});
-            s.innerHTML = opt; s.value = cur; 
         }});
 
 actualizarTotales();
