@@ -144,7 +144,7 @@ def gen_master_rows(data_dict, table_id):
 
 def gen_poligonos(data_target=None):
     polys = ""
-    # Botones con dimensiones totalmente congeladas (fijas)
+    # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -152,26 +152,28 @@ def gen_poligonos(data_target=None):
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
-    # Espacio del número blindado para que NO se estire ni se encoja al ocultar filas
+    # Espacio del número blindado para que NO se estire ni se encoja al ocultar filas o pasar a dos dígitos
     span_num = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
 
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.6px solid #808080; padding: 2px; width: 100px; min-width: 100px; max-width: 100px;">
+        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.6px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #808080; padding: 2px; width: 110px; min-width: 110px; max-width: 110px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #808080; padding: 2px; width: 115px; min-width: 115px; max-width: 115px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #808080; padding: 2px;"><select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px; color:#333;"><option>SELECCIONAR...</option></select></td>
+        <td style="border: 0.5px solid #808080; padding: 2px;">
+            <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px; color:#333;"><option>SELECCIONAR...</option></select>
+        </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
@@ -185,15 +187,16 @@ def gen_poligonos(data_target=None):
 
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white; border: 1px solid #808080;">           
-            <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+            <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid rgba(255,255,255,0.2); width: 140px; min-width: 140px;">PLAN</th>
-                        <th style="border-right: 1px solid rgba(255,255,255,0.2); width: 85px; min-width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
-                        <th style="width: 115px; min-width: 115px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
+                        <th style="padding: 0 10px; border-right: 1px solid rgba(255,255,255,0.2);">PLAN</th>
+                        <th style="border-right: 1px solid rgba(255,255,255,0.2); width: 85px;">VOL. TOTAL</th>
+                        
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
+                        <th style="width: 115px; min-width: 115px; max-width: 115px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
-                        <th style="width: 45px; min-width: 45px; text-align: center;">OK</th>
+                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -232,7 +235,6 @@ def gen_poligonos(data_target=None):
             </table>
         </div>'''
     return polys
-
 
 
 
