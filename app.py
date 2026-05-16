@@ -127,7 +127,12 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #808080; color: #969696;" if not name else ""
+            # 🔘 Fila Inactiva (Vacía): Fondo gris apagado para denotar que no hay datos asignados
+            st_base = "background: #ebebeb color: #969696;" if not name else ""
+
+            # 🎨 Fila Activa (Con Unidad): Blanco brillante (#ffffff) con texto negro para contraste real
+            bg_celda = "background-color: #ffffff; color: #000000;" if name else ""
+            
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
