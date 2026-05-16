@@ -772,7 +772,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #cfcce8 0%, #cfcce8 100%);
+            background:linear-gradient(180deg, #FF6347 0%, #FF4500 100%);
             color: #696969;
             user-select:none;
         ">
@@ -890,7 +890,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #dccce8 0%, #dccce8 100%);
+            background:linear-gradient(180deg, #F4A460 0%, #FFA500100%);
             color: #696969;
             user-select:none;
         ">
