@@ -1196,34 +1196,33 @@ if (delta > 0 && left <= 0 && esCAR) {{
 
 
 // ========================================================================
-                // 🚨 ¡AQUÍ ENTRA TU NUEVA ALERTA DE ZONA ROJA PARA IXTAPALUCA!
-                // ========================================================================
-                // 1. Buscamos el nombre del Polígono que está en la celda con rowspan
-                let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
-                
-                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {
-                    let selectUnidad = r.querySelector('.s-type');
-                    if (selectUnidad) {
-                        let unidadTxt = selectUnidad.value.toUpperCase();
-                        
-                        // Si seleccionó una unidad y NO contiene las palabras clave permitidas
-                        if (unidadTxt !== "SELECCIONAR..." && 
-                            !unidadTxt.includes("CROWD") && 
-                            !unidadTxt.includes("EXTENDIDA")) {
-                            
-                            // Pintamos en rojo de advertencia crítica
-                            selectUnidad.style.setProperty("background-color", "#ffcccc", "important");
-                            selectUnidad.style.setProperty("color", "#8b0000", "important");
-                            selectUnidad.style.setProperty("font-weight", "bold", "important");
-                        } else {
-                            // Si está bien o está vacío, limpiamos estilos para que use el del fondo normal
-                            selectUnidad.style.removeProperty("background-color");
-                            selectUnidad.style.removeProperty("color");
-                            selectUnidad.style.removeProperty("font-weight");
-                        }
-                    }
-                }
-                // ===============================================================
+// 🚨 ¡CÓDIGO CORREGIDO PARA EVITAR EL SYNTAXERROR EN PYTHON!
+// ========================================================================
+let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+
+if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
+    let selectUnidad = r.querySelector('.s-type');
+    if (selectUnidad) {{
+        let unidadTxt = selectUnidad.value.toUpperCase();
+        
+        // Si seleccionó una unidad y NO contiene las palabras clave permitidas
+        if (unidadTxt !== "SELECCIONAR..." && 
+            !unidadTxt.includes("CROWD") && 
+            !unidadTxt.includes("EXTENDIDA")) {{
+            
+            // Pintamos en rojo de advertencia crítica
+            selectUnidad.style.setProperty("background-color", "#ffcccc", "important");
+            selectUnidad.style.setProperty("color", "#8b0000", "important");
+            selectUnidad.style.setProperty("font-weight", "bold", "important");
+        }} else {{
+            // Si está bien o está vacío, limpiamos estilos para que use el del fondo normal
+            selectUnidad.style.removeProperty("background-color");
+            selectUnidad.style.removeProperty("color");
+            selectUnidad.style.removeProperty("font-weight");
+        }}
+    }}
+}}
+// ========================================================================
 
 
             vCalcEl.innerText = Math.round(vA);
