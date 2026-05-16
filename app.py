@@ -905,7 +905,7 @@ style="text-align:center; color:#00BFFF;">
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #2b2929 0%, #696969 100%);
+            background:linear-gradient(180deg, #6495ED 0%, #9370D8 100%);
             color: #ffffff;
             user-select:none;
         ">
