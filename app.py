@@ -130,8 +130,8 @@ def gen_master_rows(data_dict, table_id):
             st_base = "background: #bab8b8; color: #969696;" if not name else ""
 
             # 🎨 AQUÍ SE DEFINE EL NUEVO COLOR PARA LAS CELDAS DE LAS UNIDADES ACTIVAS
-            # Te lo dejé en blanco puro (#ffffff) para que limpie el gris de tu captura.
-            color_fondo_celda = "background-color: #ffffff;" if name else ""
+            # Te lo dejé en blanco puro (#FFFFFF) para que limpie el gris de tu captura.
+            color_fondo_celda = "background-color: #FFFFFF;" if name else ""
             
             rows += f'''
             <tr class="master-row" style="{st_base}">
