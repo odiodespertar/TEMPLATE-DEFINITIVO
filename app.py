@@ -1196,33 +1196,33 @@ if (delta > 0 && left <= 0 && esCAR) {{
 
 
 // ========================================================================
-// 🚨 ¡CÓDIGO CORREGIDO PARA EVITAR EL SYNTAXERROR EN PYTHON!
-// ========================================================================
-let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
-
-if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
-    let selectUnidad = r.querySelector('.s-type');
-    if (selectUnidad) {{
-        let unidadTxt = selectUnidad.value.toUpperCase();
-        
-        // Si seleccionó una unidad y NO contiene las palabras clave permitidas
-        if (unidadTxt !== "SELECCIONAR..." && 
-            !unidadTxt.includes("CROWD") && 
-            !unidadTxt.includes("EXTENDIDA")) {{
-            
-            // Pintamos en rojo de advertencia crítica
-            selectUnidad.style.setProperty("background-color", "#ffcccc", "important");
-            selectUnidad.style.setProperty("color", "#8b0000", "important");
-            selectUnidad.style.setProperty("font-weight", "bold", "important");
-        }} else {{
-            // Si está bien o está vacío, limpiamos estilos para que use el del fondo normal
-            selectUnidad.style.removeProperty("background-color");
-            selectUnidad.style.removeProperty("color");
-            selectUnidad.style.removeProperty("font-weight");
-        }}
-    }}
-}}
-// ========================================================================
+                // 🚨 ¡CÓDIGO ULTRA SEGURO PARA IXTAPALUCA (ZONA ROJA)!
+                // ========================================================================
+                let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+                
+                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
+                    let selectUnidad = r.querySelector('.s-type');
+                    if (selectUnidad) {{
+                        let unidadTxt = selectUnidad.value.toUpperCase();
+                        
+                        // Si seleccionó una unidad y NO contiene las palabras clave permitidas
+                        if (unidadTxt !== "SELECCIONAR..." && 
+                            !unidadTxt.includes("CROWD") && 
+                            !unidadTxt.includes("EXTENDIDA")) {{
+                            
+                            // Pintamos en rojo de advertencia crítica
+                            selectUnidad.style.setProperty("background-color", "#ffcccc", "important");
+                            selectUnidad.style.setProperty("color", "#8b0000", "important");
+                            selectUnidad.style.setProperty("font-weight", "bold", "important");
+                        }} else {{
+                            // Regresa al estado normal de manera limpia sin romper el script
+                            selectUnidad.style.backgroundColor = "";
+                            selectUnidad.style.color = "";
+                            selectUnidad.style.fontWeight = "";
+                        }}
+                    }}
+                }}
+                // ========================================================================
 
 
             vCalcEl.innerText = Math.round(vA);
