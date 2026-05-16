@@ -127,7 +127,7 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #ebebeb; color: #969696;" if not name else ""
+            st_base = "background: #D3D3D3; color: #969696;" if not name else ""
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #A9A9A9; width: 150px;">{name}</td>
