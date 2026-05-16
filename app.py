@@ -183,7 +183,7 @@ def gen_poligonos(data_target=None): # Usamos un nombre genérico para evitar er
                         <th style="padding: 0 10px; border-right: 2px solid rgba(255,255,255,0.2);">PLAN</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">VOL. TOTAL</th>
                         <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
-                        <th style="width: 100px; min-width: 100px; max-width: 110px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
+                        <th style="width: 80px; min-width: 80px; max-width: 80px; border-right: 2px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 2px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
                         <th style="width: 45px !important; text-align: center;">OK</th>
                     </tr>
