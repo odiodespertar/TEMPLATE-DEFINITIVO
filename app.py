@@ -153,11 +153,12 @@ def gen_poligonos(data_target=None):
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
     
-    # ─── CAJAS DE TEXTO PARA NÚMEROS ───
-    # Mantener compacto para números enteros (0, 5, 12...)
+    # Cajas de texto para números (Unidades y SPR)
     span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
-    # 🔥 Espacio más amplio exclusivo para SPR con decimales (ej. 115.5), evitando saltos de línea
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 48px; min-width: 48px; max-width: 48px; flex-shrink: 0;"
+    
+    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
+    select_style = "width:100%; border:none; background:transparent; font-weight:600; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
 
     fila_inner = f'''
     <tr class="calc-row">
@@ -176,7 +177,7 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #808080; padding: 2px;">
-            <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:12px; color:#333;"><option>SELECCIONAR...</option></select>
+            <select class="s-type" onchange="resetRow(this)" style="{select_style}"><option>SELECCIONAR...</option></select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
@@ -221,7 +222,7 @@ def gen_poligonos(data_target=None):
                             </div>
                         </td>
                         <td style="border: 0.5px solid #808080; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this)" style="width:100%; border:none; background:transparent; font-weight:bold; font-size:11px; color:#333;">
+                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
                                 <option>SELECCIONAR...</option>
                             </select>
                         </td>
@@ -238,7 +239,6 @@ def gen_poligonos(data_target=None):
             </table>
         </div>'''
     return polys
-
 
 
 app_html = f"""
