@@ -152,22 +152,26 @@ def gen_poligonos(data_target=None):
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
-    # Espacio del número blindado para que NO se estire ni se encoja al ocultar filas o pasar a dos dígitos
-    span_num = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
+    
+    # ─── CAJAS DE TEXTO PARA NÚMEROS ───
+    # Mantener compacto para números enteros (0, 5, 12...)
+    span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
+    # 🔥 Espacio más amplio exclusivo para SPR con decimales (ej. 115.5), evitando saltos de línea
+    span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 48px; min-width: 48px; max-width: 48px; flex-shrink: 0;"
 
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.6px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num}">0</span>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #808080; padding: 2px; width: 115px; min-width: 115px; max-width: 115px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #808080; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num}">0</span>
+                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
@@ -192,9 +196,8 @@ def gen_poligonos(data_target=None):
                     <tr style="background: linear-gradient(180deg, #696969, #808080); color: white; font-size: 12px; height: 36px;">                        
                         <th style="padding: 0 10px; border-right: 1px solid rgba(255,255,255,0.2);">PLAN</th>
                         <th style="border-right: 1px solid rgba(255,255,255,0.2); width: 85px;">VOL. TOTAL</th>
-                        
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
-                        <th style="width: 115px; min-width: 115px; max-width: 115px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
+                        <th style="width: 135px; min-width: 135px; max-width: 135px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
                         <th style="border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
@@ -206,14 +209,14 @@ def gen_poligonos(data_target=None):
                         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num}">0</span>
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #808080; padding: 2px; width: 115px; min-width: 115px; max-width: 115px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #808080; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num}">0</span>
+                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                             </div>
                         </td>
