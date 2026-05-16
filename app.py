@@ -127,11 +127,12 @@ def gen_master_rows(data_dict, table_id):
         
         # Caso B: Es una unidad normal o espacio vacío
         else:
-            st_base = "background: #bab8b8; color: #969696;" if not name else ""
+            # 🔘 CELDAS INACTIVAS (VACÍAS): Se quedan en un gris apagado para denotar que no hay nada
+            st_base = "background: #ebebeb; color: #969696;" if not name else ""
 
-            # 🎨 AQUÍ SE DEFINE EL NUEVO COLOR PARA LAS CELDAS DE LAS UNIDADES ACTIVAS
-            # Te lo dejé en blanco puro (#FFFFFF) para que limpie el gris de tu captura.
-            color_fondo_celda = "background-color: #FFFFFF;" if name else ""
+            # 🎨 CELDAS ACTIVAS (CON UNIDAD): Se pintarán en un blanco limpio (#ffffff) para resaltar los datos
+            # Nota: Cambié el CSS a inline directo en los <td> para asegurar que sobrescriba el fondo de la fila.
+            color_fondo_celda = "background-color: #ffffff; color: #000000;" if name else ""
             
             rows += f'''
             <tr class="master-row" style="{st_base}">
