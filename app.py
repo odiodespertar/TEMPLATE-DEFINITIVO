@@ -1270,7 +1270,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
                         s.style.setProperty("font-weight", "bold", "important");
-                    }} else {{ // 👈 AQUÍ CORREGIDO: LLEVABA LLAVE SIMPLE Y YA TIENE DOBLE '}} else {{'
+                    }} else {{
                         s.style.backgroundColor = "";
                         s.style.color = "";
                         s.style.fontWeight = "";
