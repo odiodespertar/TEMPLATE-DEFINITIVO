@@ -1312,51 +1312,58 @@ actualizarTotales();
 
     function filterRows(onlyActive) {{
         // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
-        document.querySelectorAll('#body-' + currentTab + ' .master-row').forEach(row => {{
+        const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
+        rows.forEach(row => {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
 
-        // 2. Filtrar los bloques y renglones de los Polígonos (Izquierda)
+        // 2. Filtrar los bloques y celdas de los Polígonos (Izquierda)
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-            let tieneFilasActivas = false;
-            
-            // Evaluamos el volumen total asignado al plan
+            let filasVisiblesEnBloque = 0;
             let vTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
 
-            // Buscamos todas las filas de cálculo (calc-row) EXCEPTUANDO la fila final de ESTADO
+            // Buscamos todas las filas de asignación en la tabla del polígono
             bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
                 let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                
-                // Selector de tipo de unidad en esta fila
                 let sTypeSelect = r.querySelector('.s-type');
                 let sType = sTypeSelect ? sTypeSelect.value : "SELECCIONAR...";
 
                 if (onlyActive) {{
-                    // Si el renglón no tiene unidades asignadas y sigue en "SELECCIONAR...", se oculta
+                    // Si está en "ACTIVAS", ocultamos las filas vacías y sin selección
                     if (uManual === 0 && (sType === "SELECCIONAR..." || sType === "")) {{
                         r.style.display = 'none';
-                 }} else {{
+                    }} else {{
                         r.style.display = '';
-                        tieneFilasActivas = true; // Esta fila tiene datos válidos
+                        filasVisiblesEnBloque++; // Contamos las que sí se quedan
                     }}
                 }} else {{
-                    // Si presionan "TODAS", restauramos la visualización completa
+                    // Si es "TODAS", mostramos todo el desglose original
                     r.style.display = '';
-                    tieneFilasActivas = true;
+                    filasVisiblesEnBloque++;
                 }}
             }});
 
-            // Control visual del bloque/tabla completa del Polígono
+            // 🔥 CORRECCIÓN DEL ROWSPAN: Ajusta las celdas grandes al número real de filas visibles
+            // Si ocultó todo pero el volumen tiene datos, dejamos mínimo 1 para que no se rompa el diseño
+            let nuevoRowspan = Math.max(1, filasVisiblesEnBloque); 
+            
+            // Buscamos la celda del Nombre del Plan y del Vol. Total (que son las que tienen el rowspan)
+            let celdaPlan = bl.querySelector('tbody tr.calc-row td[rowspan]');
+            let celdaVolumen = bl.querySelector('tbody tr.calc-row .v-total-val');
+            
+            if (celdaPlan) {{ celdaPlan.rowspan = nuevoRowspan; }}
+            if (celdaVolumen) {{ celdaVolumen.rowspan = nuevoRowspan; }}
+
+            // Control visual del bloque completo (Polígono)
             if (onlyActive) {{
-                // Si el Plan viene en 0 de volumen y tampoco se le programó ninguna unidad, ocultamos el bloque entero
-                if (vTotal === 0 && !tieneFilasActivas) {{
+                // Si el plan no tiene volumen Y tampoco le quedaron filas vivas, se esconde por completo
+                if (vTotal === 0 && filasVisiblesEnBloque === 0) {{
                     bl.style.display = 'none';
-            }} else {{
+                }} else {{
                     bl.style.display = '';
                 }}
             }} else {{
-                // Si presionan "TODAS", se muestran absolutamente todos los polígonos
                 bl.style.display = '';
             }}
         }});
