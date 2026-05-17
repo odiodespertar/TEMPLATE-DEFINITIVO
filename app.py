@@ -158,7 +158,7 @@ def gen_poligonos(data_target=None):
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 48px; min-width: 48px; max-width: 48px; flex-shrink: 0;"
     
     # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
-    select_style = "width:100%; border:none; background:transparent; font-weight:600; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
+    select_style = "width:100%; border:none; background:transparent; font-weight:bold !important; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
 
     fila_inner = f'''
     <tr class="calc-row">
