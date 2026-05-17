@@ -341,6 +341,14 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
         .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
 
+
+/* 🔥 EXCLUSIVO: FORZADO ULTRA-NEGRILLA PARA LOS DESPLEGABLES DE UNIDAD */
+        .calc-row select, 
+        .calc-row select option {{
+            font-weight: bold !important;
+            font-weight: 700 !important;
+            color: #333333 !important;
+        }}
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
