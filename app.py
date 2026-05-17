@@ -1329,7 +1329,8 @@ actualizarTotales();
         document.getElementById('calc_wrapper').focus();
     }}
 
-    function filterRows(onlyActive) {{
+
+   function filterRows(onlyActive) {{
         // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
         const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
         rows.forEach(row => {{
@@ -1392,14 +1393,21 @@ actualizarTotales();
                     bl.style.display = 'none';
                 }} else {{
                     bl.style.display = '';
+                    // 👇 ESTE ES EL AJUSTE EXTRA SOLICITADO PARA HACERLO TIPO EXCEL 👇
+                    bl.style.marginBottom = "3px"; // Reduce drásticamente el espacio blanco entre bloques
+                    bl.style.padding = "4px";      // Compacta el aire interno del cuadro gris externo
                 }}
             }} else {{
                 bl.style.display = '';
+                // 👇 RESTAURACIÓN CUANDO REGRESAS A VISTA "TODAS" 👇
+                bl.style.marginBottom = "15px";    // Devuelve el margen normal de tu diseño
+                bl.style.padding = "10px";         // Devuelve el padding original
             }}
         }});
     }}
 
 
+    
     // ==========================================
 // 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
 // ==========================================
