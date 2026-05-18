@@ -486,7 +486,7 @@ html body .meli-table tbody tr:last-child {{
 
 #fleet-float {{
 
-    position: sticky !important;
+    position: fixed !important;
 
     right: 14px !important;
 
