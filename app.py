@@ -158,7 +158,7 @@ def gen_poligonos(data_target=None):
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 48px; min-width: 48px; max-width: 48px; flex-shrink: 0;"
     
     # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
-    select_style = "width:100%; border:none; background:transparent; font-weight:bold !important; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
+    select_style = "width:100%; border:none; background:transparent; font-weight:600; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
 
     fila_inner = f'''
     <tr class="calc-row">
@@ -199,7 +199,7 @@ def gen_poligonos(data_target=None):
                         <th style="border-right: 1px solid rgba(255,255,255,0.2); width: 85px;">VOL. TOTAL</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);"># ASIGNADAS</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(255,255,255,0.2);">SPR REAL</th>
-                        <th style="width: 110px;  min-width: 110px; max-width: 110px; border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
+                        <th style="width: 80px, border-right: 1px solid rgba(255,255,255,0.2);">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
                 </thead>
@@ -341,14 +341,6 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
         .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
 
-
-/* 🔥 EXCLUSIVO: FORZADO ULTRA-NEGRILLA PARA LOS DESPLEGABLES DE UNIDAD */
-        .calc-row select, 
-        .calc-row select option {{
-            font-weight: bold !important;
-            font-weight: 700 !important;
-            color: #333333 !important;
-        }}
         
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
@@ -1337,8 +1329,7 @@ actualizarTotales();
         document.getElementById('calc_wrapper').focus();
     }}
 
-
-   function filterRows(onlyActive) {{
+    function filterRows(onlyActive) {{
         // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
         const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
         rows.forEach(row => {{
@@ -1401,21 +1392,14 @@ actualizarTotales();
                     bl.style.display = 'none';
                 }} else {{
                     bl.style.display = '';
-                    // 👇 ESTE ES EL AJUSTE EXTRA SOLICITADO PARA HACERLO TIPO EXCEL 👇
-                    bl.style.marginBottom = "3px"; // Reduce drásticamente el espacio blanco entre bloques
-                    bl.style.padding = "4px";      // Compacta el aire interno del cuadro gris externo
                 }}
             }} else {{
                 bl.style.display = '';
-                // 👇 RESTAURACIÓN CUANDO REGRESAS A VISTA "TODAS" 👇
-                bl.style.marginBottom = "15px";    // Devuelve el margen normal de tu diseño
-                bl.style.padding = "10px";         // Devuelve el padding original
             }}
         }});
     }}
 
 
-    
     // ==========================================
 // 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
 // ==========================================
@@ -1638,7 +1622,7 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 PARA SDE</strong><br>
-            - 🔷 Revisar si SVC agrega blancos o forms cerca del comienzo del SDE para agergarlos al ciclo<br>
+            - 🔷 Revisar si SVC agrega blancos<br>
             - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa y/o quemada ...validar<br>
             - SPR 30<br>
             - ❌ delimitación / ❌ restricción<br>
