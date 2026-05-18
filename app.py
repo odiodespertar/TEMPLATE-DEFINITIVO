@@ -488,7 +488,7 @@ html body .meli-table tbody tr:last-child {{
 
     position: fixed !important;
 
-    right: 14px !important;
+    right: 14px !important; 
 
     top: 210px !important;
 
