@@ -419,7 +419,20 @@ app_html = f"""
 .filter-btn:active {{
     transform: translateY(4px); 
     box-shadow: none !important;
-}}     
+}}  
+
+
+/* 🔥 NUEVO: Color verde suave cuando la fila de polígono esté completada (OK) */
+        tr.fila-ok {{
+            background-color: #e8f5e9 !important; /* Verde pastel muy limpio */
+            transition: background-color 0.3s ease;
+        }}
+        /* Mantiene el texto y celdas legibles en tonos verdes operativos */
+        tr.fila-ok td {{
+            color: #1b5e20 !important;
+        }}
+        
+
     </style>
     
 </head>
