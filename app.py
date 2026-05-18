@@ -230,7 +230,7 @@ def gen_poligonos(data_target=None):
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #008080;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
-                    <tr style="background:#f8f9fa; height: 32px;">
+                    <tr style="background:#e9f7f7; height: 32px;">
                         <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #008080; font-size: 14px; color:#333;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #008080; text-align: center;">0</td>
                         <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #008080; font-size: 14px;">VACÍO</td>
