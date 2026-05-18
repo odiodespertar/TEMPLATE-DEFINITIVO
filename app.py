@@ -486,11 +486,11 @@ html body .meli-table tbody tr:last-child {{
 
 #fleet-float {{
 
-    position: sticky;
+    position: sticky !important;
 
-    top: 120px;
+    right: 14px !important;
 
-    margin-left: auto;
+    top: 210px !important;
 
     width: 145px;
 
@@ -501,7 +501,7 @@ html body .meli-table tbody tr:last-child {{
 
     padding: 10px 12px;
 
-    z-index: 999;
+    z-index: 999999 !important;
 
     box-shadow: 0 6px 18px rgba(0,0,0,.35);
 
@@ -511,11 +511,10 @@ html body .meli-table tbody tr:last-child {{
 
     backdrop-filter: blur(8px);
 
-    max-height: 70vh;
+    max-height: 65vh;
 
     overflow-y: auto;
 }}
-
 
 /////////////////
 
