@@ -252,15 +252,15 @@ PERFILES = {
         },
 
         "1": {
-            "CAR 8H": {"orh": 84, "disp": 90},
+            "Car - 8h": {"orh": 84, "disp": 90},
         },
 
         "5": {
-            "CAR 8H": {"orh": 86, "disp": 91},
+            "Car - 8h": {"orh": 86, "disp": 91},
         },
 
         "4": {
-            "CAR 8H": {"orh": 87, "disp": 93},
+            "Car - 8h": {"orh": 87, "disp": 93},
         }
     },
 
