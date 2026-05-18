@@ -242,6 +242,54 @@ def gen_poligonos(data_target=None):
     return polys
 
 
+PERFILES = {
+
+    "LUNES": {
+
+        "2": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+            "SV": {"orh": 91, "disp": 95},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 84, "disp": 90},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 86, "disp": 91},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 87, "disp": 93},
+        }
+    },
+
+    "MARTES": {
+
+        "2": {
+            "CAR 8H": {"orh": 90, "disp": 94},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 85, "disp": 91},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 89, "disp": 94},
+        }
+    }
+}
+
+perfil_actual = st.selectbox(
+    "📅 PERFIL OPERATIVO",
+    list(PERFILES.keys())
+)
+
+
 app_html = f"""
 <!DOCTYPE html>
 <html>
