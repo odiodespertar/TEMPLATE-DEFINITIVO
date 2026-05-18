@@ -1638,7 +1638,7 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 PARA SDE</strong><br>
-            - 🔷 Revisar si SVC agrega blancos<br>
+            - 🔷 Revisar si SVC agrega blancos o forms cerca del comienzo del SDE para agergarlos al ciclo<br>
             - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa y/o quemada ...validar<br>
             - SPR 30<br>
             - ❌ delimitación / ❌ restricción<br>
