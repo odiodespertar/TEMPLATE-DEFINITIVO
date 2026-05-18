@@ -1866,13 +1866,14 @@ function distribuirAutomatico() {{
             let faltante = vT - vA;
 
             if (faltante > 1) {{
+                // Obtenemos las filas libres de este polígono para trabajar
                 let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
                     return r.querySelector('.s-type').value === "SELECCIONAR...";
                 }});
 
                 let filaIdx = 0;
 
-                // Barremos los tipos de unidades disponibles
+                // Barremos los tipos de unidades disponibles en la flota
                 for (let key in fleet) {{
                     if (faltante <= 0 || filaIdx >= filasLibres.length) {{ break; }}
 
@@ -1882,42 +1883,39 @@ function distribuirAutomatico() {{
                     let minOficial = minimosFlota[key] || 25;
                     let pisoAceptable = minOficial * 0.75;
 
-                    // Revisamos cuántas unidades completas caben con SPR Máximo
+                    // 1. Calcular cuántas unidades de este tipo caben llenas a su capacidad máxima
                     let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
                     let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
 
-                    // Asignamos las unidades que van llenas (Diseño original restaurado)
-                    for (let i = 0; i < asignoLlenas; i++) {{
-                        if (filaIdx >= filasLibres.length) break;
-                        let r = filasLibres[filaIdx++];
+                    // 🔥 CAMBIO DE LOGÍSTICA: Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
+                    if (asignoLlenas > 0 && filaIdx < filasLibres.length) {{
+                        let r = filasLibres[filaIdx++]; // Usamos una sola fila para este tipo
                         
                         let sSelect = r.querySelector('.s-type');
                         let uManual = r.querySelector('.u-manual');
                         let spReal = r.querySelector('.spr-real-val');
 
                         sSelect.value = key;
-                        uManual.innerText = 1;
-                        spReal.innerText = unidad.max;
+                        uManual.innerText = asignoLlenas; // Ponemos la cantidad total acumulada (ej. 3)
+                        spReal.innerText = unidad.max; // El SPR se queda fijo en su capacidad máxima
 
-                        // Restauración de tus estilos originales de texto y colores
                         spReal.style.color = "#008B8B"; 
                         spReal.style.fontWeight = "bold";
 
-                        unidad.stock -= 1;
-                        faltante -= unidad.max;
+                        unidad.stock -= asignoLlenas;
+                        faltante -= (asignoLlenas * unidad.max);
                         editedRowsPlan.add(r);
                     }}
 
-                    // Si todavía sobra volumen suelto (residuo menor al MAX de la unidad)
+                    // 2. Si todavía queda un residuo suelto menor al max de la unidad
                     if (faltante > 0 && unidad.stock > 0 && filaIdx < filasLibres.length) {{
                         let residuo = faltante;
                         
-                        // Validación de último recurso
                         let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
                         let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
 
                         if (residuo >= pisoAceptable || esUltimaOpcion) {{
-                            let r = filasLibres[filaIdx++];
+                            let r = filasLibres[filaIdx++]; // Usamos otra fila (o la siguiente disponible) para el residuo
                             
                             let sSelect = r.querySelector('.s-type');
                             let uManual = r.querySelector('.u-manual');
@@ -1929,7 +1927,6 @@ function distribuirAutomatico() {{
                             let sprFinal = Math.min(residuo, unidad.max);
                             spReal.innerText = Math.round(sprFinal * 10) / 10;
 
-                            // Restauración de tus estilos originales de texto y colores
                             spReal.style.color = "#008B8B"; 
                             spReal.style.fontWeight = "bold";
 
@@ -1941,7 +1938,7 @@ function distribuirAutomatico() {{
                 }}
             }}
         }});
-        // Ejecutar tu recálculo nativo
+        // Recalcular indicadores de pantalla
         recalc();
     }}
     
