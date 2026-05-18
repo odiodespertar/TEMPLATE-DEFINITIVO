@@ -497,20 +497,18 @@ html body .meli-table tbody tr:last-child {{
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
-<div style=" display: flex; gap: 20px; align-items: flex-start; height: 92vh;">
+<div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
-<!-- COLUMNA IZQUIERDA -->
-<div style=" flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 92vh; padding-right: 16px; border-right: 3px solid #d9d9d9; ">
-    
-        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
-    </div>
 
     <!-- COLUMNA DERECHA --> 
-<div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
+
+
+<!-- PANEL SUPERIOR -->
+<div style="
+    width:100%;
+    padding:0;
+    margin-bottom:10px;
+">
 
         <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
@@ -1078,8 +1076,28 @@ style="text-align:center; color:#00BFFF;">
 </div>
 
 
+<!-- COLUMNA IZQUIERDA -->
+
+
+<!-- PLANNERS -->
+<div style="
+    width:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+">
+
+    
+        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
+        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
+        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+    </div>
+
 
 <script>
+
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
