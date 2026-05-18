@@ -260,7 +260,7 @@ PERFILES = {
         },
 
         "4": {
-            "Car - 8h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 87, "disp": 93},
         }
     },
 
