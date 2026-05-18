@@ -1144,17 +1144,17 @@ style="text-align:center; color:#00BFFF;">
 
 
     
-    function updateFleetFloat() {
+    function updateFleetFloat() {{
 
     let html = "";
 
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
 
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
 
-        if(name && stock > 0){
+        if(name && stock > 0){{
 
             let color = left <= 0
                 ? "#ff6b6b"
@@ -1176,11 +1176,11 @@ style="text-align:center; color:#00BFFF;">
                     </span>
                 </div>
             `;
-        }
-    });
+        }}
+    }});
 
     document.getElementById('fleet-float-body').innerHTML = html;
-}
+}}
 
 
 
