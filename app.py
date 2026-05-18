@@ -195,7 +195,7 @@ def gen_poligonos(data_target=None):
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: white; border: 1.5px solid #000000;">           
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
-                    <tr style="background: linear-gradient(180deg, #000000, #000000); color: white; font-size: 12px; height: 36px;">                        
+                    <tr style="background: #000000; color: white; font-size: 12px; height: 28px;">                        
                         <th style="padding: 0 10px; border-right: 1px solid rgba(#000000);">PLAN</th>
                         <th style="border-right: 1px solid rgba(#000000); width: 85px;">VOL. TOTAL</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#000000);"># ASIGNADAS</th>
