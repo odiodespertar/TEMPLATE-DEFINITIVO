@@ -3,14 +3,34 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
-# CSS para diseño limpio
+
+
+# CSS para diseño limpio y adaptación automática para pantalla dividida
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #f5f7f9; }
+
+    /* 🔥 TRUCO MÁGICO: Si la pantalla se achica a la mitad, acomoda todo verticalmente */
+    @media (max-width: 1000px) {
+        .monitor-container {
+            flex-direction: column !important;
+            height: auto !important;
+            overflow-y: visible !important;
+        }
+        .col-izquierda, .col-derecha {
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: none !important;
+            border-right: none !important;
+            overflow-y: visible !important;
+            padding-right: 0 !important;
+        }
+    }
     </style>
 """, unsafe_allow_html=True)
+
 
 # --- DATOS BASE ---
 u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
