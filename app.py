@@ -210,7 +210,7 @@ def gen_poligonos(data_target=None):
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #000000; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #000000; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
-                                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
@@ -2015,7 +2015,7 @@ info_operativa = {
 
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
-        <hr style='border: 1px solid #808080; margin-bottom: 20px;'>
+        <hr style='border: 1px solid #808080; margin-bottom: 20px;'> 
 
 
         
