@@ -636,26 +636,26 @@ html body .meli-table tbody tr:last-child {{
 
     top: 210px !important;
 
-    width: 145px;
+    width: 200px;
 
     background: rgba(20,20,20,0.96);
     color: white;
 
     border-radius: 14px;
 
-    padding: 10px 12px;
+    padding: 14px 16px;
 
     z-index: 999999 !important;
 
     box-shadow: 0 6px 18px rgba(0,0,0,.35);
 
-    font-size: 10px;
+    font-size: 12px;
 
     border: 1px solid rgba(255,255,255,.08);
 
     backdrop-filter: blur(8px);
 
-    max-height: 65vh;
+    max-height: 75vh;
 
     overflow-y: auto;
 }}
