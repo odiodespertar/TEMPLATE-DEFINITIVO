@@ -192,7 +192,7 @@ def gen_poligonos(data_target=None):
             nombre_final = f"PLAN {i}"
 
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: white; border: 1.5px solid #008080;">           
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #e9f7f7; border: 1.5px solid #008080;">           
             <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #008080;">
                 <thead>
                     <tr style="background: #008080; color: white; font-size: 12px; height: 28px;">                        
@@ -206,7 +206,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #008080; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" style="background: #e9f7f7; font-weight:bold; text-align:center; border: 1px solid #008080; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #008080; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #008080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
