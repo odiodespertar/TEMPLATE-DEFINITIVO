@@ -1883,62 +1883,62 @@ function distribuirAutomatico() {{
                     let minOficial = minimosFlota[key] || 25;
                     let pisoAceptable = minOficial * 0.75;
 
-                    // 1. Calcular cuántas unidades de este tipo caben llenas a su capacidad máxima
+                    let totalAsignadasDeEsteTipo = 0;
+                    let volumenAsignadoDeEsteTipo = 0;
+
+                    // 1. Ver cuántas unidades completas al MAX podemos meter
                     let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
                     let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
 
-                    // 🔥 CAMBIO DE LOGÍSTICA: Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
-                    if (asignoLlenas > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++]; // Usamos una sola fila para este tipo
+                    if (asignoLlenas > 0) {{
+                        totalAsignadasDeEsteTipo += asignoLlenas;
+                        volumenAsignadoDeEsteTipo += (asignoLlenas * unidad.max);
+                        unidad.stock -= asignoLlenas;
+                        faltante -= (asignoLlenas * unidad.max);
+                    }}
+
+                    // 2. Revisar si lo que sobra (residuo) se lo damos a una unidad extra de este mismo tipo
+                    if (faltante > 0 && unidad.stock > 0) {{
+                        let residuo = faltante;
+                        
+                        let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
+                        let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
+
+                        // Si el residuo pasa el filtro operativo, sumamos una unidad más de este mismo tipo
+                        if (residuo >= pisoAceptable || esUltimaOpcion) {{
+                            let sprResiduo = Math.min(residuo, unidad.max);
+                            
+                            totalAsignadasDeEsteTipo += 1;
+                            volumenAsignadoDeEsteTipo += sprResiduo;
+                            unidad.stock -= 1;
+                            faltante -= sprResiduo;
+                        }}
+                    }}
+
+                    // 🔥 AQUÍ ESTÁ LA MAGIA: Si este tipo de unidad aportó algo, se escribe todo en UNA SOLA FILA
+                    if (totalAsignadasDeEsteTipo > 0 && filaIdx < filasLibres.length) {{
+                        let r = filasLibres[filaIdx++]; // Consumimos sólo una fila del polígono
                         
                         let sSelect = r.querySelector('.s-type');
                         let uManual = r.querySelector('.u-manual');
                         let spReal = r.querySelector('.spr-real-val');
 
                         sSelect.value = key;
-                        uManual.innerText = asignoLlenas; // Ponemos la cantidad total acumulada (ej. 3)
-                        spReal.innerText = unidad.max; // El SPR se queda fijo en su capacidad máxima
+                        uManual.innerText = totalAsignadasDeEsteTipo; // Ej: 2 o 3 juntas
+                        
+                        // El SPR real final de la fila es el promedio del volumen distribuido entre las unidades usadas
+                        let sprPromedio = volumenAsignadoDeEsteTipo / totalAsignadasDeEsteTipo;
+                        spReal.innerText = Math.round(sprPromedio * 10) / 10;
 
                         spReal.style.color = "#008B8B"; 
                         spReal.style.fontWeight = "bold";
 
-                        unidad.stock -= asignoLlenas;
-                        faltante -= (asignoLlenas * unidad.max);
                         editedRowsPlan.add(r);
-                    }}
-
-                    // 2. Si todavía queda un residuo suelto menor al max de la unidad
-                    if (faltante > 0 && unidad.stock > 0 && filaIdx < filasLibres.length) {{
-                        let residuo = faltante;
-                        
-                        let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
-                        let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
-
-                        if (residuo >= pisoAceptable || esUltimaOpcion) {{
-                            let r = filasLibres[filaIdx++]; // Usamos otra fila (o la siguiente disponible) para el residuo
-                            
-                            let sSelect = r.querySelector('.s-type');
-                            let uManual = r.querySelector('.u-manual');
-                            let spReal = r.querySelector('.spr-real-val');
-
-                            sSelect.value = key;
-                            uManual.innerText = 1;
-                            
-                            let sprFinal = Math.min(residuo, unidad.max);
-                            spReal.innerText = Math.round(sprFinal * 10) / 10;
-
-                            spReal.style.color = "#008B8B"; 
-                            spReal.style.fontWeight = "bold";
-
-                            unidad.stock -= 1;
-                            faltante -= sprFinal;
-                            editedRowsPlan.add(r);
-                        }}
                     }}
                 }}
             }}
         }});
-        // Recalcular indicadores de pantalla
+        // Recalcular indicadores visuales en la pantalla
         recalc();
     }}
     
