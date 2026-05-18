@@ -481,6 +481,31 @@ html body .meli-table tbody tr:last-child {{
     vertical-align: middle !important;
 }}
 
+
+/* Contador flotante*/
+
+#fleet-float {{
+    position: fixed;
+    right: 12px;
+    bottom: 15px;
+
+    width: 180px;
+    max-height: 320px;
+    overflow-y: auto;
+
+    background: rgba(25,25,25,0.95);
+    color: white;
+
+    border-radius: 12px;
+    padding: 10px;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.35);
+    font-size: 11px;
+}}
+
+
 /////////////////
 
 /* Agrégalo al final de tu sección <style> */
@@ -1095,6 +1120,18 @@ style="text-align:center; color:#00BFFF;">
     </div>
 
 
+<!-- CONTADOR FLOTANTE -->
+<div id="fleet-float">
+    <div style="font-weight:bold; margin-bottom:8px;">
+        🚚 DISPONIBLE
+    </div>
+
+    <div id="fleet-float-body">
+        Cargando...
+    </div>
+</div>
+
+
 <script>
 
 
@@ -1104,6 +1141,48 @@ style="text-align:center; color:#00BFFF;">
     let chronoInterval;
     let startTime;
     let elapsedTime = 0;
+
+
+    
+    function updateFleetFloat() {
+
+    let html = "";
+
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
+
+        let name = row.querySelector('.edit-name')?.innerText.trim();
+        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+
+        if(name && stock > 0){
+
+            let color = left <= 0
+                ? "#ff6b6b"
+                : "#00ff99";
+
+            html += `
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    margin-bottom:4px;
+                ">
+                    <span>${name}</span>
+
+                    <span style="
+                        color:${color};
+                        font-weight:bold;
+                    ">
+                        ${left}/${stock}
+                    </span>
+                </div>
+            `;
+        }
+    });
+
+    document.getElementById('fleet-float-body').innerHTML = html;
+}
+
+
 
     function showTab(n, btn) {{
         currentTab = n;
@@ -1123,6 +1202,9 @@ style="text-align:center; color:#00BFFF;">
     btn.classList.add('active');
     
     recalc();
+
+    updateFleetFloat();
+    
     }}
 
 
@@ -1325,6 +1407,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }});
         }});
 
+updateFleetFloat();
+
 actualizarTotales();
     }}
 
@@ -1340,6 +1424,8 @@ actualizarTotales();
             }}
         }}
     }});
+
+
 
 
     
