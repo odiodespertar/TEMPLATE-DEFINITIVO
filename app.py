@@ -206,23 +206,23 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #808080; padding: 5px; color:#333;">{nombre_final}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #808080; padding: 5px;">0</td>
-                        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #808080; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                        <td rowspan="5" contenteditable="true" style="background: #f0f0f0; font-weight:bold; text-align:center; border: 1px solid #000000; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #000000; padding: 5px;">0</td>
+                        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #000000; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #808080; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #000000; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                             </div>
                         </td>
-                        <td style="border: 0.5px solid #808080; padding: 2px;">
+                        <td style="border: 0.5px solid #000000; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="{select_style}">
                                 <option>SELECCIONAR...</option>
                             </select>
@@ -231,10 +231,10 @@ def gen_poligonos(data_target=None):
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                     <tr style="background:#f8f9fa; height: 32px;">
-                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #808080; font-size: 14px; color:#333;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #808080; text-align: center;">0</td>
-                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #808080; font-size: 14px;">VACÍO</td>
-                        <td style="width: 45px; min-width: 45px; max-width: 45px; border: 1px solid #808080; background: #FFFFFF;"></td>
+                        <td colspan="2" style="text-align:center; font-weight:bold; border: 1px solid #000000; font-size: 14px; color:#333;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #000000; text-align: center;">0</td>
+                        <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #000000; font-size: 14px;">VACÍO</td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; border: 1px solid #000000; background: #FFFFFF;"></td>
                     </tr>
                 </tbody>
             </table>
