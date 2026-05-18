@@ -247,7 +247,7 @@ PERFILES = {
     "LUNES": {
 
         "2": {
-            "CAR 8H": {"orh": 88, "disp": 92},
+            "Car - 8h": {"orh": 88, "disp": 92},
             "SV": {"orh": 91, "disp": 95},
         },
 
