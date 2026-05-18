@@ -1822,6 +1822,12 @@ function distribuirAutomatico() {{
         let fleet = {{}};
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
 
+        // Diccionario de mínimos oficiales
+        const minimosFlota = {{
+            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
+            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
+        }};
+
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let ma = row.querySelector('.edit-spr-max');
@@ -1854,6 +1860,16 @@ function distribuirAutomatico() {{
                         let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
                         if (key) {{
                             let unidad = fleet[key];
+                            
+                            // 💡 CRITERIO LOGÍSTICO: Tolerancia del 75% del mínimo. 
+                            // Si el faltante es menor al piso aceptable, no asigna para no quemar la unidad.
+                            let minOficial = minimosFlota[key] || 25;
+                            let pisoAceptable = minOficial * 0.75; 
+
+                            if (faltante < pisoAceptable) {{
+                                return; // Salta la unidad porque el volumen es absurdamente bajo
+                            }}
+
                             let necesito = Math.ceil(faltante / unidad.max);
                             let asigno = Math.min(necesito, unidad.stock);
                             
@@ -1861,13 +1877,11 @@ function distribuirAutomatico() {{
                                 s.value = key;
                                 u.innerText = asigno;
                                 
-                                // --- NUEVO: AJUSTE AUTOMÁTICO DE SPR ---
-                                // Dividimos el faltante entre las unidades asignadas
                                 let sprSugerido = (faltante / asigno);
-                                // Si el sugerido es menor al máximo, lo bajamos; si no, usamos el máximo
+                                
+                                // El SPR final se ajusta al faltante, pero si baja del mínimo oficial se queda con el sugerido real
                                 let sprFinal = Math.min(sprSugerido, unidad.max);
                                 
-                                // Redondeamos a 1 decimal para que no se vea feo
                                 sp.innerText = Math.round(sprFinal * 10) / 10;
                                 
                                 unidad.stock -= asigno;
