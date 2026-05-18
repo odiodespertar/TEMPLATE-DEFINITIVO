@@ -177,10 +177,10 @@ def gen_poligonos(data_target=None):
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #808080; padding: 2px;">
+        <td style="border: 0.5px solid #000000; padding: 2px;">
             <select class="s-type" onchange="resetRow(this)" style="{select_style}"><option>SELECCIONAR...</option></select>
         </td>
-        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #808080;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #000000;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
     for i in range(1, 11):
