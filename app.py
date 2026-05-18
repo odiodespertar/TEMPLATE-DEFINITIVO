@@ -1235,7 +1235,7 @@ style="text-align:center; color:#00BFFF;">
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool" style="
                 /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
-                background: linear-gradient(135deg, #D3D3D3 0%, #DCDCDC 100%) !important;
+                background: linear-gradient(135deg, #f2f2f2 0%, #ffffff 100%) !important;
                 padding: 15px;
                 border-radius: 10px;
             ">
