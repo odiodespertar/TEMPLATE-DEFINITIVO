@@ -485,24 +485,33 @@ html body .meli-table tbody tr:last-child {{
 /* Contador flotante*/
 
 #fleet-float {{
-    position: fixed;
-    right: 12px;
-    bottom: 15px;
+    position: fixed !important;
+
+    right: 15px !important;
+    top: 80px !important;
 
     width: 180px;
-    max-height: 320px;
-    overflow-y: auto;
 
-    background: rgba(25,25,25,0.95);
+    background: rgba(20,20,20,0.96);
     color: white;
 
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 14px;
 
-    z-index: 9999;
+    padding: 10px 12px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,.35);
+    z-index: 999999 !important;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+
     font-size: 11px;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    backdrop-filter: blur(8px);
+
+    max-height: 70vh;
+
+    overflow-y: auto;
 }}
 
 
