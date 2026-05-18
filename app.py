@@ -1727,7 +1727,7 @@ actualizarTotales();
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #A9A9A9 0%, #808080 100%)'; 
-            boton.style.boxShadow = '0 3px 0 #0e524e';
+            boton.style.boxShadow = '0 3px 0 #808080';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; 
