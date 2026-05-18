@@ -1524,9 +1524,9 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 if (diffVal === Math.round(vT)) {{
                     d.innerText = "OK"; d.style.background = "#3CB371"; vCalcEl.style.color = "#20B2AA";
                 }} else if (vA > vT) {{
-                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#ffe4b5"; vCalcEl.style.color = "#d32f2f";
+                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; vCalcEl.style.color = "#d32f2f";
                 }} else {{
-                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#f7cdd1"; vCalcEl.style.color = "#d32f2f";
+                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; vCalcEl.style.color = "#d32f2f";
                 }}
             }}
         }});
