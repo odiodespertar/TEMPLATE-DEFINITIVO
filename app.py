@@ -1151,12 +1151,17 @@ style="text-align:center; color:#00BFFF;">
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
 
         let name = row.querySelector('.edit-name')?.innerText.trim();
-        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+
+        let stock =
+            parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+
+        let left =
+            parseInt(row.querySelector('.f-left')?.innerText) || 0;
 
         if(name && stock > 0){{
 
-            let color = left <= 0
+            let color =
+                left <= 0
                 ? "#ff6b6b"
                 : "#00ff99";
 
@@ -1166,14 +1171,16 @@ style="text-align:center; color:#00BFFF;">
                     justify-content:space-between;
                     margin-bottom:4px;
                 ">
-                    <span>${name}</span>
+
+                    <span>${{name}}</span>
 
                     <span style="
-                        color:${color};
+                        color:${{color}};
                         font-weight:bold;
                     ">
-                        ${left}/${stock}
+                        ${{left}}/${{stock}}
                     </span>
+
                 </div>
             `;
         }}
@@ -1181,7 +1188,6 @@ style="text-align:center; color:#00BFFF;">
 
     document.getElementById('fleet-float-body').innerHTML = html;
 }}
-
 
 
     function showTab(n, btn) {{
