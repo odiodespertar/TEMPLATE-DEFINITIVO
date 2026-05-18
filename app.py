@@ -515,24 +515,18 @@ html body .meli-table tbody tr:last-child {{
 </head>
 <body>
 
+
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
-<div style=" display: flex; gap: 20px; align-items: flex-start; height: 92vh;">
+<div style="display: flex; flex-direction: column; gap: 25px; width: 100%; padding: 5px; box-sizing: border-box;">
 
-<!-- COLUMNA IZQUIERDA -->
-<div style=" flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 92vh; padding-right: 16px; border-right: 3px solid #d9d9d9; ">
-    
-        <div style="background: #696969; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
-    </div>
+    <div style="width: 100%; background: #ffffff; border: 1px solid #808080; border-radius: 12px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        
+        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 15px; font-size: 14px; letter-spacing: 1px;">
+            🚚 🚚 DISPONIBILIDAD DE FLOTA & RESTRICCIONES 🚛 🚛
+        </div>
 
-    <!-- COLUMNA DERECHA --> 
-<div style=" width: 450px; min-width: 450px; padding-left: 10px; ">
-
-        <div style="background: #000; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+        
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
