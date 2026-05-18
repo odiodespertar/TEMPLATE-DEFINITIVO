@@ -1835,12 +1835,13 @@ function distribuirAutomatico() {{
         let fleet = {{}};
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
 
-        // Diccionario de mínimos oficiales
+        // Diccionario de mínimos oficiales para alertas y validaciones
         const minimosFlota = {{
             "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
             "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
         }};
 
+        // 1. Cargar la flota disponible desde la tabla superior de SCHED
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name').innerText.trim();
             let ma = row.querySelector('.edit-spr-max');
@@ -1858,59 +1859,75 @@ function distribuirAutomatico() {{
             return;
         }}
 
+        // 2. Recorrer cada bloque de polígono para distribuir el volumen faltante
         document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
 
-            if (faltante > 1) {{
-                bl.querySelectorAll('.calc-row').forEach(r => {{
-                    let s = r.querySelector('.s-type');
-                    let u = r.querySelector('.u-manual');
-                    let sp = r.querySelector('.spr-real-val');
-
-                    if (s.value === "SELECCIONAR..." && faltante > 0) {{
-                        // Buscamos las unidades que todavía tienen stock disponible en la flota
-                        let unidadesDisponibles = Object.keys(fleet).filter(k => fleet[k].stock > 0);
-                        
-                        if (unidadesDisponibles.length > 0) {{
-                            // Tomamos la primera opción
-                            let key = unidadesDisponibles[0];
-                            let unidad = fleet[key];
-                            
-                            let minOficial = minimosFlota[key] || 25;
-                            let pisoAceptable = minOficial * 0.75; 
-
-                            // 🔥 EXCEPCIÓN DE ÚLTIMO RECURSO:
-                            // Si el faltante es menor al piso aceptable, PERO ya es la ÚNICA unidad que nos queda en SCHED (unidadesDisponibles.length === 1),
-                            // ignoramos el candado y la asignamos para salvar el volumen restante.
-                            let esUltimaOpcion = (unidadesDisponibles.length === 1);
-
-                            if (faltante < pisoAceptable && !esUltimaOpcion) {{
-                                return; // Se la salta sólo si hay más opciones en camino
-                            }}
-
-                            let necesito = Math.ceil(faltante / unidad.max);
-                            let asigno = Math.min(necesito, unidad.stock);
-                            
-                            if (asigno > 0) {{
-                                s.value = key;
-                                u.innerText = asigno;
-                                
-                                let sprSugerido = (faltante / asigno);
-                                let sprFinal = Math.min(sprSugerido, unidad.max);
-                                
-                                sp.innerText = Math.round(sprFinal * 10) / 10;
-                                
-                                unidad.stock -= asigno;
-                                faltante -= (asigno * sprFinal);
-                                editedRowsPlan.add(r); 
-                            }}
-                        }} 
-                    }}
+            if (faltante > 1) {
+                // Obtenemos las filas editables de este polígono que estén libres ("SELECCIONAR...")
+                let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
+                    return r.querySelector('.s-type').value === "SELECCIONAR...";
                 }});
+
+                let filaIdx = 0;
+
+                // Barremos los tipos de unidades disponibles en la flota
+                for (let key in fleet) {{
+                    if (faltante <= 0 || filaIdx >= filasLibres.length) break;
+
+                    let unidad = fleet[key];
+                    if (unidad.stock <= 0) continue;
+
+                    let minOficial = minimosFlota[key] || 25;
+                    let pisoAceptable = minOficial * 0.75;
+
+                    // Revisamos cuántas unidades completas caben con SPR Máximo
+                    let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
+                    let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
+
+                    // Asignamos las unidades que van al 100% de capacidad
+                    for (let i = 0; i < asignoLlenas; i++) {{
+                        if (filaIdx >= filasLibres.length) break;
+                        let r = filasLibres[filaIdx++];
+                        
+                        r.querySelector('.s-type').value = key;
+                        r.querySelector('.u-manual').innerText = 1;
+                        r.querySelector('.spr-real-val').innerText = unidad.max;
+
+                        unidad.stock -= 1;
+                        faltante -= unidad.max;
+                        editedRowsPlan.add(r);
+                    }}
+
+                    // Si todavía sobra volumen suelto (un residuo menor a la capacidad máx de la unidad)
+                    if (faltante > 0 && unidad.stock > 0 && filaIdx < filasLibres.length) {{
+                        let residuo = faltante;
+                        
+                        // Validamos si el residuo cumple el criterio operativo (piso aceptable o última opción de la flota)
+                        let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
+                        let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
+
+                        if (residuo >= pisoAceptable || esUltimaOpcion) {{
+                            let r = filasLibres[filaIdx++];
+                            
+                            r.querySelector('.s-type').value = key;
+                            r.querySelector('.u-manual').innerText = 1;
+                            
+                            // El SPR se ajusta al residuo exacto, sin inflar unidades de más
+                            let sprFinal = Math.min(residuo, unidad.max);
+                            r.querySelector('.spr-real-val').innerText = Math.round(sprFinal * 10) / 10;
+
+                            unidad.stock -= 1;
+                            faltante -= sprFinal;
+                            editedRowsPlan.add(r);
+                        }}
+                    }}
+                }}
             }}
         }});
+        // Ejecutar recálculo general de totales y colores en la vista
         recalc();
     }}
     
