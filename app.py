@@ -1144,6 +1144,8 @@ style="text-align:center; color:#00BFFF;">
 
 <script>
 
+    const perfiles = {json.dumps(PERFILES)};
+    const perfilActual = "{perfil_actual}";
 
     let currentTab = 2;
     let editedRowsPlan = new Set();
@@ -1153,7 +1155,45 @@ style="text-align:center; color:#00BFFF;">
     let elapsedTime = 0;
 
 
-    
+    function aplicarPerfil() {{
+
+    let perfil = perfiles[perfilActual];
+
+    if(!perfil) return;
+
+    Object.keys(perfil).forEach(tabId => {{
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+
+            let unidad =
+                row.querySelector('.edit-name')?.innerText.trim();
+
+            if(perfil[tabId][unidad]) {{
+
+                let data = perfil[tabId][unidad];
+
+                let orh =
+                    row.querySelectorAll('td')[4];
+
+                let disp =
+                    row.querySelectorAll('td')[5];
+
+                if(orh)
+                    orh.innerText = data.orh;
+
+                if(disp)
+                    disp.innerText = data.disp;
+            }}
+        }});
+    }});
+
+    recalc();
+}}
+
+
+
+
+
     function updateFleetFloat() {{
 
     let html = "";
@@ -1706,6 +1746,9 @@ function actualizarTotales() {{
         if (noCarCell) noCarCell.innerText = totalNoCar;
         if (carCell) carCell.innerText = totalCarReal;
     }}
+
+
+aplicarPerfil();
 
     
     recalc();
