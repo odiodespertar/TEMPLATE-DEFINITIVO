@@ -1870,17 +1870,24 @@ function distribuirAutomatico() {{
                     let sp = r.querySelector('.spr-real-val');
 
                     if (s.value === "SELECCIONAR..." && faltante > 0) {{
-                        let key = Object.keys(fleet).find(k => fleet[k].stock > 0);
-                        if (key) {{
+                        // Buscamos las unidades que todavía tienen stock disponible en la flota
+                        let unidadesDisponibles = Object.keys(fleet).filter(k => fleet[k].stock > 0);
+                        
+                        if (unidadesDisponibles.length > 0) {{
+                            // Tomamos la primera opción
+                            let key = unidadesDisponibles[0];
                             let unidad = fleet[key];
                             
-                            // 💡 CRITERIO LOGÍSTICO: Tolerancia del 75% del mínimo. 
-                            // Si el faltante es menor al piso aceptable, no asigna para no quemar la unidad.
                             let minOficial = minimosFlota[key] || 25;
                             let pisoAceptable = minOficial * 0.75; 
 
-                            if (faltante < pisoAceptable) {{
-                                return; // Salta la unidad porque el volumen es absurdamente bajo
+                            // 🔥 EXCEPCIÓN DE ÚLTIMO RECURSO:
+                            // Si el faltante es menor al piso aceptable, PERO ya es la ÚNICA unidad que nos queda en SCHED (unidadesDisponibles.length === 1),
+                            // ignoramos el candado y la asignamos para salvar el volumen restante.
+                            let esUltimaOpcion = (unidadesDisponibles.length === 1);
+
+                            if (faltante < pisoAceptable && !esUltimaOpcion) {{
+                                return; // Se la salta sólo si hay más opciones en camino
                             }}
 
                             let necesito = Math.ceil(faltante / unidad.max);
@@ -1891,8 +1898,6 @@ function distribuirAutomatico() {{
                                 u.innerText = asigno;
                                 
                                 let sprSugerido = (faltante / asigno);
-                                
-                                // El SPR final se ajusta al faltante, pero si baja del mínimo oficial se queda con el sugerido real
                                 let sprFinal = Math.min(sprSugerido, unidad.max);
                                 
                                 sp.innerText = Math.round(sprFinal * 10) / 10;
@@ -1908,7 +1913,7 @@ function distribuirAutomatico() {{
         }});
         recalc();
     }}
-
+    
 
 
 // =========================
