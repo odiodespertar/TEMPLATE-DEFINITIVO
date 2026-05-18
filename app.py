@@ -1502,16 +1502,16 @@ if (delta > 0 && left <= 0 && esCAR) {{
             let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
 
-            bl.querySelectorAll('.calc-row').forEach(r => {
+           bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 
                 // Diccionario interno de mínimos oficiales para el freno operativo
-                const minimosFlota = {
+                const minimosFlota = {{
                     "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
                     "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-                };
+                }};
 
-                if(s !== "SELECCIONAR..." && fleet[s]) {
+                if(s !== "SELECCIONAR..." && fleet[s]) {{
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
                     fleet[s].used += u; 
                     
@@ -1520,23 +1520,24 @@ if (delta > 0 && left <= 0 && esCAR) {{
                     sp.style.fontWeight = "bold";
 
                     // 🔥 CANDADO DE SEGURIDAD: Validar si hay unidades y el SPR cayó por debajo del mínimo
-                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {
+                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
                         sp.style.setProperty("background-color", "#ffcccc", "important"); // Alerta roja
                         sp.style.setProperty("color", "#cc0000", "important");
-                        sp.title = `⚠️ Operación inválida: El mínimo para ${s} es de ${minimosFlota[s]} paquetes.`;
-                    } else {
+                        sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
+                    }} else {{
                         // Estilo normal de cálculo
                         sp.style.setProperty("background-color", "#FFFFFF");
                         sp.style.setProperty("color", "#008B8B");
                         sp.title = "";
-                    }
-                } else {
+                    }}
+                }} else {{
                     sp.style.color = "#969696"; 
                     sp.style.fontWeight = "normal";   
                     sp.style.setProperty("background-color", "#FFFFFF");
                     sp.title = "";
-                }
-            });
+                }}
+            }});
+
 
 
             vCalcEl.innerText = Math.round(vA);
