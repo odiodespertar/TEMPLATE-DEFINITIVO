@@ -1317,10 +1317,10 @@ style="text-align:center; color:#00BFFF;">
                 let data = perfil[tabId][unidad];
 
                 let orh =
-                    row.querySelectorAll('td')[4];
+                    row.querySelector('.edit-orh');
 
                 let disp =
-                    row.querySelectorAll('td')[5];
+                    row.querySelector('.edit-ocup');
 
                 if(orh)
                     orh.innerText = data.orh;
