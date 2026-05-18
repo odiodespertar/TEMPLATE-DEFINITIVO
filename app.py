@@ -1865,7 +1865,7 @@ function distribuirAutomatico() {{
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
 
-            if (faltante > 1) {
+            if (faltante > 1) {{
                 // Obtenemos las filas editables de este polígono que estén libres ("SELECCIONAR...")
                 let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
                     return r.querySelector('.s-type').value === "SELECCIONAR...";
@@ -1875,7 +1875,8 @@ function distribuirAutomatico() {{
 
                 // Barremos los tipos de unidades disponibles en la flota
                 for (let key in fleet) {{
-                    if (faltante <= 0 || filaIdx >= filasLibres.length) break;
+                    // 🔥 CORREGIDO: Llaves dobles aquí para que Python f-string no falle
+                    if (faltante <= 0 || filaIdx >= filasLibres.length) {{ break; }}
 
                     let unidad = fleet[key];
                     if (unidad.stock <= 0) continue;
@@ -1927,9 +1928,6 @@ function distribuirAutomatico() {{
                 }}
             }}
         }});
-        // Ejecutar recálculo general de totales y colores en la vista
-        recalc();
-    }}
     
 
 
