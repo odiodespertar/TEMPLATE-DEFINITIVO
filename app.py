@@ -192,7 +192,7 @@ def gen_poligonos(data_target=None):
             nombre_final = f"PLAN {i}"
 
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #e9f7f7; border: 1.5px solid #000000;">           
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #DCDCDC; border: 1.5px solid #000000;">           
             <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000;">
                 <thead>
                     <tr style="background: #000000; color: white; font-size: 12px; height: 28px;">                        
@@ -206,7 +206,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #e9f7f7; font-weight:bold; text-align:center; border: 1px solid #000000; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" style="background: #DCDCDC; font-weight:bold; text-align:center; border: 1px solid #000000; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #000000; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #000000; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
@@ -230,7 +230,7 @@ def gen_poligonos(data_target=None):
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #000000;"><input type="checkbox" class="ok-check" style="transform: scale(1.2); accent-color: #FF00FF; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
-                     <tr style="background:#e9f7f7; height: 32px;">
+                     <tr style="background:#DCDCDC; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #000000; font-size: 14px; color:#333;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #000000; text-align: center;">0</td>
                         <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #000000; font-size: 14px;">VACÍO</td>
@@ -1266,7 +1266,7 @@ style="text-align:center; color:#00BFFF;">
 ">
 
     
-        <div style="background: #008080; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div style="background: #000000; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
