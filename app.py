@@ -719,7 +719,7 @@ html body .meli-table tbody tr:last-child {{
             font-size:14px;
             padding:12px;
             background:linear-gradient(180deg, #F4A460 0%, #F4A460 100%);
-            color: #ffffff;
+            color: #808080;
             user-select:none;
         ">
             📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
