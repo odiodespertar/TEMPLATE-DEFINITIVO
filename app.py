@@ -1754,7 +1754,7 @@ html(app_html, height=1200, scrolling=True)
 # MÓDULO INDEPENDIENTE: CONSULTA DE SUMMARY (ORH / % OCUPACIÓN)
 # =====================================================================
 st.write("---")
-st.markdown("### 📋 CONSULTA DE SUMMARY (ORH / % OCC)")
+st.markdown("### 📋 CONSULTA DE SUMMARY (ORH / % )")
 
 DATA_PERFILES_DIARIOS = {
     "LUNES": {
