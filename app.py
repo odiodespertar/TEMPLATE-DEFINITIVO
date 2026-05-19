@@ -1843,7 +1843,9 @@ function distribuirAutomatico() {{
 
         // 1. Cargar la flota disponible desde la tabla de SCHED
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
+            let nameEl = row.querySelector('.edit-name');
+            if (!nameEl) return;
+            let name = nameEl.innerText.trim();
             let ma = row.querySelector('.edit-spr-max');
             let cL = row.querySelector('.f-left'); 
             let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
@@ -1859,8 +1861,21 @@ function distribuirAutomatico() {{
             return;
         }}
 
-        // 2. Recorrer cada bloque de polígono para distribuir el volumen
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // 🔥 PRIORIDAD 1: ORDENAR LAS UNIDADES DE MAYOR A MENOR SEGÚN SPR MÁXIMO
+        let fleetOrdenada = Object.keys(fleet)
+            .map(key => ({{ name: key, max: fleet[key].max, stock: fleet[key].stock }}))
+            .sort((a, b) => b.max - a.max);
+
+        // 🔥 PRIORIDAD 2: CONVERTIR LOS BLOQUES DE POLÍGONOS A ARRAY Y ORDENARLOS POR VOLUMEN DE MAYOR A MENOR
+        let bloquesPoligonos = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
+        bloquesPoligonos.sort((a, b) => {{
+            let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
+            let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
+            return volB - volA; // El plan que tiene más paquetes va primero
+        }});
+
+        // 2. Recorrer cada bloque de polígono para distribuir el volumen (Ya ordenados por volumen)
+        bloquesPoligonos.forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
@@ -1873,49 +1888,52 @@ function distribuirAutomatico() {{
 
                 let filaIdx = 0;
 
-                // Barremos los tipos de unidades disponibles en la flota
-                for (let key in fleet) {{
+                // Barremos los tipos de unidades disponibles (Ya ordenadas por capacidad máxima de SPR)
+                for (let uInfo of fleetOrdenada) {{
                     if (faltante <= 0 || filaIdx >= filasLibres.length) {{ break; }}
 
-                    let unidad = fleet[key];
-                    if (unidad.stock <= 0) continue;
+                    let key = uInfo.name;
+                    if (uInfo.stock <= 0) continue;
 
                     let minOficial = minimosFlota[key] || 25;
                     let pisoAceptable = minOficial * 0.75;
 
                     // 1. Calcular cuántas unidades de este tipo caben llenas a su capacidad máxima
-                    let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
-                    let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
+                    let unidadesLlenasNecesarias = Math.floor(faltante / uInfo.max);
+                    let asignoLlenas = Math.min(unidadesLlenasNecesarias, uInfo.stock);
 
-                    // 🔥 CAMBIO DE LOGÍSTICA: Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
+                    // Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
                     if (asignoLlenas > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++]; // Usamos una sola fila para este tipo
+                        let r = filasLibres[filaIdx++]; 
                         
                         let sSelect = r.querySelector('.s-type');
                         let uManual = r.querySelector('.u-manual');
                         let spReal = r.querySelector('.spr-real-val');
 
                         sSelect.value = key;
-                        uManual.innerText = asignoLlenas; // Ponemos la cantidad total acumulada (ej. 3)
-                        spReal.innerText = unidad.max; // El SPR se queda fijo en su capacidad máxima
+                        uManual.innerText = asignoLlenas; 
+                        spReal.innerText = uInfo.max; 
 
                         spReal.style.color = "#008B8B"; 
                         spReal.style.fontWeight = "bold";
 
-                        unidad.stock -= asignoLlenas;
-                        faltante -= (asignoLlenas * unidad.max);
+                        uInfo.stock -= asignoLlenas;
+                        // Sincronizamos de vuelta con el objeto original por si acaso
+                        fleet[key].stock = uInfo.stock;
+
+                        faltante -= (asignoLlenas * uInfo.max);
                         editedRowsPlan.add(r);
                     }}
 
                     // 2. Si todavía queda un residuo suelto menor al max de la unidad
-                    if (faltante > 0 && unidad.stock > 0 && filaIdx < filasLibres.length) {{
+                    if (faltante > 0 && uInfo.stock > 0 && filaIdx < filasLibres.length) {{
                         let residuo = faltante;
                         
-                        let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
+                        let unidadesRestantesFlota = fleetOrdenada.filter(u => u.stock > 0);
                         let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
 
                         if (residuo >= pisoAceptable || esUltimaOpcion) {{
-                            let r = filasLibres[filaIdx++]; // Usamos otra fila (o la siguiente disponible) para el residuo
+                            let r = filasLibres[filaIdx++]; 
                             
                             let sSelect = r.querySelector('.s-type');
                             let uManual = r.querySelector('.u-manual');
@@ -1924,13 +1942,15 @@ function distribuirAutomatico() {{
                             sSelect.value = key;
                             uManual.innerText = 1;
                             
-                            let sprFinal = Math.min(residuo, unidad.max);
+                            let sprFinal = Math.min(residuo, uInfo.max);
                             spReal.innerText = Math.round(sprFinal * 10) / 10;
 
                             spReal.style.color = "#008B8B"; 
                             spReal.style.fontWeight = "bold";
 
-                            unidad.stock -= 1;
+                            uInfo.stock -= 1;
+                            fleet[key].stock = uInfo.stock;
+
                             faltante -= sprFinal;
                             editedRowsPlan.add(r);
                         }}
@@ -1942,7 +1962,6 @@ function distribuirAutomatico() {{
         recalc();
     }}
     
-
 
 // =========================
 // TOTALES FINALES
