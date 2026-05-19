@@ -53,13 +53,13 @@ ORH_FIJOS = {
     "Rental Small Van": ["480", "70"],
 
     "Large Van MLP": ["500", "80"],
-    "Small Van MLP": ["486", "80"],
-    "Large Van SDD": ["486", "80"],
-    "Small Van SDD": ["486", "80"],
+    "Small Van MLP": ["487", "70"],
+    "Large Van SDD": ["487", "70"],
+    "Small Van SDD": ["487", "70"],
 
     "Car MLP": ["300", "66"],
     "Car Newbie 3h": ["180", "66"],
-    "Car Newbie": ["180", "266"],
+    "Car Newbie": ["360", "83"],
 
     "Car - 8h": ["360", "66"],
     "Car - 5h": ["300", "66"],
@@ -67,8 +67,8 @@ ORH_FIJOS = {
 
     "Moto - 3h": ["180", "66"],
 
-    "Small Van SDD": ["540", "66"],
-    "Car Zona Extendida": ["330", "66"],
+    "Small Van SDD": ["487", "70"],
+    "Car Zona Extendida": ["360", "66"],
     "Car - 5h Extendida": ["330", "66"]
 }
 
