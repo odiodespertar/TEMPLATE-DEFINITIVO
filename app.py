@@ -1011,14 +1011,6 @@ html body .meli-table tbody tr:last-child {{
     overflow-x:hidden;
 ">
 
-    
-        <div style="background: #2e2e2e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
-        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
-    </div>
-
 
 <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
@@ -1028,6 +1020,14 @@ html body .meli-table tbody tr:last-child {{
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
     ⚡ AUTO-CALCULAR
 </button>
+    
+        <div style="background: #2e2e2e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
+        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
+        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+    </div>
+
 
 
 <!-- CONTADOR FLOTANTE -->
