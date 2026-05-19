@@ -1004,14 +1004,6 @@ html body .meli-table tbody tr:last-child {{
 <!-- COLUMNA IZQUIERDA -->
 
 
-<!-- PLANNERS -->
-<div style="
-    width:100%;
-    overflow-y:auto;
-    overflow-x:hidden;
-">
-
-
 <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
     style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
@@ -1020,6 +1012,14 @@ html body .meli-table tbody tr:last-child {{
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
     ⚡ AUTO-CALCULAR
 </button>
+
+
+<!-- PLANNERS -->
+<div style="
+    width:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+">
     
         <div style="background: #2e2e2e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
