@@ -1585,136 +1585,93 @@ actualizarTotales();
     }});
 
 
-function distribuirAutomatico() {{
+function distribuirAutomatico() {
         let fleet = {{}};
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+        
+        // 1. Obtener la flota visible en la tabla con ID 'tabla-sched'
+        const tablaSched = document.querySelector('#tabla-sched');
+        if (tablaSched) {
+            tablaSched.querySelectorAll('tr').forEach(row => {{
+                let nameEl = row.querySelector('.edit-name');
+                if (!nameEl) return;
+                let name = nameEl.innerText.trim();
+                let ma = row.querySelector('.edit-spr-max');
+                let cL = row.querySelector('.f-left'); 
+                let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
+                let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
 
-        // Diccionario de mínimos oficiales para alertas y validaciones
-        const minimosFlota = {{
-            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-        }};
-
-        // 1. Cargar la flota disponible desde la tabla de SCHEDULE
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let nameEl = row.querySelector('.edit-name');
-            if (!nameEl) return;
-            let name = nameEl.innerText.trim();
-            let ma = row.querySelector('.edit-spr-max');
-            let cL = row.querySelector('.f-left'); 
-            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
-            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
-
-            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: sprMax, stock: disponibles }};
-            }}
-        }});
+                if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
+                    fleet[name] = {{ max: sprMax, stock: disponibles }};
+                }}
+            }});
+        }
 
         if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHEDULE para esta pestaña.");
+            alert("⚠️ No hay unidades disponibles en la tabla de la pestaña actual.");
             return;
         }}
 
-        // 🔥 PRIORIDAD 1: ORDENAR LAS UNIDADES DE MAYOR A MENOR SEGÚN SPR MÁXIMO
         let fleetOrdenada = Object.keys(fleet)
             .map(key => ({{ name: key, max: fleet[key].max, stock: fleet[key].stock }}))
             .sort((a, b) => b.max - a.max);
 
-        // 🔥 PRIORIDAD 2: CONVERTIR LOS BLOQUES DE POLÍGONOS A ARRAY Y ORDENARLOS POR VOLUMEN DE MAYOR A MENOR
-        let bloquesPoligonos = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
+        // 2. Buscar bloques DENTRO DEL VISOR (la parte que cambia)
+        let bloquesPoligonos = Array.from(document.querySelectorAll('#visor .poligono-bloque'));
+        
+        if (bloquesPoligonos.length === 0) {{
+            alert("No se encontraron bloques de polígonos.");
+            return;
+        }}
+
+        // Ordenar por volumen de mayor a menor
         bloquesPoligonos.sort((a, b) => {{
             let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
             let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
-            return volB - volA; // El plan que tiene más paquetes va primero
+            return volB - volA;
         }});
 
-        // 2. Recorrer cada bloque de polígono para distribuir el volumen (Ya ordenados por volumen)
+        // 3. Distribución
         bloquesPoligonos.forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
 
             if (faltante > 1) {{
-                // Obtenemos las filas libres de este polígono para trabajar
                 let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
-                    return r.querySelector('.s-type').value === "SELECCIONAR...";
+                    let s = r.querySelector('.s-type');
+                    return s && s.value === "SELECCIONAR...";
                 }});
 
                 let filaIdx = 0;
-
-                // Barremos los tipos de unidades disponibles (Ya ordenadas por capacidad máxima de SPR)
                 for (let uInfo of fleetOrdenada) {{
-                    if (faltante <= 0 || filaIdx >= filasLibres.length) {{ break; }}
-
-                    let key = uInfo.name;
+                    if (faltante <= 0 || filaIdx >= filasLibres.length) break;
                     if (uInfo.stock <= 0) continue;
 
-                    let minOficial = minimosFlota[key] || 25;
-                    let pisoAceptable = minOficial * 0.75;
+                    let asignoLlenas = Math.min(Math.floor(faltante / uInfo.max), uInfo.stock);
 
-                    // 1. Calcular cuántas unidades de este tipo caben llenas a su capacidad máxima
-                    let unidadesLlenasNecesarias = Math.floor(faltante / uInfo.max);
-                    let asignoLlenas = Math.min(unidadesLlenasNecesarias, uInfo.stock);
-
-                    // Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
-                    if (asignoLlenas > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++]; 
-                        
-                        let sSelect = r.querySelector('.s-type');
-                        let uManual = r.querySelector('.u-manual');
-                        let spReal = r.querySelector('.spr-real-val');
-
-                        sSelect.value = key;
-                        uManual.innerText = asignoLlenas; 
-                        spReal.innerText = uInfo.max; 
-
-                        spReal.style.color = "#008B8B"; 
-                        spReal.style.fontWeight = "bold";
-
+                    if (asignoLlenas > 0) {{
+                        let r = filasLibres[filaIdx++];
+                        r.querySelector('.s-type').value = uInfo.name;
+                        r.querySelector('.u-manual').innerText = asignoLlenas;
+                        r.querySelector('.spr-real-val').innerText = uInfo.max;
                         uInfo.stock -= asignoLlenas;
-                        // Sincronizamos de vuelta con el objeto original por si acaso
-                        fleet[key].stock = uInfo.stock;
-
                         faltante -= (asignoLlenas * uInfo.max);
-                        editedRowsPlan.add(r);
                     }}
 
-                    // 2. Si todavía queda un residuo suelto menor al max de la unidad
                     if (faltante > 0 && uInfo.stock > 0 && filaIdx < filasLibres.length) {{
-                        let residuo = faltante;
-                        
-                        let unidadesRestantesFlota = fleetOrdenada.filter(u => u.stock > 0);
-                        let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
-
-                        if (residuo >= pisoAceptable || esUltimaOpcion) {{
-                            let r = filasLibres[filaIdx++]; 
-                            
-                            let sSelect = r.querySelector('.s-type');
-                            let uManual = r.querySelector('.u-manual');
-                            let spReal = r.querySelector('.spr-real-val');
-
-                            sSelect.value = key;
-                            uManual.innerText = 1;
-                            
-                            let sprFinal = Math.min(residuo, uInfo.max);
-                            spReal.innerText = Math.round(sprFinal * 10) / 10;
-
-                            spReal.style.color = "#008B8B"; 
-                            spReal.style.fontWeight = "bold";
-
-                            uInfo.stock -= 1;
-                            fleet[key].stock = uInfo.stock;
-
-                            faltante -= sprFinal;
-                            editedRowsPlan.add(r);
-                        }}
+                        let r = filasLibres[filaIdx++];
+                        r.querySelector('.s-type').value = uInfo.name;
+                        r.querySelector('.u-manual').innerText = 1;
+                        r.querySelector('.spr-real-val').innerText = Math.min(faltante, uInfo.max);
+                        uInfo.stock -= 1;
+                        faltante = 0;
                     }}
                 }}
             }}
         }});
-        // Recalcular indicadores de pantalla
-        recalc();
-    }}
+        
+        if (typeof recalc === 'function') recalc();
+    }
     
 
 // =========================
