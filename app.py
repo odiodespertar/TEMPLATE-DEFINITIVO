@@ -1833,6 +1833,81 @@ html(app_html, height=1200, scrolling=True)
 
 
 
+# =====================================================================
+# MÓDULO INDEPENDIENTE: CONSULTA DE PERFILES POR DÍA (ORH / % OCUPACIÓN)
+# =====================================================================
+st.write("---")
+st.markdown("### 📋 CONSULTA DE PERFILES EN TIEMPO REAL (ORH / % OCC)")
+
+DATA_PERFILES_DIARIOS = {
+    "LUNES": {
+        "C1 / C2": {"Car - 8h": {"orh": 99, "disp": 80}, "SV": {"orh": 91, "disp": 95}},
+        "PREC SMX5": {"Car - 8h": {"orh": 84, "disp": 90}},
+        "PREC SMX2": {"Car - 8h": {"orh": 86, "disp": 91}},
+        "SDE": {"Car - 5h": {"orh": 87, "disp": 93}}
+    },
+    "MARTES": {
+        "C1 / C2": {"CAR 8H": {"orh": 90, "disp": 94}},
+        "PREC SMX5": {"CAR 8H": {"orh": 85, "disp": 91}},
+        "PREC SMX2": {"CAR 8H": {"orh": 88, "disp": 92}},
+        "SDE": {"CAR 8H": {"orh": 89, "disp": 94}}
+    },
+    "MIÉRCOLES": {
+        "C1 / C2": {"CAR 8H": {"orh": 89, "disp": 93}},
+        "PREC SMX5": {"CAR 8H": {"orh": 86, "disp": 90}},
+        "PREC SMX2": {"CAR 8H": {"orh": 87, "disp": 91}},
+        "SDE": {"CAR 8H": {"orh": 88, "disp": 92}}
+    },
+    "JUEVES": {
+        "C1 / C2": {"CAR 8H": {"orh": 91, "disp": 95}},
+        "PREC SMX5": {"CAR 8H": {"orh": 87, "disp": 92}},
+        "PREC SMX2": {"CAR 8H": {"orh": 89, "disp": 93}},
+        "SDE": {"CAR 8H": {"orh": 90, "disp": 94}}
+    },
+    "VIERNES": {
+        "C1 / C2": {"CAR 8H": {"orh": 93, "disp": 97}},
+        "PREC SMX5": {"CAR 8H": {"orh": 90, "disp": 95}},
+        "PREC SMX2": {"CAR 8H": {"orh": 91, "disp": 96}},
+        "SDE": {"CAR 8H": {"orh": 92, "disp": 96}}
+    },
+    "SÁBADO": {
+        "C1 / C2": {"CAR 8H": {"orh": 85, "disp": 89}},
+        "PREC SMX5": {"CAR 8H": {"orh": 82, "disp": 87}},
+        "PREC SMX2": {"CAR 8H": {"orh": 84, "disp": 88}},
+        "SDE": {"CAR 8H": {"orh": 83, "disp": 87}}
+    },
+    "DOMINGO": {
+        "C1 / C2": {"CAR 8H": {"orh": 80, "disp": 85}},
+        "PREC SMX5": {"CAR 78": {"orh": 78, "disp": 84}},
+        "PREC SMX2": {"CAR 8H": {"orh": 79, "disp": 84}},
+        "SDE": {"CAR 8H": {"orh": 80, "disp": 85}}
+    }
+}
+
+dia_seleccionado = st.selectbox("📅 SELECCIONA EL DÍA OPERATIVO", list(DATA_PERFILES_DIARIOS.keys()))
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown("<div style='background-color:#111; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>C1 / C2</div>", unsafe_allow_html=True)
+    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["C1 / C2"].items():
+        st.info(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+
+with col2:
+    st.markdown("<div style='background-color:#444; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>PREC SMX5</div>", unsafe_allow_html=True)
+    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX5"].items():
+        st.warning(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+
+with col3:
+    st.markdown("<div style='background-color:#008080; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>PREC SMX2</div>", unsafe_allow_html=True)
+    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX2"].items():
+        st.success(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+
+with col4:
+    st.markdown("<div style='background-color:#20B2AA; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>SDE</div>", unsafe_allow_html=True)
+    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["SDE"].items():
+        st.error(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+
 
 
 
