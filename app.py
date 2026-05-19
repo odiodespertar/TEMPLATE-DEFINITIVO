@@ -21,7 +21,7 @@ u_PREC = {
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
     "Car - 8h": [70, 75],
-    "Car Newbie": [40, 45],
+    "Car Newbie": [40, 45]
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
