@@ -261,7 +261,7 @@ PERFILES = {
 
     "LUNES": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -276,7 +276,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -284,14 +284,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -302,7 +302,7 @@ PERFILES = {
 
     "MARTES": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -317,7 +317,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -325,14 +325,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -344,7 +344,7 @@ PERFILES = {
 
     "MIÉRCOLES": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -359,7 +359,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -367,14 +367,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -386,7 +386,7 @@ PERFILES = {
 
     "JUEVES": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -401,7 +401,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -409,14 +409,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -428,7 +428,7 @@ PERFILES = {
 
     "VIERNES": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -443,7 +443,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -451,14 +451,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -471,7 +471,7 @@ PERFILES = {
 
     "SÁBADO": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -486,7 +486,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -494,14 +494,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
@@ -514,7 +514,7 @@ PERFILES = {
 
     "DOMINGO": {
 
-        // 🔍 PESTAÑA C1
+        # 🔍 PESTAÑA C1
         "2": {
             "Rental E. Large Van": {"orh": 360, "disp": 66},
             "Rental E. Small Van": {"orh": 360, "disp": 66},
@@ -529,7 +529,7 @@ PERFILES = {
             "Car -5h": {"orh": 91, "disp": 95},
         },
 
-        // 🔍 PESTAÑA PREC SMX5
+        # 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -537,14 +537,14 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA PREC SMX2
+        # 🔍 PESTAÑA PREC SMX2
         "5": {
             "Small Van SDD": {"orh": 487, "disp": 70},
             "Car - 8h": {"orh": 360, "disp": 66},
             "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
-        // 🔍 PESTAÑA SDE
+        # 🔍 PESTAÑA SDE
         "4": {
             "Moto - 3h": {"orh": 87, "disp": 93},
             "Car - 5h": {"orh": 360, "disp": 66},
