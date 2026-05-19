@@ -1751,10 +1751,10 @@ html(app_html, height=1200, scrolling=True)
 
 
 # =====================================================================
-# MÓDULO INDEPENDIENTE: CONSULTA DE PERFILES POR DÍA (ORH / % OCUPACIÓN)
+# MÓDULO INDEPENDIENTE: CONSULTA DE SUMMARY (ORH / % OCUPACIÓN)
 # =====================================================================
 st.write("---")
-st.markdown("### 📋 CONSULTA DE PERFILES EN TIEMPO REAL (ORH / % OCC)")
+st.markdown("### 📋 CONSULTA DE SUMMARY (ORH / % OCC)")
 
 DATA_PERFILES_DIARIOS = {
     "LUNES": {
