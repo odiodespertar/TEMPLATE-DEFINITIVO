@@ -711,15 +711,15 @@ html body .meli-table tbody tr:last-child {{
 <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
 
     <!-- ================= SMX5 ================= -->
-    <details style="border:1px solid #696969; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+    <details style="border:1px solid #292928; border-radius:10px; background:#f8f8f8; overflow:hidden;">
         
         <summary style="
             cursor:pointer;
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #F4A460 0%, #F4A460 100%);
-            color: #696969;
+            background:linear-gradient(180deg, #D3D3D3 0%, #C0C0C0 100%);
+            color: #292928;
             user-select:none;
         ">
             📍 PRIORIDADES Y RESTRICCIONES SMX5 (AM0)
@@ -829,15 +829,15 @@ html body .meli-table tbody tr:last-child {{
 
 
     <!-- ================= SMX2 ================= -->
-    <details style="border:1px solid #696969; border-radius:10px; background:#f8f8f8; overflow:hidden;">
+    <details style="border:1px solid #292928; border-radius:10px; background:#f8f8f8; overflow:hidden;">
         
         <summary style="
             cursor:pointer;
             font-weight:bold;
             font-size:14px;
             padding:12px;
-            background:linear-gradient(180deg, #F4A460 0%, #F4A460 100%);
-            color: #696969;
+            background:linear-gradient(180deg, #D3D3D3 0%, #C0C0C0 100%);
+            color: #292928;
             user-select:none;
         ">
             📍 PRIORIDADES Y RESTRICCIONES SMX2 (AM0)
