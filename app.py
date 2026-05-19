@@ -20,7 +20,8 @@ u_PREC = {
     "Large Van SDD": [80, 85], 
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car - 8h": [70, 75]
+    "Car - 8h": [70, 75],
+    "Car Newbie": [40, 45],
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -242,6 +243,149 @@ def gen_poligonos(data_target=None):
     return polys
 
 
+PERFILES = {
+
+    "LUNES": {
+
+        "2": {
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Small Van SDD": {"orh": 475, "disp": 70},
+            "Car Newbie": {"orh": 90, "disp": 83
+            "Small Van Car 9h": {"orh": 360, "disp": 66},             
+        },
+
+        "1": {
+            "Car - 8h": {"orh": 84, "disp": 90},
+        },
+
+        "5": {
+            "Car - 8h": {"orh": 86, "disp": 91},
+        },
+
+        "4": {
+            "Car - 5h": {"orh": 87, "disp": 93},
+        }
+    },
+
+    "MARTES": {
+
+        "2": {
+            "CAR 8H": {"orh": 90, "disp": 94},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 85, "disp": 91},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 89, "disp": 94},
+        }
+    },
+
+    "MIÉRCOLES": {
+
+        "2": {
+            "CAR 8H": {"orh": 89, "disp": 93},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 86, "disp": 90},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 87, "disp": 91},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+        }
+    },
+
+    "JUEVES": {
+
+        "2": {
+            "CAR 8H": {"orh": 91, "disp": 95},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 87, "disp": 92},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 89, "disp": 93},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 90, "disp": 94},
+        }
+    },
+
+    "VIERNES": {
+
+        "2": {
+            "CAR 8H": {"orh": 93, "disp": 97},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 90, "disp": 95},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 91, "disp": 96},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 92, "disp": 96},
+        }
+    },
+
+    "SÁBADO": {
+
+        "2": {
+            "CAR 8H": {"orh": 85, "disp": 89},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 82, "disp": 87},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 84, "disp": 88},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 83, "disp": 87},
+        }
+    },
+
+    "DOMINGO": {
+
+        "2": {
+            "CAR 8H": {"orh": 80, "disp": 85},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 78, "disp": 84},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 79, "disp": 84},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 80, "disp": 85},
+        }
+    }
+}
+
+perfil_actual = st.selectbox(
+    "📅 PERFIL OPERATIVO",
+    list(PERFILES.keys())
+)
 
 
 app_html = f"""
@@ -1157,8 +1301,12 @@ style="text-align:center; color:#00BFFF;">
     </div>
 </div>
 
+
 <script>
-    // Variables de control del monitor
+
+    const perfiles = {json.dumps(PERFILES)};
+    const perfilActual = "{perfil_actual}";
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -1166,12 +1314,43 @@ style="text-align:center; color:#00BFFF;">
     let startTime;
     let elapsedTime = 0;
 
-    // Dejamos la función limpia y cerrada perfectamente
+
     function aplicarPerfil() {{
-        // Sin perfiles operativos activos
-    }}
-</script>
-    
+
+    let perfil = perfiles[perfilActual];
+
+    if(!perfil) return;
+
+    Object.keys(perfil).forEach(tabId => {{
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+
+            let unidad =
+                row.querySelector('.edit-name')?.innerText.trim();
+
+            if(perfil[tabId][unidad]) {{
+
+                let data = perfil[tabId][unidad];
+
+                let orh =
+                    row.querySelector('.edit-orh');
+
+                let disp =
+                    row.querySelector('.edit-ocup');
+
+                if(orh)
+                    orh.innerText = data.orh;
+
+                if(disp)
+                    disp.innerText = data.disp;
+            }}
+        }});
+    }});
+
+    recalc();
+}}
+
+
 
 
 
