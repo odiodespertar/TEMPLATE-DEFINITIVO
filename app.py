@@ -1242,8 +1242,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }} else {{
                 row.style.background = "#DCDCDC"; row.style.color = "#969696";
                 fs.style.background = "#DCDCDC"; 
-                mi.style.background = "#DCDCDC"; mi.style.color = "#000000"; mi.style.fontWeight = "normal";
-                ma.style.background = "#DCDCDC"; ma.style.color = "#000000"; ma.style.fontWeight = "normal";
+                mi.style.background = "#DCDCDC"; mi.style.color = "#969696""; mi.style.fontWeight = "normal";
+                ma.style.background = "#DCDCDC"; ma.style.color = "#969696""; ma.style.fontWeight = "normal";
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
@@ -1338,7 +1338,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
+       // 4. FILTRAR LISTA SIN ROMPER SCHEDULE (CON CANDADO IXTAPALUCA INTEGRADO)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             // Capturamos el nombre del plan/polígono de este bloque específico
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
@@ -1582,7 +1582,7 @@ function distribuirAutomatico() {{
             "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
         }};
 
-        // 1. Cargar la flota disponible desde la tabla de SCHED
+        // 1. Cargar la flota disponible desde la tabla de SCHEDULE
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let nameEl = row.querySelector('.edit-name');
             if (!nameEl) return;
@@ -1598,7 +1598,7 @@ function distribuirAutomatico() {{
         }});
 
         if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
+            alert("⚠️ No hay unidades disponibles en SCHEDULE para esta pestaña.");
             return;
         }}
 
