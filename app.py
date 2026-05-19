@@ -565,7 +565,7 @@ html body .meli-table tbody tr:last-child {{
             </div>
 
             
-            <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;">
+            <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
     style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
     onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
