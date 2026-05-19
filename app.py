@@ -293,7 +293,7 @@ PERFILES = {
 
         # 🔍 PESTAÑA SDE
         "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Moto - 3h": {"orh": 180, "disp": 70},
             "Car - 5h": {"orh": 360, "disp": 66},
             "Car - 5h Extendida": {"orh": 360, "disp": 66},
             "Car - 3h": {"orh": 360, "disp": 66},
