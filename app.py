@@ -1732,7 +1732,7 @@ function actualizarTotales() {{
         let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
         let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
 
-        if (noCarCell) noCarCell.innerText = totalNoCar;
+        if (noCarCell) noCarCell.innerText = totalNoCar; 
         if (carCell) carCell.innerText = totalCarReal;
     }}
 
