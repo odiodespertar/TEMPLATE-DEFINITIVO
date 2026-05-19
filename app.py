@@ -74,7 +74,7 @@ ORH_FIJOS = {
 
 
 
-def gen_master_rows(data_dict, table_id):
+def gen_master_rows(data_dict, table_id, perfil_actual):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
@@ -129,15 +129,30 @@ def gen_master_rows(data_dict, table_id):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
+            
+            # 1. Identificar la pestaña en formato string ('2', '1', '5')
+            tab_key = str(table_id)
+            
+            # 2. Buscar si existen datos específicos para esta unidad en el día seleccionado
+            datos_dia = PERFILES.get(perfil_actual, {}).get(tab_key, {}).get(name, None)
+            
+            if datos_dia:
+                orh_val = datos_dia.get("ORH", "0")
+                ocup_val = datos_dia.get("%", "0")
+            else:
+                # Si no hay datos en el perfil, usa tu lógica original de ORH_FIJOS
+                orh_val = ORH_FIJOS.get(name, ["480", "66"])[0] if name else "0"
+                ocup_val = ORH_FIJOS.get(name, ["480", "66"])[1] if name else "0"
+            
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
-<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-                <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #000000; width: 180px; min-width: 180px; max-width: 180px;">{name}</td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="color: #008B8B; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{spr[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="color: #008B8B; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{spr[1]}</td>
+                <td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{orh_val}</td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{ocup_val}</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="background-color: #FFFDE7; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 55px; min-width: 55px; max-width: 55px;">0</td>
+                <td class="f-delta" style="text-align: center; font-weight: bold; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px; color: white;">0</td>
             </tr>''' 
     return rows
 
@@ -758,7 +773,7 @@ html body .meli-table tbody tr:last-child {{
                     </tr>
                 </thead>
 
-            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+            <tbody id="body-2">{gen_master_rows(u_C1, 2, perfil_actual)}</tbody>
 
 <tfoot>
 
@@ -814,7 +829,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1, perfil_actual)}</tbody>
            <tfoot>
 
 <tr style="background:#1a1a1a; color:white; font-weight:bold;">
@@ -869,7 +884,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5, perfil_actual)}</tbody>
 
              <tfoot>
 
@@ -926,7 +941,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4, perfil_actual)}</tbody>
 
               <tfoot>
 
