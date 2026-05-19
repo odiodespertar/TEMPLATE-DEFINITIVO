@@ -220,7 +220,7 @@ def gen_poligonos(data_target=None):
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                      <tr style="background:#ededed; height: 32px;">
-                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #696969; font-size: 14px; color:#333;">ESTADO:</td>
+                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #696969; font-size: 14px; color:#696969;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #696969; text-align: center;">0</td>
                         <td class="p-diff" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #696969; font-size: 14px;">VACÍO</td>
                     </tr>
