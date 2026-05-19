@@ -253,7 +253,8 @@ PERFILES = {
             "Large Van SDD": {"orh": 360, "%": 66},
             "Small Van SDD": {"orh": 475, "%": 70},
             "Car Newbie": {"orh": 90, "%": 83},
-            "Car - 8h": {"orh": 360, "%": 66},             
+            "Car - 8h": {"orh": 360, "%": 66}, 
+            "Small Van Car 9h": {"orh": 360, "%": 66},
         },
 
         "1": {
