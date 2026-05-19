@@ -1157,55 +1157,9 @@ style="text-align:center; color:#00BFFF;">
     </div>
 </div>
 
-
 <script>
 
-    const perfiles = {json.dumps(PERFILES)};
-    const perfilActual = "{perfil_actual}";
-
-    let currentTab = 2;
-    let editedRowsPlan = new Set();
-    let curC = "";
-    let chronoInterval;
-    let startTime;
-    let elapsedTime = 0;
-
-
-    function aplicarPerfil() {{
-
-    let perfil = perfiles[perfilActual];
-
-    if(!perfil) return;
-
-    Object.keys(perfil).forEach(tabId => {{
-
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-
-            let unidad =
-                row.querySelector('.edit-name')?.innerText.trim();
-
-            if(perfil[tabId][unidad]) {{
-
-                let data = perfil[tabId][unidad];
-
-                let orh =
-                    row.querySelector('.edit-orh');
-
-                let disp =
-                    row.querySelector('.edit-ocup');
-
-                if(orh)
-                    orh.innerText = data.orh;
-
-                if(disp)
-                    disp.innerText = data.disp;
-            }}
-        }});
-    }});
-
-    recalc();
-}}
-
+    
 
 
 
