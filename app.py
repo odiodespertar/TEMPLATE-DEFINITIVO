@@ -250,137 +250,137 @@ PERFILES = {
     "LUNES": {
 
         "2": {
-            "Large Van SDD": {"orh": 360, "%": 66},
+            "Large Van SDD": {"orh": 475, "%": 70},
             "Small Van SDD": {"orh": 475, "%": 70},
             "Car Newbie": {"orh": 90, "%": 83},
-            "Car - 8h": {"orh": 360, "%": 66}, 
+            "Car 8h": {"orh": 360, "%": 66}, 
             "Small Van Car 9h": {"orh": 360, "%": 66},
         },
 
         "1": {
-            "Car - 8h": {"orh": 84, "disp": 90},
+            "Car 8h": {"orh": 84, "disp": 90},
         },
 
         "5": {
-            "Car - 8h": {"orh": 86, "disp": 91},
+            "Car 8h": {"orh": 86, "disp": 91},
         },
 
         "4": {
-            "Car - 5h": {"orh": 87, "disp": 93},
+            "Car 5h": {"orh": 87, "disp": 93},
         }
     },
 
     "MARTES": {
 
         "2": {
-            "CAR 8H": {"orh": 90, "disp": 94},
+            "Car 8h": {"orh": 90, "disp": 94},
         },
 
         "1": {
-            "CAR 8H": {"orh": 85, "disp": 91},
+            "Car 8h": {"orh": 85, "disp": 91},
         },
 
         "5": {
-            "CAR 8H": {"orh": 88, "disp": 92},
+            "Car 8h": {"orh": 88, "disp": 92},
         },
 
         "4": {
-            "CAR 8H": {"orh": 89, "disp": 94},
+            "Car 8h": {"orh": 89, "disp": 94},
         }
     },
 
     "MIÉRCOLES": {
 
         "2": {
-            "CAR 8H": {"orh": 89, "disp": 93},
+            "Car 8h": {"orh": 89, "disp": 93},
         },
 
         "1": {
-            "CAR 8H": {"orh": 86, "disp": 90},
+            "Car 8h": {"orh": 86, "disp": 90},
         },
 
         "5": {
-            "CAR 8H": {"orh": 87, "disp": 91},
+            "Car 8h": {"orh": 87, "disp": 91},
         },
 
         "4": {
-            "CAR 8H": {"orh": 88, "disp": 92},
+            "Car 8h": {"orh": 88, "disp": 92},
         }
     },
 
     "JUEVES": {
 
         "2": {
-            "CAR 8H": {"orh": 91, "disp": 95},
+            "Car 8h": {"orh": 91, "disp": 95},
         },
 
         "1": {
-            "CAR 8H": {"orh": 87, "disp": 92},
+            "Car 8h": {"orh": 87, "disp": 92},
         },
 
         "5": {
-            "CAR 8H": {"orh": 89, "disp": 93},
+            "Car 8h": {"orh": 89, "disp": 93},
         },
 
         "4": {
-            "CAR 8H": {"orh": 90, "disp": 94},
+            "Car 8h": {"orh": 90, "disp": 94},
         }
     },
 
     "VIERNES": {
 
         "2": {
-            "CAR 8H": {"orh": 93, "disp": 97},
+            "Car 8h": {"orh": 93, "disp": 97},
         },
 
         "1": {
-            "CAR 8H": {"orh": 90, "disp": 95},
+            "Car 8h": {"orh": 90, "disp": 95},
         },
 
         "5": {
-            "CAR 8H": {"orh": 91, "disp": 96},
+            "Car 8h": {"orh": 91, "disp": 96},
         },
 
         "4": {
-            "CAR 8H": {"orh": 92, "disp": 96},
+            "Car 8h": {"orh": 92, "disp": 96},
         }
     },
 
     "SÁBADO": {
 
         "2": {
-            "CAR 8H": {"orh": 85, "disp": 89},
+            "Car 8h": {"orh": 85, "disp": 89},
         },
 
         "1": {
-            "CAR 8H": {"orh": 82, "disp": 87},
+            "Car 8h": {"orh": 82, "disp": 87},
         },
 
         "5": {
-            "CAR 8H": {"orh": 84, "disp": 88},
+            "Car 8h": {"orh": 84, "disp": 88},
         },
 
         "4": {
-            "CAR 8H": {"orh": 83, "disp": 87},
+            "Car 8h": {"orh": 83, "disp": 87},
         }
     },
 
     "DOMINGO": {
 
         "2": {
-            "CAR 8H": {"orh": 80, "disp": 85},
+            "Car 8h": {"orh": 80, "disp": 85},
         },
 
         "1": {
-            "CAR 8H": {"orh": 78, "disp": 84},
+            "Car 8h": {"orh": 78, "disp": 84},
         },
 
         "5": {
-            "CAR 8H": {"orh": 79, "disp": 84},
+            "Car 8h": {"orh": 79, "disp": 84},
         },
 
         "4": {
-            "CAR 8H": {"orh": 80, "disp": 85},
+            "Car 8h": {"orh": 80, "disp": 85},
         }
     }
 }
