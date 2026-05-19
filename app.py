@@ -1796,7 +1796,7 @@ DATA_PERFILES_DIARIOS = {
 
 dia_seleccionado = st.selectbox("📅 SELECCIONA EL DÍA OPERATIVO", list(DATA_PERFILES_DIARIOS.keys()))
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 # --- ESTILO COMPACTO ---
 estilo_tabla = """
@@ -1836,9 +1836,6 @@ with col3:
     st.markdown("<div style='background-color:#008080; color:#fff; padding:4px; font-weight:bold; text-align:center;'>PREC SMX2</div>", unsafe_allow_html=True)
     st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX2"]), unsafe_allow_html=True)
 
-with col4:
-    st.markdown("<div style='background-color:#20B2AA; color:#fff; padding:4px; font-weight:bold; text-align:center;'>SDE</div>", unsafe_allow_html=True)
-    st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["SDE"]), unsafe_allow_html=True)
 
 
 
