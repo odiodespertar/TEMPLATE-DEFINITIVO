@@ -74,7 +74,7 @@ ORH_FIJOS = {
 
 
 
-def gen_master_rows(data_dict, table_id, perfil_actual):
+def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
@@ -129,30 +129,15 @@ def gen_master_rows(data_dict, table_id, perfil_actual):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            
-            # 1. Identificar la pestaña en formato string ('2', '1', '5')
-            tab_key = str(table_id)
-            
-            # 2. Buscar si existen datos específicos para esta unidad en el día seleccionado
-            datos_dia = PERFILES.get(perfil_actual, {}).get(tab_key, {}).get(name, None)
-            
-            if datos_dia:
-                orh_val = datos_dia.get("ORH", "0")
-                ocup_val = datos_dia.get("%", "0")
-            else:
-                # Si no hay datos en el perfil, usa tu lógica original de ORH_FIJOS
-                orh_val = ORH_FIJOS.get(name, ["480", "66"])[0] if name else "0"
-                ocup_val = ORH_FIJOS.get(name, ["480", "66"])[1] if name else "0"
-            
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.5px solid #000000; width: 180px; min-width: 180px; max-width: 180px;">{name}</td>
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="color: #008B8B; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{spr[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="color: #008B8B; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{orh_val}</td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align: center; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px;">{ocup_val}</td>
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="background-color: #FFFDE7; font-weight: bold; text-align: center; border: 0.5px solid #000000; width: 55px; min-width: 55px; max-width: 55px;">0</td>
-                <td class="f-delta" style="text-align: center; font-weight: bold; border: 0.5px solid #000000; width: 45px; min-width: 45px; max-width: 45px; color: white;">0</td>
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
+<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
+<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
     return rows
 
@@ -257,307 +242,6 @@ def gen_poligonos(data_target=None):
     return polys
 
 
-PERFILES = {
-
-    "LUNES": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 180, "disp": 70},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-    "MARTES": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-
-    "MIÉRCOLES": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-
-    "JUEVES": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-
-    "VIERNES": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-
-
-    "SÁBADO": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    },
-
-
-
-    "DOMINGO": {
-
-        # 🔍 PESTAÑA C1
-        "2": {
-            "Rental E. Large Van": {"orh": 360, "disp": 66},
-            "Rental E. Small Van": {"orh": 360, "disp": 66},
-            "Rental Large Van": {"orh": 360, "disp": 66},
-            "Rental Small Van": {"orh": 360, "disp": 66},
-            "Large Van MLP": {"orh": 360, "disp": 66},
-            "Small Van MLP": {"orh": 360, "disp": 66},
-            "Car MLP": {"orh": 360, "disp": 66},
-            "Moto - 3h": {"orh": 360, "disp": 66},
-            "Car Newbie 3h": {"orh": 360, "disp": 66},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car -5h": {"orh": 91, "disp": 95},
-        },
-
-        # 🔍 PESTAÑA PREC SMX5
-        "1": {
-            "Large Van SDD": {"orh": 487, "disp": 70},
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car Newbie": {"orh": 360, "disp": 83},
-            "Car - 8h": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA PREC SMX2
-        "5": {
-            "Small Van SDD": {"orh": 487, "disp": 70},
-            "Car - 8h": {"orh": 360, "disp": 66},
-            "Car Zona Extendida": {"orh": 360, "disp": 66},
-        },
-
-        # 🔍 PESTAÑA SDE
-        "4": {
-            "Moto - 3h": {"orh": 87, "disp": 93},
-            "Car - 5h": {"orh": 360, "disp": 66},
-            "Car - 5h Extendida": {"orh": 360, "disp": 66},
-            "Car - 3h": {"orh": 360, "disp": 66},
-        }
-    }
-}
-
-perfil_actual = st.selectbox(
-    "📅 PERFIL OPERATIVO",
-    list(PERFILES.keys())
-)
 
 
 app_html = f"""
@@ -933,7 +617,7 @@ html body .meli-table tbody tr:last-child {{
                     </tr>
                 </thead>
 
-            <tbody id="body-2">{gen_master_rows(u_C1, 2, perfil_actual)}</tbody>
+            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
 
 <tfoot>
 
@@ -989,7 +673,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-1">{gen_master_rows(u_PREC, 1, perfil_actual)}</tbody>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
            <tfoot>
 
 <tr style="background:#1a1a1a; color:white; font-weight:bold;">
@@ -1044,7 +728,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5, perfil_actual)}</tbody>
+                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
 
              <tfoot>
 
@@ -1101,7 +785,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-4">{gen_master_rows(u_SDE, 4, perfil_actual)}</tbody>
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
 
               <tfoot>
 
@@ -1602,8 +1286,6 @@ style="text-align:center; color:#00BFFF;">
     }}
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
-
-
     function stepVal(btn, delta, type) {{
     let row = btn.closest('tr');
     let sel = row.querySelector('.s-type').value;
@@ -1611,21 +1293,9 @@ style="text-align:center; color:#00BFFF;">
     // Si no hay unidad seleccionada, no hace nada
     if(sel === "SELECCIONAR...") return;
 
-    // 🔄 TRADUCTOR OPERATIVO DE IDS (Sincroniza con la tabla SCHED superior)
-    let tabIdSuperior = currentTab;
-    if (currentTab === '2' || currentTab === 2 || currentTab === 'C1') {{
-        tabIdSuperior = '2';
-    }} else if (currentTab === '1' || currentTab === 1 || currentTab === 'PREC') {{
-        tabIdSuperior = '1';
-    }} else if (currentTab === '5' || currentTab === 5) {{
-        tabIdSuperior = '5';
-    }} else if (currentTab === '4' || currentTab === 4 || currentTab === 'SDE') {{
-        tabIdSuperior = '4';
-    }}
-
-    // Buscamos la fila correspondiente en la tabla de Flota usando tabIdSuperior para sacar el MAX
-    let fRows = Array.from(document.querySelectorAll('#body-' + tabIdSuperior + ' tr'));
-    let fRow = fRows.find(r => r.querySelector('.edit-name') && r.querySelector('.edit-name').innerText.trim() === sel);
+    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
+    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
+    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
     
     if (!fRow) return; // Seguridad por si no encuentra la unidad
 
@@ -1635,33 +1305,24 @@ style="text-align:center; color:#00BFFF;">
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
-        
-        // Bloqueo operativo de volumen según tipo de unidad (Regla CAR / No CAR)
-        let esCAR = sel.toUpperCase().includes("CAR");
+        // Detectar si la unidad es CAR
+let esCAR = sel.toUpperCase().includes("CAR");
 
-        // Si NO es CAR, bloquear cuando ya no hay disponibles
-        if (delta > 0 && left <= 0 && !esCAR) {{
-            showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
-            return;
-        }}
+// Si NO es CAR, bloquear cuando ya no hay disponibles
+if (delta > 0 && left <= 0 && !esCAR) {{
+        showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
+        return;
+}}
 
-        // Si SÍ es CAR, permitir negativos pero mostrar alerta
-        if (delta > 0 && left <= 0 && esCAR) {{
-            showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
-        }}
-        
-        // Evitar que el contador manual de unidades baje de 0
-        let newValUnits = val + delta;
-        if (newValUnits < 0) newValUnits = 0;
-        span.innerText = newValUnits;
-        
-    }} else {{
+// Si SÍ es CAR, permitir negativos pero mostrar alerta
+if (delta > 0 && left <= 0 && esCAR) {{
+        showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+}}
+        span.innerText = val + delta;
+                }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
-
-        // Evitar que el SPR baje de 0 de forma manual
-        if (newVal < 0) newVal = 0;
 
         // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
@@ -1672,198 +1333,183 @@ style="text-align:center; color:#00BFFF;">
         // Si es para bajar o está dentro del rango, permite el cambio
         span.innerText = newVal.toFixed(1);
     }}
-    
     editedRowsPlan.add(row);
-    recalc(); // Esto recalcula totales, actualiza el flotante y activa semáforos de advertencia
+    recalc();
 }}
 
 
-
-  function recalc() {{
-    let fleet = {{}};
-    
-    // 🔄 TRADUCTOR OPERATIVO DE IDS
-    let tabIdSuperior = currentTab; 
-    let tabIdInferior = currentTab; 
-
-    if (currentTab === '2' || currentTab === 2 || currentTab === 'C1') {{
-        tabIdSuperior = '2';
-        tabIdInferior = '2'; 
-    }} else if (currentTab === '1' || currentTab === 1 || currentTab === 'PREC') {{
-        tabIdSuperior = '1';
-        tabIdInferior = '1'; 
-    }} else if (currentTab === '5' || currentTab === 5) {{
-        tabIdSuperior = '5';
-        tabIdInferior = '5'; 
-    }} else if (currentTab === '4' || currentTab === 4 || currentTab === 'SDE') {{
-        tabIdSuperior = '4';
-        tabIdInferior = '4';
-    }}
-
-    console.log("🔍 Recalc activo -> Buscando SCHED en #body-" + tabIdSuperior + " y Polígonos en #polys-" + tabIdInferior);
-
-    // 1. Capturar datos de la flota (Tabla superior)
-    document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
-        let nameEl = row.querySelector('.edit-name');
-        if (!nameEl) return;
+    function recalc() {{
+        let fleet = {{}};
         
-        let name = nameEl.innerText.trim();
-        let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-        let mi = row.querySelector('.edit-spr-min');
-        let ma = row.querySelector('.edit-spr-max');
-        let fs = row.querySelector('.f-stock');
-        
-        if(sch > 0) {{
-            row.style.background = "white"; 
-            row.style.color = "black";
-            if(fs) fs.style.background = "#fcfbc7"; 
-            if(mi) {{ mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold"; }}
-            if(ma) {{ ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold"; }}
-        }} else {{
-            row.style.background = "#DCDCDC"; 
-            row.style.color = "#969696";
-            if(fs) fs.style.background = "#DCDCDC"; 
-            if(mi) {{ mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal"; }}
-            if(ma) {{ ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal"; }}
-        }}
-        
-        if(name !== "" && name !== "NUEVA UNIDAD" && !row.classList.contains('es-divisor')) {{
-            fleet[name] = {{
-                min: parseFloat(mi ? mi.innerText : 0) || 0,
-                max: parseFloat(ma ? ma.innerText : 0) || 0,
-                stock: sch,
-                used: 0
-            }};
-        }}
-    }});
+        // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
+        // Guardamos el identificador real que usan los elementos HTML en pantalla
+        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+        // ----------------------------------------------------
 
-    // 2. Primer barrido por los polígonos (Tabla inferior)
-    let contenedorPolis = document.getElementById('polys-' + tabIdInferior) || document.getElementById('polys-' + currentTab);
-    if (contenedorPolis) {{
-        contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {{
-            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
-                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                let sSelect = r.querySelector('.s-type');
-                let s = sSelect ? sSelect.value : "SELECCIONAR...";
-                if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    fleet[s].used += u;
-                }}
-            }});
-        }});
-    }}
-
-    // 3. Actualizar Delta y Disponibles en la tabla superior (SCHED)
-    document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
-        let nameEl = row.querySelector('.edit-name');
-        if (!nameEl) return;
-        
-        let name = nameEl.innerText.trim();
-        let fLeftEl = row.querySelector('.f-left') || row.querySelector('.f-delta'); 
-        let fDeltaEl = row.querySelector('.f-delta');
-        
-        if(name && fleet[name]) {{
-            let rem = fleet[name].stock - fleet[name].used;
-            if(fLeftEl && fLeftEl.classList.contains('f-left')) fLeftEl.innerText = rem;
+        // 1. Capturar datos de la flota (Tabla de arriba)
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim();
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
-            if(fDeltaEl) {{
-                fDeltaEl.innerText = (rem >= 0) ? "+" + rem : rem;
-                fDeltaEl.style.background = (rem < 0) ? "#d32f2f" : (rem === 0) ? "#2e7d32" : "#1976d2";
-                fDeltaEl.style.color = "white";
-                fDeltaEl.style.fontWeight = "bold";
+            if(sch > 0) {{
+                row.style.background = "white"; row.style.color = "black";
+                fs.style.background = "#fcfbc7"; 
+                mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+                ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+            }} else {{
+                row.style.background = "#DCDCDC"; row.style.color = "#969696";
+                fs.style.background = "#DCDCDC"; 
+                mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+                ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
             }}
-        }}
-    }});
+            if(name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+            }}
+        }});
 
-    // 4. Segundo barrido por los polígonos: Listas desplegables y alertas de SPR MÍNIMO
-    if (contenedorPolis) {{
-        contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-            let vA = 0;
-            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+        // 2. Calcular ocupación por polígono (Tabla de abajo)
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+            let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
-            bl.querySelectorAll('.s-type').forEach(s => {{
-                let cur = s.value;
-                let opt = '<option>SELECCIONAR...</option>';
+
+           bl.querySelectorAll('.calc-row').forEach(r => {{
+                let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
                 
-                Object.keys(fleet).forEach(k => {{
-                    let disp = (fleet[k].stock - fleet[k].used > 0);
-                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H') || k.toUpperCase().includes('MOTO');
-                    if (disp || k === cur || flexible) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
-                    }}
-                }});
-                s.innerHTML = opt;
-                s.value = cur;
-
-                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
-                    let unidadTxt = cur.toUpperCase();
-                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
-                        s.style.setProperty("background-color", "#ffcccc", "important");
-                        s.style.setProperty("color", "#8b0000", "important");
-                        s.style.setProperty("font-weight", "bold", "important");
-                    }}
-                }}
-            }});
-
-            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
-                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                let sp = r.querySelector('.spr-real-val');
-                let sSelect = r.querySelector('.s-type');
-                let s = sSelect ? sSelect.value : "SELECCIONAR...";
-                
+                // Diccionario interno de mínimos oficiales para el freno operativo
                 const minimosFlota = {{
                     "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
                     "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
                 }};
 
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
+                    fleet[s].used += u; 
+                    
                     let sprActual = parseFloat(sp.innerText) || 0;
                     vA += (u * sprActual);
                     sp.style.fontWeight = "bold";
 
+                    // 🔥 CANDADO DE SEGURIDAD: Validar si hay unidades y el SPR cayó por debajo del mínimo
                     if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                        sp.style.setProperty("background-color", "#ffcccc", "important");
+                        sp.style.setProperty("background-color", "#ffcccc", "important"); // Alerta roja
                         sp.style.setProperty("color", "#cc0000", "important");
+                        sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
                     }} else {{
+                        // Estilo normal de cálculo
                         sp.style.setProperty("background-color", "#FFFFFF");
                         sp.style.setProperty("color", "#008B8B");
+                        sp.title = "";
                     }}
                 }} else {{
-                    sp.style.color = "#969696";
-                    sp.style.fontWeight = "normal";
+                    sp.style.color = "#969696"; 
+                    sp.style.fontWeight = "normal";   
                     sp.style.setProperty("background-color", "#FFFFFF");
+                    sp.title = "";
                 }}
             }});
 
-            let vCalcEl = bl.querySelector('.v-calculado-total') || bl.querySelector('.v-calculated-total');
-            if (vCalcEl) {{
-                vCalcEl.innerText = Math.round(vA);
-                vCalcEl.style.background = "white";
-            }}
-            
+
+
+            vCalcEl.innerText = Math.round(vA);
+            vCalcEl.style.background = "white";
             let d = bl.querySelector('.p-diff');
-            if (d) {{
-                if (vT === 0) {{
-                    d.innerText = "VACÍO"; d.style.background = "none"; d.style.color = "#333";
+
+            if (vT === 0) {{
+                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
+            }} else {{
+                let diffVal = Math.round(vA);
+                if (diffVal === Math.round(vT)) {{
+                    d.innerText = "OK"; d.style.background = "#3CB371"; vCalcEl.style.color = "#20B2AA";
+                }} else if (vA > vT) {{
+                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; vCalcEl.style.color = "#d32f2f";
                 }} else {{
-                    let diff = vA - vT;
-                    if (Math.round(vA) === Math.round(vT)) {{
-                        d.innerText = "OK"; d.style.background = "#3CB371"; d.style.color = "white";
-                    }} else if (vA > vT) {{
-                        d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; d.style.color = "white";
-                    }} else {{
-                        d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; d.style.color = "white";
-                    }}
+                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; vCalcEl.style.color = "#d32f2f";
                 }}
             }}
         }});
+
+        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let n = row.querySelector('.edit-name').innerText.trim();
+            if(fleet[n]) {{
+                let diff = fleet[n].stock - fleet[n].used;
+                console.log("Diferencia calculada:", diff);
+                let cL = row.querySelector('.f-left');
+                
+                // Regla universal para Car 3h, 5h, 8h y Crowd
+                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
+
+
+                console.log("Diferencia calculada:", diff);
+                cL.innerText = diff;
+                
+                // Color Rojo si es negativo
+                if (diff < 0) {{
+                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
+                }} else if (diff === 0 && fleet[n].stock > 0) {{
+                    cL.style.color = "white"; cL.style.background = "#d32f2f";
+                }} else {{
+                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
+                }}
+            }}
+        }});
+
+       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            // Capturamos el nombre del plan/polígono de este bloque específico
+            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+
+            bl.querySelectorAll('.s-type').forEach(s => {{
+                let cur = s.value; 
+                let opt = '<option>SELECCIONAR...</option>';
+                Object.keys(fleet).forEach(k => {{ 
+                    if (fleet[k].stock > 0) {{
+                        let disp = (fleet[k].stock - fleet[k].used > 0);
+                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
+                        if (disp || k === cur || flexible) {{
+                            opt += `<option value="${{k}}">${{k}}</option>`;
+                        }}
+                    }}
+                }});
+                
+                s.innerHTML = opt; 
+                s.value = cur; 
+
+                // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
+                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
+                    let unidadTxt = cur.toUpperCase();
+                    
+                    // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
+                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
+                        
+                        // Capturamos si ya tenía el color de advertencia puesto para no duplicar la alerta
+                        let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
+
+                        // 1. Aplicamos el diseño visual de advertencia al selector
+                        s.style.setProperty("background-color", "#ffcccc", "important");
+                        s.style.setProperty("color", "#8b0000", "important");
+                        s.style.setProperty("font-weight", "bold", "important");
+                        
+                        // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
+                        if (!yaTieneAlerta) {{
+                            showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
+                        }}
+                    }} else {{
+                        // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
+                        s.style.removeProperty("background-color");
+                        s.style.removeProperty("color");
+                        s.style.removeProperty("font-weight");
+                    }}
+                }}
+            }});
+        }});
+
+updateFleetFloat();
+
+actualizarTotales();
     }}
-
-    if (typeof updateFleetFloat === "function") updateFleetFloat();
-    if (typeof actualizarTotales === "function") actualizarTotales();
-}}
-
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
     document.addEventListener('keydown', function(event) {{ 
@@ -2050,14 +1696,8 @@ function distribuirAutomatico() {{
 
         // Diccionario de mínimos oficiales para alertas y validaciones
         const minimosFlota = {{
-            "Moto - 3h": 25, 
-            "Car - 3h": 25, 
-            "Car - 5h": 25, 
-            "Car - 5h Extendida": 25,
-            "Small Van SDD": 70, 
-            "Large Van SDD": 80, 
-            "Car Newbie": 40, 
-            "Car - 8h": 70
+            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
+            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
         }};
 
         // 1. Cargar la flota disponible desde la tabla de SCHED
@@ -2078,24 +1718,14 @@ function distribuirAutomatico() {{
             return;
         }}
 
-        // 🔥 PASO NUEVO: Obtener los bloques de polígonos y ordenarlos de MAYOR a MENOR volumen total
-        let bloquesPoligonos = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
-        
-        bloquesPoligonos.sort((a, b) => {{
-            let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
-            let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
-            return volB - volA; // Orden descendente (Mayor volumen primero)
-        }});
-
-        // 2. Recorrer cada bloque de polígono en su nuevo orden de prioridad
-        bloquesPoligonos.forEach(bl => {{
+        // 2. Recorrer cada bloque de polígono para distribuir el volumen
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
 
-            // El algoritmo solo trabajará si el polígono aún necesita unidades
             if (faltante > 1) {{
-                // 🛡️ FILTRO DE PROTECCIÓN MANUAL: Solo tomamos filas vacías ("SELECCIONAR...")
+                // Obtenemos las filas libres de este polígono para trabajar
                 let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
                     return r.querySelector('.s-type').value === "SELECCIONAR...";
                 }});
@@ -2115,7 +1745,7 @@ function distribuirAutomatico() {{
                     let totalAsignadasDeEsteTipo = 0;
                     let volumenAsignadoDeEsteTipo = 0;
 
-                    // A. Calcular cuántas unidades completas caben al MAXimo espacio
+                    // 1. Ver cuántas unidades completas al MAX podemos meter
                     let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
                     let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
 
@@ -2126,12 +1756,14 @@ function distribuirAutomatico() {{
                         faltante -= (asignoLlenas * unidad.max);
                     }}
 
-                    // B. Revisar si lo que sobra (residuo) alcanza para una unidad más de este tipo
+                    // 2. Revisar si lo que sobra (residuo) se lo damos a una unidad extra de este mismo tipo
                     if (faltante > 0 && unidad.stock > 0) {{
                         let residuo = faltante;
+                        
                         let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
                         let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
 
+                        // Si el residuo pasa el filtro operativo, sumamos una unidad más de este mismo tipo
                         if (residuo >= pisoAceptable || esUltimaOpcion) {{
                             let sprResiduo = Math.min(residuo, unidad.max);
                             
@@ -2142,21 +1774,21 @@ function distribuirAutomatico() {{
                         }}
                     }}
 
-                    // C. Inyectar los datos en una sola fila agrupada del polígono
+                    // 🔥 AQUÍ ESTÁ LA MAGIA: Si este tipo de unidad aportó algo, se escribe todo en UNA SOLA FILA
                     if (totalAsignadasDeEsteTipo > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++];
+                        let r = filasLibres[filaIdx++]; // Consumimos sólo una fila del polígono
                         
                         let sSelect = r.querySelector('.s-type');
                         let uManual = r.querySelector('.u-manual');
                         let spReal = r.querySelector('.spr-real-val');
 
                         sSelect.value = key;
-                        uManual.innerText = totalAsignadasDeEsteTipo; // Agrupadas juntas
+                        uManual.innerText = totalAsignadasDeEsteTipo; // Ej: 2 o 3 juntas
                         
+                        // El SPR real final de la fila es el promedio del volumen distribuido entre las unidades usadas
                         let sprPromedio = volumenAsignadoDeEsteTipo / totalAsignadasDeEsteTipo;
                         spReal.innerText = Math.round(sprPromedio * 10) / 10;
 
-                        // Mantener tus estilos originales de color
                         spReal.style.color = "#008B8B"; 
                         spReal.style.fontWeight = "bold";
 
@@ -2165,8 +1797,7 @@ function distribuirAutomatico() {{
                 }}
             }}
         }});
-        
-        // Recalcular todos los totales generales en tu pantalla
+        // Recalcular indicadores visuales en la pantalla
         recalc();
     }}
     
