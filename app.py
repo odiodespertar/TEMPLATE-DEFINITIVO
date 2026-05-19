@@ -79,21 +79,13 @@ def gen_master_rows(data_dict, table_id):
     items = list(data_dict.items())
     total_items = len(items)
 
-   # Listas de nombres para que la función las reconozca
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
-    # Determinamos el total de filas final
-    # Si es PREC, queremos al menos 45 para que quepa todo y sobren espacios
-    # Si no, las 18 de siempre
     num_filas_objetivo = 45 if table_id == "PREC" else 11
-    
-    # Usamos el número más grande entre el contenido real y nuestro objetivo
-    # Esto evita que se corte SMX11 si el diccionario crece
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, rango_final + 1):
-        # Lógica de nombres
         if (data_dict == u_PREC) and (i-1) < len(nombres_prec):
             p_name = nombres_prec[i-1]
         elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
@@ -101,21 +93,16 @@ def gen_master_rows(data_dict, table_id):
         else:
             p_name = f"PLAN {i}"
             
-        # Obtener datos de la unidad si existe
         if (i-1) < total_items:
             name, spr = items[i-1]
         else:
             name, spr = "", [0, 0]
             
-        
-        # --- DISEÑO DE FILAS ---
-        
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
-            # Quitamos 'master-row' de la clase para que el JS de polígonos no la cuente
             rows += f'''
             <tr class="es-divisor" style="background: #333 !important; color: #00e5ff; height: 28px;">
-                <td colspan="6" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
+                <td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
@@ -134,8 +121,10 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
-<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
+                
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
+                
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
