@@ -167,7 +167,7 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #696969; padding: 2px;">
-    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080; width: 100%;"> 
         <option value="">SELECCIONAR...</option>
         </select>
 </td>
