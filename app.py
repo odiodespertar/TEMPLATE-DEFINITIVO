@@ -1585,17 +1585,13 @@ actualizarTotales();
     }});
 
 
-function distribuirAutomatico() {
+function distribuirAutomatico() {{
 
     editedRowsPlan.clear();
 
-    // ===============================
-    // 1. LEER FLOTA DISPONIBLE
-    // ===============================
-
     let fleet = [];
 
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
 
         let nombre = row.querySelector('.edit-name')?.innerText.trim();
 
@@ -1609,26 +1605,19 @@ function distribuirAutomatico() {
             nombre &&
             nombre !== "IGNORAR" &&
             stock > 0
-        ) {
+        ) {{
 
-            fleet.push({
-                nombre,
+            fleet.push({{
+                nombre: nombre,
                 spr: sprMax,
                 stock: stock,
                 restante: stock
-            });
-        }
-    });
+            }});
+        }}
+    }});
 
-    // ====================================
-    // 2. ORDENAR UNIDADES POR MAYOR SPR
-    // ====================================
-
+    // PRIORIDAD MAYOR SPR
     fleet.sort((a, b) => b.spr - a.spr);
-
-    // ====================================
-    // 3. OBTENER POLÍGONOS
-    // ====================================
 
     let bloques = Array.from(
         document.querySelectorAll(
@@ -1638,51 +1627,42 @@ function distribuirAutomatico() {
 
     let polys = [];
 
-    bloques.forEach(bl => {
+    bloques.forEach(bl => {{
 
         let volumen =
             parseFloat(
                 bl.querySelector('.v-total-val')?.innerText
             ) || 0;
 
-        if (volumen > 0) {
+        if (volumen > 0) {{
 
-            polys.push({
+            polys.push({{
                 bloque: bl,
                 volumen: volumen
-            });
-        }
-    });
+            }});
+        }}
+    }});
 
-    // ====================================
-    // 4. ORDENAR POLÍGONOS POR VOLUMEN
-    // ====================================
-
+    // PRIORIDAD MAYOR VOLUMEN
     polys.sort((a, b) => b.volumen - a.volumen);
 
-    // ====================================
-    // 5. LIMPIAR FILAS AUTOMÁTICAS
-    // ====================================
-
+    // LIMPIAR
     document.querySelectorAll(
         '#polys-' + currentTab + ' .calc-row'
-    ).forEach(r => {
+    ).forEach(r => {{
 
         r.querySelector('.u-manual').innerText = "0";
         r.querySelector('.spr-real-val').innerText = "0";
 
         let sel = r.querySelector('.s-type');
 
-        if (sel) {
+        if (sel) {{
             sel.value = "SELECCIONAR...";
-        }
-    });
+        }}
+    }});
 
-    // ====================================
-    // 6. ASIGNACIÓN INTELIGENTE
-    // ====================================
-
-    polys.forEach(poly => {
+    // ASIGNAR
+    polys.forEach(poly => {{
 
         let bloque = poly.bloque;
 
@@ -1697,29 +1677,21 @@ function distribuirAutomatico() {
             bloque.querySelectorAll('.calc-row')
         );
 
-        // recorrer filas internas
-        for (let fila of filas) {
+        for (let fila of filas) {{
 
             if (restante <= 0) break;
 
-            // buscar mejor unidad disponible
             let unidad = fleet.find(f => f.restante > 0);
 
             if (!unidad) break;
 
-            // calcular cuántas unidades necesita
             let necesarias =
                 Math.ceil(restante / unidad.spr);
 
-            // no usar más de las disponibles
             let usar =
                 Math.min(necesarias, unidad.restante);
 
             if (usar <= 0) continue;
-
-            // ============================
-            // ASIGNAR
-            // ============================
 
             let select =
                 fila.querySelector('.s-type');
@@ -1732,22 +1704,16 @@ function distribuirAutomatico() {
             fila.querySelector('.spr-real-val').innerText =
                 unidad.spr;
 
-            // descontar
             unidad.restante -= usar;
 
-            // descontar volumen
             restante -= (usar * unidad.spr);
 
             editedRowsPlan.add(fila);
-        }
-    });
-
-    // ====================================
-    // 7. RECALCULAR TODO
-    // ====================================
+        }}
+    }});
 
     recalc();
-}
+}}
     
 
 // =========================
