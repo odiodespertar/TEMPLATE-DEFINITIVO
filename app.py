@@ -1158,7 +1158,7 @@ style="text-align:center; color:#00BFFF;">
 </div>
 
 <script>
-<script>
+    // Variables de control del monitor
     let currentTab = 2;
     let editedRowsPlan = new Set();
     let curC = "";
@@ -1166,9 +1166,11 @@ style="text-align:center; color:#00BFFF;">
     let startTime;
     let elapsedTime = 0;
 
+    // Dejamos la función limpia y cerrada perfectamente
     function aplicarPerfil() {{
-        // Eliminado perfiles
+        // Sin perfiles operativos activos
     }}
+</script>
     
 
 
