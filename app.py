@@ -20,7 +20,8 @@ u_PREC = {
     "Large Van SDD": [80, 85], 
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car - 8h": [70, 75]
+    "Car - 8h": [70, 75],
+    "Car Newbie": [40, 45],
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -247,8 +248,10 @@ PERFILES = {
     "LUNES": {
 
         "2": {
-            "Car - 8h": {"orh": 99, "disp": 80},
-            "SV": {"orh": 91, "disp": 95},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Small Van SDD": {"orh": 475, "disp": 70},
+            "Car Newbie": {"orh": 90, "disp": 83
+            "Small Van Car 9h": {"orh": 360, "disp": 66},             
         },
 
         "1": {
