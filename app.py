@@ -77,7 +77,7 @@ ORH_FIJOS = {
 
 
 
-def gen_master_rows(data_dict, table_id):
+def gen_master_rows(data_dict, table_id, perfil_actual):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
@@ -132,13 +132,30 @@ def gen_master_rows(data_dict, table_id):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
+            
+            # --- NUEVA LÓGICA DINÁMICA DE PERFILES ---
+            # Convertimos el ID de la pestaña (2, 1, 5, 4) a string para que coincida con las claves de tu diccionario
+            tab_key = str(table_id) 
+            
+            # Buscamos en tu diccionario de PERFILES usando el día seleccionado, la pestaña y el nombre de la unidad
+            datos_dinamicos = PERFILES.get(perfil_actual, {}).get(tab_key, {}).get(name, None)
+            
+            if datos_dinamicos:
+                orh_val = datos_dinamicos.get("ORH", 0)
+                # Usamos la clave "%" tal como lo tienes en tu estructura actual
+                ocup_val = datos_dinamicos.get("%", 0) 
+            else:
+                # Si no está definido en el perfil del día, recurre al valor base de ORH_FIJOS
+                orh_val = ORH_FIJOS.get(name, ["0", "0"])[0]
+                ocup_val = ORH_FIJOS.get(name, ["0", "0"])[1]
+            
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
-<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
+                <td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{orh_val}</td>
+                <td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{ocup_val}%</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
@@ -247,63 +264,29 @@ def gen_poligonos(data_target=None):
 
 PERFILES = {
     "LUNES": {
-        "2": {
-            "Large Van SDD": {"ORH": 475, "porcentaje": 70},
-            "Small Van SDD": {"ORH": 475, "porcentaje": 70},
-            "Car Newbie": {"ORH": 90, "porcentaje": 83},
-            "Car 8h": {"ORH": 360, "porcentaje": 66}, 
-            "Small Van Car 9h": {"ORH": 360, "porcentaje": 66},
+        "SDE": {},
+        "PREC": {
+            "Large Van SDD": {"ORH": 486, "porcentaje": 80},
+            "Small Van SDD": {"ORH": 540, "porcentaje": 66},
+            "Car Newbie": {"ORH": 180, "porcentaje": 266},
+            "Car - 8h": {"ORH": 84, "porcentaje": 90},
+            "Small Van Car 9h": {"ORH": 0, "porcentaje": 0}
         },
-        "1": {
-            "Car 8h": {"ORH": 84, "porcentaje": 90},
-        },
-        "5": {
-            "Small Van SDD": {"ORH": 487, "porcentaje": 70},
-            "Car 8h": {"ORH": 360, "porcentaje": 66}, 
-            "Small Van Car 9h": {"ORH": 360, "porcentaje": 66},
-        },
-        "4": {
-            "Car 5h": {"ORH": 87, "porcentaje": 93},
+        "PREC_SMX2": {
+            "Large Van SDD": {"ORH": 486, "porcentaje": 80},
+            "Small Van SDD": {"ORH": 540, "porcentaje": 66},
+            "Car Newbie": {"ORH": 180, "porcentaje": 266},
+            "Car - 8h": {"ORH": 84, "porcentaje": 90}
         }
     },
-    "MARTES": {
-        "2": { "Car 8h": {"ORH": 90, "porcentaje": 94} },
-        "1": { "Car 8h": {"ORH": 85, "porcentaje": 91} },
-        "5": { "Car 8h": {"ORH": 88, "porcentaje": 92} },
-        "4": { "Car 8h": {"ORH": 89, "porcentaje": 94} }
-    },
-    "MIÉRCOLES": {
-        "2": { "Car 8h": {"ORH": 89, "porcentaje": 93} },
-        "1": { "Car 8h": {"ORH": 86, "porcentaje": 90} },
-        "5": { "Car 8h": {"ORH": 87, "porcentaje": 91} },
-        "4": { "Car 8h": {"ORH": 88, "porcentaje": 92} }
-    },
-    "JUEVES": {
-        "2": { "Car 8h": {"ORH": 91, "porcentaje": 95} },
-        "1": { "Car 8h": {"ORH": 87, "porcentaje": 92} },
-        "5": { "Car 8h": {"ORH": 89, "porcentaje": 93} },
-        "4": { "Car 8h": {"ORH": 90, "porcentaje": 94} }
-    },
-    "VIERNES": {
-        "2": { "Car 8h": {"ORH": 93, "porcentaje": 97} },
-        "1": { "Car 8h": {"ORH": 90, "porcentaje": 95} }, # <-- Aquí corregido el "5": 95 viejo
-        "5": { "Car 8h": {"ORH": 91, "porcentaje": 96} },
-        "4": { "Car 8h": {"ORH": 92, "porcentaje": 96} }
-    },
-    "SÁBADO": {
-        "2": { "Car 8h": {"ORH": 85, "porcentaje": 89} },
-        "1": { "Car 8h": {"ORH": 82, "porcentaje": 87} },
-        "5": { "Car 8h": {"ORH": 84, "porcentaje": 88} },
-        "4": { "Car 8h": {"ORH": 83, "porcentaje": 87} }
-    },
-    "DOMINGO": {
-        "2": { "Car 8h": {"ORH": 80, "porcentaje": 85} },
-        "1": { "Car 8h": {"ORH": 78, "porcentaje": 84} },
-        "5": { "Car 8h": {"ORH": 79, "porcentaje": 84} },
-        "4": { "Car 8h": {"ORH": 80, "porcentaje": 85} }
-    }
-  }
+    "MARTES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
+    "MIÉRCOLES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
+    "JUEVES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
+    "VIERNES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
+    "SÁBADO": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
+    "DOMINGO": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} }
 }
+
 
 perfil_actual = st.selectbox(
     "📅 PERFIL OPERATIVO",
