@@ -591,60 +591,31 @@ html body .meli-table tbody tr:last-child {{
         
        
         <div id="tab-2" class="t-content">
-            <table class="meli-table">
-                <thead>
-                    <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
-                    </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
-                        
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
-                    </tr>
-                </thead>
-
-            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-
-<tfoot>
-
-<tr style="background:#1a1a1a; color:white; font-weight:bold;">
-
-<td colspan="5"
-style="padding:6px; text-align:right;">
-TOTAL MLP
-</td>
-
-<td id="total-no-car"
-style="text-align:center; color:#00ff99;">
-0
-</td>
-
-</tr>
-
-<tr style="background:#111; color:white; font-weight:bold;">
-
-<td colspan="5"
-style="padding:6px; text-align:right;">
-TOTAL CAR REAL
-</td>
-
-<td id="total-car-real"
-style="text-align:center; color:#00BFFF;">
-0
-</td>
-
-</tr>
-
-</tfoot>
-            
-            </table>
-        </div>
+    <table class="meli-table">
+        <thead>
+            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+            </tr>
+        </thead>
+        <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+        <tfoot>
+            <tr style="background:#1a1a1a; color:white; font-weight:bold;">
+                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car" style="text-align:center; color:#00ff99;"> 0 </td>
+                <td></td>
+            </tr>
+            <tr style="background:#111; color:white; font-weight:bold;">
+                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real" style="text-align:center; color:#00BFFF;"> 0 </td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
        
         <div id="tab-1" class="t-content" style="display:none;">
