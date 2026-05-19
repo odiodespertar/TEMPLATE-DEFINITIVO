@@ -25,7 +25,7 @@ u_PREC = {
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
- 
+
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
@@ -565,6 +565,14 @@ html body .meli-table tbody tr:last-child {{
             </div>
 
             
+            <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
+    <button onclick="distribuirAutomatico()" 
+    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
+    ⚡ AUTO-CALCULAR
+</button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
         style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #000; transition: all 0.05s; outline: none;">
@@ -1000,15 +1008,6 @@ html body .meli-table tbody tr:last-child {{
     </div>
 </div>
 
-<div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
-    <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
-    ⚡ AUTO-CALCULAR
-</button>
-
 
 <!-- COLUMNA IZQUIERDA -->
 
@@ -1019,6 +1018,7 @@ html body .meli-table tbody tr:last-child {{
     overflow-y:auto;
     overflow-x:hidden;
 ">
+
     
         <div style="background: #2e2e2e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
@@ -1026,7 +1026,6 @@ html body .meli-table tbody tr:last-child {{
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
     </div>
-
 
 
 <!-- CONTADOR FLOTANTE -->
