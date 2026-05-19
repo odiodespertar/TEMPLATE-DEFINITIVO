@@ -2034,14 +2034,24 @@ function distribuirAutomatico() {{
             return;
         }}
 
-        // 2. Recorrer cada bloque de polígono para distribuir el volumen
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // 🔥 PASO NUEVO: Obtener los bloques de polígonos y ordenarlos de MAYOR a MENOR volumen total
+        let bloquesPoligonos = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
+        
+        bloquesPoligonos.sort((a, b) => {{
+            let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
+            let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
+            return volB - volA; // Orden descendente (Mayor volumen primero)
+        }});
+
+        // 2. Recorrer cada bloque de polígono en su nuevo orden de prioridad
+        bloquesPoligonos.forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
             let faltante = vT - vA;
 
+            // El algoritmo solo trabajará si el polígono aún necesita unidades
             if (faltante > 1) {{
-                // Obtenemos las filas libres de este polígono para trabajar
+                // 🛡️ FILTRO DE PROTECCIÓN MANUAL: Solo tomamos filas vacías ("SELECCIONAR...")
                 let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
                     return r.querySelector('.s-type').value === "SELECCIONAR...";
                 }});
@@ -2061,7 +2071,7 @@ function distribuirAutomatico() {{
                     let totalAsignadasDeEsteTipo = 0;
                     let volumenAsignadoDeEsteTipo = 0;
 
-                    // 1. Ver cuántas unidades completas al MAX podemos meter
+                    // A. Calcular cuántas unidades completas caben al MAXimo espacio
                     let unidadesLlenasNecesarias = Math.floor(faltante / unidad.max);
                     let asignoLlenas = Math.min(unidadesLlenasNecesarias, unidad.stock);
 
@@ -2072,14 +2082,12 @@ function distribuirAutomatico() {{
                         faltante -= (asignoLlenas * unidad.max);
                     }}
 
-                    // 2. Revisar si lo que sobra (residuo) se lo damos a una unidad extra de este mismo tipo
+                    // B. Revisar si lo que sobra (residuo) alcanza para una unidad más de este tipo
                     if (faltante > 0 && unidad.stock > 0) {{
                         let residuo = faltante;
-                        
                         let unidadesRestantesFlota = Object.keys(fleet).filter(k => fleet[k].stock > 0);
                         let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
 
-                        // Si el residuo pasa el filtro operativo, sumamos una unidad más de este mismo tipo
                         if (residuo >= pisoAceptable || esUltimaOpcion) {{
                             let sprResiduo = Math.min(residuo, unidad.max);
                             
@@ -2090,21 +2098,21 @@ function distribuirAutomatico() {{
                         }}
                     }}
 
-                    // 🔥 AQUÍ ESTÁ LA MAGIA: Si este tipo de unidad aportó algo, se escribe todo en UNA SOLA FILA
+                    // C. Inyectar los datos en una sola fila agrupada del polígono
                     if (totalAsignadasDeEsteTipo > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++]; // Consumimos sólo una fila del polígono
+                        let r = filasLibres[filaIdx++];
                         
                         let sSelect = r.querySelector('.s-type');
                         let uManual = r.querySelector('.u-manual');
                         let spReal = r.querySelector('.spr-real-val');
 
                         sSelect.value = key;
-                        uManual.innerText = totalAsignadasDeEsteTipo; // Ej: 2 o 3 juntas
+                        uManual.innerText = totalAsignadasDeEsteTipo; // Agrupadas juntas
                         
-                        // El SPR real final de la fila es el promedio del volumen distribuido entre las unidades usadas
                         let sprPromedio = volumenAsignadoDeEsteTipo / totalAsignadasDeEsteTipo;
                         spReal.innerText = Math.round(sprPromedio * 10) / 10;
 
+                        // Mantener tus estilos originales de color
                         spReal.style.color = "#008B8B"; 
                         spReal.style.fontWeight = "bold";
 
@@ -2113,7 +2121,8 @@ function distribuirAutomatico() {{
                 }}
             }}
         }});
-        // Recalcular indicadores visuales en la pantalla
+        
+        // Recalcular todos los totales generales en tu pantalla
         recalc();
     }}
     
