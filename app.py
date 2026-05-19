@@ -195,7 +195,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #DCDCDC; font-weight:bold; text-align:center; border: 1px solid #696969; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" style="background: #D3D3D3; font-weight:bold; text-align:center; border: 1px solid #696969; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #20B2AA; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #696969; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
