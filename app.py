@@ -167,8 +167,10 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #696969; padding: 2px;">
-            <select class="s-type" onchange="resetRow(this)" style="{select_style}"><option>SELECCIONAR...</option></select>
-        </td>
+    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #696969;"> 
+        <option value="">SELECCIONAR...</option>
+        </select>
+</td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.1); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
@@ -1735,6 +1737,17 @@ function actualizarTotales() {{
         if (noCarCell) noCarCell.innerText = totalNoCar; 
         if (carCell) carCell.innerText = totalCarReal;
     }}
+
+
+// --- AQUÍ PEGA LA FUNCIÓN NUEVA ---
+    function updateSelectColor(selectElement) {
+        if (selectElement.value === "") {
+            selectElement.style.color = "#A9A9A9"; // Gris
+        } else {
+            selectElement.style.color = "#000000"; // Negro
+        }
+    }
+
 
 
 aplicarPerfil();
