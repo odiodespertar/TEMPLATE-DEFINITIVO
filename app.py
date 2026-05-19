@@ -1239,13 +1239,11 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 fs.style.background = "#fcfbc7"; 
                 mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
                 ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
-                nameCell.style.color = "black";
             }} else {{
                 row.style.background = "#DCDCDC"; row.style.color = "#969696";
                 fs.style.background = "#DCDCDC"; 
                 mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
                 ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
-                nameCell.style.color = "#969696";
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
