@@ -262,7 +262,9 @@ PERFILES = {
         },
 
         "5": {
-            "Car 8h": {"orh": 86, "disp": 91},
+            "Small Van SDD": {"orh": 487, "%": 70},
+            "Car 8h": {"orh": 360, "%": 66}, 
+            "Small Van Car 9h": {"orh": 360, "%": 66},
         },
 
         "4": {
