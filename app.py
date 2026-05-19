@@ -1805,25 +1805,37 @@ dia_seleccionado = st.selectbox("📅 SELECCIONA EL DÍA OPERATIVO", list(DATA_P
 
 col1, col2, col3, col4 = st.columns(4)
 
+# --- ESTILO COMPACTO ---
+estilo_tabla = """
+<style>
+    .comp-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 5px; }
+    .comp-table th { background: #333; color: white; padding: 4px; text-align: left; }
+    .comp-table td { padding: 4px; border-bottom: 1px solid #ddd; background: #fafafa; }
+</style>
+"""
+st.markdown(estilo_tabla, unsafe_allow_html=True)
+
+# Función auxiliar para generar la tablita pequeña
+def tabla_compacta(datos_cat):
+    filas = "".join([f"<tr><td>{u}</td><td>{d['orh']}</td><td>{d['disp']}%</td></tr>" for u, d in datos_cat.items()])
+    return f"<table class='comp-table'><tr><th>U</th><th>ORH</th><th>%</th></tr>{filas}</table>"
+
+# --- RENDERIZADO COMPACTO EN COLUMNAS ---
 with col1:
-    st.markdown("<div style='background-color:#111; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>C1 / C2</div>", unsafe_allow_html=True)
-    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["C1 / C2"].items():
-        st.info(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+    st.markdown("<div style='background-color:#111; color:#fff; padding:4px; font-weight:bold; text-align:center;'>C1 / C2</div>", unsafe_allow_html=True)
+    st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["C1 / C2"]), unsafe_allow_html=True)
 
 with col2:
-    st.markdown("<div style='background-color:#444; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>PREC SMX5</div>", unsafe_allow_html=True)
-    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX5"].items():
-        st.warning(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+    st.markdown("<div style='background-color:#444; color:#fff; padding:4px; font-weight:bold; text-align:center;'>PREC SMX5</div>", unsafe_allow_html=True)
+    st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX5"]), unsafe_allow_html=True)
 
 with col3:
-    st.markdown("<div style='background-color:#008080; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>PREC SMX2</div>", unsafe_allow_html=True)
-    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX2"].items():
-        st.success(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+    st.markdown("<div style='background-color:#008080; color:#fff; padding:4px; font-weight:bold; text-align:center;'>PREC SMX2</div>", unsafe_allow_html=True)
+    st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["PREC SMX2"]), unsafe_allow_html=True)
 
 with col4:
-    st.markdown("<div style='background-color:#20B2AA; color:#fff; padding:6px; font-weight:bold; text-align:center; border-radius:4px; margin-bottom:10px;'>SDE</div>", unsafe_allow_html=True)
-    for unidad, datos in DATA_PERFILES_DIARIOS[dia_seleccionado]["SDE"].items():
-        st.error(f"**{unidad}**\n\n🔹 ORH: `{datos['orh']}`\n\n🔹 Ocupación: `{datos['disp']}%`")
+    st.markdown("<div style='background-color:#20B2AA; color:#fff; padding:4px; font-weight:bold; text-align:center;'>SDE</div>", unsafe_allow_html=True)
+    st.markdown(tabla_compacta(DATA_PERFILES_DIARIOS[dia_seleccionado]["SDE"]), unsafe_allow_html=True)
 
 
 
