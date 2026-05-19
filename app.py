@@ -1654,178 +1654,204 @@ if (delta > 0 && left <= 0 && esCAR) {{
 }}
 
 
-    function recalc() {{
+  function recalc() {{
         let fleet = {{}};
         
-        // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
-        // Guardamos el identificador real que usan los elementos HTML en pantalla
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
-        // ----------------------------------------------------
-
-        // 1. Capturar datos de la flota (Tabla de arriba)
+        // 🛡️ REGLA DE UNIFICACIÓN DE IDS (Usa directamente el ID numérico activo)
+        let tabId = currentTab; 
+        
+        // 1. Capturar datos de la flota (Tabla de arriba - SCHED)
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
+            let nameEl = row.querySelector('.edit-name');
+            if (!nameEl) return; // Si la fila está vacía, la brinca por seguridad
             
+            let name = nameEl.innerText.trim();
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min');
+            let ma = row.querySelector('.edit-spr-max');
+            let fs = row.querySelector('.f-stock');
+            
+            // Conserva tus estilos originales de filas vacías / llenas
             if(sch > 0) {{
-                row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#fcfbc7"; 
-                mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-                ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+                row.style.background = "white"; 
+                row.style.color = "black";
+                if(fs) fs.style.background = "#fcfbc7"; 
+                if(mi) {{ mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold"; }}
+                if(ma) {{ ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold"; }}
             }} else {{
-                row.style.background = "#DCDCDC"; row.style.color = "#969696";
-                fs.style.background = "#DCDCDC"; 
-                mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-                ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+                row.style.background = "#DCDCDC"; 
+                row.style.color = "#969696";
+                if(fs) fs.style.background = "#DCDCDC"; 
+                if(mi) {{ mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal"; }}
+                if(ma) {{ ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal"; }}
             }}
-            if(name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+            
+            if(name !== "" && name !== "NUEVA UNIDAD" && !row.classList.contains('es-divisor')) {{
+                fleet[name] = {{
+                    min: parseFloat(mi ? mi.innerText : 0) || 0,
+                    max: parseFloat(ma ? ma.innerText : 0) || 0,
+                    stock: sch,
+                    used: 0
+                }};
             }}
         }});
 
-        // 2. Calcular ocupación por polígono (Tabla de abajo)
-        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-            let vCalcEl = bl.querySelector('.v-calculado-total'); 
-
-
-           bl.querySelectorAll('.calc-row').forEach(r => {{
-                let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
-                
-                // Diccionario interno de mínimos oficiales para el freno operativo
-                const minimosFlota = {{
-                    "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-                    "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-                }};
-
+        // 2. Primer barrido por los polígonos: Contar cuántas unidades se han usado
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
+                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                let sSelect = r.querySelector('.s-type');
+                let s = sSelect ? sSelect.value : "SELECCIONAR...";
                 if(s !== "SELECCIONAR..." && fleet[s]) {{
-                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
-                    fleet[s].used += u; 
-                    
-                    let sprActual = parseFloat(sp.innerText) || 0;
-                    vA += (u * sprActual);
-                    sp.style.fontWeight = "bold";
-
-                    // 🔥 CANDADO DE SEGURIDAD: Validar si hay unidades y el SPR cayó por debajo del mínimo
-                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                        sp.style.setProperty("background-color", "#ffcccc", "important"); // Alerta roja
-                        sp.style.setProperty("color", "#cc0000", "important");
-                        sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
-                    }} else {{
-                        // Estilo normal de cálculo
-                        sp.style.setProperty("background-color", "#FFFFFF");
-                        sp.style.setProperty("color", "#008B8B");
-                        sp.title = "";
-                    }}
-                }} else {{
-                    sp.style.color = "#969696"; 
-                    sp.style.fontWeight = "normal";   
-                    sp.style.setProperty("background-color", "#FFFFFF");
-                    sp.title = "";
+                    fleet[s].used += u;
                 }}
             }});
-
-
-
-            vCalcEl.innerText = Math.round(vA);
-            vCalcEl.style.background = "white";
-            let d = bl.querySelector('.p-diff');
-
-            if (vT === 0) {{
-                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
-            }} else {{
-                let diffVal = Math.round(vA);
-                if (diffVal === Math.round(vT)) {{
-                    d.innerText = "OK"; d.style.background = "#3CB371"; vCalcEl.style.color = "#20B2AA";
-                }} else if (vA > vT) {{
-                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; vCalcEl.style.color = "#d32f2f";
-                }} else {{
-                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; vCalcEl.style.color = "#d32f2f";
-                }}
-            }}
         }});
 
-        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
+        // 3. Actualizar los remanentes (Faltantes / Delta) en la tabla superior (SCHED)
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let n = row.querySelector('.edit-name').innerText.trim();
-            if(fleet[n]) {{
-                let diff = fleet[n].stock - fleet[n].used;
-                console.log("Diferencia calculada:", diff);
-                let cL = row.querySelector('.f-left');
+            let nameEl = row.querySelector('.edit-name');
+            if (!nameEl) return;
+            
+            let name = nameEl.innerText.trim();
+            let fLeftEl = row.querySelector('.f-left');
+            let fDeltaEl = row.querySelector('.f-delta');
+            
+            if(name && fleet[name]) {{
+                let rem = fleet[name].stock - fleet[name].used;
+                if(fLeftEl) fLeftEl.innerText = rem;
                 
-                // Regla universal para Car 3h, 5h, 8h y Crowd
-                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
-
-
-                console.log("Diferencia calculada:", diff);
-                cL.innerText = diff;
-                
-                // Color Rojo si es negativo
-                if (diff < 0) {{
-                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#d32f2f";
-                }} else {{
-                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
+                if(fDeltaEl) {{
+                    fDeltaEl.innerText = (rem >= 0) ? "+" + rem : rem;
+                    fDeltaEl.style.background = (rem < 0) ? "#d32f2f" : (rem === 0) ? "#2e7d32" : "#1976d2";
+                    fDeltaEl.style.color = "white";
+                    fDeltaEl.style.fontWeight = "bold";
+                }}
+            }} else {{
+                if(fLeftEl) fLeftEl.innerText = "0";
+                if(fDeltaEl) {{
+                    fDeltaEl.innerText = "0";
+                    fDeltaEl.style.background = "#969696";
                 }}
             }}
         }});
 
-       // 4. FILTRAR LISTA SIN ROMPER SCHED (CON CANDADO IXTAPALUCA INTEGRADO)
-        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            // Capturamos el nombre del plan/polígono de este bloque específico
+        // 4. Segundo barrido por los polígonos: Calcular volúmenes e inyectar Listas Desplegables
+        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let vA = 0;
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
+            // Llenar dinámicamente el listado seleccionable de unidades
             bl.querySelectorAll('.s-type').forEach(s => {{
-                let cur = s.value; 
+                let cur = s.value;
                 let opt = '<option>SELECCIONAR...</option>';
-                Object.keys(fleet).forEach(k => {{ 
-                    if (fleet[k].stock > 0) {{
-                        let disp = (fleet[k].stock - fleet[k].used > 0);
-                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
-                        if (disp || k === cur || flexible) {{
-                            opt += `<option value="${{k}}">${{k}}</option>`;
-                        }}
+                
+                Object.keys(fleet).forEach(k => {{
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H') || k.toUpperCase().includes('MOTO');
+                    if (disp || k === cur || flexible) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }});
-                
-                s.innerHTML = opt; 
-                s.value = cur; 
+                s.innerHTML = opt;
+                s.value = cur;
 
-                // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
+                // 🚨 REGLA DE ORO DE TU ZONA ROJA (IXTAPALUCA VALLE CHALCO)
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
                     let unidadTxt = cur.toUpperCase();
-                    
-                    // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
                     if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
-                        
-                        // Capturamos si ya tenía el color de advertencia puesto para no duplicar la alerta
                         let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
-
-                        // 1. Aplicamos el diseño visual de advertencia al selector
+                        
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
                         s.style.setProperty("font-weight", "bold", "important");
                         
-                        // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
                         if (!yaTieneAlerta) {{
                             showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
                         }}
                     }} else {{
-                        // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
                         s.style.removeProperty("background-color");
                         s.style.removeProperty("color");
                         s.style.removeProperty("font-weight");
                     }}
                 }}
             }});
+
+            // Calcular el volumen real que va sumando el plan
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
+                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                let sp = r.querySelector('.spr-real-val');
+                let sSelect = r.querySelector('.s-type');
+                let s = sSelect ? sSelect.value : "SELECCIONAR...";
+                
+                const minimosFlota = {{
+                    "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
+                    "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
+                }};
+
+                if(s !== "SELECCIONAR..." && fleet[s]) {{
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
+                    let sprActual = parseFloat(sp.innerText) || 0;
+                    vA += (u * sprActual);
+                    sp.style.fontWeight = "bold";
+
+                    // Alerta si el SPR cae por debajo del mínimo permitido
+                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
+                        sp.style.setProperty("background-color", "#ffcccc", "important");
+                        sp.style.setProperty("color", "#cc0000", "important");
+                    }} else {{
+                        sp.style.setProperty("background-color", "#FFFFFF");
+                        sp.style.setProperty("color", "#008B8B");
+                    }}
+                }} else {{
+                    sp.style.color = "#969696";
+                    sp.style.fontWeight = "normal";
+                    sp.style.setProperty("background-color", "#FFFFFF");
+                }}
+            }});
+
+            // Renderizar los indicadores de estado (OK, FALTAN, EXCESO)
+            let vCalcEl = bl.querySelector('.v-calculated-total');
+            if (vCalcEl) {{
+                vCalcEl.innerText = Math.round(vA);
+                vCalcEl.style.background = "white";
+            }}
+            
+            let d = bl.querySelector('.p-diff');
+            if (d) {{
+                if (vT === 0) {{
+                    d.innerText = "VACÍO";
+                    d.style.background = "none";
+                    d.style.color = "#333";
+                    if(vCalcEl) vCalcEl.style.color = "#d32f2f";
+                }} else {{
+                    let diff = vA - vT;
+                    if (Math.round(vA) === Math.round(vT)) {{
+                        d.innerText = "OK";
+                        d.style.background = "#3CB371";
+                        d.style.color = "white";
+                        if(vCalcEl) vCalcEl.style.color = "#20B2AA";
+                    }} else if (vA > vT) {{
+                        d.innerText = "EXCESO: " + Math.round(vA - vT);
+                        d.style.background = "#f5bf62";
+                        d.style.color = "white";
+                        if(vCalcEl) vCalcEl.style.color = "#d32f2f";
+                    }} else {{
+                        d.innerText = "FALTAN: " + Math.round(vT - vA);
+                        d.style.background = "#fa4343";
+                        d.style.color = "white";
+                        if(vCalcEl) vCalcEl.style.color = "#d32f2f";
+                    }}
+                }}
+            }}
         }});
 
-updateFleetFloat();
-
-actualizarTotales();
+        // 5. Actualizar la tarjeta flotante y totales alternos si existen
+        if (typeof updateFleetFloat === "function") updateFleetFloat();
+        if (typeof actualizarTotales === "function") actualizarTotales();
     }}
+
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
     document.addEventListener('keydown', function(event) {{ 
