@@ -290,6 +290,9 @@ app_html = f"""
     
 </head>
 
+
+
+
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table {{ 
@@ -565,14 +568,7 @@ html body .meli-table tbody tr:last-child {{
             </div>
 
             
-            <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
-    <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
-    ⚡ AUTO-CALCULAR
-</button>
+            
     
     <button class="filter-btn" onclick="filterRows(true)" 
         style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #111; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #000; transition: all 0.05s; outline: none;">
@@ -1009,9 +1005,17 @@ html body .meli-table tbody tr:last-child {{
 </div>
 
 
+<div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
+    <button onclick="distribuirAutomatico()" 
+    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
+    ⚡ AUTO-CALCULAR
+</button>
+
+
 <!-- COLUMNA IZQUIERDA -->
-
-
 <!-- PLANNERS -->
 <div style="
     width:100%;
