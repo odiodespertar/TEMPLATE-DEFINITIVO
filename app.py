@@ -630,7 +630,7 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
-           <tfoot>
+          <tfoot>
             <tr style="background:#1a1a1a; color:white; font-weight:bold;">
                 <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car" style="text-align:center; color:#00ff99;"> 0 </td>
@@ -658,7 +658,7 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-<tfoot>
+       <tfoot>
             <tr style="background:#1a1a1a; color:white; font-weight:bold;">
                 <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car" style="text-align:center; color:#00ff99;"> 0 </td>
@@ -687,7 +687,7 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-<tfoot>
+       <tfoot>
             <tr style="background:#1a1a1a; color:white; font-weight:bold;">
                 <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car" style="text-align:center; color:#00ff99;"> 0 </td>
