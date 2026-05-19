@@ -591,7 +591,7 @@ html body .meli-table tbody tr:last-child {{
         
        
         <div id="tab-2" class="t-content">
-    <table class="meli-table">
+       <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
@@ -619,7 +619,7 @@ html body .meli-table tbody tr:last-child {{
 
        
         <div id="tab-1" class="t-content" style="display:none;">
-            <table class="meli-table">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
@@ -667,7 +667,7 @@ style="text-align:center; color:#00BFFF;">
 
        
         <div id="tab-5" class="t-content" style="display:none;">
-            <table class="meli-table">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
@@ -717,7 +717,7 @@ style="text-align:center; color:#00BFFF;">
 
         
         <div id="tab-4" class="t-content" style="display:none;">
-            <table class="meli-table">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
