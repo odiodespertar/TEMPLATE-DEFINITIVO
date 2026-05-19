@@ -1587,6 +1587,58 @@ actualizarTotales();
     }});
 
 
+
+    
+
+// =========================
+// TOTALES FINALES
+// =========================
+
+function actualizarTotales() {{
+        let totalNoCar = 0;
+        let totalCarReal = 0;
+
+        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+
+        // Sumar datos desde la tabla de disponibilidad activa
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name').innerText.trim().toUpperCase();
+            let left = parseInt(row.querySelector('.f-left').innerText) || 0;
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let asig = sch - left;
+
+            if (name && name !== "IGNORAR" && name !== "NUEVA UNIDAD") {{
+                if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
+                    totalCarReal += asig;
+                }} else {{
+                    totalNoCar += asig;
+                }}
+            }}
+        }});
+
+        // Pintar en los tfoots correspondientes de la pestaña activa
+        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
+        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
+
+        if (noCarCell) noCarCell.innerText = totalNoCar; 
+        if (carCell) carCell.innerText = totalCarReal;
+    }}
+
+
+// --- AQUÍ PEGA LA FUNCIÓN NUEVA ---
+    function updateSelectColor(selectElement) {{
+        if (selectElement.value === "") {{
+            selectElement.style.color = "#A9A9A9"; // Gris
+        }} else {{
+            selectElement.style.color = "#000000"; // Negro
+        }}
+    }}
+
+
+
+aplicarPerfil();
+
+
 function distribuirAutomatico() {
     let fleet = {};
     
@@ -1677,55 +1729,7 @@ function distribuirAutomatico() {
     // Llamar a tu función de recalcular totales
     if (typeof recalc === 'function') recalc();
 }
-    
 
-// =========================
-// TOTALES FINALES
-// =========================
-
-function actualizarTotales() {{
-        let totalNoCar = 0;
-        let totalCarReal = 0;
-
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
-
-        // Sumar datos desde la tabla de disponibilidad activa
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim().toUpperCase();
-            let left = parseInt(row.querySelector('.f-left').innerText) || 0;
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let asig = sch - left;
-
-            if (name && name !== "IGNORAR" && name !== "NUEVA UNIDAD") {{
-                if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
-                    totalCarReal += asig;
-                }} else {{
-                    totalNoCar += asig;
-                }}
-            }}
-        }});
-
-        // Pintar en los tfoots correspondientes de la pestaña activa
-        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
-        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
-
-        if (noCarCell) noCarCell.innerText = totalNoCar; 
-        if (carCell) carCell.innerText = totalCarReal;
-    }}
-
-
-// --- AQUÍ PEGA LA FUNCIÓN NUEVA ---
-    function updateSelectColor(selectElement) {{
-        if (selectElement.value === "") {{
-            selectElement.style.color = "#A9A9A9"; // Gris
-        }} else {{
-            selectElement.style.color = "#000000"; // Negro
-        }}
-    }}
-
-
-
-aplicarPerfil();
 
     
     recalc();
