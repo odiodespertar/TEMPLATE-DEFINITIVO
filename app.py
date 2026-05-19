@@ -1808,9 +1808,19 @@ col1, col2, col3, col4 = st.columns(4)
 # --- ESTILO COMPACTO ---
 estilo_tabla = """
 <style>
-    .comp-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 5px; }
-    .comp-table th { background: #333; color: white; padding: 4px; text-align: left; }
-    .comp-table td { padding: 4px; border-bottom: 1px solid #ddd; background: #fafafa; }
+    .comp-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 5px; }
+    .comp-table th { background: #333; color: white; padding: 6px; text-align: left; font-size: 13px;}
+    .comp-table td { padding: 6px; border-bottom: 1px solid #ddd; background: #fafafa; }
+/* Estilo para los nombres de las categorías */
+    .cat-header {
+        background-color: #111; 
+        color: #fff; 
+        padding: 8px; 
+        font-weight: bold; 
+        text-align: center; 
+        font-size: 14px; /* Títulos más grandes */
+        border-radius: 4px;
+    }  
 </style>
 """
 st.markdown(estilo_tabla, unsafe_allow_html=True)
