@@ -1520,7 +1520,8 @@ actualizarTotales();
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #ffffff 0%, #D3D3D3 100%)'; 
-            boton.style.boxShadow = '0 3px 0 #202121';
+            boton.style.boxShadow = '0 3px 0 #D3D3D3';
+            boton.style.color = '#808080';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #555 0%, #333 100%)'; 
