@@ -1,4 +1,4 @@
-import json 
+import json
 import streamlit as st
 from streamlit.components.v1 import html     
 
@@ -14,14 +14,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"Moto - 3h": [25, 28], "Car 5h": [25, 28], "Car 5h Extendida": [25, 28], "Car 3h": [25, 28]}
+u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
 
 u_PREC = {  
     "Large Van SDD": [80, 85], 
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car 8h": [70, 75],
-    "Small Van Car 9h": [70, 75]
+    "Car - 8h": [70, 75]
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -30,8 +29,7 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
-    "Car 8h": [70, 75],
-    "Small Van Car 9h": [70, 75],
+    "Car - 8h": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
@@ -40,7 +38,7 @@ NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAP
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
-    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car 8h": [80, 85], "Car 5h": [60, 60]
+    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
 }
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
@@ -57,27 +55,26 @@ ORH_FIJOS = {
     "Large Van MLP": ["500", "80"],
     "Small Van MLP": ["486", "80"],
     "Large Van SDD": ["486", "80"],
-    "Small Van SDD": ["475", "70"],
+    "Small Van SDD": ["486", "80"],
 
     "Car MLP": ["300", "66"],
     "Car Newbie 3h": ["180", "66"],
-    "Car Newbie": ["90", "83"],
-    "Small Van Car 9h": ["360", "66"],
+    "Car Newbie": ["180", "266"],
 
-    "Car 8h": ["360", "66"],
-    "Car 5h": ["300", "66"],
-    "Car 3h": ["300", "66"],
+    "Car - 8h": ["360", "66"],
+    "Car - 5h": ["300", "66"],
+    "Car - 3h": ["300", "66"],
 
     "Moto - 3h": ["180", "66"],
 
     "Small Van SDD": ["540", "66"],
     "Car Zona Extendida": ["330", "66"],
-    "Car 5h Extendida": ["330", "66"]
+    "Car - 5h Extendida": ["330", "66"]
 }
 
 
 
-def gen_master_rows(data_dict, table_id, perfil_actual):
+def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
@@ -132,30 +129,13 @@ def gen_master_rows(data_dict, table_id, perfil_actual):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            
-            # --- NUEVA LÓGICA DINÁMICA DE PERFILES ---
-            # Convertimos el ID de la pestaña (2, 1, 5, 4) a string para que coincida con las claves de tu diccionario
-            tab_key = str(table_id) 
-            
-            # Buscamos en tu diccionario de PERFILES usando el día seleccionado, la pestaña y el nombre de la unidad
-            datos_dinamicos = PERFILES.get(perfil_actual, {}).get(tab_key, {}).get(name, None)
-            
-            if datos_dinamicos:
-                orh_val = datos_dinamicos.get("ORH", 0)
-                # Usamos la clave "%" tal como lo tienes en tu estructura actual
-                ocup_val = datos_dinamicos.get("%", 0) 
-            else:
-                # Si no está definido en el perfil del día, recurre al valor base de ORH_FIJOS
-                orh_val = ORH_FIJOS.get(name, ["0", "0"])[0]
-                ocup_val = ORH_FIJOS.get(name, ["0", "0"])[1]
-            
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #808080; width: 150px;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 45px; background-color: #000000; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{orh_val}</td>
-                <td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-right: 0.2px solid #808080; width: 45px;">{ocup_val}%</td>
+<td contenteditable="true" class="edit-orh" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[0]}</td>
+<td contenteditable="true" class="edit-ocup" style="text-align: center; border-top: 0.2px solid #A9A9A9; border-bottom: 0.2px solid #808080; border-left: 0.2px solid #808080; border-righ: 0.2px solid #808080; width: 45px;">{ORH_FIJOS.get(name, ["480", "66"])[1]}</td>
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #808080; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="font-weight: bold; text-align: center; border: 0.5px solid #808080; width: 60px; font-size: 18px;">0</td>
             </tr>''' 
@@ -263,30 +243,141 @@ def gen_poligonos(data_target=None):
 
 
 PERFILES = {
+
     "LUNES": {
-        "SDE": {},
-        "PREC": {
-            "Large Van SDD": {"ORH": 486, "porcentaje": 80},
-            "Small Van SDD": {"ORH": 540, "porcentaje": 66},
-            "Car Newbie": {"ORH": 180, "porcentaje": 266},
-            "Car - 8h": {"ORH": 84, "porcentaje": 90},
-            "Small Van Car 9h": {"ORH": 0, "porcentaje": 0}
+
+        "2": {
+            "Car - 8h": {"orh": 99, "disp": 80},
+            "SV": {"orh": 91, "disp": 95},
         },
-        "PREC_SMX2": {
-            "Large Van SDD": {"ORH": 486, "porcentaje": 80},
-            "Small Van SDD": {"ORH": 540, "porcentaje": 66},
-            "Car Newbie": {"ORH": 180, "porcentaje": 266},
-            "Car - 8h": {"ORH": 84, "porcentaje": 90}
+
+        "1": {
+            "Car - 8h": {"orh": 84, "disp": 90},
+        },
+
+        "5": {
+            "Car - 8h": {"orh": 86, "disp": 91},
+        },
+
+        "4": {
+            "Car - 5h": {"orh": 87, "disp": 93},
         }
     },
-    "MARTES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
-    "MIÉRCOLES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
-    "JUEVES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
-    "VIERNES": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
-    "SÁBADO": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} },
-    "DOMINGO": { "SDE": {}, "PREC": {}, "PREC_SMX2": {} }
-}
 
+    "MARTES": {
+
+        "2": {
+            "CAR 8H": {"orh": 90, "disp": 94},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 85, "disp": 91},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 89, "disp": 94},
+        }
+    },
+
+    "MIÉRCOLES": {
+
+        "2": {
+            "CAR 8H": {"orh": 89, "disp": 93},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 86, "disp": 90},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 87, "disp": 91},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 88, "disp": 92},
+        }
+    },
+
+    "JUEVES": {
+
+        "2": {
+            "CAR 8H": {"orh": 91, "disp": 95},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 87, "disp": 92},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 89, "disp": 93},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 90, "disp": 94},
+        }
+    },
+
+    "VIERNES": {
+
+        "2": {
+            "CAR 8H": {"orh": 93, "disp": 97},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 90, "disp": 95},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 91, "disp": 96},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 92, "disp": 96},
+        }
+    },
+
+    "SÁBADO": {
+
+        "2": {
+            "CAR 8H": {"orh": 85, "disp": 89},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 82, "disp": 87},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 84, "disp": 88},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 83, "disp": 87},
+        }
+    },
+
+    "DOMINGO": {
+
+        "2": {
+            "CAR 8H": {"orh": 80, "disp": 85},
+        },
+
+        "1": {
+            "CAR 8H": {"orh": 78, "disp": 84},
+        },
+
+        "5": {
+            "CAR 8H": {"orh": 79, "disp": 84},
+        },
+
+        "4": {
+            "CAR 8H": {"orh": 80, "disp": 85},
+        }
+    }
+}
 
 perfil_actual = st.selectbox(
     "📅 PERFIL OPERATIVO",
@@ -667,7 +758,7 @@ html body .meli-table tbody tr:last-child {{
                     </tr>
                 </thead>
 
-<tbody id="body-2">{gen_master_rows(u_C1, 2, perfil_actual)}</tbody>
+            <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
 
 <tfoot>
 
@@ -723,8 +814,8 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-<tbody id="body-1">{gen_master_rows(u_PREC, 1, perfil_actual)}</tbody>
-<tfoot>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+           <tfoot>
 
 <tr style="background:#1a1a1a; color:white; font-weight:bold;">
 
@@ -778,7 +869,7 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-<tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5, perfil_actual)}</tbody>
+                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
 
              <tfoot>
 
@@ -835,8 +926,8 @@ style="text-align:center; color:#00BFFF;">
                         <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
                     </tr>
                 </thead>
-                <tbody id="body-4">{gen_master_rows(u_SDE, 4, perfil_actual)}</tbody>
-                
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+
               <tfoot>
 
 <tr style="background:#1a1a1a; color:white; font-weight:bold;">
@@ -1222,39 +1313,40 @@ style="text-align:center; color:#00BFFF;">
 
 
     function aplicarPerfil() {{
-    // Obtener el día seleccionado del dropdown de Streamlit pasándolo a JS
-    let diaSeleccionado = "{{ perfil_actual }}"; 
-    let tabId = (currentTab === 'C1') ? '2' : currentTab;
-    
-    // Obtener las reglas de ORH y % para el día y la pestaña actual
-    let datosDia = perfilesData[diaSeleccionado] ? perfilesData[diaSeleccionado][tabId] : null;
-    
-    if (!datosDia) return;
 
-    // Recorrer todas las filas de la tabla de disponibilidad de flota activa
-    document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-        let nameCelda = row.querySelector('.edit-name');
-        if (!nameCelda) return;
-        
-        let name = nameCelda.innerText.trim();
-        
-        // Celdas destino en tu tabla original
-        let celdaOrh = row.querySelector('.edit-orh');
-        let celdaOcup = row.querySelector('.edit-ocup'); // Esta corresponde a la columna del %
+    let perfil = perfiles[perfilActual];
 
-        // Si esta unidad tiene valores específicos para este día en la matriz
-        if (datosDia[name]) {{
-            if (celdaOrh) celdaOrh.innerText = datosDia[name]["ORH"];
-            if (celdaOcup) celdaOcup.innerText = datosDia[name]["porcentaje"] + "%";
-       }} else {{
-            // Valores por defecto si la unidad no está explícitamente en la lista del día
-            if (celdaOrh && celdaOrh.innerText === "") celdaOrh.innerText = "0";
-            if (celdaOcup && celdaOcup.innerText === "") celdaOcup.innerText = "0%";
-        }}
-}});
-    
-    recalc(); // Ejecutar recalculo para actualizar toda la pantalla
+    if(!perfil) return;
+
+    Object.keys(perfil).forEach(tabId => {{
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+
+            let unidad =
+                row.querySelector('.edit-name')?.innerText.trim();
+
+            if(perfil[tabId][unidad]) {{
+
+                let data = perfil[tabId][unidad];
+
+                let orh =
+                    row.querySelector('.edit-orh');
+
+                let disp =
+                    row.querySelector('.edit-ocup');
+
+                if(orh)
+                    orh.innerText = data.orh;
+
+                if(disp)
+                    disp.innerText = data.disp;
+            }}
+        }});
+    }});
+
+    recalc();
 }}
+
 
 
 
