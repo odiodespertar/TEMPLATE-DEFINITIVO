@@ -14,13 +14,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"Moto - 3h": [25, 28], "Car - 5h": [25, 28], "Car - 5h Extendida": [25, 28], "Car - 3h": [25, 28]}
+u_SDE = {"Moto - 3h": [25, 28], "Car 5h": [25, 28], "Car 5h Extendida": [25, 28], "Car 3h": [25, 28]}
 
 u_PREC = {  
     "Large Van SDD": [80, 85], 
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car - 8h": [70, 75],
+    "Car 8h": [70, 75],
     "Small Van Car 9h": [70, 75]
 }
 
@@ -30,7 +30,7 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
-    "Car - 8h": [70, 75],
+    "Car 8h": [70, 75],
     "Small Van Car 9h": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
@@ -40,7 +40,7 @@ NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAP
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
-    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
+    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car 8h": [80, 85], "Car 5h": [60, 60]
 }
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
@@ -64,15 +64,15 @@ ORH_FIJOS = {
     "Car Newbie": ["90", "83"],
     "Small Van Car 9h": ["360", "66"],
 
-    "Car - 8h": ["360", "66"],
-    "Car - 5h": ["300", "66"],
-    "Car - 3h": ["300", "66"],
+    "Car  8h": ["360", "66"],
+    "Car  5h": ["300", "66"],
+    "Car  3h": ["300", "66"],
 
     "Moto - 3h": ["180", "66"],
 
     "Small Van SDD": ["540", "66"],
     "Car Zona Extendida": ["330", "66"],
-    "Car - 5h Extendida": ["330", "66"]
+    "Car  5h Extendida": ["330", "66"]
 }
 
 
