@@ -267,7 +267,10 @@ PERFILES = {
         },
 
         "1": {
-            "Car - 8h": {"orh": 84, "disp": 90},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
         "5": {
