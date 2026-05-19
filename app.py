@@ -1760,37 +1760,37 @@ DATA_PERFILES_DIARIOS = {
     "LUNES": {
         "C1 / C2": {"Car - 8h": {"orh": 99, "disp": 80}, "SV": {"orh": 91, "disp": 95}},
         "PREC SMX5": {"Large Van SDD": {"orh": 487, "disp": 70}, "Small Van SDD": {"orh": 487, "disp": 70}, "Car Newbie": {"orh": 360, "disp": 83}, "Car - 8h": {"orh": 360, "disp": 66}},
-        "PREC SMX2": {"Small Van SDD": {"orh": 487, "disp": 70}, "Car - 8h": {"orh": 360, "disp": 66}, "Car Zona Extendida": {"orh": 360, "disp": 83}},
+        "PREC SMX2": {"Small Van SDD": {"orh": 487, "disp": 70}, "Car - 8h": {"orh": 360, "disp": 66}, "Car Zona Extendida": {"orh": 360, "disp": 83}}
     },
     "MARTES": {
         "C1 / C2": {"CAR 8H": {"orh": 90, "disp": 94}},
         "PREC SMX5": {"CAR 8H": {"orh": 85, "disp": 91}},
-        "PREC SMX2": {"CAR 8H": {"orh": 88, "disp": 92}},
+        "PREC SMX2": {"CAR 8H": {"orh": 88, "disp": 92}}
     },
     "MIÉRCOLES": {
         "C1 / C2": {"CAR 8H": {"orh": 89, "disp": 93}},
         "PREC SMX5": {"CAR 8H": {"orh": 86, "disp": 90}},
-        "PREC SMX2": {"CAR 8H": {"orh": 87, "disp": 91}},
+        "PREC SMX2": {"CAR 8H": {"orh": 87, "disp": 91}}
     },
     "JUEVES": {
         "C1 / C2": {"CAR 8H": {"orh": 91, "disp": 95}},
         "PREC SMX5": {"CAR 8H": {"orh": 87, "disp": 92}},
-        "PREC SMX2": {"CAR 8H": {"orh": 89, "disp": 93}},
+        "PREC SMX2": {"CAR 8H": {"orh": 89, "disp": 93}}
     },
     "VIERNES": {
         "C1 / C2": {"CAR 8H": {"orh": 93, "disp": 97}},
         "PREC SMX5": {"CAR 8H": {"orh": 90, "disp": 95}},
-        "PREC SMX2": {"CAR 8H": {"orh": 91, "disp": 96}},
+        "PREC SMX2": {"CAR 8H": {"orh": 91, "disp": 96}}
     },
     "SÁBADO": {
         "C1 / C2": {"CAR 8H": {"orh": 85, "disp": 89}},
         "PREC SMX5": {"CAR 8H": {"orh": 82, "disp": 87}},
-        "PREC SMX2": {"CAR 8H": {"orh": 84, "disp": 88}},
+        "PREC SMX2": {"CAR 8H": {"orh": 84, "disp": 88}}
     },
     "DOMINGO": {
         "C1 / C2": {"CAR 8H": {"orh": 80, "disp": 85}},
         "PREC SMX5": {"CAR 78": {"orh": 78, "disp": 84}},
-        "PREC SMX2": {"CAR 8H": {"orh": 79, "disp": 84}},
+        "PREC SMX2": {"CAR 8H": {"orh": 79, "disp": 84}}
     }
 }
 
