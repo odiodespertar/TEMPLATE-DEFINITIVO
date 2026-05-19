@@ -668,23 +668,16 @@ style="text-align:center; color:#00BFFF;">
        
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table">
-                <thead>
-                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
-                    </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
-                        
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
-                    </tr>
-                </thead>
-                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+        <thead>
+            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+            </tr>
+        </thead>
+        <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
 
              <tfoot>
 
@@ -725,23 +718,16 @@ style="text-align:center; color:#00BFFF;">
         
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table">
-                <thead>
-                    <tr style="background: linear-gradient(180deg, #444 0%, #111 100%); color: white;">
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">SPR TARGET</th>
-                        <th colspan="2" style="border-bottom: 0.5px solid #555; border-right: 0.5px solid #555; padding: 2px; font-size: 11px;">ORH</th>
-                        <th rowspan="2" style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">SCHEDULE</th>
-                        <th rowspan="2" style="padding: 4px 8px; font-size: 11px;">DELTA</th>
-                    </tr>
-                    <tr>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MIN</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">MAX</th>
-                        
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">ORH</th>
-                        <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 10px;">%</th>
-                    </tr>
-                </thead>
-                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+        <thead>
+            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+            </tr>
+        </thead>
+        <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
 
               <tfoot>
 
