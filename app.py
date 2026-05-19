@@ -31,8 +31,8 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
     "Car - 8h": [70, 75],
-    "Car Zona Extendida": [65, 65],
-    "Small Van Car 9h": [70, 75]
+    "Small Van Car 9h": [70, 75],
+    "Car Zona Extendida": [65, 65]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
@@ -57,11 +57,12 @@ ORH_FIJOS = {
     "Large Van MLP": ["500", "80"],
     "Small Van MLP": ["486", "80"],
     "Large Van SDD": ["486", "80"],
-    "Small Van SDD": ["486", "80"],
+    "Small Van SDD": ["475", "70"],
 
     "Car MLP": ["300", "66"],
     "Car Newbie 3h": ["180", "66"],
-    "Car Newbie": ["180", "266"],
+    "Car Newbie": ["90", "83"],
+    "Small Van Car 9h": ["360", "66"],
 
     "Car - 8h": ["360", "66"],
     "Car - 5h": ["300", "66"],
