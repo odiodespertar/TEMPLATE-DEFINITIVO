@@ -1242,8 +1242,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }} else {{
                 row.style.background = "#DCDCDC"; row.style.color = "#969696";
                 fs.style.background = "#DCDCDC"; 
-                mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-                ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+                mi.style.background = "#DCDCDC"; mi.style.color = "#000000"; mi.style.fontWeight = "normal";
+                ma.style.background = "#DCDCDC"; ma.style.color = "#000000"; ma.style.fontWeight = "normal";
             }}
             if(name !== "" && name !== "NUEVA UNIDAD") {{
                 fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
