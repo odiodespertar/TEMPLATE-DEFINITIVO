@@ -1657,13 +1657,17 @@ if (delta > 0 && left <= 0 && esCAR) {{
   function recalc() {{
         let fleet = {{}};
         
-        // 🛡️ REGLA DE UNIFICACIÓN DE IDS (Usa directamente el ID numérico activo)
-        let tabId = currentTab; 
+        // 🔄 MAPEADO INTELIGENTE DE IDS OPERATIVOS
+        // tabIdSuperior controla la tabla SCHED (siempre números: '2', '1', '5', '4')
+        let tabIdSuperior = (currentTab === 'C1') ? '2' : currentTab;
         
-        // 1. Capturar datos de la flota (Tabla de arriba - SCHED)
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+        // tabIdInferior controla los polígonos (mantiene 'C1' en texto, o el número correspondiente)
+        let tabIdInferior = currentTab;
+
+        // 1. Capturar datos de la flota (Tabla de arriba - SCHED usando tabIdSuperior)
+        document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
             let nameEl = row.querySelector('.edit-name');
-            if (!nameEl) return; // Si la fila está vacía, la brinca por seguridad
+            if (!nameEl) return;
             
             let name = nameEl.innerText.trim();
             let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
@@ -1671,7 +1675,6 @@ if (delta > 0 && left <= 0 && esCAR) {{
             let ma = row.querySelector('.edit-spr-max');
             let fs = row.querySelector('.f-stock');
             
-            // Conserva tus estilos originales de filas vacías / llenas
             if(sch > 0) {{
                 row.style.background = "white"; 
                 row.style.color = "black";
@@ -1696,8 +1699,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-        // 2. Primer barrido por los polígonos: Contar cuántas unidades se han usado
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // 2. Primer barrido por los polígonos (Usando tabIdInferior) para contar unidades usadas
+        document.querySelectorAll('#polys-' + tabIdInferior + ' .poligono-bloque').forEach(bl => {{
             bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
                 let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
                 let sSelect = r.querySelector('.s-type');
@@ -1708,8 +1711,8 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }});
         }});
 
-        // 3. Actualizar los remanentes (Faltantes / Delta) en la tabla superior (SCHED)
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+        // 3. Actualizar los remanentes (Disponibles / Delta) en la tabla SCHED
+        document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
             let nameEl = row.querySelector('.edit-name');
             if (!nameEl) return;
             
@@ -1736,13 +1739,13 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-        // 4. Segundo barrido por los polígonos: Calcular volúmenes e inyectar Listas Desplegables
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
+        // 4. Segundo barrido: Calcular volúmenes y actualizar alertas visuales de SPR
+        document.querySelectorAll('#polys-' + tabIdInferior + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = 0;
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
-            // Llenar dinámicamente el listado seleccionable de unidades
+            // Actualizar el contenido de las listas desplegables
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value;
                 let opt = '<option>SELECCIONAR...</option>';
@@ -1757,7 +1760,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 s.innerHTML = opt;
                 s.value = cur;
 
-                // 🚨 REGLA DE ORO DE TU ZONA ROJA (IXTAPALUCA VALLE CHALCO)
+                // Regala de seguridad para la Zona Roja (Ixtapaluca)
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
                     let unidadTxt = cur.toUpperCase();
                     if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
@@ -1778,7 +1781,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 }}
             }});
 
-            // Calcular el volumen real que va sumando el plan
+            // 🚨 RE-CALCULO DE VOLUMEN Y DISPARADOR DE ALERTAS DE SPR MINIMO 🚨
             bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
                 let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
                 let sp = r.querySelector('.spr-real-val');
@@ -1796,7 +1799,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                     vA += (u * sprActual);
                     sp.style.fontWeight = "bold";
 
-                    // Alerta si el SPR cae por debajo del mínimo permitido
+                    // 🔥 SI EL SPR MANUAL ES INFERIOR AL MÍNIMO, PINTA ALERTA ROJA (Subir SPR)
                     if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
                         sp.style.setProperty("background-color", "#ffcccc", "important");
                         sp.style.setProperty("color", "#cc0000", "important");
@@ -1811,7 +1814,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
                 }}
             }});
 
-            // Renderizar los indicadores de estado (OK, FALTAN, EXCESO)
+            // Renderizar los indicadores de estado de los polígonos
             let vCalcEl = bl.querySelector('.v-calculated-total');
             if (vCalcEl) {{
                 vCalcEl.innerText = Math.round(vA);
@@ -1847,10 +1850,11 @@ if (delta > 0 && left <= 0 && esCAR) {{
             }}
         }});
 
-        // 5. Actualizar la tarjeta flotante y totales alternos si existen
+        // 5. Forzar la actualización del cuadro flotante derecho
         if (typeof updateFleetFloat === "function") updateFleetFloat();
         if (typeof actualizarTotales === "function") actualizarTotales();
     }}
+
 
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
