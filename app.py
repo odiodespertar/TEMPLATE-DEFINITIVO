@@ -1654,197 +1654,197 @@ if (delta > 0 && left <= 0 && esCAR) {{
 }}
 
 
-  function recalc() {{
-        let fleet = {{}};
+  function recalc() {
+    let fleet = {};
+    
+    // 🔄 TRADUCTOR OPERATIVO DE IDS (Sincroniza tablas de arriba con polígonos de abajo)
+    let tabIdSuperior = currentTab; 
+    let tabIdInferior = currentTab; 
+
+    // Normalizamos los IDs asegurando que JavaScript entienda el número y el texto correspondientes
+    if (currentTab === '2' || currentTab === 2 || currentTab === 'C1') {
+        tabIdSuperior = '2';
+        tabIdInferior = '2'; // Cambia esto a 'C1' si tu contenedor de abajo se llama id="polys-C1"
+    } else if (currentTab === '1' || currentTab === 1 || currentTab === 'PREC') {
+        tabIdSuperior = '1';
+        tabIdInferior = '1'; 
+    } else if (currentTab === '5' || currentTab === 5) {
+        tabIdSuperior = '5';
+        tabIdInferior = '5'; 
+    } else if (currentTab === '4' || currentTab === 4 || currentTab === 'SDE') {
+        tabIdSuperior = '4';
+        tabIdInferior = '4';
+    }
+
+    console.log("🔍 Recalc activo -> Buscando SCHED en #body-" + tabIdSuperior + " y Polígonos en #polys-" + tabIdInferior);
+
+    // 1. Capturar datos de la flota (Tabla superior)
+    document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {
+        let nameEl = row.querySelector('.edit-name');
+        if (!nameEl) return;
         
-        // 🔄 TRADUCTOR INTELIGENTE DE IDS OPERATIVOS (Evita que se rompan los botones)
-        let tabIdSuperior = currentTab; // Para la tabla SCHED de arriba
-        let tabIdInferior = currentTab; // Para las tablas de polígonos de abajo
+        let name = nameEl.innerText.trim();
+        let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+        let mi = row.querySelector('.edit-spr-min');
+        let ma = row.querySelector('.edit-spr-max');
+        let fs = row.querySelector('.f-stock');
+        
+        if(sch > 0) {
+            row.style.background = "white"; 
+            row.style.color = "black";
+            if(fs) fs.style.background = "#fcfbc7"; 
+            if(mi) { mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold"; }
+            if(ma) { ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold"; }
+        } else {
+            row.style.background = "#DCDCDC"; 
+            row.style.color = "#969696";
+            if(fs) fs.style.background = "#DCDCDC"; 
+            if(mi) { mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal"; }
+            if(ma) { ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal"; }
+        }
+        
+        if(name !== "" && name !== "NUEVA UNIDAD" && !row.classList.contains('es-divisor')) {
+            fleet[name] = {
+                min: parseFloat(mi ? mi.innerText : 0) || 0,
+                max: parseFloat(ma ? ma.innerText : 0) || 0,
+                stock: sch,
+                used: 0
+            };
+        }
+    });
 
-        // Normalizamos los IDs si JavaScript recibe el número en lugar del texto
-        if (currentTab === '2' || currentTab === 2) {{
-            tabIdSuperior = '2';
-            tabIdInferior = 'C1';
-        }} else if (currentTab === '1' || currentTab === 1) {{
-            tabIdSuperior = '1';
-            tabIdInferior = 'PREC';
-        }} else if (currentTab === '5' || currentTab === 5) {{
-            tabIdSuperior = '5';
-            tabIdInferior = 'PREC'; // O el texto exacto que use tu div en el HTML
-        }} else if (currentTab === '4' || currentTab === 4) {{
-            tabIdSuperior = '4';
-            tabIdInferior = 'SDE';
-        }}
+    // 2. Primer barrido por los polígonos (Tabla inferior)
+    // Intentamos buscarlo con el número, y si no existe, con el texto de la pestaña
+    let contenedorPolis = document.getElementById('polys-' + tabIdInferior) || document.getElementById('polys-' + currentTab);
+    if (contenedorPolis) {
+        contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {
+                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                let sSelect = r.querySelector('.s-type');
+                let s = sSelect ? sSelect.value : "SELECCIONAR...";
+                if(s !== "SELECCIONAR..." && fleet[s]) {
+                    fleet[s].used += u;
+                }
+            });
+        });
+    }
 
-        console.log("🔍 Recalc activo -> Buscando SCHED en body-" + tabIdSuperior + " y Polígonos en polys-" + tabIdInferior);
+    // 3. Actualizar Delta y Disponibles en la tabla superior (SCHED)
+    document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {
+        let nameEl = row.querySelector('.edit-name');
+        if (!nameEl) return;
+        
+        let name = nameEl.innerText.trim();
+        let fLeftEl = row.querySelector('.f-left') || row.querySelector('.f-delta'); // Busca el indicador restante
+        let fDeltaEl = row.querySelector('.f-delta');
+        
+        if(name && fleet[name]) {
+            let rem = fleet[name].stock - fleet[name].used;
+            if(fLeftEl && fLeftEl.classList.contains('f-left')) fLeftEl.innerText = rem;
+            
+            if(fDeltaEl) {
+                fDeltaEl.innerText = (rem >= 0) ? "+" + rem : rem;
+                fDeltaEl.style.background = (rem < 0) ? "#d32f2f" : (rem === 0) ? "#2e7d32" : "#1976d2";
+                fDeltaEl.style.color = "white";
+                fDeltaEl.style.fontWeight = "bold";
+            }
+        }
+    });
 
-        // 1. Capturar datos de la flota (Tabla superior SCHED)
-        document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
-            let nameEl = row.querySelector('.edit-name');
-            if (!nameEl) return;
-            
-            let name = nameEl.innerText.trim();
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min');
-            let ma = row.querySelector('.edit-spr-max');
-            let fs = row.querySelector('.f-stock');
-            
-            if(sch > 0) {{
-                row.style.background = "white"; 
-                row.style.color = "black";
-                if(fs) fs.style.background = "#fcfbc7"; 
-                if(mi) {{ mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold"; }}
-                if(ma) {{ ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold"; }}
-            }} else {{
-                row.style.background = "#DCDCDC"; 
-                row.style.color = "#969696";
-                if(fs) fs.style.background = "#DCDCDC"; 
-                if(mi) {{ mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal"; }}
-                if(ma) {{ ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal"; }}
-            }}
-            
-            if(name !== "" && name !== "NUEVA UNIDAD" && !row.classList.contains('es-divisor')) {{
-                fleet[name] = {{
-                    min: parseFloat(mi ? mi.innerText : 0) || 0,
-                    max: parseFloat(ma ? ma.innerText : 0) || 0,
-                    stock: sch,
-                    used: 0
-                }};
-            }}
-        }});
+    // 4. Segundo barrido por los polígonos: Listas desplegables y alertas de SPR MÍNIMO
+    if (contenedorPolis) {
+        contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
+            let vA = 0;
+            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
-        // 2. Primer barrido por los polígonos (Tabla inferior usando tabIdInferior)
-        let contenedorPolis = document.getElementById('polys-' + tabIdInferior);
-        if (contenedorPolis) {{
-            contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {{
-                bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
-                    let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                    let sSelect = r.querySelector('.s-type');
-                    let s = sSelect ? sSelect.value : "SELECCIONAR...";
-                    if(s !== "SELECCIONAR..." && fleet[s]) {{
-                        fleet[s].used += u;
-                    }}
-                }});
-            }});
-        }}
-
-        // 3. Actualizar Delta y Disponibles en la tabla superior (SCHED)
-        document.querySelectorAll('#body-' + tabIdSuperior + ' tr').forEach(row => {{
-            let nameEl = row.querySelector('.edit-name');
-            if (!nameEl) return;
-            
-            let name = nameEl.innerText.trim();
-            let fLeftEl = row.querySelector('.f-left');
-            let fDeltaEl = row.querySelector('.f-delta');
-            
-            if(name && fleet[name]) {{
-                let rem = fleet[name].stock - fleet[name].used;
-                if(fLeftEl) fLeftEl.innerText = rem;
+            // Actualizar opciones de listas desplegables
+            bl.querySelectorAll('.s-type').forEach(s => {
+                let cur = s.value;
+                let opt = '<option>SELECCIONAR...</option>';
                 
-                if(fDeltaEl) {{
-                    fDeltaEl.innerText = (rem >= 0) ? "+" + rem : rem;
-                    fDeltaEl.style.background = (rem < 0) ? "#d32f2f" : (rem === 0) ? "#2e7d32" : "#1976d2";
-                    fDeltaEl.style.color = "white";
-                    fDeltaEl.style.fontWeight = "bold";
-                }}
-            }}
-        }});
+                Object.keys(fleet).forEach(k => {
+                    let disp = (fleet[k].stock - fleet[k].used > 0);
+                    let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H') || k.toUpperCase().includes('MOTO');
+                    if (disp || k === cur || flexible) {
+                        opt += `<option value="${k}">${k}</option>`;
+                    }
+                });
+                s.innerHTML = opt;
+                s.value = cur;
 
-        // 4. Segundo barrido por los polígonos: Listas desplegables y alertas de SPR MÍNIMO
-        if (contenedorPolis) {{
-            contenedorPolis.querySelectorAll('.poligono-bloque').forEach(bl => {{
-                let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-                let vA = 0;
-                let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+                // Alerta Zona Roja Ixtapaluca
+                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {
+                    let unidadTxt = cur.toUpperCase();
+                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {
+                        s.style.setProperty("background-color", "#ffcccc", "important");
+                        s.style.setProperty("color", "#8b0000", "important");
+                        s.style.setProperty("font-weight", "bold", "important");
+                    }
+                }
+            });
 
-                // Actualizar opciones de listas desplegables
-                bl.querySelectorAll('.s-type').forEach(s => {{
-                    let cur = s.value;
-                    let opt = '<option>SELECCIONAR...</option>';
-                    
-                    Object.keys(fleet).forEach(k => {{
-                        let disp = (fleet[k].stock - fleet[k].used > 0);
-                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H') || k.toUpperCase().includes('MOTO');
-                        if (disp || k === cur || flexible) {{
-                            opt += `<option value="${{k}}">${{k}}</option>`;
-                        }}
-                    }});
-                    s.innerHTML = opt;
-                    s.value = cur;
+            // Comprobación de SPR real mínimo
+            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {
+                let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
+                let sp = r.querySelector('.spr-real-val');
+                let sSelect = r.querySelector('.s-type');
+                let s = sSelect ? sSelect.value : "SELECCIONAR...";
+                
+                const minimosFlota = {
+                    "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
+                    "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
+                };
 
-                    // Alerta Zona Roja Ixtapaluca
-                    if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
-                        let unidadTxt = cur.toUpperCase();
-                        if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
-                            s.style.setProperty("background-color", "#ffcccc", "important");
-                            s.style.setProperty("color", "#8b0000", "important");
-                            s.style.setProperty("font-weight", "bold", "important");
-                        }}
-                    }}
-                }});
+                if(s !== "SELECCIONAR..." && fleet[s]) {
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
+                    let sprActual = parseFloat(sp.innerText) || 0;
+                    vA += (u * sprActual);
+                    sp.style.fontWeight = "bold";
 
-                // 🚨 COMPROBACIÓN DE SPR REAL MÍNIMO Y COLOR DE ALERTA 🚨
-                bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
-                    let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                    let sp = r.querySelector('.spr-real-val');
-                    let sSelect = r.querySelector('.s-type');
-                    let s = sSelect ? sSelect.value : "SELECCIONAR...";
-                    
-                    const minimosFlota = {{
-                        "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-                        "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-                    }};
-
-                    if(s !== "SELECCIONAR..." && fleet[s]) {{
-                        if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max;
-                        let sprActual = parseFloat(sp.innerText) || 0;
-                        vA += (u * sprActual);
-                        sp.style.fontWeight = "bold";
-
-                        // 🔥 Si el volumen asignado por unidad cae por debajo de su mínimo, se enciende la alerta roja
-                        if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                            sp.style.setProperty("background-color", "#ffcccc", "important");
-                            sp.style.setProperty("color", "#cc0000", "important");
-                        }} else {{
-                            sp.style.setProperty("background-color", "#FFFFFF");
-                            sp.style.setProperty("color", "#008B8B");
-                        }}
-                    }} else {{
-                        sp.style.color = "#969696";
-                        sp.style.fontWeight = "normal";
+                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {
+                        sp.style.setProperty("background-color", "#ffcccc", "important");
+                        sp.style.setProperty("color", "#cc0000", "important");
+                    } else {
                         sp.style.setProperty("background-color", "#FFFFFF");
-                    }}
-                }});
+                        sp.style.setProperty("color", "#008B8B");
+                    }
+                } else {
+                    sp.style.color = "#969696";
+                    sp.style.fontWeight = "normal";
+                    sp.style.setProperty("background-color", "#FFFFFF");
+                }
+            });
 
-                // Renderizar los cuadros visuales de OK, FALTAN, EXCESO
-                let vCalcEl = bl.querySelector('.v-calculated-total');
-                if (vCalcEl) {{
-                    vCalcEl.innerText = Math.round(vA);
-                    vCalcEl.style.background = "white";
-                }}
-                
-                let d = bl.querySelector('.p-diff');
-                if (d) {{
-                    if (vT === 0) {{
-                        d.innerText = "VACÍO"; d.style.background = "none"; d.style.color = "#333";
-                    }} else {{
-                        let diff = vA - vT;
-                        if (Math.round(vA) === Math.round(vT)) {{
-                            d.innerText = "OK"; d.style.background = "#3CB371"; d.style.color = "white";
-                        }} else if (vA > vT) {{
-                            d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; d.style.color = "white";
-                        }} else {{
-                            d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; d.style.color = "white";
-                        }}
-                    }}
-                }}
-            }});
-        }}
+            // Renderizar los cuadros visuales de OK, FALTAN, EXCESO
+            let vCalcEl = bl.querySelector('.v-calculado-total') || bl.querySelector('.v-calculated-total');
+            if (vCalcEl) {
+                vCalcEl.innerText = Math.round(vA);
+                vCalcEl.style.background = "white";
+            }
+            
+            let d = bl.querySelector('.p-diff');
+            if (d) {
+                if (vT === 0) {
+                    d.innerText = "VACÍO"; d.style.background = "none"; d.style.color = "#333";
+                } else {
+                    let diff = vA - vT;
+                    if (Math.round(vA) === Math.round(vT)) {
+                        d.innerText = "OK"; d.style.background = "#3CB371"; d.style.color = "white";
+                    } else if (vA > vT) {
+                        d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f5bf62"; d.style.color = "white";
+                    } else {
+                        d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fa4343"; d.style.color = "white";
+                    }
+                }
+            }
+        });
+    }
 
-        // 5. Actualizar componentes alternos
-        if (typeof updateFleetFloat === "function") updateFleetFloat();
-        if (typeof actualizarTotales === "function") actualizarTotales();
-    }}
+    // 5. Actualizar componentes flotantes alternos
+    if (typeof updateFleetFloat === "function") updateFleetFloat();
+    if (typeof actualizarTotales === "function") actualizarTotales();
+}
 
 
 
