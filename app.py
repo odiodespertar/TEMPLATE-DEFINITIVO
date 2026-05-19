@@ -2012,8 +2012,14 @@ function distribuirAutomatico() {{
 
         // Diccionario de mínimos oficiales para alertas y validaciones
         const minimosFlota = {{
-            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
+            "Moto - 3h": 25, 
+            "Car - 3h": 25, 
+            "Car - 5h": 25, 
+            "Car - 5h Extendida": 25,
+            "Small Van SDD": 70, 
+            "Large Van SDD": 80, 
+            "Car Newbie": 40, 
+            "Car - 8h": 70
         }};
 
         // 1. Cargar la flota disponible desde la tabla de SCHED
