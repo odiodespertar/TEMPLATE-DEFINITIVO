@@ -1585,136 +1585,169 @@ actualizarTotales();
     }});
 
 
-function distribuirAutomatico() {{
-        let fleet = {{}};
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+function distribuirAutomatico() {
 
-        // Diccionario de mínimos oficiales para alertas y validaciones
-        const minimosFlota = {{
-            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-        }};
+    editedRowsPlan.clear();
 
-        // 1. Cargar la flota disponible desde la tabla de SCHEDULE
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let nameEl = row.querySelector('.edit-name');
-            if (!nameEl) return;
-            let name = nameEl.innerText.trim();
-            let ma = row.querySelector('.edit-spr-max');
-            let cL = row.querySelector('.f-left'); 
-            let disponibles = parseInt(cL ? cL.innerText : 0) || 0;
-            let sprMax = parseFloat(ma ? ma.innerText : 0) || 28;
+    // ===============================
+    // 1. LEER FLOTA DISPONIBLE
+    // ===============================
 
-            if (disponibles > 0 && name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: sprMax, stock: disponibles }};
-            }}
-        }});
+    let fleet = [];
 
-        if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHEDULE para esta pestaña.");
-            return;
-        }}
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
 
-        // 🔥 PRIORIDAD 1: ORDENAR LAS UNIDADES DE MAYOR A MENOR SEGÚN SPR MÁXIMO
-        let fleetOrdenada = Object.keys(fleet)
-            .map(key => ({{ name: key, max: fleet[key].max, stock: fleet[key].stock }}))
-            .sort((a, b) => b.max - a.max);
+        let nombre = row.querySelector('.edit-name')?.innerText.trim();
 
-        // 🔥 PRIORIDAD 2: CONVERTIR LOS BLOQUES DE POLÍGONOS A ARRAY Y ORDENARLOS POR VOLUMEN DE MAYOR A MENOR
-        let bloquesPoligonos = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
-        bloquesPoligonos.sort((a, b) => {{
-            let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
-            let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
-            return volB - volA; // El plan que tiene más paquetes va primero
-        }});
+        let sprMax =
+            parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
 
-        // 2. Recorrer cada bloque de polígono para distribuir el volumen (Ya ordenados por volumen)
-        bloquesPoligonos.forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-            let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
-            let faltante = vT - vA;
+        let stock =
+            parseInt(row.querySelector('.f-stock')?.innerText) || 0;
 
-            if (faltante > 1) {{
-                // Obtenemos las filas libres de este polígono para trabajar
-                let filasLibres = Array.from(bl.querySelectorAll('.calc-row')).filter(r => {{
-                    return r.querySelector('.s-type').value === "SELECCIONAR...";
-                }});
+        if (
+            nombre &&
+            nombre !== "IGNORAR" &&
+            stock > 0
+        ) {
 
-                let filaIdx = 0;
+            fleet.push({
+                nombre,
+                spr: sprMax,
+                stock: stock,
+                restante: stock
+            });
+        }
+    });
 
-                // Barremos los tipos de unidades disponibles (Ya ordenadas por capacidad máxima de SPR)
-                for (let uInfo of fleetOrdenada) {{
-                    if (faltante <= 0 || filaIdx >= filasLibres.length) {{ break; }}
+    // ====================================
+    // 2. ORDENAR UNIDADES POR MAYOR SPR
+    // ====================================
 
-                    let key = uInfo.name;
-                    if (uInfo.stock <= 0) continue;
+    fleet.sort((a, b) => b.spr - a.spr);
 
-                    let minOficial = minimosFlota[key] || 25;
-                    let pisoAceptable = minOficial * 0.75;
+    // ====================================
+    // 3. OBTENER POLÍGONOS
+    // ====================================
 
-                    // 1. Calcular cuántas unidades de este tipo caben llenas a su capacidad máxima
-                    let unidadesLlenasNecesarias = Math.floor(faltante / uInfo.max);
-                    let asignoLlenas = Math.min(unidadesLlenasNecesarias, uInfo.stock);
+    let bloques = Array.from(
+        document.querySelectorAll(
+            '#polys-' + currentTab + ' .poligono-bloque'
+        )
+    );
 
-                    // Si necesitamos unidades llenas, las AGRUPAMOS en una sola fila
-                    if (asignoLlenas > 0 && filaIdx < filasLibres.length) {{
-                        let r = filasLibres[filaIdx++]; 
-                        
-                        let sSelect = r.querySelector('.s-type');
-                        let uManual = r.querySelector('.u-manual');
-                        let spReal = r.querySelector('.spr-real-val');
+    let polys = [];
 
-                        sSelect.value = key;
-                        uManual.innerText = asignoLlenas; 
-                        spReal.innerText = uInfo.max; 
+    bloques.forEach(bl => {
 
-                        spReal.style.color = "#008B8B"; 
-                        spReal.style.fontWeight = "bold";
+        let volumen =
+            parseFloat(
+                bl.querySelector('.v-total-val')?.innerText
+            ) || 0;
 
-                        uInfo.stock -= asignoLlenas;
-                        // Sincronizamos de vuelta con el objeto original por si acaso
-                        fleet[key].stock = uInfo.stock;
+        if (volumen > 0) {
 
-                        faltante -= (asignoLlenas * uInfo.max);
-                        editedRowsPlan.add(r);
-                    }}
+            polys.push({
+                bloque: bl,
+                volumen: volumen
+            });
+        }
+    });
 
-                    // 2. Si todavía queda un residuo suelto menor al max de la unidad
-                    if (faltante > 0 && uInfo.stock > 0 && filaIdx < filasLibres.length) {{
-                        let residuo = faltante;
-                        
-                        let unidadesRestantesFlota = fleetOrdenada.filter(u => u.stock > 0);
-                        let esUltimaOpcion = (unidadesRestantesFlota.length === 1);
+    // ====================================
+    // 4. ORDENAR POLÍGONOS POR VOLUMEN
+    // ====================================
 
-                        if (residuo >= pisoAceptable || esUltimaOpcion) {{
-                            let r = filasLibres[filaIdx++]; 
-                            
-                            let sSelect = r.querySelector('.s-type');
-                            let uManual = r.querySelector('.u-manual');
-                            let spReal = r.querySelector('.spr-real-val');
+    polys.sort((a, b) => b.volumen - a.volumen);
 
-                            sSelect.value = key;
-                            uManual.innerText = 1;
-                            
-                            let sprFinal = Math.min(residuo, uInfo.max);
-                            spReal.innerText = Math.round(sprFinal * 10) / 10;
+    // ====================================
+    // 5. LIMPIAR FILAS AUTOMÁTICAS
+    // ====================================
 
-                            spReal.style.color = "#008B8B"; 
-                            spReal.style.fontWeight = "bold";
+    document.querySelectorAll(
+        '#polys-' + currentTab + ' .calc-row'
+    ).forEach(r => {
 
-                            uInfo.stock -= 1;
-                            fleet[key].stock = uInfo.stock;
+        r.querySelector('.u-manual').innerText = "0";
+        r.querySelector('.spr-real-val').innerText = "0";
 
-                            faltante -= sprFinal;
-                            editedRowsPlan.add(r);
-                        }}
-                    }}
-                }}
-            }}
-        }});
-        // Recalcular indicadores de pantalla
-        recalc();
-    }}
+        let sel = r.querySelector('.s-type');
+
+        if (sel) {
+            sel.value = "SELECCIONAR...";
+        }
+    });
+
+    // ====================================
+    // 6. ASIGNACIÓN INTELIGENTE
+    // ====================================
+
+    polys.forEach(poly => {
+
+        let bloque = poly.bloque;
+
+        let objetivo =
+            parseFloat(
+                bloque.querySelector('.v-total-val').innerText
+            ) || 0;
+
+        let restante = objetivo;
+
+        let filas = Array.from(
+            bloque.querySelectorAll('.calc-row')
+        );
+
+        // recorrer filas internas
+        for (let fila of filas) {
+
+            if (restante <= 0) break;
+
+            // buscar mejor unidad disponible
+            let unidad = fleet.find(f => f.restante > 0);
+
+            if (!unidad) break;
+
+            // calcular cuántas unidades necesita
+            let necesarias =
+                Math.ceil(restante / unidad.spr);
+
+            // no usar más de las disponibles
+            let usar =
+                Math.min(necesarias, unidad.restante);
+
+            if (usar <= 0) continue;
+
+            // ============================
+            // ASIGNAR
+            // ============================
+
+            let select =
+                fila.querySelector('.s-type');
+
+            select.value = unidad.nombre;
+
+            fila.querySelector('.u-manual').innerText =
+                usar;
+
+            fila.querySelector('.spr-real-val').innerText =
+                unidad.spr;
+
+            // descontar
+            unidad.restante -= usar;
+
+            // descontar volumen
+            restante -= (usar * unidad.spr);
+
+            editedRowsPlan.add(fila);
+        }
+    });
+
+    // ====================================
+    // 7. RECALCULAR TODO
+    // ====================================
+
+    recalc();
+}
     
 
 // =========================
