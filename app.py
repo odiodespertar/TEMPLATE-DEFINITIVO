@@ -1740,13 +1740,13 @@ function actualizarTotales() {{
 
 
 // --- AQUÍ PEGA LA FUNCIÓN NUEVA ---
-    function updateSelectColor(selectElement) {
-        if (selectElement.value === "") {
+    function updateSelectColor(selectElement) {{
+        if (selectElement.value === "") {{
             selectElement.style.color = "#A9A9A9"; // Gris
-        } else {
+        }} else {{
             selectElement.style.color = "#000000"; // Negro
-        }
-    }
+        }}
+    }}
 
 
 
