@@ -1158,9 +1158,18 @@ style="text-align:center; color:#00BFFF;">
 </div>
 
 <script>
+<script>
+    let currentTab = 2;
+    let editedRowsPlan = new Set();
+    let curC = "";
+    let chronoInterval;
+    let startTime;
+    let elapsedTime = 0;
 
+    function aplicarPerfil() {{
+        // Eliminado perfiles
+    }}
     
-
 
 
 
