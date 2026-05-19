@@ -1597,7 +1597,7 @@ function distribuirAutomatico() {{
             "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
         }};
 
-        // 1. Cargar la flota disponible desde la tabla de SCHEDULE
+        // 1. Cargar la flota disponible desde la tabla de SCHED
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let nameEl = row.querySelector('.edit-name');
             if (!nameEl) return;
@@ -1613,7 +1613,7 @@ function distribuirAutomatico() {{
         }});
 
         if (Object.keys(fleet).length === 0) {{
-            alert("⚠️ No hay unidades disponibles en SCHEDULE para esta pestaña.");
+            alert("⚠️ No hay unidades disponibles en SCHED para esta pestaña.");
             return;
         }}
 
