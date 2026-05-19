@@ -1588,7 +1588,6 @@ actualizarTotales();
 function distribuirAutomatico() {
         let fleet = {{}};
         
-        // 1. Obtener la flota visible en la tabla con ID 'tabla-sched'
         const tablaSched = document.querySelector('#tabla-sched');
         if (tablaSched) {
             tablaSched.querySelectorAll('tr').forEach(row => {{
@@ -1615,7 +1614,6 @@ function distribuirAutomatico() {
             .map(key => ({{ name: key, max: fleet[key].max, stock: fleet[key].stock }}))
             .sort((a, b) => b.max - a.max);
 
-        // 2. Buscar bloques DENTRO DEL VISOR (la parte que cambia)
         let bloquesPoligonos = Array.from(document.querySelectorAll('#visor .poligono-bloque'));
         
         if (bloquesPoligonos.length === 0) {{
@@ -1623,14 +1621,12 @@ function distribuirAutomatico() {
             return;
         }}
 
-        // Ordenar por volumen de mayor a menor
         bloquesPoligonos.sort((a, b) => {{
             let volA = parseFloat(a.querySelector('.v-total-val').innerText) || 0;
             let volB = parseFloat(b.querySelector('.v-total-val').innerText) || 0;
             return volB - volA;
         }});
 
-        // 3. Distribución
         bloquesPoligonos.forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
             let vA = parseFloat(bl.querySelector('.v-calculado-total').innerText) || 0;
