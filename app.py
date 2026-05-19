@@ -246,145 +246,63 @@ def gen_poligonos(data_target=None):
 
 
 PERFILES = {
-
     "LUNES": {
-
         "2": {
-            "Large Van SDD": {"ORH": 475, "%": 70},
-            "Small Van SDD": {"ORH": 475, "%": 70},
-            "Car Newbie": {"ORH": 90, "%": 83},
-            "Car 8h": {"ORH": 360, "%": 66}, 
-            "Small Van Car 9h": {"ORH": 360, "%": 66},
+            "Large Van SDD": {"ORH": 475, "porcentaje": 70},
+            "Small Van SDD": {"ORH": 475, "porcentaje": 70},
+            "Car Newbie": {"ORH": 90, "porcentaje": 83},
+            "Car 8h": {"ORH": 360, "porcentaje": 66}, 
+            "Small Van Car 9h": {"ORH": 360, "porcentaje": 66},
         },
-
         "1": {
-            "Car 8h": {"ORH": 84, "%": 90},
+            "Car 8h": {"ORH": 84, "porcentaje": 90},
         },
-
         "5": {
-            "Small Van SDD": {"ORH": 487, "%": 70},
-            "Car 8h": {"ORH": 360, "%": 66}, 
-            "Small Van Car 9h": {"ORH": 360, "%": 66},
+            "Small Van SDD": {"ORH": 487, "porcentaje": 70},
+            "Car 8h": {"ORH": 360, "porcentaje": 66}, 
+            "Small Van Car 9h": {"ORH": 360, "porcentaje": 66},
         },
-
         "4": {
-            "Car 5h": {"ORH": 87, "%": 93},
+            "Car 5h": {"ORH": 87, "porcentaje": 93},
         }
     },
-
     "MARTES": {
-
-        "2": {
-            "Car 8h": {"ORH": 90, "%": 94},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 85, "%": 91},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 88, "%": 92},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 89, "%": 94},
-        }
+        "2": { "Car 8h": {"ORH": 90, "porcentaje": 94} },
+        "1": { "Car 8h": {"ORH": 85, "porcentaje": 91} },
+        "5": { "Car 8h": {"ORH": 88, "porcentaje": 92} },
+        "4": { "Car 8h": {"ORH": 89, "porcentaje": 94} }
     },
-
     "MIÉRCOLES": {
-
-        "2": {
-            "Car 8h": {"ORH": 89, "%": 93},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 86, "%": 90},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 87, "%": 91},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 88, "%": 92},
-        }
+        "2": { "Car 8h": {"ORH": 89, "porcentaje": 93} },
+        "1": { "Car 8h": {"ORH": 86, "porcentaje": 90} },
+        "5": { "Car 8h": {"ORH": 87, "porcentaje": 91} },
+        "4": { "Car 8h": {"ORH": 88, "porcentaje": 92} }
     },
-
     "JUEVES": {
-
-        "2": {
-            "Car 8h": {"ORH": 91, "%": 95},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 87, "%": 92},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 89, "%": 93},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 90, "%": 94},
-        }
+        "2": { "Car 8h": {"ORH": 91, "porcentaje": 95} },
+        "1": { "Car 8h": {"ORH": 87, "porcentaje": 92} },
+        "5": { "Car 8h": {"ORH": 89, "porcentaje": 93} },
+        "4": { "Car 8h": {"ORH": 90, "porcentaje": 94} }
     },
-
     "VIERNES": {
-
-        "2": {
-            "Car 8h": {"ORH": 93, "%": 97},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 90, "5": 95},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 91, "%": 96},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 92, "%": 96},
-        }
+        "2": { "Car 8h": {"ORH": 93, "porcentaje": 97} },
+        "1": { "Car 8h": {"ORH": 90, "porcentaje": 95} }, # <-- Aquí corregido el "5": 95 viejo
+        "5": { "Car 8h": {"ORH": 91, "porcentaje": 96} },
+        "4": { "Car 8h": {"ORH": 92, "porcentaje": 96} }
     },
-
     "SÁBADO": {
-
-        "2": {
-            "Car 8h": {"ORH": 85, "%": 89},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 82, "%": 87},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 84, "%": 88},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 83, "%": 87},
-        }
+        "2": { "Car 8h": {"ORH": 85, "porcentaje": 89} },
+        "1": { "Car 8h": {"ORH": 82, "porcentaje": 87} },
+        "5": { "Car 8h": {"ORH": 84, "porcentaje": 88} },
+        "4": { "Car 8h": {"ORH": 83, "porcentaje": 87} }
     },
-
     "DOMINGO": {
-
-        "2": {
-            "Car 8h": {"ORH": 80, "%": 85},
-        },
-
-        "1": {
-            "Car 8h": {"ORH": 78, "%": 84},
-        },
-
-        "5": {
-            "Car 8h": {"ORH": 79, "%": 84},
-        },
-
-        "4": {
-            "Car 8h": {"ORH": 80, "%": 85},
-        }
+        "2": { "Car 8h": {"ORH": 80, "porcentaje": 85} },
+        "1": { "Car 8h": {"ORH": 78, "porcentaje": 84} },
+        "5": { "Car 8h": {"ORH": 79, "porcentaje": 84} },
+        "4": { "Car 8h": {"ORH": 80, "porcentaje": 85} }
     }
+  }
 }
 
 perfil_actual = st.selectbox(
@@ -1321,40 +1239,39 @@ style="text-align:center; color:#00BFFF;">
 
 
     function aplicarPerfil() {{
+    // Obtener el día seleccionado del dropdown de Streamlit pasándolo a JS
+    let diaSeleccionado = "{{ perfil_actual }}"; 
+    let tabId = (currentTab === 'C1') ? '2' : currentTab;
+    
+    // Obtener las reglas de ORH y % para el día y la pestaña actual
+    let datosDia = perfilesData[diaSeleccionado] ? perfilesData[diaSeleccionado][tabId] : null;
+    
+    if (!datosDia) return;
 
-    let perfil = perfiles[perfilActual];
+    // Recorrer todas las filas de la tabla de disponibilidad de flota activa
+    document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+        let nameCelda = row.querySelector('.edit-name');
+        if (!nameCelda) return;
+        
+        let name = nameCelda.innerText.trim();
+        
+        // Celdas destino en tu tabla original
+        let celdaOrh = row.querySelector('.edit-orh');
+        let celdaOcup = row.querySelector('.edit-ocup'); // Esta corresponde a la columna del %
 
-    if(!perfil) return;
-
-    Object.keys(perfil).forEach(tabId => {{
-
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-
-            let unidad =
-                row.querySelector('.edit-name')?.innerText.trim();
-
-            if(perfil[tabId][unidad]) {{
-
-                let data = perfil[tabId][unidad];
-
-                let orh =
-                    row.querySelector('.edit-orh');
-
-                let disp =
-                    row.querySelector('.edit-ocup');
-
-                if(orh)
-                    orh.innerText = data.orh;
-
-                if(disp)
-                    disp.innerText = data.disp;
-            }}
-        }});
-    }});
-
-    recalc();
+        // Si esta unidad tiene valores específicos para este día en la matriz
+        if (datosDia[name]) {{
+            if (celdaOrh) celdaOrh.innerText = datosDia[name]["ORH"];
+            if (celdaOcup) celdaOcup.innerText = datosDia[name]["porcentaje"] + "%";
+       }} else {{
+            // Valores por defecto si la unidad no está explícitamente en la lista del día
+            if (celdaOrh && celdaOrh.innerText === "") celdaOrh.innerText = "0";
+            if (celdaOcup && celdaOcup.innerText === "") celdaOcup.innerText = "0%";
+        }}
+}});
+    
+    recalc(); // Ejecutar recalculo para actualizar toda la pantalla
 }}
-
 
 
 
