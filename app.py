@@ -1332,7 +1332,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             if(fleet[n]) {{
                 let diff = fleet[n].stock - fleet[n].used;
                 console.log("Diferencia calculada:", diff);
-                let cL = row.querySelector('.f-left');
+                let cL = row.querySelector('.f-left'); 
                 
                 // Regla universal para Car 3h, 5h, 8h y Crowd
                 let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
