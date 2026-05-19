@@ -261,11 +261,22 @@ PERFILES = {
 
     "LUNES": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "Car - 8h": {"orh": 99, "disp": 80},
-            "SV": {"orh": 91, "disp": 95},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
             "Large Van SDD": {"orh": 487, "disp": 70},
             "Small Van SDD": {"orh": 487, "disp": 70},
@@ -273,126 +284,272 @@ PERFILES = {
             "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "Car - 8h": {"orh": 86, "disp": 91},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "Car - 5h": {"orh": 87, "disp": 93},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
 
     "MARTES": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 90, "disp": 94},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 85, "disp": 91},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 88, "disp": 92},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 89, "disp": 94},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
+
 
     "MIÉRCOLES": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 89, "disp": 93},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 86, "disp": 90},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 87, "disp": 91},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 88, "disp": 92},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
+
 
     "JUEVES": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 91, "disp": 95},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 87, "disp": 92},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 89, "disp": 93},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 90, "disp": 94},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
+
 
     "VIERNES": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 93, "disp": 97},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 90, "disp": 95},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 91, "disp": 96},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 92, "disp": 96},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
+
+
 
     "SÁBADO": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 85, "disp": 89},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 82, "disp": 87},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 84, "disp": 88},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 83, "disp": 87},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     },
 
+
+
     "DOMINGO": {
 
+        // 🔍 PESTAÑA C1
         "2": {
-            "CAR 8H": {"orh": 80, "disp": 85},
+            "Rental E. Large Van": {"orh": 360, "disp": 66},
+            "Rental E. Small Van": {"orh": 360, "disp": 66},
+            "Rental Large Van": {"orh": 360, "disp": 66},
+            "Rental Small Van": {"orh": 360, "disp": 66},
+            "Large Van MLP": {"orh": 360, "disp": 66},
+            "Small Van MLP": {"orh": 360, "disp": 66},
+            "Car MLP": {"orh": 360, "disp": 66},
+            "Moto - 3h": {"orh": 360, "disp": 66},
+            "Car Newbie 3h": {"orh": 360, "disp": 66},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car -5h": {"orh": 91, "disp": 95},
         },
 
+        // 🔍 PESTAÑA PREC SMX5
         "1": {
-            "CAR 8H": {"orh": 78, "disp": 84},
+            "Large Van SDD": {"orh": 487, "disp": 70},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car Newbie": {"orh": 360, "disp": 83},
+            "Car - 8h": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA PREC SMX2
         "5": {
-            "CAR 8H": {"orh": 79, "disp": 84},
+            "Small Van SDD": {"orh": 487, "disp": 70},
+            "Car - 8h": {"orh": 360, "disp": 66},
+            "Car Zona Extendida": {"orh": 360, "disp": 66},
         },
 
+        // 🔍 PESTAÑA SDE
         "4": {
-            "CAR 8H": {"orh": 80, "disp": 85},
+            "Moto - 3h": {"orh": 87, "disp": 93},
+            "Car - 5h": {"orh": 360, "disp": 66},
+            "Car - 5h Extendida": {"orh": 360, "disp": 66},
+            "Car - 3h": {"orh": 360, "disp": 66},
         }
     }
 }
