@@ -1229,26 +1229,38 @@ if (delta > 0 && left <= 0 && esCAR) {{
         // ----------------------------------------------------
 
         // 1. Capturar datos de la flota (Tabla de arriba)
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim();
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
-            
-            if(sch > 0) {{
-                row.style.background = "white"; row.style.color = "black";
-                fs.style.background = "#fcfbc7"; 
-                mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-                ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
-            }} else {{
-                row.style.background = "#DCDCDC"; row.style.color = "#969696";
-                fs.style.background = "#DCDCDC"; 
-                mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-                ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
-            }}
-            if(name !== "" && name !== "NUEVA UNIDAD") {{
-                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
-            }}
-        }});
+document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+    let nameCell = row.querySelector('.edit-name');
+    let name = nameCell.innerText.trim();
+    let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+    let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
+    
+    if(sch > 0) {{
+        row.style.background = "white"; 
+        // Eliminamos row.style.color para no forzar toda la fila
+        fs.style.background = "#fcfbc7"; 
+        mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+        ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+        
+        // Ponemos nombre en NEGRO
+        nameCell.style.color = "black";
+        nameCell.style.fontWeight = "bold";
+    }} else {{
+        row.style.background = "#DCDCDC"; 
+        // Eliminamos row.style.color = "#969696"
+        fs.style.background = "#DCDCDC"; 
+        mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+        ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+        
+        // Ponemos nombre en GRIS
+        nameCell.style.color = "#969696";
+        nameCell.style.fontWeight = "normal";
+    }}
+    
+    if(name !== "" && name !== "NUEVA UNIDAD") {{
+        fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+    }}
+}});
 
         // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
