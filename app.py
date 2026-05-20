@@ -115,7 +115,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
-    num_filas_objetivo = 45 if table_id == "PREC" else 11 
+    num_filas_objetivo = 45 if table_id == "PREC" else 11
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, rango_final + 1):
@@ -981,7 +981,31 @@ html body .meli-table tbody tr:last-child {{
 
 
         
-       
+        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
+        <div class="tools-panel">
+            
+        
+            <!-- 3. CONVERTIDOR (Ahora al final) -->
+            <div class="google-tool" style="
+                /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
+                background: linear-gradient(135deg, #f2f2f2 0%, #ffffff 100%) !important;
+                padding: 15px;
+                border-radius: 10px;
+            ">
+                <button id="toggle-tools-btn" onclick="toggleTools()" 
+                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
+                    ❌ OCULTAR UTILERÍAS
+                </button>
+            
+                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
+                <div style="margin-top:10px;">
+                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
+                 </div>
+             </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- COLUMNA IZQUIERDA -->
@@ -1938,31 +1962,6 @@ with col3:
 
 
 
- <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
-        <div class="tools-panel">
-            
-        
-            <!-- 3. CONVERTIDOR (Ahora al final) -->
-            <div class="google-tool" style="
-                /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
-                background: linear-gradient(135deg, #f2f2f2 0%, #ffffff 100%) !important;
-                padding: 15px;
-                border-radius: 10px;
-            ">
-                <button id="toggle-tools-btn" onclick="toggleTools()" 
-                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
-                    ❌ OCULTAR UTILERÍAS
-                </button>
-            
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
-                <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #008B8B; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
-                 </div>
-             </div>
-        </div>
-    </div>
-</div>
 
 
 import streamlit as st
