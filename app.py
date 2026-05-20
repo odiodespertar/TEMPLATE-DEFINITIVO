@@ -449,18 +449,6 @@ html body .meli-table tbody tr:last-child {{
     height: 16px !important;
 }}
 
-/* Estilo base para los botones del cronómetro */
-.crono-card button {{
-    position: relative;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 18px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.1s ease; /* Transición rápida para el rebote */
-    margin: 5px;
-    font-weight: bold;
-}}
 
 /* Colores y sombras (la sombra da el efecto de grosor) */
 .btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
@@ -969,19 +957,7 @@ html body .meli-table tbody tr:last-child {{
         <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
         <div class="tools-panel">
             
-            <!-- 1. CRONÓMETRO (Ahora primero) -->
-            <div class="crono-card">
-                <div style="font-size:10px; color:#888;">HORA ACTUAL: <span id="reloj-actual" style="color:#00e5ff;">00:00:00</span></div>
-                <div id="crono-main" style="font-size:32px; font-weight:bold; margin:10px 0;">00:00:00.0</div>
-                <div>
-                    <button onclick="startC()" style="background:#28a745; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶</button>
-                    <button onclick="stopC()" style="background:#ffc107; border:none; padding:8px; border-radius:5px; cursor:pointer;">⏸</button>
-                    <button onclick="resetC()" style="background:#dc3545; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">🔄</button>
-                </div>
-            </div>
-
-            
-
+        
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool" style="
                 /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
