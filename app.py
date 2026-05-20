@@ -310,9 +310,14 @@ app_html = f"""
 
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
+/* 1. ESTO EVITA QUE LA TABLA SE PEGUE AL CONTADOR FLOTANTE */
+#visor {{
+    margin-right: 250px !important; /* Deja espacio vacío a la derecha */
+}}
+
+/* 2. TABLA AL 100% PARA QUE NO SE VEA CORTADA */
 .meli-table {{
-    width: 85%;
-    margin-left: 0 !important;
+    width: 100% !important; 
     border-collapse: collapse !important;
     border-spacing: 0 !important;
     table-layout: fixed;
