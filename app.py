@@ -306,7 +306,8 @@ app_html = f"""
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table {{
-    width: 100%;
+    width: 85%;
+    margin-left: 0 !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
     table-layout: fixed;
