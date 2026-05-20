@@ -1135,23 +1135,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-// --- AQUÍ AGREGAS LOS TOTALES ---
-    // Como estás usando un diseño de flexbox, agregamos dos divs más al final:
-    html += `
-        <div style="border-top:1px solid #444; margin-top:10px; padding-top:10px;">
-            <div style="display:flex; justify-content:space-between; font-weight:bold; color:white;">
-                <span>TOTAL MLP:</span>
-                <span id="total-mlp-val" style="color:#00ff99;">0</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-weight:bold; color:white;">
-                <span>TOTAL CAR REAL:</span>
-                <span id="total-car-val" style="color:#00BFFF;">0</span>
-            </div>
-        </div>
-    `;
-
-
-
     document.getElementById('fleet-float-body').innerHTML = html;
 }}
 
