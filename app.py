@@ -12,9 +12,11 @@ st.markdown("""
     body { background-color: #f5f7f9; }
 
 
-    /* Oculta la sexta columna (DELTA) de todas las tablas */
-    table tr th:nth-child(6), 
-    table tr td:nth-child(6) {
+    /* OCULTAR COLUMNA DELTA POR NOMBRE DE ENCABEZADO */
+    /* Esto busca el texto "DELTA" en la cabecera y oculta toda esa columna */
+    table th:contains("DELTA"), 
+    table td:nth-child(5), 
+    table th:nth-child(5) {
         display: none !important;
     }
 
