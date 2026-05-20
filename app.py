@@ -1098,41 +1098,33 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-    function updateFleetFloat() {{
-
+    function updateFleetFloat() {
     let html = "";
-
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-
+    // Asegúrate de usar {{ }} para que Python lo deje pasar al navegador
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
         let name = row.querySelector('.edit-name')?.innerText.trim();
+        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
 
-        let stock =
-            parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-
-        let left =
-            parseInt(row.querySelector('.f-left')?.innerText) || 0;
-
-        if(name && stock > 0) {{
-            // AQUÍ ESTÁ LA MAGIA: 
-            // Definimos el color según el nombre de la unidad
+        if(name && stock > 0) {
+            // Lógica de colores homologados
             let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
             let colorCategoria = isCar ? "#20B2AA" : "#FF00FF";
 
+            // Se usan {{ }} para los bloques de código y ${ } para variables JS
             html += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span style="color: white;">${{name}}</span>
-                    <span style="color:${colorCategoria}; font-weight:bold;">
-                        ${{left}}/${{stock}}
+                    <span style="color: white;">${name}</span>
+                    <span style="color: ${colorCategoria}; font-weight: bold;">
+                        ${left}/${stock}
                     </span>
                 </div>
             `;
-        }}
-    }});
-
-
-
+        }
+    });
+    
     document.getElementById('fleet-float-body').innerHTML = html;
-}}
+}
 
 
     function showTab(n, btn) {{
