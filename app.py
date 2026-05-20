@@ -37,7 +37,7 @@ st.markdown("""
 
 
     /* Añade esto a tu sección <style> */
-.fila-total {
+.fila-TOTAL MLP {
     background-color: #333333 !important; /* Color de fondo oscuro */
     color: #ffffff !important;           /* Color del texto */
 }
