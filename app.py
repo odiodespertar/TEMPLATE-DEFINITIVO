@@ -1848,36 +1848,20 @@ function actualizarTotales() {{
     }}
 
 
-<script>
-    // ... todas tus otras funciones (aplicarPerfil, updateFleetFloat, etc.) ...
 
-    // --- LÓGICA PARA HACER EL CONTADOR ARRASTRABLE ---
+// Al usar {{ }} dobladas, Python no intenta reemplazarlas
     const flotante = document.getElementById('fleet-float');
     let isDragging = false;
-    let offset = { x: 0, y: 0 };
+    let offset = {{ x: 0, y: 0 }}; // Doble llave
 
-    if (flotante) {
-        flotante.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offset.x = e.clientX - flotante.offsetLeft;
-            offset.y = e.clientY - flotante.offsetTop;
-            flotante.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                flotante.style.left = (e.clientX - offset.x) + 'px';
-                flotante.style.top = (e.clientY - offset.y) + 'px';
-                flotante.style.right = 'auto'; 
-                flotante.style.bottom = 'auto';
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            flotante.style.cursor = 'grab';
-        });
-    }
+    flotante.addEventListener('mousedown', (e) => {{ // Doble llave
+        isDragging = true;
+        offset.x = e.clientX - flotante.offsetLeft;
+        offset.y = e.clientY - flotante.offsetTop;
+        flotante.style.cursor = 'grabbing';
+    }});
+    }}
+    
 
     // Inicialización
   
