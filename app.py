@@ -10,8 +10,11 @@ st.markdown("""
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #f5f7f9; }
-    /* ESTO ES LO QUE DEBES AGREGAR AQUÍ */
-    .delta {
+
+
+    /* Oculta la sexta columna (DELTA) de todas las tablas */
+    table tr th:nth-child(6), 
+    table tr td:nth-child(6) {
         display: none !important;
     }
 
