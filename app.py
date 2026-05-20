@@ -27,6 +27,13 @@ st.markdown("""
         box-sizing: border-box;
     }
 
+
+    /* Clase específica para hacer la tabla más angosta */
+    .tabla-flota-reducida {
+        max-width: 80% !important; /* Ajusta este porcentaje si necesitas más espacio */
+        margin-left: 0 !important;
+        margin-right: auto !important;
+    }
     
     </style>
 """, unsafe_allow_html=True)
