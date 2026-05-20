@@ -538,7 +538,7 @@ html body .meli-table tbody tr:last-child {{
 
     box-shadow: 0 6px 18px rgba(0,0,0,.35);
 
-    font-size: 12px;
+    font-size: 14px;
 
     border: 1px solid rgba(255,255,255,.08);
 
