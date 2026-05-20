@@ -1112,29 +1112,18 @@ html body .meli-table tbody tr:last-child {{
         let left =
             parseInt(row.querySelector('.f-left')?.innerText) || 0;
 
-        if(name && stock > 0){{
-
-            let color =
-                left <= 0
-                ? "#ff6b6b"
-                : "#00ff99";
+        if(name && stock > 0) {{
+            // AQUÍ ESTÁ LA MAGIA: 
+            // Definimos el color según el nombre de la unidad
+            let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
+            let colorCategoria = isCar ? "#20B2AA" : "#FF00FF";
 
             html += `
-                <div style="
-                    display:flex;
-                    justify-content:space-between;
-                    margin-bottom:4px;
-                ">
-
-                    <span>${{name}}</span>
-
-                    <span style="
-                        color:${{color}};
-                        font-weight:bold;
-                    ">
-                        ${{left}}/${{stock}}
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="color: white;">${name}</span>
+                    <span style="color:${colorCategoria}; font-weight:bold;">
+                        ${left}/${stock}
                     </span>
-
                 </div>
             `;
         }}
