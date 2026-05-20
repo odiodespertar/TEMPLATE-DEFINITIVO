@@ -292,31 +292,27 @@ app_html = f"""
 
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
-.meli-table {{ 
-    border-collapse: separate; /* Cambiado para que se noten las sombras de celda */
-    border-spacing: 0 8px;
-    width: 100%; 
-    table-layout: auto; 
-    border-radius: 10px; 
-    overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 0 2px white; /* Efecto de profundidad */
-    border: 1px solid #000000;
+.meli-table {{
+    width: 100%;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    table-layout: fixed;
+    background: white;
+    border: 1px solid #d9d9d9;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    overflow: hidden;
 }}
 
-/* Bordes internos gris claro para el encabezado */
 .meli-table th {{
-    background: linear-gradient(180deg, #444444 0%, #111111 100%);
-    color: #FFFFFF;
+    background: #f3f3f3 !important;
+    color: #222 !important;
     font-size: 11px;
-    height: 40px;
-    font-weight: bold;
+    font-weight: 600;
+    border: 1px solid #d9d9d9 !important;
+    padding: 4px 6px;
     text-align: center;
-    border-bottom: 1px solid #555 !important;
-    
-    /* Borde interno (derecho) en gris claro */
-    border-right: 1px solid #808080 !important; 
-    border-left: 1px solid #808080 !important;
-    padding: 2px 5px;
+    height: 24px;
 }}
 
 /* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
@@ -331,13 +327,13 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-spacing: 0 !important;
 }}
 
-.meli-table td {{ 
-    border-bottom: 1px solid #333232; 
-    border-right: 1px solid #333232;
-    font-size: 14px; 
-    height: 32px; 
-    transition: background 0.2s; /* Animación sutil al pasar el mouse */
-    padding: 1px 3px;
+.meli-table td {{
+    border: 1px solid #e1e1e1;
+    padding: 2px 4px;
+    font-size: 11px;
+    height: 24px;
+    background: white;
+    color: #222;
 }}
 
 /* El efecto Neomórfico en cada fila */
