@@ -12,6 +12,20 @@ st.markdown("""
     body { background-color: #000000; }
 
 
+    /* Estilo para los totales que querías */
+        .fila-total {
+            background-color: #1a1a1a !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        /* Contenedor principal para organizar todo */
+        #contenedor-padre {
+            display: flex;
+            flex-direction: column;
+        }
+
+
     /* Oculta de forma agresiva cualquier columna con clase .delta */
     .delta {
         display: none !important;
@@ -34,13 +48,6 @@ st.markdown("""
         margin-left: 0 !important;
         margin-right: auto !important;
     }
-
-
-    /* Añade esto a tu sección <style> */
-.fila-TOTAL MLP {
-    background-color: #333333 !important; /* Color de fondo oscuro */
-    color: #ffffff !important;           /* Color del texto */
-}
 
     
     </style>
