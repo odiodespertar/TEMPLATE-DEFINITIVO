@@ -621,11 +621,11 @@ html body .meli-table tbody tr:last-child {{
         <tfoot>
             <tr style="background:#1a1a1a; color:white; font-weight:bold;">
                 <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-2" style="text-align:center; color:#00ff99;"> 0 </td>
+                <td id="total-no-car-2" style="text-align:center; color:#00ff99; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr style="background:#111; color:white; font-weight:bold;">
                 <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
-                <td id="total-car-real-2" style="text-align:center; color:#00BFFF;"> 0 </td>
+                <td id="total-car-real-2" style="text-align:center; color:#00BFFF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
         </tfoot>
     </table>
