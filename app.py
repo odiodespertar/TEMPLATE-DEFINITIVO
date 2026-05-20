@@ -139,6 +139,7 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-ocup" style="display:none;">0</td>
                 
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td class="f-left" style="display:none; width: 0px; padding: 0px;">0</td>
             </tr>''' 
     return rows
 
