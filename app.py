@@ -9,7 +9,7 @@ st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
-    body { background-color: #f5f7f9; }
+    body { background-color: #000000; }
 
 
     /* Oculta de forma agresiva cualquier columna con clase .delta */
