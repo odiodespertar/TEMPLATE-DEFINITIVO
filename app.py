@@ -1849,24 +1849,6 @@ function actualizarTotales() {{
 
 
 
-// Al usar {{ }} dobladas, Python no intenta reemplazarlas
-    const flotante = document.getElementById('fleet-float');
-    let isDragging = false;
-    let offset = {{ x: 0, y: 0 }}; // Doble llave
-
-    flotante.addEventListener('mousedown', (e) => {{ // Doble llave
-        isDragging = true;
-        offset.x = e.clientX - flotante.offsetLeft;
-        offset.y = e.clientY - flotante.offsetTop;
-        flotante.style.cursor = 'grabbing';
-    }});
-    }}
-    
-
-    // Inicialización
-  
-
-
 aplicarPerfil();
 
     
