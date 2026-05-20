@@ -1098,52 +1098,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-    function updateFleetFloat() {{
-
-    let html = "";
-
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-
-        let name = row.querySelector('.edit-name')?.innerText.trim();
-
-        let stock =
-            parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-
-        let left =
-            parseInt(row.querySelector('.f-left')?.innerText) || 0;
-
-        if(name && stock > 0){{
-
-            let color =
-                left <= 0
-                ? "#ff6b6b"
-                : "#00ff99";
-
-            html += `
-                <div style="
-                    display:flex;
-                    justify-content:space-between;
-                    margin-bottom:4px;
-                ">
-
-                    <span>${{name}}</span>
-
-                    <span style="
-                        color:${{color}};
-                        font-weight:bold;
-                    ">
-                        ${{left}}/${{stock}}
-                    </span>
-
-                </div>
-            `;
-        }}
-    }});
-
-
-
-    document.getElementById('fleet-float-body').innerHTML = html;
-}}
+   
 
 
 
@@ -1865,6 +1820,31 @@ function actualizarTotales() {{
         }}
     }}
 
+
+// --- AGREGA AQUÍ TU FUNCIÓN DEL CONTADOR CORREGIDA ---
+    function updateFleetFloat() {{
+        let html = "";
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name')?.innerText.trim();
+            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+
+            if(name && stock > 0) {{
+                let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
+                let colorCategoria = isCar ? "#20B2AA" : "#FF00FF";
+
+                html += `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color: white;">${{name}}</span>
+                        <span style="color: ${{colorCategoria}}; font-weight: bold;">
+                            ${{left}}/${{stock}}
+                        </span>
+                    </div>
+                `;
+            }}
+        }});
+        document.getElementById('fleet-float-body').innerHTML = html;
+    }}
 
 
 aplicarPerfil();
