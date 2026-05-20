@@ -10,6 +10,13 @@ st.markdown("""
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #f5f7f9; }
+    /* ESTO ES LO QUE DEBES AGREGAR AQUÍ */
+    .delta {
+        display: none !important;
+    }
+
+
+    
     </style>
 """, unsafe_allow_html=True)
 
