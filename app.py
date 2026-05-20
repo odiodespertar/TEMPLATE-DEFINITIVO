@@ -584,7 +584,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -612,7 +612,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
@@ -640,7 +640,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
@@ -669,7 +669,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
