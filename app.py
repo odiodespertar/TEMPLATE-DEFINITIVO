@@ -21,6 +21,11 @@ st.markdown("""
         margin: 0 !important;
     }
 
+    /* Espacio reservado para el contador flotante */
+    #visor {
+        padding-right: 200px !important; 
+        box-sizing: border-box;
+    }
 
     
     </style>
