@@ -12,12 +12,13 @@ st.markdown("""
     body { background-color: #f5f7f9; }
 
 
-    /* OCULTAR COLUMNA DELTA POR NOMBRE DE ENCABEZADO */
-    /* Esto busca el texto "DELTA" en la cabecera y oculta toda esa columna */
-    table th:contains("DELTA"), 
-    table td:nth-child(5), 
-    table th:nth-child(5) {
+    /* Oculta de forma agresiva cualquier columna con clase .delta */
+    .delta {
         display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
 
@@ -596,7 +597,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;"></th>
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -624,7 +625,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;"></th>
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
@@ -652,7 +653,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;"></th>
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
@@ -681,7 +682,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
-                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;">DELTA</th>
+                <th class="delta" style="padding: 4px 8px; font-size: 11px; width: 65px;"></th>
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
