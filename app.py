@@ -1587,19 +1587,26 @@ actualizarTotales();
 
 function distribuirAutomatico() {{
 
-    editedRowsPlan.clear();
+    // =========================================
+    // 1. LEER FLOTA DISPONIBLE
+    // =========================================
 
     let fleet = [];
 
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
 
-        let nombre = row.querySelector('.edit-name')?.innerText.trim();
+        let nombre =
+            row.querySelector('.edit-name')?.innerText.trim();
 
         let sprMax =
-            parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
+            parseFloat(
+                row.querySelector('.edit-spr-max')?.innerText
+            ) || 0;
 
         let stock =
-            parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            parseInt(
+                row.querySelector('.f-stock')?.innerText
+            ) || 0;
 
         if (
             nombre &&
@@ -1616,8 +1623,46 @@ function distribuirAutomatico() {{
         }}
     }});
 
-    // PRIORIDAD MAYOR SPR
+    // =========================================
+    // 2. DESCONTAR MANUALES EXISTENTES
+    // =========================================
+
+    document.querySelectorAll(
+        '#polys-' + currentTab + ' .calc-row'
+    ).forEach(r => {{
+
+        let tipo =
+            r.querySelector('.s-type')?.value;
+
+        let unidades =
+            parseInt(
+                r.querySelector('.u-manual')?.innerText
+            ) || 0;
+
+        if (
+            tipo &&
+            tipo !== "SELECCIONAR..." &&
+            unidades > 0
+        ) {{
+
+            let unidadReal =
+                fleet.find(f => f.nombre === tipo);
+
+            if (unidadReal) {{
+                unidadReal.restante -= unidades;
+            }}
+        }}
+    }});
+
+    // =========================================
+    // 3. PRIORIDAD MAYOR SPR
+    // =========================================
+
     fleet.sort((a, b) => b.spr - a.spr);
+
+    // =========================================
+    // 4. OBTENER POLÍGONOS
+    // =========================================
 
     let bloques = Array.from(
         document.querySelectorAll(
@@ -1643,35 +1688,49 @@ function distribuirAutomatico() {{
         }}
     }});
 
-    // PRIORIDAD MAYOR VOLUMEN
+    // =========================================
+    // 5. PRIORIDAD MAYOR VOLUMEN
+    // =========================================
+
     polys.sort((a, b) => b.volumen - a.volumen);
 
-    // LIMPIAR
-    document.querySelectorAll(
-        '#polys-' + currentTab + ' .calc-row'
-    ).forEach(r => {{
+    // =========================================
+    // 6. AUTO-ASIGNACIÓN
+    // =========================================
 
-        r.querySelector('.u-manual').innerText = "0";
-        r.querySelector('.spr-real-val').innerText = "0";
-
-        let sel = r.querySelector('.s-type');
-
-        if (sel) {{
-            sel.value = "SELECCIONAR...";
-        }}
-    }});
-
-    // ASIGNAR
     polys.forEach(poly => {{
 
         let bloque = poly.bloque;
 
         let objetivo =
             parseFloat(
-                bloque.querySelector('.v-total-val').innerText
+                bloque.querySelector('.v-total-val')?.innerText
             ) || 0;
 
-        let restante = objetivo;
+        // =====================================
+        // RESTAR LO YA MANUALMENTE ASIGNADO
+        // =====================================
+
+        let yaAsignado = 0;
+
+        bloque.querySelectorAll('.calc-row').forEach(r => {{
+
+            let unidades =
+                parseInt(
+                    r.querySelector('.u-manual')?.innerText
+                ) || 0;
+
+            let spr =
+                parseFloat(
+                    r.querySelector('.spr-real-val')?.innerText
+                ) || 0;
+
+            yaAsignado += (unidades * spr);
+        }});
+
+        let restante = objetivo - yaAsignado;
+
+        if (restante <= 0) return;
 
         let filas = Array.from(
             bloque.querySelectorAll('.calc-row')
@@ -1679,19 +1738,52 @@ function distribuirAutomatico() {{
 
         for (let fila of filas) {{
 
+            // =================================
+            // RESPETAR FILAS MANUALES
+            // =================================
+
+            let yaTieneUnidad =
+                parseInt(
+                    fila.querySelector('.u-manual')?.innerText
+                ) > 0;
+
+            let yaTieneTipo =
+                fila.querySelector('.s-type')?.value &&
+                fila.querySelector('.s-type')?.value !== "SELECCIONAR...";
+
+            if (yaTieneUnidad || yaTieneTipo) {{
+                continue;
+            }}
+
             if (restante <= 0) break;
 
-            let unidad = fleet.find(f => f.restante > 0);
+            // =================================
+            // BUSCAR MEJOR UNIDAD DISPONIBLE
+            // =================================
+
+            let unidad =
+                fleet.find(f => f.restante > 0);
 
             if (!unidad) break;
+
+            // =================================
+            // CALCULAR NECESARIAS
+            // =================================
 
             let necesarias =
                 Math.ceil(restante / unidad.spr);
 
             let usar =
-                Math.min(necesarias, unidad.restante);
+                Math.min(
+                    necesarias,
+                    unidad.restante
+                );
 
             if (usar <= 0) continue;
+
+            // =================================
+            // ASIGNAR
+            // =================================
 
             let select =
                 fila.querySelector('.s-type');
@@ -1711,6 +1803,10 @@ function distribuirAutomatico() {{
             editedRowsPlan.add(fila);
         }}
     }});
+
+    // =========================================
+    // 7. RECALCULAR
+    // =========================================
 
     recalc();
 }}
