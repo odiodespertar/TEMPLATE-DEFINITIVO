@@ -1120,9 +1120,9 @@ html body .meli-table tbody tr:last-child {{
 
             html += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span style="color: white;">${name}</span>
+                    <span style="color: white;">${{name}}</span>
                     <span style="color:${colorCategoria}; font-weight:bold;">
-                        ${left}/${stock}
+                        ${{left}}/${{stock}}
                     </span>
                 </div>
             `;
