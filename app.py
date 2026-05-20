@@ -525,20 +525,20 @@ html body .meli-table tbody tr:last-child {{
 
     top: 210px !important;
 
-    width: 150px;
+    width: 153px;
 
     background: rgba(20,20,20,0.96);
     color: white;
 
     border-radius: 14px;
 
-    padding: 14px 16px;
+    padding: 15px 17px;
 
     z-index: 999999 !important;
 
     box-shadow: 0 6px 18px rgba(0,0,0,.35);
 
-    font-size: 14px;
+    font-size: 13px;
 
     border: 1px solid rgba(255,255,255,.08);
 
