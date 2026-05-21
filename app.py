@@ -1061,9 +1061,6 @@ html body .meli-table tbody tr:last-child {{
     let startTime;
     let elapsedTime = 0;
 
-    document.addEventListener("DOMContentLoaded", cargarEstado);
-    
-
 
     function aplicarPerfil() {{
 
@@ -1779,8 +1776,6 @@ function distribuirAutomatico() {{
     // =========================================
 
     recalc();
-    guardarEstado();
-    
 }}
     
 
