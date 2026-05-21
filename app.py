@@ -60,7 +60,8 @@ u_PREC = {
     "Large Van SDD": [80, 85], 
     "Small Van SDD": [70, 80],  
     "Car Newbie": [40, 45],  
-    "Car - 8h": [70, 75]
+    "Car - 8h": [70, 75],
+    "Small Van 9h extra Car": [70, 75]
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -70,7 +71,8 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 u_PREC_SMX2 = {
     "Small Van SDD": [70, 80],
     "Car - 8h": [70, 75],
-    "Car Zona Extendida": [65, 65]
+    "Car Zona Extendida": [65, 65],
+    "Small Van 9h extra Car": [70, 75]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
@@ -109,7 +111,8 @@ ORH_FIJOS = {
 
     "Small Van SDD": ["487", "70"],
     "Car Zona Extendida": ["360", "66"],
-    "Car - 5h Extendida": ["330", "66"]
+    "Car - 5h Extendida": ["330", "66"],
+    "Small Van 9h extra Car": ["360", "66"]
 }
 
 
