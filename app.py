@@ -37,7 +37,7 @@ st.markdown("""
 
     /* Espacio reservado para el contador flotante */
     #visor {
-        padding-right: 200px !important; 
+        padding-right: 210px !important; 
         box-sizing: border-box;
     }
 
@@ -535,20 +535,20 @@ html body .meli-table tbody tr:last-child {{
 
     top: 210px !important;
 
-    width: 155px;
+    width: 160px;
 
     background: rgba(20,20,20,0.96);
     color: white;
 
     border-radius: 14px;
 
-    padding: 15px 17px;
+    padding: 16px 18px;
 
     z-index: 999999 !important;
 
     box-shadow: 0 6px 18px rgba(0,0,0,.35);
 
-    font-size: 13px;
+    font-size: 14px;
 
     border: 1px solid rgba(255,255,255,.08);
 
