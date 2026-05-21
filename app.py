@@ -54,7 +54,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- DATOS BASE ---
-u_SDE = {"Moto - 3h": [25, 25], "Car - 5h": [25, 30], "Car - 5h Extendida": [25, 30], "Car - 3h": [25, 28]}
+u_SDE = {"Moto Cat - 3h": [25, 25], "Car - 5h": [25, 30], "Car - 5h Extendida": [25, 30], "Car - 3h": [25, 28]}
 
 u_PREC = {  
     "Large Van SDD": [80, 85], 
@@ -80,7 +80,7 @@ NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAP
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
-    "Car MLP": [50, 50], "Moto - 3h": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
+    "Car MLP": [50, 50], "Moto Car - 3h": [28, 28], "Moto MLP": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
 }
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
