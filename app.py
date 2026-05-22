@@ -12,10 +12,19 @@ st.markdown("""
     body { background-color: #000000; }
 
 
-  /* Ocultar los totales viejos de la tabla */
-    .fila-total, #total-no-car, #total-car-real {
+  <style>
+    /* Ocultar filas de totales por clase o por ID */
+    .fila-total, 
+    tr[id*="total-no-car"], 
+    tr[id*="total-car-real"] {
         display: none !important;
     }
+    
+    /* Por si acaso tienen un contenedor que las mantiene visibles */
+    .fila-total td {
+        display: none !important;
+    }
+</style>
     
 
         /* Contenedor principal para organizar todo */
