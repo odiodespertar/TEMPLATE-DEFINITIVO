@@ -13,14 +13,13 @@ st.markdown("""
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #000000; }
 
-    /* OCULTAR TOTALES - ESTO ES LO QUE NECESITAS */
-    .fila-total {
+    /* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
+    .fila-total, tr[id*="total"] {
         display: none !important;
         visibility: hidden !important;
         height: 0 !important;
-        padding: 0 !important;
         margin: 0 !important;
-        overflow: hidden !important;
+        padding: 0 !important;
     }
 
     #contenedor-padre { display: flex; flex-direction: column; }
