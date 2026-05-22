@@ -12,12 +12,11 @@ st.markdown("""
     body { background-color: #000000; }
 
 
-    /* Estilo para los totales que querías */
-        .fila-total {
-            background-color: #1a1a1a !important;
-            color: white !important;
-            font-weight: bold;
-        }
+  /* Ocultar los totales viejos de la tabla */
+    .fila-total, #total-no-car, #total-car-real {
+        display: none !important;
+    }
+    
 
         /* Contenedor principal para organizar todo */
         #contenedor-padre {
@@ -1779,38 +1778,9 @@ function distribuirAutomatico() {{
 }}
     
 
-// =========================
-// TOTALES FINALES
-// =========================
-
 function actualizarTotales() {{
-        let totalNoCar = 0;
-        let totalCarReal = 0;
-
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
-
-        // Sumar datos desde la tabla de disponibilidad activa
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name').innerText.trim().toUpperCase();
-            let left = parseInt(row.querySelector('.f-left').innerText) || 0;
-            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-            let asig = sch - left;
-
-            if (name && name !== "IGNORAR" && name !== "NUEVA UNIDAD") {{
-                if (name.includes("CAR") || name.includes("HÍBRIDA")) {{
-                    totalCarReal += asig;
-                }} else {{
-                    totalNoCar += asig;
-                }}
-            }}
-        }});
-
-        // Pintar en los tfoots correspondientes de la pestaña activa
-        let noCarCell = document.getElementById('total-no-car-' + tabId) || document.getElementById('total-no-car');
-        let carCell = document.getElementById('total-car-real-' + tabId) || document.getElementById('total-car-real');
-
-        if (noCarCell) noCarCell.innerText = totalNoCar; 
-        if (carCell) carCell.innerText = totalCarReal;
+        // La lógica fue movida a updateFleetFloat()
+        return;
     }}
 
 
