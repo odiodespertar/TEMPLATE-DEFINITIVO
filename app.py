@@ -4,6 +4,8 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
+
+
 # CSS para diseño limpio
 st.markdown("""
     <style>
@@ -11,51 +13,31 @@ st.markdown("""
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #000000; }
 
-
-
-    /* Ocultar filas de totales por clase o por ID */
-    .fila-total, 
-    tr[id*="total-no-car"], 
-    tr[id*="total-car-real"] {
-        display: none !important;
-    }
-    
-
-    
-
-        /* Contenedor principal para organizar todo */
-        #contenedor-padre {
-            display: flex;
-            flex-direction: column;
-        }
-
-
-    /* Oculta de forma agresiva cualquier columna con clase .delta */
-    .delta {
+    /* OCULTAR TOTALES - ESTO ES LO QUE NECESITAS */
+    .fila-total {
         display: none !important;
         visibility: hidden !important;
-        width: 0 !important;
+        height: 0 !important;
         padding: 0 !important;
         margin: 0 !important;
+        overflow: hidden !important;
     }
 
-    /* Espacio reservado para el contador flotante */
-    #visor {
-        padding-right: 210px !important; 
-        box-sizing: border-box;
-    }
-
-
-    /* Clase específica para hacer la tabla más angosta */
-    .tabla-flota-reducida {
-        max-width: 80% !important; /* Ajusta este porcentaje si necesitas más espacio */
-        margin-left: 0 !important;
-        margin-right: auto !important;
-    }
-
+    #contenedor-padre { display: flex; flex-direction: column; }
     
+    .delta { display: none !important; }
+
+    #visor { padding-right: 210px !important; box-sizing: border-box; }
+    
+    .tabla-flota-reducida {
+        max-width: 80% !important;
+        margin-left: 0 !important;
+        margin-right: auto;
+    }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
+
 
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3h": [25, 25], "Car - 5h": [25, 30], "Car - 5h Extendida": [25, 30], "Car - 3h": [25, 28]}
