@@ -1824,20 +1824,32 @@ function actualizarTotales() {{
     }}
 
 
-// --- AGREGA AQUÍ TU FUNCIÓN DEL CONTADOR CORREGIDA ---
-    function updateFleetFloat() {{
+function updateFleetFloat() {{
         let html = "";
+        let totalNoCar = 0;
+        let totalCarReal = 0;
+
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            
+            // Calculamos lo asignado
+            let asignado = stock - left;
 
             if(name && stock > 0) {{
                 let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
                 let colorCategoria = isCar ? "#20B2AA" : "#FF00FF";
 
+                // Acumulamos totales
+                if (isCar) {{
+                    totalCarReal += asignado;
+                }} else {{
+                    totalNoCar += asignado;
+                }}
+
                 html += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 13px;">
                         <span style="color: white;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
                             ${{left}}/${{stock}}
@@ -1846,7 +1858,23 @@ function actualizarTotales() {{
                 `;
             }}
         }});
+
+        // Dibujamos los totales abajo
+        html += `
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;">
+                <div style="display:flex; justify-content:space-between; color: #FF00FF; font-weight: bold;">
+                    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #20B2AA; font-weight: bold;">
+                    <span>TOTAL CAR REAL:</span> <span>${{totalCarReal}}</span>
+                </div>
+            </div>
+        `;
+
         document.getElementById('fleet-float-body').innerHTML = html;
+        
+        // Guardar estado (si existe la función)
+        if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
     }}
 
 
