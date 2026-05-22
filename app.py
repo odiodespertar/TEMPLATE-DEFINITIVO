@@ -12,7 +12,7 @@ st.markdown("""
     body { background-color: #000000; }
 
 
-  <style>
+
     /* Ocultar filas de totales por clase o por ID */
     .fila-total, 
     tr[id*="total-no-car"], 
@@ -20,11 +20,7 @@ st.markdown("""
         display: none !important;
     }
     
-    /* Por si acaso tienen un contenedor que las mantiene visibles */
-    .fila-total td {
-        display: none !important;
-    }
-</style>
+
     
 
         /* Contenedor principal para organizar todo */
