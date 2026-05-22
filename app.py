@@ -1807,10 +1807,10 @@ function updateFleetFloat() {{
         html += `
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;">
                 <div style="display:flex; justify-content:space-between; color: #FF00FF; font-weight: bold; ont-size: 11px;">
-                    <span>MLP:</span> <span>${{totalNoCar}}</span>
+                    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #20B2AA; font-weight: bold; ont-size: 11px;">
-                    <span>CAR (real):</span> <span>${{totalCarReal}}</span>
+                    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
                 </div>
             </div>
         `;
