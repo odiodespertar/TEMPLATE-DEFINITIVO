@@ -643,14 +643,11 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
-          <tfoot>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-1" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+          <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car-3" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
-                <td id="total-car-real-1" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real-3" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
         </tfoot>
     </table>
@@ -668,13 +665,10 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-       <tfoot>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+       <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car-5" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
                 <td id="total-car-real-5" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
         </tfoot>
@@ -694,13 +688,10 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-       <tfoot>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+       <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car-4" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
-            <tr style="background-color: #000000; color:black; font-weight:bold;">
-                <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
                 <td id="total-car-real-4" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
         </tfoot>
