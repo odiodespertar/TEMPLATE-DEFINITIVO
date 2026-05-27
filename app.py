@@ -41,10 +41,10 @@ st.markdown("""
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3h": [25, 25], "Car - 5h": [25, 30], "Car - 5h Extendida": [25, 30], "Car - 3h": [25, 28]}
 
-u_PREC = {    
-    "Car Newbie": [40, 45],  
+u_PREC = {      
     "Car - 8h": [70, 75],
-    "Small Van 9h extra Car": [70, 75]
+    "Small Van 9h extra Car": [70, 75],
+    "Car Newbie": [40, 45]
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -53,8 +53,8 @@ NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHU
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Car - 8h": [70, 75],
-    "Car Zona Extendida": [65, 65],
-    "Small Van 9h extra Car": [70, 75]
+    "Small Van 9h extra Car": [70, 75],
+    "Car Zona Extendida": [65, 65]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
