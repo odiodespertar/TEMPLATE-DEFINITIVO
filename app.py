@@ -1779,7 +1779,13 @@ function updateFleetFloat() {{
             let asignado = stock - left;
 
             if(name && stock > 0) {{
-                let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
+
+    // 🔥 TOTAL CAR SCHEDULE
+    if(name.toLowerCase().includes("car")) {{
+        totalCarSchedule += stock;
+    }}
+
+    let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
                 let colorCategoria = isCar ? "#20B2AA" : "#FF00FF";
 
                 // Acumulamos totales
@@ -1808,6 +1814,11 @@ function updateFleetFloat() {{
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #20B2AA; font-weight: bold; ont-size: 11px;">
                     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+
+                </div>
+<div style="display:flex; justify-content:space-between; color: #FFA500; font-weight: bold; font-size: 11px;">
+    <span>TOTAL CAR (schedule):</span> <span>${{totalCarSchedule}}</span>     
+                    
                 </div>
             </div>
         `;
