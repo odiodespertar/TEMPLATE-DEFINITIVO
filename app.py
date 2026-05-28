@@ -215,7 +215,7 @@ def gen_poligonos(data_target=None):
                         <th style="padding: 0 10px; border-right: 1px solid rgba(#696969);">PLAN</th>
                         <th style="border-right: 1px solid rgba(#696969); width: 85px;">VOL. TOTAL</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#696969);"># ASIGNADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#696969);">SPR REAL</th>
+                        <th style="width: 90px; min-width: 90px; max-width: 90px; border-right: 1px solid rgba(#696969);">SPR REAL</th>
                         <th style="width: 80px, border-right: 1px solid rgba(#696969);">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
