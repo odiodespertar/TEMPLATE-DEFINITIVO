@@ -231,7 +231,7 @@ def gen_poligonos(data_target=None):
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #696969; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #696969; padding: 2px; width: 100px; min-width: 135px; max-width: 100px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
