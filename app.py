@@ -1768,7 +1768,8 @@ function actualizarTotales() {{
 function updateFleetFloat() {{
         let html = "";
         let totalNoCar = 0;
-        let totalCarReal = 0;
+let totalCarReal = 0;
+let totalCarSchedule = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
