@@ -1845,7 +1845,7 @@ let totalCarSchedule = 0;
         document.getElementById('fleet-float-body').innerHTML = html;
         
         // Guardar estado (si existe la función)
-        if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
+        if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
     }}
 
 
