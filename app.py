@@ -1010,7 +1010,7 @@ html body .meli-table tbody tr:last-child {{
 <!-- CONTADOR FLOTANTE -->
 <div id="fleet-float">
     <div style="font-weight:bold; margin-bottom:8px;">
-        🚚 DISPONIBLE
+        🚛 DISPONIBLE
     </div>
 
     <div id="fleet-float-body">
@@ -1828,7 +1828,7 @@ let totalCarSchedule = 0;
 
 
     <div style="font-weight:bold; margin-bottom:8px;">
-          <span>USADAS</span>
+          <span>🚚 USADAS</span>
           </div>
           
                 <div style="display:flex; justify-content:space-between; color: #11bfae; font-weight: 900; font-size: 13px;">
