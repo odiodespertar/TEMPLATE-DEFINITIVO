@@ -613,7 +613,7 @@ html body .meli-table tbody tr:last-child {{
         left: 10px; 
         top: 140px; 
         z-index: 9999998; 
-        background: #696969; 
+        background: #FF6347; 
         color: white; 
         border: 1px solid #333; 
         padding: 8px 12px; 
@@ -622,7 +622,7 @@ html body .meli-table tbody tr:last-child {{
         border-radius: 0 4px 4px 0;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     ">
-        🔴 Prioridades
+        🚦 Prioridades
     </button>
 
 
