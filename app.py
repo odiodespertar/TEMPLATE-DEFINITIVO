@@ -1013,9 +1013,11 @@ html body .meli-table tbody tr:last-child {{
         🚚 DISPONIBLE
     </div>
 
-   <div id="fleet-float-body">
-    Cargando...
+    <div id="fleet-float-body">
+        Cargando...
+    </div>
 </div>
+
 
 <script>
 
@@ -1157,10 +1159,7 @@ if (delta > 0 && left <= 0 && esCAR) {{
 
     function recalc() {{
         let fleet = {{}};
-
-// 🔥 NUEVO CONTADOR
-    let totalCarSchedule = 0;
-
+        
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         // Guardamos el identificador real que usan los elementos HTML en pantalla
         let tabId = (currentTab === 'C1') ? '2' : currentTab;
@@ -1196,15 +1195,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }}
     
     if(name !== "" && name !== "NUEVA UNIDAD") {{
-        fleet[name] = {{
-        max: parseFloat(ma.innerText)||0,
-        stock: sch,
-        used: 0
-    }};
-
-    // 🔥 SUMAR SOLO UNIDADES CAR
-    if(name.toUpperCase().includes("CAR")) {{
-        totalCarSchedule += sch;
+        fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
     }}
 }});
 
@@ -1347,13 +1338,6 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         }});
 
 updateFleetFloat();
-
-// 🔥 ACTUALIZAR TOTAL CAR SCHEDULE
-let carScheduleEl = document.getElementById('float-total-car-schedule');
-
-if(carScheduleEl) {{
-    carScheduleEl.innerText = totalCarSchedule;
-}}
 
 actualizarTotales();
     }}
