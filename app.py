@@ -1013,25 +1013,9 @@ html body .meli-table tbody tr:last-child {{
         🚚 DISPONIBLE
     </div>
 
-    <div id="fleet-float-body">
-
-    <div style="margin-bottom:10px;">
-        <div style="font-size:11px; color:#aaa;">TOTAL MLP</div>
-        <div id="float-total-mlp" style="font-size:22px; font-weight:bold; color:#FF00FF;">0</div>
-    </div>
-
-    <div style="margin-bottom:10px;">
-        <div style="font-size:11px; color:#aaa;">TOTAL CAR REAL</div>
-        <div id="float-total-car-real" style="font-size:22px; font-weight:bold; color:#20B2AA;">0</div>
-    </div>
-
-    <div style="margin-bottom:10px;">
-        <div style="font-size:11px; color:#aaa;">TOTAL CAR (SCHEDULE)</div>
-        <div id="float-total-car-schedule" style="font-size:22px; font-weight:bold; color:#FFA500;">0</div>
-    </div>
-
+   <div id="fleet-float-body">
+    Cargando...
 </div>
-
 
 <script>
 
