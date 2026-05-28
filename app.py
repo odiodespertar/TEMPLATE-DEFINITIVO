@@ -1784,14 +1784,14 @@ function updateFleetFloat() {{
 
                 // Acumulamos totales
                 if (isCar) {{
-                    totalCarReal += asignado;
-
-                // 🔥 NUEVO TOTAL CAR SCHEDULE
-                totalCarSchedule += stock;
-
-                }} else {{
-                   totalNoCar += asignado;
-                }}
+    totalCarReal += asignado;
+}} else {{
+    totalNoCar += asignado;
+}}
+// 🔥 TOTAL CAR SCHEDULE
+if (isCar && stock > 0) {{
+    totalCarSchedule += stock;
+}}
 
                 html += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
