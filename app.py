@@ -515,7 +515,7 @@ html body .meli-table tbody tr:last-child {{
 
     right: 14px !important; 
 
-    top: 250px !important;
+    top: 280px !important;
 
     width: 170px;
 
