@@ -184,18 +184,18 @@ def gen_poligonos(data_target=None):
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #696969; padding: 2px; width: 135px; min-width: 135px; max-width: 135px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #696969; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #696969; padding: 2px;">
-    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080; width: 100%;"> 
-        <option value="">SELECCIONAR...</option>
-        </select>
-</td>
+        <td style="border: 0.5px solid #696969; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+                <option value="">SELECCIONAR...</option>
+            </select>
+        </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #FF00FF; cursor: pointer;"></td>
     </tr>'''
 
