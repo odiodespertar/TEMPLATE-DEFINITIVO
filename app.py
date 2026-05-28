@@ -1817,7 +1817,7 @@ let totalCarSchedule = 0;
                     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 
                 </div>
-<div style="display:flex; justify-content:space-between; color: #93f5e6; font-weight: bold; font-size: 11px;">
+<div style="display:flex; justify-content:space-between; color: #93f5e6; font-weight: bold; font-size: 12px;">
     <span>TOTAL CAR (schedule):</span> <span>${{totalCarSchedule}}</span>     
                     
                 </div>
