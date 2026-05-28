@@ -579,20 +579,31 @@ html body .meli-table tbody tr:last-child {{
 
         <div style="font-size: 13px; color: #333;">
             <p style="background: #fff3cd; color: #856404; padding: 8px; border-left: 4px solid #ffc107; font-weight: bold; margin-bottom: 10px;">
-                🚨 Recordatorio: Validar ventanas horarias previas al despacho.
+                ⚠️ Revisar ORH y ocupación por día en summary / Distancia de SVC 🟢🟡🟠🔴.
             </p>
             
-            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades de Carga</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
-                <li>Prioridad 1: Rutas de entrega foránea (CEDIS GDL / Toluca).</li>
-                <li>Prioridad 2: Ventanas críticas (Walmart / SC Johnson).</li>
-                <li>Prioridad 3: Completar cubicaje máximo.</li>
+                <li>🟠 CHALCO  .</li>
+                <li>🟢 COYOACÁN CENTRO  .</li>
+                <li>🟢 IZTAPALAPA .</li>
+                <li>🟠 MILPA ALTA .</li>
+                <li>🟢 TLÁHUAC .</li>
+                <li>🟢 TLALPAN NTE .</li>
+                <li>🟢 TLALPAN SUR .</li>
+                <li>🟡 XOCHIMILCO .</li>
             </ul>
 
-            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Restricciones Activas</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX2</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
-                <li>Prohibido asignar Moto Car en tramos de autopista federal.</li>
-                <li>Capacidad máx por "Car - 5h" no debe superar el margen teórico.</li>
+                <li>🟠 CHALCO .</li>
+                <li>🟡 CHIMAS .</li>
+                <li>🔴 IXTAPALUCA-VALLE CHALCO .</li>
+                <li>🟢 IZTAPALAPA 1 .</li>
+                <li>🟢 IZTAPALAPA 2 .</li>
+                <li>🟢 LA PAZ .</li>
+                <li>🟠 PUEBLOS .</li>
+                <li>🟠 TEXCOCO .</li>
             </ul>
         </div>
     </div>
