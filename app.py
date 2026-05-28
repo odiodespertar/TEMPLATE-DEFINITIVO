@@ -1810,19 +1810,16 @@ let totalCarSchedule = 0;
         // Dibujamos los totales abajo
         html += `
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555 
-                <div style="display:flex; justify-content:space-between; font-weight: bold; font-size: 11px; color:#FF00FF;">
-    <span>TOTAL MLP:</span>
-    <span>${{totalNoCar}}</span>
+                <div style="display:flex; justify-content:space-between; color: #FF00FF; font-weight: bold; font-size: 11px;">
+    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; font-weight: bold; font-size: 11px; color:#20B2AA;">
-    <span>TOTAL CAR (real):</span>
-    <span>${{totalCarReal}}</span>
+<div style="display:flex; justify-content:space-between; color: #20B2AA; font-weight: bold; font-size: 11px;">
+    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; font-weight: bold; font-size: 11px; color:#00E5FF;">
-    <span>TOTAL CAR (schedule):</span>
-    <span>${{totalCarSchedule}}</span>
+<div style="display:flex; justify-content:space-between; color: #00E5FF; font-weight: bold; font-size: 11px;">
+    <span>TOTAL CAR (schedule):</span> <span>${{totalCarSchedule}}</span>
 </div>
             </div>
         `;
