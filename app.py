@@ -584,26 +584,26 @@ html body .meli-table tbody tr:last-child {{
             
             <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
-                <li>🟠 CHALCO  .</li>
-                <li>🟢 COYOACÁN CENTRO  .</li>
-                <li>🟢 IZTAPALAPA .</li>
-                <li>🟠 MILPA ALTA .</li>
-                <li>🟢 TLÁHUAC .</li>
-                <li>🟢 TLALPAN NTE .</li>
-                <li>🟢 TLALPAN SUR .</li>
-                <li>🟡 XOCHIMILCO .</li>
+                <li>🟠 Chalco ➤   .</li>
+                <li>🟢 Coyoacán centro ➤   .</li>
+                <li>🟢 Iztapalapa ➤   .</li>
+                <li>🟠 Milpa alta ➤   .</li>
+                <li>🟢 Tláhuac ➤   .</li>
+                <li>🟢 Tlalpan nte ➤   .</li>
+                <li>🟢 Tlalpan sur ➤   .</li>
+                <li>🟡 Xochimilco ➤   .</li>
             </ul>
 
             <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX2</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
-                <li>🟠 CHALCO .</li>
-                <li>🟡 CHIMAS .</li>
-                <li>🔴 IXTAPALUCA-VALLE CHALCO .</li>
-                <li>🟢 IZTAPALAPA 1 .</li>
-                <li>🟢 IZTAPALAPA 2 .</li>
-                <li>🟢 LA PAZ .</li>
-                <li>🟠 PUEBLOS .</li>
-                <li>🟠 TEXCOCO .</li>
+                <li>🟠 Chalco ➤   .</li>
+                <li>🟡 Chimas ➤   .</li>
+                <li>🔴 Ixtapaluca Valle-Chalco ➤   .</li>
+                <li>🟢 Iztapalapa 1 ➤   .</li>
+                <li>🟢 Iztapalapa 2 ➤   .</li>
+                <li>🟢 La Paz ➤   .</li>
+                <li>🟠 Pueblos ➤   .</li>
+                <li>🟠 Texcoco ➤   .</li>
             </ul>
         </div>
     </div>
