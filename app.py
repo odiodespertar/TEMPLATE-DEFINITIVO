@@ -127,7 +127,7 @@ def gen_master_rows(data_dict, table_id):
         if "---" in name:
             rows += f'''
             <tr class="es-divisor" style="background: #333 !important; color: #696969; height: 28px;">
-                <td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;">
+                <td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
