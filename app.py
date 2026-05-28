@@ -1124,18 +1124,25 @@ html body .meli-table tbody tr:last-child {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
-        // Detectar si la unidad es CAR
-let esCAR = sel.toUpperCase().includes("CAR");
 
-// Si NO es CAR, bloquear cuando ya no hay disponibles
-if (delta > 0 && left <= 0 && !esCAR) {{
-        showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
-        return;
+
+// 🔥 SOLO ALGUNOS CAR PUEDEN EXCEDERSE
+let nombreUpper = sel.toUpperCase();
+
+let esFlexible =
+    nombreUpper.includes("CAR - 3H") ||
+    nombreUpper.includes("CAR - 5H") ||
+    nombreUpper.includes("CAR - 8H");
+
+// Si NO es flexible, bloquear cuando ya no hay disponibles
+if (delta > 0 && left <= 0 && !esFlexible) {{
+    showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
+    return;
 }}
 
-// Si SÍ es CAR, permitir negativos pero mostrar alerta
-if (delta > 0 && left <= 0 && esCAR) {{
-        showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+// Si SÍ es flexible, permitir negativos pero mostrar alerta
+if (delta > 0 && left <= 0 && esFlexible) {{
+    showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
 }}
         span.innerText = val + delta;
                 }} else {{
