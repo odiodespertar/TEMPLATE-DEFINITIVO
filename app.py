@@ -441,7 +441,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
         .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
-        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: monospace; text-align: center; }}
+        .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: sans-serif; text-align: center; }}
         /* Botones con un relieve sutil */
         .btn-c {{
             background: #f0f0f0; 
@@ -1959,7 +1959,7 @@ html_notitas = f"""
     <div class="unified-console">
         <div class="display-screen">
             <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
-            <div id="horaReal" style="font-size: 38px; color: #FF00FF; font-family: monospace; font-weight: bold;">--:--</div>
+            <div id="horaReal" style="font-size: 38px; color: #FF00FF; font-family: sans-serif; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
             <div>
