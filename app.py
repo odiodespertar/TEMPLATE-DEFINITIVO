@@ -1827,7 +1827,6 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div id="fleet-float">
     <div style="font-weight:bold; margin-bottom:8px;">
           <span>USADAS</span>
           </div>
