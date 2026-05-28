@@ -555,6 +555,69 @@ html body .meli-table tbody tr:last-child {{
 </head>
 <body>
 
+
+<div id="panel-prioridades" style="
+        position: fixed; 
+        left: -320px; 
+        top: 130px; 
+        width: 300px; 
+        height: calc(100vh - 160px); 
+        background: #fdfdfd; 
+        border-right: 3px solid #696969; 
+        box-shadow: 5px 0 15px rgba(0,0,0,0.15); 
+        z-index: 9999999; 
+        transition: left 0.3s ease; 
+        padding: 15px; 
+        box-sizing: border-box;
+        overflow-y: auto;
+        font-family: Arial, sans-serif;
+    ">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 12px;">
+            <h3 style="margin: 0; color: #333; font-size: 15px; font-weight: bold;">Restricciones y Prioridades</h3>
+            <button onclick="togglePrioridades()" style="background: none; border: none; font-size: 18px; cursor: pointer; font-weight: bold; color: #888;">&times;</button>
+        </div>
+
+        <div style="font-size: 13px; color: #333;">
+            <p style="background: #fff3cd; color: #856404; padding: 8px; border-left: 4px solid #ffc107; font-weight: bold; margin-bottom: 10px;">
+                🚨 Recordatorio: Validar ventanas horarias previas al despacho.
+            </p>
+            
+            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades de Carga</h4>
+            <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
+                <li>Prioridad 1: Rutas de entrega foránea (CEDIS GDL / Toluca).</li>
+                <li>Prioridad 2: Ventanas críticas (Walmart / SC Johnson).</li>
+                <li>Prioridad 3: Completar cubicaje máximo.</li>
+            </ul>
+
+            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Restricciones Activas</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
+                <li>Prohibido asignar Moto Car en tramos de autopista federal.</li>
+                <li>Capacidad máx por "Car - 5h" no debe superar el margen teórico.</li>
+            </ul>
+        </div>
+    </div>
+
+    <button onclick="togglePrioridades()" style="
+        position: fixed; 
+        left: 10px; 
+        top: 140px; 
+        z-index: 9999998; 
+        background: #696969; 
+        color: white; 
+        border: 1px solid #333; 
+        padding: 8px 12px; 
+        font-weight: bold; 
+        cursor: pointer; 
+        border-radius: 0 4px 4px 0;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    ">
+        ⚠️ Prioridades
+    </button>
+
+
+
+
+
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
@@ -1853,6 +1916,24 @@ aplicarPerfil();
 
     
     recalc();
+
+
+// ==============================================================================
+//  🚨 PEGA TU FUNCIÓN EXCLUSIVAMENTE EN ESTE ESPACIO VACÍO (FUERA DE LAS OTRAS)
+// ==============================================================================
+function togglePrioridades() {{
+    const panel = document.getElementById('panel-prioridades');
+    if (panel.style.left === '0px') {{
+        panel.style.left = '-320px';
+    }} else {{
+        panel.style.left = '0px';
+    }}
+}}
+// ==============================================================================
+
+
+
+    
 </script>
 </body>
 </html>
