@@ -1826,7 +1826,7 @@ let totalCarSchedule = 0;
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #7FFFD4; font-weight: 900; font-size: 13px;">
+<div style="display:flex; justify-content:space-between; color: #FFD700; font-weight: 900; font-size: 13px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
