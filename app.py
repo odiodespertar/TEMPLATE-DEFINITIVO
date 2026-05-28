@@ -1766,9 +1766,9 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-        let html = "";
         let totalNoCar = 0;
         let totalCarReal = 0;
+        let totalCarSchedule = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -1785,8 +1785,12 @@ function updateFleetFloat() {{
                 // Acumulamos totales
                 if (isCar) {{
                     totalCarReal += asignado;
+
+                // 🔥 NUEVO TOTAL CAR SCHEDULE
+                totalCarSchedule += stock;
+
                 }} else {{
-                    totalNoCar += asignado;
+                   totalNoCar += asignado;
                 }}
 
                 html += `
@@ -1809,6 +1813,10 @@ function updateFleetFloat() {{
                 <div style="display:flex; justify-content:space-between; color: #20B2AA; font-weight: bold; ont-size: 11px;">
                     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
                 </div>
+                <div style="display:flex; justify-content:space-between; color: #FFA500; font-weight: bold; font-size: 11px;">
+                    <span>TOTAL CAR (schedule):</span> <span>${{totalCarSchedule}}</span>
+                </div>
+            
             </div>
         `;
 
