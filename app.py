@@ -39,7 +39,7 @@ st.markdown("""
 
 
 # --- DATOS BASE ---
-u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5h Extendida": [25, 30], "Car - 3h": [25, 28]}
+u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
 u_PREC = {      
     "Car - 8h": [70, 75],
@@ -93,7 +93,7 @@ ORH_FIJOS = {
 
     "Small Van SDD": ["487", "70"],
     "Car Zona Extendida": ["360", "66"],
-    "Car - 5h Extendida": ["330", "66"],
+    "Car - 5 Extendida": ["330", "66"],
     "Small 9h Ext Car": ["360", "66"]
 }
 
