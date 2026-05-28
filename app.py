@@ -1825,6 +1825,8 @@ let totalCarSchedule = 0;
 </div>
         
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
+
+          <span>USADAS</span>
                 <div style="display:flex; justify-content:space-between; color: #11bfae; font-weight: 900; font-size: 13px;">
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
