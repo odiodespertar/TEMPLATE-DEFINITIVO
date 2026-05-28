@@ -611,7 +611,7 @@ html body .meli-table tbody tr:last-child {{
     <button onclick="togglePrioridades()" style="
         position: fixed; 
         left: 10px; 
-        top: 30px; 
+        top: 25px; 
         z-index: 9999998; 
         background: #FF6347; 
         color: white; 
