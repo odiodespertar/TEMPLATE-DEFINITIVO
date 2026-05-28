@@ -622,7 +622,7 @@ html body .meli-table tbody tr:last-child {{
         border-radius: 0 4px 4px 0;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     ">
-        ⚠️ Prioridades
+        🔴 Prioridades
     </button>
 
 
