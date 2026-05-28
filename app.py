@@ -573,7 +573,7 @@ html body .meli-table tbody tr:last-child {{
         font-family: Arial, sans-serif;
     ">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 12px;">
-            <h3 style="margin: 0; color: #333; font-size: 15px; font-weight: bold;">Restricciones y Prioridades</h3>
+            <h3 style="margin: 0; color: #333; font-size: 15px; font-weight: bold;">Prioridades de asignación</h3>
             <button onclick="togglePrioridades()" style="background: none; border: none; font-size: 18px; cursor: pointer; font-weight: bold; color: #888;">&times;</button>
         </div>
 
@@ -582,7 +582,7 @@ html body .meli-table tbody tr:last-child {{
                 ⚠️ Revisar ORH y ocupación por día en summary / Distancia de SVC 🟢🟡🟠🔴.
             </p>
             
-            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX5</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 13px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
                 <li>🟠 Chalco ➤   .</li>
                 <li>🟢 Coyoacán centro ➤   .</li>
@@ -594,7 +594,7 @@ html body .meli-table tbody tr:last-child {{
                 <li>🟡 Xochimilco ➤   .</li>
             </ul>
 
-            <h4 style="margin: 10px 0 5px 0; color: #696969; font-size: 13px; font-weight: bold;">Prioridades SMX2</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 13px; font-weight: bold;">Prioridades SMX2</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
                 <li>🟠 Chalco ➤   .</li>
                 <li>🟡 Chimas ➤   .</li>
