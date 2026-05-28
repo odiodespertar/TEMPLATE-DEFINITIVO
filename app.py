@@ -1181,7 +1181,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     
     if(sch > 0) {{
         row.style.background = "white"; 
-        // Eliminamos row.style.color para no forzar toda la fila
+        // Eliminamos row.style.color para no forzar toda la fila 
         fs.style.background = "#fcfbc7"; 
         mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
         ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
