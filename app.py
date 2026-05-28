@@ -582,7 +582,7 @@ html body .meli-table tbody tr:last-child {{
                 ⚠️ Revisar ORH y ocupación por día en summary / Distancia de SVC 🟢🟡🟠🔴.
             </p>
             
-            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 13px; font-weight: bold;">Prioridades SMX5</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
                 <li>🟠 Chalco ➤   .</li>
                 <li>🟢 Coyoacán centro ➤   .</li>
@@ -594,7 +594,7 @@ html body .meli-table tbody tr:last-child {{
                 <li>🟡 Xochimilco ➤   .</li>
             </ul>
 
-            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 13px; font-weight: bold;">Prioridades SMX2</h4>
+            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX2</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
                 <li>🟠 Chalco ➤   .</li>
                 <li>🟡 Chimas ➤   .</li>
