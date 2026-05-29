@@ -788,7 +788,7 @@ html body .meli-table tbody tr:last-child {{
                 border-radius: 10px;
             ">
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
+                    style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:3px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
                     ❌ OCULTAR UTILERÍAS
                 </button>
             
@@ -1279,7 +1279,7 @@ actualizarTotales();
         if (!herramientasVisibles) {{
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #ffffff 0%, #D3D3D3 100%)'; 
-            boton.style.boxShadow = '0 3px 0 #D3D3D3';
+            boton.style.boxShadow = '0 2px 0 #D3D3D3';
             boton.style.color = '#808080';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
