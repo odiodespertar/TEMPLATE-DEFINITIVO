@@ -404,7 +404,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* Efecto al pasar el mouse (Hover) */
 .tab-btn:hover {{ 
     background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    color: #000;
+    color: #135b83;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transform: translateY(-2px); /* Se levanta un poco */
 }}
