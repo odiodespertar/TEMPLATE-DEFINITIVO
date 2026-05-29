@@ -329,7 +329,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-spacing: 0 !important;
     table-layout: fixed;
     background: white;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #135b83;
     box-shadow: none !important;
     border-radius: 0 !important;
     overflow: hidden;
@@ -340,7 +340,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     color: #222 !important;
     font-size: 11px;
     font-weight: 600;
-    border: 1px solid #d9d9d9 !important;
+    border: 1px solid #135b83 !important;
     padding: 4px 6px;
     text-align: center;
     height: 24px;
@@ -359,7 +359,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 .meli-table td {{
-    border: 1px solid #e1e1e1;
+    border: 1px solid #135b83;
     padding: 2px 4px;
     font-size: 11px;
     height: 24px;
@@ -419,7 +419,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #ddd; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
+        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #135b83; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
         .google-tool:hover {{
             transform: translateY(-3px);
         }}
@@ -519,7 +519,7 @@ html body .meli-table tbody tr:last-child {{
 
     width: 220px;
 
-    background: rgba(20,20,20,0.96);
+    background: rgba(#135b83);
     color: white;
 
     border-radius: 14px;
@@ -532,7 +532,7 @@ html body .meli-table tbody tr:last-child {{
 
     font-size: 14px;
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid rgba(#135b83);
 
     backdrop-filter: blur(8px);
 
