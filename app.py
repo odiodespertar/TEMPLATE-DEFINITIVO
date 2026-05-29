@@ -664,7 +664,7 @@ html body .meli-table tbody tr:last-child {{
 </button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #444 0%, #222 100%); color: white; border: 1px solid #135b83; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #135b83; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #135b83; transition: all 0.05s; outline: none;">
         ACTIVAS
     </button>
 
