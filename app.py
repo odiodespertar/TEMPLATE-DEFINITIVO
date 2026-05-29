@@ -1989,11 +1989,11 @@ html_notitas = f"""
     
     /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
-        background: #135b83; border-radius: 15px; padding: 15px; 
-        margin-bottom: 20px; border: 1px solid #135b83; text-align: center;
+        background: #000000; border-radius: 15px; padding: 15px; 
+        margin-bottom: 20px; border: 1px solid #000000; text-align: center;
     }}
     .display-screen {{
-        background: #135b83; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #135b83;
+        background: #000000; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #000000;
     }}
     .btn-3d {{
         background: linear-gradient(145deg, #1e90ff, #1c82e6);
@@ -2015,7 +2015,7 @@ html_notitas = f"""
 <div class="main-box">
     <div class="unified-console"> 
         <div class="display-screen">
-            <div style="color: #888; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
+            <div style="color: #212121; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
             <div id="horaReal" style="font-size: 38px; color: #FF00FF; font-family: sans-serif; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
