@@ -516,7 +516,7 @@ html body .meli-table tbody tr:last-child {{
     left: 14px !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
 
-    top: 273px !important;
+    top: 270px !important;
 
     width: 220px;
 
