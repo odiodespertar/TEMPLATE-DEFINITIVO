@@ -1090,6 +1090,8 @@ if (vT === 0) {{
         vCalcEl.style.color = "#fc9a88"; // El número ahora es ROJO/ROSADO como el fondo
     }}
 }}
+}}); 
+
 
 
 
