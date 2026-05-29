@@ -519,8 +519,8 @@ html body .meli-table tbody tr:last-child {{
 
     width: 220px;
 
-    background: #135b83;
-    color: white;
+    background: rgba(19, 91, 131, 0.7);
+    color: #ffffff;
 
     border-radius: 14px;
 
@@ -528,11 +528,11 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 6px 18px rgba(#135b83);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
     font-size: 14px;
 
-    border: 1px solid rgba(#135b83);
+    border: 1px solid rgba(19, 91, 131, 0.7);
 
     backdrop-filter: blur(8px);
 
