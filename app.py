@@ -1294,10 +1294,10 @@ actualizarTotales();
             boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
             boton.style.background = 'linear-gradient(180deg, #ffffff 0%, #D3D3D3 100%)'; 
             boton.style.boxShadow = '0 2px 0 #D3D3D3';
-            boton.style.color = '#808080';
+            boton.style.color = '#135b83';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = '#708090'; 
+            boton.style.background = '#135b83'; 
             boton.style.boxShadow = '0 3px 0 #09354d';
         }}
     }}
