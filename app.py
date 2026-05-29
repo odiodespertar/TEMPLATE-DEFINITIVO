@@ -814,7 +814,7 @@ html body .meli-table tbody tr:last-child {{
 ">
 
     
-        <div style="background: #2e2e2e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div style="background: #0f4563; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
@@ -1002,7 +1002,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
         
         // Ponemos nombre en NEGRO
-        nameCell.style.color = "black";
+        nameCell.style.color = "#0e4c6e";
         nameCell.style.fontWeight = "bold";
     }} else {{
         row.style.background = "#DCDCDC"; 
@@ -1116,7 +1116,7 @@ if (vT === 0) {{
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
                     cL.style.color = "white"; cL.style.background = "#d32f2f";
                 }} else {{
-                    cL.style.color = "black"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
+                    cL.style.color = "#0e4c6e"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
             }}
         }});
