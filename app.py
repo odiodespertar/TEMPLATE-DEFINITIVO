@@ -196,7 +196,7 @@ def gen_poligonos(data_target=None):
                 <option value="">SELECCIONAR...</option>
             </select>
         </td>
-        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #FF00FF; cursor: pointer;"></td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #7FFF00; cursor: pointer;"></td>
     </tr>'''
 
     for i in range(1, 11):
