@@ -584,26 +584,26 @@ html body .meli-table tbody tr:last-child {{
             
             <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
-                <li>🟠 Chalco ➤   .</li>
-                <li>🟢 Coyoacán centro ➤   .</li>
-                <li>🟢 Iztapalapa ➤   .</li>
-                <li>🟠 Milpa alta ➤   .</li>
-                <li>🟢 Tláhuac ➤   .</li>
-                <li>🟢 Tlalpan nte ➤   .</li>
-                <li>🟢 Tlalpan sur ➤   .</li>
-                <li>🟡 Xochimilco ➤   .</li>
+                <li>🟠 Chalco ➤ Car 8h.</li>
+                <li>🟢 Coyoacán centro ➤ Car 8h.</li>
+                <li>🟢 Iztapalapa ➤ Car 8h/Small 9h ext.</li>
+                <li>🟠 Milpa alta ➤ Car 8h.</li>
+                <li>🟢 Tláhuac ➤ Car 8h.</li>
+                <li>🟢 Tlalpan nte ➤ Car 8h.</li>
+                <li>🟢 Tlalpan sur ➤ No se publica.</li>
+                <li>🟡 Xochimilco ➤ Small 9h ext/car 8h.</li>
             </ul>
 
             <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX2</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
-                <li>🟠 Chalco ➤   .</li>
-                <li>🟡 Chimas ➤   .</li>
-                <li>🔴 Ixtapaluca Valle-Chalco ➤   .</li>
-                <li>🟢 Iztapalapa 1 ➤   .</li>
-                <li>🟢 Iztapalapa 2 ➤   .</li>
-                <li>🟢 La Paz ➤   .</li>
-                <li>🟠 Pueblos ➤   .</li>
-                <li>🟠 Texcoco ➤   .</li>
+                <li>🟠 Chalco ➤ Car zon ext.</li>
+                <li>🟡 Chimas ➤ Small 9h ext/Car zon ext.</li>
+                <li>🔴 Ixtapaluca Valle-Chalco ➤ Car 8h.</li>
+                <li>🟢 Iztapalapa 1 ➤ Car 8h.</li>
+                <li>🟢 Iztapalapa 2 ➤ Car 8h.</li>
+                <li>🟢 La Paz ➤ Car 8h.</li>
+                <li>🟠 Pueblos ➤ Car zon ext.</li>
+                <li>🟠 Texcoco ➤ Car zon ext.</li>
             </ul>
         </div>
     </div>
