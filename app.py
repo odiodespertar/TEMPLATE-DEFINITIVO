@@ -1276,31 +1276,29 @@ actualizarTotales();
     let herramientasVisibles = true;
 
     function toggleTools() {{
-        const crono = document.querySelector('.crono-card');
-        const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
-        const boton = document.getElementById('toggle-tools-btn');
+    const crono = document.querySelector('.crono-card');
+    const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
+    const boton = document.getElementById('toggle-tools-btn');
 
-        herramientasVisibles = !herramientasVisibles;
+    herramientasVisibles = !herramientasVisibles;
 
-        if (crono) {{
-            crono.style.display = herramientasVisibles ? '' : 'none';
-        }}
-
-        convertidorContenido.forEach(elemento => {{
-            elemento.style.display = herramientasVisibles ? '' : 'none';
-        }});
-
-        if (!herramientasVisibles) {{
-            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #ffffff 0%, #D3D3D3 100%)'; 
-            boton.style.boxShadow = '0 2px 0 #D3D3D3';
-            boton.style.color = '#135b83';
-        }} else {{
-            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = '#135b83'; 
-            boton.style.boxShadow = '0 3px 0 #09354d';
-        }}
+    if (crono) {{
+        crono.style.display = herramientasVisibles ? '' : 'none';
     }}
+
+    convertidorContenido.forEach(elemento => {{
+        elemento.style.display = herramientasVisibles ? '' : 'none';
+    }});
+
+    // AQUÍ ESTÁ EL CAMBIO:
+    if (!herramientasVisibles) {{
+        boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
+        boton.className = 'btn-mostrar'; // Cambiamos la clase, no el estilo
+    }} else {{
+        boton.innerHTML = '❌ OCULTAR UTILERÍAS';
+        boton.className = 'btn-ocultar'; // Cambiamos la clase, no el estilo
+    }}
+}}
 
 
     function convertTime() {{
