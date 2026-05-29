@@ -789,7 +789,7 @@ html body .meli-table tbody tr:last-child {{
             ">
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
                     style="cursor:pointer; background: linear-gradient(180deg, #555 0%, #333 100%); color:white; border:1px solid #222; font-size:11px; padding:6px 0; border-radius:3px; font-weight:bold; box-shadow: 0 3px 0 #111; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
-                    ❌ OCULTAR UTILERÍAS
+                    ❌ OCULTAR  
                 </button>
             
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
