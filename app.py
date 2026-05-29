@@ -573,9 +573,8 @@ html body .meli-table tbody tr:last-child {{
         font-family: Arial, sans-serif;
     ">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 15px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 12px;">
         <h3 style="margin: 0; color: #333; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
-        <button onclick="togglePrioridades()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
