@@ -521,7 +521,7 @@ html body .meli-table tbody tr:last-child {{
     width: 205px;
 
     background: rgba(0.9);
-    color: #ffffff;
+    color: #135b83;
 
     border-radius: 14px;
 
@@ -533,7 +533,7 @@ html body .meli-table tbody tr:last-child {{
 
     font-size: 14px;
 
-    border: 2px solid #FFFF00;
+    border: 1px solid #FFFF00;
 
     backdrop-filter: blur(9px);
 
@@ -1623,7 +1623,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#FFFF00" : "#AFEEEE";
+                let colorCategoria = isCar ? "#f0f00c" : "#191970";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1649,22 +1649,22 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #000080; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #808080; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
     <div style="font-weight:bold; margin-bottom:8px;">
           <span>🚚 USADAS</span>
           </div>
           
-                <div style="display:flex; justify-content:space-between; color: #AFEEEE; font-weight: 900; font-size: 16px;">
+                <div style="display:flex; justify-content:space-between; color: #191970; font-weight: 900; font-size: 16px;">
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #FFFF00; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #f0f00c; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
