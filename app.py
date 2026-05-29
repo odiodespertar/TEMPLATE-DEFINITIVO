@@ -143,7 +143,7 @@ def gen_master_rows(data_dict, table_id):
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold !important; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83 !important;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
                 
