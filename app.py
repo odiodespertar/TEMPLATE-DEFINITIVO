@@ -1132,7 +1132,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                     
                     // Solo agregamos si tiene stock, si es una unidad especial, o si es la que ya está seleccionada
                     if (tieneStock || esFlexible || k === cur) {{
-                        opt += `<option value="${k}">${k}</option>`;
+                        opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }});
                 
