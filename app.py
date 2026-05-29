@@ -708,8 +708,8 @@ html body .meli-table tbody tr:last-child {{
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
@@ -730,8 +730,8 @@ html body .meli-table tbody tr:last-child {{
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
@@ -753,8 +753,8 @@ html body .meli-table tbody tr:last-child {{
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
