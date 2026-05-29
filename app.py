@@ -1076,7 +1076,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                 if (diffVal === Math.round(vT)) {{
                     d.innerText = "OK"; d.style.background = "#3CB371"; vCalcEl.style.color = "#20B2AA";
                 }} else if (vA > vT) {{
-                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f7b67e"; vCalcEl.style.color = "#FF6347";
+                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; vCalcEl.style.color = "#FF6347";
                 }} else {{
                     d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fc9a88"; vCalcEl.style.color = "#FF6347";
                 }}
