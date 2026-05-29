@@ -324,6 +324,29 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     width: 100% !important;
 }}
 
+@media (max-width: 1200px) {{
+
+    .meli-table {{
+        min-width: 700px !important;
+    }}
+
+    #fleet-float {{
+        right: 5px !important;
+        width: 180px !important;
+    }}
+
+    #visor {{
+        overflow-x: auto !important;
+        padding-bottom: 10px;
+    }}
+
+    .t-content {{
+        overflow-x: auto !important;
+        width: 100%;
+    }}
+}}
+
+
 /* 2. TABLA AL 100% PARA QUE NO SE VEA CORTADA */
 .meli-table {{
     width: 100% !important; 
