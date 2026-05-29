@@ -561,29 +561,28 @@ html body .meli-table tbody tr:last-child {{
         top: -600px; 
         left: 0; 
         width: 100%; 
-        height: 500px; 
+        height: 400px; 
         background: #fdfdfd; 
         border-bottom: 3px solid #FF6347; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
         transition: top 0.4s ease; 
-        padding: 15px; 
+        padding: 20px; 
         box-sizing: border-box;
         overflow-y: auto;
         font-family: Arial, sans-serif;
     ">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 12px;">
-            <h3 style="margin: 0; color: #333; font-size: 15px; font-weight: bold;">Prioridades de asignación</h3>
-            <button onclick="togglePrioridades()" style="background: none; border: none; font-size: 18px; cursor: pointer; font-weight: bold; color: #888;">&times;</button>
-        </div>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 15px;">
+        <h3 style="margin: 0; color: #333; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
+        <button onclick="togglePrioridades()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
+    </div>
 
-        <div style="font-size: 13px; color: #333;">
-            <p style="background: #fff3cd; color: #856404; padding: 8px; border-left: 4px solid #ffc107; font-weight: bold; margin-bottom: 10px;">
-                ⚠️ Revisar ORH y ocupación por día en summary / Distancia de SVC 🟢🟡🟠🔴.
-            </p>
-            
-            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
-            <ul style="padding-left: 20px; margin: 0 0 15px 0; line-height: 1.4;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        
+        <div>
+            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
                 <li>🟠 Chalco ➤ Car 8h.</li>
                 <li>🟢 Coyoacán centro ➤ Car 8h.</li>
                 <li>🟢 Iztapalapa ➤ Car 8h/Small 9h ext.</li>
@@ -593,9 +592,11 @@ html body .meli-table tbody tr:last-child {{
                 <li>🟢 Tlalpan sur ➤ No se publica.</li>
                 <li>🟡 Xochimilco ➤ Small 9h ext/car 8h.</li>
             </ul>
+        </div>
 
-            <h4 style="margin: 10px 0 5px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX2</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4;">
+        <div>
+            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX2</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
                 <li>🟠 Chalco ➤ Car zon ext.</li>
                 <li>🟡 Chimas ➤ Small 9h ext/Car zon ext.</li>
                 <li>🔴 Ixtapaluca Valle-Chalco ➤ Car 8h.</li>
@@ -607,6 +608,7 @@ html body .meli-table tbody tr:last-child {{
             </ul>
         </div>
     </div>
+</div>
 
     <button onclick="togglePrioridades()" style="
         position: fixed; 
