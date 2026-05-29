@@ -1109,21 +1109,30 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             }}
         }});
 
-       // 4. FILTRAR LISTA SIN ROMPER SCHEDULE (CON CANDADO IXTAPALUCA INTEGRADO)
+
+       // 4. FILTRAR LISTA (FILTRO MEJORADO)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            // Capturamos el nombre del plan/polígono de este bloque específico
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+
+            // --- AQUÍ ESTÁ TU NUEVA LÓGICA DE FILTRADO ---
+            const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
 
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
                 let opt = '<option>SELECCIONAR...</option>';
-                Object.keys(fleet).forEach(k => {{ 
-                    if (fleet[k].stock > 0) {{
-                        let disp = (fleet[k].stock - fleet[k].used > 0);
-                        let flexible = k.toUpperCase().includes('CAR') || k.toUpperCase().includes('H');
-                        if (disp || k === cur || flexible) {{
-                            opt += `<option value="${{k}}">${{k}}</option>`;
-                        }}
+                
+                Object.keys(fleet).forEach(k => {{
+                    let nameLower = k.toLowerCase();
+                    let stock = fleet[k].stock;
+                    let used = fleet[k].used;
+                    
+                    // Lógica: Es "flexible" (permite negativos) O tiene stock disponible
+                    let esFlexible = listaNegativos.some(u => nameLower.includes(u));
+                    let tieneStock = (stock - used > 0);
+                    
+                    // Solo agregamos si tiene stock, si es una unidad especial, o si es la que ya está seleccionada
+                    if (tieneStock || esFlexible || k === cur) {{
+                        opt += `<option value="${k}">${k}</option>`;
                     }}
                 }});
                 
@@ -1133,24 +1142,15 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                 // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
                     let unidadTxt = cur.toUpperCase();
-                    
-                    // Si ya seleccionó algo, no es el valor por defecto y NO incluye la palabra "CAR"
                     if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
-                        
-                        // Capturamos si ya tenía el color de advertencia puesto para no duplicar la alerta
                         let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
-
-                        // 1. Aplicamos el diseño visual de advertencia al selector
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
                         s.style.setProperty("font-weight", "bold", "important");
-                        
-                        // 2. 🔥 LANZA LA ALERTA FLOTANTE SÓLO LA PRIMERA VEZ (Evita bucles infinitos)
                         if (!yaTieneAlerta) {{
                             showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
                         }}
-                    }} else {{
-                        // Si cambia a un "CAR" o vuelve a "SELECCIONAR...", se limpian los estilos por completo
+                     }} else {{
                         s.style.removeProperty("background-color");
                         s.style.removeProperty("color");
                         s.style.removeProperty("font-weight");
@@ -1682,6 +1682,51 @@ function togglePrioridades() {{
     }}
 }}
 // ==============================================================================
+
+
+
+
+// --- FUNCIÓN DE FILTRADO ---
+function actualizarSelects() {{
+    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
+    
+    document.querySelectorAll('.s-type').forEach(select => {{
+        let valorActual = select.value;
+        select.innerHTML = '<option value="">SELECCIONAR...</option>';
+        
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name')?.innerText.trim();
+            if (!name || name === "IGNORAR") return;
+            
+            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            let nameLower = name.toLowerCase();
+
+            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
+            
+            // Si permite negativos o aún tiene stock, la agregamos al select
+            if (permiteNegativos || stock > left) {{
+                let opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                select.appendChild(opt);
+            }}
+        }});
+        select.value = valorActual;
+    }});
+}}
+
+// Esto asegura que cada vez que alguien escriba en la tabla, el filtro se dispare
+document.addEventListener('input', (e) => {{
+    if (e.target.classList.contains('f-stock') || e.target.classList.contains('u-manual')) {{
+        actualizarSelects();
+    }}
+}});
+
+// Esto asegura que al cargar la página ya esté filtrado
+window.addEventListener('load', actualizarSelects);
+// ==============================================================================
+
 
 
 
