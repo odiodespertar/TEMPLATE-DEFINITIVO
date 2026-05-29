@@ -193,7 +193,7 @@ def gen_poligonos(data_target=None):
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
-                <option value="">SELECCIONAR...</option>
+                <option value="">Seleccionar...</option>
             </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
@@ -240,7 +240,7 @@ def gen_poligonos(data_target=None):
                         </td>
                         <td style="border: 0.5px solid #135b83; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="{select_style}">
-                                <option>SELECCIONAR...</option>
+                                <option>Seleccionar...</option>
                             </select>
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
@@ -926,7 +926,7 @@ html body .meli-table tbody tr:last-child {{
     let sel = row.querySelector('.s-type').value;
     
     // Si no hay unidad seleccionada, no hace nada
-    if(sel === "SELECCIONAR...") return;
+    if(sel === "Seleccionar...") return;
 
     // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
     let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
@@ -1037,7 +1037,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                     "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
                 }};
 
-                if(s !== "SELECCIONAR..." && fleet[s]) {{
+                if(s !== "Seleccionar..." && fleet[s]) {{
                     if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
                     fleet[s].used += u; 
                     
@@ -1154,7 +1154,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                 // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
                     let unidadTxt = cur.toUpperCase();
-                    if (unidadTxt !== "SELECCIONAR..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
+                    if (unidadTxt !== "Seleccionar..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
                         let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
@@ -1216,11 +1216,11 @@ actualizarTotales();
             bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
                 let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
                 let sTypeSelect = r.querySelector('.s-type');
-                let sType = sTypeSelect ? sTypeSelect.value : "SELECCIONAR...";
+                let sType = sTypeSelect ? sTypeSelect.value : "Seleccionar...";
 
                 if (onlyActive) {{
                     // Si está en "ACTIVAS", ocultamos las filas vacías y sin selección
-                    if (uManual === 0 && (sType === "SELECCIONAR..." || sType === "")) {{
+                    if (uManual === 0 && (sType === "Seleccionar..." || sType === "")) {{
                         r.style.display = 'none';
                     }} else {{
                         r.style.display = '';
@@ -1412,7 +1412,7 @@ function distribuirAutomatico() {{
 
         if (
             tipo &&
-            tipo !== "SELECCIONAR..." &&
+            tipo !== "Seleccionar..." &&
             unidades > 0
         ) {{
 
@@ -1520,7 +1520,7 @@ function distribuirAutomatico() {{
 
             let yaTieneTipo =
                 fila.querySelector('.s-type')?.value &&
-                fila.querySelector('.s-type')?.value !== "SELECCIONAR...";
+                fila.querySelector('.s-type')?.value !== "Seleccionar...";
 
             if (yaTieneUnidad || yaTieneTipo) {{
                 continue;
@@ -1704,7 +1704,7 @@ function actualizarSelects() {{
     
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
-        select.innerHTML = '<option value="">SELECCIONAR...</option>';
+        select.innerHTML = '<option value="">Seleccionar...</option>';
         
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
