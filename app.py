@@ -1989,11 +1989,11 @@ html_notitas = f"""
     
     /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
-        background: #000000; border-radius: 15px; padding: 15px; 
+        background: #6495ED; border-radius: 15px; padding: 15px; 
         margin-bottom: 20px; border: 1px solid #000000; text-align: center;
     }}
     .display-screen {{
-        background: #6495ED; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #000000;
+        background: #000000; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #000000;
     }}
     .btn-3d {{
         background: linear-gradient(145deg, #1e90ff, #1c82e6);
