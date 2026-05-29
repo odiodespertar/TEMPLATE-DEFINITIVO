@@ -319,7 +319,9 @@ app_html = f"""
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* 1. ESTO EVITA QUE LA TABLA SE PEGUE AL CONTADOR FLOTANTE */
 #visor {{
-    margin-right: 250px !important; /* Deja espacio vacío a la derecha */
+    margin-right: 250px !important;
+    overflow-x: auto !important;
+    width: 100% !important;
 }}
 
 /* 2. TABLA AL 100% PARA QUE NO SE VEA CORTADA */
