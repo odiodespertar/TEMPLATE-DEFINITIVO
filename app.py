@@ -787,10 +787,10 @@ html body .meli-table tbody tr:last-child {{
                 padding: 15px;
                 border-radius: 10px;
             ">
-                <button id="toggle-tools-btn" onclick="toggleTools()" 
-                    style="cursor:pointer; background: #708090; color:white !important; border:1px solid #4682B4; font-size:11px; padding:6px 0; border-radius:3px; font-weight:bold; box-shadow: 0 3px 0 #4682B4; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
-                    ❌ OCULTAR UTILERÍAS
-                </button>
+            
+                <button id="toggle-tools-btn" onclick="toggleTools()" style="...">
+    <span style="color: white !important;">❌ OCULTAR UTILERÍAS</span>
+</button>
             
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
