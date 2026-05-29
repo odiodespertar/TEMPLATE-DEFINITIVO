@@ -677,7 +677,7 @@ html body .meli-table tbody tr:last-child {{
 
         </div>
 
-        <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) -->
+        <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
 
         
        
