@@ -1123,15 +1123,17 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                 
                 Object.keys(fleet).forEach(k => {{
                     let nameLower = k.toLowerCase();
-                    let stock = fleet[k].stock;
+                    let stock = fleet[k].stock; // Este es el valor de la columna Schedule
                     let used = fleet[k].used;
                     
-                    // Lógica: Es "flexible" (permite negativos) O tiene stock disponible
+                    // Definimos las reglas:
                     let esFlexible = listaNegativos.some(u => nameLower.includes(u));
-                    let tieneStock = (stock - used > 0);
+                    let tieneCapacidad = (stock - used > 0);
                     
-                    // Solo agregamos si tiene stock, si es una unidad especial, o si es la que ya está seleccionada
-                    if (tieneStock || esFlexible || k === cur) {{
+                    // REGLA MAESTRA:
+                    // 1. La unidad debe tener stock inicial > 0 (si no, está desactivada)
+                    // 2. Y además debe cumplir con tener capacidad libre O ser "Flexible" O ser la que ya seleccionaste
+                    if (stock > 0 && (tieneCapacidad || esFlexible || k === cur)) {{
                         opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }});
