@@ -529,7 +529,7 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 8px 32px 0 #FFFF00;
+    box-shadow: 0 8px 32px 0;
 
     font-size: 14px;
 
@@ -1623,7 +1623,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#f0f00c" : "#191970";
+                let colorCategoria = isCar ? "#FF6347" : "#191970";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1634,7 +1634,7 @@ let totalCarSchedule = 0;
 
                 html += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
-                        <span style="color: #ffffff;">${{name}}</span>
+                        <span style="color: #135b83;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
                             ${{left}}/${{stock}}
                         </span>
@@ -1646,7 +1646,7 @@ let totalCarSchedule = 0;
         // Dibujamos los totales abajo
         html += `
 
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
 <div style="display:flex; justify-content:space-between; color: #808080; font-weight: 800; font-size: 16px;">
@@ -1664,7 +1664,7 @@ let totalCarSchedule = 0;
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #f0f00c; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #FF6347; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
