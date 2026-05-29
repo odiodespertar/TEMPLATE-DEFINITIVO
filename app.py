@@ -126,7 +126,7 @@ def gen_master_rows(data_dict, table_id):
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
             rows += f'''
-            <tr class="es-divisor" style="background: #333 !important; color: #135b83; height: 28px;">
+            <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
                 <td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
@@ -160,7 +160,7 @@ def gen_master_rows(data_dict, table_id):
 def gen_poligonos(data_target=None):
     polys = ""
     # Botones con dimensiones totalmente congeladas a nivel píxel
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#333; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
@@ -173,7 +173,7 @@ def gen_poligonos(data_target=None):
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
     
     # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
-    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#333; padding: 4px; cursor: pointer;"
+    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
 
     fila_inner = f'''
     <tr class="calc-row">
@@ -212,11 +212,11 @@ def gen_poligonos(data_target=None):
             <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
                 <thead>
                     <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid rgba(#135b83);">PLAN</th>
-                        <th style="border-right: 1px solid rgba(#135b83); width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#135b83);"># ASIGNADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#135b83);">SPR REAL</th>
-                        <th style="width: 80px, border-right: 1px solid rgba(#135b83);">TIPO DE UNIDAD</th>
+                        <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th>
+                        <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
+                        <th style="width: 80px, border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
                 </thead>
@@ -1595,7 +1595,7 @@ function actualizarTotales() {{
         if (selectElement.value === "") {{
             selectElement.style.color = "#A9A9A9"; // Gris
         }} else {{
-            selectElement.style.color = "#000000"; // Negro
+            selectElement.style.color = "#135b83"; // Negro
         }}
     }}
 
