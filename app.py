@@ -660,7 +660,7 @@ html body .meli-table tbody tr:last-child {{
     onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #FFA500';"
     onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';"
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';">
-    ⚡ AUTO-CALCULAR
+    🧠 AUTO-CALCULAR
 </button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
