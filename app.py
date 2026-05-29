@@ -535,7 +535,7 @@ html body .meli-table tbody tr:last-child {{
 
     border: 1px solid rgba(19, 91, 131, 0.7);
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
 
     max-height: 75vh;
 
