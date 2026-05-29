@@ -533,7 +533,7 @@ html body .meli-table tbody tr:last-child {{
 
     font-size: 14px;
 
-    border: 3px solid #FF6347;
+    border: 2.5px solid #FF6347;
 
     backdrop-filter: blur(9px);
 
