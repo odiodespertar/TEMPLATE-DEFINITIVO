@@ -1110,35 +1110,25 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         }});
 
 
-       // 4. FILTRAR LISTA (FILTRO MEJORADO)
+       // 4. FILTRAR LISTA (FILTRO CORREGIDO + ALERTA IXTAPALUCA)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
-            // --- AQUÍ ESTÁ TU NUEVA LÓGICA DE FILTRADO ---
             const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
 
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
                 let opt = '<option>SELECCIONAR...</option>';
                 
-                Object.keys(fleet).forEach(k => {{ 
+                Object.keys(fleet).forEach(k => {{
                     let nameLower = k.toLowerCase();
-                    let stock = fleet[k].stock; // Valor de la tabla Schedule
+                    let stock = fleet[k].stock;
                     let used = fleet[k].used;
                     
-                    // 1. ¿Es de las que permiten negativos?
                     let esFlexible = listaNegativos.some(u => nameLower.includes(u));
-                    
-                    // 2. ¿Tiene stock configurado? (Que no esté en 0 en tu tabla)
-                    let tieneStockInicial = (stock > 0);
-                    
-                    // 3. ¿Tiene capacidad real?
+                    let tieneStockInicial = (stock > 0); 
                     let tieneCapacidad = (stock - used > 0);
                     
-                    // --- REGLA FINAL ---
-                    // Solo mostramos si:
-                    // A) Tiene stock inicial (la activaste en la tabla de arriba)
-                    // B) Y (tiene espacio O es flexible O es la que ya seleccionaste)
                     if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
                         opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
@@ -1155,10 +1145,12 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                         s.style.setProperty("background-color", "#ffcccc", "important");
                         s.style.setProperty("color", "#8b0000", "important");
                         s.style.setProperty("font-weight", "bold", "important");
+                        
+                        // 🔥 AQUÍ ESTÁ LA ALERTA QUE FALTABA:
                         if (!yaTieneAlerta) {{
                             showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
                         }}
-                     }} else {{
+                    }} else {{
                         s.style.removeProperty("background-color");
                         s.style.removeProperty("color");
                         s.style.removeProperty("font-weight");
