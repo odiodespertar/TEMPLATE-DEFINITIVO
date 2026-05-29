@@ -150,7 +150,7 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #A9A9A9; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>
                 <td class="f-left" style="display:none; width: 0px; padding: 0px;">0</td>
             </tr>''' 
     return rows
@@ -177,26 +177,26 @@ def gen_poligonos(data_target=None):
 
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.6px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #696969; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #696969; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
+        <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                 <option value="">SELECCIONAR...</option>
             </select>
         </td>
-        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
     for i in range(1, 11):
@@ -208,48 +208,48 @@ def gen_poligonos(data_target=None):
             nombre_final = f"PLAN {i}"
 
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #696969;">           
-            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #696969;">
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
+            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
                 <thead>
-                    <tr style="background: #696969; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid rgba(#696969);">PLAN</th>
-                        <th style="border-right: 1px solid rgba(#696969); width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#696969);"># ASIGNADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#696969);">SPR REAL</th>
-                        <th style="width: 80px, border-right: 1px solid rgba(#696969);">TIPO DE UNIDAD</th>
+                    <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
+                        <th style="padding: 0 10px; border-right: 1px solid rgba(#135b83);">PLAN</th>
+                        <th style="border-right: 1px solid rgba(#135b83); width: 85px;">VOL. TOTAL</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#135b83);"># ASIGNADAS</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid rgba(#135b83);">SPR REAL</th>
+                        <th style="width: 80px, border-right: 1px solid rgba(#135b83);">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="5" contenteditable="true" style="background: #D3D3D3; font-weight:bold; text-align:center; border: 1px solid #696969; padding: 5px; color:#333;">{nombre_final}</td>
-                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #808080; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #696969; padding: 5px;">0</td>
-                        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.5px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                        <td rowspan="5" contenteditable="true" style="background: #D3D3D3; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#333;">{nombre_final}</td>
+                        <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #808080; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #135b83; padding: 5px;">0</td>
+                        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #696969; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                             </div>
                         </td>
-                        <td style="border: 0.5px solid #696969; padding: 2px;">
+                        <td style="border: 0.5px solid #135b83; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="{select_style}">
                                 <option>SELECCIONAR...</option>
                             </select>
                         </td>
-                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #696969;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                      <tr style="background:#ededed; height: 32px;">
-                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #696969; font-size: 14px; color:#696969;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #696969; text-align: center;">0</td>
-                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #696969; font-size: 14px;">VACÍO; color: #696969</td>
+                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
+                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px;">VACÍO; color: #135b83</td>
                     </tr>
                     
                 </tbody>
