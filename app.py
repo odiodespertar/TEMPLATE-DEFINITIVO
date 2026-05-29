@@ -788,7 +788,7 @@ html body .meli-table tbody tr:last-child {{
                 border-radius: 10px;
             ">
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-                    style="cursor:pointer; background: #708090; color:white; border:1px solid #4682B4; font-size:11px; padding:6px 0; border-radius:3px; font-weight:bold; box-shadow: 0 3px 0 #4682B4; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
+                    style="cursor:pointer; background: #708090; color:white !important; border:1px solid #4682B4; font-size:11px; padding:6px 0; border-radius:3px; font-weight:bold; box-shadow: 0 3px 0 #4682B4; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
                     ❌ OCULTAR UTILERÍAS
                 </button>
             
