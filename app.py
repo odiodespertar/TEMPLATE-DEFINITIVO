@@ -963,7 +963,7 @@ if (delta > 0 && left <= 0 && esFlexible) {{
                 }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
-        let newVal = parseFloat((val + delta).toFixed(1)); // Redondeo para evitar errores de decimales
+        let newVal = Math.round(val + delta);
 
         // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
@@ -972,7 +972,7 @@ if (delta > 0 && left <= 0 && esFlexible) {{
         }}
         
         // Si es para bajar o está dentro del rango, permite el cambio
-        span.innerText = newVal.toFixed(1);
+        span.innerText = newVal;
     }}
     editedRowsPlan.add(row);
     recalc();
