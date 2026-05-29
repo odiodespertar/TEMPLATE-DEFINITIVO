@@ -1111,8 +1111,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
        // 4. FILTRAR LISTA (FILTRO CORREGIDO + ALERTA IXTAPALUCA)
-        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
+document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+    let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
             const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
 
@@ -1716,10 +1716,10 @@ function actualizarSelects() {{
     }});
 }}
 
-// Esto asegura que cada vez que alguien escriba en la tabla, el filtro se dispare
+// Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
     if (e.target.classList.contains('f-stock') || e.target.classList.contains('u-manual')) {{
-        actualizarSelects();
+        recalc(); 
     }}
 }});
 
