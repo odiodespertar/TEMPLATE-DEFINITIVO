@@ -520,8 +520,8 @@ html body .meli-table tbody tr:last-child {{
 
     width: 205px;
 
-    background: rgba(255, 255, 1, 0.6);
-    color: #0f4c6e;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
 
     border-radius: 14px;
 
@@ -529,13 +529,13 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 8px 32px 0 rgba(19, 91, 131, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 
     font-size: 14px;
 
     border: 1px solid rgba(19, 91, 131, 0.7);
 
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(12px);
 
     max-height: 75vh;
 
@@ -546,7 +546,7 @@ html body .meli-table tbody tr:last-child {{
 
 /* Agrégalo al final de tu sección <style> */
 .ok-check {{
-    accent-color: #FF4500 !important; /* Cambia aquí el color (ej. #564cfa para Turquesa) */
+    accent-color: #FFFF00 !important; /* Cambia aquí el color (ej. #AFEEEE para Turquesa) */
     cursor: pointer;
 }}
     
@@ -1623,7 +1623,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#FF4500" : "#564cfa";
+                let colorCategoria = isCar ? "#FFFF00" : "#AFEEEE";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1634,7 +1634,7 @@ let totalCarSchedule = 0;
 
                 html += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
-                        <span style="color: #0f4c6e;">${{name}}</span>
+                        <span style="color: #ffffff;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
                             ${{left}}/${{stock}}
                         </span>
@@ -1660,11 +1660,11 @@ let totalCarSchedule = 0;
           <span>🚚 USADAS</span>
           </div>
           
-                <div style="display:flex; justify-content:space-between; color: #564cfa; font-weight: 900; font-size: 16px;">
+                <div style="display:flex; justify-content:space-between; color: #AFEEEE; font-weight: 900; font-size: 16px;">
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #FFFF00; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
