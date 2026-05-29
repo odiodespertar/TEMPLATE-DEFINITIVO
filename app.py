@@ -1648,7 +1648,7 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #A9A9A9; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #D3D3D3; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
@@ -1659,11 +1659,11 @@ let totalCarSchedule = 0;
           <span>🚚 USADAS</span>
           </div>
           
-                <div style="display:flex; justify-content:space-between; color: #11bfae; font-weight: 900; font-size: 16px;">
+                <div style="display:flex; justify-content:space-between; color: #87CEEB; font-weight: 900; font-size: 16px;">
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #FF00FF; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #FFA500; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
