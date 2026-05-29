@@ -612,20 +612,20 @@ html body .meli-table tbody tr:last-child {{
 
     <button onclick="togglePrioridades()" style="
         position: fixed; 
-        left: 10px; 
         top: 25px; 
-        z-index: 9999998; 
+        right: 25px; 
+        z-index: 99999999; /* Botón en la capa más alta */
         background: #FF6347; 
         color: white; 
         border: 1px solid #333; 
         padding: 8px 12px; 
         font-weight: bold; 
         cursor: pointer; 
-        border-radius: 0 4px 4px 0;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        border-radius: 4px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     ">
-        🚦 Prioridades
-    </button>
+    🚦 Prioridades
+</button>
 
 
 
