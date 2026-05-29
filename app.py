@@ -1065,23 +1065,33 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 
-            vCalcEl.innerText = Math.round(vA);
-            vCalcEl.style.background = "white";
-            let d = bl.querySelector('.p-diff');
+         // ... dentro de tu bucle ...
+vCalcEl.innerText = Math.round(vA);
+vCalcEl.style.background = "white";
+let d = bl.querySelector('.p-diff');
 
-            if (vT === 0) {{
-                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#808080";
-            }} else {{
-                let diffVal = Math.round(vA);
-                if (diffVal === Math.round(vT)) {{
-                    d.innerText = "OK"; d.style.background = "#61b888"; vCalcEl.style.color = "#20B2AA";
-                }} else if (vA > vT) {{
-                    d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; vCalcEl.style.color = "#FF6347";
-                }} else {{
-                    d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fc9a88"; vCalcEl.style.color = "#FF6347";
-                }}
-            }}
-        }});
+if (vT === 0) {{
+    d.innerText = "VACÍO"; 
+    d.style.background = "none"; 
+    vCalcEl.style.color = "#808080";
+}} else {{
+    let diffVal = Math.round(vA);
+    if (diffVal === Math.round(vT)) {{
+        d.innerText = "OK"; 
+        d.style.background = "#61b888"; 
+        vCalcEl.style.color = "#61b888"; // El número ahora es VERDE como el fondo
+    }} else if (vA > vT) {{
+        d.innerText = "EXCESO: " + Math.round(vA - vT); 
+        d.style.background = "#f2bd5c"; 
+        vCalcEl.style.color = "#f2bd5c"; // El número ahora es AMARILLO/NARANJA como el fondo
+    }} else {{
+        d.innerText = "FALTAN: " + Math.round(vT - vA); 
+        d.style.background = "#fc9a88"; 
+        vCalcEl.style.color = "#fc9a88"; // El número ahora es ROJO/ROSADO como el fondo
+    }}
+}}
+
+
 
         // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
