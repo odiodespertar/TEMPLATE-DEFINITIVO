@@ -2015,7 +2015,7 @@ html_notitas = f"""
 <div class="main-box">
     <div class="unified-console"> 
         <div class="display-screen">
-            <div style="color: #212121; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
+            <div style="color: #ffffff; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
             <div id="horaReal" style="font-size: 38px; color: #FF00FF; font-family: sans-serif; font-weight: bold;">--:--</div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
