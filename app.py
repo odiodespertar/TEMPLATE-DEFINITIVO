@@ -411,10 +411,10 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* Pestaña Activa (Seleccionada) */
 .tab-btn.active {{
-    background: linear-gradient(180deg, #444 0%, #000 100%); /* Color oscuro profundo */
-    color: #fff; 
-    border-bottom: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%) !important;
+    color: #ffffff !important; 
+    border: 1px solid #061821 !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
     transform: translateY(0); /* Se queda pegada abajo */
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
@@ -789,8 +789,8 @@ html body .meli-table tbody tr:last-child {{
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; background: #708090; color: #ffffff !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; box-shadow: 0 3px 0 #4682B4; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block;">
-        ❌ OCULTAR UTILERÍAS
+        style="cursor:pointer; background: #708090; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; box-shadow: 0 3px 0 #4682B4; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block; -webkit-text-fill-color: #ffffff !important;">
+    ❌ OCULTAR UTILERÍAS
 </button>
             
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
