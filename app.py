@@ -1989,7 +1989,7 @@ html_notitas = f"""
     
     /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
-        background: #6495ED; border-radius: 15px; padding: 15px; 
+        background: #000000; border-radius: 15px; padding: 15px; 
         margin-bottom: 20px; border: 1px solid #000000; text-align: center;
     }}
     .display-screen {{
