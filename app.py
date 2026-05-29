@@ -1985,16 +1985,16 @@ info_operativa = {
 # 3. HTML/CSS (DISEÑO FINAL)
 html_notitas = f"""
 <style>
-    body {{ background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
-    .main-box {{ background: #000; padding: 10px; }}
+    body {{ background-color: #135b83; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
+    .main-box {{ background: #135b83; padding: 10px; }}
     
     /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
-        background: #1a1a1a; border-radius: 15px; padding: 15px; 
-        margin-bottom: 20px; border: 1px solid #333; text-align: center;
+        background: #135b83; border-radius: 15px; padding: 15px; 
+        margin-bottom: 20px; border: 1px solid #135b83; text-align: center;
     }}
     .display-screen {{
-        background: #000; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #222;
+        background: #135b83; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #135b83;
     }}
     .btn-3d {{
         background: linear-gradient(145deg, #1e90ff, #1c82e6);
