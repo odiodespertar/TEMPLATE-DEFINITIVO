@@ -520,7 +520,7 @@ html body .meli-table tbody tr:last-child {{
 
     width: 205px;
 
-    background: rgba(0.8);
+    background: rgba(0.9);
     color: #ffffff;
 
     border-radius: 14px;
@@ -529,13 +529,13 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 8px 32px 0 rgba(0.4);
+    box-shadow: 0 8px 32px 0 #FFFF00;
 
     font-size: 14px;
 
     border: 2px solid #FFFF00;
 
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(9px);
 
     max-height: 75vh;
 
