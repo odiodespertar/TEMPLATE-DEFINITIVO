@@ -656,10 +656,10 @@ html body .meli-table tbody tr:last-child {{
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #F0E68C; color: black; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #FFD700; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #FFD700';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFD700';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFD700';">
+    style="cursor:pointer; background: #FFD700; color: black; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #FFA500; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #FFA500';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';">
     ⚡ AUTO-CALCULAR
 </button>
     
