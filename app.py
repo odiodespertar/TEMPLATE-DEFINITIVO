@@ -1079,7 +1079,7 @@ if (vT === 0) {{
     if (diffVal === Math.round(vT)) {{
         d.innerText = "OK"; 
         d.style.background = "#61b888"; 
-        vCalcEl.style.color = "#188f4d"; // El número ahora es VERDE como el fondo
+        vCalcEl.style.color = "#0da852"; // El número ahora es VERDE como el fondo
     }} else if (vA > vT) {{
         d.innerText = "EXCESO: " + Math.round(vA - vT); 
         d.style.background = "#f2bd5c"; 
