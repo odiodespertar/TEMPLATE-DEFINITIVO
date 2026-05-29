@@ -1984,8 +1984,8 @@ info_operativa = {
 # 3. HTML/CSS (DISEÑO FINAL)
 html_notitas = f"""
 <style>
-    body {{ background-color: #135b83; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
-    .main-box {{ background: #135b83; padding: 10px; }}
+    body {{ background-color: #000000; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
+    .main-box {{ background: #000000; padding: 10px; }}
     
     /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
