@@ -293,6 +293,23 @@ app_html = f"""
             transform: translateY(1px); /* Se hunde al presionar */
         }}
 
+
+/* SCROLL SOLO PARA PLANIFICACIÓN */
+
+.p-content {{
+    width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+}}
+
+/* SOLO LAS TABLAS DE POLÍGONOS */
+.p-content .poligono-bloque table {{
+    min-width: 760px;
+}}
+
+
+
          /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
 .filter-btn:active {{
     transform: translateY(4px); 
