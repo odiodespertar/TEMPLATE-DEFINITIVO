@@ -389,7 +389,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .tab-btn {{ 
     padding: 10px 12px; 
     cursor: pointer; 
-    border: 1px solid #bbb; 
+    border: 1px solid #135b83; 
     background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
     border-radius: 8px 8px 0 0; 
     font-weight: bold; 
@@ -684,11 +684,11 @@ html body .meli-table tbody tr:last-child {{
         <div id="tab-2" class="t-content">
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -706,11 +706,11 @@ html body .meli-table tbody tr:last-child {{
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
@@ -728,11 +728,11 @@ html body .meli-table tbody tr:last-child {{
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
@@ -751,11 +751,11 @@ html body .meli-table tbody tr:last-child {{
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #333 0%, #1a1a1a 100%); color: white;">
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #555; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #555; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
