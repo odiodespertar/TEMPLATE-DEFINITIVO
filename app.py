@@ -429,7 +429,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             padding: 5px;
             font-size: 16px;
             outline: none;
-            box-shadow: inset 2px 2px 5px #e0e0e0;
+            box-shadow: inset 2px 2px 5px #d9dbde;
         }}
 
         
