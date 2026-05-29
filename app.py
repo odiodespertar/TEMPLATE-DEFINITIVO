@@ -520,7 +520,7 @@ html body .meli-table tbody tr:last-child {{
 
     width: 205px;
 
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     color: #ffffff;
 
     border-radius: 14px;
@@ -535,7 +535,7 @@ html body .meli-table tbody tr:last-child {{
 
     border: 1px solid rgba(19, 91, 131, 0.7);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(7px);
 
     max-height: 75vh;
 
@@ -1649,7 +1649,7 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #808080; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #D3D3D3; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
