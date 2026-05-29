@@ -293,23 +293,6 @@ app_html = f"""
             transform: translateY(1px); /* Se hunde al presionar */
         }}
 
-
-/* SCROLL SOLO PARA PLANIFICACIÓN */
-
-.p-content {{
-    width: 100%;
-    overflow-x: auto !important;
-    overflow-y: hidden;
-    padding-bottom: 8px;
-}}
-
-/* SOLO LAS TABLAS DE POLÍGONOS */
-.p-content .poligono-bloque table {{
-    min-width: 760px;
-}}
-
-
-
          /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
 .filter-btn:active {{
     transform: translateY(4px); 
@@ -336,33 +319,8 @@ app_html = f"""
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* 1. ESTO EVITA QUE LA TABLA SE PEGUE AL CONTADOR FLOTANTE */
 #visor {{
-    margin-right: 250px !important;
-    overflow-x: auto !important;
-    width: 100% !important;
+    margin-right: 250px !important; /* Deja espacio vacío a la derecha */
 }}
-
-@media (max-width: 1200px) {{
-
-    .meli-table {{
-        min-width: 700px !important;
-    }}
-
-    #fleet-float {{
-        right: 5px !important;
-        width: 180px !important;
-    }}
-
-    #visor {{
-        overflow-x: auto !important;
-        padding-bottom: 10px;
-    }}
-
-    .t-content {{
-        overflow-x: auto !important;
-        width: 100%;
-    }}
-}}
-
 
 /* 2. TABLA AL 100% PARA QUE NO SE VEA CORTADA */
 .meli-table {{
