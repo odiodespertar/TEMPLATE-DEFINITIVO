@@ -693,7 +693,7 @@ html body .meli-table tbody tr:last-child {{
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
         <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-2" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+                <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
                 <td id="total-car-real-2" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
