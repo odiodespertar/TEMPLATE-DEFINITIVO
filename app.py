@@ -559,7 +559,7 @@ html body .meli-table tbody tr:last-child {{
 <div id="panel-prioridades" style="
         position: fixed; 
         left: -320px; 
-        top: 50px; 
+        top: 60px; 
         width: 300px; 
         height: calc(100vh - 160px); 
         background: #fdfdfd; 
