@@ -546,8 +546,7 @@ html body .meli-table tbody tr:last-child {{
 
 /* Agrégalo al final de tu sección <style> */
 .ok-check {{
-    accent-color: #4169E1
-    !important; /* Cambia aquí el color (ej. #4169E1 para Turquesa) */
+    accent-color: #574bfa !important; /* Cambia aquí el color (ej. #4169E1 para Turquesa) */
     cursor: pointer;
 }}
     
@@ -1624,7 +1623,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#4169E1" : "#87CEEB";
+                let colorCategoria = isCar ? "#574bfa" : "#87CEEB";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1665,7 +1664,7 @@ let totalCarSchedule = 0;
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #4169E1; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #574bfa; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
