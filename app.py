@@ -521,7 +521,7 @@ html body .meli-table tbody tr:last-child {{
     width: 205px;
 
     background: rgba(255, 255, 1, 0.6);
-    color: #000000;
+    color: #FF6347;
 
     border-radius: 14px;
 
@@ -1634,7 +1634,7 @@ let totalCarSchedule = 0;
 
                 html += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
-                        <span style="color: #D3D3D3;">${{name}}</span>
+                        <span style="color: #000000;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
                             ${{left}}/${{stock}}
                         </span>
