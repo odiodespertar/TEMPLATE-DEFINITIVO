@@ -529,11 +529,11 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 8px 32px 0;
+    box-shadow: none;
 
     font-size: 14px;
 
-    border: 1px solid #FFFF00;
+    border: 2px solid #FFFF00;
 
     backdrop-filter: blur(9px);
 
