@@ -364,7 +364,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     font-size: 11px;
     height: 24px;
     background: white;
-    color: #222;
+    color: #135b83;
 }}
 
 /* El efecto Neomórfico en cada fila */
@@ -394,7 +394,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-radius: 8px 8px 0 0; 
     font-weight: bold; 
     font-size: 13px;
-    color: #333;
+    color: #135b83;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
     margin-right: 2px;
@@ -425,7 +425,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
         .google-tool input {{
             border-radius: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #135b83;
             padding: 5px;
             font-size: 16px;
             outline: none;
