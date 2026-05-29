@@ -546,7 +546,7 @@ html body .meli-table tbody tr:last-child {{
 
 /* Agrégalo al final de tu sección <style> */
 .ok-check {{
-    accent-color: #574bfa !important; /* Cambia aquí el color (ej. #4682B4 para Turquesa) */
+    accent-color: #FF4500 !important; /* Cambia aquí el color (ej. #564cfa para Turquesa) */
     cursor: pointer;
 }}
     
@@ -1623,7 +1623,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#574bfa" : "#4682B4";
+                let colorCategoria = isCar ? "#FF4500" : "#564cfa";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1649,7 +1649,7 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #0b3173; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #808080; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
@@ -1660,11 +1660,11 @@ let totalCarSchedule = 0;
           <span>🚚 USADAS</span>
           </div>
           
-                <div style="display:flex; justify-content:space-between; color: #4682B4; font-weight: 900; font-size: 16px;">
+                <div style="display:flex; justify-content:space-between; color: #564cfa; font-weight: 900; font-size: 16px;">
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #574bfa; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
