@@ -1118,7 +1118,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
-                let opt = '<option value="" disabled selected>Elegir Unidad...</option>';
+                let opt = '<option></option>';
                 
                 Object.keys(fleet).forEach(k => {{
                     let nameLower = k.toLowerCase();
