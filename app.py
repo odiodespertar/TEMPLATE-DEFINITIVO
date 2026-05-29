@@ -11,7 +11,7 @@ st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
-    body { background-color: #000000; }
+    body { background-color: #135b83; }
 
     /* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
     .fila-total, tr[id*="total"] {
