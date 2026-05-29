@@ -1649,7 +1649,7 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #555;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #000080; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
