@@ -656,10 +656,10 @@ html body .meli-table tbody tr:last-child {{
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #FF00FF; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #b300b3; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #b300b3';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #b300b3';">
+    style="cursor:pointer; background: #D8BFD8; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #EE82EE; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #EE82EE';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #EE82EE';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #EE82EE';">
     ⚡ AUTO-CALCULAR
 </button>
     
@@ -669,7 +669,7 @@ html body .meli-table tbody tr:last-child {{
     </button>
 
     <button class="filter-btn" onclick="filterRows(false)" 
-        style="cursor:pointer; background: #20B2AA; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #167a75; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #167a75; transition: all 0.05s; outline: none;">
         TODAS
     </button>
 </div>
