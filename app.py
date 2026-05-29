@@ -1622,7 +1622,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#FF00FF" : "#20B2AA";
+                let colorCategoria = isCar ? "#FFA500" : "#4169E1";
 
                 // Acumulamos totales
                 if (isCar) {{
