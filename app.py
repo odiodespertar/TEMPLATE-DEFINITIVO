@@ -1070,11 +1070,11 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             let d = bl.querySelector('.p-diff');
 
             if (vT === 0) {{
-                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#d32f2f";
+                d.innerText = "VACÍO"; d.style.background = "none"; vCalcEl.style.color = "#808080";
             }} else {{
                 let diffVal = Math.round(vA);
                 if (diffVal === Math.round(vT)) {{
-                    d.innerText = "OK"; d.style.background = "#3CB371"; vCalcEl.style.color = "#20B2AA";
+                    d.innerText = "OK"; d.style.background = "#61b888"; vCalcEl.style.color = "#20B2AA";
                 }} else if (vA > vT) {{
                     d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; vCalcEl.style.color = "#FF6347";
                 }} else {{
