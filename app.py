@@ -1079,15 +1079,15 @@ if (vT === 0) {{
     if (diffVal === Math.round(vT)) {{
         d.innerText = "OK"; 
         d.style.background = "#61b888"; 
-        vCalcEl.style.color = "#61b888"; // El número ahora es VERDE como el fondo
+        vCalcEl.style.color = "#188f4d"; // El número ahora es VERDE como el fondo
     }} else if (vA > vT) {{
         d.innerText = "EXCESO: " + Math.round(vA - vT); 
         d.style.background = "#f2bd5c"; 
-        vCalcEl.style.color = "#f2bd5c"; // El número ahora es AMARILLO/NARANJA como el fondo
+        vCalcEl.style.color = "#FFA500"; // El número ahora es AMARILLO/NARANJA como el fondo
     }} else {{
         d.innerText = "FALTAN: " + Math.round(vT - vA); 
         d.style.background = "#fc9a88"; 
-        vCalcEl.style.color = "#fc9a88"; // El número ahora es ROJO/ROSADO como el fondo
+        vCalcEl.style.color = "#FF6347"; // El número ahora es ROJO/ROSADO como el fondo
     }}
 }}
 }}); 
