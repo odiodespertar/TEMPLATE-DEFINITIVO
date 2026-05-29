@@ -1296,7 +1296,7 @@ actualizarTotales();
             boton.style.color = '#808080';
         }} else {{
             boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-            boton.style.background = 'linear-gradient(180deg, #0a2e42 0%, #135b83 100%)'; 
+            boton.style.background = '#708090'; 
             boton.style.boxShadow = '0 3px 0 #09354d';
         }}
     }}
