@@ -180,7 +180,7 @@ def gen_poligonos(data_target=None):
         <td class="u-manual-cell" style="background: #F5F5DC; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #135b83 !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
