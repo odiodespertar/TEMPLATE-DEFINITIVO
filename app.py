@@ -126,7 +126,7 @@ def gen_master_rows(data_dict, table_id):
         # Caso A: Es un Encabezado/Divisor
         if "---" in name:
             rows += f'''
-            <tr class="es-divisor" style="background: #333 !important; color: #696969; height: 28px;">
+            <tr class="es-divisor" style="background: #333 !important; color: #135b83; height: 28px;">
                 <td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
