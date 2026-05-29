@@ -177,7 +177,7 @@ def gen_poligonos(data_target=None):
 
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.6px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.6px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
@@ -224,7 +224,7 @@ def gen_poligonos(data_target=None):
                     <tr class="calc-row"> 
                         <td rowspan="5" contenteditable="true" style="background: #D3D3D3; font-weight:bold; text-align:center; border: 1px solid #696969; padding: 5px; color:#333;">{nombre_final}</td>
                         <td rowspan="5" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #FFA500; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #696969; padding: 5px;">0</td>
-                        <td class="u-manual-cell" style="background: #fcfbc7; border: 0.5px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                        <td class="u-manual-cell" style="background: #F5F5DC; border: 0.5px solid #696969; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}">0</span>
@@ -997,7 +997,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     if(sch > 0) {{
         row.style.background = "white"; 
         // Eliminamos row.style.color para no forzar toda la fila 
-        fs.style.background = "#fcfbc7"; 
+        fs.style.background = "#F5F5DC"; 
         mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
         ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
         
