@@ -528,7 +528,7 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(19, 91, 131, 0.4);
 
     font-size: 14px;
 
@@ -545,7 +545,7 @@ html body .meli-table tbody tr:last-child {{
 
 /* Agrégalo al final de tu sección <style> */
 .ok-check {{
-    accent-color: #FF00FF !important; /* Cambia aquí el color (ej. #20B2AA para Turquesa) */
+    accent-color: #FFD700 !important; /* Cambia aquí el color (ej. #4169E1 para Turquesa) */
     cursor: pointer;
 }}
     
