@@ -558,15 +558,15 @@ html body .meli-table tbody tr:last-child {{
 
 <div id="panel-prioridades" style="
         position: fixed; 
-        left: -320px; 
-        top: 60px; 
-        width: 300px; 
-        height: calc(100vh - 160px); 
+        top: -600px; 
+        left: 0; 
+        width: 100%; 
+        height: 500px; 
         background: #fdfdfd; 
-        border-right: 3px solid #FF6347; 
-        box-shadow: 5px 0 15px rgba(0,0,0,0.15); 
+        border-bottom: 3px solid #FF6347; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
-        transition: left 0.3s ease; 
+        transition: top 0.4s ease; 
         padding: 15px; 
         box-sizing: border-box;
         overflow-y: auto;
@@ -1687,10 +1687,11 @@ aplicarPerfil();
 // ==============================================================================
 function togglePrioridades() {{
     const panel = document.getElementById('panel-prioridades');
-    if (panel.style.left === '0px') {{
-        panel.style.left = '-320px';
+    // Si el top es negativo, lo ponemos en 0 para que baje
+    if (panel.style.top === '0px') {{
+        panel.style.top = '-600px'; // Se oculta subiendo
     }} else {{
-        panel.style.left = '0px';
+        panel.style.top = '0px';    // Se despliega bajando
     }}
 }}
 // ==============================================================================
