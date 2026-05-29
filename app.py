@@ -277,7 +277,7 @@ app_html = f"""
         
         /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
-            background-color: #f8fbff !important;
+            background-color: #135b83 !important;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
             cursor: default;
         }}
