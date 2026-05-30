@@ -9,42 +9,47 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. ELIMINAR INTERFACES Y MARGENES */
-    header, footer, [data-testid="stHeader"] { display: none !important; }
-    
-    /* 2. FORZAR LA APP A OCUPAR SOLO LA PANTALLA, SIN SCROLL GLOBAL */
-    .stApp {
-        overflow: hidden !important; /* MATA EL SCROLL GLOBAL */
+    /* 1. Limpieza total de la interfaz de Streamlit */
+    header, footer, [data-testid="stHeader"], [data-testid="stToolbar"] {
+        display: none !important;
+    }
+
+    /* 2. Configurar la página completa para que no tenga scroll propio */
+    html, body, .stApp {
         margin: 0 !important;
         padding: 0 !important;
-        height: 100vh !important;
+        overflow: hidden !important; /* Elimina scroll en la ventana principal */
+        background-color: #135b83 !important;
     }
 
-    /* 3. LIMPIAR EL CONTENEDOR PRINCIPAL */
+    /* 3. Asegurar que el contenedor principal ocupe toda la pantalla sin márgenes */
     .block-container {
-        padding: 10px !important; /* Un poco de aire para que no se pegue al borde */
-        max-width: 100% !important;
+        padding: 0 !important;
         margin: 0 !important;
+        max-width: 100% !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
     }
 
-    /* 4. VISOR: RESPONSABLE UNICO DEL SCROLL */
+    /* 4. El Visor: Centraliza todo el contenido en una sola área de scroll */
     #visor { 
-        width: 100% !important;
-        height: calc(100vh - 100px) !important; /* Ajusta este valor si necesitas más espacio vertical */
-        overflow-x: auto !important;  /* Scroll horizontal */
-        overflow-y: auto !important;  /* Scroll vertical SOLO DENTRO DEL VISOR */
-        padding-bottom: 20px !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow-x: auto !important; /* Scroll horizontal solo aquí */
+        overflow-y: auto !important; /* Scroll vertical solo aquí */
+        padding: 10px !important;    /* Margen pequeño para que no pegue en el borde */
+        box-sizing: border-box;
     }
     
-    /* 5. TABLA: Ancho fijo para forzar scroll */
+    /* 5. Asegurar que la tabla no se rompa */
     #visor table {
-        min-width: 1000px !important;
-        width: 100% !important;
+        min-width: 900px !important;
+        width: auto !important;
         border-collapse: collapse !important;
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 
 # --- DATOS BASE ---
