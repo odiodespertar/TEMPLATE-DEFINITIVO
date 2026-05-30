@@ -1844,6 +1844,27 @@ function guardarEstado() {{
 }}
 
 
+// NUEVO
+document.addEventListener('input', () => {{
+    guardarEstado();
+}});
+
+document.addEventListener('change', () => {{
+    guardarEstado();
+}});
+
+// 🔥 clave para cambiar de pestañas Streamlit
+window.addEventListener('beforeunload', () => {{
+    guardarEstado();
+}});
+
+document.addEventListener('visibilitychange', () => {{
+    if (document.visibilityState === 'hidden') {{
+        guardarEstado();
+    }}
+}});
+
+
 // ==========================================
 // CARGAR ESTADO PLANEACIÓN
 // ==========================================
@@ -1877,6 +1898,8 @@ function cargarEstado() {{
 
     recalc();
 }}
+
+
 
     
 </script>
