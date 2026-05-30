@@ -8,47 +8,48 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 # CSS para diseño limpio
     st.markdown("""
-    <style>
-    .block-container {padding: 0rem !important;}
-    footer, #MainMenu, header {visibility: hidden;}
-    body { background-color: #135b83; }
+<style>
+.block-container {padding: 0rem !important;}
+footer, #MainMenu, header {visibility: hidden;}
+body { background-color: #135b83; }
 
-    /* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
-    .fila-total, tr[id*="total"] {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+/* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
+.fila-total, tr[id*="total"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
-    #contenedor-padre { display: flex; flex-direction: column; }
-    
-    .delta { display: none !important; }
+#contenedor-padre { display: flex; flex-direction: column; }
 
-    /* --- CAMBIOS AQUÍ PARA EL SCROLL --- */
-    #visor { 
-        padding-right: 210px !important; 
-        box-sizing: border-box; 
-        overflow-x: auto !important; 
-        width: 100% !important; 
-    }
-    
-    #visor table {
-        display: block !important;
-        overflow-x: auto !important;
-        white-space: nowrap !important;
-        width: auto !important;
-        min-width: 100% !important;
-    }
-    
-    .tabla-flota-reducida {
-        max-width: 80% !important;
-        margin-left: 0 !important;
-        margin-right: auto;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+.delta { display: none !important; }
+
+/* --- CAMBIOS AQUÍ PARA EL SCROLL --- */
+#visor { 
+    padding-right: 210px !important; 
+    box-sizing: border-box; 
+    overflow-x: auto !important; 
+    width: 100% !important; 
+}
+
+#visor table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: 100% !important;
+}
+/* ----------------------------------- */
+
+.tabla-flota-reducida {
+    max-width: 80% !important;
+    margin-left: 0 !important;
+    margin-right: auto;
+}
+</style>
+""", unsafe_allow_html=True)
     
 
 # --- DATOS BASE ---
