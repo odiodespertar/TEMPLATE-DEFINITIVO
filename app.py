@@ -795,14 +795,14 @@ html body .meli-table tbody tr:last-child {{
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; background:#135b83; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block; -webkit-text-fill-color: #ffffff !important;">
+        style="cursor:pointer; background:#135b83; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; outline: none; width: 100%; margin-bottom: 15px; display: block; -webkit-text-fill-color: #ffffff !important;">
     ❌ OCULTAR UTILERÍAS
 </button>
             
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">0h 0m</span>
+                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
                  </div>
              </div>
         </div>
