@@ -8,7 +8,6 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 # CSS para diseño limpio
 st.markdown("""
-st.markdown("""
 <style>
     /* 1. Mantenemos el scroll vertical de la página activo y quitamos el horizontal global */
     html, body {
