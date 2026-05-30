@@ -789,13 +789,13 @@ html body .meli-table tbody tr:last-child {{
             <!-- 3. CONVERTIDOR (Ahora al final) -->
             <div class="google-tool" style="
                 /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
-                background: linear-gradient(135deg, #f2f2f2 0%, #ffffff 100%) !important;
-                padding: 10px;
+                background: #ffffff !important;
+                padding: 15px;
                 border-radius: 7px;
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; background:#135b83; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; box-shadow: 0 2px 0 #3d5161; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block; -webkit-text-fill-color: #ffffff !important;">
+        style="cursor:pointer; background:#135b83; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 6px 0; border-radius: 3px; font-weight: bold; transition: all 0.05s; outline: none; width: 100%; margin-bottom: 15px; display: block; -webkit-text-fill-color: #ffffff !important;">
     ❌ OCULTAR UTILERÍAS
 </button>
             
