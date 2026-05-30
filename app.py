@@ -11,8 +11,8 @@ div[role="radiogroup"] {
 }
 
 div[role="radiogroup"] > label {
-    padding-top: 0.2rem !important;
-    padding-bottom: 0.2rem !important;
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
     min-height: 24px !important;
 }
 
