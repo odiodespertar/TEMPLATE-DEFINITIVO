@@ -9,22 +9,44 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* Aseguramos que el contenedor de la tabla sea el único con scroll horizontal */
+    /* Ocultar el menú superior de Streamlit (Fork, GitHub, tres puntos) */
+    header[data-testid="stHeader"] {
+        display: none !important;
+    }
+    
+    /* Eliminar el espacio superior reservado para el header */
+    .block-container {
+        padding-top: 0rem !important;
+    }
+
+    /* Forzar el fondo de toda la página */
+    body { 
+        background-color: #135b83; 
+    }
+
+    /* Mantenemos tus otras configuraciones */
+    html, body {
+        overflow-x: hidden !important; 
+        overflow-y: auto !important;
+    }
+    
+    footer, #MainMenu {visibility: hidden;}
+
+    .fila-total, tr[id*="total"] {
+        display: none !important;
+    }
+
     #visor { 
         width: 100% !important;
         overflow-x: auto !important; 
         overflow-y: hidden !important; 
-        /* Esto separa la tabla del resto de los elementos para que el scroll tenga su espacio */
         padding-bottom: 25px !important; 
         margin-bottom: 10px !important;
-        /* Esto ayuda a que el scroll siempre esté al fondo del visor */
-        display: block !important;
     }
     
     #visor table {
         min-width: 900px !important;
         width: 100% !important;
-        /* Asegura que no haya saltos de línea raros dentro de la tabla */
         white-space: nowrap !important;
     }
 </style>
