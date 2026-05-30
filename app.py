@@ -9,44 +9,32 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Limpieza absoluta de encabezados */
-    header, footer, [data-testid="stHeader"], [data-testid="stToolbar"] {
-        display: none !important;
-    }
+    /* 1. Limpieza moderada (solo lo que molesta) */
+    header, [data-testid="stHeader"] { display: none !important; }
+    
+    /* 2. Mantener fondo oscuro */
+    body { background-color: #135b83 !important; }
 
-    /* 2. Cuerpo y página: sin restricciones de altura */
-    html, body, .stApp {
-        background-color: #135b83 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* 3. El contenedor principal: estirado pero con altura automática */
+    /* 3. El contenedor principal: le damos un ancho cómodo (95%) 
+       en lugar de forzar 100% para evitar que todo se "apriete" */
     .block-container {
-        padding: 10px 20px !important; /* Margen pequeño para que no toque bordes */
-        max-width: 100% !important;
-        margin: 0 !important;
-        display: block !important;
+        max-width: 95% !important;
+        padding-top: 1rem !important;
+        padding-bottom: 2rem !important;
     }
 
-    /* 4. VISOR: El único que controla el scroll horizontal */
+    /* 4. VISOR: Aquí controlamos el scroll horizontal de las tablas */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important; /* Scroll horizontal activo */
-        overflow-y: visible !important; /* Dejamos que el scroll vertical lo maneje la página */
+        overflow-x: auto !important;  /* Scroll horizontal SÓLO AQUÍ */
+        padding-bottom: 15px !important;
     }
     
-    /* 5. TABLA: Ancho mínimo para forzar el scroll horizontal */
+    /* 5. TABLAS: Ancho mínimo para forzar la barra horizontal 
+       pero sin romper el diseño de las celdas */
     #visor table {
-        min-width: 1000px !important;
+        min-width: 800px !important; 
         width: 100% !important;
-        border-collapse: collapse !important;
-    }
-    
-    /* 6. CORRECCIÓN DE LA FRANJA AZUL: 
-       Aseguramos que el fondo sea uniforme */
-    .stAppViewContainer {
-        background-color: #135b83 !important;
     }
 </style>
 """, unsafe_allow_html=True)
