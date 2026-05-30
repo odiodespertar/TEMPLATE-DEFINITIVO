@@ -9,12 +9,12 @@ st.markdown("""
 div[role="radiogroup"] {
     gap: 0.2rem;
     margin-top: -8px !important;
-    margin-bottom: -7px !important;
+    margin-bottom: -5px !important;
 }
 
 div[role="radiogroup"] > label {
-    padding: 0px 6px !important;
-    min-height: 16px !important;
+    padding: 0px 5px !important;
+    min-height: 12px !important;
     margin: 0 !important;
 }
 
