@@ -515,7 +515,7 @@ html body .meli-table tbody tr:last-child {{
     left: 14px !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
     top: 250px !important;
-    width: 205px;
+    width: 203px;
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(to bottom, 
