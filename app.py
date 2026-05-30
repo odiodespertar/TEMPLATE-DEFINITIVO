@@ -795,12 +795,12 @@ html body .meli-table tbody tr:last-child {{
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-    style="cursor:pointer; 
-           background:#135b83 !important; 
-           background-image: none !important; /* QUITA CUALQUIER GRADIENTE */
-           box-shadow: none !important;        /* QUITA CUALQUIER BRILLO/SOMBRA */
-           color: #ffffff !important; 
-           border: 1px solid #4682B4; 
+        style="cursor:pointer; 
+               background:#135b83 !important; 
+               background-image: none !important; 
+               box-shadow: none !important; 
+               color: #ffffff !important; 
+               border: 1px solid #4682B4; 
            font-size: 11px; 
            padding: 5px 0; 
            border-radius: 3px; 
@@ -810,7 +810,8 @@ html body .meli-table tbody tr:last-child {{
            margin-bottom: 15px;">
     ❌ OCULTAR UTILERÍAS
 </button>
-            
+     </div>
+     
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
