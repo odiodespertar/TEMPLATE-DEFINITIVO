@@ -520,7 +520,7 @@ html body .meli-table tbody tr:last-child {{
 
     width: 205px;
 
-    background: rgba(0.9);
+    background: rgba(0.7);
     color: #135b83;
 
     border-radius: 14px;
@@ -529,16 +529,18 @@ html body .meli-table tbody tr:last-child {{
 
     z-index: 999999 !important;
 
-    box-shadow: none;
-
     font-size: 14px;
-
-    border: 2.5px solid #FF6347;
-
+    
+    /* Efecto 3D aplicado mediante sombras internas y borde */
+    border: 2px solid #FF6347; /* Mantenemos tu borde característico */
+    
+    box-shadow: 
+        0 10px 25px rgba(0,0,0,0.5), /* Sombra externa para profundidad */
+        inset 1px 1px 1px rgba(255,255,255,0.3), /* Luz interna superior 3D */
+        inset -1px -1px 1px rgba(0,0,0,0.5); /* Sombra interna inferior 3D */
+    
     backdrop-filter: blur(9px);
-
     max-height: 75vh;
-
     overflow-y: auto;
 }}
 
