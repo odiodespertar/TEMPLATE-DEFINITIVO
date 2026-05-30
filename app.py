@@ -8,12 +8,14 @@ st.markdown("""
 <style>
 div[role="radiogroup"] {
     gap: 0.3rem;
+    margin-top: -8px !important;
+    margin-bottom: -8px !important;
 }
 
 div[role="radiogroup"] > label {
-    padding-top: 0rem !important;
-    padding-bottom: 0rem !important;
-    min-height: 24px !important;
+    padding: 0px 8px !important;
+    min-height: 18px !important;
+    margin: 0 !important;
 }
 
 div[role="radiogroup"] p {
@@ -21,7 +23,6 @@ div[role="radiogroup"] p {
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 pagina = st.radio(
     label="",
