@@ -1,8 +1,7 @@
 import json
 import streamlit as st
-import streamlit.components.v1 as components
+from streamlit.components.v1 import html      
 
-# --- CONFIGURACIÓN ---
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
 
@@ -634,6 +633,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
+
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
@@ -915,6 +915,11 @@ html body .meli-table tbody tr:last-child {{
     recalc();
 }}
 
+
+
+
+
+   
 
 
 
