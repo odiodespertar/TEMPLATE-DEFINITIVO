@@ -39,9 +39,10 @@ st.markdown("""
     
     #visor table {
         display: block !important;
-        overflow-x: auto !important;   /* El scroll se activa SOLO aquí */
+        overflow-x: auto !important;   /* Activa el scroll */
         white-space: nowrap !important;
-        width: 100% !important;
+        width: max-content !important; /* <--- ESTE ES EL CAMBIO CLAVE */
+        min-width: 100% !important;    /* Asegura que no sea más pequeña que el visor */
         margin-bottom: 20px !important;
     }
     
