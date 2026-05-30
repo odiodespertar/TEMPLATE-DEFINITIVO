@@ -24,9 +24,10 @@ div[role="radiogroup"] p {
 
 
 pagina = st.radio(
-    "",
-    ["🚚 Operación", "📝 Notitas Operativas"],
-    horizontal=True
+    label="",
+    options=["🚚 Operación", "📝 Notitas Operativas"],
+    horizontal=True,
+    label_visibility="collapsed"
 )
 
 
