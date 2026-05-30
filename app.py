@@ -790,8 +790,8 @@ html body .meli-table tbody tr:last-child {{
             <div class="google-tool" style="
                 /* 👇 AQUÍ CONTROLAS EL DEGRADADO DIRECTAMENTE */
                 background: linear-gradient(135deg, #f2f2f2 0%, #ffffff 100%) !important;
-                padding: 15px;
-                border-radius: 10px;
+                padding: 10px;
+                border-radius: 7px;
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
@@ -821,7 +821,7 @@ html body .meli-table tbody tr:last-child {{
 ">
 
     
-        <div style="background: #0f4563; color: #FFA500; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
+        <div style="background: #135b83; color: #FFFFFF; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 10px;">📋 PLANIFICACIÓN POR POLÍGONOS</div>
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
