@@ -26,7 +26,22 @@ st.markdown("""
     
     .delta { display: none !important; }
 
-    #visor { padding-right: 210px !important; box-sizing: border-box; }
+    /* --- CAMBIOS AQUÍ PARA EL SCROLL --- */
+    #visor { 
+        padding-right: 210px !important; 
+        box-sizing: border-box; 
+        overflow-x: auto !important; /* Habilita el scroll */
+        width: 100% !important; 
+    }
+    
+    #visor table {
+        display: block !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        width: auto !important;
+        min-width: 100%;
+    }
+    /* ----------------------------------- */
     
     .tabla-flota-reducida {
         max-width: 80% !important;
@@ -2045,22 +2060,6 @@ html_notitas = f"""
 
 
 
-/* SOLUCIÓN SCROLL PARA TABLAS DENTRO DEL VISOR */
-    #visor table {{
-        display: block !important;
-        overflow-x: auto !important;
-        white-space: nowrap !important;
-        width: 100% !important;
-    }}
-
-    /* Opcional: mejora el aspecto de la barra de scroll para que se vea moderna */
-    #visor table::-webkit-scrollbar {{
-        height: 8px;
-    }}
-    #visor table::-webkit-scrollbar-thumb {{
-        background: #888;
-        border-radius: 4px;
-    }}
 
 
     
