@@ -31,19 +31,20 @@ st.markdown("""
     .delta { display: none !important; }
 
     /* 3. CONFIGURACIÓN EXACTA PARA EL SCROLL SOLO EN TABLA */
+    /* FUERZA BRUTA PARA EL SCROLL */
     #visor { 
-        padding-right: 210px !important; 
-        box-sizing: border-box;
-        overflow-x: hidden !important; /* El visor NO debe tener scroll, para no duplicar */
+        width: 100% !important; 
+        overflow-x: auto !important; /* El padre permite el desbordamiento */
+        padding-bottom: 30px !important; /* Espacio para que la barra se vea */
     }
-    
+
     #visor table {
         display: block !important;
-        overflow-x: auto !important;   /* Activa el scroll */
+        overflow-x: auto !important;
         white-space: nowrap !important;
-        width: max-content !important; /* <--- ESTE ES EL CAMBIO CLAVE */
-        min-width: 100% !important;    /* Asegura que no sea más pequeña que el visor */
-        margin-bottom: 20px !important;
+        width: 100% !important; /* Forzamos el ancho */
+        min-width: 800px !important; /* OBLIGAMOS a que mida al menos 800px */
+        border-collapse: collapse !important;
     }
     
     .tabla-flota-reducida {
