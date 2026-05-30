@@ -7,7 +7,7 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 
 # CSS para diseño limpio
-st.markdown("""
+    st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
@@ -30,7 +30,7 @@ st.markdown("""
     #visor { 
         padding-right: 210px !important; 
         box-sizing: border-box; 
-        overflow-x: auto !important; /* Habilita el scroll */
+        overflow-x: auto !important; 
         width: 100% !important; 
     }
     
@@ -39,7 +39,7 @@ st.markdown("""
         overflow-x: auto !important;
         white-space: nowrap !important;
         width: auto !important;
-        min-width: 100%;
+        min-width: 100% !important;
     }
     /* ----------------------------------- */
     
@@ -50,8 +50,7 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
-
+    
 
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
