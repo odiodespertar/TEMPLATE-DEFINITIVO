@@ -7,9 +7,9 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 st.markdown("""
 <style>
 div[role="radiogroup"] {
-    gap: 0.3rem;
+    gap: 0.2rem;
     margin-top: -8px !important;
-    margin-bottom: -8px !important;
+    margin-bottom: -7px !important;
 }
 
 div[role="radiogroup"] > label {
