@@ -1834,7 +1834,7 @@ function guardarEstado() {{
         "planeacion_estado",
         JSON.stringify(estado)
     );
-}}}
+}}
 
 
 // ==========================================
