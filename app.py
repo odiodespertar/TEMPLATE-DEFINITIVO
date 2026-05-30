@@ -8,11 +8,11 @@ st.markdown("""
 div[role="radiogroup"] {
     gap: 0rem;
     margin-top: -8px !important;
-    margin-bottom: -8px !important
+    margin-bottom: none;
 }
 
 div[role="radiogroup"] > label {
-    padding: 0px 20px !important;
+    padding: 0px 26px !important;
     min-height: 9px !important;
     margin: 0 !important;
 }
@@ -25,7 +25,7 @@ div[role="radiogroup"] p {
 
 pagina = st.radio(
     label="",
-    options=["🚚 PLANEACIÓN", "📝 INFO RUTEOS"],
+    options=["🚚 Operación", "📝 Notitas Operativas"],
     horizontal=True,
     label_visibility="collapsed"
 )
