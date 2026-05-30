@@ -9,49 +9,38 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Reset Total: forzar ancho completo y eliminar márgenes externos */
-    [data-testid="stAppViewContainer"] {
-        width: 100vw !important; /* Viewport width al 100% */
-        height: 100vh !important; /* Viewport height al 100% */
+    /* 1. ELIMINAR INTERFACES Y MARGENES */
+    header, footer, [data-testid="stHeader"] { display: none !important; }
+    
+    /* 2. FORZAR LA APP A OCUPAR SOLO LA PANTALLA, SIN SCROLL GLOBAL */
+    .stApp {
+        overflow: hidden !important; /* MATA EL SCROLL GLOBAL */
         margin: 0 !important;
         padding: 0 !important;
-        overflow-x: hidden !important; /* Prohibir scroll horizontal global */
-        overflow-y: auto !important;   /* Solo permitir scroll vertical global aquí */
+        height: 100vh !important;
     }
 
-    /* 2. Limpiar el contenedor principal de Streamlit */
+    /* 3. LIMPIAR EL CONTENEDOR PRINCIPAL */
     .block-container {
-        padding: 0rem !important; /* Quita el espacio superior e inferior */
-        max-width: 100% !important; /* Ocupa el 100% del ancho disponible */
+        padding: 10px !important; /* Un poco de aire para que no se pegue al borde */
+        max-width: 100% !important;
         margin: 0 !important;
     }
 
-    /* 3. Ocultar todos los menús automáticos y el header (Fork, GitHub, etc.) */
-    header, footer, #MainMenu, [data-testid="stHeader"] {
-        display: none !important;
-    }
-
-    /* 4. Estilo global del body */
-    body { background-color: #135b83; }
-
-    /* 5. VISOR: Aquí solucionamos el conflicto final del scroll */
+    /* 4. VISOR: RESPONSABLE UNICO DEL SCROLL */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important;  /* Solo scroll horizontal aquí */
-        overflow-y: hidden !important; /* Prohibido scroll vertical aquí */
-        display: block !important;
-        padding-bottom: 25px !important; /* Espacio para que la barra no tape datos */
-        margin: 0 !important;
+        height: calc(100vh - 100px) !important; /* Ajusta este valor si necesitas más espacio vertical */
+        overflow-x: auto !important;  /* Scroll horizontal */
+        overflow-y: auto !important;  /* Scroll vertical SOLO DENTRO DEL VISOR */
+        padding-bottom: 20px !important;
     }
     
-    /* 6. TABLA: asegurar que no empuje márgenes */
+    /* 5. TABLA: Ancho fijo para forzar scroll */
     #visor table {
-        display: block !important; /* Ayuda a que el visor entienda el ancho */
-        min-width: 1000px !important; /* Ajusta según tus columnas */
+        min-width: 1000px !important;
         width: 100% !important;
-        margin: 0 !important;
         border-collapse: collapse !important;
-        white-space: nowrap !important;
     }
 </style>
 """, unsafe_allow_html=True)
