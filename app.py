@@ -25,7 +25,7 @@ div[role="radiogroup"] p {
 
 pagina = st.radio(
     label="",
-    options=["🚚 Operación", "📝 Notitas Operativas"],
+    options=["🚚 PLANEACIÓN", "📝 INFO RUTEOS"],
     horizontal=True,
     label_visibility="collapsed"
 )
@@ -1806,7 +1806,7 @@ window.addEventListener('load', actualizarSelects);
 </html>
 """
 
-if pagina == "🚚 Operación":
+if pagina == "🚚 PLANEACIÓN":
     html(app_html, height=1200, scrolling=True)
 
 
@@ -2087,7 +2087,7 @@ html_notitas = f"""
         </div>
     </div>
 
-    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
+    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 INFO RUTEOS</h3>
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
@@ -2121,7 +2121,7 @@ html_notitas = f"""
 </script>
 """
 
-if pagina == "📝 Notitas Operativas":
+if pagina == "📝 INFO RUTEOS":
     st.markdown("---")
     components.html(
         html_notitas,
