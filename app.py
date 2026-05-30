@@ -795,7 +795,19 @@ html body .meli-table tbody tr:last-child {{
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; background:#135b83; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 5px 0; border-radius: 3px; font-weight: bold; outline: none; width: 100%; margin-bottom: 15px;">
+    style="cursor:pointer; 
+           background:#135b83 !important; 
+           background-image: none !important; /* QUITA CUALQUIER GRADIENTE */
+           box-shadow: none !important;        /* QUITA CUALQUIER BRILLO/SOMBRA */
+           color: #ffffff !important; 
+           border: 1px solid #4682B4; 
+           font-size: 11px; 
+           padding: 5px 0; 
+           border-radius: 3px; 
+           font-weight: bold; 
+           outline: none; 
+           width: 100%; 
+           margin-bottom: 15px;">
     ❌ OCULTAR UTILERÍAS
 </button>
             
