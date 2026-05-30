@@ -9,53 +9,43 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Reset Total: forzar ancho completo y eliminar márgenes externos */
+    /* 1. Eliminar el espacio superior reservado por Streamlit */
     [data-testid="stAppViewContainer"] {
-        width: 100vw !important; /* Viewport width al 100% */
-        height: 100vh !important; /* Viewport height al 100% */
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow-x: hidden !important; /* Prohibir scroll horizontal global */
-        overflow-y: auto !important;   /* Solo permitir scroll vertical global aquí */
+        padding-top: 0rem !important;
     }
 
-    /* 2. Limpiar el contenedor principal de Streamlit */
+    /* 2. Compactar el bloque principal donde viven tus botones y tabla */
     .block-container {
-        padding: 0rem !important; /* Quita el espacio superior e inferior */
-        max-width: 100% !important; /* Ocupa el 100% del ancho disponible */
-        margin: 0 !important;
+        padding-top: 0.5rem !important; /* Ajústalo a 0rem si quieres que quede pegado al borde */
+        padding-bottom: 0rem !important;
+        max-width: 100% !important;
     }
 
-    /* 3. Ocultar todos los menús automáticos y el header (Fork, GitHub, etc.) */
-    header, footer, #MainMenu, [data-testid="stHeader"] {
+    /* 3. Asegurar que el header desaparezca y no deje hueco */
+    header[data-testid="stHeader"] {
         display: none !important;
     }
 
-    /* 4. Estilo global del body */
+    /* 4. Tu estilo de fondo */
     body { background-color: #135b83; }
 
-    /* 5. VISOR: Aquí solucionamos el conflicto final del scroll */
+    /* Mantenemos tus configuraciones de tabla y visor */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important;  /* Solo scroll horizontal aquí */
-        overflow-y: hidden !important; /* Prohibido scroll vertical aquí */
-        display: block !important;
-        padding-bottom: 25px !important; /* Espacio para que la barra no tape datos */
-        margin: 0 !important;
+        overflow-x: auto !important; 
+        overflow-y: hidden !important;
+        padding-bottom: 20px !important;
     }
     
-    /* 6. TABLA: asegurar que no empuje márgenes */
     #visor table {
-        display: block !important; /* Ayuda a que el visor entienda el ancho */
-        min-width: 1000px !important; /* Ajusta según tus columnas */
+        min-width: 900px !important;
         width: 100% !important;
-        margin: 0 !important;
-        border-collapse: collapse !important;
         white-space: nowrap !important;
     }
 </style>
 """, unsafe_allow_html=True)
-    
+
+
 
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
