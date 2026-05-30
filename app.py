@@ -40,8 +40,8 @@ st.markdown(r"""
         width: 100% !important;
         overflow-x: auto !important; 
         overflow-y: hidden !important; 
-        padding-bottom: 25px !important; 
-        margin-bottom: 10px !important;
+        padding-bottom: 20px !important; 
+        margin-bottom: 8px !important;
     }
     
     #visor table {
