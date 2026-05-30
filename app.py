@@ -519,8 +519,8 @@ html body .meli-table tbody tr:last-child {{
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(135deg, 
-        rgba(255, 218, 185, 0.4),  /* Durazno pastel */
-        rgba(251, 170, 153, 0.4),  /* Durazno pastel */
+        rgba(255, 215, 157, 0.4),  /* Durazno pastel */
+        rgba(251, 170, 153, 0.4),  /* rosa y durazno pastel */
         rgba(173, 216, 230, 0.4),  /* Azul cielo pastel */
         rgba(255, 255, 102, 0.4)   /* Amarillo crema pastel */
     );
