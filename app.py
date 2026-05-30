@@ -1735,8 +1735,11 @@ let totalCarSchedule = 0;
 
 aplicarPerfil();
 
-    
-    recalc();
+setTimeout(() => {
+    cargarEstado();
+}, 500);
+
+recalc();
 
 
 // ==============================================================================
@@ -1793,12 +1796,80 @@ document.addEventListener('input', (e) => {{
     }}
 }});
 
+
+
 // Esto asegura que al cargar la página ya esté filtrado
-window.addEventListener('load', actualizarSelects);
+window.addEventListener('load', () => {{
+
+    actualizarSelects();
+
+    setTimeout(() => {{
+        cargarEstado();
+    }}, 300);
+
+}});
+
+
+
 // ==============================================================================
 
 
+// ==========================================
+// GUARDAR ESTADO PLANEACIÓN
+// ==========================================
 
+function guardarEstado() {{
+
+    let estado = {{}};
+
+    document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {{
+        estado["ce_" + i] = el.innerText;
+    }});
+
+    document.querySelectorAll('select').forEach((el, i) => {{
+        estado["sel_" + i] = el.value;
+    }});
+
+    localStorage.setItem(
+        "planeacion_estado",
+        JSON.stringify(estado)
+    );
+}}}
+
+
+// ==========================================
+// CARGAR ESTADO PLANEACIÓN
+// ==========================================
+
+function cargarEstado() {{
+
+    let data =
+        localStorage.getItem("planeacion_estado");
+
+    if (!data) return;
+
+    let estado = JSON.parse(data);
+
+    document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {{
+
+        let key = "ce_" + i;
+
+        if (estado[key] !== undefined) {{
+            el.innerText = estado[key];
+        }}
+    }});
+
+    document.querySelectorAll('select').forEach((el, i) => {{
+
+        let key = "sel_" + i;
+
+        if (estado[key] !== undefined) {{
+            el.value = estado[key];
+        }}
+    }});
+
+    recalc();
+}}
 
     
 </script>
