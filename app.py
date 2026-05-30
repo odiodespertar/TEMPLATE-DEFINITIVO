@@ -9,47 +9,48 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Limpieza total de la interfaz de Streamlit */
+    /* 1. Limpieza absoluta de encabezados */
     header, footer, [data-testid="stHeader"], [data-testid="stToolbar"] {
         display: none !important;
     }
 
-    /* 2. Configurar la página completa para que no tenga scroll propio */
+    /* 2. Cuerpo y página: sin restricciones de altura */
     html, body, .stApp {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important; /* Elimina scroll en la ventana principal */
         background-color: #135b83 !important;
-    }
-
-    /* 3. Asegurar que el contenedor principal ocupe toda la pantalla sin márgenes */
-    .block-container {
-        padding: 0 !important;
         margin: 0 !important;
-        max-width: 100% !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        overflow: hidden !important;
+        padding: 0 !important;
     }
 
-    /* 4. El Visor: Centraliza todo el contenido en una sola área de scroll */
+    /* 3. El contenedor principal: estirado pero con altura automática */
+    .block-container {
+        padding: 10px 20px !important; /* Margen pequeño para que no toque bordes */
+        max-width: 100% !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* 4. VISOR: El único que controla el scroll horizontal */
     #visor { 
-        width: 100vw !important;
-        height: 100vh !important;
-        overflow-x: auto !important; /* Scroll horizontal solo aquí */
-        overflow-y: auto !important; /* Scroll vertical solo aquí */
-        padding: 10px !important;    /* Margen pequeño para que no pegue en el borde */
-        box-sizing: border-box;
+        width: 100% !important;
+        overflow-x: auto !important; /* Scroll horizontal activo */
+        overflow-y: visible !important; /* Dejamos que el scroll vertical lo maneje la página */
     }
     
-    /* 5. Asegurar que la tabla no se rompa */
+    /* 5. TABLA: Ancho mínimo para forzar el scroll horizontal */
     #visor table {
-        min-width: 900px !important;
-        width: auto !important;
+        min-width: 1000px !important;
+        width: 100% !important;
         border-collapse: collapse !important;
+    }
+    
+    /* 6. CORRECCIÓN DE LA FRANJA AZUL: 
+       Aseguramos que el fondo sea uniforme */
+    .stAppViewContainer {
+        background-color: #135b83 !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # --- DATOS BASE ---
