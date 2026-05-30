@@ -529,15 +529,19 @@ html body .meli-table tbody tr:last-child {{
     z-index: 999999 !important;
     font-size: 14px;
     
-    * Borde casi invisible que resalta el efecto cristal */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* EFECTO 3D INTEGRADO: */
+    /* El borde es transparente para que el efecto cristal se vea uniforme */
+    border: 1px solid rgba(255, 255, 255, 0.5);
     
-    /* Efecto de desenfoque necesario para el vidrio esmerilado */
+    /* Sombras: La combinación de sombra externa y luz interna crea el relieve 3D */
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.3),            /* Profundidad externa */
+        inset 2px 2px 5px rgba(255,255,255,0.4), /* Luz superior 3D (brillo) */
+        inset -2px -2px 5px rgba(0,0,0,0.2);     /* Sombra inferior 3D (profundidad) */
+    
+    /* Efecto de vidrio esmerilado */
     backdrop-filter: blur(20px); 
-    -webkit-backdrop-filter: blur(20px); /* Compatibilidad con navegadores */
-    
-    /* Sombra suave */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    -webkit-backdrop-filter: blur(20px);
     
     max-height: 75vh;
     overflow-y: auto;
