@@ -520,7 +520,11 @@ html body .meli-table tbody tr:last-child {{
 
     width: 205px;
 
-    background: rgba(0.7);
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 150, 0.6),  /* Rosa fuerte */
+        rgba(0, 200, 255, 0.6),  /* Azul cian */
+        rgba(255, 255, 0, 0.6)   /* Amarillo */
+    );
     color: #135b83;
 
     border-radius: 14px;
@@ -531,15 +535,13 @@ html body .meli-table tbody tr:last-child {{
 
     font-size: 14px;
     
-    /* Efecto 3D aplicado mediante sombras internas y borde */
-    border: 2px solid #FF6347; /* Mantenemos tu borde característico */
+    /* Borde luminoso que complementa la iridiscencia */
+    border: 2px solid rgba(255, 255, 255, 0.3);
     
-    box-shadow: 
-        0 10px 25px rgba(0,0,0,0.5), /* Sombra externa para profundidad */
-        inset 1px 1px 1px rgba(255,255,255,0.3), /* Luz interna superior 3D */
-        inset -1px -1px 1px rgba(0,0,0,0.5); /* Sombra interna inferior 3D */
+    /* Sombras y efecto de vidrio */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(15px); /* Desenfoque más fuerte para el cristal */
     
-    backdrop-filter: blur(9px);
     max-height: 75vh;
     overflow-y: auto;
 }}
