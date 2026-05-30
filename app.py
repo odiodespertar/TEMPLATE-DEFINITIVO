@@ -8,17 +8,19 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 # CSS para diseño limpio
 st.markdown("""
+st.markdown("""
 <style>
-    /* 1. Limpiamos la página para evitar el scroll global */
+    /* 1. Mantenemos el scroll vertical de la página activo y quitamos el horizontal global */
     html, body {
         overflow-x: hidden !important; 
+        overflow-y: auto !important;
     }
     
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #135b83; }
 
-    /* 2. Mantener tus reglas de totales y otros elementos igual */
+    /* 2. Reglas de totales y otros elementos */
     .fila-total, tr[id*="total"] {
         display: none !important;
         visibility: hidden !important;
@@ -30,20 +32,20 @@ st.markdown("""
     #contenedor-padre { display: flex; flex-direction: column; }
     .delta { display: none !important; }
 
-    /* 3. CONFIGURACIÓN EXACTA PARA EL SCROLL SOLO EN TABLA */
-   #visor { 
-        padding-right: 210px !important; 
-        box-sizing: border-box; 
-        overflow-x: auto !important; 
-        width: 100% !important; 
+    /* 3. CONFIGURACIÓN FINAL: SCROLL HORIZONTAL SOLO EN EL VISOR */
+    #visor { 
+        width: 100% !important;
+        overflow-x: auto !important;    /* ESTO CREA LA BARRA ABAJO */
+        padding-bottom: 20px !important; /* Espacio para que la barra se vea */
+        margin-bottom: 20px !important;
     }
     
     #visor table {
-        display: block !important;
-        overflow-x: auto !important;
+        display: table !important;
+        width: 100% !important;
+        min-width: 900px !important;    /* OBLIGA AL SCROLL SI LA VENTANA ES PEQUEÑA */
         white-space: nowrap !important;
-        width: auto !important;
-        min-width: 100% !important;
+        border-collapse: collapse !important;
     }
     
     .tabla-flota-reducida {
@@ -51,8 +53,8 @@ st.markdown("""
         margin-left: 0 !important;
         margin-right: auto;
     }
-    </style>
-    """, unsafe_allow_html=True)
+</style>
+""", unsafe_allow_html=True)
     
 
 # --- DATOS BASE ---
