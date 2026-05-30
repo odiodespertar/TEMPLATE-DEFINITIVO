@@ -3,32 +3,38 @@ import streamlit as st
 from streamlit.components.v1 import html      
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
+
 st.markdown("""
-<style>
-div[role="radiogroup"] {
-    gap: 0rem;
-    margin-top: -8px !important;
-    margin-bottom: none;
-}
+    <style>
+    /* 1. Forzar a Streamlit a ocupar el ancho real y centrar */
+    .block-container {
+        max-width: 1200px !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    
+    /* 2. Ocultar elementos de Streamlit que ensanchan la página */
+    footer, #MainMenu, header {visibility: hidden;}
+    body { background-color: #135b83; }
 
-div[role="radiogroup"] > label {
-    padding: 0px 26px !important;
-    min-height: 9px !important;
-    margin: 0 !important;
-}
+    /* 3. Ajuste para tus tablas */
+    .tabla-flota-reducida {
+        max-width: 900px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 
-div[role="radiogroup"] p {
-    font-size: 14px !important;
-}
-</style>
+    /* 4. Asegurar que el visor de notas no se estire */
+    #visor {
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        background: #c8dee0;
+        border-radius: 12px;
+        padding: 20px;
+    }
+    </style>
 """, unsafe_allow_html=True)
 
-pagina = st.radio(
-    label="",
-    options=["🚚 Operación", "📝 Notitas Operativas"],
-    horizontal=True,
-    label_visibility="collapsed"
-)
 
 
 # CSS para diseño limpio
