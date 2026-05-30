@@ -540,7 +540,7 @@ html body .meli-table tbody tr:last-child {{
         inset -2px -2px 5px rgba(0,0,0,0.2);     /* Sombra inferior 3D (profundidad) */
     
     /* Efecto de vidrio esmerilado */
-    backdrop-filter: blur(20px); 
+    backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px);
     
     max-height: 75vh;
