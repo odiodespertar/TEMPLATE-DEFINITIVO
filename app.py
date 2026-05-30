@@ -5,6 +5,12 @@ from streamlit.components.v1 import html
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
 
+pagina = st.radio(
+    "",
+    ["🚚 Operación", "📝 Notitas Operativas"],
+    horizontal=True
+)
+
 
 # CSS para diseño limpio
 st.markdown("""
@@ -1781,8 +1787,8 @@ window.addEventListener('load', actualizarSelects);
 </html>
 """
 
-html(app_html, height=1200, scrolling=True)
-
+if pagina == "🚚 Operación":
+    html(app_html, height=1200, scrolling=True)
 
 
 
@@ -2096,6 +2102,10 @@ html_notitas = f"""
 </script>
 """
 
-# 4. RENDERIZADO EN STREAMLIT
-st.markdown("---")
-components.html(html_notitas, height=1200, scrolling=True)
+if pagina == "📝 Notitas Operativas":
+    st.markdown("---")
+    components.html(
+        html_notitas,
+        height=1200,
+        scrolling=True
+    )
