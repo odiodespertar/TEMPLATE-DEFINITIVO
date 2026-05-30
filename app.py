@@ -1369,8 +1369,15 @@ actualizarTotales();
     function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
     
-    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
-    setInterval(updateReloj, 1000);
+    function updateReloj() {{
+    let reloj = document.getElementById('reloj-actual');
+
+    if (reloj) {{
+        reloj.innerText =
+            new Date().toLocaleTimeString('en-GB');
+    }}
+}}
+setInterval(updateReloj, 1000);
 
     function startC() {{ if(!chronoInterval) {{ startTime = Date.now() - elapsedTime; chronoInterval = setInterval(()=>{{ elapsedTime = Date.now() - startTime; updateCDisplay(); }}, 100); }} }}
     function stopC() {{ clearInterval(chronoInterval); chronoInterval = null; }}
