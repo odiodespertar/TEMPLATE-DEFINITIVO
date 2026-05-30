@@ -37,14 +37,6 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
-
-# --- AQUÍ EMPIEZAN LAS PESTAÑAS ---
-tab1, tab2 = st.tabs(["📊 Gestión de Flota", "🍓 Notas Operativas"])
-
-
-with tab1:
-
-
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
@@ -1795,11 +1787,11 @@ html(app_html, height=1200, scrolling=True)
 
 
 
-with tab2:
+
 
 
 import streamlit as st
-import streamlit.components.v1 as components 
+import streamlit.components.v1 as components
 
 # 1. ENLACE DE IMAGEN (Mapa de regiones)
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
@@ -2108,11 +2100,6 @@ html_notitas = f"""
 </script>
 """
 
-# 2. Hacemos la transformación para que JavaScript entienda el diccionario
-    info_json = json.dumps(info_operativa)
-    
-    # 3. Reemplazamos el placeholder por el JSON real
-    html_final = html_notitas.replace('{info_operativa}', info_json)
-    
-    # 4. Renderizamos dentro de esta pestaña
-    components.html(html_final, height=1200, scrolling=True)
+# 4. RENDERIZADO EN STREAMLIT
+st.markdown("---")
+components.html(html_notitas, height=1200, scrolling=True)
