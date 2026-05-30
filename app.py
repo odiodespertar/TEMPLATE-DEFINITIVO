@@ -8,17 +8,17 @@ st.markdown("""
 div[role="radiogroup"] {
     gap: 0rem;
     margin-top: -8px !important;
-    margin-bottom: none;
+    margin-bottom: -8px !important
 }
 
 div[role="radiogroup"] > label {
-    padding: 0px 26px !important;
+    padding: 0px 20px !important;
     min-height: 9px !important;
     margin: 0 !important;
 }
 
 div[role="radiogroup"] p {
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 </style>
 """, unsafe_allow_html=True)
