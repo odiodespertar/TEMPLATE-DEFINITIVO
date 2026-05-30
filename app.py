@@ -512,35 +512,32 @@ html body .meli-table tbody tr:last-child {{
 #fleet-float {{
 
     position: fixed !important;
-
     left: 14px !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
-
     top: 250px !important;
-
     width: 205px;
 
+    /* Fondo Tornasol Suave: Degradado pastel con mucha transparencia */
     background: linear-gradient(135deg, 
-        rgba(255, 0, 150, 0.6),  /* Rosa fuerte */
-        rgba(0, 200, 255, 0.6),  /* Azul cian */
-        rgba(255, 255, 0, 0.6)   /* Amarillo */
+        rgba(255, 182, 193, 0.4),  /* Rosa pastel */
+        rgba(173, 216, 230, 0.4),  /* Azul cielo pastel */
+        rgba(255, 255, 224, 0.4)   /* Amarillo crema pastel */
     );
     color: #135b83;
-
     border-radius: 14px;
-
     padding: 16px 18px;
-
     z-index: 999999 !important;
-
     font-size: 14px;
     
-    /* Borde luminoso que complementa la iridiscencia */
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    * Borde casi invisible que resalta el efecto cristal */
+    border: 1px solid rgba(255, 255, 255, 0.3);
     
-    /* Sombras y efecto de vidrio */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    backdrop-filter: blur(15px); /* Desenfoque más fuerte para el cristal */
+    /* Efecto de desenfoque necesario para el vidrio esmerilado */
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px); /* Compatibilidad con navegadores */
+    
+    /* Sombra suave */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
     
     max-height: 75vh;
     overflow-y: auto;
