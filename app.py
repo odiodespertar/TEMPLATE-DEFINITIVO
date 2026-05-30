@@ -517,27 +517,34 @@ html body .meli-table tbody tr:last-child {{
     top: 250px !important;
     width: 205px;
 
-    /* 1. EFECTO ESMERILADO (Vidrio borroso) */
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px); /* Para Safari */
+    /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
+    background: linear-gradient(135deg, 
+        rgba(255, 218, 185, 0.4),  /* Durazno pastel */
+        rgba(173, 216, 230, 0.4),  /* Azul cielo pastel */
+        rgba(255, 255, 224, 0.4)   /* Amarillo crema pastel */
+    );
     
-    /* 2. TRANSPARENCIA BASE (Tono durazno claro) */
-    background: rgba(255, 235, 220, 0.4); 
-    
-    /* 3. CAPAS IRIDISCENTES (Los destellos tornasol) */
-    background-image:
-        radial-gradient(circle at 12% 25%, rgba(100, 255, 218, 0.7) 0%, transparent 70%),
-        radial-gradient(circle at 85% 65%, rgba(0, 100, 255, 0.6) 0%, transparent 70%),
-        radial-gradient(circle at 45% 85%, rgba(150, 0, 255, 0.6) 0%, transparent 70%);
-
-    /* Estilos finales */
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 20px;
-    color: #333; /* Usamos un color oscuro para que contraste sobre el fondo claro */
-    font-size: 14px;
+    color: #ffffff; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    border-radius: 14px;
+    padding: 16px 18px;
     z-index: 999999 !important;
+    font-size: 14px;
+    
+    /* Borde luminoso que atrapa el tono durazno */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    
+    /* Sombras para el efecto 3D iridiscente */
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.3),            
+        inset 2px 2px 5px rgba(255,255,255,0.4), 
+        inset -2px -2px 5px rgba(0,0,0,0.2);     
+    
+    /* Vidrio esmerilado */
+    backdrop-filter: blur(9px); 
+    -webkit-backdrop-filter: blur(9px);
+    
+    max-height: 75vh;
+    overflow-y: auto;
 }}
 
 /////////////////
