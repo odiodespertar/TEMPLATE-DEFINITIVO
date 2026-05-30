@@ -9,45 +9,44 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* Ocultar el menú superior de Streamlit (Fork, GitHub, tres puntos) */
+    /* 1. Eliminar la barra superior de Streamlit (Fork, etc.) */
     header[data-testid="stHeader"] {
         display: none !important;
     }
     
-    /* Eliminar el espacio superior reservado para el header */
+    /* 2. Eliminar márgenes y el doble scroll */
+    .stApp {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important; /* Quita el scroll lateral de la página */
+        overflow-y: auto !important;   /* Mantiene el scroll vertical necesario */
+    }
+
+    /* 3. Limpiar el contenedor principal */
     .block-container {
-        padding-top: 0rem !important;
+        padding: 0rem !important;
+        max-width: 100% !important;
+        margin: 0 !important;
     }
 
-    /* Forzar el fondo de toda la página */
-    body { 
-        background-color: #135b83; 
-    }
+    /* 4. Estilos globales */
+    body { background-color: #135b83; }
+    footer, #MainMenu { visibility: hidden !important; }
 
-    /* Mantenemos tus otras configuraciones */
-    html, body {
-        overflow-x: hidden !important; 
-        overflow-y: auto !important;
-    }
-    
-    footer, #MainMenu {visibility: hidden;}
-
-    .fila-total, tr[id*="total"] {
-        display: none !important;
-    }
-
+    /* 5. Tu visor con scroll horizontal único abajo */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important; 
-        overflow-y: hidden !important; 
-        padding-bottom: 20px !important; 
-        margin-bottom: 8px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding-bottom: 25px !important;
+        margin: 0 !important;
     }
     
     #visor table {
         min-width: 900px !important;
         width: 100% !important;
         white-space: nowrap !important;
+        border-collapse: collapse !important;
     }
 </style>
 """, unsafe_allow_html=True)
