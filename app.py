@@ -521,8 +521,6 @@ html body .meli-table tbody tr:last-child {{
     background: linear-gradient(to bottom, 
         rgba(255, 215, 157, 0.2),  /* Durazno pastel */
         rgba(251, 170, 153, 0.2),  /* rosa y durazno pastel */
-        rgba(255, 255, 102, 0.2),  /* Azul cielo pastel */
-        rgba(255, 215, 157, 0.2)  /* Durazno pastel */
     );
     
     color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
