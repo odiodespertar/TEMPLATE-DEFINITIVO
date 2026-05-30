@@ -41,7 +41,6 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
         width: auto !important;
         min-width: 100% !important;
     }
-    /* ----------------------------------- */
     
     .tabla-flota-reducida {
         max-width: 80% !important;
