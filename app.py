@@ -9,41 +9,39 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Eliminar la barra superior de Streamlit (Fork, etc.) */
-    header[data-testid="stHeader"] {
+    /* 1. Ocultar elementos de Streamlit que generan espacio */
+    header[data-testid="stHeader"], footer, #MainMenu {
         display: none !important;
     }
-    
-    /* 2. Eliminar márgenes y el doble scroll */
-    .stApp {
+
+    /* 2. Reset total: la página no debe tener scroll horizontal, solo vertical */
+    html, body, [data-testid="stAppViewContainer"] {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow-x: hidden !important; /* Quita el scroll lateral de la página */
-        overflow-y: auto !important;   /* Mantiene el scroll vertical necesario */
     }
 
-    /* 3. Limpiar el contenedor principal */
-    .block-container {
-        padding: 0rem !important;
+    /* 3. Asegurar que el contenedor principal ocupe el espacio sin márgenes extra */
+    .main .block-container {
+        padding-top: 0rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
         max-width: 100% !important;
-        margin: 0 !important;
     }
 
-    /* 4. Estilos globales */
-    body { background-color: #135b83; }
-    footer, #MainMenu { visibility: hidden !important; }
-
-    /* 5. Tu visor con scroll horizontal único abajo */
+    /* 4. VISOR: Aquí ocurre la magia del scroll independiente */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        padding-bottom: 25px !important;
-        margin: 0 !important;
+        overflow-x: auto !important;  /* Solo scroll horizontal aquí */
+        overflow-y: hidden !important; /* Prohibido scroll vertical aquí */
+        padding-bottom: 30px !important; 
+        margin-bottom: 20px !important;
     }
     
+    /* 5. TABLA: Forzamos el ancho para que el scroll horizontal se active */
     #visor table {
-        min-width: 900px !important;
+        min-width: 1000px !important; /* Ajusta este valor si necesitas más espacio */
         width: 100% !important;
         white-space: nowrap !important;
         border-collapse: collapse !important;
