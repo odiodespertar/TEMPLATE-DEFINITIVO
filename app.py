@@ -7,53 +7,45 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 
 # CSS para diseño limpio
-st.markdown("""
+st.markdown(r"""
 <style>
-    /* 1. Mantenemos el scroll vertical de la página activo y quitamos el horizontal global */
+    /* Forzamos que la página no genere scroll horizontal global */
     html, body {
-        overflow-x: hidden !important; 
+        overflow-x: hidden !important;
         overflow-y: auto !important;
     }
     
+    /* El contenedor principal de Streamlit debe ocupar toda la pantalla */
+    .stApp {
+        overflow-x: hidden !important;
+    }
+
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #135b83; }
 
-    /* 2. Reglas de totales y otros elementos */
     .fila-total, tr[id*="total"] {
         display: none !important;
         visibility: hidden !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
     }
 
-    #contenedor-padre { display: flex; flex-direction: column; }
-    .delta { display: none !important; }
-
-    /* 3. CONFIGURACIÓN FINAL: SCROLL HORIZONTAL SOLO EN EL VISOR */
+    /* SCROLL HORIZONTAL SOLO EN EL VISOR */
     #visor { 
         width: 100% !important;
-        overflow-x: auto !important;    /* ESTO CREA LA BARRA ABAJO */
-        padding-bottom: 20px !important; /* Espacio para que la barra se vea */
-        margin-bottom: 20px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important; /* IMPORTANTE: Esto quita el scroll vertical extra en el visor */
+        padding-bottom: 20px !important;
     }
     
     #visor table {
         display: table !important;
         width: 100% !important;
-        min-width: 900px !important;    /* OBLIGA AL SCROLL SI LA VENTANA ES PEQUEÑA */
+        min-width: 900px !important;
         white-space: nowrap !important;
-        border-collapse: collapse !important;
-    }
-    
-    .tabla-flota-reducida {
-        max-width: 80% !important;
-        margin-left: 0 !important;
-        margin-right: auto;
     }
 </style>
 """, unsafe_allow_html=True)
+
     
 
 # --- DATOS BASE ---
