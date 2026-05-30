@@ -531,7 +531,7 @@ html body .meli-table tbody tr:last-child {{
     
     /* EFECTO 3D INTEGRADO: */
     /* El borde es transparente para que el efecto cristal se vea uniforme */
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     
     /* Sombras: La combinación de sombra externa y luz interna crea el relieve 3D */
     box-shadow: 
