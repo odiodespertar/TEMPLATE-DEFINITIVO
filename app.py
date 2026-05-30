@@ -2042,6 +2042,27 @@ html_notitas = f"""
         border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap;
     }}
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
+
+
+
+/* SOLUCIÓN SCROLL PARA TABLAS DENTRO DEL VISOR */
+    #visor table {{
+        display: block !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        width: 100% !important;
+    }}
+
+    /* Opcional: mejora el aspecto de la barra de scroll para que se vea moderna */
+    #visor table::-webkit-scrollbar {{
+        height: 8px;
+    }}
+    #visor table::-webkit-scrollbar-thumb {{
+        background: #888;
+        border-radius: 4px;
+    }}
+
+
     
     .content-area {{ background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 600px; color: #000; }}
 </style>
