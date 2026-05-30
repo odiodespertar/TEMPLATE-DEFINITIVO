@@ -4,6 +4,24 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
+st.markdown("""
+<style>
+div[role="radiogroup"] {
+    gap: 0.3rem;
+}
+
+div[role="radiogroup"] > label {
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
+    min-height: 24px !important;
+}
+
+div[role="radiogroup"] p {
+    font-size: 14px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 pagina = st.radio(
     "",
