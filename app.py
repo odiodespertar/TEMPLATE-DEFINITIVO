@@ -519,7 +519,7 @@ html body .meli-table tbody tr:last-child {{
 
     /* Fondo Tornasol Suave: Degradado pastel con mucha transparencia */
     background: linear-gradient(135deg, 
-        rgba(255, 182, 193, 0.4),  /* Rosa pastel */
+        rgba(255, 218, 185, 0.4),  /* Durazno pastel */
         rgba(173, 216, 230, 0.4),  /* Azul cielo pastel */
         rgba(255, 255, 224, 0.4)   /* Amarillo crema pastel */
     );
@@ -541,7 +541,7 @@ html body .meli-table tbody tr:last-child {{
     
     /* Efecto de vidrio esmerilado */
     backdrop-filter: blur(20px); 
-    -webkit-backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(12px);
     
     max-height: 75vh;
     overflow-y: auto;
