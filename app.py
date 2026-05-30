@@ -1735,9 +1735,9 @@ let totalCarSchedule = 0;
 
 aplicarPerfil();
 
-setTimeout(() => {
+setTimeout(() => {{
     cargarEstado();
-}, 500);
+}}, 500);
 
 recalc();
 
