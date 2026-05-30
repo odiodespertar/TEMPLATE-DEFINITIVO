@@ -1,7 +1,6 @@
 import json
 import streamlit as st
 from streamlit.components.v1 import html      
-
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
@@ -13,8 +12,8 @@ div[role="radiogroup"] {
 }
 
 div[role="radiogroup"] > label {
-    padding: 0px 5px !important;
-    min-height: 12px !important;
+    padding: 0px 4px !important;
+    min-height: 9px !important;
     margin: 0 !important;
 }
 
