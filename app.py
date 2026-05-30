@@ -18,14 +18,14 @@ div[role="radiogroup"] > label {
 }
 
 div[role="radiogroup"] p {
-    font-size: 14px !important;
+    font-size: 18px !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 pagina = st.radio(
     label="",
-    options=["🚚 Operación", "📝 Notitas Operativas"],
+    options=["🚚 PLANEACIÓN", "📝 INFO RUTEOS"],
     horizontal=True,
     label_visibility="collapsed"
 )
