@@ -1,5 +1,5 @@
 import json
-import streamlit as st
+import streamlit as st 
 from streamlit.components.v1 import html      
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
