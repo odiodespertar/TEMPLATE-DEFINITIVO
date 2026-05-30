@@ -9,47 +9,49 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown("""
 <style>
-.block-container {padding: 0rem !important;}
-footer, #MainMenu, header {visibility: hidden;}
-body { background-color: #135b83; }
+    /* 1. Limpiamos la página para evitar el scroll global */
+    html, body {
+        overflow-x: hidden !important; 
+    }
+    
+    .block-container {padding: 0rem !important;}
+    footer, #MainMenu, header {visibility: hidden;}
+    body { background-color: #135b83; }
 
-/* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
-.fila-total, tr[id*="total"] {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
+    /* 2. Mantener tus reglas de totales y otros elementos igual */
+    .fila-total, tr[id*="total"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
-#contenedor-padre { display: flex; flex-direction: column; }
+    #contenedor-padre { display: flex; flex-direction: column; }
+    .delta { display: none !important; }
 
-.delta { display: none !important; }
-
-/* --- CAMBIOS AQUÍ PARA EL SCROLL --- */
-#visor { 
-    padding-right: 210px !important; 
-    box-sizing: border-box; 
-    overflow-x: auto !important; 
-    width: 100% !important; 
-}
-
-#visor table {
-    display: block !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    width: auto !important;
-    min-width: 100% !important;
-}
-/* ----------------------------------- */
-
-.tabla-flota-reducida {
-    max-width: 80% !important;
-    margin-left: 0 !important;
-    margin-right: auto;
-}
-</style>
-""", unsafe_allow_html=True)
+    /* 3. CONFIGURACIÓN EXACTA PARA EL SCROLL SOLO EN TABLA */
+    #visor { 
+        padding-right: 210px !important; 
+        box-sizing: border-box;
+        overflow-x: hidden !important; /* El visor NO debe tener scroll, para no duplicar */
+    }
+    
+    #visor table {
+        display: block !important;
+        overflow-x: auto !important;   /* El scroll se activa SOLO aquí */
+        white-space: nowrap !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .tabla-flota-reducida {
+        max-width: 80% !important;
+        margin-left: 0 !important;
+        margin-right: auto;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
 
 # --- DATOS BASE ---
