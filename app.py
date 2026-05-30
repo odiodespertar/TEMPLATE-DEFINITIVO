@@ -9,46 +9,52 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 # CSS para diseño limpio
 st.markdown(r"""
 <style>
-    /* 1. Ocultar elementos de Streamlit que generan espacio */
-    header[data-testid="stHeader"], footer, #MainMenu {
+    /* 1. Reset Total: forzar ancho completo y eliminar márgenes externos */
+    [data-testid="stAppViewContainer"] {
+        width: 100vw !important; /* Viewport width al 100% */
+        height: 100vh !important; /* Viewport height al 100% */
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important; /* Prohibir scroll horizontal global */
+        overflow-y: auto !important;   /* Solo permitir scroll vertical global aquí */
+    }
+
+    /* 2. Limpiar el contenedor principal de Streamlit */
+    .block-container {
+        padding: 0rem !important; /* Quita el espacio superior e inferior */
+        max-width: 100% !important; /* Ocupa el 100% del ancho disponible */
+        margin: 0 !important;
+    }
+
+    /* 3. Ocultar todos los menús automáticos y el header (Fork, GitHub, etc.) */
+    header, footer, #MainMenu, [data-testid="stHeader"] {
         display: none !important;
     }
 
-    /* 2. Reset total: la página no debe tener scroll horizontal, solo vertical */
-    html, body, [data-testid="stAppViewContainer"] {
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+    /* 4. Estilo global del body */
+    body { background-color: #135b83; }
 
-    /* 3. Asegurar que el contenedor principal ocupe el espacio sin márgenes extra */
-    .main .block-container {
-        padding-top: 0rem !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        max-width: 100% !important;
-    }
-
-    /* 4. VISOR: Aquí ocurre la magia del scroll independiente */
+    /* 5. VISOR: Aquí solucionamos el conflicto final del scroll */
     #visor { 
         width: 100% !important;
         overflow-x: auto !important;  /* Solo scroll horizontal aquí */
         overflow-y: hidden !important; /* Prohibido scroll vertical aquí */
-        padding-bottom: 30px !important; 
-        margin-bottom: 20px !important;
+        display: block !important;
+        padding-bottom: 25px !important; /* Espacio para que la barra no tape datos */
+        margin: 0 !important;
     }
     
-    /* 5. TABLA: Forzamos el ancho para que el scroll horizontal se active */
+    /* 6. TABLA: asegurar que no empuje márgenes */
     #visor table {
-        min-width: 1000px !important; /* Ajusta este valor si necesitas más espacio */
+        display: block !important; /* Ayuda a que el visor entienda el ancho */
+        min-width: 1000px !important; /* Ajusta según tus columnas */
         width: 100% !important;
-        white-space: nowrap !important;
+        margin: 0 !important;
         border-collapse: collapse !important;
+        white-space: nowrap !important;
     }
 </style>
 """, unsafe_allow_html=True)
-
     
 
 # --- DATOS BASE ---
