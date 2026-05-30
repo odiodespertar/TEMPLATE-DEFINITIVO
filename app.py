@@ -1,34 +1,9 @@
 import json
 import streamlit as st
 from streamlit.components.v1 import html      
+
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
-st.markdown("""
-<style>
-div[role="radiogroup"] {
-    gap: 0rem;
-    margin-top: -8px !important;
-    margin-bottom: none;
-}
-
-div[role="radiogroup"] > label {
-    padding: 0px 26px !important;
-    min-height: 9px !important;
-    margin: 0 !important;
-}
-
-div[role="radiogroup"] p {
-    font-size: 14px !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-pagina = st.radio(
-    label="",
-    options=["🚚 PLANEACIÓN", "📝 INFO RUTEOS"],
-    horizontal=True,
-    label_visibility="collapsed"
-)
 
 
 # CSS para diseño limpio
@@ -1369,15 +1344,8 @@ actualizarTotales();
     function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
     
-    function updateReloj() {{
-    let reloj = document.getElementById('reloj-actual');
-
-    if (reloj) {{
-        reloj.innerText =
-            new Date().toLocaleTimeString('en-GB');
-    }}
-}}
-setInterval(updateReloj, 1000);
+    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
+    setInterval(updateReloj, 1000);
 
     function startC() {{ if(!chronoInterval) {{ startTime = Date.now() - elapsedTime; chronoInterval = setInterval(()=>{{ elapsedTime = Date.now() - startTime; updateCDisplay(); }}, 100); }} }}
     function stopC() {{ clearInterval(chronoInterval); chronoInterval = null; }}
@@ -1742,11 +1710,8 @@ let totalCarSchedule = 0;
 
 aplicarPerfil();
 
-setTimeout(() => {{
-    cargarEstado();
-}}, 500);
-
-recalc();
+    
+    recalc();
 
 
 // ==============================================================================
@@ -1803,101 +1768,10 @@ document.addEventListener('input', (e) => {{
     }}
 }});
 
-
-
 // Esto asegura que al cargar la página ya esté filtrado
-window.addEventListener('load', () => {{
-
-    actualizarSelects();
-
-    setTimeout(() => {{
-        cargarEstado();
-    }}, 300);
-
-}});
-
-
-
+window.addEventListener('load', actualizarSelects);
 // ==============================================================================
 
-
-// ==========================================
-// GUARDAR ESTADO PLANEACIÓN
-// ==========================================
-
-function guardarEstado() {{
-
-    let estado = {{}};
-
-    document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {{
-        estado["ce_" + i] = el.innerText;
-    }});
-
-    document.querySelectorAll('select').forEach((el, i) => {{
-        estado["sel_" + i] = el.value;
-    }});
-
-    localStorage.setItem(
-        "planeacion_estado",
-        JSON.stringify(estado)
-    );
-}}
-
-
-// NUEVO
-document.addEventListener('input', () => {{
-    guardarEstado();
-}});
-
-document.addEventListener('change', () => {{
-    guardarEstado();
-}});
-
-// 🔥 clave para cambiar de pestañas Streamlit
-window.addEventListener('beforeunload', () => {{
-    guardarEstado();
-}});
-
-document.addEventListener('visibilitychange', () => {{
-    if (document.visibilityState === 'hidden') {{
-        guardarEstado();
-    }}
-}});
-
-
-// ==========================================
-// CARGAR ESTADO PLANEACIÓN
-// ==========================================
-
-function cargarEstado() {{
-
-    let data =
-        localStorage.getItem("planeacion_estado");
-
-    if (!data) return;
-
-    let estado = JSON.parse(data);
-
-    document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {{
-
-        let key = "ce_" + i;
-
-        if (estado[key] !== undefined) {{
-            el.innerText = estado[key];
-        }}
-    }});
-
-    document.querySelectorAll('select').forEach((el, i) => {{
-
-        let key = "sel_" + i;
-
-        if (estado[key] !== undefined) {{
-            el.value = estado[key];
-        }}
-    }});
-
-    recalc();
-}}
 
 
 
@@ -1907,8 +1781,12 @@ function cargarEstado() {{
 </html>
 """
 
-if pagina == "🚚 PLANEACIÓN":
-    html(app_html, height=1200, scrolling=True)
+html(app_html, height=1200, scrolling=True)
+
+
+
+
+
 
 
 
@@ -2188,7 +2066,7 @@ html_notitas = f"""
         </div>
     </div>
 
-    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 INFO RUTEOS</h3>
+    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
     <div class="tab-bar">
         <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
         <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
@@ -2222,10 +2100,6 @@ html_notitas = f"""
 </script>
 """
 
-if pagina == "📝 INFO RUTEOS":
-    st.markdown("---")
-    components.html(
-        html_notitas,
-        height=1200,
-        scrolling=True
-    )
+# 4. RENDERIZADO EN STREAMLIT
+st.markdown("---")
+components.html(html_notitas, height=1200, scrolling=True)
