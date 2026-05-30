@@ -1788,11 +1788,6 @@ html(app_html, height=1200, scrolling=True)
 
 
 
-
-
-import streamlit as st
-import streamlit.components.v1 as components
-
 # 1. ENLACE DE IMAGEN (Mapa de regiones)
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
 url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
