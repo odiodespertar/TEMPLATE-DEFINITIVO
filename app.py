@@ -1248,7 +1248,7 @@ actualizarTotales();
             bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
                 let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
                 let sTypeSelect = r.querySelector('.s-type');
-                let sType = sTypeSelect ? sTypeSelect.value : "Seleccionar...";
+                let sType = sTypeSelect ? sTypeSelect.value : "Seleccionar..."; 
 
                 if (onlyActive) {{
                     // Si está en "ACTIVAS", ocultamos las filas vacías y sin selección
