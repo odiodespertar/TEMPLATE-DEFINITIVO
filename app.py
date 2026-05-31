@@ -591,9 +591,9 @@ html body .meli-table tbody tr:last-child {{
                 <li>🟢 Iztapalapa ➤ Car 8h/Small 9h ext.</li>
                 <li>🟠 Milpa alta ➤ Car 8h.</li>
                 <li>🟢 Tláhuac ➤ Car 8h.</li>
-                <li>🟢 Tlalpan nte ➤ Car 8h.</li>
-                <li>🟢 Tlalpan sur ➤ No se publica.</li>
-                <li>🟡 Xochimilco ➤ Small 9h ext/car 8h.</li>
+                <li>🟢 Tlalpan nte ➤ Small 9h ext/Car extra 8h E1.</li>
+                <li>🟢 Tlalpan sur ➤ Car extra 8h E1.</li>
+                <li>🟡 Xochimilco ➤ Small 9h ext/Car extra 8h E1.</li>
             </ul>
         </div>
 
