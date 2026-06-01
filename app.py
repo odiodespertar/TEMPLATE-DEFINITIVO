@@ -693,7 +693,7 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 13px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
@@ -712,7 +712,7 @@ html body .meli-table tbody tr:last-child {{
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
@@ -734,7 +734,7 @@ html body .meli-table tbody tr:last-child {{
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
@@ -757,7 +757,7 @@ html body .meli-table tbody tr:last-child {{
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
