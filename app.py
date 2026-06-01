@@ -1031,8 +1031,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         row.style.background = "white"; 
         // Eliminamos row.style.color para no forzar toda la fila 
         fs.style.background = "#ffecdb"; 
-        mi.style.background = "#f5ffff"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-        ma.style.background = "#f5ffff"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+        mi.style.background = "#e1f0f0"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+        ma.style.background = "#e1f0f0"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
         
         // Ponemos nombre en NEGRO
         nameCell.style.color = "#0e4c6e";
