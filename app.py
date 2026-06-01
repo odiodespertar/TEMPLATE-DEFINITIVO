@@ -1079,7 +1079,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
                     // 🔥 CANDADO DE SEGURIDAD: Validar si hay unidades y el SPR cayó por debajo del mínimo
                     if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                        sp.style.setProperty("background-color", "#ffcccc", "important"); // Alerta roja
+                        sp.style.setProperty("background-color", "#f5e6e6", "important"); // Alerta roja
                         sp.style.setProperty("color", "#cc0000", "important");
                         sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
                     }} else {{
