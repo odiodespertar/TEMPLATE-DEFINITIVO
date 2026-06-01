@@ -337,7 +337,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table th {{
     background: #f3f3f3 !important;
     color: #222 !important;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     border: 1px solid #135b83 !important;
     padding: 4px 6px;
@@ -471,7 +471,7 @@ html body .meli-table tbody tr:last-child td {{
     padding-top: 2px !important;
     padding-bottom: 3px !important;
     line-height: 25px !important;  /* Centra el texto en el nuevo alto */
-    font-size: 11px !important;    /* Reduce un poco la letra */
+    font-size: 14px !important;    /* Reduce un poco la letra */
 }}
 
 /* Forzar que la fila misma no tenga altura mínima */
