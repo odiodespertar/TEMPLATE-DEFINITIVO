@@ -1864,31 +1864,27 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
-            - 📌 Origen + onway / si no especifican<br>
+            - 📌 Origen + despachos + onway<br>
             - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
-            - 👀 Revisar si mandan ids a agregar<br>
-            - ✅ delimitación / ✅ dejar restricción para MLP /  ✅ dejar restricción para Crowd<br>
-            - Revisar en qué polígonos acepta MLP para meterlas</p>
+            - ➕ Mandan ids a agregar<br>
+            - ✅ delimitación / ✅ dejar restricción</p>
         </div>
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
-             - 📌 Orígen: MXCD09 / indicado por SVC<br>
-             - 👉 Todo Onway / indicado por SVC<br>
-             - 👉 Si SVC no indica origen, tomo los de playbook<br>
+             - 📌 Origen 09 + despacho de las 20:00 /21:00 hrs + onway<br>
              - ➕ Agregan ids a ciclo (revisar forms)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
-             - 🚛 MLP van a ➡️ Xochimilco ➡️ Tlalpan Norte ➡️ Tlalpan Sur</p>
+             - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-             - 📌 Orígen: MXCD09 + MXCD02 / indicados por SVC<br>
+             - 📌 Orígenes: MXCD02 despacho 16:00 / MXCD09  despacho 14:00 / MXCD10  despacho 21:00<br>
              - 👉 Todo Onway<br>
-             - 👉 Si SVC no indica origen, tomo los de playbook / MXCD02 despacho 16:00 / MXCD09  despacho 14:00 / MXCD10  despacho 21:00<br>
              - 👀 Revisar si se agrega ➕ forms<br>
              - ✅  Validan volumen / aprox. 1900-2000<br>
-             - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h</p>
+             - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h, Extendidas en Texcoco, Pueblos y Chalco</p>
         </div>
 
 
