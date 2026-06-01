@@ -1653,7 +1653,7 @@ let totalCarSchedule = 0;
     }}
 
     let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#FF6347" : "#191970";
+                let colorCategoria = isCar ? "#FF4500" : "#191970";
 
                 // Acumulamos totales
                 if (isCar) {{
@@ -1694,7 +1694,7 @@ let totalCarSchedule = 0;
     <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #FF6347; font-weight: 900; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
     <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
