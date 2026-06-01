@@ -202,7 +202,7 @@ def gen_poligonos(data_target=None):
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2): 
-            nombre_final = nombres_smx2[i-1]
+            nombre_final = nombres_smx2[i-1] 
         else:
             nombre_final = f"PLAN {i}"
 
