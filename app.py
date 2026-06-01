@@ -1838,7 +1838,7 @@ info_operativa = {
             - 📌 Orígenes: MXCD02, MXCD06<br>
             - 👉 Vol aprox. 550<br>
             - 🏍️ Motos en donde sea con SPR 25<br>
-            - 👉 fecha promesa + quemada</p>
+            - 👉 fecha promesa + quemada</p> 
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
