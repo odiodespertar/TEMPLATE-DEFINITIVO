@@ -1616,7 +1616,7 @@ function distribuirAutomatico() {{
     
 
 function actualizarTotales() {{
-        // La lógica fue movida a updateFleetFloat()
+        // La lógica fue movida a updateFleetFloat() 
         return;
     }}
 
