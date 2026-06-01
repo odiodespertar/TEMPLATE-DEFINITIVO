@@ -538,8 +538,8 @@ html body .meli-table tbody tr:last-child {{
         inset -2px -2px 5px rgba(0,0,0,0.5);     
     
     /* Vidrio esmerilado */
-    backdrop-filter: blur(24px); 
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(30px); 
+    -webkit-backdrop-filter: blur(30px);
     
     max-height: 75vh;
     overflow-y: auto;
