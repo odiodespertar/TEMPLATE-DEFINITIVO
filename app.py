@@ -1084,7 +1084,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
                         sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
                     }} else {{
                         // Estilo normal de cálculo
-                        sp.style.setProperty("background-color", "#e4f2f2");
+                        sp.style.setProperty("background-color", "#edf2f2");
                         sp.style.setProperty("color", "#008B8B");
                         sp.title = "";
                     }}
