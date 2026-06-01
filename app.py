@@ -360,7 +360,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .meli-table td {{
     border: 1px solid #135b83;
     padding: 2px 4px;
-    font-size: 11px;
+    font-size: 12px;
     height: 24px;
     background: white;
     color: #135b83;
