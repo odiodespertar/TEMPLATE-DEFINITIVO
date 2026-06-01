@@ -518,8 +518,8 @@ html body .meli-table tbody tr:last-child {{
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(to bottom, 
-        rgba(255, 215, 157, 0.3),  /* Durazno pastel */
-        rgba(251, 170, 153, 0.3)  /* rosa y durazno pastel */
+        rgba(255, 215, 157, 0.4),  /* Durazno pastel */
+        rgba(251, 170, 153, 0.4)  /* rosa y durazno pastel */
     );
     
     color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
@@ -538,8 +538,8 @@ html body .meli-table tbody tr:last-child {{
         inset -2px -2px 5px rgba(0,0,0,0.5);     
     
     /* Vidrio esmerilado */
-    backdrop-filter: blur(30px); 
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(40px); 
+    -webkit-backdrop-filter: blur(40px);
     
     max-height: 75vh;
     overflow-y: auto;
