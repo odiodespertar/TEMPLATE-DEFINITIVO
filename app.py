@@ -1550,9 +1550,18 @@ function distribuirAutomatico() {{
                     fila.querySelector('.u-manual')?.innerText
                 ) > 0;
 
+            let tipoActual =
+                fila.querySelector('.s-type')?.value?.trim() || "";
+
             let yaTieneTipo =
-                fila.querySelector('.s-type')?.value &&
-                fila.querySelector('.s-type')?.value !== "Seleccionar...";
+                tipoActual !== "";
+
+
+console.log(
+    "TIPO:",
+    fila.querySelector('.s-type')?.value
+);
+
 
             if (yaTieneUnidad || yaTieneTipo) {{
                 continue;
