@@ -216,7 +216,7 @@ def gen_poligonos(data_target=None):
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
                         <th style="width: 80px, border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
-                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th>
+                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
                     </tr>
                 </thead>
                 <tbody>
