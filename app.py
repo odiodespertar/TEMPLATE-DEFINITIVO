@@ -1625,10 +1625,8 @@ function actualizarTotales() {{
     function updateSelectColor(selectElement) {{
     if (selectElement.value === "") {{
         selectElement.style.color = "#A9A9A9";
-        selectElement.style.fontWeight = "normal";
     }} else {{
         selectElement.style.color = "#135b83";
-        selectElement.style.fontWeight = "bold";
     }}
 }}
 
