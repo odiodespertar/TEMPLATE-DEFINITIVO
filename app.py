@@ -812,7 +812,7 @@ html body .meli-table tbody tr:last-child {{
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
         style="cursor:pointer; 
-               background:#135b83 !important; 
+               background:#696969 !important; 
                background-image: none !important; 
                box-shadow: none !important; 
                color: #ffffff !important; 
