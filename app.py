@@ -1832,6 +1832,7 @@ function actualizarSelects() {{
             }}
         }});
         select.value = valorActual;
+        updateSelectColor(select);
     }});
 }}
 
