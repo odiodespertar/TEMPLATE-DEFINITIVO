@@ -1623,22 +1623,53 @@ if (unidad.restante > 0) {{
             // ASIGNAR
             // =================================
 
-            let select =
-                fila.querySelector('.s-type');
+            // =================================
+// ASIGNAR
+// =================================
 
-            select.value = unidad.nombre;
+// Buscar si ya existe esta unidad
+let filaExistente = filas.find(f => {{
 
-            fila.querySelector('.u-manual').innerText =
-                usar;
+    return (
+        f.querySelector('.s-type')?.value === unidad.nombre
+    );
 
-            fila.querySelector('.spr-real-val').innerText =
-                unidad.spr;
+}});
 
-            unidad.restante -= usar;
+if (filaExistente) {{
 
-            restante -= (usar * unidad.spr);
+    let actual =
+        parseInt(
+            filaExistente.querySelector('.u-manual')?.innerText
+        ) || 0;
 
-            editedRowsPlan.add(fila);
+    filaExistente.querySelector('.u-manual').innerText =
+        actual + usar;
+
+    filaExistente.querySelector('.spr-real-val').innerText =
+        unidad.spr;
+
+    editedRowsPlan.add(filaExistente);
+
+}} else {{
+
+    let select =
+        fila.querySelector('.s-type');
+
+    select.value = unidad.nombre;
+
+    fila.querySelector('.u-manual').innerText =
+        usar;
+
+    fila.querySelector('.spr-real-val').innerText =
+        unidad.spr;
+
+    editedRowsPlan.add(fila);
+}}
+
+unidad.restante -= usar;
+
+restante -= (usar * unidad.spr);
         }}
     }});
 
