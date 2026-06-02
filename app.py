@@ -1573,15 +1573,15 @@ if (!unidad) {{
 
     let nombreExtra = null;
 
-    if (currentTab === "sde") {{
-        nombreExtra = "Car - 5h";
-    }}
-    else if (currentTab === "prec-smx5") {{
-        nombreExtra = "Car - 8h";
-    }}
-    else if (currentTab === "prec-smx2") {{
-        nombreExtra = "Car - 8h";
-    }}
+    if (currentTab == 4) {{          // SDE
+    nombreExtra = "Car - 5h";
+}}
+else if (currentTab == 1) {{     // PREC SMX5
+    nombreExtra = "Car - 8h";
+}}
+else if (currentTab == 5) {{     // PREC SMX2
+    nombreExtra = "Car - 8h";
+}}
 
     if (nombreExtra) {{
         unidad =
