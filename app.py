@@ -1588,6 +1588,12 @@ if (!unidad) {{
             fleet.find(f => f.nombre === nombreExtra);
     }}
 
+
+console.log("TAB:", currentTab);
+console.log("FLOTA:", fleet.map(f => f.nombre));
+console.log("BUSCANDO:", nombreExtra);
+
+
     if (!unidad) break;
 }}
 
