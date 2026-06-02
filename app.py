@@ -1163,7 +1163,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
-                let opt = '<option>Seleccionar</option>';
+                let opt = '<option value="">Seleccionar...</option>';
                 
                 Object.keys(fleet).forEach(k => {{
                     let nameLower = k.toLowerCase();
@@ -1554,13 +1554,8 @@ function distribuirAutomatico() {{
                 fila.querySelector('.s-type')?.value?.trim() || "";
 
             let yaTieneTipo =
-                tipoActual !== "";
-
-
-console.log(
-    "TIPO:",
-    fila.querySelector('.s-type')?.value
-);
+                tipoActual !== "" &&
+                tipoActual !== "Seleccionar";
 
 
             if (yaTieneUnidad || yaTieneTipo) {{
