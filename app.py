@@ -650,6 +650,20 @@ html body .meli-table tbody tr:last-child {{
 ">
 
         <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+       
+        
+        <div id="dos-pct-global"
+     style="
+        background:#f5f5f5;
+        border:1px solid #d0d0d0;
+        border-radius:6px;
+        padding:6px;
+        margin-bottom:10px;
+        text-align:center;
+        font-weight:bold;
+        color:#135b83;">
+</div>
+        
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
@@ -665,6 +679,8 @@ html body .meli-table tbody tr:last-child {{
     onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #FFA500';"
     onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';"
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';">
+
+    
     🧠 AUTO-CALCULAR
 </button>
     
@@ -1012,6 +1028,43 @@ if (delta > 0 && left <= 0 && esFlexible) {{
 }}
 
 
+
+
+
+
+function actualizarDosPorciento() {{
+
+    let volumenTotal = 0;
+
+    document.querySelectorAll(
+        '#polys-' + currentTab + ' .v-total-val'
+    ).forEach(el => {{
+
+        volumenTotal +=
+            parseFloat(el.innerText) || 0;
+
+    }});
+
+    let permitido =
+        Math.round(volumenTotal * 0.02);
+
+    let div =
+        document.getElementById('dos-pct-global');
+
+    if (div) {{
+
+        div.innerHTML =
+            `<b>2% PERMITIDO:</b> ${{permitido.toLocaleString()}}`;
+
+    }}
+}}
+
+
+
+
+
+
+
     function recalc() {{
         let fleet = {{}};
         
@@ -1189,6 +1242,9 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 updateFleetFloat();
 
 actualizarTotales();
+
+actualizarDosPorciento();
+
     }}
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
@@ -1821,6 +1877,7 @@ document.addEventListener('input', (e) => {{
 
 // Esto asegura que al cargar la página ya esté filtrado
 window.addEventListener('load', actualizarSelects);
+actualizarDosPorciento();
 // ==============================================================================
 
 
