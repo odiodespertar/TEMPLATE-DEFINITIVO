@@ -1199,7 +1199,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                     }} else {{
                         s.style.removeProperty("background-color");
                         s.style.removeProperty("color");
-                        s.style.removeProperty("font-weight");
+                        s.style.removeProperty("600", "important");
                     }}
                 }}
             }});
