@@ -1155,9 +1155,8 @@ if (vT === 0) {{
         }});
 
 
-       // 4. FILTRAR LISTA (FILTRO CORREGIDO + ALERTA IXTAPALUCA)
+       // 4. FILTRAR LISTA
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-    let nombrePoligono = bl.querySelector('tbody tr.calc-row td[rowspan]')?.innerText.trim() || "";
 
             const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
 
@@ -1184,26 +1183,6 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
                 updateSelectColor(s);
 
-
-                // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
-                if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
-                    let unidadTxt = cur.toUpperCase();
-                    if (unidadTxt !== "Seleccionar..." && unidadTxt !== "" && !unidadTxt.includes("CAR")) {{
-                        let yaTieneAlerta = (s.style.backgroundColor === "rgb(255, 204, 204)" || s.style.backgroundColor === "#ffcccc");
-                        s.style.setProperty("background-color", "#ffcccc", "important");
-                        s.style.setProperty("color", "#8b0000", "important");
-                        s.style.setProperty("font-weight", "bold", "important");
-                        
-                        // 🔥 AQUÍ ESTÁ LA ALERTA QUE FALTABA:
-                        if (!yaTieneAlerta) {{
-                            showAlert("🚨 ⚠️⚠️ ¡PELIGRO! EN IXTAPALUCA VALLE-CHALCO SOLO SE PERMITEN UNIDADES TIPO CAR. ⚠️⚠️🚨");
-                        }}
-                    }} else {{
-                        s.style.removeProperty("background-color");
-                        s.style.removeProperty("color");
-                        s.style.removeProperty("600", "important");
-                    }}
-                }}
             }});
         }});
 
