@@ -1179,9 +1179,11 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                     }}
                 }});
                 
-                s.innerHTML = opt; 
-                s.value = cur; 
-                s.style.color = "black";
+                s.innerHTML = opt;
+                s.value = cur;
+
+                updateSelectColor(s);
+
 
                 // 🚨 CANDADO EN EL POLÍGONO: REGLA DE ZONA ROJA IXTAPALUCA VALLE CHALCO
                 if (nombrePoligono.toUpperCase().includes("IXTAPALUCA")) {{
