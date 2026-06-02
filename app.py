@@ -244,7 +244,7 @@ def gen_poligonos(data_target=None):
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
-                    {fila_<select class="s-type"}{fila_inner}{fila_inner}{fila_inner}
+                    {fila_inner}{fila_inner}{fila_inner}{fila_inner}
                      <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
@@ -1623,12 +1623,12 @@ function actualizarTotales() {{
 
 // --- AQUÍ PEGA LA FUNCIÓN NUEVA ---
     function updateSelectColor(selectElement) {{
-    if (selectElement.value === "") {{
-        selectElement.style.color = "#A9A9A9";
-    }} else {{
-        selectElement.style.color = "#135b83";
+        if (selectElement.value === "") {{
+            selectElement.style.color = "#A9A9A9"; // Gris
+        }} else {{
+            selectElement.style.color = "#135b83"; // Negro
+        }}
     }}
-}}
 
 
 function updateFleetFloat() {{
