@@ -1590,7 +1590,7 @@ if (!unidad) {{
 
 
 console.log("TAB:", currentTab);
-console.log("FLOTA:", fleet.map(f => f.nombre));
+console.log("FLEET COMPLETA:", fleet);
 console.log("BUSCANDO:", nombreExtra);
 
 
