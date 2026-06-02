@@ -1565,9 +1565,31 @@ function distribuirAutomatico() {{
             // =================================
 
             let unidad =
-                fleet.find(f => f.restante > 0);
+    fleet.find(f => f.restante > 0);
 
-            if (!unidad) break;
+// Si ya no hay unidades disponibles,
+// permitir seguir usando la unidad especial
+if (!unidad) {{
+
+    let nombreExtra = null;
+
+    if (currentTab === "sde") {{
+        nombreExtra = "Car - 5h";
+    }}
+    else if (currentTab === "prec-smx5") {{
+        nombreExtra = "Car - 8h";
+    }}
+    else if (currentTab === "prec-smx2") {{
+        nombreExtra = "Car - 8h";
+    }}
+
+    if (nombreExtra) {{
+        unidad =
+            fleet.find(f => f.nombre === nombreExtra);
+    }}
+
+    if (!unidad) break;
+}}
 
             // =================================
             // CALCULAR NECESARIAS
@@ -1576,13 +1598,20 @@ function distribuirAutomatico() {{
             let necesarias =
                 Math.ceil(restante / unidad.spr);
 
-            let usar =
-                Math.min(
-                    necesarias,
-                    unidad.restante
-                );
+            let usar;
 
-            if (usar <= 0) continue;
+if (unidad.restante > 0) {{
+
+    usar =
+        Math.min(
+            necesarias,
+            unidad.restante
+        );
+
+}} else {{
+
+    usar = necesarias;
+}}
 
             // =================================
             // ASIGNAR
