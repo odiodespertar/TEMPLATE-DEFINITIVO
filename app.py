@@ -654,16 +654,18 @@ html body .meli-table tbody tr:last-child {{
 <div id="panel-flota" style="
     position: fixed;
     top: -600px;
-    right: 0;
-    width: 650px;
-    height: 250px;
+    left: 0;
+
+    width: 100%;
+    height: 260px;
+    
     background: linear-gradient(
     to bottom,
     rgba(255,215,157,0.40),
     rgba(255,215,157,0.40)
 );
 
-border-left: 2px solid #FF6347;
+border-bottom: 3px solid #FF6347;
 
 backdrop-filter: blur(50px);
 -webkit-backdrop-filter: blur(50px);
