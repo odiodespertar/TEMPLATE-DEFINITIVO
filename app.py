@@ -1822,7 +1822,7 @@ let totalCarSchedule = 0;
         <span style="
             color:${{colorCategoria}};
             font-weight:bold;">
-            ${left}/${{stock}}
+            ${{left}}/${{stock}}
         </span>
     </div>
 `;
