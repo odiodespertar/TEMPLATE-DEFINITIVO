@@ -655,15 +655,24 @@ html body .meli-table tbody tr:last-child {{
     position: fixed;
     top: -600px;
     right: 0;
-    width: 300px;
-    height: 500px;
-    background: #f7efeb;
-    border-left: 3px solid #FF6347;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
-    z-index: 9999998;
-    transition: top 0.4s ease;
-    padding: 15px;
+    width: 520px;
+    max-height: 550px;
     overflow-y: auto;
+
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(16px);
+
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-bottom: 1px solid rgba(255,255,255,.25);
+
+    box-shadow: 0 8px 32px rgba(0,0,0,.20);
+
+    border-radius: 0 0 0 16px;
+
+    transition: top .4s ease;
+    z-index: 9999998;
+
+    padding:15px;
 ">
 
     <h3 style="
@@ -1788,9 +1797,11 @@ function actualizarTotales() {{
 
 function updateFleetFloat() {{
         let html = "";
+        let unidadesHtml = "";
+
         let totalNoCar = 0;
-let totalCarReal = 0;
-let totalCarSchedule = 0;
+        let totalCarReal = 0;
+        let totalCarSchedule = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -1817,8 +1828,13 @@ let totalCarSchedule = 0;
                     totalNoCar += asignado;
                 }}
 
-                html += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
+                unidadesHtml += `
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:6px;
+        font-size:14px;
+    ">
                         <span style="color: #135b83;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
                             ${{left}}/${{stock}}
@@ -1829,9 +1845,94 @@ let totalCarSchedule = 0;
         }});
 
         // Dibujamos los totales abajo
-        html += `
 
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
+html = `
+
+<div style="
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:15px;
+">
+
+    <!-- COLUMNA IZQUIERDA -->
+
+    <div style="
+        background: rgba(255,255,255,.18);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding:10px;
+        border:1px solid rgba(255,255,255,.25);
+    ">
+
+        <div style="
+            font-weight:bold;
+            margin-bottom:10px;
+            color:#135b83;
+            text-align:center;
+        ">
+            🚛 UNIDADES
+        </div>
+
+        ${{unidadesHtml}}
+
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+
+    <div style="
+        background: rgba(255,255,255,.18);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding:10px;
+        border:1px solid rgba(255,255,255,.25);
+    ">
+
+        <div style="
+            font-weight:bold;
+            margin-bottom:10px;
+            color:#135b83;
+            text-align:center;
+        ">
+            📊 RESUMEN
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#000000;
+            font-weight:900;
+            margin-bottom:12px;
+        ">
+            <span>TOTAL CAR SCH:</span>
+            <span>${{totalCarSchedule}}</span>
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#0000CD;
+            font-weight:900;
+            margin-bottom:12px;
+        ">
+            <span>TOTAL MLP:</span>
+            <span>${{totalNoCar}}</span>
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#FF4500;
+            font-weight:900;
+        ">
+            <span>TOTAL CAR REAL:</span>
+            <span>${{totalCarReal}}</span>
+        </div>
+
+    </div>
+
+</div>
+
+`;
 
 
 <div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
