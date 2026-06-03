@@ -1831,35 +1831,33 @@ let totalCarSchedule = 0;
 
                 html += `
     <div style="
-        display:flex;
-        justify-content:space-between;
-padding-right:120px;
+        display:grid;
+        grid-template-columns: 1fr 80px;
         align-items:center;
         margin-bottom:4px;
         font-size:14px;
-        gap:10px;
+        column-gap:15px;
     ">
         <span style="
             color:#135b83;
-            flex:1;
             overflow:hidden;
             text-overflow:ellipsis;
             white-space:nowrap;
         ">
-            ${{name}}
+            ${name}
         </span>
 
         <span style="
-            color:${{colorCategoria}};
+            color:${colorCategoria};
             font-weight:bold;
-            min-width:70px;
             text-align:right;
-            flex-shrink:0;
         ">
-            ${{left}}/${{stock}}
+            ${left}/${stock}
         </span>
     </div>
 `;
+
+
             }}
         }});
 
@@ -1877,8 +1875,8 @@ padding-right:120px;
     font-weight:800;
     font-size:16px;
 ">
-
-<span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
+<span>TOTAL CAR (sched):</span> 
+<span>${{totalCarSchedule}}</span>
 </div>
         
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
@@ -1896,8 +1894,8 @@ padding-right:120px;
     font-weight:900;
     font-size:16px;
 ">
-
-<span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
+<span>TOTAL MLP:</span> 
+<span>${{totalNoCar}}</span>
 </div>
 
 <div style="
@@ -1909,7 +1907,8 @@ padding-right:120px;
     font-size:16px;
 ">
 
-<span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+<span>TOTAL CAR (real):</span> 
+<span>${{totalCarReal}}</span>
 </div>
 
             </div>
