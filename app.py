@@ -1035,9 +1035,9 @@ document.addEventListener("DOMContentLoaded", () => {{
 let nombreUpper = sel.toUpperCase();
 
 let esFlexible =
-    nombreUpper.includes("Car - 3h") ||
-    nombreUpper.includes("Car - 5h") ||
-    nombreUpper.includes("Car - 8h");
+    nombreUpper.includes("CAR - 3H") ||
+    nombreUpper.includes("CAR - 5H") ||
+    nombreUpper.includes("CAR - 8H");
 
 // Si NO es flexible, bloquear cuando ya no hay disponibles
 if (delta > 0 && left <= 0 && !esFlexible) {{
