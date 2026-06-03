@@ -1868,7 +1868,7 @@ function updateFleetFloat() {{
             🚛 DISPONIBILIDAD
         </div>
 
-        ${unidadesHtml}
+        ${{unidadesHtml}}
 
     </div>
 
