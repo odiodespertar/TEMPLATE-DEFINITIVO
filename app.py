@@ -655,7 +655,7 @@ html body .meli-table tbody tr:last-child {{
     position: fixed;
     top: -600px;
     right: 0;
-    width: 380px;
+    width: 550px;
     height: 500px;
     background: linear-gradient(
     to bottom,
@@ -681,30 +681,9 @@ backdrop-filter: blur(50px);
         🚛 Disponibilidad de flota
     </h3>
 
-
-<hr style="
-border:none;
-border-top:2px solid #135b83;
-margin:8px 0 12px 0;
-">
-
     <div id="panel-flota-body">
-
-<div style="
-display:grid;
-grid-template-columns: 1fr 220px;
-gap:15px;
-">
-
-    <div style="border-right:1px solid #135b83;padding-right:10px;">
-        COLUMNA IZQUIERDA
+        Cargando...
     </div>
-
-    <div>
-        COLUMNA DERECHA
-    </div>
-
-</div>
 
 </div>
 
