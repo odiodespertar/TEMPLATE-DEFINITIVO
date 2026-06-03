@@ -654,53 +654,29 @@ html body .meli-table tbody tr:last-child {{
 <div id="panel-flota" style="
     position: fixed;
     top: -600px;
-    left: 0;
+    right: 0;
+    width: 550px;
+    height: 500px;
+    background: linear-gradient(
+    to bottom,
+    rgba(255,215,157,0.40),
+    rgba(255,215,157,0.40)
+);
 
-    width: 100%;
-    height: 250px;
+border-left: 2px solid #FF6347;
 
-    background: #f7efeb;
-    border-bottom: 3px solid #FF6347;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-
+backdrop-filter: blur(50px);
+-webkit-backdrop-filter: blur(50px);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
     z-index: 9999998;
     transition: top 0.4s ease;
-
-    padding: 5px 20px 20px 20px;
-    box-sizing: border-box;
-
+    padding: 15px;
     overflow-y: auto;
-    font-family: Arial, sans-serif;
-">
-   <div id="panel-flota" style="
-    position: fixed;
-    top: -600px;
-    left: 0;
-
-    width: 100%;
-    height: 250px;
-
-    background: #f7efeb;
-    border-bottom: 3px solid #FF6347;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-
-    z-index: 9999998;
-    transition: top 0.4s ease;
-
-    padding: 5px 20px 20px 20px;
-    box-sizing: border-box;
-
-    overflow-y: auto;
-    font-family: Arial, sans-serif;
 ">
 
     <h3 style="
-        margin:0;
+        margin-top:0;
         color:#135b83;
-        font-size:16px;
-        font-weight:bold;
     ">
         🚛 Disponibilidad de flota
     </h3>
@@ -710,8 +686,6 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 </div>
-
-
 
 
 
