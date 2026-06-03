@@ -509,40 +509,21 @@ html body .meli-table tbody tr:last-child {{
 /* Contador flotante*/
 
 #fleet-float {{
-
-    position: fixed !important;
-    left: 14px !important;  /* Antes decía 'right' */
-    right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
-    top: 250px !important;
+    display: none; /* Se mantendrá oculto hasta que presiones el botón */
     width: 203px;
-
-    /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
-    background: linear-gradient(to bottom, 
-        rgba(255, 215, 157, 0.4),  /* Durazno pastel */
-        rgba(255, 215, 157, 0.4)  /* durazno pastel */
-    );
+    margin-bottom: 20px;
     
-    color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    /* Mantenemos tus colores y estilo original */
+    background: linear-gradient(to bottom, rgba(255, 215, 157, 0.4), rgba(255, 215, 157, 0.4));
+    color: #135b83;
     border-radius: 14px;
     padding: 16px 18px;
-    z-index: 999999 !important;
-    font-size: 14px;
-    
-    /* Borde luminoso que atrapa el tono durazno */
     border: 2px solid #FF6347;
-    
-    /* Sombras para el efecto 3D iridiscente */
-    box-shadow: 
-        0 10px 30px rgba(0,0,0,0.5),            
-        inset 2px 2px 5px rgba(255,255,255,0.3), 
-        inset -2px -2px 5px rgba(0,0,0,0.5);     
-    
-    /* Vidrio esmerilado */
-    backdrop-filter: blur(50px); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
+    backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);
     
-    max-height: 75vh;
-    overflow-y: auto;
+    /* Quitamos position: fixed, top, left, z-index, max-height */
 }}
 
 /////////////////
