@@ -1844,15 +1844,15 @@ let totalCarSchedule = 0;
             text-overflow:ellipsis;
             white-space:nowrap;
         ">
-            ${name}
+            ${{name}}
         </span>
 
         <span style="
-            color:${colorCategoria};
+            color:${{colorCategoria}};
             font-weight:bold;
             text-align:right;
         ">
-            ${left}/${stock}
+            ${{left}}/${{stock}}
         </span>
     </div>
 `;
