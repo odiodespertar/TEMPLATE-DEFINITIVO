@@ -508,15 +508,19 @@ html body .meli-table tbody tr:last-child {{
 
 /* Contador flotante*/
 
-#fleet-float {{
-    display: none; /* Oculto al inicio */
+#contenedor-control {
     width: 203px;
     margin-bottom: 10px;
-    background: rgba(255, 215, 157, 0.4);
+}
+.boton-disponible {{
+    background: #135b83;
+    color: #FFD79D;
     border: 2px solid #FF6347;
-    border-radius: 14px;
-    padding: 16px 18px;
-    color: #135b83;
+    padding: 10px;
+    width: 203px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
 }}
 
 /////////////////
