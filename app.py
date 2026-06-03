@@ -654,9 +654,25 @@ html body .meli-table tbody tr:last-child {{
 <div id="panel-flota" style="
     position: fixed;
     top: -600px;
-    right: 0;
-    width: 550px;
-    height: 500px;
+    left: 0;
+
+    width: 100%;
+    height: 250px;
+
+    background: #f7efeb;
+    border-bottom: 3px solid #FF6347;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+    z-index: 9999998;
+    transition: top 0.4s ease;
+
+    padding: 5px 20px 20px 20px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+">
     background: linear-gradient(
     to bottom,
     rgba(255,215,157,0.40),
@@ -675,9 +691,11 @@ backdrop-filter: blur(50px);
 ">
 
     <h3 style="
-        margin-top:0;
-        color:#135b83;
-    ">
+    margin:0;
+    color:#135b83;
+    font-size:16px;
+    font-weight:bold;
+">
         🚛 Disponibilidad de flota
     </h3>
 
