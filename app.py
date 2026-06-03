@@ -674,7 +674,6 @@ backdrop-filter: blur(50px);
     transition: top 0.4s ease;
     padding: 15px;
     overflow-y: auto;
-    overflow-x: auto;
 ">
 
     <h3 style="
@@ -685,7 +684,6 @@ backdrop-filter: blur(50px);
     </h3>
 
 <div id="panel-flota-body" style="
-    border:3px solid red;
     width:100%;
 ">
     Cargando...
