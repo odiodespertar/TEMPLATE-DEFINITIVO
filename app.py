@@ -657,7 +657,7 @@ html body .meli-table tbody tr:last-child {{
     left: 0;
     right: 0;
     width: 550;
-    height: 350px;
+    height: 200px;
     
     background: linear-gradient(
     to bottom,
