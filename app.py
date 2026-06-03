@@ -509,21 +509,14 @@ html body .meli-table tbody tr:last-child {{
 /* Contador flotante*/
 
 #fleet-float {{
-    display: none; /* Se mantendrá oculto hasta que presiones el botón */
+    display: none; /* Oculto al inicio */
     width: 203px;
-    margin-bottom: 20px;
-    
-    /* Mantenemos tus colores y estilo original */
-    background: linear-gradient(to bottom, rgba(255, 215, 157, 0.4), rgba(255, 215, 157, 0.4));
-    color: #135b83;
+    margin-bottom: 10px;
+    background: rgba(255, 215, 157, 0.4);
+    border: 2px solid #FF6347;
     border-radius: 14px;
     padding: 16px 18px;
-    border: 2px solid #FF6347;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
-    backdrop-filter: blur(50px);
-    -webkit-backdrop-filter: blur(50px);
-    
-    /* Quitamos position: fixed, top, left, z-index, max-height */
+    color: #135b83;
 }}
 
 /////////////////
@@ -854,11 +847,11 @@ html body .meli-table tbody tr:last-child {{
 
 <!-- CONTADOR FLOTANTE -->
 
-<button onclick="toggleContador()" class="tab-btn" style="background:#135b83; color:#FFD79D; border: 2px solid #FF6347; margin-bottom: 10px;">
+<button onclick="toggleContador()" class="tab-btn" style="background:#135b83; color:#FFD79D; border: 2px solid #FF6347; margin-bottom: 5px;">
     🚛 DISPONIBLE
 </button>
 
-<div id="fleet-float" class="menu-contador-estatico" style="display: none; margin-bottom: 10px; background: rgba(255, 215, 157, 0.4); border: 2px solid #FF6347; border-radius: 14px; padding: 15px; color: #135b83; width: 200px;">
+<div id="fleet-float">
     <div id="fleet-float-body">Cargando...</div>
 </div>
 
