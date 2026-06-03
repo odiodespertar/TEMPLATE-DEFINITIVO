@@ -1957,7 +1957,12 @@ function dragElement(elmnt) {{
         pos4 = e.clientY;
 
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+console.log(
+    "LEFT:", elmnt.style.left,
+    "TOP:", elmnt.style.top
+);
     }}
 
     function closeDragElement() {{
