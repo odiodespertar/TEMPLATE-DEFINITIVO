@@ -1658,6 +1658,9 @@ if (!unidad) {{
     if (currentTab == 4) {{          // SDE
     nombreExtra = "Car - 5h";
 }}
+else if (currentTab == 2) {{     // C1
+    nombreExtra = "Car - 8h";
+}}
 else if (currentTab == 1) {{     // PREC SMX5
     nombreExtra = "Car - 8h";
 }}
