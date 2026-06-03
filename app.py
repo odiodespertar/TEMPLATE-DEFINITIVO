@@ -1801,6 +1801,7 @@ function actualizarTotales() {{
 
 function updateFleetFloat() {{
         let html = "";
+        let unidadesHtml = "";
         let totalNoCar = 0;
         let totalCarReal = 0;
         let totalCarSchedule = 0;
@@ -1830,36 +1831,105 @@ function updateFleetFloat() {{
                     totalNoCar += asignado;
                 }}
 
+                unidadesHtml +=
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
+                        <span style="color: #135b83;">${{name}}</span>
+                        <span style="color: ${{colorCategoria}}; font-weight: bold;">
+                            ${{left}}/${{stock}}
+                        </span>
+                    </div>
+                `;
+            }}
+        }});
 
-                // Dibujamos los totales abajo
-        html += `
+       html = `
 
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
+<div style="
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+">
 
+    <!-- COLUMNA IZQUIERDA -->
 
-<div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
-    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
+    <div style="
+        flex:1;
+        min-width:0;
+    ">
+
+        <div style="
+            font-weight:bold;
+            color:#135b83;
+            margin-bottom:10px;
+            text-align:center;
+            border-bottom:2px solid #135b83;
+            padding-bottom:5px;
+        ">
+            🚛 DISPONIBILIDAD
+        </div>
+
+        ${unidadesHtml}
+
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+
+    <div style="
+        width:220px;
+        flex-shrink:0;
+    ">
+
+        <div style="
+            font-weight:bold;
+            color:#135b83;
+            margin-bottom:10px;
+            text-align:center;
+            border-bottom:2px solid #135b83;
+            padding-bottom:5px;
+        ">
+            📊 RESUMEN
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#000000;
+            font-weight:800;
+            font-size:16px;
+            margin-bottom:12px;
+        ">
+            <span>TOTAL CAR (sched):</span>
+            <span>${{totalCarSchedule}}</span>
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#0000CD;
+            font-weight:900;
+            font-size:16px;
+            margin-bottom:12px;
+        ">
+            <span>TOTAL MLP:</span>
+            <span>${{totalNoCar}}</span>
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            color:#FF4500;
+            font-weight:900;
+            font-size:16px;
+        ">
+            <span>TOTAL CAR (real):</span>
+            <span>${{totalCarReal}}</span>
+        </div>
+
+    </div>
+
 </div>
-        
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
-
-    <div style="font-weight:bold; margin-bottom:8px;">
-          <span>🚚 USADAS</span>
-          </div>
-          
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
-    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
-</div>
-
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
-    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
-</div>
-
-            </div>
-        `;
-
-
+`;
         document.getElementById('fleet-float-body').innerHTML = html;
 
 let panelBody = document.getElementById('panel-flota-body');
