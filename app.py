@@ -1833,6 +1833,7 @@ let totalCarSchedule = 0;
     <div style="
         display:flex;
         justify-content:space-between;
+padding-right:120px;
         align-items:center;
         margin-bottom:4px;
         font-size:14px;
@@ -1868,8 +1869,16 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
-    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
+<div style="
+    display:flex;
+    justify-content:space-between;
+    padding-right:140px;
+    color:#000000;
+    font-weight:800;
+    font-size:16px;
+">
+
+<span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
@@ -1879,12 +1888,28 @@ let totalCarSchedule = 0;
           <span>🚚 USADAS</span>
           </div>
           
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
-    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
+<div style="
+    display:flex;
+    justify-content:space-between;
+    padding-right:140px;
+    color:#0000CD;
+    font-weight:900;
+    font-size:16px;
+">
+
+<span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
-    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+<div style="
+    display:flex;
+    justify-content:space-between;
+    padding-right:140px;
+    color:#FF4500;
+    font-weight:900;
+    font-size:16px;
+">
+
+<span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
             </div>
