@@ -632,6 +632,54 @@ html body .meli-table tbody tr:last-child {{
 
 
 
+<button onclick="toggleFlota()" style="
+    position: fixed;
+    top: 70px;
+    right: 25px;
+    z-index: 99999999;
+    background: #135b83;
+    color: white;
+    border: 1px solid #333;
+    padding: 8px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+">
+🚛 Flota
+</button>
+
+
+
+<div id="panel-flota" style="
+    position: fixed;
+    top: -600px;
+    right: 0;
+    width: 300px;
+    height: 500px;
+    background: #f7efeb;
+    border-left: 3px solid #FF6347;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    z-index: 9999998;
+    transition: top 0.4s ease;
+    padding: 15px;
+    overflow-y: auto;
+">
+
+    <h3 style="
+        margin-top:0;
+        color:#135b83;
+    ">
+        🚛 Disponibilidad de flota
+    </h3>
+
+    <div id="panel-flota-body">
+        Cargando...
+    </div>
+
+</div>
+
+
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
@@ -872,8 +920,8 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE -->
-<div id="fleet-float">
-    <div style="font-weight:bold; margin-bottom:8px;">
+<div id="fleet-float" style="display:none;">
+<div style="font-weight:bold; margin-bottom:8px;">
         🚛 DISPONIBLE
     </div>
 
@@ -1809,6 +1857,12 @@ let totalCarSchedule = 0;
         `;
 
         document.getElementById('fleet-float-body').innerHTML = html;
+
+let panelBody = document.getElementById('panel-flota-body');
+
+if(panelBody){{
+    panelBody.innerHTML = html;
+}}
         
         // Guardar estado (si existe la función)
         if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
@@ -1834,6 +1888,22 @@ function togglePrioridades() {{
     }}
 }}
 // ==============================================================================
+
+
+
+
+function toggleFlota() {{
+
+    const panel = document.getElementById('panel-flota');
+
+    if (panel.style.top === '0px') {{
+        panel.style.top = '-600px';
+    }} else {{
+        panel.style.top = '0px';
+    }}
+
+}}
+
 
 
 
