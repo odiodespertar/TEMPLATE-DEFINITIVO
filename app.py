@@ -954,7 +954,7 @@ document.addEventListener("DOMContentLoaded", () => {{
         document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
             let unidad =
-                row.querySelector('.edit-name')?.innerText.trim();
+                row.querySelector('.edit-name')?.innerText.trim(); 
 
             if(perfil[tabId][unidad]) {{
 
