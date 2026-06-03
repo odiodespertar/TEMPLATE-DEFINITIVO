@@ -1870,9 +1870,9 @@ padding-right:120px;
 
 
 <div style="
-    display:flex;
-    justify-content:space-between;
-    padding-right:180px;
+    display:grid;
+    grid-template-columns: 250px 80px;
+    column-gap:20px;
     color:#000000;
     font-weight:800;
     font-size:16px;
@@ -1889,9 +1889,9 @@ padding-right:120px;
           </div>
           
 <div style="
-    display:flex;
-    justify-content:space-between;
-    padding-right:180px;
+    display:grid;
+    grid-template-columns: 250px 80px;
+    column-gap:20px;
     color:#0000CD;
     font-weight:900;
     font-size:16px;
@@ -1901,9 +1901,9 @@ padding-right:120px;
 </div>
 
 <div style="
-    display:flex;
-    justify-content:space-between;
-    padding-right:180px;
+    display:grid;
+    grid-template-columns: 250px 80px;
+    column-gap:20px;
     color:#FF4500;
     font-weight:900;
     font-size:16px;
