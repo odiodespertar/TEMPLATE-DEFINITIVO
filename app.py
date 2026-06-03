@@ -616,7 +616,7 @@ html body .meli-table tbody tr:last-child {{
     <button onclick="togglePrioridades()" style="
         position: fixed; 
         top: 25px; 
-        right: 25px; 
+        right: 10px; 
         z-index: 99999999; /* Botón en la capa más alta */
         background: #FF6347; 
         color: white; 
@@ -635,7 +635,7 @@ html body .meli-table tbody tr:last-child {{
 <button onclick="toggleFlota()" style="
     position: fixed;
     top: 70px;
-    right: 25px;
+    right: 10px;
     z-index: 99999999;
     background: #135b83;
     color: white;
@@ -1872,7 +1872,7 @@ padding-right:120px;
 <div style="
     display:flex;
     justify-content:space-between;
-    padding-right:140px;
+    padding-right:180px;
     color:#000000;
     font-weight:800;
     font-size:16px;
@@ -1891,7 +1891,7 @@ padding-right:120px;
 <div style="
     display:flex;
     justify-content:space-between;
-    padding-right:140px;
+    padding-right:180px;
     color:#0000CD;
     font-weight:900;
     font-size:16px;
@@ -1903,7 +1903,7 @@ padding-right:120px;
 <div style="
     display:flex;
     justify-content:space-between;
-    padding-right:140px;
+    padding-right:180px;
     color:#FF4500;
     font-weight:900;
     font-size:16px;
