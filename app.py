@@ -547,16 +547,6 @@ html body .meli-table tbody tr:last-child {{
 
 /////////////////
 
-
-#panel-flota-body > div{{
-    break-inside: avoid;
-}}
-
-
-
-///////////////
-
-
 /* Agrégalo al final de tu sección <style> */
 .ok-check {{
     accent-color: #FFFF00 !important; /* Cambia aquí el color (ej. #AFEEEE para Turquesa) */
@@ -683,12 +673,9 @@ html body .meli-table tbody tr:last-child {{
         🚛 Disponibilidad de flota
     </h3>
 
-    <div id="panel-flota-body" style="
-    column-count: 2;
-    column-gap: 30px;
-">
-    Cargando...
-</div>
+    <div id="panel-flota-body">
+        Cargando...
+    </div>
 
 </div>
 
@@ -1801,10 +1788,9 @@ function actualizarTotales() {{
 
 function updateFleetFloat() {{
         let html = "";
-        let unidadesHtml = "";
         let totalNoCar = 0;
-        let totalCarReal = 0;
-        let totalCarSchedule = 0;
+let totalCarReal = 0;
+let totalCarSchedule = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -1831,7 +1817,7 @@ function updateFleetFloat() {{
                     totalNoCar += asignado;
                 }}
 
-                unidadesHtml +=
+                html += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
                         <span style="color: #135b83;">${{name}}</span>
                         <span style="color: ${{colorCategoria}}; font-weight: bold;">
@@ -1842,94 +1828,34 @@ function updateFleetFloat() {{
             }}
         }});
 
-       html = `
+        // Dibujamos los totales abajo
+        html += `
 
-<div style="
-    display:flex;
-    gap:20px;
-    align-items:flex-start;
-">
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
-    <!-- COLUMNA IZQUIERDA -->
 
-    <div style="
-        flex:1;
-        min-width:0;
-    ">
+<div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
+    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
+</div>
+        
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
-        <div style="
-            font-weight:bold;
-            color:#135b83;
-            margin-bottom:10px;
-            text-align:center;
-            border-bottom:2px solid #135b83;
-            padding-bottom:5px;
-        ">
-            🚛 DISPONIBILIDAD
-        </div>
 
-        ${unidadesHtml}
-
-    </div>
-
-    <!-- COLUMNA DERECHA -->
-
-    <div style="
-        width:220px;
-        flex-shrink:0;
-    ">
-
-        <div style="
-            font-weight:bold;
-            color:#135b83;
-            margin-bottom:10px;
-            text-align:center;
-            border-bottom:2px solid #135b83;
-            padding-bottom:5px;
-        ">
-            📊 RESUMEN
-        </div>
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            color:#000000;
-            font-weight:800;
-            font-size:16px;
-            margin-bottom:12px;
-        ">
-            <span>TOTAL CAR (sched):</span>
-            <span>${{totalCarSchedule}}</span>
-        </div>
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            color:#0000CD;
-            font-weight:900;
-            font-size:16px;
-            margin-bottom:12px;
-        ">
-            <span>TOTAL MLP:</span>
-            <span>${{totalNoCar}}</span>
-        </div>
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            color:#FF4500;
-            font-weight:900;
-            font-size:16px;
-        ">
-            <span>TOTAL CAR (real):</span>
-            <span>${{totalCarReal}}</span>
-        </div>
-
-    </div>
-
+    <div style="font-weight:bold; margin-bottom:8px;">
+          <span>🚚 USADAS</span>
+          </div>
+          
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
+    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-`;
+<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
+    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+</div>
+
+            </div>
+        `;
+
         document.getElementById('fleet-float-body').innerHTML = html;
 
 let panelBody = document.getElementById('panel-flota-body');
