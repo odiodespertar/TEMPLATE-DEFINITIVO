@@ -1231,7 +1231,7 @@ if (vT === 0) {{
                 let cL = row.querySelector('.f-left');
                 
                 // Regla universal para Car 3h, 5h, 8h y Crowd
-                let esFlexible = n.toUpperCase().includes('CAR') || n.toUpperCase().includes('CROWD') || n.toUpperCase().includes('H');
+                let esFlexible = n.toUpperCase().includes('Car') || n.toUpperCase().includes('Crowd') || n.toUpperCase().includes('h');
 
 
                 console.log("Diferencia calculada:", diff);
@@ -1252,7 +1252,7 @@ if (vT === 0) {{
        // 4. FILTRAR LISTA
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
-            const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
+            const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h"];
 
             bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
