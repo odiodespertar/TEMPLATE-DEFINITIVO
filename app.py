@@ -1934,6 +1934,8 @@ function dragElement(elmnt) {{
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {{
+
+        console.log("DRAG MOUSEDOWN");
         e = e || window.event;
         e.preventDefault();
 
