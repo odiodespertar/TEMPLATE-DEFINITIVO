@@ -891,10 +891,39 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     const flotante = document.getElementById("fleet-float");
 
+    let moviendo = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
     flotante.style.cursor = "move";
 
-    flotante.addEventListener("mousedown", () => {{
-        console.log("SI RECIBO EL CLIC");
+    flotante.addEventListener("mousedown", (e) => {{
+
+        moviendo = true;
+
+        offsetX = e.clientX - flotante.offsetLeft;
+        offsetY = e.clientY - flotante.offsetTop;
+
+        console.log("INICIO ARRASTRE");
+
+    }});
+
+    document.addEventListener("mousemove", (e) => {{
+
+        if (!moviendo) return;
+
+        flotante.style.left =
+            (e.clientX - offsetX) + "px";
+
+        flotante.style.top =
+            (e.clientY - offsetY) + "px";
+
+    }});
+
+    document.addEventListener("mouseup", () => {{
+
+        moviendo = false;
+
     }});
 
 }});
