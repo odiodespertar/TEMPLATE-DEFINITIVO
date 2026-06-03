@@ -511,7 +511,7 @@ html body .meli-table tbody tr:last-child {{
 #fleet-float {{
 
     position: fixed !important;
-    left: 14px !important;  /* Antes decía 'right' */
+    left: auto !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
     top: 250px !important;
     width: 203px;
@@ -655,8 +655,8 @@ html body .meli-table tbody tr:last-child {{
     position: fixed;
     top: -600px;
     right: 0;
-    width: 550px;
-    height: 500px;
+    width: 600px;
+    height: 250px;
     background: linear-gradient(
     to bottom,
     rgba(255,215,157,0.40),
