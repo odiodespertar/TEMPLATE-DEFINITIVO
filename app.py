@@ -514,7 +514,7 @@ html body .meli-table tbody tr:last-child {{
     left: auto !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
     top: 250px !important;
-    width: 203px;
+    width: 500px;
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(to bottom, 
@@ -632,7 +632,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-<button onclick="toggleFlota()" style="
+<button onclick="toggleContador()" style="
     position: fixed;
     top: 70px;
     right: 25px;
@@ -646,16 +646,16 @@ html body .meli-table tbody tr:last-child {{
     border-radius: 4px;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 ">
-🚛 Flota
+🚛 Contador
 </button>
 
 
 
-<div id="panel-flota" style="
+<div id="panel-contador" style="
     position: fixed;
     top: -600px;
     right: 0;
-    width: 600px;
+    width: 650px;
     height: 250px;
     background: linear-gradient(
     to bottom,
