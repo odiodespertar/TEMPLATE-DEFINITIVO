@@ -510,10 +510,10 @@ html body .meli-table tbody tr:last-child {{
 
 #fleet-float {{
 
-    position: fixed !important;
-    left: 14px !important;  /* Antes decía 'right' */
-    right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
-    top: 250px !important;
+    position: fixed;
+    left: 14px;
+    right: auto;
+    top: 250px;
     width: 203px;
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
