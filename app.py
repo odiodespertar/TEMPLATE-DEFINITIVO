@@ -872,15 +872,15 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE -->
-<div id="fleet-float">
-    <div style="font-weight:bold; margin-bottom:8px;">
-        🚛 DISPONIBLE
-    </div>
 
-    <div id="fleet-float-body">
-        Cargando...
-    </div>
+<button onclick="toggleContador()" class="tab-btn" style="background:#135b83; color:#FFD79D; border: 2px solid #FF6347; margin-bottom: 10px;">
+    🚛 DISPONIBLE
+</button>
+
+<div id="fleet-float" class="menu-contador-estatico" style="display: none; margin-bottom: 10px; background: rgba(255, 215, 157, 0.4); border: 2px solid #FF6347; border-radius: 14px; padding: 15px; color: #135b83; width: 200px;">
+    <div id="fleet-float-body">Cargando...</div>
 </div>
+
 
 
 <script>
@@ -933,6 +933,10 @@ html body .meli-table tbody tr:last-child {{
 
 
 
+function toggleContador() {{
+    var cont = document.getElementById("fleet-float");
+    cont.style.display = (cont.style.display === "none") ? "block" : "none";
+}}
 
 
    
