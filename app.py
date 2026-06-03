@@ -514,7 +514,7 @@ html body .meli-table tbody tr:last-child {{
     left: 14px;
     right: auto;
     top: 250px;
-    width: 203px;
+    width: 420px;
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(to bottom, 
@@ -1780,8 +1780,10 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-        let html = "";
-        let totalNoCar = 0;
+let htmlLeft = "";
+let htmlRight = "";
+
+let totalNoCar = 0;
 let totalCarReal = 0;
 let totalCarSchedule = 0;
 
@@ -1810,19 +1812,25 @@ let totalCarSchedule = 0;
                     totalNoCar += asignado;
                 }}
 
-                html += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
-                        <span style="color: #135b83;">${{name}}</span>
-                        <span style="color: ${{colorCategoria}}; font-weight: bold;">
-                            ${{left}}/${{stock}}
-                        </span>
-                    </div>
-                `;
+                htmlLeft += `
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:4px;
+        font-size:14px;">
+        <span style="color:#135b83;">${{name}}</span>
+        <span style="
+            color:${{colorCategoria}};
+            font-weight:bold;">
+            ${left}/${{stock}}
+        </span>
+    </div>
+`;
             }}
         }});
 
-        // Dibujamos los totales abajo
-        html += `
+        // Columna derecha
+        htmlRight = `
 
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
@@ -1849,8 +1857,34 @@ let totalCarSchedule = 0;
             </div>
         `;
 
-        document.getElementById('fleet-float-body').innerHTML = html;
-        
+let html = `
+<div style="
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
+">
+
+    <div style="
+        flex:1;
+        min-width:180px;
+    ">
+        ${{htmlLeft}}
+    </div>
+
+    <div style="
+        width:170px;
+        border-left:2px solid #135b83;
+        padding-left:12px;
+    ">
+        ${{htmlRight}}
+    </div>
+
+</div>
+`;
+
+document.getElementById('fleet-float-body').innerHTML = html;
+
+
         // Guardar estado (si existe la función)
         if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
     }}
