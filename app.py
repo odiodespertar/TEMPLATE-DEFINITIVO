@@ -511,10 +511,10 @@ html body .meli-table tbody tr:last-child {{
 #fleet-float {{
 
     position: fixed !important;
-    left: auto !important;  /* Antes decía 'right' */
+    left: 14px !important;  /* Antes decía 'right' */
     right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
     top: 250px !important;
-    width: 300px;
+    width: 203px;
 
     /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
     background: linear-gradient(to bottom, 
@@ -616,7 +616,7 @@ html body .meli-table tbody tr:last-child {{
     <button onclick="togglePrioridades()" style="
         position: fixed; 
         top: 25px; 
-        right: 10px; 
+        right: 25px; 
         z-index: 99999999; /* Botón en la capa más alta */
         background: #FF6347; 
         color: white; 
@@ -630,66 +630,6 @@ html body .meli-table tbody tr:last-child {{
     🚦 Prioridades
 </button>
 
-
-
-<button onclick="toggleFlota()" style="
-    position: fixed;
-    top: 70px;
-    right: 10px;
-    z-index: 99999999;
-    background: #135b83;
-    color: white;
-    border: 1px solid #333;
-    padding: 8px 12px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-">
-🚛 Contador
-</button>
-
-
-
-<div id="panel-flota" style="
-    position: fixed;
-    top: -600px;
-    left: 0;
-    right: 0;
-    width: 550;
-    height: 200px;
-    
-    background: linear-gradient(
-    to bottom,
-    rgba(255,215,157,0.40),
-    rgba(255,215,157,0.40)
-);
-
-border-bottom: 3px solid #FF6347;
-
-backdrop-filter: blur(50px);
--webkit-backdrop-filter: blur(50px);
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
-    z-index: 9999998;
-    transition: top 0.4s ease;
-    padding: 15px;
-    overflow-y: auto;
-">
-
-    <h3 style="
-        margin-top:0;
-        color:#135b83;
-    ">
-        🚛 Disponibilidad de flota
-    </h3>
-
-<div id="panel-flota-body" style="
-    width:100%;
-">
-    Cargando...
-</div>
-
-</div>
 
 
 
@@ -932,8 +872,8 @@ backdrop-filter: blur(50px);
 
 
 <!-- CONTADOR FLOTANTE -->
-<div id="fleet-float" style="display:none;">
-<div style="font-weight:bold; margin-bottom:8px;">
+<div id="fleet-float">
+    <div style="font-weight:bold; margin-bottom:8px;">
         🚛 DISPONIBLE
     </div>
 
@@ -1830,34 +1770,13 @@ let totalCarSchedule = 0;
                 }}
 
                 html += `
-    <div style="
-        display:grid;
-        grid-template-columns: 1fr 80px;
-        align-items:center;
-        margin-bottom:4px;
-        font-size:14px;
-        column-gap:15px;
-    ">
-        <span style="
-            color:#135b83;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
-        ">
-            ${{name}}
-        </span>
-
-        <span style="
-            color:${{colorCategoria}};
-            font-weight:bold;
-            text-align:right;
-        ">
-            ${{left}}/${{stock}}
-        </span>
-    </div>
-`;
-
-
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
+                        <span style="color: #135b83;">${{name}}</span>
+                        <span style="color: ${{colorCategoria}}; font-weight: bold;">
+                            ${{left}}/${{stock}}
+                        </span>
+                    </div>
+                `;
             }}
         }});
 
@@ -1867,16 +1786,8 @@ let totalCarSchedule = 0;
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
-<div style="
-    display:grid;
-    grid-template-columns: 250px 80px;
-    column-gap:20px;
-    color:#000000;
-    font-weight:800;
-    font-size:16px;
-">
-<span>TOTAL CAR (sched):</span> 
-<span>${{totalCarSchedule}}</span>
+<div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
+    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
@@ -1886,41 +1797,18 @@ let totalCarSchedule = 0;
           <span>🚚 USADAS</span>
           </div>
           
-<div style="
-    display:grid;
-    grid-template-columns: 250px 80px;
-    column-gap:20px;
-    color:#0000CD;
-    font-weight:900;
-    font-size:16px;
-">
-<span>TOTAL MLP:</span> 
-<span>${{totalNoCar}}</span>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
+    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
 </div>
 
-<div style="
-    display:grid;
-    grid-template-columns: 250px 80px;
-    column-gap:20px;
-    color:#FF4500;
-    font-weight:900;
-    font-size:16px;
-">
-
-<span>TOTAL CAR (real):</span> 
-<span>${{totalCarReal}}</span>
+<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
+    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
 </div>
 
             </div>
         `;
 
         document.getElementById('fleet-float-body').innerHTML = html;
-
-let panelBody = document.getElementById('panel-flota-body');
-
-if(panelBody){{
-    panelBody.innerHTML = html;
-}}
         
         // Guardar estado (si existe la función)
         if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
@@ -1946,22 +1834,6 @@ function togglePrioridades() {{
     }}
 }}
 // ==============================================================================
-
-
-
-
-function toggleFlota() {{
-
-    const panel = document.getElementById('panel-flota');
-
-    if (panel.style.top === '0px') {{
-        panel.style.top = '-600px';
-    }} else {{
-        panel.style.top = '0px';
-    }}
-
-}}
-
 
 
 
