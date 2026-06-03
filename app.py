@@ -711,20 +711,7 @@ html body .meli-table tbody tr:last-child {{
 
 </div>
 
-    <h3 style="
-    margin:0;
-    color:#135b83;
-    font-size:16px;
-    font-weight:bold;
-">
-        🚛 Disponibilidad de flota
-    </h3>
 
-    <div id="panel-flota-body">
-        Cargando...
-    </div>
-
-</div>
 
 
 
