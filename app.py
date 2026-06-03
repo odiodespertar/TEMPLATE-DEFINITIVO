@@ -38,7 +38,7 @@ st.markdown("""
 
 
 # --- DATOS BASE ---
-u_SDE = {"Moto Car - 3": [25, 30], "Moto Car Newbie": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
+u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
 u_PREC = {      
     "Car - 8h": [70, 75],
@@ -508,19 +508,41 @@ html body .meli-table tbody tr:last-child {{
 
 /* Contador flotante*/
 
-#contenedor-control {
+#fleet-float {{
+
+    position: fixed !important;
+    left: 14px !important;  /* Antes decía 'right' */
+    right: auto !important; /* IMPORTANTE: Desactiva el derecho */ 
+    top: 250px !important;
     width: 203px;
-    margin-bottom: 10px;
-}
-.boton-disponible {{
-    background: #135b83;
-    color: #FFD79D;
+
+    /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
+    background: linear-gradient(to bottom, 
+        rgba(255, 215, 157, 0.4),  /* Durazno pastel */
+        rgba(255, 215, 157, 0.4)  /* durazno pastel */
+    );
+    
+    color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    border-radius: 14px;
+    padding: 16px 18px;
+    z-index: 999999 !important;
+    font-size: 14px;
+    
+    /* Borde luminoso que atrapa el tono durazno */
     border: 2px solid #FF6347;
-    padding: 10px;
-    width: 203px;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
+    
+    /* Sombras para el efecto 3D iridiscente */
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.5),            
+        inset 2px 2px 5px rgba(255,255,255,0.3), 
+        inset -2px -2px 5px rgba(0,0,0,0.5);     
+    
+    /* Vidrio esmerilado */
+    backdrop-filter: blur(50px); 
+    -webkit-backdrop-filter: blur(50px);
+    
+    max-height: 75vh;
+    overflow-y: auto;
 }}
 
 /////////////////
@@ -790,7 +812,7 @@ html body .meli-table tbody tr:last-child {{
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
         style="cursor:pointer; 
-               background:#A9A9A9 !important; 
+               background:#135b83 !important; 
                background-image: none !important; 
                box-shadow: none !important; 
                color: #ffffff !important; 
@@ -833,7 +855,7 @@ html body .meli-table tbody tr:last-child {{
     background-image: none !important; 
     box-shadow: none !important; 
     border: none !important;
-    color: #ffffff; 
+    color: #FF8C00; 
     padding: 10px; 
     border-radius: 6px; 
     text-align: center; 
@@ -850,15 +872,15 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE -->
-
-<button onclick="toggleContador()" class="tab-btn" style="background:#135b83; color:#FFD79D; border: 2px solid #FF6347; margin-bottom: 5px;">
-    🚛 DISPONIBLE
-</button>
-
 <div id="fleet-float">
-    <div id="fleet-float-body">Cargando...</div>
-</div>
+    <div style="font-weight:bold; margin-bottom:8px;">
+        🚛 DISPONIBLE
+    </div>
 
+    <div id="fleet-float-body">
+        Cargando...
+    </div>
+</div>
 
 
 <script>
@@ -911,10 +933,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-function toggleContador() {{
-    var cont = document.getElementById("fleet-float");
-    cont.style.display = (cont.style.display === "none") ? "block" : "none";
-}}
 
 
    
