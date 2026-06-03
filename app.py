@@ -910,15 +910,17 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     document.addEventListener("mousemove", (e) => {{
 
-        if (!moviendo) return;
+    if (!moviendo) return;
 
-        flotante.style.left =
-            (e.clientX - offsetX) + "px";
+    console.log("MOVIENDO");
 
-        flotante.style.top =
-            (e.clientY - offsetY) + "px";
+    flotante.style.left =
+        (e.clientX - offsetX) + "px";
 
-    }});
+    flotante.style.top =
+        (e.clientY - offsetY) + "px";
+
+}});
 
     document.addEventListener("mouseup", () => {{
 
