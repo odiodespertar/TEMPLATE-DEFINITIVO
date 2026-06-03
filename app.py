@@ -657,7 +657,7 @@ html body .meli-table tbody tr:last-child {{
     left: 0;
 
     width: 100%;
-    height: 260px;
+    height: 350px;
     
     background: linear-gradient(
     to bottom,
@@ -683,8 +683,11 @@ backdrop-filter: blur(50px);
         🚛 Disponibilidad de flota
     </h3>
 
-    <div id="panel-flota-body">
-        Cargando...
+<div id="panel-flota-body" style="
+    width:100%;
+    overflow-x:auto;
+">
+Cargando...
     </div>
 
 </div>
