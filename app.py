@@ -885,6 +885,22 @@ html body .meli-table tbody tr:last-child {{
 
 <script>
 
+
+
+document.addEventListener("DOMContentLoaded", () => {{
+
+    const flotante = document.getElementById("fleet-float");
+
+    flotante.style.cursor = "move";
+
+    flotante.addEventListener("mousedown", () => {{
+        console.log("SI RECIBO EL CLIC");
+    }});
+
+}});
+        
+
+
     const perfiles = {json.dumps(PERFILES)};
     const perfilActual = "{perfil_actual}";
 
