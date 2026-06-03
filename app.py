@@ -632,7 +632,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-<button onclick="toggleContador()" style="
+<button onclick="toggleFlota()" style="
     position: fixed;
     top: 70px;
     right: 25px;
@@ -651,7 +651,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-<div id="panel-contador" style="
+<div id="panel-flota" style="
     position: fixed;
     top: -600px;
     right: 0;
