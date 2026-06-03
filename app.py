@@ -655,10 +655,18 @@ html body .meli-table tbody tr:last-child {{
     position: fixed;
     top: -600px;
     right: 0;
-    width: 300px;
+    width: 550px;
     height: 500px;
-    background: #f7efeb;
-    border-left: 3px solid #FF6347;
+    background: linear-gradient(
+    to bottom,
+    rgba(255,215,157,0.40),
+    rgba(255,215,157,0.40)
+);
+
+border-left: 2px solid #FF6347;
+
+backdrop-filter: blur(50px);
+-webkit-backdrop-filter: blur(50px);
     box-shadow: -5px 0 15px rgba(0,0,0,0.3);
     z-index: 9999998;
     transition: top 0.4s ease;
