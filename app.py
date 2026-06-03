@@ -1831,13 +1831,35 @@ let totalCarSchedule = 0;
                 }}
 
                 html += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size: 14px;">
-                        <span style="color: #135b83;">${{name}}</span>
-                        <span style="color: ${{colorCategoria}}; font-weight: bold;"> 
-                            ${{left}}/${{stock}}
-                        </span>
-                    </div>
-                `;
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:4px;
+        font-size:14px;
+        gap:10px;
+    ">
+        <span style="
+            color:#135b83;
+            flex:1;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        ">
+            ${{name}}
+        </span>
+
+        <span style="
+            color:${{colorCategoria}};
+            font-weight:bold;
+            min-width:70px;
+            text-align:right;
+            flex-shrink:0;
+        ">
+            ${{left}}/${{stock}}
+        </span>
+    </div>
+`;
             }}
         }});
 
