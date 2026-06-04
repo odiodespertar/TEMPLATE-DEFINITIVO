@@ -1763,7 +1763,7 @@ if (!unidad) {{
                 );
         }}
 
-    } else if (currentTab == 5) {{   // PREC SMX2
+}} else if (currentTab == 5) {{   // PREC SMX2
 
         unidad =
             fleet.find(f =>
