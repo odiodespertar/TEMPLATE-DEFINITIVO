@@ -716,13 +716,7 @@ html body .meli-table tbody tr:last-child {{
         <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
-            <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;">
-    <div style="
-        width:220px;
-        margin-left:auto;
-        text-align:right;
-    ">
-         TOTAL CAR </td>
+            <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR </td>
                 <td id="total-car-real-2" style="text-align:center; color:#3CB371; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
 <!-- NUEVA FILA -->
