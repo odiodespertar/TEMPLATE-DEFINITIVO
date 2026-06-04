@@ -1507,6 +1507,33 @@ actualizarDosPorciento();
     }});
 
 
+
+function obtenerCarFlexible() {{
+
+    const opciones = [
+        "Car - 8h",
+        "Car - 5h",
+        "Car - 3h"
+    ];
+
+    for (let nombre of opciones) {{
+
+        let unidad = fleet.find(f =>
+            f.nombre === nombre &&
+            f.stock > 0
+        );
+
+        if (unidad) {{
+            return unidad;
+        }}
+    }}
+
+    return null;
+}}
+
+
+
+
 function distribuirAutomatico() {{
 
     // =========================================
@@ -1694,51 +1721,70 @@ function distribuirAutomatico() {{
 // permitir seguir usando la unidad especial 
 if (!unidad) {{
 
-    let nombreExtra = null;
+    if (currentTab == 4) {{         // SDE
 
-    if (currentTab == 4) {{          // SDE
-    nombreExtra = "Car - 5h";
-}}
-else if (currentTab == 2) {{         // C1
-    unidad =
-        fleet.find(f =>
-            f.nombre.includes("Car - 8h")
-        );
-    if (!unidad) {{
         unidad =
             fleet.find(f =>
                 f.nombre.includes("Car - 5h")
             );
-    }}
-    if (!unidad) {{
+
+        if (!unidad) {{
+            unidad =
+                fleet.find(f =>
+                    f.nombre.includes("Car - 3h")
+                );
+        }}
+
+    }} else if (currentTab == 2) {{   // C1
+
         unidad =
             fleet.find(f =>
-                f.nombre.includes("Car - 3h")
+                f.nombre.includes("Car - 8h")
             );
-    }}
-}}
-else if (currentTab == 1) {{     // PREC SMX5
-    nombreExtra = "Car - 8h";
-}}
-else if (currentTab == 5) {{     // PREC SMX2
-    nombreExtra = "Car - 8h";
-}}
 
-    if (nombreExtra) {{
+        if (!unidad) {{
+            unidad =
+                fleet.find(f =>
+                    f.nombre.includes("Car - 5h")
+                );
+        }}
+
+}} else if (currentTab == 1) {{   // PREC SMX5
+
         unidad =
-            fleet.find(f => f.nombre === nombreExtra);
+            fleet.find(f =>
+                f.nombre.includes("Car - 8h")
+            );
+
+        if (!unidad) {{
+            unidad =
+                fleet.find(f =>
+                    f.nombre.includes("Car - 5h")
+                );
+        }}
+
+    } else if (currentTab == 5) {{   // PREC SMX2
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Car - 8h")
+            );
+
+        if (!unidad) {{
+            unidad =
+                fleet.find(f =>
+                    f.nombre.includes("Car - 5h")
+                );
+        }}
     }}
 
-
-console.log("TAB:", currentTab);
-console.log("FLEET COMPLETA:", fleet);
-console.log("BUSCANDO:", nombreExtra);
-console.log(
-    fleet.map(f => f.nombre)
-);
+    console.log("TAB:", currentTab);
+    console.log("FLEET COMPLETA:", fleet);
 
     if (!unidad) break;
 }}
+
+
 
             // =================================
             // CALCULAR NECESARIAS
