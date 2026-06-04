@@ -718,14 +718,29 @@ html body .meli-table tbody tr:last-child {{
             </tr>
 
             
-            <td colspan="3"
-    style="
-        padding:6px;
-        text-align:right;
-        background:red;
-    ">
-    TOTAL CAR
-</td>
+            <tr class="fila-total">
+
+    <td style="border:none;"></td>
+
+    <td colspan="2"
+        style="
+            padding:6px;
+            text-align:right;
+        ">
+        TOTAL CAR
+    </td>
+
+    <td id="total-car-real-1"
+        style="
+            text-align:center;
+            color:#3CB371;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+
+</tr>
 
 
 
