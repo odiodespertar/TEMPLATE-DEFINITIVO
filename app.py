@@ -636,7 +636,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
-
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
 
@@ -2036,7 +2035,7 @@ let elCarAdicional =
     );
 
 if (elCarAdicional) {{
-    elCarAdicional.innerText = totalCarAdicional;
+    elCarAdicional.innerText = "-" + totalCarAdicional;
 }}
 
 
