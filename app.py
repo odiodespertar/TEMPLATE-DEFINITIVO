@@ -713,15 +713,21 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-                  <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
+        
+                  <tr class="fila-total">
+    <td></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-2"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
 
             
             <tr class="fila-total">
-
     <td style="border:none;"></td>
-
     <td colspan="2"
         style="
             padding:6px;
@@ -729,8 +735,7 @@ html body .meli-table tbody tr:last-child {{
         ">
         TOTAL CAR
     </td>
-
-    <td id="total-car-real-1"
+    <td id="total-car-real-2"
         style="
             text-align:center;
             color:#3CB371;
@@ -739,25 +744,20 @@ html body .meli-table tbody tr:last-child {{
         ">
         0
     </td>
-
 </tr>
 
 
 
-            </tr>
-<!-- NUEVA FILA -->
-    <tr class="fila-total">
-        <td colspan="3" style="padding:6px; text-align:right;">
-            CAR ADICIONAL
-        </td>
-        <td id="total-car-adicional-2"
-            style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-            0
-        </td>
-    </tr>       
-        </tfoot>
-    </table>
-</div>
+            <tr class="fila-total">
+    <td></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        CAR ADICIONAL
+    </td>
+    <td id="total-car-adicional-2"
+        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
 
        
         <div id="tab-1" class="t-content" style="display:none;">
