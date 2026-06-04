@@ -931,7 +931,7 @@ html body .meli-table tbody tr:last-child {{
 
 
         
-        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
+        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO --> 
         <div class="tools-panel">
             
         
