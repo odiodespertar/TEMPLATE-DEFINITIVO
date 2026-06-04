@@ -1691,7 +1691,7 @@ function distribuirAutomatico() {{
     fleet.find(f => f.restante > 0);
 
 // Si ya no hay unidades disponibles,
-// permitir seguir usando la unidad especial
+// permitir seguir usando la unidad especial 
 if (!unidad) {{
 
     let nombreExtra = null;
