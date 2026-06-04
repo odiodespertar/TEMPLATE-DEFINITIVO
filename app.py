@@ -729,7 +729,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -738,7 +738,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -815,7 +815,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -824,7 +824,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -884,7 +884,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -893,7 +893,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -954,7 +954,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -963,7 +963,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
