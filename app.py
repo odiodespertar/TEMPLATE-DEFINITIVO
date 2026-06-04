@@ -738,7 +738,7 @@ html body .meli-table tbody tr:last-child {{
         ">
         TOTAL CAR
     </td>
-    <td id="total-car-real-1"
+    <td id="total-car-real-2"
         style="
             text-align:center;
             color:#3CB371;
@@ -782,23 +782,42 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
-          <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-1" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL CAR </td>
-                <td id="total-car-real-1" style="text-align:center; color:#3CB371; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <!-- NUEVA FILA -->
-    <tr class="fila-total">
-        <td colspan="2" style="padding:6px; text-align:right;">
-            CAR ADICIONAL
-        </td>
-        <td id="total-car-adicional-1"
-            style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-            0
-        </td>
-    </tr>
-        </tfoot>
+          <tfoot class="fila-total">
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-1"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL CAR
+    </td>
+    <td id="total-car-real-1"
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        CAR ADICIONAL
+    </td>
+    <td id="total-car-adicional-1"
+        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+</tfoot>
     </table>
 </div>
 
@@ -814,23 +833,42 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-         <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-5" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL CAR </td>
-                <td id="total-car-real-5" style="text-align:center; color:#3CB371; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <!-- NUEVA FILA -->
-    <tr class="fila-total">
-        <td colspan="2" style="padding:6px; text-align:right;">
-            CAR ADICIONAL
-        </td>
-        <td id="total-car-adicional-5"
-            style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-            0
-        </td>
-    </tr>
-        </tfoot>
+         <tfoot class="fila-total">
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-5"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL CAR
+    </td>
+    <td id="total-car-real-5"
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        CAR ADICIONAL
+    </td>
+    <td id="total-car-adicional-5"
+        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+</tfoot>
+
     </table>
 </div>
 
@@ -847,23 +885,42 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-       <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-4" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <tr class="fila-total"> <td colspan="2" style="padding:6px; text-align:right;"> TOTAL CAR </td>
-                <td id="total-car-real-4" style="text-align:center; color:#3CB371; font-size: 16px; font-weight: bold;"> 0 </td>
-            </tr>
-            <!-- NUEVA FILA -->
-    <tr class="fila-total">
-        <td colspan="2" style="padding:6px; text-align:right;">
-            CAR ADICIONAL
-        </td>
-        <td id="total-car-adicional-4"
-            style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-            0
-        </td>
-    </tr>
-        </tfoot>
+       <tfoot class="fila-total">
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-4"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL CAR
+    </td>
+    <td id="total-car-real-4"
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        CAR ADICIONAL
+    </td>
+    <td id="total-car-adicional-4"
+        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+</tfoot>
+
     </table>
 </div>
 
