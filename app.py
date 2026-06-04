@@ -2213,7 +2213,7 @@ actualizarDosPorciento();
 // NAVEGACIÓN TIPO EXCEL
 // ==============================================================================
 
-document.addEventListener("keydown", function(e){
+document.addEventListener("keydown", function(e){{
 
     const celda = document.activeElement;
 
@@ -2237,45 +2237,45 @@ document.addEventListener("keydown", function(e){
 
     const colIdx = celdasFila.indexOf(celda);
 
-    if(e.key === "ArrowDown"){
+    if(e.key === "ArrowDown"){{
         e.preventDefault();
 
         const sigFila = filas[filaIdx + 1];
 
-        if(sigFila){
+        if(sigFila){{
             const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
             if(celdas[colIdx]) celdas[colIdx].focus();
-        }
-    }
+        }}
+    }}
 
-    if(e.key === "ArrowUp"){
+    if(e.key === "ArrowUp"){{
         e.preventDefault();
 
         const antFila = filas[filaIdx - 1];
 
-        if(antFila){
+        if(antFila){{
             const celdas = antFila.querySelectorAll('[contenteditable="true"]');
             if(celdas[colIdx]) celdas[colIdx].focus();
-        }
-    }
+        }}
+    }}
 
-    if(e.key === "ArrowRight"){
+    if(e.key === "ArrowRight"){{
         e.preventDefault();
 
-        if(celdasFila[colIdx + 1]){
+        if(celdasFila[colIdx + 1]){{
             celdasFila[colIdx + 1].focus();
-        }
-    }
+        }}
+    }}
 
-    if(e.key === "ArrowLeft"){
+    if(e.key === "ArrowLeft"){{
         e.preventDefault();
 
-        if(celdasFila[colIdx - 1]){
+        if(celdasFila[colIdx - 1]){{
             celdasFila[colIdx - 1].focus();
-        }
-    }
+        }}
+    }}
 
-});
+}});
 
 // ==============================================================================
 
