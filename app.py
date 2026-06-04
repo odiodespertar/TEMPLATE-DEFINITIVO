@@ -2107,7 +2107,7 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
-             - 📌 Origen 09 + despacho de las 20:00 /21:00 hrs + onway<br>
+             - 📌 Origen 09 + onway<br>
              - ➕ Agregan ids a ciclo (revisar forms)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
