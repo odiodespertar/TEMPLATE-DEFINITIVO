@@ -1886,6 +1886,29 @@ let html = `
 </div>
 `;
 
+
+// Actualizar filas de totales de la tabla
+
+let elNoCar =
+    document.getElementById(
+        'total-no-car-' + currentTab
+    );
+
+if (elNoCar) {{
+    elNoCar.innerText = totalNoCar;
+}}
+
+let elCarReal =
+    document.getElementById(
+        'total-car-real-' + currentTab
+    );
+
+if (elCarReal) {{
+    elCarReal.innerText = totalCarReal;
+}}
+
+
+
 document.getElementById('fleet-float-body').innerHTML = html;
 
 
