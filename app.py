@@ -715,7 +715,7 @@ html body .meli-table tbody tr:last-child {{
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
         <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
+                <td id="total-no-car-2" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
                 <td id="total-car-real-2" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
@@ -737,10 +737,10 @@ html body .meli-table tbody tr:last-child {{
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
           <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
-                <td id="total-no-car-3" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+                <td id="total-no-car-1" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
-                <td id="total-car-real-3" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+                <td id="total-car-real-1" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
         </tfoot>
     </table>
@@ -758,7 +758,7 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-       <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+         <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
                 <td id="total-no-car-5" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
