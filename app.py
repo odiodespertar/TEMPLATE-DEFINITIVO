@@ -713,16 +713,7 @@ html body .meli-table tbody tr:last-child {{
             </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-        <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px;">
-    <div style="
-        width:200px;
-        margin-left:auto;
-        text-align:right;
-        font-weight:500;
-    ">
-        TOTAL MLP
-    </div>
-</td>
+                  <tfoot class="fila-total"> <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right; width:250px; max-width:250px;"> TOTAL MLP </td>
                 <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
             <tr class="fila-total"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR </td>
