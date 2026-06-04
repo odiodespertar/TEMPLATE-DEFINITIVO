@@ -2099,7 +2099,7 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
-            - 📌 Origen + despachos + onway<br>
+            - 📌 Origen + despachos (playbook - ó indicados por SVC) + onway<br>
             - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
             - ➕ Mandan ids a agregar<br>
             - ✅ delimitación / ✅ dejar restricción</p>
@@ -2108,18 +2108,18 @@ info_operativa = {
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
              - 📌 Origen 09 + onway<br>
-             - ➕ Agregan ids a ciclo (revisar forms)<br>
+             - ➕ Agregan ids a ciclo (de origen 10)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-             - 📌 Orígenes: MXCD02 despacho 16:00 / MXCD09  despacho 14:00 / MXCD10  despacho 21:00<br>
+             - 📌 Orígenes: MXCD02 despacho de hoy hasta 16:00 / MXCD09  despacho de hoy hasta 14:00 / MXCD10  despacho de hoy hasta 21:00<br>
              - 👉 Todo Onway<br>
              - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅  Validan volumen / aprox. 1900-2000<br>
-             - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h, Extendidas en Texcoco, Pueblos y Chalco</p>
+             - ✅ Validan volumen / aprox. 1900-2000<br>
+             - 🚛 Extendidas en Texcoco, Pueblos y Chalco</p>
         </div>
 
 
