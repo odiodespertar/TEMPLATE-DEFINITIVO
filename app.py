@@ -756,7 +756,7 @@ html body .meli-table tbody tr:last-child {{
     <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        CAR ADIC
+        ➕ CAR 
     </td>
     <td id="total-car-adicional-2"
         style="text-align:center;
@@ -809,7 +809,7 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        CAR ADIC
+        ➕ CAR
     </td>
     <td id="total-car-adicional-1"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
@@ -860,7 +860,7 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        CAR ADIC
+        ➕ CAR
     </td>
     <td id="total-car-adicional-5"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
@@ -912,7 +912,7 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        CAR ADIC
+        ➕ CAR
     </td>
     <td id="total-car-adicional-4"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
