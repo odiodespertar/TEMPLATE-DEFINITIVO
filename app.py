@@ -526,8 +526,8 @@ html body .meli-table tbody tr:last-child {{
     border-radius: 14px;
     padding: 16px 18px;
     z-index: 999999 !important;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 15px;
+
     
     /* Borde luminoso que atrapa el tono durazno */
     border: 2px solid #FF6347;
