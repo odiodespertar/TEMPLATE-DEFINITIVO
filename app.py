@@ -1800,6 +1800,7 @@ let htmlRight = "";
 let totalNoCar = 0;
 let totalCarReal = 0;
 let totalCarSchedule = 0;
+let totalCarAdicional = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -1820,11 +1821,28 @@ let totalCarSchedule = 0;
                 let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
                 // Acumulamos totales
-                if (isCar) {{
-                    totalCarReal += asignado;
-                }} else {{
-                    totalNoCar += asignado;
-                }}
+if (isCar) {{
+
+    if (left < 0) {{
+
+        // Solo cuenta el stock programado
+        totalCarReal += stock;
+
+        // El excedente va a CAR ADICIONAL
+        totalCarAdicional += Math.abs(left);
+
+    }} else {{
+
+        totalCarReal += asignado;
+
+    }}
+
+}} else {{
+
+    totalNoCar += asignado;
+
+}}
+
 
                 htmlLeft += `
     <div style="
@@ -1917,6 +1935,16 @@ if (elCarReal) {{
     elCarReal.innerText = totalCarReal;
 }}
 
+
+
+let elCarAdicional =
+    document.getElementById(
+        'total-car-adicional-' + currentTab
+    );
+
+if (elCarAdicional) {{
+    elCarAdicional.innerText = totalCarAdicional;
+}}
 
 
 document.getElementById('fleet-float-body').innerHTML = html;
