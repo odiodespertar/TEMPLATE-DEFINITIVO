@@ -912,8 +912,8 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<!-- CONTADOR FLOTANTE -->
-<div id="fleet-float">
+<!-- CONTADOR FLOTANTE OCULTO -->
+<div id="fleet-float" hidden>
     <div style="font-weight:bold; margin-bottom:8px;">
         🚛 DISPONIBLE
     </div>
