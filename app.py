@@ -2281,6 +2281,57 @@ document.addEventListener("keydown", function(e){{
 
 
 
+// =====================================
+// SELECCIONAR TODO AL ENTRAR A UNA CELDA
+// =====================================
+
+document.addEventListener("focusin", function(e) {{
+
+    const celda = e.target;
+
+    if (!celda.hasAttribute("contenteditable")) return;
+
+    setTimeout(() => {{
+
+        const rango = document.createRange();
+        rango.selectNodeContents(celda);
+
+        const seleccion = window.getSelection();
+        seleccion.removeAllRanges();
+        seleccion.addRange(rango);
+
+    }}, 0);
+
+}});
+
+
+
+
+// =====================================
+// SELECCIONAR TODO AL ENTRAR A UNA CELDA
+// =====================================
+
+document.addEventListener("focusin", function(e) {{
+
+    const celda = e.target;
+
+    if (!celda.hasAttribute("contenteditable")) return;
+
+    setTimeout(() => {{
+
+        const rango = document.createRange();
+        rango.selectNodeContents(celda);
+
+        const seleccion = window.getSelection();
+        seleccion.removeAllRanges();
+        seleccion.addRange(rango);
+
+    }}, 0);
+
+}});
+
+
+
 
 dragElement(document.getElementById("fleet-float"));
 // o dragElement(document.getElementById("panel-flota"));
