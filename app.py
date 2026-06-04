@@ -1814,6 +1814,14 @@ function distribuirAutomatico() {{
 // permitir seguir usando la unidad especial 
 if (!unidad) {{
 
+console.log("TAB:", currentTab);
+    console.log("FLEET COMPLETA:", fleet);
+
+    console.log(
+        fleet.map(f => f.nombre)
+    );
+
+    
     if (currentTab == 4) {{         // SDE
 
         unidad =
