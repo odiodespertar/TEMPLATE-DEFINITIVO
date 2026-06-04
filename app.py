@@ -2209,6 +2209,79 @@ actualizarDosPorciento();
 
 
 
+// ==============================================================================
+// NAVEGACIÓN TIPO EXCEL
+// ==============================================================================
+
+document.addEventListener("keydown", function(e){
+
+    const celda = document.activeElement;
+
+    if (!celda || !celda.hasAttribute("contenteditable")) return;
+
+    const fila = celda.closest("tr");
+    if (!fila) return;
+
+    const tabla = fila.closest("table");
+    if (!tabla) return;
+
+    const filas = Array.from(
+        tabla.querySelectorAll("tbody tr")
+    );
+
+    const filaIdx = filas.indexOf(fila);
+
+    const celdasFila = Array.from(
+        fila.querySelectorAll('[contenteditable="true"]')
+    );
+
+    const colIdx = celdasFila.indexOf(celda);
+
+    if(e.key === "ArrowDown"){
+        e.preventDefault();
+
+        const sigFila = filas[filaIdx + 1];
+
+        if(sigFila){
+            const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
+            if(celdas[colIdx]) celdas[colIdx].focus();
+        }
+    }
+
+    if(e.key === "ArrowUp"){
+        e.preventDefault();
+
+        const antFila = filas[filaIdx - 1];
+
+        if(antFila){
+            const celdas = antFila.querySelectorAll('[contenteditable="true"]');
+            if(celdas[colIdx]) celdas[colIdx].focus();
+        }
+    }
+
+    if(e.key === "ArrowRight"){
+        e.preventDefault();
+
+        if(celdasFila[colIdx + 1]){
+            celdasFila[colIdx + 1].focus();
+        }
+    }
+
+    if(e.key === "ArrowLeft"){
+        e.preventDefault();
+
+        if(celdasFila[colIdx - 1]){
+            celdasFila[colIdx - 1].focus();
+        }
+    }
+
+});
+
+// ==============================================================================
+
+
+
+
 dragElement(document.getElementById("fleet-float"));
 // o dragElement(document.getElementById("panel-flota"));
 
