@@ -1454,7 +1454,7 @@ if (vT === 0) {{
                 if (diff < 0) {{
                     cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#d32f2f";
+                    cL.style.color = "white"; cL.style.background = "#f05d5d";
                 }} else {{
                     cL.style.color = "#0e4c6e"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
