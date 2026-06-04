@@ -522,7 +522,7 @@ html body .meli-table tbody tr:last-child {{
         rgba(255, 215, 157, 0.4)  /* durazno pastel */
     );
     
-    color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    color: #125276; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
     border-radius: 14px;
     padding: 16px 18px;
     z-index: 999999 !important;
@@ -1822,7 +1822,7 @@ let totalCarSchedule = 0;
         justify-content:space-between;
         margin-bottom:4px;
         font-size:14px;">
-        <span style="color:#135b83;">${{name}}</span>
+        <span style="color:#125276;">${{name}}</span>
         <span style="
             color:${{colorCategoria}};
             font-weight:bold;">
