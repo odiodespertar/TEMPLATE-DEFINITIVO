@@ -1698,9 +1698,11 @@ if (!unidad) {{
 
     if (currentTab == 4) {{          // SDE
     nombreExtra = "Car - 5h";
+    nombreExtra = "Car - 3h";
 }}
 else if (currentTab == 2) {{     // C1
     nombreExtra = "Car - 8h";
+    nombreExtra = "Car - 5h";
 }}
 else if (currentTab == 1) {{     // PREC SMX5
     nombreExtra = "Car - 8h";
@@ -1718,7 +1720,9 @@ else if (currentTab == 5) {{     // PREC SMX2
 console.log("TAB:", currentTab);
 console.log("FLEET COMPLETA:", fleet);
 console.log("BUSCANDO:", nombreExtra);
-
+console.log(
+    fleet.map(f => f.nombre)
+);
 
     if (!unidad) break;
 }}
