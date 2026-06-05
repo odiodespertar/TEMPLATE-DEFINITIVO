@@ -105,13 +105,11 @@ def gen_master_rows(data_dict, table_id):
 
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
-
-
-    # --- AÑADE ESTO AQUÍ ---
-LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H", "TRAILER 10H"]
-OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
-# -----------------------
-
+    
+    # --- MIRA AQUÍ: Tienen 4 espacios de sangría (se ven alineadas con las líneas de arriba) ---
+    LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H", "TRAILER 10H"]
+    OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
+    # ------------------------------------------------------------------------------------------
     
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
