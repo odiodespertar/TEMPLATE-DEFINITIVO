@@ -1783,6 +1783,15 @@ function distribuirAutomatico() {{
         }}
     }});
 
+
+
+    console.log(
+    "FLEET SMX2:",
+    fleet.map(f => f.nombre)
+);
+
+
+        
     // =========================================
     // 3. PRIORIDAD MAYOR SPR
     // =========================================
