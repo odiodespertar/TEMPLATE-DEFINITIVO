@@ -105,6 +105,11 @@ def gen_master_rows(data_dict, table_id):
 
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+
+    # --- LISTA MAESTRA DE UNIDADES ---
+    LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H"]
+    OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
+
     
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -206,9 +211,10 @@ def gen_poligonos(data_target=None):
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+        <td style="border: 0.5px solid #135b83; padding: 2px;">
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
                 <option value="">Seleccionar...</option>
+                {OPTIONS_HTML}
             </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
@@ -3262,6 +3268,28 @@ console.log(
         document.onmousemove = null;
     }}
 }}
+
+
+<script>
+    // ... (aquí debe estar tu código existente de changeTab y ejecutarTodo) ...
+
+    // --- AGREGA ESTO AQUÍ DENTRO ---
+    document.addEventListener('change', function(e) {{
+        if (e.target.classList.contains('s-type')) {{
+            if (typeof updateSelectColor === 'function') updateSelectColor(e.target);
+            if (typeof recalc === 'function') recalc();
+        }}
+    }});
+
+    document.addEventListener('input', function(e) {{
+        if (e.target.classList.contains('u-manual') || e.target.classList.contains('spr-real-val')) {{
+            if (typeof recalc === 'function') recalc();
+        }}
+    }});
+    // --------------------------------
+
+    // ... (tu código de dragElement existente) ...
+
 
 
     
