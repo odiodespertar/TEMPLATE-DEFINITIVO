@@ -3264,34 +3264,6 @@ console.log(
 }}
 
 
-<script>
-// Detectar escritura en "Vol. Total" para habilitar el selector
-document.addEventListener('input', function(e) {{
-    if (e.target && e.target.classList.contains('v-total-val')) {{
-        let fila = e.target.closest('tr');
-        let selector = fila.querySelector('.s-type');
-        if (selector) {{
-            selector.disabled = false; // Habilita el select
-            selector.style.opacity = "1"; // Lo hace visible
-        }}
-    }}
-}});
-
-// Función para añadir fila sin "romper" nada
-function añadirFila(btn) {{
-    let tr = btn.closest('tr');
-    let tbody = tr.parentNode;
-    let clon = tr.cloneNode(true);
-    
-    // Limpiamos los valores de la copia
-    clon.querySelectorAll('.u-manual, .spr-real-val, .v-total-val').forEach(el => {{
-        el.innerText = '0';
-    }});
-    
-    tbody.insertBefore(clon, tr.nextSibling);
-}}
-</script>
-
     
 </script>
 </body>
