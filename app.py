@@ -106,7 +106,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
-    num_filas_objetivo = 45 if table_id == "PREC" else 4
+    num_filas_objetivo = 45 if table_id == "PREC" else 6
     rango_final = max(total_items, num_filas_objetivo)
     
     for i in range(1, rango_final + 1):
@@ -126,7 +126,7 @@ def gen_master_rows(data_dict, table_id):
         if "---" in name:
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="5" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="4" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
@@ -149,25 +149,9 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 
-                <td contenteditable="true" class="f-stock" oninput="recalc()"
-    style="text-align: center; border: 0.2px solid #135b83;
-           width: 55px; font-weight: bold; font-size: 13px;">
-    0
-</td>
-
-<td class="f-left"
-    style="
-        text-align:center;
-        border:0.2px solid #135b83;
-        width:45px;
-        font-weight:bold;
-        color:#135b83;
-        border-radius:2px;
-    ">
-    0
-</td>
-
- </tr>''' 
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td class="f-left" style="display:none; width: 0px; padding: 0px;">0</td>
+            </tr>''' 
     return rows
 
 
@@ -216,7 +200,7 @@ def gen_poligonos(data_target=None):
 
     for i in range(1, 11):
         if data_target == u_PREC and (i-1) < len(nombres_prec):
-            nombre_final = nombres_prec[i-1] 
+            nombre_final = nombres_prec[i-1]
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2): 
             nombre_final = nombres_smx2[i-1] 
         else:
@@ -390,8 +374,8 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
 
 /* Redondear las esquinas de las filas */
-        .meli-table td:first-child {{ border-radius: 3px 0 0 3px; }}
-        .meli-table td:last-child {{ border-radius: 0 3px 3px 0; }}
+        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
+        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
 
         
         #google-alert {{ 
@@ -538,12 +522,11 @@ html body .meli-table tbody tr:last-child {{
         rgba(255, 215, 157, 0.4)  /* durazno pastel */
     );
     
-    color: #0a2745; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    color: #135b83; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
     border-radius: 14px;
     padding: 16px 18px;
     z-index: 999999 !important;
-    font-size: 15px;
-
+    font-size: 14px;
     
     /* Borde luminoso que atrapa el tono durazno */
     border: 2px solid #FF6347;
@@ -652,6 +635,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
+
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
 
@@ -665,7 +649,7 @@ html body .meli-table tbody tr:last-child {{
     margin-bottom:10px;
 ">
 
-        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
        
         
         <div id="dos-pct-global"
@@ -725,80 +709,16 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:60px;">
-    SCHEDULE
-</th>
-
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:50px;">
-    DELTA
-</th>
-</tr>
-
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
+            </tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-                  <tfoot class="fila-total"> 
-                  <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-2"
-        style="text-align:center;
-               color:#135b83;
-               font-size:16px;
-               font-weight:bold;">
-        0
-    </td>
-</tr>
-
-            
-            <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2"
-        style="
-            padding:6px;
-            text-align:right;
-        ">
-        TOTAL CAR
-    </td>
-    <td id="total-car-real-2"
-        style="
-            text-align:center;
-            color:#3CB371;
-            font-size:16px;
-            font-weight:bold;
-        ">
-        0
-    </td>
-</tr>
-
-
-
+        <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car-2" style="text-align:center; color:#135b83; font-size: 16px; font-weight: bold;"> 0 </td>
             </tr>
-<!-- NUEVA FILA -->
-    <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR 
-    </td>
-    <td id="total-car-adicional-2"
-        style="text-align:center;
-               color:#FF4500;
-               font-size:16px;
-               font-weight:bold;">
-        0
-    </td>
-</tr>       
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real-2" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
         </tfoot>
     </table>
 </div>
@@ -811,64 +731,17 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:60px;">
-    SCHEDULE
-</th>
-
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:50px;">
-    DELTA
-</th>
-</tr>
-            
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
-          <tfoot class="fila-total">
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-1"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
-    </td>
-    <td id="total-car-real-1"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
-    </td>
-    <td id="total-car-adicional-1"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-</tfoot>
+          <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car-3" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real-3" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
@@ -880,64 +753,17 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:60px;">
-    SCHEDULE
-</th>
-
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:50px;">
-    DELTA
-</th>
-</tr>
-            
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-         <tfoot class="fila-total">
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-5"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
-    </td>
-    <td id="total-car-real-5"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
-    </td>
-    <td id="total-car-adicional-5"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-</tfoot>
-
+       <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car-5" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real-5" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
@@ -950,64 +776,17 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:60px;">
-    SCHEDULE
-</th>
-
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:50px;">
-    DELTA
-</th>
-</tr>
-            
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-       <tfoot class="fila-total">
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-4"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
-    </td>
-    <td id="total-car-real-4"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
-    </td>
-    <td id="total-car-adicional-4"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-</tfoot>
-
+       <tfoot class="fila-total"> <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL MLP </td>
+                <td id="total-no-car-4" style="text-align:center; color:#FF00FF; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+            <tr class="fila-total" style="display: none !important;"> <td colspan="3" style="padding:6px; text-align:right;"> TOTAL CAR REAL </td>
+                <td id="total-car-real-4" style="text-align:center; color:#20B2AA; font-size: 16px; font-weight: bold;"> 0 </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
@@ -1018,7 +797,7 @@ html body .meli-table tbody tr:last-child {{
 
 
         
-        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO --> 
+        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO -->
         <div class="tools-panel">
             
         
@@ -1092,8 +871,8 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<!-- CONTADOR FLOTANTE OCULTO -->
-<div id="fleet-float" hidden>
+<!-- CONTADOR FLOTANTE -->
+<div id="fleet-float">
     <div style="font-weight:bold; margin-bottom:8px;">
         🚛 DISPONIBLE
     </div>
@@ -1346,8 +1125,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         row.style.background = "white"; 
         // Eliminamos row.style.color para no forzar toda la fila 
         fs.style.background = "#ffecdb"; 
-        mi.style.background = "#edf7f7"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-        ma.style.background = "#edf7f7"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+        mi.style.background = "#e4f2f2"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
+        ma.style.background = "#e4f2f2"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
         
         // Ponemos nombre en NEGRO
         nameCell.style.color = "#0e4c6e";
@@ -1462,7 +1241,7 @@ if (vT === 0) {{
                 if (diff < 0) {{
                     cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#f05d5d";
+                    cL.style.color = "white"; cL.style.background = "#d32f2f";
                 }} else {{
                     cL.style.color = "#0e4c6e"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
@@ -1687,33 +1466,6 @@ actualizarDosPorciento();
     }});
 
 
-
-function obtenerCarFlexible() {{
-
-    const opciones = [
-        "Car - 8h",
-        "Car - 5h",
-        "Car - 3h"
-    ];
-
-    for (let nombre of opciones) {{
-
-        let unidad = fleet.find(f =>
-            f.nombre === nombre &&
-            f.stock > 0
-        );
-
-        if (unidad) {{
-            return unidad;
-        }}
-    }}
-
-    return null;
-}}
-
-
-
-
 function distribuirAutomatico() {{
 
     // =========================================
@@ -1894,250 +1646,41 @@ function distribuirAutomatico() {{
             // BUSCAR MEJOR UNIDAD DISPONIBLE
             // =================================
 
-
-
-
-let nombrePlan =
-    bloque.querySelector(
-        'tbody tr.calc-row td[rowspan]'
-    )?.innerText.trim().toUpperCase() || "";
-
-
-
-
-let unidad = null;
-
-// =====================================
-// SMX5
-// =====================================
-
-if (currentTab == 1) {
-
-    if (
-        nombrePlan.includes("CHALCO") ||
-        nombrePlan.includes("IZTAPALAPA")
-    ) {
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Small 9h Ext Car") &&
-                f.restante > 0
-            );
-    }
-
-    if (!unidad) {
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 8h") &&
-                f.restante > 0
-            );
-    }
-
-    if (!unidad) {
-        unidad =
-            fleet.find(f => f.restante > 0);
-    }
-}
-
-// =====================================
-// SMX2
-// =====================================
-
-else if (currentTab == 5) {{
-
-    // IZTAPALAPA 1 Y 2
-    if (
-        nombrePlan.includes("IZTAPALAPA 1") ||
-        nombrePlan.includes("IZTAPALAPA 2")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Small Van SDD") &&
-                f.restante > 0
-            );
-    }}
-
-    // LA PAZ
-    if (
-        !unidad &&
-        nombrePlan.includes("LA PAZ")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Small Van SDD") &&
-                f.restante > 0
-            );
-    }}
-
-    // PUEBLOS
-    if (
-        !unidad &&
-        nombrePlan.includes("PUEBLOS")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car Zona Extendida") &&
-                f.restante > 0
-            );
-    }}
-
-    // TEXCOCO
-    if (
-        !unidad &&
-        nombrePlan.includes("TEXCOCO")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car Zona Extendida") &&
-                f.restante > 0
-            );
-    }}
-
-    // CHALCO
-    if (
-        !unidad &&
-        nombrePlan.includes("CHALCO")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Small 9h Ext Car") &&
-                f.restante > 0
-            );
-
-        if (!unidad) {{
-
-            unidad =
-                fleet.find(f =>
-                    f.nombre.includes("Car Zona Extendida") &&
-                    f.restante > 0
-                );
-        }}
-    }}
-
-    // CHIMAS
-    if (
-        !unidad &&
-        nombrePlan.includes("CHIMAS")
-    ) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Small 9h Ext Car") &&
-                f.restante > 0
-            );
-    }}
-
-    // RESPALDO
-    if (!unidad) {{
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 8h") &&
-                f.restante > 0
-            );
-    }}
-
-    if (!unidad) {{
-
-        unidad =
-            fleet.find(f => f.restante > 0);
-    }}
-}}
-
-// =====================================
-// RESTO DE PESTAÑAS
-// =====================================
-
-else {{
-
-    unidad =
-        fleet.find(f => f.restante > 0);
-}}
-
-                      
+            let unidad =
+    fleet.find(f => f.restante > 0);
 
 // Si ya no hay unidades disponibles,
-// permitir seguir usando la unidad especial 
+// permitir seguir usando la unidad especial
 if (!unidad) {{
 
-console.log("TAB:", currentTab);
-    console.log("FLEET COMPLETA:", fleet);
+    let nombreExtra = null;
 
-    console.log(
-        fleet.map(f => f.nombre)
-    );
+    if (currentTab == 4) {{          // SDE
+    nombreExtra = "Car - 5h";
+}}
+else if (currentTab == 2) {{     // C1
+    nombreExtra = "Car - 8h";
+}}
+else if (currentTab == 1) {{     // PREC SMX5
+    nombreExtra = "Car - 8h";
+}}
+else if (currentTab == 5) {{     // PREC SMX2
+    nombreExtra = "Car - 8h";
+}}
 
-    
-    if (currentTab == 4) {{         // SDE
-
+    if (nombreExtra) {{
         unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 5h")
-            );
-
-        if (!unidad) {{
-            unidad =
-                fleet.find(f =>
-                    f.nombre.includes("Car - 3h")
-                );
-        }}
-
-    }} else if (currentTab == 2) {{   // C1
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 8h")
-            );
-
-        if (!unidad) {{
-            unidad =
-                fleet.find(f =>
-                    f.nombre.includes("Car - 5h")
-                );
-        }}
-
-}} else if (currentTab == 1) {{   // PREC SMX5
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 8h")
-            );
-
-        if (!unidad) {{
-            unidad =
-                fleet.find(f =>
-                    f.nombre.includes("Car - 5h")
-                );
-        }}
-
-}} else if (currentTab == 5) {{   // PREC SMX2
-
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 8h")
-            );
-
-        if (!unidad) {{
-            unidad =
-                fleet.find(f =>
-                    f.nombre.includes("Car - 5h")
-                );
-        }}
+            fleet.find(f => f.nombre === nombreExtra);
     }}
 
-    console.log("TAB:", currentTab);
-    console.log("FLEET COMPLETA:", fleet);
+
+console.log("TAB:", currentTab);
+console.log("FLEET COMPLETA:", fleet);
+console.log("BUSCANDO:", nombreExtra);
+
 
     if (!unidad) break;
 }}
-
-
 
             // =================================
             // CALCULAR NECESARIAS
@@ -2246,7 +1789,6 @@ let htmlRight = "";
 let totalNoCar = 0;
 let totalCarReal = 0;
 let totalCarSchedule = 0;
-let totalCarAdicional = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -2267,28 +1809,11 @@ let totalCarAdicional = 0;
                 let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
                 // Acumulamos totales
-if (isCar) {{
-
-    if (left < 0) {{
-
-        // Solo cuenta el stock programado
-        totalCarReal += stock;
-
-        // El excedente va a CAR ADICIONAL
-        totalCarAdicional += Math.abs(left);
-
-    }} else {{
-
-        totalCarReal += asignado;
-
-    }}
-
-}} else {{
-
-    totalNoCar += asignado;
-
-}}
-
+                if (isCar) {{
+                    totalCarReal += asignado;
+                }} else {{
+                    totalNoCar += asignado;
+                }}
 
                 htmlLeft += `
     <div style="
@@ -2296,7 +1821,7 @@ if (isCar) {{
         justify-content:space-between;
         margin-bottom:4px;
         font-size:14px;">
-        <span style="color:#0a2745;">${{name}}</span>
+        <span style="color:#135b83;">${{name}}</span>
         <span style="
             color:${{colorCategoria}};
             font-weight:bold;">
@@ -2313,7 +1838,7 @@ if (isCar) {{
             <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 16px;">
+<div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 16px;">
     <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
 </div>
         
@@ -2359,39 +1884,6 @@ let html = `
 
 </div>
 `;
-
-
-// Actualizar filas de totales de la tabla
-
-let elNoCar =
-    document.getElementById(
-        'total-no-car-' + currentTab
-    );
-
-if (elNoCar) {{
-    elNoCar.innerText = totalNoCar;
-}}
-
-let elCarReal =
-    document.getElementById(
-        'total-car-real-' + currentTab
-    );
-
-if (elCarReal) {{
-    elCarReal.innerText = totalCarReal;
-}}
-
-
-
-let elCarAdicional =
-    document.getElementById(
-        'total-car-adicional-' + currentTab
-    );
-
-if (elCarAdicional) {{
-    elCarAdicional.innerText = "-" + totalCarAdicional;
-}}
-
 
 document.getElementById('fleet-float-body').innerHTML = html;
 
@@ -2465,130 +1957,6 @@ document.addEventListener('input', (e) => {{
 window.addEventListener('load', actualizarSelects);
 actualizarDosPorciento();
 // ==============================================================================
-
-
-
-
-// ==============================================================================
-// NAVEGACIÓN TIPO EXCEL
-// ==============================================================================
-
-document.addEventListener("keydown", function(e){{
-
-    const celda = document.activeElement;
-
-    if (!celda || !celda.hasAttribute("contenteditable")) return;
-
-    const fila = celda.closest("tr");
-    if (!fila) return;
-
-    const tabla = fila.closest("table");
-    if (!tabla) return;
-
-    const filas = Array.from(
-        tabla.querySelectorAll("tbody tr")
-    );
-
-    const filaIdx = filas.indexOf(fila);
-
-    const celdasFila = Array.from(
-        fila.querySelectorAll('[contenteditable="true"]')
-    );
-
-    const colIdx = celdasFila.indexOf(celda);
-
-    if(e.key === "ArrowDown"){{
-        e.preventDefault();
-
-        const sigFila = filas[filaIdx + 1];
-
-        if(sigFila){{
-            const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
-            if(celdas[colIdx]) celdas[colIdx].focus();
-        }}
-    }}
-
-    if(e.key === "ArrowUp"){{
-        e.preventDefault();
-
-        const antFila = filas[filaIdx - 1];
-
-        if(antFila){{
-            const celdas = antFila.querySelectorAll('[contenteditable="true"]');
-            if(celdas[colIdx]) celdas[colIdx].focus();
-        }}
-    }}
-
-    if(e.key === "ArrowRight"){{
-        e.preventDefault();
-
-        if(celdasFila[colIdx + 1]){{
-            celdasFila[colIdx + 1].focus();
-        }}
-    }}
-
-    if(e.key === "ArrowLeft"){{
-        e.preventDefault();
-
-        if(celdasFila[colIdx - 1]){{
-            celdasFila[colIdx - 1].focus();
-        }}
-    }}
-
-}});
-
-// ==============================================================================
-
-
-
-// =====================================
-// SELECCIONAR TODO AL ENTRAR A UNA CELDA
-// =====================================
-
-document.addEventListener("focusin", function(e) {{
-
-    const celda = e.target;
-
-    if (!celda.hasAttribute("contenteditable")) return;
-
-    setTimeout(() => {{
-
-        const rango = document.createRange();
-        rango.selectNodeContents(celda);
-
-        const seleccion = window.getSelection();
-        seleccion.removeAllRanges();
-        seleccion.addRange(rango);
-
-    }}, 0);
-
-}});
-
-
-
-
-// =====================================
-// SELECCIONAR TODO AL ENTRAR A UNA CELDA
-// =====================================
-
-document.addEventListener("focusin", function(e) {{
-
-    const celda = e.target;
-
-    if (!celda.hasAttribute("contenteditable")) return;
-
-    setTimeout(() => {{
-
-        const rango = document.createRange();
-        rango.selectNodeContents(celda);
-
-        const seleccion = window.getSelection();
-        seleccion.removeAllRanges();
-        seleccion.addRange(rango);
-
-    }}, 0);
-
-}});
 
 
 
@@ -2730,7 +2098,7 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
             <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
-            - 📌 Origen + despachos (playbook - ó indicados por SVC) + onway<br>
+            - 📌 Origen + despachos + onway<br>
             - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
             - ➕ Mandan ids a agregar<br>
             - ✅ delimitación / ✅ dejar restricción</p>
@@ -2738,19 +2106,19 @@ info_operativa = {
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
-             - 📌 Origen 09 + onway<br>
-             - ➕ Agregan ids a ciclo (de origen 10)<br>
+             - 📌 Origen 09 + despacho de las 20:00 /21:00 hrs + onway<br>
+             - ➕ Agregan ids a ciclo (revisar forms)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
         </div>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-             - 📌 Orígenes: MXCD02 despacho de hoy hasta 16:00 / MXCD09  despacho de hoy hasta 14:00 / MXCD10  despacho de hoy hasta 21:00<br>
+             - 📌 Orígenes: MXCD02 despacho 16:00 / MXCD09  despacho 14:00 / MXCD10  despacho 21:00<br>
              - 👉 Todo Onway<br>
              - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅ Validan volumen / aprox. 1900-2000<br>
-             - 🚛 Extendidas en Texcoco, Pueblos y Chalco</p>
+             - ✅  Validan volumen / aprox. 1900-2000<br>
+             - 🚛 Revisar si se usa MLP hasta ahora solo Crowd 8h, Extendidas en Texcoco, Pueblos y Chalco</p>
         </div>
 
 
