@@ -3092,10 +3092,26 @@ console.log("TAB:", currentTab);
 
     }} else if (currentTab == 2) {{   // C1
 
+
+console.log(
+    "BUSCANDO CAR 8H:",
+    fleet.map(f => ({{
+        nombre: f.nombre,
+        restante: f.restante
+    }}))
+);
+
+                                  
         unidad =
             fleet.find(f =>
                 f.nombre.includes("Car - 8h")
             );
+
+
+console.log(
+    "UNIDAD ESPECIAL:",
+    unidad
+);
 
         if (!unidad) {{
             unidad =
