@@ -1831,6 +1831,11 @@ function distribuirAutomatico() {{
 
         let bloque = poly.bloque;
 
+       console.log(
+        "PLAN:",
+        bloque.querySelector('td[rowspan]')?.innerText
+    );
+
         let objetivo =
             parseFloat(
                 bloque.querySelector('.v-total-val')?.innerText
