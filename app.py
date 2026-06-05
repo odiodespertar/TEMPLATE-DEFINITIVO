@@ -173,31 +173,26 @@ def gen_master_rows(data_dict, table_id):
 
 
 def gen_poligonos(data_target=None):
-    # 1. Definir estilos y variables PRIMERO
+    # 1. INICIALIZAR VARIABLES (Solo una vez)
+    polys = ""
+    
+    # 2. ESTILOS (DEFINICIÓN ÚNICA)
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
     span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
     
-    # 2. Definir tus opciones LOCALMENTE (para evitar el NameError de OPTIONS_HTML)
+    # 3. OPCIONES DEL SELECT
     lista_unidades = ["CAR 8H", "VAN 5H", "MOTO 3H"]
     html_opciones = "".join([f'<option value="{u}">{u}</option>' for u in lista_unidades])
-    
-    # 3. Definir tus listas de nombres
+
+    # 4. LISTAS DE NOMBRES
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
-    # Contenedor flex con ancho bloqueado al 100% de la celda
-    div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
-    
-    # Cajas de texto para números (Unidades y SPR)
-    span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
-    span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
-    
-    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
-    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
-
+    # 5. CONSTRUCCIÓN DE LA FILA (fila_inner)
+    # IMPORTANTE: Aquí usamos {html_opciones} en lugar del <option> vacío
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -215,7 +210,7 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
                 <option value="">Seleccionar...</option>
                 {html_opciones}
             </select>
