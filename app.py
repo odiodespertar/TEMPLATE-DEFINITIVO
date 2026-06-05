@@ -2273,12 +2273,14 @@ function actualizarSelects() {{
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            // Identifica si la fila es manual
+            let esManual = row.classList.contains('u-manual'); 
             let nameLower = name.toLowerCase();
 
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
             
-            // Si permite negativos o aún tiene stock, la agregamos al select
-            if (permiteNegativos || stock > left) {{
+            // LA CLAVE: Si es manual O permite negativos O tiene stock, la muestra
+            if (esManual || permiteNegativos || stock > left) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
@@ -2289,16 +2291,22 @@ function actualizarSelects() {{
     }});
 }}
 
-// Este bloque ahora llama a recalc() en lugar de a actualizarSelects
+// --- ESTE ES EL BLOQUE CORREGIDO ---
+
+// Escucha cambios en cualquier parte de la tabla para recalcular y refrescar la lista
 document.addEventListener('input', (e) => {{
-    if (e.target.classList.contains('f-stock') || e.target.classList.contains('u-manual')) {{
+    // Si el cambio ocurre en cualquier fila de la tabla, recalcula y actualiza la lista
+    if (e.target.closest('tr')) {{
         recalc(); 
+        actualizarSelects(); 
     }}
 }});
 
-// Esto asegura que al cargar la página ya esté filtrado
-window.addEventListener('load', actualizarSelects);
-actualizarDosPorciento();
+// Esto asegura que al cargar la página todo esté listo
+window.addEventListener('load', () => {{
+    actualizarSelects();
+    actualizarDosPorciento();
+}});
 // ==============================================================================
 
 
