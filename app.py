@@ -1894,8 +1894,173 @@ function distribuirAutomatico() {{
             // BUSCAR MEJOR UNIDAD DISPONIBLE
             // =================================
 
-            let unidad =
-    fleet.find(f => f.restante > 0);
+
+
+
+let nombrePlan =
+    bloque.querySelector(
+        'tbody tr.calc-row td[rowspan]'
+    )?.innerText.trim().toUpperCase() || "";
+
+
+
+
+let unidad = null;
+
+// =====================================
+// SMX5
+// =====================================
+
+if (currentTab == 1) {
+
+    if (
+        nombrePlan.includes("CHALCO") ||
+        nombrePlan.includes("IZTAPALAPA")
+    ) {
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Small 9h Ext Car") &&
+                f.restante > 0
+            );
+    }
+
+    if (!unidad) {
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Car - 8h") &&
+                f.restante > 0
+            );
+    }
+
+    if (!unidad) {
+        unidad =
+            fleet.find(f => f.restante > 0);
+    }
+}
+
+// =====================================
+// SMX2
+// =====================================
+
+else if (currentTab == 5) {{
+
+    // IZTAPALAPA 1 Y 2
+    if (
+        nombrePlan.includes("IZTAPALAPA 1") ||
+        nombrePlan.includes("IZTAPALAPA 2")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Small Van SDD") &&
+                f.restante > 0
+            );
+    }}
+
+    // LA PAZ
+    if (
+        !unidad &&
+        nombrePlan.includes("LA PAZ")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Small Van SDD") &&
+                f.restante > 0
+            );
+    }}
+
+    // PUEBLOS
+    if (
+        !unidad &&
+        nombrePlan.includes("PUEBLOS")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Car Zona Extendida") &&
+                f.restante > 0
+            );
+    }}
+
+    // TEXCOCO
+    if (
+        !unidad &&
+        nombrePlan.includes("TEXCOCO")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Car Zona Extendida") &&
+                f.restante > 0
+            );
+    }}
+
+    // CHALCO
+    if (
+        !unidad &&
+        nombrePlan.includes("CHALCO")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Small 9h Ext Car") &&
+                f.restante > 0
+            );
+
+        if (!unidad) {{
+
+            unidad =
+                fleet.find(f =>
+                    f.nombre.includes("Car Zona Extendida") &&
+                    f.restante > 0
+                );
+        }}
+    }}
+
+    // CHIMAS
+    if (
+        !unidad &&
+        nombrePlan.includes("CHIMAS")
+    ) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Small 9h Ext Car") &&
+                f.restante > 0
+            );
+    }}
+
+    // RESPALDO
+    if (!unidad) {{
+
+        unidad =
+            fleet.find(f =>
+                f.nombre.includes("Car - 8h") &&
+                f.restante > 0
+            );
+    }}
+
+    if (!unidad) {{
+
+        unidad =
+            fleet.find(f => f.restante > 0);
+    }}
+}}
+
+// =====================================
+// RESTO DE PESTAÑAS
+// =====================================
+
+else {{
+
+    unidad =
+        fleet.find(f => f.restante > 0);
+}}
+
+                      
 
 // Si ya no hay unidades disponibles,
 // permitir seguir usando la unidad especial 
