@@ -107,7 +107,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
     # --- MIRA AQUÍ: Tienen 4 espacios de sangría (se ven alineadas con las líneas de arriba) ---
-    LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H", "TRAILER 10H"]
+    LISTA_UNIDADES = ["Car - 8h", "Car - 5h", "Car - 3"]
     OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
     # ------------------------------------------------------------------------------------------
     
@@ -176,6 +176,13 @@ def gen_master_rows(data_dict, table_id):
     return rows
 
 
+nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    
+    # --- MIRA AQUÍ: Tienen 4 espacios de sangría (se ven alineadas con las líneas de arriba) ---
+    LISTA_UNIDADES = ["Car - 8h", "Car - 5h", "Car - 3"]
+    OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
+
 
 def gen_poligonos(data_target=None):
     polys = ""
@@ -201,10 +208,6 @@ def gen_poligonos(data_target=None):
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
 
 
-   
-
-
-
     
     fila_inner = f'''
     <tr class="calc-row">
@@ -223,11 +226,11 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
-                <option value="">Seleccionar...</option>
-                {OPTIONS_HTML}
-            </select>
-        </td>
+    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+        <option value="">Seleccionar...</option>
+        {OPTIONS_HTML}
+    </select>
+</td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
