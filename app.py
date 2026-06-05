@@ -42,7 +42,7 @@ u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [2
 
 u_PREC = {      
     "Car - 8h": [70, 75],
-    "Small 9h Ext Car": [70, 75]
+    "Small 9h Ext Car": [70, 75] 
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
