@@ -2400,21 +2400,7 @@ smallVan.restante -= usar;
 // =================================
 
 let unidad =
-    fleet.find(f => {{
-
-        if (
-            currentTab == 5 &&
-            f.nombre.includes("Small Van SDD") &&
-            (
-                nombrePlan === "PUEBLOS" ||
-                nombrePlan === "TEXCOCO"
-            )
-        ) {{
-            return false;
-        }}
-
-        return f.restante > 0;
-    }});
+    fleet.find(f => f.restante > 0);
 
 
 
