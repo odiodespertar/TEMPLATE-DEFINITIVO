@@ -3261,28 +3261,32 @@ console.log(
 
 
 
-// --- ESTO SOLUCIONA QUE LOS MENÚS FUNCIONEN AL CAMBIAR DE PESTAÑA ---
-    const observer = new MutationObserver((mutations) => {{
-        // Cada vez que changeTab inyecta nuevo HTML en #visor, esto se ejecuta
-        const selects = document.querySelectorAll('.s-type');
-        selects.forEach(s => {{
-            s.onchange = function() {{
-                if(typeof updateSelectColor === 'function') updateSelectColor(this);
-                if(typeof recalc === 'function') recalc();
-            }};
-        }});
-    }});
-
+<script>
+// Usamos window.onload para asegurar que TODO esté cargado antes de empezar
+window.addEventListener('load', function() {{
     const visor = document.getElementById('visor');
+    
     if (visor) {{
-        observer.observe(visor, { childList: true, subtree: true });
-    }}
-    // --------------------------------------------------------------------
+        const observer = new MutationObserver(function(mutations) {{
+            // Cuando algo cambie en el visor, reactivamos eventos
+            // Usamos un pequeño delay para asegurar que el DOM se haya actualizado
+            setTimeout(reactivarInteractividad, 100);
+        }});
 
-    function closeDragElement() {{
-        document.onmouseup = null;
-        document.onmousemove = null;
+        observer.observe(visor, {{ childList: true, subtree: true }});
     }}
+}});
+
+function reactivarInteractividad() {{
+    const selects = document.querySelectorAll('.s-type');
+    selects.forEach(s => {{
+        s.onchange = function() {{
+            if(typeof updateSelectColor === 'function') updateSelectColor(this);
+            if(typeof recalc === 'function') recalc();
+        }};
+    }});
+}}
+</script>
 
 
 
