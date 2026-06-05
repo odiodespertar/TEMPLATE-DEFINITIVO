@@ -664,7 +664,7 @@ html body .meli-table tbody tr:last-child {{
     margin-bottom:10px;
 ">
 
-        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 3px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
        
         
         <div id="dos-pct-global"
