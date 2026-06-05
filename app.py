@@ -1737,10 +1737,12 @@ function distribuirAutomatico() {{
                 row.querySelector('.f-stock')?.innerText
             ) || 0;
 
+        let esCar = nombre.toLowerCase().includes("car");
+        
         if (
             nombre &&
             nombre !== "IGNORAR" &&
-            stock > 0
+            (stock > 0 || esCar)
         ) {{
 
             fleet.push({{
