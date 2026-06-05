@@ -3286,6 +3286,30 @@ function reactivarInteractividad() {{
         }};
     }});
 }}
+
+
+
+
+// --- DELEGACIÓN DE EVENTOS (NO TOCA NINGUNA OTRA FUNCIÓN) ---
+document.addEventListener('change', function(e) {{
+    if (e.target.classList.contains('s-type')) {{
+        // Esto se ejecutará cada vez que cambies un select, 
+        // sin importar si el elemento se agregó hace 1 segundo o hace 1 hora
+        if (typeof updateSelectColor === 'function') updateSelectColor(e.target);
+        if (typeof recalc === 'function') recalc();
+    }}
+}});
+
+document.addEventListener('input', function(e) {{
+    if (e.target.classList.contains('u-manual')) {{
+        // Esto se ejecutará cada vez que escribas en un campo manual
+        if (typeof recalc === 'function') recalc();
+    }}
+}});
+
+
+
+
 </script>
 
 
