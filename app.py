@@ -106,11 +106,6 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
-    # --- MIRA AQUÍ: Tienen 4 espacios de sangría (se ven alineadas con las líneas de arriba) ---
-    LISTA_UNIDADES = ["Car - 8h", "Car - 5h", "Car - 3"]
-    OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
-    # ------------------------------------------------------------------------------------------
-    
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
     
@@ -176,13 +171,6 @@ def gen_master_rows(data_dict, table_id):
     return rows
 
 
-nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
-    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
-    
-    # --- MIRA AQUÍ: Tienen 4 espacios de sangría (se ven alineadas con las líneas de arriba) ---
-    LISTA_UNIDADES = ["Car - 8h", "Car - 5h", "Car - 3"]
-    OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
-
 
 def gen_poligonos(data_target=None):
     polys = ""
@@ -191,11 +179,6 @@ def gen_poligonos(data_target=None):
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
-
-
-    mis_unidades = ["CAR 8H", "VAN 5H", "MOTO 3H"]
-    options_html = "".join([f'<option value="{u}">{u}</option>' for u in mis_unidades])
-
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
@@ -207,8 +190,6 @@ def gen_poligonos(data_target=None):
     # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
 
-
-    
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -226,11 +207,10 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
-        <option value="">Seleccionar...</option>
-        {OPTIONS_HTML}
-    </select>
-</td>
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+                <option value="">Seleccionar...</option>
+            </select>
+        </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
@@ -2805,26 +2785,34 @@ let filaExistente = filas.find(f => {{
 }});
 
 if (filaExistente) {{
-    let celdaManual = filaExistente.querySelector('.u-manual');
-    let celdaSpr = filaExistente.querySelector('.spr-real-val');
-    
-    if (celdaManual && celdaSpr) {{
-        let actual = parseInt(celdaManual.innerText) || 0;
-        celdaManual.innerText = actual + usar;
-        celdaSpr.innerText = unidad.spr;
-        editedRowsPlan.add(filaExistente);
-    }}
-}} else {{
-    let select = fila.querySelector('.s-type');
-    let celdaManual = fila.querySelector('.u-manual');
-    let celdaSpr = fila.querySelector('.spr-real-val');
 
-    if (select && celdaManual && celdaSpr) {{
-        select.value = unidad.nombre;
-        celdaManual.innerText = usar;
-        celdaSpr.innerText = unidad.spr;
-        editedRowsPlan.add(fila);
-    }}
+    let actual =
+        parseInt(
+            filaExistente.querySelector('.u-manual')?.innerText
+        ) || 0;
+
+    filaExistente.querySelector('.u-manual').innerText =
+        actual + usar;
+
+    filaExistente.querySelector('.spr-real-val').innerText =
+        unidad.spr;
+
+    editedRowsPlan.add(filaExistente);
+
+}} else {{
+
+    let select =
+        fila.querySelector('.s-type');
+
+    select.value = unidad.nombre;
+
+    fila.querySelector('.u-manual').innerText =
+        usar;
+
+    fila.querySelector('.spr-real-val').innerText =
+        unidad.spr;
+
+    editedRowsPlan.add(fila);
 }}
 
 unidad.restante -= usar;
@@ -3278,117 +3266,6 @@ console.log(
 
     
 </script>
-
-
-
-<script>
-// Usamos window.onload para asegurar que TODO esté cargado antes de empezar
-window.addEventListener('load', function() {{
-    const visor = document.getElementById('visor');
-    
-    if (visor) {{
-        const observer = new MutationObserver(function(mutations) {{
-            // Cuando algo cambie en el visor, reactivamos eventos
-            // Usamos un pequeño delay para asegurar que el DOM se haya actualizado
-            setTimeout(reactivarInteractividad, 100);
-        }});
-
-        observer.observe(visor, {{ childList: true, subtree: true }});
-    }}
-}});
-
-function reactivarInteractividad() {{
-    const selects = document.querySelectorAll('.s-type');
-    selects.forEach(s => {{
-        s.onchange = function() {{
-            if(typeof updateSelectColor === 'function') updateSelectColor(this);
-            if(typeof recalc === 'function') recalc();
-        }};
-    }});
-}}
-
-
-
-
-// --- DELEGACIÓN DE EVENTOS (NO TOCA NINGUNA OTRA FUNCIÓN) ---
-
-<script>
-document.addEventListener('change', function(e) {{
-    if (e.target.classList.contains('s-type')) {{
-        // Esto se ejecutará cada vez que cambies un select, 
-        // sin importar si el elemento se agregó hace 1 segundo o hace 1 hora
-        if (typeof updateSelectColor === 'function') updateSelectColor(e.target);
-        if (typeof recalc === 'function') recalc();
-    }}
-}});
-
-document.addEventListener('input', function(e) {{
-    if (e.target.classList.contains('u-manual')) {{
-        // Esto se ejecutará cada vez que escribas en un campo manual
-        if (typeof recalc === 'function') recalc();
-    }}
-}});
-</script>
-
-
-
-
-
-
-<script>
-// --- GUARDA Y RESTAURA EL ESTADO DEL VISOR ---
-const memoriaDatos = {{}};
-
-const observerMemoria = new MutationObserver((mutations) => {{
-    const visor = document.getElementById('visor');
-    const tabActiva = document.querySelector('.tab-btn.active')?.innerText || 'default';
-    
-    // Si el contenido no tiene nada, intentamos restaurar de memoria
-    // O si estamos cambiando de pestaña, guardamos lo que acabamos de hacer
-    if (visor.innerHTML.includes('select') && !visor.innerHTML.includes('option')) {{
-        // Si detectamos que el select está vacío (sin opciones), intentamos rellenarlo
-        if (memoriaDatos[tabActiva]) {{
-            visor.innerHTML = memoriaDatos[tabActiva];
-        }}
-    }} else {{
-        // Si el contenido está completo, lo guardamos para que no se pierda
-        memoriaDatos[tabActiva] = visor.innerHTML;
-    }}
-}});
-
-const visor = document.getElementById('visor');
-if (visor) {{
-    observerMemoria.observe(visor, {{ childList: true, subtree: true }});
-}}
-</script>
-
-
-
-<script>
-// --- BLOQUE DE PROTECCIÓN GLOBAL ---
-// Este bloque intercepta errores y evita que JS se bloquee por completo
-window.onerror = function(message, source, lineno, colno, error) {{
-    console.log("Error detectado, pero el sistema seguirá operando: " + message);
-    return true; // Esto evita que el error detenga la ejecución
-}};
-
-// --- REINICIADOR FORZADO ---
-// Como changeTab es intocable y borra todo, forzamos la reactivación
-// cada vez que el usuario hace clic en CUALQUIER lugar del contenedor #visor
-document.getElementById('visor').addEventListener('click', function() {{
-    // Reactivamos selectores sin tocar changeTab
-    document.querySelectorAll('.s-type').forEach(s => {{
-        if (!s.onchange) {{ // Si no tiene evento, se lo ponemos
-            s.onchange = function() {{
-                if(typeof recalc === 'function') recalc();
-            }};
-        }}
-    }});
-}});
-</script>
-
-
-
 </body>
 </html>
 """
