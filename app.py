@@ -1823,6 +1823,134 @@ function distribuirAutomatico() {{
 
     polys.sort((a, b) => b.volumen - a.volumen);
 
+
+
+    // =========================================
+// 5.5 PREASIGNACIÓN ESPECIAL SMX5
+// =========================================
+
+if (currentTab == 1) {{
+
+    let small9h =
+        fleet.find(f =>
+            f.nombre === "Small 9h Ext Car"
+        );
+
+    if (small9h && small9h.restante > 0) {{
+
+        let planesPrioridad = [
+            "CHALCO",
+            "IZTAPALAPA"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / small9h.spr),
+                    small9h.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                small9h.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                small9h.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+            small9h.restante -= usar;
+
+        }});
+    }}
+}}
+
+
+
+
+
     // =========================================
     // 6. AUTO-ASIGNACIÓN
     // =========================================
