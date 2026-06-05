@@ -383,7 +383,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* El efecto Neomórfico en cada fila */
         .master-row {{ 
-            border-radius: 9px;
+            border-radius: 3px;
             box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
             transition: all 0.2s ease;
         }}
