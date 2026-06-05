@@ -2261,8 +2261,7 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-    // Definimos qué unidades son "especiales" y nunca deben ocultarse
-    const unidadesEspeciales = ["car - 8h", "car - 5h", "car - 3h"];
+    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
     
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
@@ -2276,12 +2275,10 @@ function actualizarSelects() {{
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
             let nameLower = name.toLowerCase();
 
-            // NUEVA LÓGICA: 
-            // ¿Es una unidad especial? || ¿Tiene stock disponible? || ¿Es una fila manual?
-            let esEspecial = unidadesEspeciales.some(u => nameLower.includes(u));
-            let esManual = row.classList.contains('u-manual'); 
-
-            if (esEspecial || stock > left || esManual) {{
+            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
+            
+            // Si permite negativos o aún tiene stock, la agregamos al select
+            if (permiteNegativos || stock > left) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
@@ -2289,8 +2286,6 @@ function actualizarSelects() {{
             }}
         }});
         select.value = valorActual;
-    }});
-}}
     }});
 }}
 
