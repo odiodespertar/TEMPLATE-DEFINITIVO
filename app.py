@@ -3090,6 +3090,32 @@ actualizarDosPorciento();
 // ==============================================================================
 
 
+// Detectar cuando el usuario escribe en "VOL. TOTAL"
+document.addEventListener('input', function(e) {{
+    if (e.target.classList.contains('v-total-val')) {{
+        let fila = e.target.closest('tr');
+        let selector = fila.querySelector('.s-type');
+        
+        // Habilitar el selector automáticamente
+        if (selector) {{
+            selector.disabled = false;
+            selector.style.opacity = "1";
+        }}
+    }}
+}});
+
+// Lógica para añadir "infinitamente"
+function agregarFilaExtra(btn) {{
+    let tbody = btn.closest('tbody');
+    let nuevaFila = tbody.querySelector('.calc-row').cloneNode(true); // Clonamos la fila original
+    
+    // Limpiar los valores de la fila clonada para que esté vacía
+    nuevaFila.querySelectorAll('span').forEach(s => s.innerText = '0');
+    
+    // Insertar la fila antes de la fila de ESTADO
+    tbody.insertBefore(nuevaFila, tbody.lastElementChild);
+}}
+
 
 
 // ==============================================================================
