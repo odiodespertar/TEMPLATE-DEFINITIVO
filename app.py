@@ -2099,6 +2099,14 @@ if (currentTab == 5) {{
                      ?.trim()
                      ?.toUpperCase() || "";
 
+
+            console.log(
+    "SMALL VAN RESTO:",
+    "[" + nombrePlan + "]"
+);
+
+
+
                 return nombrePlan === nombreBuscado;
 
             }});
