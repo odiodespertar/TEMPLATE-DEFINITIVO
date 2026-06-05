@@ -2053,7 +2053,7 @@ if (currentTab == 1) {{
                 small9h.restante -= usar;
 
             }});
-        }
+        }}
 
     }}
 }}
