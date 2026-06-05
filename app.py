@@ -3291,6 +3291,8 @@ function reactivarInteractividad() {{
 
 
 // --- DELEGACIÓN DE EVENTOS (NO TOCA NINGUNA OTRA FUNCIÓN) ---
+
+<script>
 document.addEventListener('change', function(e) {{
     if (e.target.classList.contains('s-type')) {{
         // Esto se ejecutará cada vez que cambies un select, 
@@ -3306,6 +3308,11 @@ document.addEventListener('input', function(e) {{
         if (typeof recalc === 'function') recalc();
     }}
 }});
+</script>
+
+
+
+
 
 
 <script>
