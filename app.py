@@ -2651,23 +2651,6 @@ if (isCar) {{
 
 
 
-<div style="
-    display:flex;
-    align-items:center;
-    margin:12px 0;
-">
-    <div style="flex:1; border-top:1px solid #135b83;"></div>
-
-    <span style="
-        padding:0 10px;
-        color:#135b83;
-        font-weight:bold;
-    ">
-        TOTALES
-    </span>
-
-    <div style="flex:1; border-top:1px solid #135b83;"></div>
-</div>
 
 
 
