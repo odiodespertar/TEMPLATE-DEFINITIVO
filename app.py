@@ -1848,7 +1848,7 @@ if (currentTab == 1) {{
 
         let planesPrioridad = [
     "IZTAPALAPA",
-    "COYOACAN"
+    "COYOACÁN"
 ];
 
         planesPrioridad.forEach(nombreBuscado => {{
