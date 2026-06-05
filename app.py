@@ -107,7 +107,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # --- LISTA MAESTRA DE UNIDADES ---
-    LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H"]
+    LISTA_UNIDADES = ["Car - 8h", "Car - 5h", "Car - 3h"]
     OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
 
     
@@ -178,7 +178,9 @@ def gen_master_rows(data_dict, table_id):
 
 
 def gen_poligonos(data_target=None):
+    global OPTIONS_HTML  # <--- AGREGA ESTO
     polys = ""
+    
     # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
