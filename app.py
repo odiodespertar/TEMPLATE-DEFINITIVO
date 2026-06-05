@@ -3022,7 +3022,7 @@ if (unidad.restante > 0) {{
 let filaExistente = filas.find(f => {{
 
     let tipo =
-        f.querySelector('.s-type')?.value?.trim() || "";
+        f.querySelector('.s-type')?.value?.trim();
 
     let unidades =
         parseInt(
@@ -3037,6 +3037,12 @@ let filaExistente = filas.find(f => {{
 }});
 
 if (filaExistente) {{
+
+console.log(
+    "REUTILIZANDO:",
+    unidad.nombre
+);
+    
 
     let actual =
         parseInt(
