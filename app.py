@@ -184,9 +184,11 @@ def gen_poligonos(data_target=None):
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
     
     # 3. OPCIONES DEL SELECT
-    lista_unidades = ["CAR 8H", "VAN 5H", "MOTO 3H"]
+    lista_unidades = ["Car - 8h", "Car - 8h", "Car - 8h"]
     html_opciones = "".join([f'<option value="{u}">{u}</option>' for u in lista_unidades])
 
+    print(f"DEBUG: Opciones generadas: {html_opciones}")
+    
     # 4. LISTAS DE NOMBRES
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
@@ -2995,8 +2997,7 @@ console.log(
 </html>
 """
 
-html(app_html, height=1200, scrolling=True)
-
+html(app_html, height=1200, scrolling=True, key="visor_principal")
 
 
 
