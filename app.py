@@ -1831,8 +1831,7 @@ function distribuirAutomatico() {{
     // 5. PRIORIDAD MAYOR VOLUMEN
     // =========================================
 
-    polys.sort((a, b) => b.volumen - a.volumen);
-
+// polys.sort((a, b) => b.volumen - a.volumen);
 
     // =========================================
 // 5.5 PREASIGNACIÓN ESPECIAL SMX5
