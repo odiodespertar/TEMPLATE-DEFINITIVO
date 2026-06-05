@@ -173,13 +173,18 @@ def gen_master_rows(data_dict, table_id):
 
 
 def gen_poligonos(data_target=None):
-    polys = ""
+    # 1. Definir estilos y variables PRIMERO
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
+    div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
+    span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
+    span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
+    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
     
-    # 1. DEFINIR LAS OPCIONES AQUÍ DENTRO (Local y protegido)
+    # 2. Definir tus opciones LOCALMENTE (para evitar el NameError de OPTIONS_HTML)
     lista_unidades = ["CAR 8H", "VAN 5H", "MOTO 3H"]
     html_opciones = "".join([f'<option value="{u}">{u}</option>' for u in lista_unidades])
     
-    
+    # 3. Definir tus listas de nombres
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     
