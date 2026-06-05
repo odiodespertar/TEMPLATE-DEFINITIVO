@@ -3337,6 +3337,27 @@ if (visor) {{
 
 
 
+<script>
+// --- BLOQUE DE PROTECCIÓN GLOBAL ---
+// Este bloque intercepta errores y evita que JS se bloquee por completo
+window.onerror = function(message, source, lineno, colno, error) {{
+    console.log("Error detectado, pero el sistema seguirá operando: " + message);
+    return true; // Esto evita que el error detenga la ejecución
+}};
+
+// --- REINICIADOR FORZADO ---
+// Como changeTab es intocable y borra todo, forzamos la reactivación
+// cada vez que el usuario hace clic en CUALQUIER lugar del contenedor #visor
+document.getElementById('visor').addEventListener('click', function() {{
+    // Reactivamos selectores sin tocar changeTab
+    document.querySelectorAll('.s-type').forEach(s => {{
+        if (!s.onchange) {{ // Si no tiene evento, se lo ponemos
+            s.onchange = function() {{
+                if(typeof recalc === 'function') recalc();
+            }};
+        }}
+    }});
+}});
 </script>
 
 
