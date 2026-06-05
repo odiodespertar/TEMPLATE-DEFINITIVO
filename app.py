@@ -3013,19 +3013,25 @@ if (unidad.restante > 0) {{
     usar = necesarias;
 }}
 
-            // =================================
-            // ASIGNAR
-            // =================================
 
-            // =================================
+// =================================
 // ASIGNAR
 // =================================
 
-// Buscar si ya existe esta unidad
+// Buscar si ya existe una fila con la misma unidad
 let filaExistente = filas.find(f => {{
 
+    let tipo =
+        f.querySelector('.s-type')?.value?.trim() || "";
+
+    let unidades =
+        parseInt(
+            f.querySelector('.u-manual')?.innerText
+        ) || 0;
+
     return (
-        f.querySelector('.s-type')?.value === unidad.nombre
+        tipo === unidad.nombre &&
+        unidades > 0
     );
 
 }});
@@ -3064,6 +3070,7 @@ if (filaExistente) {{
 unidad.restante -= usar;
 
 restante -= (usar * unidad.spr);
+
         }}
     }});
 
