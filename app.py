@@ -213,9 +213,8 @@ def gen_poligonos(data_target=None):
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
-                <option value="">Seleccionar...</option>
-                {html_opciones}
-            </select>
+    <option value="">Seleccionar...</option>
+    </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
@@ -2991,8 +2990,40 @@ console.log(
 }}
 
 
+<script>
+    // 1. Definimos las opciones en JavaScript
+    const UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H"];
+
+    // 2. Función que rellena todos los selectores de la página
+    function cargarOpciones() {{
+        const selects = document.querySelectorAll('.s-type');
+        selects.forEach(sel => {{
+            // Evitar duplicar si ya tiene opciones
+            if (sel.options.length <= 1) {{
+                UNIDADES.forEach(u => {{
+                    let opt = document.createElement('option');
+                    opt.value = u;
+                    opt.innerHTML = u;
+                    sel.appendChild(opt);
+                }});
+            }}
+        }});
+    }}
+
+    // 3. Ejecutar al cargar la página y cada vez que cambies de pestaña
+    document.addEventListener('DOMContentLoaded', cargarOpciones);
     
+    // Sobrescribimos tu función changeTab para que recargue las opciones al cambiar de pestaña
+    const originalChangeTab = window.changeTab;
+    window.changeTab = function(e, name) {{
+        originalChangeTab(e, name);
+        setTimeout(cargarOpciones, 100); // Pequeña espera para que el HTML se cree
+    }};
 </script>
+
+
+    
+
 </body>
 </html>
 """
