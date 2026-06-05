@@ -2773,7 +2773,7 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
+    const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h"];
     
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
@@ -2783,12 +2783,12 @@ function actualizarSelects() {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
             if (!name || name === "IGNORAR") return;
             
-            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            let stock = Number(row.querySelector('.f-stock')?.innerText) || 0;
+            let left = Number(row.querySelector('.f-left')?.innerText) || 0;
             let nameLower = name.toLowerCase();
 
-            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
-
+let listaNegativosNorm = listaNegativos.map(u => u.toLowerCase());
+let permiteNegativos = listaNegativosNorm.some(u => nameLower.includes(u));
 
             console.log(
     name,
