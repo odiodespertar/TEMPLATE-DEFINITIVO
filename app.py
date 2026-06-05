@@ -1737,12 +1737,10 @@ function distribuirAutomatico() {{
                 row.querySelector('.f-stock')?.innerText
             ) || 0;
 
-        let esCar = nombre.toLowerCase().includes("car");
-        
         if (
             nombre &&
             nombre !== "IGNORAR" &&
-            (stock > 0 || esCar)
+            stock > 0
         ) {{
 
             fleet.push({{
@@ -2768,59 +2766,35 @@ function togglePrioridades() {{
 
 
 
-import streamlit as st
-
-def inyectar_javascript():
-    # Usamos st.components.v1 para inyectar HTML/JS de forma segura
-    import streamlit.components.v1 as components
+// --- FUNCIÓN DE FILTRADO ---
+function actualizarSelects() {{
+    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
     
-    js_code = """
-    <script>
-    function actualizarSelects() {{
-        let hayStock = false;
-        // Aquí va tu código JS tal cual, con sus llaves { } normales
+    document.querySelectorAll('.s-type').forEach(select => {{
+        let valorActual = select.value;
+        select.innerHTML = '<option value="">Seleccionar...</option>';
+        
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-            if (stock > 0) hayStock = true;
-        }});
-
-        const esUnidadCar = (nombre) => ["car - 8h", "car - 5h", "car - 3h"].some(u => nombre.toLowerCase().includes(u));
-
-        document.querySelectorAll('.s-type').forEach(select => {{
-            let valorActual = select.value;
-            select.innerHTML = '<option value="">Seleccionar...</option>';
+            let name = row.querySelector('.edit-name')?.innerText.trim();
+            if (!name || name === "IGNORAR") return;
             
-            document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-                let name = row.querySelector('.edit-name')?.innerText.trim();
-                if (!name || name === "IGNORAR") return;
-                
-                let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            let nameLower = name.toLowerCase();
 
-                if (hayStock) {{
-                    if (stock > 0) {{
-                        let opt = document.createElement('option');
-                        opt.value = name;
-                        opt.textContent = name;
-                        select.appendChild(opt);
-                    }}
-                }} else {{
-                    if (esUnidadCar(name)) {{
-                        let opt = document.createElement('option');
-                        opt.value = name;
-                        opt.textContent = name;
-                        select.appendChild(opt);
-                    }}
-                }}
-            }});
-            select.value = valorActual;
+            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
+            
+            // Si permite negativos o aún tiene stock, la agregamos al select
+            if (permiteNegativos || stock > left) {{
+                let opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                select.appendChild(opt);
+            }}
         }});
-    }}
-    </script>
-    """
-    components.html(js_code, height=0)
-
-# LLAMA A ESTA FUNCIÓN EN TU CÓDIGO DONDE QUIERAS QUE EL SCRIPT APAREZCA
-inyectar_javascript()
+        select.value = valorActual;
+    }});
+}}
 
 // Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
@@ -3006,33 +2980,6 @@ console.log(
         document.onmouseup = null;
         document.onmousemove = null;
     }}
-}}
-
-
-// Este bloque obliga a que cualquier cambio manual se registre
-document.addEventListener('change', (e) => {{
-    if (e.target.classList.contains('u-manual') || e.target.classList.contains('s-type')) {{
-        // Al cambiar algo manualmente, forzamos el recalculo completo
-        recalc();
-        actualizarSelects();
-        console.log("Cambio manual detectado y procesado");
-    }}
-}});
-
-
-
-
-function obtenerUnidadesPermitidasPorTab() {{
-    // Definimos qué "Car" le toca a cada pestaña
-    // SDE (Tab 4), C1 (Tab 2), PREC SMX5 (Tab 1), PREC SMX2 (Tab 5)
-    const reglas = {
-        "1": ["Car - 8h", "Car - 5h"], // PREC SMX5
-        "5": ["Car - 8h", "Car - 5h"], // PREC SMX2
-        "2": ["Car - 8h", "Car - 5h"], // C1
-        "4": ["Car - 5h", "Car - 3h"]  // SDE
-    }};
-    
-    return reglas[currentTab] || [];
 }}
 
 
