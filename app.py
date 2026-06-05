@@ -42,7 +42,7 @@ u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [2
 
 u_PREC = {      
     "Car - 8h": [70, 75],
-    "Small 9h Ext Car": [70, 75]
+    "Small 9h Ext Car": [70, 75] 
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -729,6 +729,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -737,6 +738,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -813,6 +815,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -821,6 +824,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -880,6 +884,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -888,6 +893,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -948,6 +954,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -956,6 +963,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -1775,6 +1783,15 @@ function distribuirAutomatico() {{
         }}
     }});
 
+
+
+    console.log(
+    "FLEET SMX2:",
+    fleet.map(f => f.nombre)
+);
+
+
+        
     // =========================================
     // 3. PRIORIDAD MAYOR SPR
     // =========================================
@@ -1815,6 +1832,497 @@ function distribuirAutomatico() {{
 
     polys.sort((a, b) => b.volumen - a.volumen);
 
+
+    // =========================================
+// 5.5 PREASIGNACIÓN ESPECIAL SMX5
+// =========================================
+
+if (currentTab == 1) {{
+
+    let small9h =
+        fleet.find(f =>
+            f.nombre === "Small 9h Ext Car"
+        );
+
+    if (small9h && small9h.restante > 0) {{
+
+        let planesPrioridad = [
+            "CHALCO",
+            "IZTAPALAPA"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / small9h.spr),
+                    small9h.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                small9h.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                small9h.spr;
+
+                        editedRowsPlan.add(filaLibre);
+
+            small9h.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (small9h.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (small9h.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                    nombrePlan === "CHALCO" ||
+                    nombrePlan === "IZTAPALAPA"
+                ) {{
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / small9h.spr),
+                        small9h.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    small9h.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    small9h.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                small9h.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
+
+    // =========================================
+// 5.6 PREASIGNACIÓN SMALL VAN SDD - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+    let smallVan =
+        fleet.find(f =>
+            f.nombre === "Small Van SDD"
+        );
+
+    if (smallVan && smallVan.restante > 0) {{
+
+        let planesPrioridad = [
+            "IZTAPALAPA 1",
+            "IZTAPALAPA 2",
+            "LA PAZ"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+
+            console.log(
+    "SMALL VAN RESTO:",
+    "[" + nombrePlan + "]"
+);
+
+
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / smallVan.spr),
+                    smallVan.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                smallVan.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                smallVan.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+smallVan.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (smallVan.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (smallVan.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                    nombrePlan === "IZTAPALAPA 1" ||
+                    nombrePlan === "IZTAPALAPA 2" ||
+                    nombrePlan === "LA PAZ" ||
+                    nombrePlan === "PUEBLOS" ||
+                    nombrePlan === "TEXCOCO"
+                ) {{
+
+                    console.log(
+        "EXCLUIDO:",
+        nombrePlan
+    );
+
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / smallVan.spr),
+                        smallVan.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    smallVan.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    smallVan.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                smallVan.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
+
     // =========================================
     // 6. AUTO-ASIGNACIÓN
     // =========================================
@@ -1822,6 +2330,11 @@ function distribuirAutomatico() {{
     polys.forEach(poly => {{
 
         let bloque = poly.bloque;
+
+       console.log(
+        "PLAN:",
+        bloque.querySelector('td[rowspan]')?.innerText
+    );
 
         let objetivo =
             parseFloat(
@@ -1882,12 +2395,14 @@ function distribuirAutomatico() {{
 
             if (restante <= 0) break;
 
-            // =================================
-            // BUSCAR MEJOR UNIDAD DISPONIBLE
-            // =================================
+       // =================================
+// BUSCAR MEJOR UNIDAD DISPONIBLE
+// =================================
 
-            let unidad =
+let unidad =
     fleet.find(f => f.restante > 0);
+
+
 
 // Si ya no hay unidades disponibles,
 // permitir seguir usando la unidad especial 
