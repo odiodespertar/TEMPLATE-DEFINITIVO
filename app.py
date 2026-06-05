@@ -2788,7 +2788,16 @@ function actualizarSelects() {{
             let nameLower = name.toLowerCase();
 
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
-            
+
+
+            console.log(
+    name,
+    "stock:", stock,
+    "left:", left,
+    "permiteNegativos:", permiteNegativos
+);
+
+
             // Si permite negativos o aún tiene stock, la agregamos al select
             if (permiteNegativos || stock > left) {{
                 let opt = document.createElement('option');
