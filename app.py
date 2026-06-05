@@ -2792,9 +2792,9 @@ function actualizarSelects() {{
             // LÓGICA DE FILTRADO:
             // - Si hay stock, mostramos todo.
             // - Si NO hay stock, solo dejamos pasar las unidades CAR.
-            if (hayStock) {
+            if (hayStock) {{
                 // Modo normal: mostramos lo que tenga stock
-                if (stock > 0) {
+                if (stock > 0) {{
                     let opt = document.createElement('option');
                     opt.value = name;
                     opt.textContent = name;
