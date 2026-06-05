@@ -3574,6 +3574,11 @@ html_notitas = f"""
         e.currentTarget.classList.add('active');
     }}
     function ejecutarTodo() {{
+        // REINICIO DE SEGURIDAD: Permite que los campos vuelvan a ser editables
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach(el => {{
+        el.setAttribute('contenteditable', 'true'); // Asegura que no se bloqueen
+    }});
         const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
         const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
