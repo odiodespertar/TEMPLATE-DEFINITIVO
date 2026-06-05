@@ -3090,37 +3090,6 @@ actualizarDosPorciento();
 // ==============================================================================
 
 
-<script>
-// 1. Escuchador universal: Detecta cualquier escritura en la celda "VOL. TOTAL"
-document.addEventListener('input', function(e) {{
-    if (e.target.classList.contains('v-total-val')) {{
-        let fila = e.target.closest('tr');
-        let selector = fila.querySelector('.s-type');
-        
-        // Habilitamos el selector en cuanto el usuario escribe algo
-        if (selector) {{
-            selector.disabled = false;
-        }}
-    }}
-}});
-
-// 2. Función para clonar la fila (Añadir infinitamente)
-// La llamaremos desde un botón que pondremos en tu HTML
-function añadirUnidad(btn) {{
-    let tr = btn.closest('tr');
-    let tabla = tr.closest('table');
-    let nuevaFila = tr.cloneNode(true); // Clonamos la fila actual
-    
-    // Limpiamos los valores de la copia para que sea nueva
-    nuevaFila.querySelectorAll('.u-manual, .spr-real-val, .v-total-val').forEach(el => {{
-        el.innerText = '0';
-    }});
-    
-    // Insertamos la nueva fila al final del cuerpo de la tabla
-    tabla.querySelector('tbody').appendChild(nuevaFila);
-}}
-</script>
-
 
 
 // ==============================================================================
@@ -3293,27 +3262,6 @@ console.log(
         document.onmousemove = null;
     }}
 }}
-
-
-<script>
-    // Este objeto guardará los valores editados
-    window.dataStore = window.dataStore || {{}};
-
-    // Esta función guarda lo que hay en pantalla antes de que changeTab borre todo
-    function guardarEstadoActual() {{
-        document.querySelectorAll('.u-manual, .spr-real-val, .v-total-val').forEach(el => {{
-            if(el.id) window.dataStore[el.id] = el.innerText;
-        }});
-    }}
-
-    // Esta función restaura los valores después de que changeTab crea el HTML nuevo
-    function restaurarEstado() {{
-        for (let id in window.dataStore) {{
-            let el = document.getElementById(id);
-            if(el) el.innerText = window.dataStore[id];
-        }}
-    }}
-
 
 
     
@@ -3625,30 +3573,14 @@ html_notitas = f"""
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-
-
-    
     function ejecutarTodo() {{
-        // --- SOLO LÓGICA DE RELOJ ---
-        // Usamos IDs específicos para no tocar NADA de las tablas
-        const minInput = document.getElementById('minInput');
-        const horaReal = document.getElementById('horaReal');
-
-        if (minInput && horaReal) {{
-            const mins = minInput.value || 0;
-            const ahora = new Date();
-            const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
-            const h = String(nuevaFecha.getHours()).padStart(2, '0');
-            const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
-            horaReal.innerText = h + ":" + m;
-        }}
-        
-        // ELIMINA ESTO: Es lo que está "desbloqueando" (y por tanto interfiriendo) con tus tablas
-        // const editables = document.querySelectorAll('[contenteditable="true"]');
-        // editables.forEach(el => {{ el.setAttribute('contenteditable', 'true'); }});
+        const mins = document.getElementById('minInput').value || 0;
+        const ahora = new Date();
+        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
+        const h = String(nuevaFecha.getHours()).padStart(2, '0');
+        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
+        document.getElementById('horaReal').innerText = h + ":" + m;
     }}
-
-    // Ejecuta solo una vez al cargar
     ejecutarTodo();
 </script>
 """
