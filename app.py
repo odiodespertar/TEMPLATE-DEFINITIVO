@@ -2186,9 +2186,122 @@ if (currentTab == 5) {{
 
             editedRowsPlan.add(filaLibre);
 
-            smallVan.restante -= usar;
+smallVan.restante -= usar;
 
         }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (smallVan.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (smallVan.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                    nombrePlan === "IZTAPALAPA 1" ||
+                    nombrePlan === "IZTAPALAPA 2" ||
+                    nombrePlan === "LA PAZ" ||
+                    nombrePlan === "PUEBLOS" ||
+                    nombrePlan === "TEXCOCO"
+                ) {{
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / smallVan.spr),
+                        smallVan.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    smallVan.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    smallVan.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                smallVan.restante -= usar;
+
+            }});
+        }}
 
     }}
 }}
