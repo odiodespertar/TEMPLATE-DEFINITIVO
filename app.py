@@ -1689,27 +1689,19 @@ actualizarDosPorciento();
 
 
 function obtenerCarFlexible() {{
-
-    const opciones = [
-        "Car - 8h",
-        "Car - 5h",
-        "Car - 3h"
-    ];
+    const opciones = ["Car - 8h", "Car - 5h", "Car - 3h"];
 
     for (let nombre of opciones) {{
-
-        let unidad = fleet.find(f =>
-            f.nombre === nombre &&
-            f.stock > 0
-        );
+        // Buscamos la unidad sin filtrar por stock > 0
+        let unidad = fleet.find(f => f.nombre === nombre);
 
         if (unidad) {{
             return unidad;
         }}
     }}
-
     return null;
 }}
+
 
 
 
@@ -1884,11 +1876,13 @@ const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permiti
             // =================================
 
             let unidad =
-    fleet.find(f => f.restante > 0);
+let unidad = fleet.find(f => f.restante > 0);
 
 // Si ya no hay unidades disponibles,
 // permitir seguir usando la unidad especial 
 if (!unidad) {{
+    unidad = obtenerCarFlexible();
+}}
 
 console.log("TAB:", currentTab);
     console.log("FLEET COMPLETA:", fleet);
@@ -1966,28 +1960,14 @@ console.log("TAB:", currentTab);
             // =================================
             // CALCULAR NECESARIAS
             // =================================
+                
 
-            let necesarias =
-                Math.ceil(restante / unidad.spr);
+            let necesarias = Math.ceil(restante / unidad.spr);
 
-            let usar;
+            // Asignamos directamente lo necesario sin límites ni condiciones
+            let usar = necesarias;
 
-if (unidad.restante > 0) {{
-
-    usar =
-        Math.min(
-            necesarias,
-            unidad.restante
-        );
-
-}} else {{
-
-    usar = necesarias;
-}}
-
-            // =================================
-            // ASIGNAR
-            // =================================
+          
 
             // =================================
 // ASIGNAR
