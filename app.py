@@ -2459,7 +2459,7 @@ if (currentTab == 5) {{
 
             }});
 
-            if (chalco) {
+            if (chalco) {{
 
                 let filaLibre =
                     Array.from(
