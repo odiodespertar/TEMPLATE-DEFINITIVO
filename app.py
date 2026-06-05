@@ -2770,8 +2770,15 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
-    
+    // 1. Verificamos si existe alguna unidad con stock positivo en la tabla
+    let hayStock = false;
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+        if (stock > 0) hayStock = true;
+    }});
+
+    const esUnidadCar = (nombre) => ["car - 8h", "car - 5h", "car - 3h"].some(u => nombre.toLowerCase().includes(u));
+
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
         select.innerHTML = '<option value="">Seleccionar...</option>';
@@ -2781,17 +2788,26 @@ function actualizarSelects() {{
             if (!name || name === "IGNORAR") return;
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-            let nameLower = name.toLowerCase();
 
-            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
-            
-            // Si permite negativos o aún tiene stock, la agregamos al select
-            if (permiteNegativos || stock > left) {{
-                let opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                select.appendChild(opt);
+            // LÓGICA DE FILTRADO:
+            // - Si hay stock, mostramos todo.
+            // - Si NO hay stock, solo dejamos pasar las unidades CAR.
+            if (hayStock) {
+                // Modo normal: mostramos lo que tenga stock
+                if (stock > 0) {
+                    let opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    select.appendChild(opt);
+                }}
+            }} else {{
+                // Modo emergencia: solo mostramos las unidades CAR
+                if (esUnidadCar(name)) {{
+                    let opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    select.appendChild(opt);
+                }}
             }}
         }});
         select.value = valorActual;
@@ -2982,6 +2998,33 @@ console.log(
         document.onmouseup = null;
         document.onmousemove = null;
     }}
+}}
+
+
+// Este bloque obliga a que cualquier cambio manual se registre
+document.addEventListener('change', (e) => {{
+    if (e.target.classList.contains('u-manual') || e.target.classList.contains('s-type')) {{
+        // Al cambiar algo manualmente, forzamos el recalculo completo
+        recalc();
+        actualizarSelects();
+        console.log("Cambio manual detectado y procesado");
+    }}
+}});
+
+
+
+
+function obtenerUnidadesPermitidasPorTab() {{
+    // Definimos qué "Car" le toca a cada pestaña
+    // SDE (Tab 4), C1 (Tab 2), PREC SMX5 (Tab 1), PREC SMX2 (Tab 5)
+    const reglas = {
+        "1": ["Car - 8h", "Car - 5h"], // PREC SMX5
+        "5": ["Car - 8h", "Car - 5h"], // PREC SMX2
+        "2": ["Car - 8h", "Car - 5h"], // C1
+        "4": ["Car - 5h", "Car - 3h"]  // SDE
+    }};
+    
+    return reglas[currentTab] || [];
 }}
 
 
