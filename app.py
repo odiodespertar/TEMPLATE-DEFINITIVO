@@ -1785,10 +1785,14 @@ function distribuirAutomatico() {{
 
 
 
+    fleet.forEach(f => {{
     console.log(
-    "FLEET SMX2:",
-    fleet.map(f => f.nombre)
-);
+        f.nombre,
+        "stock:", f.stock,
+        "restante:", f.restante,
+        "spr:", f.spr
+    );
+}});
 
 
         
