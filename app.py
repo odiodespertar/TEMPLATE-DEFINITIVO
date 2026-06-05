@@ -2328,7 +2328,7 @@ smallVan.restante -= usar;
 
 if (currentTab == 5) {{
 
-    let carZonaExtra =
+    let CarZonaExtendida =
         fleet.find(f =>
             f.nombre === "Car Zona Extendida"
         );
