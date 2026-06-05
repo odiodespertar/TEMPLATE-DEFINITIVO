@@ -2875,7 +2875,9 @@ let totalCarSchedule = 0;
 if (isCar) {{
 
     if (left < 0) {{
-        totalCarReal += stock;
+
+        // Cuenta las declaradas + las adicionales
+        totalCarReal += stock + Math.abs(left);
 
     }} else {{
 
