@@ -3573,19 +3573,30 @@ html_notitas = f"""
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
-    function ejecutarTodo() {{
-        // REINICIO DE SEGURIDAD: Permite que los campos vuelvan a ser editables
-    const editables = document.querySelectorAll('[contenteditable="true"]');
-    editables.forEach(el => {{
-        el.setAttribute('contenteditable', 'true'); // Asegura que no se bloqueen
-    }});
-        const mins = document.getElementById('minInput').value || 0;
-        const ahora = new Date();
-        const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
-        const h = String(nuevaFecha.getHours()).padStart(2, '0');
-        const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
-        document.getElementById('horaReal').innerText = h + ":" + m;
-    }}
+
+
+    
+    function ejecutarTodo() {
+        // --- SOLO LÓGICA DE RELOJ ---
+        // Usamos IDs específicos para no tocar NADA de las tablas
+        const minInput = document.getElementById('minInput');
+        const horaReal = document.getElementById('horaReal');
+
+        if (minInput && horaReal) {
+            const mins = minInput.value || 0;
+            const ahora = new Date();
+            const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
+            const h = String(nuevaFecha.getHours()).padStart(2, '0');
+            const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
+            horaReal.innerText = h + ":" + m;
+        }
+        
+        // ELIMINA ESTO: Es lo que está "desbloqueando" (y por tanto interfiriendo) con tus tablas
+        // const editables = document.querySelectorAll('[contenteditable="true"]');
+        // editables.forEach(el => { el.setAttribute('contenteditable', 'true'); });
+    }
+
+    // Ejecuta solo una vez al cargar
     ejecutarTodo();
 </script>
 """
