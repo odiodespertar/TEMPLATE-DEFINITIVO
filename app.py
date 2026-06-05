@@ -6,7 +6,7 @@ st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wi
 
 
 
-# CSS para diseño limpio
+# CSS para diseño limpio 
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
@@ -749,7 +749,7 @@ html body .meli-table tbody tr:last-child {{
                   <tfoot class="fila-total"> 
                   <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL MLP
     </td>
     <td id="total-no-car-2"
@@ -764,14 +764,14 @@ html body .meli-table tbody tr:last-child {{
             
             <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2"
+    <td colspan="3"
         style="
             padding:6px;
             text-align:right;
         ">
-        TOTAL CAR
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-2"
+    <td id="total-car-schedule-2"
         style="
             text-align:center;
             color:#3CB371;
@@ -788,10 +788,10 @@ html body .meli-table tbody tr:last-child {{
 <!-- NUEVA FILA -->
     <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR 
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR RUTEADAS 
     </td>
-    <td id="total-car-adicional-2"
+    <td id="total-car-real-2"
         style="text-align:center;
                color:#FF4500;
                font-size:16px;
@@ -799,6 +799,29 @@ html body .meli-table tbody tr:last-child {{
         0
     </td>
 </tr>       
+
+
+
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-2"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+
         </tfoot>
     </table>
 </div>
@@ -837,7 +860,7 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL MLP
     </td>
     <td id="total-no-car-1"
@@ -848,10 +871,10 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-1"
+    <td id="total-car-schedule-1"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -859,14 +882,35 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-1"
+    <td id="total-car-real-1"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
+
+
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-1"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
 
 </tfoot>
     </table>
@@ -906,7 +950,7 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL MLP
     </td>
     <td id="total-no-car-5"
@@ -917,10 +961,10 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-5"
+    <td id="total-car-schedule-5"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -928,16 +972,35 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-5"
+    <td id="total-car-real-5"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
-</tfoot>
 
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-5"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+</tfoot>
     </table>
 </div>
 
@@ -976,7 +1039,7 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL MLP
     </td>
     <td id="total-no-car-4"
@@ -987,10 +1050,10 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-4"
+    <td id="total-car-schedule-4"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -998,16 +1061,35 @@ html body .meli-table tbody tr:last-child {{
 
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-4"
+    <td id="total-car-real-4"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
-</tfoot>
 
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-4"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+</tfoot>
     </table>
 </div>
 
@@ -1709,6 +1791,7 @@ function obtenerCarFlexible() {{
     }}
 
     return null;
+
 }}
 
 
@@ -1830,8 +1913,7 @@ function distribuirAutomatico() {{
     // 5. PRIORIDAD MAYOR VOLUMEN
     // =========================================
 
-    polys.sort((a, b) => b.volumen - a.volumen);
-
+// polys.sort((a, b) => b.volumen - a.volumen);
 
     // =========================================
 // 5.5 PREASIGNACIÓN ESPECIAL SMX5
@@ -1847,9 +1929,9 @@ if (currentTab == 1) {{
     if (small9h && small9h.restante > 0) {{
 
         let planesPrioridad = [
-            "CHALCO",
-            "IZTAPALAPA"
-        ];
+    "IZTAPALAPA",
+    "COYOACÁN"
+];
 
         planesPrioridad.forEach(nombreBuscado => {{
 
@@ -1971,11 +2053,10 @@ if (currentTab == 1) {{
                         ?.toUpperCase() || "";
 
                 if (
-                    nombrePlan === "CHALCO" ||
-                    nombrePlan === "IZTAPALAPA"
-                ) {{
-                    return;
-                }}
+    nombrePlan !== "TLAHUAC"
+) {{
+    return;
+}}
 
                 let objetivo =
                     parseFloat(
@@ -2216,20 +2297,16 @@ smallVan.restante -= usar;
                         ?.toUpperCase() || "";
 
                 if (
-                    nombrePlan === "IZTAPALAPA 1" ||
-                    nombrePlan === "IZTAPALAPA 2" ||
-                    nombrePlan === "LA PAZ" ||
-                    nombrePlan === "PUEBLOS" ||
-                    nombrePlan === "TEXCOCO"
-                ) {{
+    !nombrePlan.includes("CHIMAS")
+) {{
 
-                    console.log(
+    console.log(
         "EXCLUIDO:",
         nombrePlan
     );
 
-                    return;
-                }}
+    return;
+}}
 
                 let objetivo =
                     parseFloat(
@@ -2317,6 +2394,193 @@ smallVan.restante -= usar;
             }});
         }}
 
+    }}
+}}
+
+
+
+// =========================================
+// 5.7 PREASIGNACIÓN CAR ZONA EXTENDIDA - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+    let CarZonaExtendida =
+        fleet.find(f =>
+            f.nombre === "Car Zona Extendida"
+        );
+
+    if (CarZonaExtendida && CarZonaExtendida.restante > 0) {{
+
+        let planesPrioridad = [
+            "PUEBLOS",
+            "TEXCOCO"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / CarZonaExtendida.spr),
+                    CarZonaExtendida.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                CarZonaExtendida.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                CarZonaExtendida.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+            CarZonaExtendida.restante -= usar;
+
+        }});
+
+        // SOBRANTE A CHALCO
+
+        if (CarZonaExtendida.restante > 0) {{
+
+            let chalco = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === "CHALCO";
+
+            }});
+
+            if (chalco) {{
+
+                let filaLibre =
+                    Array.from(
+                        chalco.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (filaLibre) {{
+
+                    filaLibre.querySelector('.s-type').value =
+                        CarZonaExtendida.nombre;
+
+                    filaLibre.querySelector('.u-manual').innerText =
+                        CarZonaExtendida.restante;
+
+                    filaLibre.querySelector('.spr-real-val').innerText =
+                        CarZonaExtendida.spr;
+
+                    editedRowsPlan.add(filaLibre);
+
+                    CarZonaExtendida.restante = 0;
+                }}
+            }}
+        }}
     }}
 }}
 
@@ -2588,7 +2852,6 @@ let htmlRight = "";
 let totalNoCar = 0;
 let totalCarReal = 0;
 let totalCarSchedule = 0;
-let totalCarAdicional = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -2613,11 +2876,8 @@ if (isCar) {{
 
     if (left < 0) {{
 
-        // Solo cuenta el stock programado
-        totalCarReal += stock;
-
-        // El excedente va a CAR ADICIONAL
-        totalCarAdicional += Math.abs(left);
+        // Cuenta las declaradas + las adicionales
+        totalCarReal += stock + Math.abs(left);
 
     }} else {{
 
@@ -2637,7 +2897,7 @@ if (isCar) {{
         display:flex;
         justify-content:space-between;
         margin-bottom:4px;
-        font-size:14px;">
+        font-size:14px;"> 
         <span style="color:#0a2745;">${{name}}</span>
         <span style="
             color:${{colorCategoria}};
@@ -2725,14 +2985,28 @@ if (elCarReal) {{
 
 
 
-let elCarAdicional =
+let totalRuteadas =
+    totalNoCar + totalCarReal;
+
+let elRuteadas =
     document.getElementById(
-        'total-car-adicional-' + currentTab
+        'total-ruteadas-' + currentTab
     );
 
-if (elCarAdicional) {{
-    elCarAdicional.innerText = "-" + totalCarAdicional;
+if (elRuteadas) {{
+    elRuteadas.innerText = totalRuteadas;
 }}
+
+
+let elCarSchedule =
+    document.getElementById(
+        'total-car-schedule-' + currentTab
+    );
+
+if (elCarSchedule) {{
+    elCarSchedule.innerText = totalCarSchedule;
+}}
+
 
 
 document.getElementById('fleet-float-body').innerHTML = html;
@@ -2768,7 +3042,14 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
+
+    const listaNegativos = [
+    "Car - 8h",
+    "Car - 5h",
+    "Car - 3h"
+];
+
+
     
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
