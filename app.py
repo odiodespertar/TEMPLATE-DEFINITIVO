@@ -42,7 +42,7 @@ u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [2
 
 u_PREC = {      
     "Car - 8h": [70, 75],
-    "Small 9h Ext Car": [70, 75]
+    "Small 9h Ext Car": [70, 75] 
 }
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -1689,19 +1689,27 @@ actualizarDosPorciento();
 
 
 function obtenerCarFlexible() {{
-    const opciones = ["Car - 8h", "Car - 5h", "Car - 3h"];
+
+    const opciones = [
+        "Car - 8h",
+        "Car - 5h",
+        "Car - 3h"
+    ];
 
     for (let nombre of opciones) {{
-        // Buscamos la unidad sin filtrar por stock > 0
-        let unidad = fleet.find(f => f.nombre === nombre);
+
+        let unidad = fleet.find(f =>
+            f.nombre === nombre &&
+            f.stock > 0
+        );
 
         if (unidad) {{
             return unidad;
         }}
     }}
+
     return null;
 }}
-
 
 
 
@@ -1713,23 +1721,34 @@ function distribuirAutomatico() {{
     // =========================================
 
     let fleet = [];
-const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permitidas en negativo
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-    let nombre = row.querySelector('.edit-name')?.innerText.trim();
-    let sprMax = parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
-    let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-    
-    // Verificamos si es una unidad que permite negativos
-    let esEspecial = listaNegativos.some(u => nombre.toLowerCase().includes(u));
 
-    // ACEPTAR SI: Tiene stock POSITIVO O es una unidad especial (negativa)
-    if (nombre && nombre !== "IGNORAR" && (stock > 0 || esEspecial)) {{
-        fleet.push({{
-            nombre: nombre,
-            spr: sprMax,
-            stock: stock,
-            restante: stock // Si es Car-8h, esto empezará en negativo y funcionará igual
-        }});
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+
+        let nombre =
+            row.querySelector('.edit-name')?.innerText.trim();
+
+        let sprMax =
+            parseFloat(
+                row.querySelector('.edit-spr-max')?.innerText
+            ) || 0;
+
+        let stock =
+            parseInt(
+                row.querySelector('.f-stock')?.innerText
+            ) || 0;
+
+        if (
+            nombre &&
+            nombre !== "IGNORAR" &&
+            stock > 0
+        ) {{
+
+            fleet.push({{
+                nombre: nombre,
+                spr: sprMax,
+                stock: stock,
+                restante: stock
+            }});
         }}
     }});
 
@@ -1764,6 +1783,15 @@ const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permiti
         }}
     }});
 
+
+
+    console.log(
+    "FLEET SMX2:",
+    fleet.map(f => f.nombre)
+);
+
+
+        
     // =========================================
     // 3. PRIORIDAD MAYOR SPR
     // =========================================
@@ -1804,6 +1832,497 @@ const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permiti
 
     polys.sort((a, b) => b.volumen - a.volumen);
 
+
+    // =========================================
+// 5.5 PREASIGNACIÓN ESPECIAL SMX5
+// =========================================
+
+if (currentTab == 1) {{
+
+    let small9h =
+        fleet.find(f =>
+            f.nombre === "Small 9h Ext Car"
+        );
+
+    if (small9h && small9h.restante > 0) {{
+
+        let planesPrioridad = [
+            "CHALCO",
+            "IZTAPALAPA"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / small9h.spr),
+                    small9h.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                small9h.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                small9h.spr;
+
+                        editedRowsPlan.add(filaLibre);
+
+            small9h.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (small9h.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (small9h.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                    nombrePlan === "CHALCO" ||
+                    nombrePlan === "IZTAPALAPA"
+                ) {{
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / small9h.spr),
+                        small9h.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    small9h.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    small9h.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                small9h.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
+
+    // =========================================
+// 5.6 PREASIGNACIÓN SMALL VAN SDD - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+    let smallVan =
+        fleet.find(f =>
+            f.nombre === "Small Van SDD"
+        );
+
+    if (smallVan && smallVan.restante > 0) {{
+
+        let planesPrioridad = [
+            "IZTAPALAPA 1",
+            "IZTAPALAPA 2",
+            "LA PAZ"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+
+            console.log(
+    "SMALL VAN RESTO:",
+    "[" + nombrePlan + "]"
+);
+
+
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / smallVan.spr),
+                    smallVan.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                smallVan.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                smallVan.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+smallVan.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (smallVan.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (smallVan.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                    nombrePlan === "IZTAPALAPA 1" ||
+                    nombrePlan === "IZTAPALAPA 2" ||
+                    nombrePlan === "LA PAZ" ||
+                    nombrePlan === "PUEBLOS" ||
+                    nombrePlan === "TEXCOCO"
+                ) {{
+
+                    console.log(
+        "EXCLUIDO:",
+        nombrePlan
+    );
+
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / smallVan.spr),
+                        smallVan.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    smallVan.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    smallVan.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                smallVan.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
+
     // =========================================
     // 6. AUTO-ASIGNACIÓN
     // =========================================
@@ -1811,6 +2330,11 @@ const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permiti
     polys.forEach(poly => {{
 
         let bloque = poly.bloque;
+
+       console.log(
+        "PLAN:",
+        bloque.querySelector('td[rowspan]')?.innerText
+    );
 
         let objetivo =
             parseFloat(
@@ -1871,18 +2395,18 @@ const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permiti
 
             if (restante <= 0) break;
 
-            // =================================
-            // BUSCAR MEJOR UNIDAD DISPONIBLE
-            // =================================
+       // =================================
+// BUSCAR MEJOR UNIDAD DISPONIBLE
+// =================================
 
-            let unidad =
-let unidad = fleet.find(f => f.restante > 0);
+let unidad =
+    fleet.find(f => f.restante > 0);
+
+
 
 // Si ya no hay unidades disponibles,
 // permitir seguir usando la unidad especial 
 if (!unidad) {{
-    unidad = obtenerCarFlexible();
-}}
 
 console.log("TAB:", currentTab);
     console.log("FLEET COMPLETA:", fleet);
@@ -1960,14 +2484,28 @@ console.log("TAB:", currentTab);
             // =================================
             // CALCULAR NECESARIAS
             // =================================
-                
 
-            let necesarias = Math.ceil(restante / unidad.spr);
+            let necesarias =
+                Math.ceil(restante / unidad.spr);
 
-            // Asignamos directamente lo necesario sin límites ni condiciones
-            let usar = necesarias;
+            let usar;
 
-          
+if (unidad.restante > 0) {{
+
+    usar =
+        Math.min(
+            necesarias,
+            unidad.restante
+        );
+
+}} else {{
+
+    usar = necesarias;
+}}
+
+            // =================================
+            // ASIGNAR
+            // =================================
 
             // =================================
 // ASIGNAR
@@ -2242,14 +2780,12 @@ function actualizarSelects() {{
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-            // Identifica si la fila es manual
-            let esManual = row.classList.contains('u-manual'); 
             let nameLower = name.toLowerCase();
 
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
             
-            // LA CLAVE: Si es manual O permite negativos O tiene stock, la muestra
-            if (esManual || permiteNegativos || stock > left) {{
+            // Si permite negativos o aún tiene stock, la agregamos al select
+            if (permiteNegativos || stock > left) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
@@ -2260,22 +2796,16 @@ function actualizarSelects() {{
     }});
 }}
 
-// --- ESTE ES EL BLOQUE CORREGIDO ---
-
-// Escucha cambios en cualquier parte de la tabla para recalcular y refrescar la lista
+// Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
-    // Si el cambio ocurre en cualquier fila de la tabla, recalcula y actualiza la lista
-    if (e.target.closest('tr')) {{
+    if (e.target.classList.contains('f-stock') || e.target.classList.contains('u-manual')) {{
         recalc(); 
-        actualizarSelects(); 
     }}
 }});
 
-// Esto asegura que al cargar la página todo esté listo
-window.addEventListener('load', () => {{
-    actualizarSelects();
-    actualizarDosPorciento();
-}});
+// Esto asegura que al cargar la página ya esté filtrado
+window.addEventListener('load', actualizarSelects);
+actualizarDosPorciento();
 // ==============================================================================
 
 
