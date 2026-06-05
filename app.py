@@ -2400,7 +2400,7 @@ smallVan.restante -= usar;
 // =================================
 
 let unidad =
-    fleet.find(f => {
+    fleet.find(f => {{
 
         if (
             currentTab == 5 &&
