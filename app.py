@@ -1911,34 +1911,34 @@ let unidad = null;
 // SMX5
 // =====================================
 
-if (currentTab == 1) {
+if (currentTab == 1) {{
 
     if (
         nombrePlan.includes("CHALCO") ||
         nombrePlan.includes("IZTAPALAPA")
-    ) {
+    ) {{
 
         unidad =
             fleet.find(f =>
                 f.nombre.includes("Small 9h Ext Car") &&
                 f.restante > 0
             );
-    }
+    }}
 
-    if (!unidad) {
+    if (!unidad) {{
 
         unidad =
             fleet.find(f =>
                 f.nombre.includes("Car - 8h") &&
                 f.restante > 0
             );
-    }
+    }}
 
-    if (!unidad) {
+    if (!unidad) {{
         unidad =
             fleet.find(f => f.restante > 0);
-    }
-}
+    }}
+}}
 
 // =====================================
 // SMX2
