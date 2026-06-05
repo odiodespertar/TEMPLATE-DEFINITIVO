@@ -177,8 +177,13 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_target=None, options_html=""):
-    global OPTIONS_HTML  # <--- AGREGA ESTO
+def gen_poligonos(data_target=None):
+    # Esto asegura que la variable exista dentro de la función
+    global OPTIONS_HTML
+    if 'OPTIONS_HTML' not in globals():
+        LISTA_UNIDADES = ["CAR 8H", "VAN 5H", "MOTO 3H"]
+        OPTIONS_HTML = "".join([f'<option value="{u}">{u}</option>' for u in LISTA_UNIDADES])
+
     polys = ""
     
     # Botones con dimensiones totalmente congeladas a nivel píxel
