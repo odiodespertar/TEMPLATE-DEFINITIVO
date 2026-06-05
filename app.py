@@ -671,7 +671,7 @@ html body .meli-table tbody tr:last-child {{
      style="
         background:#f5f5f5;
         border:1px solid #d0d0d0;
-        border-radius:6px;
+        border-radius:3px;
         padding:6px;
         margin-bottom:10px;
         text-align:center;
