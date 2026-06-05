@@ -389,8 +389,8 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
         }}
 
 /* Redondear las esquinas de las filas */
-        .meli-table td:first-child {{ border-radius: 12px 0 0 12px; }}
-        .meli-table td:last-child {{ border-radius: 0 12px 12px 0; }}
+        .meli-table td:first-child {{ border-radius: 3px 0 0 3px; }}
+        .meli-table td:last-child {{ border-radius: 0 3px 3px 0; }}
 
         
         #google-alert {{ 
