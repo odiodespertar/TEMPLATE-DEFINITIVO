@@ -162,6 +162,7 @@ def gen_master_rows(data_dict, table_id):
         width:45px;
         font-weight:bold;
         color:#135b83;
+        border-radius:2px;
     ">
     0
 </td>
@@ -383,7 +384,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* El efecto Neomórfico en cada fila */
         .master-row {{ 
-            border-radius: 3px;
+            border-radius: 9px;
             box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
             transition: all 0.2s ease;
         }}
@@ -664,14 +665,14 @@ html body .meli-table tbody tr:last-child {{
     margin-bottom:10px;
 ">
 
-        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 3px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
        
         
         <div id="dos-pct-global"
      style="
         background:#f5f5f5;
         border:1px solid #d0d0d0;
-        border-radius:3px;
+        border-radius:6px;
         padding:6px;
         margin-bottom:10px;
         text-align:center;
@@ -728,6 +729,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -736,6 +738,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -812,6 +815,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -820,6 +824,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -879,6 +884,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -887,6 +893,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -947,6 +954,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
@@ -955,6 +963,7 @@ html body .meli-table tbody tr:last-child {{
     border-right:0.5px solid #135b83;
     padding:4px 8px;
     font-size:11px;
+    color: #0c3a54 !important;
     width:50px;">
     DELTA
 </th>
@@ -1453,7 +1462,7 @@ if (vT === 0) {{
                 if (diff < 0) {{
                     cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
                 }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#d32f2f";
+                    cL.style.color = "white"; cL.style.background = "#f05d5d";
                 }} else {{
                     cL.style.color = "#0e4c6e"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
                 }}
@@ -1497,8 +1506,6 @@ updateFleetFloat();
 actualizarTotales();
 
 actualizarDosPorciento();
-
-actualizarSelects();
 
     }}
 
@@ -2249,6 +2256,9 @@ function togglePrioridades() {{
 }}
 // ==============================================================================
 
+
+
+
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
     const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
@@ -2263,20 +2273,18 @@ function actualizarSelects() {{
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-            let esManual = row.classList.contains('u-manual'); // Detecta si fue agregada manualmente
             let nameLower = name.toLowerCase();
 
-            // Incluye negativos o unidades manuales incluso si stock es 0
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
             
-            if (permiteNegativos || stock > left || esManual) {{
+            // Si permite negativos o aún tiene stock, la agregamos al select
+            if (permiteNegativos || stock > left) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
                 select.appendChild(opt);
             }}
         }});
-
         select.value = valorActual;
     }});
 }}
