@@ -764,7 +764,7 @@ html body .meli-table tbody tr:last-child {{
             
             <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2"
+    <td colspan="3"
         style="
             padding:6px;
             text-align:right;
@@ -788,7 +788,7 @@ html body .meli-table tbody tr:last-child {{
 <!-- NUEVA FILA -->
     <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="2" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         ➕ CAR 
     </td>
     <td id="total-car-adicional-2"
