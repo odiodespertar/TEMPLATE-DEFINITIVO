@@ -1914,6 +1914,56 @@ if (currentTab == 1) {{
 
             if (usar <= 0) return;
 
+
+
+
+let filaExistente =
+    Array.from(
+        polyPlan.bloque.querySelectorAll('.calc-row')
+    ).find(f => {{
+
+        let tipo =
+            f.querySelector('.s-type')
+             ?.value
+             ?.trim() || "";
+
+        let unidades =
+            parseInt(
+                f.querySelector('.u-manual')
+                 ?.innerText
+            ) || 0;
+
+        return (
+            tipo === small9h.nombre &&
+            unidades > 0
+        );
+
+    }});
+
+if (filaExistente) {{
+
+    let actual =
+        parseInt(
+            filaExistente.querySelector('.u-manual')
+             ?.innerText
+        ) || 0;
+
+    filaExistente.querySelector('.u-manual').innerText =
+        actual + usar;
+
+    filaExistente.querySelector('.spr-real-val').innerText =
+        small9h.spr;
+
+    editedRowsPlan.add(filaExistente);
+
+    small9h.restante -= usar;
+
+    return;
+}}
+
+
+
+
             let filaLibre =
                 Array.from(
                     polyPlan.bloque.querySelectorAll('.calc-row')
@@ -2022,6 +2072,58 @@ if (currentTab == 1) {{
                     );
 
                 if (usar <= 0) return;
+
+
+
+let filaExistente =
+    Array.from(
+        polyPlan.bloque.querySelectorAll('.calc-row')
+    ).find(f => {{
+
+        let tipo =
+            f.querySelector('.s-type')
+             ?.value
+             ?.trim() || "";
+
+        let unidades =
+            parseInt(
+                f.querySelector('.u-manual')
+                 ?.innerText
+            ) || 0;
+
+        return (
+            tipo === small9h.nombre &&
+            unidades > 0
+        );
+
+    }});
+
+if (filaExistente) {{
+
+ console.log(
+        "REUTILIZANDO SMALL9H:",
+        nombrePlan
+    );
+
+    let actual =
+        parseInt(
+            filaExistente.querySelector('.u-manual')
+             ?.innerText
+        ) || 0;
+
+    filaExistente.querySelector('.u-manual').innerText =
+        actual + usar;
+
+    filaExistente.querySelector('.spr-real-val').innerText =
+        small9h.spr;
+
+    editedRowsPlan.add(filaExistente);
+
+    small9h.restante -= usar;
+
+    return;
+}}
+
 
                 let filaLibre =
                     Array.from(
