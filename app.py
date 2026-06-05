@@ -2222,6 +2222,12 @@ smallVan.restante -= usar;
                     nombrePlan === "PUEBLOS" ||
                     nombrePlan === "TEXCOCO"
                 ) {{
+
+                    console.log(
+        "EXCLUIDO:",
+        nombrePlan
+    );
+
                     return;
                 }}
 
