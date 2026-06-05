@@ -1498,6 +1498,8 @@ actualizarTotales();
 
 actualizarDosPorciento();
 
+actualizarSelects();
+
     }}
 
     // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
@@ -2247,9 +2249,6 @@ function togglePrioridades() {{
 }}
 // ==============================================================================
 
-
-
-
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
     const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
@@ -2264,18 +2263,20 @@ function actualizarSelects() {{
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            let esManual = row.classList.contains('u-manual'); // Detecta si fue agregada manualmente
             let nameLower = name.toLowerCase();
 
+            // Incluye negativos o unidades manuales incluso si stock es 0
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
             
-            // Si permite negativos o aún tiene stock, la agregamos al select
-            if (permiteNegativos || stock > left) {{
+            if (permiteNegativos || stock > left || esManual) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
                 select.appendChild(opt);
             }}
         }});
+
         select.value = valorActual;
     }});
 }}
