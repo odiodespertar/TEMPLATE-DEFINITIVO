@@ -2785,34 +2785,26 @@ let filaExistente = filas.find(f => {{
 }});
 
 if (filaExistente) {{
-
-    let actual =
-        parseInt(
-            filaExistente.querySelector('.u-manual')?.innerText
-        ) || 0;
-
-    filaExistente.querySelector('.u-manual').innerText =
-        actual + usar;
-
-    filaExistente.querySelector('.spr-real-val').innerText =
-        unidad.spr;
-
-    editedRowsPlan.add(filaExistente);
-
+    let celdaManual = filaExistente.querySelector('.u-manual');
+    let celdaSpr = filaExistente.querySelector('.spr-real-val');
+    
+    if (celdaManual && celdaSpr) {{
+        let actual = parseInt(celdaManual.innerText) || 0;
+        celdaManual.innerText = actual + usar;
+        celdaSpr.innerText = unidad.spr;
+        editedRowsPlan.add(filaExistente);
+    }}
 }} else {{
+    let select = fila.querySelector('.s-type');
+    let celdaManual = fila.querySelector('.u-manual');
+    let celdaSpr = fila.querySelector('.spr-real-val');
 
-    let select =
-        fila.querySelector('.s-type');
-
-    select.value = unidad.nombre;
-
-    fila.querySelector('.u-manual').innerText =
-        usar;
-
-    fila.querySelector('.spr-real-val').innerText =
-        unidad.spr;
-
-    editedRowsPlan.add(fila);
+    if (select && celdaManual && celdaSpr) {{
+        select.value = unidad.nombre;
+        celdaManual.innerText = usar;
+        celdaSpr.innerText = unidad.spr;
+        editedRowsPlan.add(fila);
+    }}
 }}
 
 unidad.restante -= usar;
