@@ -2768,51 +2768,52 @@ function togglePrioridades() {{
 
 
 
-// --- FUNCIÓN DE FILTRADO ---
-function actualizarSelects() {{
-    // 1. Verificamos si existe alguna unidad con stock positivo en la tabla
+import streamlit as st
+
+# Usamos st.markdown con unsafe_allow_html=True
+# Esto le dice a Streamlit: "No leas esto como Python, envíalo directo al navegador"
+st.markdown("""
+<script>
+function actualizarSelects() {
     let hayStock = false;
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         if (stock > 0) hayStock = true;
-    }});
+    });
 
     const esUnidadCar = (nombre) => ["car - 8h", "car - 5h", "car - 3h"].some(u => nombre.toLowerCase().includes(u));
 
-    document.querySelectorAll('.s-type').forEach(select => {{
+    document.querySelectorAll('.s-type').forEach(select => {
         let valorActual = select.value;
         select.innerHTML = '<option value="">Seleccionar...</option>';
         
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
             let name = row.querySelector('.edit-name')?.innerText.trim();
             if (!name || name === "IGNORAR") return;
             
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
 
-            // LÓGICA DE FILTRADO:
-            // - Si hay stock, mostramos todo.
-            // - Si NO hay stock, solo dejamos pasar las unidades CAR.
-            if (hayStock) {{
-                // Modo normal: mostramos lo que tenga stock
-                if (stock > 0) {{
+            if (hayStock) {
+                if (stock > 0) {
                     let opt = document.createElement('option');
                     opt.value = name;
                     opt.textContent = name;
                     select.appendChild(opt);
-                }}
-            }} else {{
-                // Modo emergencia: solo mostramos las unidades CAR
-                if (esUnidadCar(name)) {{
+                }
+            } else {
+                if (esUnidadCar(name)) {
                     let opt = document.createElement('option');
                     opt.value = name;
                     opt.textContent = name;
                     select.appendChild(opt);
-                }}
-            }}
-        }});
+                }
+            }
+        });
         select.value = valorActual;
-    }});
-}}
+    });
+}
+</script>
+""", unsafe_allow_html=True)
 
 // Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
