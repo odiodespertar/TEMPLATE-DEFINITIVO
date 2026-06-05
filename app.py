@@ -1721,34 +1721,23 @@ function distribuirAutomatico() {{
     // =========================================
 
     let fleet = [];
-
+const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"]; // Unidades permitidas en negativo
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+    let nombre = row.querySelector('.edit-name')?.innerText.trim();
+    let sprMax = parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
+    let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+    
+    // Verificamos si es una unidad que permite negativos
+    let esEspecial = listaNegativos.some(u => nombre.toLowerCase().includes(u));
 
-        let nombre =
-            row.querySelector('.edit-name')?.innerText.trim();
-
-        let sprMax =
-            parseFloat(
-                row.querySelector('.edit-spr-max')?.innerText
-            ) || 0;
-
-        let stock =
-            parseInt(
-                row.querySelector('.f-stock')?.innerText
-            ) || 0;
-
-        if (
-            nombre &&
-            nombre !== "IGNORAR" &&
-            stock > 0
-        ) {{
-
-            fleet.push({{
-                nombre: nombre,
-                spr: sprMax,
-                stock: stock,
-                restante: stock
-            }});
+    // ACEPTAR SI: Tiene stock POSITIVO O es una unidad especial (negativa)
+    if (nombre && nombre !== "IGNORAR" && (stock > 0 || esEspecial)) {{
+        fleet.push({{
+            nombre: nombre,
+            spr: sprMax,
+            stock: stock,
+            restante: stock // Si es Car-8h, esto empezará en negativo y funcionará igual
+        }});
         }}
     }});
 
