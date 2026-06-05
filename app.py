@@ -177,7 +177,7 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-def gen_poligonos(data_target=None):
+def gen_poligonos(data_target=None, options_html=""):
     global OPTIONS_HTML  # <--- AGREGA ESTO
     polys = ""
     
@@ -262,9 +262,10 @@ def gen_poligonos(data_target=None):
                             </div>
                         </td>
                         <td style="border: 0.5px solid #135b83; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
-                                <option>Seleccionar...</option>
-                            </select>
+                            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
+    <option value="">Seleccionar...</option>
+    {OPTIONS_HTML}
+</select>
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
