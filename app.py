@@ -3090,31 +3090,36 @@ actualizarDosPorciento();
 // ==============================================================================
 
 
-// Detectar cuando el usuario escribe en "VOL. TOTAL"
+<script>
+// 1. Escuchador universal: Detecta cualquier escritura en la celda "VOL. TOTAL"
 document.addEventListener('input', function(e) {{
     if (e.target.classList.contains('v-total-val')) {{
         let fila = e.target.closest('tr');
         let selector = fila.querySelector('.s-type');
         
-        // Habilitar el selector automáticamente
+        // Habilitamos el selector en cuanto el usuario escribe algo
         if (selector) {{
             selector.disabled = false;
-            selector.style.opacity = "1";
         }}
     }}
 }});
 
-// Lógica para añadir "infinitamente"
-function agregarFilaExtra(btn) {{
-    let tbody = btn.closest('tbody');
-    let nuevaFila = tbody.querySelector('.calc-row').cloneNode(true); // Clonamos la fila original
+// 2. Función para clonar la fila (Añadir infinitamente)
+// La llamaremos desde un botón que pondremos en tu HTML
+function añadirUnidad(btn) {{
+    let tr = btn.closest('tr');
+    let tabla = tr.closest('table');
+    let nuevaFila = tr.cloneNode(true); // Clonamos la fila actual
     
-    // Limpiar los valores de la fila clonada para que esté vacía
-    nuevaFila.querySelectorAll('span').forEach(s => s.innerText = '0');
+    // Limpiamos los valores de la copia para que sea nueva
+    nuevaFila.querySelectorAll('.u-manual, .spr-real-val, .v-total-val').forEach(el => {{
+        el.innerText = '0';
+    }});
     
-    // Insertar la fila antes de la fila de ESTADO
-    tbody.insertBefore(nuevaFila, tbody.lastElementChild);
+    // Insertamos la nueva fila al final del cuerpo de la tabla
+    tabla.querySelector('tbody').appendChild(nuevaFila);
 }}
+</script>
 
 
 
@@ -3288,6 +3293,27 @@ console.log(
         document.onmousemove = null;
     }}
 }}
+
+
+<script>
+    // Este objeto guardará los valores editados
+    window.dataStore = window.dataStore || {{}};
+
+    // Esta función guarda lo que hay en pantalla antes de que changeTab borre todo
+    function guardarEstadoActual() {{
+        document.querySelectorAll('.u-manual, .spr-real-val, .v-total-val').forEach(el => {{
+            if(el.id) window.dataStore[el.id] = el.innerText;
+        }});
+    }}
+
+    // Esta función restaura los valores después de que changeTab crea el HTML nuevo
+    function restaurarEstado() {{
+        for (let id in window.dataStore) {{
+            let el = document.getElementById(id);
+            if(el) el.innerText = window.dataStore[id];
+        }}
+    }}
+
 
 
     
