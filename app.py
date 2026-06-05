@@ -3042,7 +3042,14 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-    const listaNegativos = ["car - 8h", "car - 5h", "car - 3h"];
+
+    const listaNegativos = [
+    "Car - 8h",
+    "Car - 5h",
+    "Car - 3h"
+];
+
+
     
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
