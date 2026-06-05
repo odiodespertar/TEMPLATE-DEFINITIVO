@@ -2082,11 +2082,13 @@ if (currentTab == 5) {{
 
     if (smallVan && smallVan.restante > 0) {{
 
-        let planesPrioridad = [
-            "IZTAPALAPA 1",
-            "IZTAPALAPA 2",
-            "LA PAZ"
-        ];
+    let planesPrioridad = [
+    "IZTAPALAPA 1",
+    "IZTAPALAPA 2",
+    "LA PAZ",
+    "CHALCO"
+    ];
+
 
         planesPrioridad.forEach(nombreBuscado => {{
 
@@ -2216,12 +2218,13 @@ smallVan.restante -= usar;
                         ?.toUpperCase() || "";
 
                 if (
-                    nombrePlan === "IZTAPALAPA 1" ||
-                    nombrePlan === "IZTAPALAPA 2" ||
-                    nombrePlan === "LA PAZ" ||
-                    nombrePlan === "PUEBLOS" ||
-                    nombrePlan === "TEXCOCO"
-                ) {{
+                   nombrePlan === "IZTAPALAPA 1" ||
+                   nombrePlan === "IZTAPALAPA 2" ||
+                   nombrePlan === "LA PAZ" ||
+                   nombrePlan === "CHALCO" ||
+                   nombrePlan === "PUEBLOS" ||
+                   nombrePlan === "TEXCOCO"
+                 ) {{
 
                     console.log(
         "EXCLUIDO:",
