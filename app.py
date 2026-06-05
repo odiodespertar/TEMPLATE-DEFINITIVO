@@ -2322,6 +2322,193 @@ smallVan.restante -= usar;
 
 
 
+// =========================================
+// 5.7 PREASIGNACIÓN CAR ZONA EXTENDIDA - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+    let carZonaExtra =
+        fleet.find(f =>
+            f.nombre === "Car Zona Extendida"
+        );
+
+    if (CarZonaExtendida && CarZonaExtendida.restante > 0) {{
+
+        let planesPrioridad = [
+            "PUEBLOS",
+            "TEXCOCO"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / CarZonaExtendida.spr),
+                    CarZonaExtendida.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                CarZonaExtendida.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                CarZonaExtendida.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+            CarZonaExtendida.restante -= usar;
+
+        }});
+
+        // SOBRANTE A CHALCO
+
+        if (CarZonaExtendida.restante > 0) {{
+
+            let chalco = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === "CHALCO";
+
+            }});
+
+            if (chalco) {
+
+                let filaLibre =
+                    Array.from(
+                        chalco.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (filaLibre) {{
+
+                    filaLibre.querySelector('.s-type').value =
+                        CarZonaExtendida.nombre;
+
+                    filaLibre.querySelector('.u-manual').innerText =
+                        CarZonaExtendida.restante;
+
+                    filaLibre.querySelector('.spr-real-val').innerText =
+                        CarZonaExtendida.spr;
+
+                    editedRowsPlan.add(filaLibre);
+
+                    CarZonaExtendida.restante = 0;
+                }}
+            }}
+        }}
+    }}
+}}
+
+
+
 
     // =========================================
     // 6. AUTO-ASIGNACIÓN
