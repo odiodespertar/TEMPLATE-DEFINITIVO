@@ -3089,7 +3089,16 @@ window.addEventListener('load', actualizarSelects);
 actualizarDosPorciento();
 // ==============================================================================
 
-
+document.addEventListener('input', function(e) {{
+    // Solo actuamos si se escribió en la celda de volumen
+    if (e.target && e.target.classList.contains('v-total-val')) {{
+        let fila = e.target.closest('tr');
+        let select = fila.querySelector('.s-type');
+        if (select) {{
+            select.disabled = false;
+        }}
+    }}
+}});
 
 
 // ==============================================================================
