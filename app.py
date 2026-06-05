@@ -174,8 +174,11 @@ def gen_master_rows(data_dict, table_id):
 
 def gen_poligonos(data_target=None):
     polys = ""
-    # Botones con dimensiones totalmente congeladas a nivel píxel
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
+    
+    # 1. DEFINIR LAS OPCIONES AQUÍ DENTRO (Local y protegido)
+    lista_unidades = ["CAR 8H", "VAN 5H", "MOTO 3H"]
+    html_opciones = "".join([f'<option value="{u}">{u}</option>' for u in lista_unidades])
+    
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
@@ -209,6 +212,7 @@ def gen_poligonos(data_target=None):
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                 <option value="">Seleccionar...</option>
+                {html_opciones}
             </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
