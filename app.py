@@ -769,9 +769,9 @@ html body .meli-table tbody tr:last-child {{
             padding:6px;
             text-align:right;
         ">
-        TOTAL CAR
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-2"
+    <td id="total-car-schedule-2"
         style="
             text-align:center;
             color:#3CB371;
@@ -789,9 +789,9 @@ html body .meli-table tbody tr:last-child {{
     <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR 
+        TOTAL CAR RUTEADAS 
     </td>
-    <td id="total-car-adicional-2"
+    <td id="total-car-real-2"
         style="text-align:center;
                color:#FF4500;
                font-size:16px;
@@ -799,6 +799,29 @@ html body .meli-table tbody tr:last-child {{
         0
     </td>
 </tr>       
+
+
+
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-2"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+
         </tfoot>
     </table>
 </div>
@@ -849,9 +872,9 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-1"
+    <td id="total-car-schedule-1"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -860,13 +883,34 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-1"
+    <td id="total-car-real-1"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
+
+
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-1"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
 
 </tfoot>
     </table>
@@ -918,9 +962,9 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-5"
+    <td id="total-car-schedule-5"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -929,15 +973,34 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-5"
+    <td id="total-car-real-5"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
-</tfoot>
 
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-5"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+</tfoot>
     </table>
 </div>
 
@@ -988,9 +1051,9 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        TOTAL CAR
+        TOTAL CAR DECLARADAS
     </td>
-    <td id="total-car-real-4"
+    <td id="total-car-schedule-4"
         style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
@@ -999,15 +1062,34 @@ html body .meli-table tbody tr:last-child {{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="2" style="padding:6px; text-align:right;">
-        ➕ CAR
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-car-adicional-4"
+    <td id="total-car-real-4"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
-</tfoot>
 
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="2" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-4"
+        style="
+            text-align:center;
+            color:#800080;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
+
+
+
+</tfoot>
     </table>
 </div>
 
