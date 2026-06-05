@@ -212,9 +212,12 @@ def gen_poligonos(data_target=None):
             </div>
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
-    <option value="">Seleccionar...</option>
-    </select>
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"> 
+                <option value="">Seleccionar...</option>
+                <option value="Car - 8h">Car - 8h</option>
+                <option value="Car - 5h">Car - 5h</option>
+                <option value="Car - 3h">Car - 3h</option>
+            </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
@@ -3028,8 +3031,7 @@ console.log(
 </html>
 """
 
-html(app_html, height=1200, scrolling=True, key="visor_principal")
-
+html(app_html, height=1200, scrolling=True)
 
 
 
