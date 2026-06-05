@@ -126,7 +126,7 @@ def gen_master_rows(data_dict, table_id):
         if "---" in name:
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="4" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="5" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
@@ -149,9 +149,24 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-                <td class="f-left" style="display:none; width: 0px; padding: 0px;">0</td>
-            </tr>''' 
+                <td contenteditable="true" class="f-stock" oninput="recalc()"
+    style="text-align: center; border: 0.2px solid #135b83;
+           width: 55px; font-weight: bold; font-size: 13px;">
+    0
+</td>
+
+<td class="f-left"
+    style="
+        text-align:center;
+        border:0.2px solid #135b83;
+        width:45px;
+        font-weight:bold;
+        color:#135b83;
+    ">
+    0
+</td>
+
+ </tr>''' 
     return rows
 
 
@@ -200,7 +215,7 @@ def gen_poligonos(data_target=None):
 
     for i in range(1, 11):
         if data_target == u_PREC and (i-1) < len(nombres_prec):
-            nombre_final = nombres_prec[i-1]
+            nombre_final = nombres_prec[i-1] 
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2): 
             nombre_final = nombres_smx2[i-1] 
         else:
@@ -709,8 +724,23 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
-            </tr>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:60px;">
+    SCHEDULE
+</th>
+
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
                   <tfoot class="fila-total"> 
@@ -778,7 +808,23 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:60px;">
+    SCHEDULE
+</th>
+
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+            
             </tr>
         </thead>
         <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
@@ -829,7 +875,23 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:60px;">
+    SCHEDULE
+</th>
+
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+            
             </tr>
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
@@ -881,7 +943,23 @@ html body .meli-table tbody tr:last-child {{
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">SCHEDULE</th>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:60px;">
+    SCHEDULE
+</th>
+
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+            
             </tr>
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
@@ -1814,6 +1892,14 @@ function distribuirAutomatico() {{
 // permitir seguir usando la unidad especial 
 if (!unidad) {{
 
+console.log("TAB:", currentTab);
+    console.log("FLEET COMPLETA:", fleet);
+
+    console.log(
+        fleet.map(f => f.nombre)
+    );
+
+    
     if (currentTab == 4) {{         // SDE
 
         unidad =
