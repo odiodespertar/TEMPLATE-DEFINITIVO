@@ -2770,50 +2770,57 @@ function togglePrioridades() {{
 
 import streamlit as st
 
-# Usamos st.markdown con unsafe_allow_html=True
-# Esto le dice a Streamlit: "No leas esto como Python, envíalo directo al navegador"
-st.markdown("""
-<script>
-function actualizarSelects() {{
-    let hayStock = false;
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-        if (stock > 0) hayStock = true;
-    }});
-
-    const esUnidadCar = (nombre) => ["car - 8h", "car - 5h", "car - 3h"].some(u => nombre.toLowerCase().includes(u));
-
-    document.querySelectorAll('.s-type').forEach(select => {{
-        let valorActual = select.value;
-        select.innerHTML = '<option value="">Seleccionar...</option>';
-        
+def inyectar_javascript():
+    # Usamos st.components.v1 para inyectar HTML/JS de forma segura
+    import streamlit.components.v1 as components
+    
+    js_code = """
+    <script>
+    function actualizarSelects() {{
+        let hayStock = false;
+        // Aquí va tu código JS tal cual, con sus llaves { } normales
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name')?.innerText.trim();
-            if (!name || name === "IGNORAR") return;
-            
             let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-
-            if (hayStock) {{
-                if (stock > 0) {{
-                    let opt = document.createElement('option');
-                    opt.value = name;
-                    opt.textContent = name;
-                    select.appendChild(opt);
-                }}
-            }} else {{
-                if (esUnidadCar(name)) {{
-                    let opt = document.createElement('option');
-                    opt.value = name;
-                    opt.textContent = name;
-                    select.appendChild(opt);
-                }}
-            }}
+            if (stock > 0) hayStock = true;
         }});
-        select.value = valorActual;
-    }});
-}}
-</script>
-""", unsafe_allow_html=True)
+
+        const esUnidadCar = (nombre) => ["car - 8h", "car - 5h", "car - 3h"].some(u => nombre.toLowerCase().includes(u));
+
+        document.querySelectorAll('.s-type').forEach(select => {{
+            let valorActual = select.value;
+            select.innerHTML = '<option value="">Seleccionar...</option>';
+            
+            document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+                let name = row.querySelector('.edit-name')?.innerText.trim();
+                if (!name || name === "IGNORAR") return;
+                
+                let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+
+                if (hayStock) {{
+                    if (stock > 0) {{
+                        let opt = document.createElement('option');
+                        opt.value = name;
+                        opt.textContent = name;
+                        select.appendChild(opt);
+                    }}
+                }} else {{
+                    if (esUnidadCar(name)) {{
+                        let opt = document.createElement('option');
+                        opt.value = name;
+                        opt.textContent = name;
+                        select.appendChild(opt);
+                    }}
+                }}
+            }});
+            select.value = valorActual;
+        }});
+    }}
+    </script>
+    """
+    components.html(js_code, height=0)
+
+# LLAMA A ESTA FUNCIÓN EN TU CÓDIGO DONDE QUIERAS QUE EL SCRIPT APAREZCA
+inyectar_javascript()
 
 // Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
