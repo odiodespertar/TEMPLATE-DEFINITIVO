@@ -3308,6 +3308,33 @@ document.addEventListener('input', function(e) {{
 }});
 
 
+<script>
+// --- GUARDA Y RESTAURA EL ESTADO DEL VISOR ---
+const memoriaDatos = {{}};
+
+const observerMemoria = new MutationObserver((mutations) => {{
+    const visor = document.getElementById('visor');
+    const tabActiva = document.querySelector('.tab-btn.active')?.innerText || 'default';
+    
+    // Si el contenido no tiene nada, intentamos restaurar de memoria
+    // O si estamos cambiando de pestaña, guardamos lo que acabamos de hacer
+    if (visor.innerHTML.includes('select') && !visor.innerHTML.includes('option')) {{
+        // Si detectamos que el select está vacío (sin opciones), intentamos rellenarlo
+        if (memoriaDatos[tabActiva]) {{
+            visor.innerHTML = memoriaDatos[tabActiva];
+        }}
+    }} else {{
+        // Si el contenido está completo, lo guardamos para que no se pierda
+        memoriaDatos[tabActiva] = visor.innerHTML;
+    }}
+}});
+
+const visor = document.getElementById('visor');
+if (visor) {{
+    observerMemoria.observe(visor, {{ childList: true, subtree: true }});
+}}
+</script>
+
 
 
 </script>
