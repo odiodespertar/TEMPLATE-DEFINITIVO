@@ -2068,6 +2068,509 @@ if (currentTab == 1) {{
 
 
 
+// =========================================
+// PREASIGNACIÓN CAR ZONA EXTENDIDA - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+   let carZE =
+    fleet.find(f =>
+        f.nombre === "Car Zona Extendida"
+    );
+
+    if (carZE && carZE.restante > 0) {{
+
+    let planesPrioridad = [
+    "PUEBLOS",
+    "TEXCOCO",
+    "CHALCO"
+];
+
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+
+            console.log(
+    "CAR ZE RESTO:",
+    "[" + nombrePlan + "]"
+);
+
+
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / carZE.spr),
+                    carZE.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                carZE.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                carZE.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+carZE.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (carZE.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (carZE.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                   nombrePlan === "PUEBLOS" ||
+                   nombrePlan === "TEXCOCO" ||
+                   nombrePlan === "CHALCO"
+                 ) {{
+
+                    console.log(
+        "EXCLUIDO:",
+        nombrePlan
+    );
+
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / carZE.spr),
+                        carZE.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    carZE.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    carZE.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                carZE.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
+// =========================================
+// PREASIGNACIÓN SMALL 9H EXT CAR - SMX2
+// =========================================
+
+if (currentTab == 5) {{
+
+    let small9h =
+        fleet.find(f =>
+            f.nombre === "Small 9h Ext Car"
+        );
+
+    if (small9h && small9h.restante > 0) {{
+
+    let planesPrioridad = [
+    "CHIMAS",
+    "IXTAPALUCA VALLE CHALCO"
+];
+
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+
+            console.log(
+    "SMALL 9H RESTO:",
+    "[" + nombrePlan + "]"
+);
+
+
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / small9h.spr),
+                    small9h.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                small9h.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                small9h.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+small9h.restante -= usar;
+
+        }});
+
+        // =====================================
+        // SOBRANTE AL RESTO DE PLANES
+        // =====================================
+
+        if (small9h.restante > 0) {{
+
+            polys.forEach(polyPlan => {{
+
+                if (small9h.restante <= 0) return;
+
+                let nombrePlan =
+                    polyPlan.bloque
+                        .querySelector('td[rowspan]')
+                        ?.innerText
+                        ?.trim()
+                        ?.toUpperCase() || "";
+
+                if (
+                   nombrePlan === "CHIMAS" ||
+                   nombrePlan === "IXTAPALUCA VALLE CHALCO"
+                   )
+                          {{
+
+                    console.log(
+        "EXCLUIDO:",
+        nombrePlan
+    );
+
+                    return;
+                }}
+
+                let objetivo =
+                    parseFloat(
+                        polyPlan.bloque
+                            .querySelector('.v-total-val')
+                            ?.innerText
+                    ) || 0;
+
+                let yaAsignado = 0;
+
+                polyPlan.bloque
+                    .querySelectorAll('.calc-row')
+                    .forEach(r => {{
+
+                        let unidades =
+                            parseInt(
+                                r.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        let spr =
+                            parseFloat(
+                                r.querySelector('.spr-real-val')
+                                 ?.innerText
+                            ) || 0;
+
+                        yaAsignado += unidades * spr;
+
+                    }});
+
+                let restante =
+                    objetivo - yaAsignado;
+
+                if (restante <= 0) return;
+
+                let usar =
+                    Math.min(
+                        Math.ceil(restante / small9h.spr),
+                        small9h.restante
+                    );
+
+                if (usar <= 0) return;
+
+                let filaLibre =
+                    Array.from(
+                        polyPlan.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (!filaLibre) return;
+
+                filaLibre.querySelector('.s-type').value =
+                    small9h.nombre;
+
+                filaLibre.querySelector('.u-manual').innerText =
+                    usar;
+
+                filaLibre.querySelector('.spr-real-val').innerText =
+                    small9h.spr;
+
+                editedRowsPlan.add(filaLibre);
+
+                small9h.restante -= usar;
+
+            }});
+        }}
+
+    }}
+}}
+
+
+
 
     // =========================================
 // 5.6 PREASIGNACIÓN SMALL VAN SDD - SMX2
