@@ -1847,9 +1847,9 @@ if (currentTab == 1) {{
     if (small9h && small9h.restante > 0) {{
 
         let planesPrioridad = [
-            "CHALCO",
-            "IZTAPALAPA"
-        ];
+    "IZTAPALAPA",
+    "COYOACAN"
+];
 
         planesPrioridad.forEach(nombreBuscado => {{
 
@@ -1971,11 +1971,10 @@ if (currentTab == 1) {{
                         ?.toUpperCase() || "";
 
                 if (
-                    nombrePlan === "CHALCO" ||
-                    nombrePlan === "IZTAPALAPA"
-                ) {{
-                    return;
-                }}
+    nombrePlan !== "TLAHUAC"
+) {{
+    return;
+}}
 
                 let objetivo =
                     parseFloat(
