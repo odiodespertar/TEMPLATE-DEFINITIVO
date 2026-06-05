@@ -2216,20 +2216,16 @@ smallVan.restante -= usar;
                         ?.toUpperCase() || "";
 
                 if (
-                    nombrePlan === "IZTAPALAPA 1" ||
-                    nombrePlan === "IZTAPALAPA 2" ||
-                    nombrePlan === "LA PAZ" ||
-                    nombrePlan === "PUEBLOS" ||
-                    nombrePlan === "TEXCOCO"
-                ) {{
+    !nombrePlan.includes("CHIMAS")
+) {{
 
-                    console.log(
+    console.log(
         "EXCLUIDO:",
         nombrePlan
     );
 
-                    return;
-                }}
+    return;
+}}
 
                 let objetivo =
                     parseFloat(
