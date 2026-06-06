@@ -1173,7 +1173,7 @@ html body .meli-table tbody tr:last-child {{
 
 <!-- CONTADOR FLOTANTE -->
 <div id="fleet-float">
-    <div style="font-weight:bold; margin-bottom:8px;">
+    <div style="font-weight:bold; margin-bottom:8px;"></div>
     
     <div id="fleet-float-body">
         Cargando...
@@ -1181,7 +1181,7 @@ html body .meli-table tbody tr:last-child {{
     
 <div id="reloj-ruteo" style="margin-top: 15px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.3); border: 2px solid #ccc; text-align: center; font-size: 14px;">
         Cargando ruteos..
-    
+    </div>
 </div>
 <script>
 
