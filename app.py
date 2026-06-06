@@ -1172,8 +1172,9 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE -->
-<div id="fleet-float">
-   
+<div id="fleet-float" hidden>
+    <div style="font-weight:bold; margin-bottom:8px;">
+    
     <div id="fleet-float-body">
         Cargando...
     </div>
