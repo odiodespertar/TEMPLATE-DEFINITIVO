@@ -3323,26 +3323,6 @@ function actualizarRelojRuteos(){{
 
 
 
-const contador =
-    document.getElementById("cuenta-regresiva");
-
-if(minutos > 15){{
-
-    contador.style.color = "#2E8B57"; // Verde
-
-}}else if(minutos > 5){{
-
-    contador.style.color = "#FF8C00"; // Naranja
-
-}}else{{
-
-    contador.style.color = "#FF0000"; // Rojo
-
-}}
-
-
-
-
     document.getElementById("hora-actual").innerText =
         hh + ":" + mm + ":" + ss;
 
@@ -3410,6 +3390,28 @@ if(minutos > 15){{
         String(minutos).padStart(2,"0")
         + ":"
         + String(segundos).padStart(2,"0");
+
+
+
+const contador =
+    document.getElementById("cuenta-regresiva");
+
+if(minutos > 15){{
+
+    contador.style.color = "#2E8B57"; // Verde
+
+}}else if(minutos > 5){{
+
+    contador.style.color = "#FF8C00"; // Naranja
+
+}}else{{
+
+    contador.style.color = "#FF0000"; // Rojo
+
+}}
+
+
+
 
     if(minutos <= 5){{
 
