@@ -32,26 +32,9 @@ st.markdown("""
         max-width: 80% !important;
         margin-left: 0 !important;
         margin-right: auto;
-  }
-
-
-/* ESTILO PARA EL RELOJ LOGÍSTICO */
-    #reloj-ruteo {
-        background: #ffffff !important;
-        color: #0a2745 !important;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 10px;
-        margin-top: 15px;
-        text-align: center;
-        font-family: sans-serif;
-        font-weight: bold;
-        font-size: 13px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     </style>
     """, unsafe_allow_html=True)
-
 
 
 # --- DATOS BASE ---
@@ -1188,12 +1171,18 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<!-- CONTADOR FLOTANTE OCULTO -->
-div id="fleet-float" hidden>
+<!-- CONTADOR FLOTANTE -->
+<div id="fleet-float">
     <div style="font-weight:bold; margin-bottom:8px;"></div>
+    
+    <div id="fleet-float-body">
+        Cargando...
+    </div>
+    
+<div id="reloj-ruteo" style="margin-top: 15px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.3); border: 2px solid #ccc; text-align: center; font-size: 14px;">
+        Cargando ruteos..
+    </div>
 </div>
-
-
 <script>
 
 
@@ -2917,58 +2906,8 @@ if (isCar) {{
             }}
         }});
 
-        // Columna derecha
-        htmlRight = `
-
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 16px;">
-    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
-</div>
-        
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
-
-
-    <div style="font-weight:bold; margin-bottom:8px;">
-          <span>🚚 USADAS</span>
-          </div>
-          
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
-    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
-</div>
-
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
-    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
-</div>
-
-            </div>
-        `;
-
-let html = `
-<div style="
-    display:flex;
-    gap:15px;
-    align-items:flex-start;
-">
-
-    <div style="
-        flex:1;
-        min-width:180px;
-    ">
-        ${{htmlLeft}}
-    </div>
-
-    <div style="
-        width:170px;
-        border-left:2px solid #135b83;
-        padding-left:12px;
-    ">
-        ${{htmlRight}}
-    </div>
-
-</div>
-`;
 
 
 // Actualizar filas de totales de la tabla
@@ -3271,42 +3210,42 @@ console.log(
     }}
 }}
 
-
-function actualizarReloj() {{
-        const el = document.getElementById('reloj-ruteo');
-        if (!el) return;
-
+// --- LÓGICA DEL SEMÁFORO DE RUTEO ---
+    function actualizarReloj() {{
         const ruteos = [
-            {{n:"SMX9 PM2", h:"16:40"}}, {{n:"SMX5 PM2", h:"17:20"}},
-            {{n:"SMX4 PM2", h:"17:40"}}, {{n:"SMX2 PM1", h:"18:00"}},
-            {{n:"SMT2 PM2", h:"18:40"}}, {{n:"SMX5 AM3", h:"21:50"}},
-            {{n:"SMX2 AM3", h:"22:40"}}
+            {{ nombre: "SMX9 PM2", hora: "16:40" }},
+            {{ nombre: "SMX5 PM2", hora: "17:20" }},
+            {{ nombre: "SMX4 PM2", hora: "17:40" }},
+            {{ nombre: "SMX2 PM1", hora: "18:00" }},
+            {{ nombre: "SMT2 PM2", hora: "18:40" }},
+            {{ nombre: "SMX5 AM3", hora: "21:50" }},
+            {{ nombre: "SMX2 AM3", hora: "22:40" }}
         ];
 
-        const now = new Date();
-        const minNow = now.getHours() * 60 + now.getMinutes();
-        const prox = ruteos.find(x => {{
-            const [h, m] = x.h.split(':').map(Number);
-            return (h * 60 + m) > minNow;
+        const ahora = new Date();
+        const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+        const siguiente = ruteos.find(r => {{
+            const [h, m] = r.hora.split(':').map(Number);
+            return (h * 60 + m) > horaActual;
         }});
 
-        if (prox) {{
-            const [h, m] = prox.h.split(':').map(Number);
-            const diff = (h * 60 + m) - minNow;
-            const color = diff <= 5 ? "orange" : "green";
+        const relojDiv = document.getElementById('reloj-ruteo');
+        if (relojDiv && siguiente) {{
+            const [h, m] = siguiente.hora.split(':').map(Number);
+            const minutosFaltantes = (h * 60 + m) - horaActual;
             
-            el.innerHTML = "<strong>"+prox.n+"</strong><br>"+prox.h+
-                           "<br><span style='color:"+color+"; font-weight:bold;'>"+
-                           (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min")+"</span>";
-            el.style.borderColor = color;
-        }} else {{
-            el.innerHTML = "Fin de ruteos hoy";
+            let color = "#28a745"; // Verde
+            if (minutosFaltantes <= 5) color = "#ffc107"; // Amarillo
+            if (minutosFaltantes <= 0) color = "#dc3545"; // Rojo
+
+            relojDiv.style.borderColor = color;
+            relojDiv.innerHTML = `<strong>${{siguiente.nombre}}</strong><br>⏱️ ${{siguiente.hora}}<br><span style="color:${{color}}; font-weight:bold;">${{minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min'}}</span>`;
         }}
     }}
-
-    // Ejecutar inmediatamente y luego cada 30 segundos
+    
+    // Iniciar y actualizar cada minuto
+    setInterval(actualizarReloj, 60000);
     actualizarReloj();
-    setInterval(actualizarReloj, 30000);
 
     
 </script>
@@ -3314,7 +3253,7 @@ function actualizarReloj() {{
 </html>
 """
 
-html(app_html, height=800, scrolling=True)
+html(app_html, height=1200, scrolling=True)
 
 
 
