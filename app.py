@@ -584,7 +584,7 @@ html body .meli-table tbody tr:last-child {{
 
     background: #FFE4E1;
 
-    border:2px solid #135b83;
+    border:2px solid #FF00FF;
 
     border-radius:12px;
 
@@ -3320,6 +3320,28 @@ function actualizarRelojRuteos(){{
 
     const ss =
         String(ahora.getSeconds()).padStart(2,"0");
+
+
+
+const contador =
+    document.getElementById("cuenta-regresiva");
+
+if(minutos > 15){{
+
+    contador.style.color = "#2E8B57"; // Verde
+
+}}else if(minutos > 5){{
+
+    contador.style.color = "#FF8C00"; // Naranja
+
+}}else{{
+
+    contador.style.color = "#FF0000"; // Rojo
+
+}}
+
+
+
 
     document.getElementById("hora-actual").innerText =
         hh + ":" + mm + ":" + ss;
