@@ -1253,7 +1253,7 @@ html body .meli-table tbody tr:last-child {{
         style="
         font-size:20px;
         font-weight:bold;
-        color:#db7004;">
+        color:#FF00FF;">
         00:00
     </div>
 
