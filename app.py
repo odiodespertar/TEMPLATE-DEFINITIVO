@@ -1184,14 +1184,9 @@ html body .meli-table tbody tr:last-child {{
 
 <!-- CONTADOR FLOTANTE -->
 <div id="fleet-float">
-    <div style="font-weight:bold; margin-bottom:8px;"></div>
-    <div id="fleet-float-body">
-        Cargando...
-    </div>
-
-    <div id="reloj-ruteo" style="background:#fff; color:#000; padding:10px; margin-top:20px; border:2px solid #ccc; border-radius:8px; text-align:center;">
-        Cargando...
-    </div>
+    <div style="font-weight:bold; margin-bottom:8px;">🚛 DISPONIBLE</div>
+    <div id="fleet-float-body">Cargando...</div>
+    <div id="contenedor-reloj-externo"></div>
 </div>
 <script>
 
@@ -3221,6 +3216,15 @@ console.log(
 }}
 
 
+<script>
+    // 1. Crear el contenedor del reloj si no existe
+    const contenedor = document.getElementById('contenedor-reloj-externo');
+    const relojDiv = document.createElement('div');
+    relojDiv.id = 'reloj-ruteo';
+    relojDiv.style.cssText = "background:#fff; color:#000; padding:10px; margin-top:20px; border:2px solid #ccc; border-radius:8px; text-align:center; font-family:sans-serif;";
+    contenedor.appendChild(relojDiv);
+
+
 // --- LÓGICA DEL SEMÁFORO DE RUTEO ---
    function actualizarReloj() {{
         const ruteos = [
@@ -3240,34 +3244,26 @@ console.log(
             return (h * 60 + m) > horaActual;
         }});
 
-        const relojDiv = document.getElementById('reloj-ruteo');
-        
-        if (relojDiv && siguiente) {{
+        if (siguiente) {{
             const [h, m] = siguiente.hora.split(':').map(Number);
             const minutosFaltantes = (h * 60 + m) - horaActual;
-            
-            let color = "#28a745"; 
-            if (minutosFaltantes <= 5) color = "#ffc107";
+            let color = minutosFaltantes <= 5 ? "#ffc107" : "#28a745";
             if (minutosFaltantes <= 0) color = "#dc3545";
-
-            // CORRECCIÓN AQUÍ: Usamos comillas normales y el signo +
-            relojDiv.style.border = "2px solid " + color;
             
+            relojDiv.style.border = "2px solid " + color;
             relojDiv.innerHTML = "<strong>" + siguiente.nombre + "</strong><br>" + 
-                                 siguiente.hora + "<br>" +
+                                 "⏱️ " + siguiente.hora + "<br>" +
                                  "<span style='color:" + color + "; font-weight:bold;'>" + 
                                  (minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min') + 
                                  "</span>";
+        }} else {{
+            relojDiv.innerHTML = "Fin de ruta por hoy.";
         }}
     }}
 
-// Muy importante: Lanzarlo una vez al iniciar
-window.onload = () => {{
+    // 3. Lanzar
     actualizarReloj();
-    setInterval(actualizarReloj, 30000); // 30 segundos
-}};
-
-    
+    setInterval(actualizarReloj, 30000);
 </script>
 </body>
 </html>
