@@ -35,21 +35,47 @@ st.markdown("""
   }
 
 
-/* ESTILO PARA EL RELOJ LOGÍSTICO */
-    #reloj-ruteo {
-        background: #ffffff !important;
-        color: #0a2745 !important;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 10px;
-        margin-top: 15px;
+st.markdown("""
+    <div id="reloj-container" style="
+        position: fixed; 
+        top: 20px; 
+        right: 20px; 
+        width: 300px; 
+        background: white; 
+        border: 2px solid #0a2745; 
+        padding: 15px; 
+        border-radius: 10px; 
+        z-index: 999999;
         text-align: center;
-        font-family: sans-serif;
-        font-weight: bold;
-        font-size: 13px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    </style>
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+        <div id="reloj-datos" style="font-size: 14px; font-weight: bold; color: #0a2745;">Cargando...</div>
+    </div>
+    <script>
+        function updateReloj() {
+            const ruteos = [
+                {n:"SMX9 PM2", h:"16:40"}, {n:"SMX5 PM2", h:"17:20"},
+                {n:"SMX4 PM2", h:"17:40"}, {n:"SMX2 PM1", h:"18:00"},
+                {n:"SMT2 PM2", h:"18:40"}, {n:"SMX5 AM3", h:"21:50"},
+                {n:"SMX2 AM3", h:"22:40"}
+            ];
+            const now = new Date();
+            const minNow = now.getHours() * 60 + now.getMinutes();
+            const prox = ruteos.find(x => {
+                const [h, m] = x.h.split(':').map(Number);
+                return (h * 60 + m) > minNow;
+            });
+            const el = document.getElementById('reloj-datos');
+            if(el && prox) {
+                const [h, m] = prox.h.split(':').map(Number);
+                const diff = (h * 60 + m) - minNow;
+                el.innerHTML = "PRÓXIMO: " + prox.n + "<br>" + prox.h + "<br>" + 
+                               "<span style='color:"+(diff <= 5 ? 'red' : 'green')+"'>" + 
+                               (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min") + "</span>";
+            }
+        }
+        setInterval(updateReloj, 30000);
+        updateReloj();
+    </script>
     """, unsafe_allow_html=True)
 
 
