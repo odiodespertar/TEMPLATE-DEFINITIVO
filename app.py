@@ -756,7 +756,7 @@ html body .meli-table tbody tr:last-child {{
         style="text-align:center;
                color:#135b83;
                font-size:16px;
-               font-weight:bold;">
+               font-weight:bold !important;">
         0
     </td>
 </tr>
@@ -795,7 +795,7 @@ html body .meli-table tbody tr:last-child {{
         style="text-align:center;
                color:#FF4500;
                font-size:16px;
-               font-weight:bold;">
+               font-weight:bold !important;">
         0
     </td>
 </tr>       
@@ -813,7 +813,7 @@ html body .meli-table tbody tr:last-child {{
             text-align:center;
             color:#FF8C00;
             font-size:16px;
-            font-weight:bold;
+            font-weight:bold !important;
         ">
         0
     </td>
@@ -901,7 +901,7 @@ html body .meli-table tbody tr:last-child {{
     <td id="total-ruteadas-1"
         style="
             text-align:center;
-            color:#800080;
+            color:#FF8C00;
             font-size:16px;
             font-weight:bold;
         ">
@@ -990,7 +990,7 @@ html body .meli-table tbody tr:last-child {{
     <td id="total-ruteadas-5"
         style="
             text-align:center;
-            color:#800080;
+            color:#FF8C00;
             font-size:16px;
             font-weight:bold;
         ">
@@ -1079,7 +1079,7 @@ html body .meli-table tbody tr:last-child {{
     <td id="total-ruteadas-4"
         style="
             text-align:center;
-            color:#800080;
+            color:#FF8C00;
             font-size:16px;
             font-weight:bold;
         ">
