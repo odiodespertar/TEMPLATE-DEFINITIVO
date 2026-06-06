@@ -1188,6 +1188,10 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
+<!-- CONTADOR FLOTANTE OCULTO -->
+<div id="fleet-float" style="display: block !important; position: fixed; top: 100px; left: 50px; z-index: 999999; background: white; border: 3px solid red; padding: 20px;">    <div id="reloj-ruteo">Cargando...</div>
+</div>
+</div>
 
 
 <script>
@@ -3305,27 +3309,7 @@ function actualizarReloj() {{
     setInterval(actualizarReloj, 30000);
 
     
-<script>
-    // Usamos MutationObserver para esperar a que el elemento realmente exista en el DOM
-    const observer = new MutationObserver(() => {{
-        const el = document.getElementById('reloj-ruteo');
-        if (el && el.innerHTML === "Cargando reloj...") {{
-            actualizarReloj(); // Forzar carga inicial
-        }}
-    }});
-    observer.observe(document.body, {{ childList: true, subtree: true }});
-
-    function actualizarReloj() {{
-        const el = document.getElementById('reloj-ruteo');
-        if (!el) return;
-        
-        // ... (Tu lógica de ruteos igual que antes) ...
-        const ruteos = [{{n:"SMX9 PM2", h:"16:40"}}, {{n:"SMX5 PM2", h:"17:20"}} /* etc */];
-        // ... lógica de fecha ...
-        // el.innerHTML = ...
-    }}
 </script>
-
 </body>
 </html>
 """
