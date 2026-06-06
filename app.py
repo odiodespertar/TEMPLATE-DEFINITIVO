@@ -1171,7 +1171,7 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<!-- CONTADOR FLOTANTE OCULTO -->
+<!-- CONTADOR FLOTANTE -->
 <div id="fleet-float">
    
     <div id="fleet-float-body">
@@ -2905,58 +2905,8 @@ if (isCar) {{
             }}
         }});
 
-        // Columna derecha
-        htmlRight = `
-
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
 
 
-<div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 16px;">
-    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
-</div>
-        
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
-
-
-    <div style="font-weight:bold; margin-bottom:8px;">
-          <span>🚚 USADAS</span>
-          </div>
-          
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
-    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
-</div>
-
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
-    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
-</div>
-
-            </div>
-        `;
-
-let html = `
-<div style="
-    display:flex;
-    gap:15px;
-    align-items:flex-start;
-">
-
-    <div style="
-        flex:1;
-        min-width:180px;
-    ">
-        ${{htmlLeft}}
-    </div>
-
-    <div style="
-        width:170px;
-        border-left:2px solid #135b83;
-        padding-left:12px;
-    ">
-        ${{htmlRight}}
-    </div>
-
-</div>
-`;
 
 
 // Actualizar filas de totales de la tabla
