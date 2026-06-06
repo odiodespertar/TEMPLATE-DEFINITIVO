@@ -1239,7 +1239,7 @@ html body .meli-table tbody tr:last-child {{
 
     <div id="proximo-ruteo"
         style="
-        font-size:18px;
+        font-size:20px;
         font-weight:bold;
         color:#FF4500;">
         Sin tareas
@@ -1251,9 +1251,9 @@ html body .meli-table tbody tr:last-child {{
 
     <div id="cuenta-regresiva"
         style="
-        font-size:24px;
+        font-size:16px;
         font-weight:bold;
-        color:#135b83;">
+        color:#FF8C00;">
         00:00
     </div>
 
