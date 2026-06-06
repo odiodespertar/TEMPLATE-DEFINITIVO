@@ -1185,12 +1185,12 @@ html body .meli-table tbody tr:last-child {{
 <!-- CONTADOR FLOTANTE -->
 <div id="fleet-float">
     <div style="font-weight:bold; margin-bottom:8px;"></div>
-    <div id="fleet-float-body">Cargando...</div>
+    <div id="fleet-float-body">
+        Cargando...
+    </div>
 
-    <hr style="border: 0; border-top: 1px solid #0a2745; margin: 15px 0;">
-    
-    <div id="reloj-ruteo">
-        Cargando ruteos...
+    <div id="reloj-ruteo" style="background:#fff; color:#000; padding:10px; margin-top:20px; border:2px solid #ccc; border-radius:8px; text-align:center;">
+        Cargando...
     </div>
 </div>
 <script>
@@ -3233,29 +3233,34 @@ console.log(
         ];
 
         const ahora = new Date();
-        const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
-        const siguiente = ruteos.find(r => {{
-            const [h, m] = r.hora.split(':').map(Number);
-            return (h * 60 + m) > horaActual;
-        }});
+    const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+    const siguiente = ruteos.find(r => {{
+        const [h, m] = r.hora.split(':').map(Number);
+        return (h * 60 + m) > horaActual;
+    }});
 
-        const relojDiv = document.getElementById('reloj-ruteo');
-        if (relojDiv && siguiente) {{
+    const relojDiv = document.getElementById('reloj-ruteo');
+    
+    if (relojDiv) {{
+        if (siguiente) {{
             const [h, m] = siguiente.hora.split(':').map(Number);
             const minutosFaltantes = (h * 60 + m) - horaActual;
+            let color = minutosFaltantes <= 5 ? "#ffc107" : "#28a745";
+            if (minutosFaltantes <= 0) color = "#dc3545";
             
-            let color = "#28a745"; // Verde
-            if (minutosFaltantes <= 5) color = "#ffc107"; // Amarillo
-            if (minutosFaltantes <= 0) color = "#dc3545"; // Rojo
-
-            relojDiv.style.borderColor = color;
-            relojDiv.innerHTML = `<strong>${{siguiente.nombre}}</strong><br>⏱️ ${{siguiente.hora}}<br><span style="color:${{color}}; font-weight:bold;">${{minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min'}}</span>`;
+            relojDiv.style.border = `2px solid ${color}`;
+            relojDiv.innerHTML = `<strong>${{siguiente.nombre}}</strong><br>${{siguiente.hora}}<br><span style="color:${{color}}">Faltan: ${{minutosFaltantes}} min</span>`;
+        }} else {{
+            relojDiv.innerHTML = "No hay más ruteos hoy.";
         }}
     }}
-    
-    // Iniciar y actualizar cada minuto
-    setInterval(actualizarReloj, 60000);
+}}
+
+// Muy importante: Lanzarlo una vez al iniciar
+window.onload = () => {{
     actualizarReloj();
+    setInterval(actualizarReloj, 30000); // 30 segundos
+}};
 
     
 </script>
