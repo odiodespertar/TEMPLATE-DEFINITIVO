@@ -811,7 +811,7 @@ html body .meli-table tbody tr:last-child {{
     <td id="total-ruteadas-2"
         style="
             text-align:center;
-            color:#800080;
+            color:#FF8C00;
             font-size:16px;
             font-weight:bold;
         ">
