@@ -1189,8 +1189,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE OCULTO -->
-<div id="fleet-float" hidden>
-    <div id="reloj-ruteo">Cargando...</div>
+<div id="fleet-float" style="display: block !important; position: fixed; top: 100px; left: 50px; z-index: 999999; background: white; border: 3px solid red; padding: 20px;">    <div id="reloj-ruteo">Cargando...</div>
 </div>
 </div>
 
@@ -3273,13 +3272,49 @@ console.log(
 }}
 
 
+function actualizarReloj() {{
+        const el = document.getElementById('reloj-ruteo');
+        if (!el) return;
+
+        const ruteos = [
+            {{n:"SMX9 PM2", h:"16:40"}}, {{n:"SMX5 PM2", h:"17:20"}},
+            {{n:"SMX4 PM2", h:"17:40"}}, {{n:"SMX2 PM1", h:"18:00"}},
+            {{n:"SMT2 PM2", h:"18:40"}}, {{n:"SMX5 AM3", h:"21:50"}},
+            {{n:"SMX2 AM3", h:"22:40"}}
+        ];
+
+        const now = new Date();
+        const minNow = now.getHours() * 60 + now.getMinutes();
+        const prox = ruteos.find(x => {{
+            const [h, m] = x.h.split(':').map(Number);
+            return (h * 60 + m) > minNow;
+        }});
+
+        if (prox) {{
+            const [h, m] = prox.h.split(':').map(Number);
+            const diff = (h * 60 + m) - minNow;
+            const color = diff <= 5 ? "orange" : "green";
+            
+            el.innerHTML = "<strong>"+prox.n+"</strong><br>"+prox.h+
+                           "<br><span style='color:"+color+"; font-weight:bold;'>"+
+                           (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min")+"</span>";
+            el.style.borderColor = color;
+        }} else {{
+            el.innerHTML = "Fin de ruteos hoy";
+        }}
+    }}
+
+    // Ejecutar inmediatamente y luego cada 30 segundos
+    actualizarReloj();
+    setInterval(actualizarReloj, 30000);
+
     
 </script>
 </body>
 </html>
 """
 
-html(app_html, height=1200, scrolling=True)
+html(app_html, height=800, scrolling=True)
 
 
 
