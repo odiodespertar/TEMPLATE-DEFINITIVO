@@ -189,10 +189,6 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-
-
-
-
 def gen_poligonos(data_target=None):
     polys = ""
     # Botones con dimensiones totalmente congeladas a nivel píxel
@@ -350,48 +346,6 @@ app_html = f"""
     </style>
     
 </head>
-
-
-
-
-
-# Inyectamos el reloj directamente en el body de Streamlit, fuera de cualquier iframe
-reloj_js_final = """
-<script>
-    function crearRelojFueraDeTodo() {{
-        if (document.getElementById('reloj-global')) return;
-        
-        const reloj = document.createElement('div');
-        reloj.id = 'reloj-global';
-        reloj.style.cssText = "position: fixed; top: 100px; left: 20px; z-index: 2147483647; background: white; border: 3px solid #FF6347; padding: 15px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); font-family: sans-serif; pointer-events: auto;";
-        reloj.innerHTML = "<div id='reloj-contenido' style='color: #0a2745; font-weight: bold;'>Iniciando...</div>";
-        
-        document.body.appendChild(reloj);
-        
-        // Logica de actualizacion
-        setInterval(function() {{
-            const r = [{{n:"SMX9", h:"16:40"}}, {{n:"SMX5", h:"17:20"}}, {{n:"SMX4", h:"17:40"}}, {{n:"SMX2", h:"18:00"}}, {{n:"SMT2", h:"18:40"}}, {{n:"SMX5", h:"21:50"}}, {{n:"SMX2", h:"22:40"}}];
-            const now = new Date();
-            const minNow = now.getHours() * 60 + now.getMinutes();
-            const prox = r.find(x => { const [h, m] = x.h.split(':').map(Number); return (h * 60 + m) > minNow; });
-            const el = document.getElementById('reloj-contenido');
-            if (el && prox) {{
-                const [h, m] = prox.h.split(':').map(Number);
-                const diff = (h * 60 + m) - minNow;
-                el.innerHTML = "PROX: " + prox.n + "<br><span style='font-size:20px;'>" + prox.h + "</span><br><span style='color:" + (diff <= 5 ? "red" : "green") + "'>" + (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min") + "</span>";
-            }}
-        }}, 30000);
-    }}
-    // Ejecutar cuando la página esté lista
-    window.addEventListener('load', crearRelojFueraDeTodo);
-    crearRelojFueraDeTodo();
-</script>
-"""
-st.markdown(reloj_js_final, unsafe_allow_html=True)
-
-
-
-
 
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
@@ -1234,19 +1188,11 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<div id="fleet-float" hidden>
-    <div style="font-weight:bold; margin-bottom:8px;">
-        🚛 DISPONIBLE
-    </div>
-
-    <div id="fleet-float-body">
-        Cargando...
-    </div>
-
-    <div id="reloj-ruteo" style="margin-top: 15px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.3); border: 2px solid #ccc; text-align: center; font-size: 14px;">
-        Cargando ruteos...
-    </div>
+<!-- CONTADOR FLOTANTE OCULTO -->
+<div id="fleet-float" style="display: block !important; position: fixed; top: 100px; left: 50px; z-index: 999999; background: white; border: 3px solid red; padding: 20px;">    <div id="reloj-ruteo">Cargando...</div>
 </div>
+</div>
+
 
 <script>
 
