@@ -3270,13 +3270,13 @@ console.log(
         if (!relojDiv) return;
 
         const ruteos = [
-            { nombre: "SMX9 PM2", hora: "16:40" },
-            { nombre: "SMX5 PM2", hora: "17:20" },
-            { nombre: "SMX4 PM2", hora: "17:40" },
-            { nombre: "SMX2 PM1", hora: "18:00" },
-            { nombre: "SMT2 PM2", hora: "18:40" },
-            { nombre: "SMX5 AM3", hora: "21:50" },
-            { nombre: "SMX2 AM3", hora: "22:40" }
+            {{ nombre: "SMX9 PM2", hora: "16:40" }},
+            {{ nombre: "SMX5 PM2", hora: "17:20" }},
+            {{ nombre: "SMX4 PM2", hora: "17:40" }},
+            {{ nombre: "SMX2 PM1", hora: "18:00" }},
+            {{ nombre: "SMT2 PM2", hora: "18:40" }},
+            {{ nombre: "SMX5 AM3", hora: "21:50" }},
+            {{ nombre: "SMX2 AM3", hora: "22:40" }}
         ];
 
         function actualizar() {{
