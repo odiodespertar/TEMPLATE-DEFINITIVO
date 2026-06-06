@@ -564,12 +564,23 @@ html body .meli-table tbody tr:last-child {{
 
 /////////////////
 
-/* Agrégalo al final de tu sección <style> */
 .ok-check {{
-    accent-color: #FFFF00 !important; /* Cambia aquí el color (ej. #AFEEEE para Turquesa) */
-    cursor: pointer;
-}}
-    
+        accent-color: #FFFF00 !important;
+        cursor: pointer;
+    }}
+
+    /* ESTILO PARA QUE EL RELOJ SE VEA BIEN */
+    #reloj-ruteo {{
+        background: rgba(255, 255, 255, 0.85) !important;
+        color: #0a2745 !important;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 15px;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }}
     </style>
 
     
