@@ -3220,8 +3220,9 @@ console.log(
     }}
 }}
 
+
 // --- LÓGICA DEL SEMÁFORO DE RUTEO ---
-    function actualizarReloj() {{
+   function actualizarReloj() {{
         const ruteos = [
             {{ nombre: "SMX9 PM2", hora: "16:40" }},
             {{ nombre: "SMX5 PM2", hora: "17:20" }},
@@ -3233,28 +3234,32 @@ console.log(
         ];
 
         const ahora = new Date();
-    const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
-    const siguiente = ruteos.find(r => {{
-        const [h, m] = r.hora.split(':').map(Number);
-        return (h * 60 + m) > horaActual;
-    }});
+        const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+        const siguiente = ruteos.find(r => {{
+            const [h, m] = r.hora.split(':').map(Number);
+            return (h * 60 + m) > horaActual;
+        }});
 
-    const relojDiv = document.getElementById('reloj-ruteo');
-    
-    if (relojDiv) {{
-        if (siguiente) {{
+        const relojDiv = document.getElementById('reloj-ruteo');
+        
+        if (relojDiv && siguiente) {{
             const [h, m] = siguiente.hora.split(':').map(Number);
             const minutosFaltantes = (h * 60 + m) - horaActual;
-            let color = minutosFaltantes <= 5 ? "#ffc107" : "#28a745";
-            if (minutosFaltantes <= 0) color = "#dc3545";
             
-            relojDiv.style.border = `2px solid ${color}`;
-            relojDiv.innerHTML = `<strong>${{siguiente.nombre}}</strong><br>${{siguiente.hora}}<br><span style="color:${{color}}">Faltan: ${{minutosFaltantes}} min</span>`;
-        }} else {{
-            relojDiv.innerHTML = "No hay más ruteos hoy.";
+            let color = "#28a745"; 
+            if (minutosFaltantes <= 5) color = "#ffc107";
+            if (minutosFaltantes <= 0) color = "#dc3545";
+
+            // CORRECCIÓN AQUÍ: Usamos comillas normales y el signo +
+            relojDiv.style.border = "2px solid " + color;
+            
+            relojDiv.innerHTML = "<strong>" + siguiente.nombre + "</strong><br>" + 
+                                 siguiente.hora + "<br>" +
+                                 "<span style='color:" + color + "; font-weight:bold;'>" + 
+                                 (minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min') + 
+                                 "</span>";
         }}
     }}
-}}
 
 // Muy importante: Lanzarlo una vez al iniciar
 window.onload = () => {{
