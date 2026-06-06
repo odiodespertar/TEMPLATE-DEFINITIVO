@@ -189,43 +189,7 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-import streamlit.components.v1 as components
 
-# Forzamos una capa extra que rompe cualquier orden de Streamlit
-reloj_html = """
-<div id="reloj-absoluto" style="
-    position: fixed; 
-    top: 50px; 
-    left: 20px; 
-    z-index: 2147483647 !important; 
-    background: white; 
-    border: 3px solid #FF6347; 
-    padding: 15px; 
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-    <div id="reloj-texto" style="color: #0a2745; font-weight: bold; font-family: sans-serif;">Cargando...</div>
-</div>
-<script>
-    function update() {
-        const r = [{n:"SMX9 PM2", h:"16:40"}, {n:"SMX5 PM2", h:"17:20"}, {n:"SMX4 PM2", h:"17:40"}, 
-                   {n:"SMX2 PM1", h:"18:00"}, {n:"SMT2 PM2", h:"18:40"}, {n:"SMX5 AM3", h:"21:50"}, {n:"SMX2 AM3", h:"22:40"}];
-        const now = new Date();
-        const minNow = now.getHours() * 60 + now.getMinutes();
-        const prox = r.find(x => { const [h, m] = x.h.split(':').map(Number); return (h * 60 + m) > minNow; });
-        const el = document.getElementById('reloj-texto');
-        if (el && prox) {
-            const [h, m] = prox.h.split(':').map(Number);
-            const diff = (h * 60 + m) - minNow;
-            el.innerHTML = "PROX: " + prox.n + "<br><span style='font-size:20px;'>" + prox.h + "</span><br>" + 
-                           "<span style='color:" + (diff <= 5 ? "red" : "green") + "'>" + (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min") + "</span>";
-        }
-    }
-    setInterval(update, 30000);
-    update();
-</script>
-"""
-# Height muy pequeño porque el componente es "flotante" y no necesita espacio en el flujo
-components.html(reloj_html, height=120)
 
 
 
@@ -386,6 +350,48 @@ app_html = f"""
     </style>
     
 </head>
+
+
+
+
+
+# Inyectamos el reloj directamente en el body de Streamlit, fuera de cualquier iframe
+reloj_js_final = """
+<script>
+    function crearRelojFueraDeTodo() {{
+        if (document.getElementById('reloj-global')) return;
+        
+        const reloj = document.createElement('div');
+        reloj.id = 'reloj-global';
+        reloj.style.cssText = "position: fixed; top: 100px; left: 20px; z-index: 2147483647; background: white; border: 3px solid #FF6347; padding: 15px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); font-family: sans-serif; pointer-events: auto;";
+        reloj.innerHTML = "<div id='reloj-contenido' style='color: #0a2745; font-weight: bold;'>Iniciando...</div>";
+        
+        document.body.appendChild(reloj);
+        
+        // Logica de actualizacion
+        setInterval(function() {{
+            const r = [{{n:"SMX9", h:"16:40"}}, {{n:"SMX5", h:"17:20"}}, {{n:"SMX4", h:"17:40"}}, {{n:"SMX2", h:"18:00"}}, {{n:"SMT2", h:"18:40"}}, {{n:"SMX5", h:"21:50"}}, {{n:"SMX2", h:"22:40"}}];
+            const now = new Date();
+            const minNow = now.getHours() * 60 + now.getMinutes();
+            const prox = r.find(x => { const [h, m] = x.h.split(':').map(Number); return (h * 60 + m) > minNow; });
+            const el = document.getElementById('reloj-contenido');
+            if (el && prox) {{
+                const [h, m] = prox.h.split(':').map(Number);
+                const diff = (h * 60 + m) - minNow;
+                el.innerHTML = "PROX: " + prox.n + "<br><span style='font-size:20px;'>" + prox.h + "</span><br><span style='color:" + (diff <= 5 ? "red" : "green") + "'>" + (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min") + "</span>";
+            }}
+        }}, 30000);
+    }}
+    // Ejecutar cuando la página esté lista
+    window.addEventListener('load', crearRelojFueraDeTodo);
+    crearRelojFueraDeTodo();
+</script>
+"""
+st.markdown(reloj_js_final, unsafe_allow_html=True)
+
+
+
+
 
     <style>
 body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
