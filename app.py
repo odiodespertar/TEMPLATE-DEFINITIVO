@@ -1183,10 +1183,13 @@ html body .meli-table tbody tr:last-child {{
 
 
 <!-- CONTADOR FLOTANTE -->
-<div id="fleet-float">
+<div id="fleet-float" hidden>
     <div style="font-weight:bold; margin-bottom:8px;">🚛 DISPONIBLE</div>
     <div id="fleet-float-body">Cargando...</div>
-    <div id="contenedor-reloj-externo"></div>
+
+    <div id="reloj-ruteo" style="color:#000; background:white; padding:5px; border-radius:5px; text-align:center;">
+         Esperando datos...
+    </div>
 </div>
 <script>
 
@@ -3217,16 +3220,11 @@ console.log(
 
 
 <script>
-    // 1. Crear el contenedor del reloj si no existe
-    const contenedor = document.getElementById('contenedor-reloj-externo');
-    const relojDiv = document.createElement('div');
-    relojDiv.id = 'reloj-ruteo';
-    relojDiv.style.cssText = "background:#fff; color:#000; padding:10px; margin-top:20px; border:2px solid #ccc; border-radius:8px; text-align:center; font-family:sans-serif;";
-    contenedor.appendChild(relojDiv);
+    // ESTA FUNCIÓN VA SOLA AL FINAL, NO TOCA TUS OTRAS FUNCIONES
+    function iniciarRelojLogistico() {{
+        const relojDiv = document.getElementById('reloj-ruteo');
+        if (!relojDiv) return;
 
-
-// --- LÓGICA DEL SEMÁFORO DE RUTEO ---
-   function actualizarReloj() {{
         const ruteos = [
             {{ nombre: "SMX9 PM2", hora: "16:40" }},
             {{ nombre: "SMX5 PM2", hora: "17:20" }},
@@ -3237,33 +3235,30 @@ console.log(
             {{ nombre: "SMX2 AM3", hora: "22:40" }}
         ];
 
-        const ahora = new Date();
-        const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
-        const siguiente = ruteos.find(r => {{
-            const [h, m] = r.hora.split(':').map(Number);
-            return (h * 60 + m) > horaActual;
-        }});
+        function actualizar() {{
+            const ahora = new Date();
+            const minActuales = ahora.getHours() * 60 + ahora.getMinutes();
+            const prox = ruteos.find(r => {{
+                const [h, m] = r.hora.split(':').map(Number);
+                return (h * 60 + m) > minActuales;
+            }});
 
-        if (siguiente) {{
-            const [h, m] = siguiente.hora.split(':').map(Number);
-            const minutosFaltantes = (h * 60 + m) - horaActual;
-            let color = minutosFaltantes <= 5 ? "#ffc107" : "#28a745";
-            if (minutosFaltantes <= 0) color = "#dc3545";
-            
-            relojDiv.style.border = "2px solid " + color;
-            relojDiv.innerHTML = "<strong>" + siguiente.nombre + "</strong><br>" + 
-                                 "⏱️ " + siguiente.hora + "<br>" +
-                                 "<span style='color:" + color + "; font-weight:bold;'>" + 
-                                 (minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min') + 
-                                 "</span>";
-        }} else {{
-            relojDiv.innerHTML = "Fin de ruta por hoy.";
+            if (prox) {{
+                const [h, m] = prox.hora.split(':').map(Number);
+                const faltan = (h * 60 + m) - minActuales;
+                relojDiv.innerHTML = "Próximo: " + prox.nombre + " (" + prox.hora + ") - Faltan: " + faltan + " min";
+            }} else {{
+                relojDiv.innerHTML = "Fin de ruteos";
+            }}
         }}
+        actualizar();
+        setInterval(actualizar, 30000);
     }}
 
-    // 3. Lanzar
-    actualizarReloj();
-    setInterval(actualizarReloj, 30000);
+    // Esperamos a que la página cargue totalmente para lanzar el reloj
+    window.addEventListener('load', iniciarRelojLogistico);
+
+</script>
 </script>
 </body>
 </html>
