@@ -1180,8 +1180,11 @@ html body .meli-table tbody tr:last-child {{
     <div id="fleet-float-body">
         Cargando...
     </div>
+    
+    <div id="reloj-ruteo" style="margin-top: 15px; border-top: 1px solid #ccc; padding-top: 10px; text-align: center;">
+        Iniciando...
 </div>
-
+</div>
 
 <script>
 
@@ -3261,8 +3264,51 @@ console.log(
 }}
 
 
-    
+<script>
+    function iniciarReloj() {{
+        const relojDiv = document.getElementById('reloj-ruteo');
+        if (!relojDiv) return;
+
+        const ruteos = [
+            { nombre: "SMX9 PM2", hora: "16:40" },
+            { nombre: "SMX5 PM2", hora: "17:20" },
+            { nombre: "SMX4 PM2", hora: "17:40" },
+            { nombre: "SMX2 PM1", hora: "18:00" },
+            { nombre: "SMT2 PM2", hora: "18:40" },
+            { nombre: "SMX5 AM3", hora: "21:50" },
+            { nombre: "SMX2 AM3", hora: "22:40" }
+        ];
+
+        function actualizar() {{
+            const ahora = new Date();
+            const minActuales = ahora.getHours() * 60 + ahora.getMinutes();
+            const prox = ruteos.find(r => {{
+                const [h, m] = r.hora.split(':').map(Number);
+                return (h * 60 + m) > minActuales;
+            }});
+
+            if (prox) {{
+                const [h, m] = prox.hora.split(':').map(Number);
+                const faltan = (h * 60 + m) - minActuales;
+                let color = faltan <= 5 ? "#ffc107" : "#28a745"; // Amarillo si faltan 5 min, verde si más
+                if (faltan <= 0) color = "#dc3545"; // Rojo si ya pasó
+
+                relojDiv.innerHTML = "<div style='font-size:12px; font-weight:bold;'>" + prox.nombre + "</div>" +
+                                     "<div style='font-size:16px;'>" + prox.hora + "</div>" +
+                                     "<div style='color:" + color + "; font-weight:bold;'>Faltan: " + faltan + " min</div>";
+            }} else {{
+                relojDiv.innerHTML = "Fin de ruteos hoy";
+            }}
+        }}
+        actualizar();
+        setInterval(actualizar, 30000); // 30 segundos
+    }}
+
+    // Esperamos a que la página cargue para inicializar
+    window.addEventListener('load', iniciarReloj);
 </script>
+
+
 </body>
 </html>
 """
