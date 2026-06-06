@@ -3272,19 +3272,7 @@ console.log(
 }}
 
 
-<script>
-    // 1. Asegurar que el reloj existe
-    const panel = document.getElementById('fleet-float');
-    if (panel) {{
-        const reloj = document.createElement('div');
-        reloj.id = 'reloj-ruteo';
-        reloj.style.cssText = "margin-top: 15px; padding: 10px; border: 2px solid #ccc; border-radius: 8px; text-align: center; background: white; color: black; font-weight: bold;";
-        reloj.innerHTML = "Iniciando reloj...";
-        panel.appendChild(reloj); // Esto inyecta el reloj a la fuerza
-    }}
-
-    // 2. Lógica del reloj
-    function actualizarReloj() {{
+function actualizarReloj() {{
         const el = document.getElementById('reloj-ruteo');
         if (!el) return;
 
@@ -3306,16 +3294,22 @@ console.log(
             const [h, m] = prox.h.split(':').map(Number);
             const diff = (h * 60 + m) - minNow;
             const color = diff <= 5 ? "orange" : "green";
+            
+            el.innerHTML = "<strong>"+prox.n+"</strong><br>"+prox.h+
+                           "<br><span style='color:"+color+"; font-weight:bold;'>"+
+                           (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min")+"</span>";
             el.style.borderColor = color;
-            el.innerHTML = "<strong>"+prox.n+"</strong><br>"+prox.h+"<br>"+
-                           "<span style='color:"+color+"'>"+(diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min")+"</span>";
+        }} else {{
+            el.innerHTML = "Fin de ruteos hoy";
         }}
     }}
-    
-    setInterval(actualizarReloj, 30000);
-    actualizarReloj();
-</script>
 
+    // Ejecutar inmediatamente y luego cada 30 segundos
+    actualizarReloj();
+    setInterval(actualizarReloj, 30000);
+
+    
+</script>
 </body>
 </html>
 """
