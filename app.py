@@ -37,6 +37,25 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
+
+/* ESTILO PARA EL RELOJ LOGÍSTICO */
+    #reloj-ruteo {
+        background: #ffffff !important;
+        color: #0a2745 !important;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 15px;
+        text-align: center;
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 13px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+
+
+
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
@@ -1173,13 +1192,8 @@ html body .meli-table tbody tr:last-child {{
 
 <!-- CONTADOR FLOTANTE OCULTO -->
 <div id="fleet-float" hidden>
-    <div style="font-weight:bold; margin-bottom:8px;">
-        🚛 DISPONIBLE
-    </div>
-
-    <div id="fleet-float-body">
-        Cargando...
-    </div>
+    <div id="reloj-ruteo">Cargando...</div>
+</div>
 </div>
 
 
