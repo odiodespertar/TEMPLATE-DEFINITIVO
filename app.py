@@ -756,7 +756,8 @@ html body .meli-table tbody tr:last-child {{
         style="text-align:center;
                color:#135b83;
                font-size:16px;
-               font-weight:bold !important;">
+               font-family: 'Arial Black', Gadget, sans-serif !important;
+    font-weight: 900 !important;">
         0
     </td>
 </tr>
