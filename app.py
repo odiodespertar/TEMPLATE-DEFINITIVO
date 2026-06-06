@@ -32,10 +32,7 @@ st.markdown("""
         max-width: 80% !important;
         margin-left: 0 !important;
         margin-right: auto;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
+  }
 
 
 /* ESTILO PARA EL RELOJ LOGÍSTICO */
@@ -52,7 +49,8 @@ st.markdown("""
         font-size: 13px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-
+    </style>
+    """, unsafe_allow_html=True)
 
 
 
