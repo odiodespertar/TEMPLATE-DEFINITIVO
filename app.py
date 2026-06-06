@@ -1251,9 +1251,9 @@ html body .meli-table tbody tr:last-child {{
 
     <div id="cuenta-regresiva"
         style="
-        font-size:16px;
+        font-size:20px;
         font-weight:bold;
-        color:#FF8C00;">
+        color:#db7004;">
         00:00
     </div>
 
