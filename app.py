@@ -191,52 +191,41 @@ def gen_master_rows(data_dict, table_id):
 
 import streamlit.components.v1 as components
 
-def mostrar_reloj_flotante():
-    html_code = """
-    <div id="reloj-flotante" style="
-        position: fixed; top: 100px; right: 20px; 
-        width: 200px; background: white; padding: 15px; 
-        border: 2px solid #0a2745; border-radius: 12px; 
-        text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        z-index: 999999; font-family: sans-serif;">
-        
-        <div style="font-weight:bold; color:#0a2745; margin-bottom:5px;">PRÓXIMO</div>
-        <div id="reloj-data" style="color:red; font-size:18px; font-weight:bold;">Cargando...</div>
-    </div>
-
-    <script>
-        function actualizar() {
-            const ruteos = [
-                {n:"SMX9", h:"16:40"}, {n:"SMX5", h:"17:20"},
-                {n:"SMX4", h:"17:40"}, {n:"SMX2", h:"18:00"},
-                {n:"SMT2", h:"18:40"}, {n:"SMX5", h:"21:50"},
-                {n:"SMX2", h:"22:40"}
-            ];
-            
-            const ahora = new Date();
-            const minHoy = ahora.getHours() * 60 + ahora.getMinutes();
-            const prox = ruteos.find(r => {
-                const [h, m] = r.h.split(':').map(Number);
-                return (h * 60 + m) > minHoy;
-            });
-
-            const el = document.getElementById('reloj-data');
-            if (prox) {
-                const [h, m] = prox.h.split(':').map(Number);
-                const diff = (h * 60 + m) - minHoy;
-                el.innerHTML = prox.n + " " + prox.h + "<br><small style='color:black;'>Faltan: " + diff + "m</small>";
-            } else {
-                el.innerHTML = "Fin del día";
-            }
+# Forzamos una capa extra que rompe cualquier orden de Streamlit
+reloj_html = """
+<div id="reloj-absoluto" style="
+    position: fixed; 
+    top: 50px; 
+    left: 20px; 
+    z-index: 2147483647 !important; 
+    background: white; 
+    border: 3px solid #FF6347; 
+    padding: 15px; 
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+    <div id="reloj-texto" style="color: #0a2745; font-weight: bold; font-family: sans-serif;">Cargando...</div>
+</div>
+<script>
+    function update() {
+        const r = [{n:"SMX9 PM2", h:"16:40"}, {n:"SMX5 PM2", h:"17:20"}, {n:"SMX4 PM2", h:"17:40"}, 
+                   {n:"SMX2 PM1", h:"18:00"}, {n:"SMT2 PM2", h:"18:40"}, {n:"SMX5 AM3", h:"21:50"}, {n:"SMX2 AM3", h:"22:40"}];
+        const now = new Date();
+        const minNow = now.getHours() * 60 + now.getMinutes();
+        const prox = r.find(x => { const [h, m] = x.h.split(':').map(Number); return (h * 60 + m) > minNow; });
+        const el = document.getElementById('reloj-texto');
+        if (el && prox) {
+            const [h, m] = prox.h.split(':').map(Number);
+            const diff = (h * 60 + m) - minNow;
+            el.innerHTML = "PROX: " + prox.n + "<br><span style='font-size:20px;'>" + prox.h + "</span><br>" + 
+                           "<span style='color:" + (diff <= 5 ? "red" : "green") + "'>" + (diff <= 0 ? "¡AHORA!" : "Faltan: "+diff+" min") + "</span>";
         }
-        setInterval(actualizar, 30000);
-        actualizar();
-    </script>
-    """
-    components.html(html_code, height=120)
-
-# Llamas a esta función donde quieras en tu app
-mostrar_reloj_flotante()
+    }
+    setInterval(update, 30000);
+    update();
+</script>
+"""
+# Height muy pequeño porque el componente es "flotante" y no necesita espacio en el flujo
+components.html(reloj_html, height=120)
 
 
 
