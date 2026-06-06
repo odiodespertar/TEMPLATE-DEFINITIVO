@@ -1173,10 +1173,7 @@ html body .meli-table tbody tr:last-child {{
 
 <!-- CONTADOR FLOTANTE OCULTO -->
 <div id="fleet-float">
-    <div style="font-weight:bold; margin-bottom:8px;">
-        🚛 DISPONIBLE
-    </div>
-
+   
     <div id="fleet-float-body">
         Cargando...
     </div>
