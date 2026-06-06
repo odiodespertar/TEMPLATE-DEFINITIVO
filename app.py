@@ -582,7 +582,7 @@ html body .meli-table tbody tr:last-child {{
 
     width:160px;
 
-    background:white;
+    background: #FFFACD;
 
     border:2px solid #135b83;
 
