@@ -1180,9 +1180,11 @@ html body .meli-table tbody tr:last-child {{
     <div id="fleet-float-body">
         Cargando...
     </div>
+    
+<div id="reloj-ruteo" style="margin-top: 15px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.3); border: 2px solid #ccc; text-align: center; font-size: 14px;">
+        Cargando ruteos..
+    
 </div>
-
-
 <script>
 
 
@@ -3260,6 +3262,42 @@ console.log(
     }}
 }}
 
+// --- LÓGICA DEL SEMÁFORO DE RUTEO ---
+    function actualizarReloj() {{
+        const ruteos = [
+            {{ nombre: "SMX9 PM2", hora: "16:40" }},
+            {{ nombre: "SMX5 PM2", hora: "17:20" }},
+            {{ nombre: "SMX4 PM2", hora: "17:40" }},
+            {{ nombre: "SMX2 PM1", hora: "18:00" }},
+            {{ nombre: "SMT2 PM2", hora: "18:40" }},
+            {{ nombre: "SMX5 AM3", hora: "21:50" }},
+            {{ nombre: "SMX2 AM3", hora: "22:40" }}
+        ];
+
+        const ahora = new Date();
+        const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+        const siguiente = ruteos.find(r => {{
+            const [h, m] = r.hora.split(':').map(Number);
+            return (h * 60 + m) > horaActual;
+        }});
+
+        const relojDiv = document.getElementById('reloj-ruteo');
+        if (relojDiv && siguiente) {{
+            const [h, m] = siguiente.hora.split(':').map(Number);
+            const minutosFaltantes = (h * 60 + m) - horaActual;
+            
+            let color = "#28a745"; // Verde
+            if (minutosFaltantes <= 5) color = "#ffc107"; // Amarillo
+            if (minutosFaltantes <= 0) color = "#dc3545"; // Rojo
+
+            relojDiv.style.borderColor = color;
+            relojDiv.innerHTML = `<strong>${{siguiente.nombre}}</strong><br>⏱️ ${{siguiente.hora}}<br><span style="color:${{color}}; font-weight:bold;">${{minutosFaltantes <= 0 ? '¡AHORA!' : 'Faltan: ' + minutosFaltantes + ' min'}}</span>`;
+        }}
+    }}
+    
+    // Iniciar y actualizar cada minuto
+    setInterval(actualizarReloj, 60000);
+    actualizarReloj();
 
     
 </script>
