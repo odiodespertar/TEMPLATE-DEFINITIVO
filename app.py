@@ -1188,10 +1188,6 @@ html body .meli-table tbody tr:last-child {{
     </div>
 
 
-<!-- CONTADOR FLOTANTE OCULTO -->
-<div id="fleet-float" style="display: block !important; position: fixed; top: 100px; left: 50px; z-index: 999999; background: white; border: 3px solid red; padding: 20px;">    <div id="reloj-ruteo">Cargando...</div>
-</div>
-</div>
 
 
 <script>
