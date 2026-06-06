@@ -569,6 +569,39 @@ html body .meli-table tbody tr:last-child {{
     accent-color: #FFFF00 !important; /* Cambia aquí el color (ej. #AFEEEE para Turquesa) */
     cursor: pointer;
 }}
+
+
+
+
+#ruteo-float{{
+
+    position:fixed;
+
+    top:250px;
+    right:20px;
+
+    width:260px;
+
+    background:white;
+
+    border:2px solid #135b83;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    z-index:999999;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.25);
+
+    font-family:sans-serif;
+
+    cursor:move;
+
+}}
+
+
+
     
     </style>
 
@@ -1182,6 +1215,49 @@ html body .meli-table tbody tr:last-child {{
     </div>
 </div>
 
+
+<!-- NUEVO PANEL DE RUTEOS -->
+<div id="ruteo-float">
+
+    <div style="
+        font-size:22px;
+        font-weight:bold;
+        text-align:center;
+        margin-bottom:10px;
+        color:#135b83;">
+        🕒 <span id="hora-actual">00:00:00</span>
+    </div>
+
+    <hr>
+
+    <div style="
+        font-size:13px;
+        font-weight:bold;
+        color:#666;">
+        SIGUIENTE RUTEO
+    </div>
+
+    <div id="proximo-ruteo"
+        style="
+        font-size:18px;
+        font-weight:bold;
+        color:#FF4500;">
+        Sin tareas
+    </div>
+
+    <div id="hora-ruteo">
+        --
+    </div>
+
+    <div id="cuenta-regresiva"
+        style="
+        font-size:24px;
+        font-weight:bold;
+        color:#135b83;">
+        00:00
+    </div>
+
+</div>
 
 <script>
 
@@ -3186,7 +3262,157 @@ document.addEventListener("focusin", function(e) {{
 
 
 
+
+// ======================================================
+// RELOJ Y RUTEOS
+// ======================================================
+
+const ruteos = [
+
+    {{
+        nombre:"SDE",
+        hora:"08:00"
+    }},
+
+    {{
+        nombre:"SMX5",
+        hora:"08:30"
+    }},
+
+    {{
+        nombre:"C1",
+        hora:"09:00"
+    }},
+
+    {{
+        nombre:"SMX2",
+        hora:"09:30"
+    }}
+
+];
+
+let ultimaAlerta = "";
+
+function actualizarRelojRuteos(){{
+
+    const ahora = new Date();
+
+    const hh =
+        String(ahora.getHours()).padStart(2,"0");
+
+    const mm =
+        String(ahora.getMinutes()).padStart(2,"0");
+
+    const ss =
+        String(ahora.getSeconds()).padStart(2,"0");
+
+    document.getElementById("hora-actual").innerText =
+        hh + ":" + mm + ":" + ss;
+
+    let siguiente = null;
+
+    for(let tarea of ruteos){{
+
+        let partes =
+            tarea.hora.split(":");
+
+        let fechaTarea =
+            new Date();
+
+        fechaTarea.setHours(
+            parseInt(partes[0]),
+            parseInt(partes[1]),
+            0,
+            0
+        );
+
+        if(fechaTarea > ahora){{
+
+            siguiente = {{
+                tarea,
+                fechaTarea
+            }};
+
+            break;
+        }}
+    }}
+
+    if(!siguiente){{
+
+        document.getElementById("proximo-ruteo").innerText =
+            "Fin del turno";
+
+        document.getElementById("hora-ruteo").innerText =
+            "--";
+
+        document.getElementById("cuenta-regresiva").innerText =
+            "--";
+
+        return;
+    }}
+
+    document.getElementById("proximo-ruteo").innerText =
+        siguiente.tarea.nombre;
+
+    document.getElementById("hora-ruteo").innerText =
+        siguiente.tarea.hora;
+
+    let diferencia =
+        siguiente.fechaTarea - ahora;
+
+    let totalSeg =
+        Math.floor(diferencia / 1000);
+
+    let minutos =
+        Math.floor(totalSeg / 60);
+
+    let segundos =
+        totalSeg % 60;
+
+    document.getElementById("cuenta-regresiva").innerText =
+        String(minutos).padStart(2,"0")
+        + ":"
+        + String(segundos).padStart(2,"0");
+
+    if(minutos <= 5){{
+
+        document.getElementById("ruteo-float")
+            .style.borderColor = "#FF4500";
+
+        if(
+            ultimaAlerta !==
+            siguiente.tarea.nombre
+        ){{
+
+            alert(
+                "⚠️ En menos de 5 minutos inicia: "
+                + siguiente.tarea.nombre
+            );
+
+            ultimaAlerta =
+                siguiente.tarea.nombre;
+        }}
+
+    }}else{{
+
+        document.getElementById("ruteo-float")
+            .style.borderColor = "#135b83";
+    }}
+}}
+
+setInterval(
+    actualizarRelojRuteos,
+    1000
+);
+
+actualizarRelojRuteos();
+
+
+
 dragElement(document.getElementById("fleet-float"));
+
+dragElement(document.getElementById("ruteo-float"));
+
 // o dragElement(document.getElementById("panel-flota"));
 
 function dragElement(elmnt) {{
