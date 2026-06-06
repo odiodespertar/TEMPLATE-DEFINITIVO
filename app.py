@@ -3270,23 +3270,38 @@ document.addEventListener("focusin", function(e) {{
 const ruteos = [
 
     {{
-        nombre:"SDE",
-        hora:"08:00"
+        nombre:"SMX9",
+        hora:"16:40"
     }},
 
     {{
         nombre:"SMX5",
-        hora:"08:30"
+        hora:"17:20"
     }},
 
     {{
-        nombre:"C1",
-        hora:"09:00"
+        nombre:"SMX4",
+        hora:"17:40"
     }},
 
     {{
         nombre:"SMX2",
-        hora:"09:30"
+        hora:"18:05"
+    }},
+    
+    {{
+        nombre:"SMT2",
+        hora:"18:40"
+    }},
+
+    {{
+        nombre:"SMX5 PREC",
+        hora:"21:50"
+    }},
+
+    {{
+        nombre:"SMX2 PREC",
+        hora:"22:40"
     }}
 
 ];
