@@ -588,7 +588,7 @@ html body .meli-table tbody tr:last-child {{
 
     border-radius:10px;
 
-    padding:15px;
+    padding:10px;
 
     z-index:999999;
 
