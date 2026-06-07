@@ -580,13 +580,13 @@ html body .meli-table tbody tr:last-child {{
     top:250px;
     right:20px;
 
-    width:160px;
+    width:150px;
 
     background: #e1eced;
 
     border:2px solid #FF00FF;
 
-    border-radius:12px;
+    border-radius:10px;
 
     padding:15px;
 
@@ -1220,7 +1220,7 @@ html body .meli-table tbody tr:last-child {{
 <div id="ruteo-float">
 
     <div style="
-        font-size:22px;
+        font-size:20px;
         font-weight:bold;
         text-align:center;
         margin-bottom:10px;
@@ -1239,7 +1239,7 @@ html body .meli-table tbody tr:last-child {{
 
     <div id="proximo-ruteo"
         style="
-        font-size:20px;
+        font-size:18px;
         font-weight:bold;
         color:#FF4500;">
         Sin tareas
@@ -1251,7 +1251,7 @@ html body .meli-table tbody tr:last-child {{
 
     <div id="cuenta-regresiva"
         style="
-        font-size:20px;
+        font-size:16px;
         font-weight:bold;
         color:#FF00FF;">
         00:00
