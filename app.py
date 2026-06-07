@@ -577,8 +577,8 @@ html body .meli-table tbody tr:last-child {{
 
     position:fixed;
 
-    top:250px;
-    right:20px;
+    top:200px;
+    right:15px;
 
     width:150px;
 
