@@ -772,27 +772,34 @@ html body .meli-table tbody tr:last-child {{
     top:200px;
     right:15px;
 
-    width:150px;
+    width:220px;
 
-    background: #F5F5DC;
+    background:rgba(255,255,255,0.95);
 
-    border:3px solid #FFD700;
+    backdrop-filter: blur(8px);
 
-    border-radius:10px;
+    border:none;
 
-    padding:10px;
+    border-radius:18px;
+
+    padding:15px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.18);
 
     z-index:999999;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.25);
-
-    font-family:sans-serif;
-
     cursor:move;
 
+    transition:all .2s ease;
 }}
 
+#ruteo-float:hover{{
 
+    box-shadow:
+        0 14px 35px rgba(0,0,0,0.22);
+
+}}
 
     
     </style>
@@ -1412,42 +1419,66 @@ html body .meli-table tbody tr:last-child {{
 <div id="ruteo-float">
 
     <div style="
-        font-size:20px;
-        font-weight:bold;
-        text-align:center;
-        margin-bottom:10px;
-        color:#135b83;">
-        🕒 <span id="hora-actual">00:00:00</span>
-    </div>
+    height:6px;
+    border-radius:10px;
+    margin-bottom:12px;
+    background:linear-gradient(
+        90deg,
+        #135b83,
+        #1f8ac0,
+        #2E8B57
+    );
+"></div>
+
+<div style="
+    font-size:28px;
+    font-weight:900;
+    text-align:center;
+    margin-bottom:10px;
+    color:#135b83;
+    letter-spacing:1px;">
+    <span id="hora-actual">00:00:00</span>
+</div>
 
     <hr>
 
     <div style="
-        font-size:13px;
-        font-weight:bold;
-        color:#666;">
-        SIGUIENTE RUTEO
-    </div>
+    font-size:11px;
+    font-weight:700;
+    color:#888;
+    text-transform:uppercase;
+    letter-spacing:1px;">
+    Próximo ruteo
+</div>
 
     <div id="proximo-ruteo"
-        style="
-        font-size:18px;
-        font-weight:bold;
-        color:#FF4500;">
-        Sin tareas
+    style="
+    font-size:24px;
+    font-weight:900;
+    color:#FF4500;
+    margin-top:5px;
+    margin-bottom:5px;">
     </div>
 
-    <div id="hora-ruteo">
-        --
-    </div>
+    <div id="hora-ruteo"
+    style="
+    font-size:18px;
+    font-weight:bold;
+    color:#444;
+    text-align:center;
+    margin-bottom:4px;">
+    --
+</div>
 
     <div id="cuenta-regresiva"
-        style="
-        font-size:16px;
-        font-weight:bold;
-        color:#FF00FF;">
-        00:00
-    </div>
+    style="
+    font-size:34px;
+    font-weight:900;
+    color:#2E8B57;
+    text-align:center;
+    line-height:1;">
+    00:00
+</div>
 
 </div>
 
