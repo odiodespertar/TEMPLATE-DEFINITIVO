@@ -2872,6 +2872,88 @@ if (currentTab == 2) {{
     
 
     
+    // =========================================
+// 5.9 PREASIGNACIÓN DELIVERY CELL - CAMPECHE
+// =========================================
+
+if (currentTab == 2) {{
+
+    let deliveryCell =
+        fleet.find(f =>
+            f.nombre === "Delivery Cell Large Van"
+        );
+
+    if (deliveryCell && deliveryCell.restante > 0) {{
+
+        let campeche = polys.find(p => {{
+
+            let nombrePlan =
+                p.bloque
+                 .querySelector('td[rowspan]')
+                 ?.innerText
+                 ?.trim()
+                 ?.toUpperCase() || "";
+
+            return nombrePlan === "CAMPECHE";
+
+        }});
+
+        if (campeche) {{
+
+            let nodos =
+                parseInt(
+                    campeche.bloque
+                        .querySelector('.nodos-campeche')
+                        ?.innerText
+                ) || 0;
+
+            if (nodos > 0) {{
+
+                let filaLibre =
+                    Array.from(
+                        campeche.bloque.querySelectorAll('.calc-row')
+                    ).find(f => {{
+
+                        let tipo =
+                            f.querySelector('.s-type')
+                             ?.value
+                             ?.trim() || "";
+
+                        let unidades =
+                            parseInt(
+                                f.querySelector('.u-manual')
+                                 ?.innerText
+                            ) || 0;
+
+                        return (
+                            unidades === 0 &&
+                            (
+                                tipo === "" ||
+                                tipo === "Seleccionar..."
+                            )
+                        );
+
+                    }});
+
+                if (filaLibre) {{
+
+                    filaLibre.querySelector('.s-type').value =
+                        deliveryCell.nombre;
+
+                    filaLibre.querySelector('.u-manual').innerText =
+                        1;
+
+                    filaLibre.querySelector('.spr-real-val').innerText =
+                        deliveryCell.spr;
+
+                    editedRowsPlan.add(filaLibre);
+
+                    deliveryCell.restante -= 1;
+                }}
+            }}
+        }}
+    }}
+}}
 
 
 
