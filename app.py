@@ -2742,6 +2742,134 @@ if (currentTab == 5) {{
 }}
 
 
+    // =========================================
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
+// =========================================
+
+if (currentTab == 2) {{
+
+    let largeVanMLP =
+        fleet.find(f =>
+            f.nombre === "Large Van MLP"
+        );
+
+    if (largeVanMLP && largeVanMLP.restante > 0) {{
+
+        let planesPrioridad = [
+            "ESCÁRCEGA",
+            "ESCÁRCEGA EXT",
+            "MAXCANUN",
+            "CANDELARIA",
+            "SEYBAPLAYA",
+            "CHAMPOTÓN",
+            "HOLPECHEN"
+        ];
+
+        planesPrioridad.forEach(nombreBuscado => {{
+
+            let polyPlan = polys.find(p => {{
+
+                let nombrePlan =
+                    p.bloque
+                     .querySelector('td[rowspan]')
+                     ?.innerText
+                     ?.trim()
+                     ?.toUpperCase() || "";
+
+                return nombrePlan === nombreBuscado;
+
+            }});
+
+            if (!polyPlan) return;
+
+            let objetivo =
+                parseFloat(
+                    polyPlan.bloque
+                        .querySelector('.v-total-val')
+                        ?.innerText
+                ) || 0;
+
+            let yaAsignado = 0;
+
+            polyPlan.bloque
+                .querySelectorAll('.calc-row')
+                .forEach(r => {{
+
+                    let unidades =
+                        parseInt(
+                            r.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    let spr =
+                        parseFloat(
+                            r.querySelector('.spr-real-val')
+                             ?.innerText
+                        ) || 0;
+
+                    yaAsignado += unidades * spr;
+
+                }});
+
+            let restante =
+                objetivo - yaAsignado;
+
+            if (restante <= 0) return;
+
+            let usar =
+                Math.min(
+                    Math.ceil(restante / largeVanMLP.spr),
+                    largeVanMLP.restante
+                );
+
+            if (usar <= 0) return;
+
+            let filaLibre =
+                Array.from(
+                    polyPlan.bloque.querySelectorAll('.calc-row')
+                ).find(f => {{
+
+                    let tipo =
+                        f.querySelector('.s-type')
+                         ?.value
+                         ?.trim() || "";
+
+                    let unidades =
+                        parseInt(
+                            f.querySelector('.u-manual')
+                             ?.innerText
+                        ) || 0;
+
+                    return (
+                        unidades === 0 &&
+                        (
+                            tipo === "" ||
+                            tipo === "Seleccionar..."
+                        )
+                    );
+
+                }});
+
+            if (!filaLibre) return;
+
+            filaLibre.querySelector('.s-type').value =
+                largeVanMLP.nombre;
+
+            filaLibre.querySelector('.u-manual').innerText =
+                usar;
+
+            filaLibre.querySelector('.spr-real-val').innerText =
+                largeVanMLP.spr;
+
+            editedRowsPlan.add(filaLibre);
+
+            largeVanMLP.restante -= usar;
+
+        }});
+
+    }}
+}}
+    
 
 
     // =========================================
