@@ -277,8 +277,8 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{6 if es_c1 else 5}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
-                        <td rowspan="{6 if es_c1 else 5}" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #808080; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #135b83; padding: 5px;">0</td>
+                        <td rowspan="{4 if es_c1 else 3}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
+                        <td rowspan="{4 if es_c1 else 3}" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #808080; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #135b83; padding: 5px;">0</td>
                         <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
@@ -300,7 +300,7 @@ def gen_poligonos(data_target=None):
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
-                    {fila_inner}{fila_inner}{fila_inner}{fila_inner}
+                    {fila_inner}{fila_inner}
                     {fila_nodos if es_c1 else ""}
                     <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
