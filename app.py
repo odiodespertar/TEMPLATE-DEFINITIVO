@@ -1413,7 +1413,7 @@ html body .meli-table tbody tr:last-child {{
 <div style="
 background:#135b83;
 color:white;
-margin:-15px -15px 12px -15px;
+margin:-12px -12px 12px -12px;
 padding:6px;
 border-radius:18px 18px 0 0;
 font-weight:bold;
@@ -1451,7 +1451,7 @@ margin-bottom:15px;
 
     <div style="
     color:#26d0ff;
-    font-size:12px;
+    font-size:16px;
     font-weight:bold;
     margin-top:4px;">
         HORA ACTUAL
