@@ -196,6 +196,10 @@ def gen_poligonos(data_target=None):
     nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
    
     es_c1 = (data_target == u_C1)
+
+
+    es_sde = (data_target == u_SDE)
+
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
@@ -389,12 +393,16 @@ def gen_poligonos(data_target=None):
         else:
              contenido_volumen = campo_volumen_normal
 
-        if nombre_final == "CAMPECHE":
-            rowspan_actual = 3
-        elif es_c1:
-            rowspan_actual = 3
+        if es_sde:
+             rowspan_actual = 5
         else:
-            rowspan_actual = 3
+             rowspan_actual = 3
+
+        if es_sde:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+        else:
+            filas_extra = f"{fila_inner}{fila_inner}"
+
         
         
         polys += f'''
@@ -442,7 +450,7 @@ def gen_poligonos(data_target=None):
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
-                    {fila_inner}{fila_inner}
+                    {filas_extra}
                     {""}
                     <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
