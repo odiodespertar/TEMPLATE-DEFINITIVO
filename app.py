@@ -1414,7 +1414,7 @@ html body .meli-table tbody tr:last-child {{
 background:#135b83;
 color:white;
 margin:-15px -15px 12px -15px;
-padding:10px;
+padding:6px;
 border-radius:18px 18px 0 0;
 font-weight:bold;
 text-align:center;
@@ -1465,7 +1465,7 @@ margin-bottom:15px;
 background:rgba(0,0,0,0.18);
 border:1px solid rgba(255,255,255,0.12);
 border-radius:18px;
-padding:15px;
+padding:10px;
 margin-bottom:12px;
 ">
 
@@ -1496,7 +1496,7 @@ gap:10px;
     background:rgba(255,120,0,0.15);
     border:1px solid rgba(255,120,0,0.4);
     border-radius:15px;
-    padding:12px;
+    padding:8px;
     text-align:center;
     ">
 
@@ -1521,7 +1521,7 @@ gap:10px;
     background:rgba(0,255,120,0.15);
     border:1px solid rgba(0,255,120,0.35);
     border-radius:15px;
-    padding:12px;
+    padding:8px;
     text-align:center;
     ">
 
