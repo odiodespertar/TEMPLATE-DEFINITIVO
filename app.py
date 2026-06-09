@@ -4090,6 +4090,13 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SGD2 PM2 - ⏰ 17:00 - 17:20</strong><br>
+             - 📌 Orígenes: MXJC01<br>
+             - 👉 Vol aprox. __<br>
+             - 👉 fecha promesa + quemada</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX5 PM2 - ⏰ 17:20 - 17:40</strong><br>
              - 📌 Orígenes: MXCD02, MXCD06<br>
              - 👉 Vol aprox. 400<br>
@@ -4105,7 +4112,7 @@ info_operativa = {
         </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM1 - ⏰ 18:00 - 18:20</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM2 - ⏰ 18:00 - 18:20</strong><br>
             - 📌 Orígenes: MXCD02, MXCD06<br>
             - 👉 fecha promesa + quemada</p>
             - 👉 Vol aprox. 250<br>
@@ -4122,7 +4129,25 @@ info_operativa = {
             - 👉 Pido validación</p>
         </div>
 
-        <h3 style='color: #000; margin-top: 25px;'>🟥 PRE-CARGAS 🟥</h3>
+
+
+        <h3 style='color: #000; margin-top: 25px;'>🟥 CICLO 1 🟥</h3>
+        <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
+
+
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SCP1 AM1 - ⏰ 20:00 - 21:00</strong><br>
+             - 📌 Ellos envían el volumen a tomar, por lo que puede tomarse todo o descartarse ciertos despachos y orígenes<br>
+             - 👉 Vieja experiencia<br>
+             - 👉 Archivo de vehículos<br>
+             - 👀 Revisar si se agrega ➕ forms<br>
+             - ✅ Volumen aprox. 3000<br>
+             - 🚛 Large Van MLP resto de planes / Cuando hay vol. normal y Nodos = Híbrida<br>
+             - 🚛 Rental Large Van en Campeche = vol. normal / Delivery Cell (dedicada) = NODOS solo Campeche</p>
+        </div>
+
+
+        <h3 style='color: #000; margin-top: 25px;'>🟥 PRE-CARGA 🟥</h3>
         <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
@@ -4134,23 +4159,12 @@ info_operativa = {
         </div>
         
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:50 - 22:30</strong><br>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:30 - 22:10</strong><br>
              - 📌 Origen 09 + onway<br>
              - ➕ Agregan ids a ciclo (de origen 10)<br>
              - ✅  Validan volumen / aprox. 2500-2600<br>
              - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
         </div>
-
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-             - 📌 Orígenes: MXCD02 despacho de hoy hasta 16:00 / MXCD09  despacho de hoy hasta 14:00 / MXCD10  despacho de hoy hasta 21:00<br>
-             - 👉 Todo Onway<br>
-             - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅ Validan volumen / aprox. 1900-2000<br>
-             - 🚛 Extendidas en Texcoco, Pueblos y Chalco</p>
-        </div>
-
-
 
 
         <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
@@ -4234,6 +4248,14 @@ info_operativa = {
             - 👉 Pido validación</p>
         </div>
 
+        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
+             - 📌 Orígenes: MXCD02 despacho de hoy hasta 16:00 / MXCD09  despacho de hoy hasta 14:00 / MXCD10  despacho de hoy hasta 21:00<br>
+             - 👉 Todo Onway<br>
+             - 👀 Revisar si se agrega ➕ forms<br>
+             - ✅ Validan volumen / aprox. 1900-2000<br>
+             - 🚛 Extendidas en Texcoco, Pueblos y Chalco</p>
+        </div>
         
     """,
     "SIDE_LINE": """
