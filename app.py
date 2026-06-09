@@ -265,7 +265,7 @@ def gen_poligonos(data_target=None):
             border:none;
             border-radius:4px;
             background:#ededed;
-            font-size:20px;
+            font-size:22px;
             font-weight:bold;
             color:#808080;
             text-align:center;
@@ -288,7 +288,7 @@ def gen_poligonos(data_target=None):
             border:none;
             border-radius:4px;
             background:#ededed;
-            font-size:20px;
+            font-size:22px;
             font-weight:bold;
             color:#808080;
             text-align:center;
@@ -333,7 +333,7 @@ def gen_poligonos(data_target=None):
             border:none;
             border-radius:4px;
             background:#ededed;
-            font-size:20px;
+            font-size:22px;
             font-weight:bold;
             color:#808080;
             text-align:center;
