@@ -2880,6 +2880,13 @@ if (currentTab == 2) {{
 
         let bloque = poly.bloque;
 
+        let nombrePlan =
+        bloque
+            .querySelector('td[rowspan]')
+            ?.innerText
+            ?.trim()
+            ?.toUpperCase() || "";
+
        console.log(
         "PLAN:",
         bloque.querySelector('td[rowspan]')?.innerText
@@ -2948,8 +2955,30 @@ if (currentTab == 2) {{
 // BUSCAR MEJOR UNIDAD DISPONIBLE
 // =================================
 
-let unidad =
-    fleet.find(f => f.restante > 0);
+let unidad;
+
+// =================================
+// REGLAS ESPECIALES C1
+// =================================
+
+if (
+    currentTab == 2 &&
+    nombrePlan == "CAMPECHE"
+) {{
+
+    unidad =
+        fleet.find(f =>
+            f.nombre === "Rental Large Van"
+        );
+
+}} else {{
+
+    unidad =
+        fleet.find(f =>
+            f.restante > 0
+        );
+
+}}
 
 
 
