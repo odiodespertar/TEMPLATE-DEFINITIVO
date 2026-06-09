@@ -230,18 +230,19 @@ def gen_poligonos(data_target=None):
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
-    for i in range(1, 11):
-        if data_target == u_PREC and (i-1) < len(nombres_prec):
-    nombre_final = nombres_prec[i-1]
+   for i in range(1, 11):
 
-elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
-    nombre_final = nombres_smx2[i-1]
+    if data_target == u_PREC and (i-1) < len(nombres_prec):
+        nombre_final = nombres_prec[i-1]
 
-elif data_target == u_C1 and (i-1) < len(nombres_c1):
-    nombre_final = nombres_c1[i-1]
+    elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
+        nombre_final = nombres_smx2[i-1]
 
-else:
-    nombre_final = f"PLAN {i}"
+    elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
+        nombre_final = NOMBRES_PLANES_C1[i-1]
+
+    else:
+        nombre_final = f"PLAN {i}"
 
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
