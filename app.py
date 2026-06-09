@@ -249,7 +249,15 @@ def gen_poligonos(data_target=None):
     </tr>'''
 
 
-    campo_volumen_normal = '''
+
+     campo_volumen_normal = '''
+<div style="font-size:18px;font-weight:bold;">
+    <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
+</div>
+'''
+
+    
+    campo_volumen_c1 = '''
 <div style="font-size:18px;font-weight:bold;">
     <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
 </div>
@@ -293,9 +301,13 @@ def gen_poligonos(data_target=None):
 
         # ← AGREGAR AQUÍ
         if nombre_final == "CAMPECHE":
-            contenido_volumen = campo_campeche
+             contenido_volumen = campo_campeche
+
+        elif es_c1:
+             contenido_volumen = campo_volumen_c1
+
         else:
-            contenido_volumen = campo_volumen_normal
+             contenido_volumen = campo_volumen_normal
 
         if nombre_final == "CAMPECHE":
             rowspan_actual = 3
