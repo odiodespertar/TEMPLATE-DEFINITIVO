@@ -768,12 +768,9 @@ html body .meli-table tbody tr:last-child {{
 #ruteo-float{{
 
     position:fixed;
-
     top:200px;
     right:15px;
-
-    width:300px;
-
+    width:180px;
     background:
         linear-gradient(
             135deg,
@@ -781,28 +778,18 @@ html body .meli-table tbody tr:last-child {{
             #072868 50%,
             #03163d 100%
         );
-
-    border-radius:25px;
-
-    padding:18px;
-
+    border-radius:14px;
+    padding:10px;
     color:white;
-
     box-shadow:
         0 10px 30px rgba(0,0,0,0.35);
-
     z-index:999999;
-
     cursor:move;
-
     user-select:none;
 }}
-
 #ruteo-float:hover{{
-
     box-shadow:
         0 14px 35px rgba(0,0,0,0.22);
-
 }}
 
     
