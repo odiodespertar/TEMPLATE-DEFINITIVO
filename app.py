@@ -907,7 +907,9 @@ html body .meli-table tbody tr:last-child {{
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
+                <!--
                 <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
+                -->
                 <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
             </div> 
 
