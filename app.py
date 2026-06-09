@@ -772,22 +772,30 @@ html body .meli-table tbody tr:last-child {{
     top:200px;
     right:15px;
 
-    width:220px;
+    width:300px;
 
-    background:#ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #031d4d 0%,
+            #072868 50%,
+            #03163d 100%
+        );
 
-    border:none;
+    border-radius:25px;
 
-    border-radius:18px;
+    padding:18px;
 
-    padding:15px;
+    color:white;
 
     box-shadow:
-        0 8px 25px rgba(0,0,0,0.18);
+        0 10px 30px rgba(0,0,0,0.35);
 
     z-index:999999;
 
     cursor:move;
+
+    user-select:none;
 }}
 
 #ruteo-float:hover{{
@@ -1441,53 +1449,110 @@ CONTROL DE RUTEOS
 "></div>
 
 <div style="
-font-size:30px;
-font-weight:900;
 text-align:center;
-margin-bottom:10px;
-color:#135b83;">
-<span id="hora-actual">00:00:00</span>
+margin-bottom:15px;
+">
+
+    <div style="
+    font-size:58px;
+    font-weight:900;
+    color:white;
+    line-height:1;
+    letter-spacing:2px;">
+        <span id="hora-actual">00:00:00</span>
+    </div>
+
+    <div style="
+    color:#26d0ff;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:6px;">
+        HORA ACTUAL
+    </div>
+
 </div>
 
     <hr>
 
-    <div style="
-font-size:11px;
-font-weight:700;
-color:#888;
-letter-spacing:1px;
-text-transform:uppercase;
-text-align:center;">
-Próximo ruteo
-</div>
+   <div style="
+background:rgba(0,0,0,0.18);
+border:1px solid rgba(255,255,255,0.12);
+border-radius:18px;
+padding:15px;
+margin-bottom:12px;
+">
 
-    <div id="proximo-ruteo"
-     style="
-     font-size:24px;
-     font-weight:900;
-     color:#FF4500;
-     text-align:center;
-     margin:6px 0;">
+    <div style="
+    color:#ffffff;
+    font-size:14px;
+    font-weight:bold;">
+        SIGUIENTE RUTEO
     </div>
 
-    <div id="hora-ruteo"
-    style="
-    font-size:18px;
-    font-weight:bold;
-    color:#444;
-    text-align:center;
-    margin-bottom:4px;">
-    --
+    <div id="proximo-ruteo"
+         style="
+         color:#ff9b21;
+         font-size:34px;
+         font-weight:900;">
+         Sin tareas
+    </div>
+
 </div>
 
-    <div id="cuenta-regresiva"
-     style="
-     font-size:36px;
-     font-weight:900;
-     color:#2E8B57;
-     text-align:center;">
-    00:00
-</div>
+    <div style="
+display:flex;
+gap:10px;
+">
+
+    <div style="
+    flex:1;
+    background:rgba(255,120,0,0.15);
+    border:1px solid rgba(255,120,0,0.4);
+    border-radius:15px;
+    padding:12px;
+    text-align:center;
+    ">
+
+        <div id="hora-ruteo"
+             style="
+             font-size:34px;
+             font-weight:bold;
+             color:white;">
+             --
+        </div>
+
+        <div style="
+        font-size:12px;
+        color:#d0d0d0;">
+            SIGUIENTE INICIO
+        </div>
+
+    </div>
+
+    <div style="
+    flex:1;
+    background:rgba(0,255,120,0.15);
+    border:1px solid rgba(0,255,120,0.35);
+    border-radius:15px;
+    padding:12px;
+    text-align:center;
+    ">
+
+        <div id="cuenta-regresiva"
+             style="
+             font-size:34px;
+             font-weight:bold;
+             color:#7CFFB2;">
+             00:00
+        </div>
+
+        <div style="
+        font-size:12px;
+        color:#d0d0d0;">
+            TIEMPO RESTANTE
+        </div>
+
+    </div>
 
 </div>
 
