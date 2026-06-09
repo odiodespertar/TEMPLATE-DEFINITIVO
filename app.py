@@ -66,8 +66,8 @@ NOMBRES_PLANES_C1 = [
     "SEYBAPLAYA",
     "CHAMPOTÓN",
     "HOLPECHEN",
-    "PLAN C1-9",
-    "PLAN C1-10"
+    "PLAN 9",
+    "PLAN 10"
 ]
 
 u_C1 = {
