@@ -210,12 +210,12 @@ def gen_poligonos(data_target=None):
 
     fila_nodos = '''
 <tr class="fila-nodos">
-    <td style="background:#eef4f7; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#135b83;">
+    <td style="background:#ededed; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#FF6347;">
         NODOS
     </td>
     <td contenteditable="true"
         class="nodos-val"
-        style="border:0.5px solid #135b83; text-align:center; font-weight:bold;">
+        style="border:1.0px solid #135b83; text-align:center; font-weight:bold;">
         0
     </td>
     <td colspan="2" style="border:0.5px solid #135b83;"></td>
