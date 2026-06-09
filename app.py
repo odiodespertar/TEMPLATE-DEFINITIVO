@@ -262,7 +262,18 @@ def gen_poligonos(data_target=None):
 </div>
 '''
 
+campo_campeche = '''
+<div style="font-size:20px;font-weight:bold;">
+    <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
+</div>
 
+<hr style="margin:4px 0; border:none; border-top:1px solid #999;">
+
+<div style="font-size:13px;font-weight:bold;color:#135b83;">
+    Nodos:
+    <span class="nodos-campeche" contenteditable="true">0</span>
+</div>
+'''
     
     for i in range(1, 11):
 
