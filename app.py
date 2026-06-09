@@ -248,6 +248,33 @@ def gen_poligonos(data_target=None):
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
+
+    campo_volumen_normal = '''
+<div style="font-size:18px;font-weight:bold;">
+    <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
+</div>
+'''
+
+campo_campeche = '''
+<div style="font-size:16px;font-weight:bold;">
+    VOL
+</div>
+
+<div style="font-size:18px;font-weight:bold;margin-bottom:8px;">
+    <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
+</div>
+
+<div style="font-size:12px;font-weight:bold;color:#135b83;">
+    NODOS
+</div>
+
+<div style="font-size:16px;font-weight:bold;">
+    <span class="nodos-campeche" contenteditable="true">0</span>
+</div>
+'''
+
+
+    
     for i in range(1, 11):
 
         if data_target == u_PREC and (i-1) < len(nombres_prec):
@@ -262,6 +289,13 @@ def gen_poligonos(data_target=None):
         else:
              nombre_final = f"PLAN {i}"
 
+        # ← AGREGAR AQUÍ
+        if nombre_final == "CAMPECHE":
+            contenido_volumen = campo_campeche
+        else:
+            contenido_volumen = campo_volumen_normal
+
+        
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
             <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
@@ -278,7 +312,14 @@ def gen_poligonos(data_target=None):
                 <tbody>
                     <tr class="calc-row"> 
                         <td rowspan="{4 if es_c1 else 3}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
-                        <td rowspan="{4 if es_c1 else 3}" contenteditable="true" class="v-total-val" oninput="recalc()" style="color: #808080; font-weight: bold; font-size: 18px; text-align: center; border: 1px solid #135b83; padding: 5px;">0</td>
+                        <td rowspan="{4 if es_c1 else 3}"
+                            style="color:#808080;
+                                   font-weight:bold;
+                                   text-align:center;
+                                   border:1px solid #135b83;
+                                   padding:5px;">
+                            {contenido_volumen}
+                        </td>
                         <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
