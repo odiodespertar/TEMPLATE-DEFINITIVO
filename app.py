@@ -272,9 +272,9 @@ def gen_poligonos(data_target=None):
               display:inline-block;
               min-width:28px;
               text-align:center;
-              font-size:22px;
+              font-size:18px;
               font-weight:bold;
-              color:#2563eb;
+              color:#FF6347;
               border:1px solid #2563eb;
               border-radius:4px;
               padding:0 4px;
