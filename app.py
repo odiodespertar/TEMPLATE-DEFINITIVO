@@ -289,11 +289,12 @@ def gen_poligonos(data_target=None):
         else:
              nombre_final = f"PLAN {i}"
 
-        # ← AGREGAR AQUÍ
+
         if nombre_final == "CAMPECHE":
-            contenido_volumen = campo_campeche
-        else:
-            contenido_volumen = campo_volumen_normal
+    contenido_volumen = campo_campeche
+else:
+    contenido_volumen = campo_volumen_normal
+        
 
         if nombre_final == "CAMPECHE":
             rowspan_actual = 3
@@ -318,15 +319,15 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
                         <td rowspan="{rowspan_actual}"
-                            style="color:#808080;
-                                   font-weight:bold;
-                                   text-align:center;
-                                   border:1px solid #135b83;
-                                   padding:5px;">
-                            {contenido_volumen}
-                        </td>
+    style="color:#808080;
+           font-weight:bold;
+           text-align:center;
+           vertical-align:middle;
+           border:1px solid #135b83;
+           padding:5px;">
+    {contenido_volumen}
+</td>
                         <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
