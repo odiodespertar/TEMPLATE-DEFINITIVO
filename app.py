@@ -1924,10 +1924,23 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                     let used = fleet[k].used;
                     
                     let esFlexible = listaNegativos.some(u => nameLower.includes(u));
+                    let esRentalLargeVan = (k === "Rental Large Van");
                     let tieneStockInicial = (stock > 0); 
                     let tieneCapacidad = (stock - used > 0);
                     
-                    if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
+                    if (
+    tieneStockInicial &&
+    (
+        tieneCapacidad ||
+        esFlexible ||
+        k === cur
+    ) &&
+    (
+        !esRentalLargeVan ||
+        tieneCapacidad ||
+        k === cur
+    )
+) {{
                         opt += `<option value="${{k}}">${{k}}</option>`;
                     }}
                 }});
