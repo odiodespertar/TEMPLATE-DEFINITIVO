@@ -1414,6 +1414,20 @@ html body .meli-table tbody tr:last-child {{
 <!-- NUEVO PANEL DE RUTEOS -->
 <div id="ruteo-float">
 
+
+<div style="
+background:#135b83;
+color:white;
+margin:-15px -15px 12px -15px;
+padding:10px;
+border-radius:18px 18px 0 0;
+font-weight:bold;
+text-align:center;
+font-size:13px;">
+CONTROL DE RUTEOS
+</div>
+
+
     <div style="
     height:6px;
     border-radius:10px;
@@ -1427,33 +1441,33 @@ html body .meli-table tbody tr:last-child {{
 "></div>
 
 <div style="
-    font-size:28px;
-    font-weight:900;
-    text-align:center;
-    margin-bottom:10px;
-    color:#135b83;
-    letter-spacing:1px;">
-    <span id="hora-actual">00:00:00</span>
+font-size:30px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
+color:#135b83;">
+<span id="hora-actual">00:00:00</span>
 </div>
 
     <hr>
 
     <div style="
-    font-size:11px;
-    font-weight:700;
-    color:#888;
-    text-transform:uppercase;
-    letter-spacing:1px;">
-    Próximo ruteo
+font-size:11px;
+font-weight:700;
+color:#888;
+letter-spacing:1px;
+text-transform:uppercase;
+text-align:center;">
+Próximo ruteo
 </div>
 
     <div id="proximo-ruteo"
-    style="
-    font-size:24px;
-    font-weight:900;
-    color:#FF4500;
-    margin-top:5px;
-    margin-bottom:5px;">
+     style="
+     font-size:24px;
+     font-weight:900;
+     color:#FF4500;
+     text-align:center;
+     margin:6px 0;">
     </div>
 
     <div id="hora-ruteo"
@@ -1467,12 +1481,11 @@ html body .meli-table tbody tr:last-child {{
 </div>
 
     <div id="cuenta-regresiva"
-    style="
-    font-size:34px;
-    font-weight:900;
-    color:#2E8B57;
-    text-align:center;
-    line-height:1;">
+     style="
+     font-size:36px;
+     font-weight:900;
+     color:#2E8B57;
+     text-align:center;">
     00:00
 </div>
 
