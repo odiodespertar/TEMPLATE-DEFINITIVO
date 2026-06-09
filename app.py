@@ -774,9 +774,7 @@ html body .meli-table tbody tr:last-child {{
 
     width:220px;
 
-    background:rgba(255,255,255,0.95);
-
-    backdrop-filter: blur(8px);
+    background:#ffffff;
 
     border:none;
 
@@ -790,8 +788,6 @@ html body .meli-table tbody tr:last-child {{
     z-index:999999;
 
     cursor:move;
-
-    transition:all .2s ease;
 }}
 
 #ruteo-float:hover{{
