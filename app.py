@@ -62,7 +62,6 @@ u_C1 = {
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
     "Car MLP": [50, 50], "Moto Car - 3": [28, 28], "Moto MLP": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Car - 5h": [60, 60]
 }
-NOMBRES_PLANES_C1 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
