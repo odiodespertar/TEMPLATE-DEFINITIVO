@@ -196,9 +196,8 @@ def gen_poligonos(data_target=None):
     nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
    
     es_c1 = (data_target == u_C1)
-
-
     es_sde = (data_target == u_SDE)
+    es_prec = (data_target == u_PREC)
 
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
@@ -395,11 +394,15 @@ def gen_poligonos(data_target=None):
 
         if es_sde:
              rowspan_actual = 5
+        elif es_prec:
+             rowspan_actual = 4
         else:
              rowspan_actual = 3
 
         if es_sde:
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+        elif es_prec:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
         else:
             filas_extra = f"{fila_inner}{fila_inner}"
 
