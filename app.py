@@ -4135,8 +4135,8 @@ info_operativa = {
         <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
 
 
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SCP1 AM1 - ⏰ 20:00 - 21:00</strong><br>
+        <div style='background: white; border-left: 6px solid #DC143C; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #DC143C;">●</span> SCP1 AM1 - ⏰ 20:00 - 21:00</strong><br>
              - 📌 Ellos envían el volumen a tomar, por lo que puede tomarse todo o descartarse ciertos despachos y orígenes<br>
              - 👉 Vieja experiencia<br>
              - 👉 Archivo de vehículos<br>
@@ -4147,7 +4147,7 @@ info_operativa = {
         </div>
 
 
-        <h3 style='color: #000; margin-top: 25px;'>🟥 PRE-CARGA 🟥</h3>
+        <h3 style='color: #000; margin-top: 25px;'>🟧 PRE-CARGA 🟧</h3>
         <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
 
         <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
