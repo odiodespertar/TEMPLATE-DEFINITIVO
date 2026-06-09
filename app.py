@@ -193,6 +193,8 @@ def gen_poligonos(data_target=None):
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
+
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
@@ -230,11 +232,16 @@ def gen_poligonos(data_target=None):
 
     for i in range(1, 11):
         if data_target == u_PREC and (i-1) < len(nombres_prec):
-            nombre_final = nombres_prec[i-1] 
-        elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2): 
-            nombre_final = nombres_smx2[i-1] 
-        else:
-            nombre_final = f"PLAN {i}"
+    nombre_final = nombres_prec[i-1]
+
+elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
+    nombre_final = nombres_smx2[i-1]
+
+elif data_target == u_C1 and (i-1) < len(nombres_c1):
+    nombre_final = nombres_c1[i-1]
+
+else:
+    nombre_final = f"PLAN {i}"
 
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
