@@ -1441,7 +1441,7 @@ margin-bottom:15px;
 ">
 
     <div style="
-    font-size:25px;
+    font-size:22px;
     font-weight:900;
     color:white;
     line-height:1;
@@ -1479,7 +1479,7 @@ margin-bottom:12px;
     <div id="proximo-ruteo"
          style="
          color:#ff9b21;
-         font-size:34px;
+         font-size:22px;
          font-weight:900;">
          Sin tareas
     </div>
