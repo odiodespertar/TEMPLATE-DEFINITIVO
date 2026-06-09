@@ -298,7 +298,23 @@ def gen_poligonos(data_target=None):
 
 <div style="font-size:13px;font-weight:bold;color:#135b83;">
     Nodos:
-    <span class="nodos-val" contenteditable="true">0</span>
+    <span class="nodos-val"
+      contenteditable="true"
+      style="
+        display:inline-block;
+        min-width:28px;
+        text-align:center;
+        border:none;
+        border-radius:4px;
+        background:#ededed;
+        font-size:18px;
+        font-weight:bold;
+        color:#FF6347;
+        padding:0 4px;
+        margin-left:3px;
+      ">
+    0
+</span>
 </div>
 '''
 
