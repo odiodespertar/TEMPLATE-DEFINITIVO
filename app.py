@@ -1445,7 +1445,7 @@ margin-bottom:15px;
     font-weight:900;
     color:white;
     line-height:1;
-    letter-spacing:2px;">
+    letter-spacing:1px;">
         <span id="hora-actual">00:00:00</span>
     </div>
 
@@ -1453,7 +1453,7 @@ margin-bottom:15px;
     color:#26d0ff;
     font-size:12px;
     font-weight:bold;
-    margin-top:6px;">
+    margin-top:4px;">
         HORA ACTUAL
     </div>
 
