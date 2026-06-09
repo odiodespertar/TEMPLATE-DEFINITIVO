@@ -300,7 +300,7 @@ def gen_poligonos(data_target=None):
         if nombre_final == "CAMPECHE":
             rowspan_actual = 3
         elif es_c1:
-            rowspan_actual = 4
+            rowspan_actual = 3
         else:
             rowspan_actual = 3
         
