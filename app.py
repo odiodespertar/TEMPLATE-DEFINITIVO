@@ -1418,7 +1418,7 @@ padding:10px;
 border-radius:18px 18px 0 0;
 font-weight:bold;
 text-align:center;
-font-size:13px;">
+font-size:10px;">
 CONTROL DE RUTEOS
 </div>
 
@@ -1441,7 +1441,7 @@ margin-bottom:15px;
 ">
 
     <div style="
-    font-size:22px;
+    font-size:12px;
     font-weight:900;
     color:white;
     line-height:1;
@@ -1451,7 +1451,7 @@ margin-bottom:15px;
 
     <div style="
     color:#26d0ff;
-    font-size:16px;
+    font-size:12px;
     font-weight:bold;
     margin-top:6px;">
         HORA ACTUAL
@@ -1471,7 +1471,7 @@ margin-bottom:12px;
 
     <div style="
     color:#ffffff;
-    font-size:14px;
+    font-size:12px;
     font-weight:bold;">
         SIGUIENTE RUTEO
     </div>
@@ -1479,7 +1479,7 @@ margin-bottom:12px;
     <div id="proximo-ruteo"
          style="
          color:#ff9b21;
-         font-size:22px;
+         font-size:14px;
          font-weight:900;">
          Sin tareas
     </div>
@@ -1502,7 +1502,7 @@ gap:10px;
 
         <div id="hora-ruteo"
              style="
-             font-size:22px;
+             font-size:14px;
              font-weight:bold;
              color:white;">
              --
@@ -1527,7 +1527,7 @@ gap:10px;
 
         <div id="cuenta-regresiva"
              style="
-             font-size:23px;
+             font-size:14px;
              font-weight:bold;
              color:#7CFFB2;">
              00:00
