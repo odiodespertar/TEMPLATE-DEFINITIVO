@@ -57,6 +57,19 @@ u_PREC_SMX2 = {
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
+NOMBRES_PLANES_C1 = [
+    "ESCÁRCEGA",
+    "CAMPECHE",
+    "ESCÁRCEGA EXT",
+    "MAXCANUN",
+    "CANDELARIA",
+    "SEYBAPLAYA",
+    "CHAMPOTÓN",
+    "HOLPECHEN",
+    "PLAN C1-9",
+    "PLAN C1-10"
+]
+
 u_C1 = {
     "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
     "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
