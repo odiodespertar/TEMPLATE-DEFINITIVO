@@ -3253,7 +3253,7 @@ if (
 
     unidad =
         fleet.find(f =>
-            f.nombre === "Rental Large Van"
+            f.nombre === "Rental Large Van" 
         );
 
 }} else {{
