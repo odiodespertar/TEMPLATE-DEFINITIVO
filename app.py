@@ -210,7 +210,7 @@ def gen_poligonos(data_target=None):
 
     fila_nodos = '''
 <tr class="fila-nodos">
-    <td style="background:#eef4f7; border:0.5px solid #135b83; text-align:center; font-weight:bold;">
+    <td style="background:#eef4f7; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#135b83;">
         NODOS
     </td>
     <td contenteditable="true"
@@ -260,7 +260,7 @@ def gen_poligonos(data_target=None):
     <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
 </div>
 
-<hr style="margin:4px 0; border:none; border-top:1px solid #999;">
+<hr style="margin:4px 0; border:none; border-top:2px solid #999;">
 
 <div style="font-size:13px;font-weight:bold;color:#135b83;">
     Nodos:
