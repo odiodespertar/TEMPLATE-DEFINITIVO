@@ -256,19 +256,14 @@ def gen_poligonos(data_target=None):
 '''
 
     campo_campeche = '''
-<div style="font-size:16px;font-weight:bold;">
-    VOL
-</div>
-
-<div style="font-size:18px;font-weight:bold;margin-bottom:8px;">
+<div style="font-size:20px;font-weight:bold;">
     <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
 </div>
 
-<div style="font-size:12px;font-weight:bold;color:#135b83;">
-    NODOS
-</div>
+<hr style="margin:4px 0; border:none; border-top:1px solid #999;">
 
-<div style="font-size:16px;font-weight:bold;">
+<div style="font-size:13px;font-weight:bold;color:#135b83;">
+    Nodos:
     <span class="nodos-campeche" contenteditable="true">0</span>
 </div>
 '''
