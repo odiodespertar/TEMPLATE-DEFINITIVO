@@ -250,12 +250,6 @@ def gen_poligonos(data_target=None):
 
 
     campo_volumen_normal = '''
-<div style="font-size:18px;font-weight:bold;">
-    <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
-</div>
-'''
-
-    campo_campeche = '''
 <div style="font-size:20px;font-weight:bold;">
     <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
 </div>
@@ -264,7 +258,7 @@ def gen_poligonos(data_target=None):
 
 <div style="font-size:13px;font-weight:bold;color:#135b83;">
     Nodos:
-    <span class="nodos-campeche" contenteditable="true">0</span>
+    <span class="nodos-normal" contenteditable="true">0</span>
 </div>
 '''
 
@@ -344,7 +338,6 @@ def gen_poligonos(data_target=None):
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
                     {fila_inner}{fila_inner}
-                    {fila_nodos if (es_c1 and nombre_final != "CAMPECHE") else ""}
                     <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
