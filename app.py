@@ -770,7 +770,7 @@ html body .meli-table tbody tr:last-child {{
     position:fixed;
     top:200px;
     right:15px;
-    width:180px;
+    width:240px;
     background:
         linear-gradient(
             135deg,
@@ -779,7 +779,7 @@ html body .meli-table tbody tr:last-child {{
             #03163d 100%
         );
     border-radius:14px;
-    padding:10px;
+    padding:8px;
     color:white;
     box-shadow:
         0 10px 30px rgba(0,0,0,0.35);
@@ -1441,7 +1441,7 @@ margin-bottom:15px;
 ">
 
     <div style="
-    font-size:58px;
+    font-size:25px;
     font-weight:900;
     color:white;
     line-height:1;
@@ -1502,7 +1502,7 @@ gap:10px;
 
         <div id="hora-ruteo"
              style="
-             font-size:34px;
+             font-size:22px;
              font-weight:bold;
              color:white;">
              --
@@ -1527,7 +1527,7 @@ gap:10px;
 
         <div id="cuenta-regresiva"
              style="
-             font-size:34px;
+             font-size:23px;
              font-weight:bold;
              color:#7CFFB2;">
              00:00
