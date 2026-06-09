@@ -290,6 +290,13 @@ def gen_poligonos(data_target=None):
         else:
             contenido_volumen = campo_volumen_normal
 
+        if nombre_final == "CAMPECHE":
+            rowspan_actual = 3
+        elif es_c1:
+            rowspan_actual = 4
+        else:
+            rowspan_actual = 3
+        
         
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
@@ -306,8 +313,8 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{4 if es_c1 else 3}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
-                        <td rowspan="{4 if es_c1 else 3}"
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
                                    text-align:center;
