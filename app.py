@@ -770,7 +770,7 @@ html body .meli-table tbody tr:last-child {{
     position:fixed;
     top:200px;
     right:15px;
-    width:240px;
+    width:220px;
     background:
         linear-gradient(
             135deg,
@@ -779,7 +779,7 @@ html body .meli-table tbody tr:last-child {{
             #03163d 100%
         );
     border-radius:14px;
-    padding:8px;
+    padding:6px;
     color:white;
     box-shadow:
         0 10px 30px rgba(0,0,0,0.35);
