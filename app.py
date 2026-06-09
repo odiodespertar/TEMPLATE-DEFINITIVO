@@ -262,7 +262,7 @@ def gen_poligonos(data_target=None):
 </div>
 '''
 
-   campo_campeche = '''
+    campo_campeche = '''
 <div style="font-size:20px;font-weight:bold;">
     <span class="v-total-val" contenteditable="true" oninput="recalc()">0</span>
 </div>
