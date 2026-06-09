@@ -3809,6 +3809,11 @@ const ruteos = [
     }},
 
     {{
+        nombre:"SGD2",
+        hora:"17:00"
+    }},
+    
+    {{
         nombre:"SMX5",
         hora:"17:20"
     }},
@@ -3829,13 +3834,13 @@ const ruteos = [
     }},
 
     {{
-        nombre:"SMX5 PREC",
-        hora:"21:50"
+        nombre:"SCP1 C1",
+        hora:"20:00"
     }},
 
     {{
-        nombre:"SMX2 PREC",
-        hora:"22:40"
+        nombre:"SMX5 PREC",
+        hora:"21:30"
     }}
 
 ];
