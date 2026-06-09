@@ -71,9 +71,7 @@ NOMBRES_PLANES_C1 = [
 ]
 
 u_C1 = {
-    "Rental E. Large Van": [120, 120], "Rental E. Small Van": [120, 120], "Rental Large Van": [120, 120], 
-    "Rental Small Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80],
-    "Car MLP": [50, 50], "Moto Car - 3": [28, 28], "Moto MLP": [28, 28], "Car Newbie 3h": [30, 30], "Car - 8h": [80, 85], "Delivery Cell Large Van": [10, 10]
+    "Rental Large Van": [120, 120], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80], "Delivery Cell Large Van": [10, 10]
 }
 
 u_C2 = u_C1.copy()
