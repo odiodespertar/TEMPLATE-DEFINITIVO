@@ -1560,7 +1560,6 @@ body.excel-view .spr-real-val{{
 ">
     <th style="border:1px solid #c0c0c0;">PLAN</th>
     <th style="border:1px solid #c0c0c0;">VOL</th>
-    <th style="border:1px solid #c0c0c0;">NODOS</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
     <th style="border:1px solid #c0c0c0;">SPR</th>
