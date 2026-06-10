@@ -1828,39 +1828,32 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 
-    function showTab(n, btn) {
-        currentTab = n;
-    // Oculta todo el contenido de polígonos y todas las tablas
-    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
-    
-    // Quita el color azul a los botones
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
-    // Muestra el bloque de polígonos de abajo
+function showTab(n, btn) {{
+    currentTab = n;
+
+    document.querySelectorAll('.p-content, .t-content')
+        .forEach(el => el.style.display = 'none');
+
+    document.querySelectorAll('.tab-btn')
+        .forEach(b => b.classList.remove('active'));
+
     document.getElementById('polys-' + n).style.display = 'block';
-    
-    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
     document.getElementById('tab-' + n).style.display = 'block';
-    
-    // Pone el botón actual en azul
+
     btn.classList.add('active');
 
+    const excelBtn = document.getElementById('btn-excel-view');
 
-    // 👇 CONTROL BOTÓN EXCEL
-const excelBtn = document.getElementById('btn-excel-view');
+    if (excelBtn) {{
+        const show = (n === 'C1');
 
-if (excelBtn) {
-    const show = (n === 'C1');
+        excelBtn.style.visibility = show ? 'visible' : 'hidden';
+        excelBtn.style.pointerEvents = show ? 'auto' : 'none';
+    }}
 
-    excelBtn.style.visibility = show ? 'visible' : 'hidden';
-    excelBtn.style.pointerEvents = show ? 'auto' : 'none';
-}
-    
     recalc();
-
     updateFleetFloat();
-    
-    }
+}}
 
 
     function showAlert(msg) {{
