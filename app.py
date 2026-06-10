@@ -1831,13 +1831,14 @@ document.addEventListener("DOMContentLoaded", () => {{
     function showTab(n, btn) {{
         currentTab = n;
 
-        document.body.classList.remove("excel-view");
-
         let excelDiv = document.getElementById("excel-polys");
-        if(excelDiv) excelDiv.style.display = "none";
 
-        let excelBtn = document.getElementById("btn-excel");
-        if(excelBtn) excelBtn.innerHTML = "📸 VISTA EXCEL";
+if (!document.body.classList.contains("excel-view")) {{
+    if (excelDiv) excelDiv.style.display = "none";
+
+    let excelBtn = document.getElementById("btn-excel");
+    if (excelBtn) excelBtn.innerHTML = "📸 VISTA EXCEL";
+}}
 
         
     // Oculta todo el contenido de polígonos y todas las tablas
@@ -2323,6 +2324,18 @@ actualizarDosPorciento();
         }}
     }});
 
+
+function syncExcelButton() {{
+    let btn = document.getElementById("excel-btn");
+
+    if (!btn) return;
+
+    if (document.body.classList.contains("excel-view")) {{
+        btn.innerHTML = "🔙 VISTA NORMAL";
+    }} else {{
+        btn.innerHTML = "📸 VISTA EXCEL";
+    }}
+}}
 
 
 
