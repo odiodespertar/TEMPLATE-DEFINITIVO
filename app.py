@@ -3303,7 +3303,7 @@ console.log("TAB:", currentTab);
                 );
         }}
 
-    } else if (currentTab == 2) {{   // C1
+    }} else if (currentTab == 2) {{   // C1
 
     unidad =
         fleet.find(f =>
