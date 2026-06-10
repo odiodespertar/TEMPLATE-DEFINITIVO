@@ -1849,7 +1849,7 @@ function showTab(n, btn) {{
     document.getElementById('polys-' + n).style.display = 'block';
     document.getElementById('tab-' + n).style.display = 'block';
 
-    document.body.classList.remove('tab-C1', 'tab-SMX5', 'tab-SDE');
+    document.body.classList.remove('tab-1', 'tab-2', 'tab-4');
     document.body.classList.add('tab-' + n);
 
     btn.classList.add('active');
@@ -4686,6 +4686,10 @@ html_notitas = f"""
     .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
 
 
+
+body:not(.tab-2) #excel-btn {{
+    display: none !important;
+}}
 
 
 
