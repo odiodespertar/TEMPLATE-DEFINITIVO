@@ -1828,7 +1828,7 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 
-    function showTab(n, btn) {{
+    function showTab(n, btn) {
         currentTab = n;
     // Oculta todo el contenido de polígonos y todas las tablas
     document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
@@ -1846,25 +1846,21 @@ document.addEventListener("DOMContentLoaded", () => {{
     btn.classList.add('active');
 
 
-    // 👇 AQUÍ VA EL CONTROL DEL BOTÓN EXCEL
-    const excelBtn = document.getElementById('btn-excel-view');
+    // 👇 CONTROL BOTÓN EXCEL
+const excelBtn = document.getElementById('btn-excel-view');
 
-    if (excelBtn) {{
-        if (n === 'C1') {{
-            excelBtn.style.visibility = 'visible';
-            excelBtn.style.pointerEvents = 'auto';
-        }} else {{
-            excelBtn.style.visibility = 'hidden';
-            excelBtn.style.pointerEvents = 'none';
-        }}
-    }}
+if (excelBtn) {
+    const show = (n === 'C1');
 
+    excelBtn.style.visibility = show ? 'visible' : 'hidden';
+    excelBtn.style.pointerEvents = show ? 'auto' : 'none';
+}
     
     recalc();
 
     updateFleetFloat();
     
-    }}
+    }
 
 
     function showAlert(msg) {{
