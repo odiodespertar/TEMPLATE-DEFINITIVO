@@ -1829,38 +1829,51 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
     function showTab(n, btn) {{
-        currentTab = n;
 
-        let excelDiv = document.getElementById("excel-polys");
+    currentTab = n;
 
-if (!document.body.classList.contains("excel-view")) {{
-    if (excelDiv) excelDiv.style.display = "none";
+    // Oculta todo el contenido de polígonos y tablas
+    document.querySelectorAll('.p-content, .t-content')
+        .forEach(el => el.style.display = 'none');
 
-    let excelBtn = document.getElementById("btn-excel");
-    if (excelBtn) excelBtn.innerHTML = "📸 VISTA EXCEL";
+    // Quita activo a tabs
+    document.querySelectorAll('.tab-btn')
+        .forEach(b => b.classList.remove('active'));
+
+    // Muestra solo lo necesario
+    document.getElementById('polys-' + n).style.display = 'block';
+    document.getElementById('tab-' + n).style.display = 'block';
+
+    // Activa tab actual
+    btn.classList.add('active');
+
+    recalc();
+    updateFleetFloat();
+
+    // 🔥 SOLO sincroniza UI global
+    syncUI();
 }}
 
-        
-    // Oculta todo el contenido de polígonos y todas las tablas
-    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
-    
-    // Quita el color azul a los botones
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
-    // Muestra el bloque de polígonos de abajo
-    document.getElementById('polys-' + n).style.display = 'block';
-    
-    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
-    document.getElementById('tab-' + n).style.display = 'block';
-    
-    // Pone el botón actual en azul
-    btn.classList.add('active');
-    
-    recalc();
 
-    updateFleetFloat();
-    
+
+    function syncUI() {{
+    let excelDiv = document.getElementById("excel-polys");
+    let excelBtn = document.getElementById("btn-excel");
+
+    const isExcel = document.body.classList.contains("excel-view");
+
+    if (excelDiv) {{
+        excelDiv.style.display = isExcel ? "block" : "none";
     }}
+
+    if (excelBtn) {{
+        excelBtn.innerHTML = isExcel
+            ? "🔙 VISTA NORMAL"
+            : "📸 VISTA EXCEL";
+    }}
+}}
+   
+
 
 
     function showAlert(msg) {{
