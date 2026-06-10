@@ -3303,27 +3303,21 @@ console.log("TAB:", currentTab);
                 );
         }}
 
-    }} else if (currentTab == 2) {{   // C1
+   }} else if (currentTab == 2) {{   // C1
 
     unidad =
         fleet.find(f =>
-            f.nombre === "Large Van MLP"
+            f.nombre.includes("Car - 8h")
         );
 
     if (!unidad) {{
         unidad =
             fleet.find(f =>
-                f.nombre.includes("Car - 8h")
-            );
-    }}
-
-    if (!unidad) {{
-        unidad =
-            fleet.find(f =>
-                f.nombre.includes("Car - 5h")
+                f.nombre.includes("Large Van MLP")
             );
     }}
 }}
+
 
 }} else if (currentTab == 1) {{   // PREC SMX5
 
