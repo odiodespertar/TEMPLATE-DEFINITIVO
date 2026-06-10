@@ -1376,20 +1376,12 @@ html body .meli-table tbody tr:last-child {{
 </button>
 
 
-    <button onclick="descargarCSV_C1()"
-    style="
-        cursor:pointer;
-        background:#228B22;
-        color:white;
-        border:1px solid #1e7a1e;
-        font-size:11px;
-        padding:5px 0;
-        border-radius:3px;
-        font-weight:bold;
-        width:100%;
-        margin-bottom:15px;">
-    📥 DESCARGAR C1 CSV
-</button>
+    st.download_button(
+    label="📥 Descargar C1 (CSV)",
+    data=export_c1_csv(),
+    file_name="C1_disponibilidad.csv",
+    mime="text/csv"
+)
      
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
