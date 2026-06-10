@@ -867,6 +867,46 @@ body.excel-view .poligono-bloque{{
 }}
 
 
+
+/* ===== POLÍGONOS MODO EXCEL ===== */
+
+body.excel-view .poligono-bloque table{{
+    border-collapse:collapse !important;
+}}
+
+body.excel-view .poligono-bloque td{{
+    padding:1px !important;
+    font-size:11px !important;
+    height:18px !important;
+    line-height:16px !important;
+}}
+
+body.excel-view .poligono-bloque th{{
+    padding:1px !important;
+    font-size:10px !important;
+    height:18px !important;
+}}
+
+body.excel-view .poligono-bloque{{
+    margin-bottom:2px !important;
+}}
+
+
+
+body.excel-view .poligono-bloque button{{
+    display:none !important;
+}}
+
+
+
+
+body.excel-view .u-manual,
+body.excel-view .spr-real-val{{
+    font-size:11px !important;
+}}
+
+
+
     
     </style>
 
