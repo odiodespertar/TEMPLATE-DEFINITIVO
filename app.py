@@ -1829,52 +1829,37 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
     function showTab(n, btn) {{
+        currentTab = n;
 
-    currentTab = n;
-
-    // Oculta todo el contenido de polígonos y tablas
-    document.querySelectorAll('.p-content, .t-content')
-        .forEach(el => el.style.display = 'none');
-
-    // Quita activo a tabs
-    document.querySelectorAll('.tab-btn')
-        .forEach(b => b.classList.remove('active'));
-
-    // Muestra solo lo necesario
-    document.getElementById('polys-' + n).style.display = 'block';
-    document.getElementById('tab-' + n).style.display = 'block';
-
-    // Activa tab actual
-    btn.classList.add('active');
-
-    recalc();
-    updateFleetFloat();
-  
-}}
-
-
-
-    function syncUI() {{
-
-    requestAnimationFrame(() => {{
+        document.body.classList.remove("excel-view");
 
         let excelDiv = document.getElementById("excel-polys");
+        if(excelDiv) excelDiv.style.display = "none";
+
         let excelBtn = document.getElementById("btn-excel");
+        if(excelBtn) excelBtn.innerHTML = "📸 VISTA EXCEL";
 
-        const isExcel = document.body.classList.contains("excel-view");
+        
+    // Oculta todo el contenido de polígonos y todas las tablas
+    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
+    
+    // Quita el color azul a los botones
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    // Muestra el bloque de polígonos de abajo
+    document.getElementById('polys-' + n).style.display = 'block';
+    
+    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
+    document.getElementById('tab-' + n).style.display = 'block';
+    
+    // Pone el botón actual en azul
+    btn.classList.add('active');
+    
+    recalc();
 
-        if (excelDiv) {{
-            excelDiv.style.display = isExcel ? "block" : "none";
-        }}
-
-        if (excelBtn) {{
-            excelBtn.innerHTML = isExcel
-                ? "🔙 VISTA NORMAL"
-                : "📸 VISTA EXCEL";
-        }}
-
-    }});
-}}
+    updateFleetFloat();
+    
+    }}
 
 
     function showAlert(msg) {{
@@ -2339,18 +2324,6 @@ actualizarDosPorciento();
     }});
 
 
-function syncExcelButton() {{
-    let btn = document.getElementById("excel-btn");
-
-    if (!btn) return;
-
-    if (document.body.classList.contains("excel-view")) {{
-        btn.innerHTML = "🔙 VISTA NORMAL";
-    }} else {{
-        btn.innerHTML = "📸 VISTA EXCEL";
-    }}
-}}
-
 
 
 function toggleExcelView() {{
@@ -2358,6 +2331,7 @@ function toggleExcelView() {{
     document.body.classList.toggle("excel-view");
 
     let btn = document.getElementById("excel-btn");
+
     let excel = document.getElementById("excel-polys");
 
     let p1 = document.getElementById("polys-1");
@@ -2365,41 +2339,28 @@ function toggleExcelView() {{
     let p4 = document.getElementById("polys-4");
     let p5 = document.getElementById("polys-5");
 
-    if (document.body.classList.contains("excel-view")) {{
-
-        // 🔥 GUARDAS la pestaña actual antes de cambiar
-        if (p1 && p1.style.display === "block") ultimaPestana = "p1";
-        else if (p2 && p2.style.display === "block") ultimaPestana = "p2";
-        else if (p4 && p4.style.display === "block") ultimaPestana = "p4";
-        else if (p5 && p5.style.display === "block") ultimaPestana = "p5";
-
+    if(document.body.classList.contains("excel-view")) {{
         generarExcelPolys();
 
         btn.innerHTML = "🔙 VISTA NORMAL";
 
-        if (excel) excel.style.display = "block";
+        if(excel) excel.style.display = "block";
 
-        if (p1) p1.style.display = "none";
-        if (p2) p2.style.display = "none";
-        if (p4) p4.style.display = "none";
-        if (p5) p5.style.display = "none";
+        if(p1) p1.style.display = "none";
+        if(p2) p2.style.display = "none";
+        if(p4) p4.style.display = "none";
+        if(p5) p5.style.display = "none";
 
     }} else {{
 
         btn.innerHTML = "📸 VISTA EXCEL";
 
-        if (excel) excel.style.display = "none";
+        if(excel) excel.style.display = "none";
 
-        // 🔥 RESTAURAS la pestaña real
-        if (p1) p1.style.display = "none";
-        if (p2) p2.style.display = "none";
-        if (p4) p4.style.display = "none";
-        if (p5) p5.style.display = "none";
-
-        if (ultimaPestana === "p1") p1.style.display = "block";
-        if (ultimaPestana === "p2") p2.style.display = "block";
-        if (ultimaPestana === "p4") p4.style.display = "block";
-        if (ultimaPestana === "p5") p5.style.display = "block";
+        if(p1) p1.style.display = "none";
+        if(p2) p2.style.display = "block";
+        if(p4) p4.style.display = "none";
+        if(p5) p5.style.display = "none";
     }}
 }}
 
@@ -4129,10 +4090,8 @@ document.addEventListener("keydown", function(e){{
     const filaIdx = filas.indexOf(fila);
 
     const celdasFila = Array.from(
-    fila.querySelectorAll(
-        '[contenteditable="true"], select, input[type="checkbox"]'
-    )
-);
+        fila.querySelectorAll('[contenteditable="true"]')
+    );
 
     const colIdx = celdasFila.indexOf(celda);
 
@@ -4142,9 +4101,7 @@ document.addEventListener("keydown", function(e){{
         const sigFila = filas[filaIdx + 1];
 
         if(sigFila){{
-            const celdas = sigFila.querySelectorAll(
-                '[contenteditable="true"], select, input[type="checkbox"]'
-            );
+            const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
             if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
@@ -4155,9 +4112,7 @@ document.addEventListener("keydown", function(e){{
         const antFila = filas[filaIdx - 1];
 
         if(antFila){{
-            const celdas = antFila.querySelectorAll(
-    '[contenteditable="true"], select, input[type="checkbox"]'
-);
+            const celdas = antFila.querySelectorAll('[contenteditable="true"]');
             if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
