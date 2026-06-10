@@ -3363,6 +3363,17 @@ console.log("TAB:", currentTab);
 
             let usar;
 
+let usar;
+
+let permiteNegativo =
+    unidad.nombre === "Car - 8h" ||
+    unidad.nombre === "Car - 5h" ||
+    unidad.nombre === "Car - 3h" ||
+    (
+        currentTab == 2 &&
+        unidad.nombre === "Large Van MLP"
+    );
+
 if (unidad.restante > 0) {{
 
     usar =
@@ -3371,10 +3382,17 @@ if (unidad.restante > 0) {{
             unidad.restante
         );
 
-}} else {{
+}} else if (permiteNegativo) {{
 
     usar = necesarias;
+
+}} else {{
+
+    break;
+
 }}
+
+
 
             // =================================
             // ASIGNAR
