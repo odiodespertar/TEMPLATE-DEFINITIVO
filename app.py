@@ -1857,23 +1857,26 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
     function syncUI() {{
-    let excelDiv = document.getElementById("excel-polys");
-    let excelBtn = document.getElementById("btn-excel");
 
-    const isExcel = document.body.classList.contains("excel-view");
+    requestAnimationFrame(() => {{
 
-    if (excelDiv) {{
-        excelDiv.style.display = isExcel ? "block" : "none";
-    }}
+        let excelDiv = document.getElementById("excel-polys");
+        let excelBtn = document.getElementById("btn-excel");
 
-    if (excelBtn) {{
-        excelBtn.innerHTML = isExcel
-            ? "🔙 VISTA NORMAL"
-            : "📸 VISTA EXCEL";
-    }}
+        const isExcel = document.body.classList.contains("excel-view");
+
+        if (excelDiv) {{
+            excelDiv.style.display = isExcel ? "block" : "none";
+        }}
+
+        if (excelBtn) {{
+            excelBtn.innerHTML = isExcel
+                ? "🔙 VISTA NORMAL"
+                : "📸 VISTA EXCEL";
+        }}
+
+    }});
 }}
-   
-
 
 
     function showAlert(msg) {{
