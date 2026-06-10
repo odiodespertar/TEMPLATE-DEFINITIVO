@@ -815,6 +815,25 @@ html body .meli-table tbody tr:last-child {{
         0 14px 35px rgba(0,0,0,0.22);
 }}
 
+
+
+
+/* ===== MODO EXCEL ===== */
+
+body.excel-view #fleet-float{{
+    display:none !important;
+}}
+
+body.excel-view #ruteo-float{{
+    display:none !important;
+}}
+
+body.excel-view .tools-panel{{
+    display:none !important;
+}}
+
+
+
     
     </style>
 
