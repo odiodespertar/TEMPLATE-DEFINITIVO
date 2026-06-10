@@ -1844,6 +1844,21 @@ document.addEventListener("DOMContentLoaded", () => {{
     
     // Pone el botón actual en azul
     btn.classList.add('active');
+
+
+    // 👇 AQUÍ VA EL CONTROL DEL BOTÓN EXCEL
+    const excelBtn = document.getElementById('btn-excel-view');
+
+    if (excelBtn) {{
+        if (n === 'C1') {{
+            excelBtn.style.visibility = 'visible';
+            excelBtn.style.pointerEvents = 'auto';
+        }} else {{
+            excelBtn.style.visibility = 'hidden';
+            excelBtn.style.pointerEvents = 'none';
+        }}
+    }}
+
     
     recalc();
 
