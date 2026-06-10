@@ -1376,10 +1376,12 @@ html body .meli-table tbody tr:last-child {{
 </button>
 
 
-    st.download_button(
-    label="📥 Descargar C1 (CSV)",
-    data=export_c1_csv(),
-    file_name="C1_disponibilidad.csv",
+
+csv = df_c1.to_csv(index=False).encode('utf-8')
+st.download_button(
+    label="Descargar C1 (CSV)",
+    data=csv,
+    file_name="C1_planes_unidades.csv",
     mime="text/csv"
 )
      
