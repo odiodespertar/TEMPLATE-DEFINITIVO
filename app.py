@@ -1061,7 +1061,7 @@ body.excel-view .spr-real-val{{
 
 
 
-<button id="excel-btn"
+<button id="excel-btn" class="excel-only"
     onclick="toggleExcelView()"
     style="
         cursor:pointer;
@@ -1849,6 +1849,9 @@ function showTab(n, btn) {{
     document.getElementById('polys-' + n).style.display = 'block';
     document.getElementById('tab-' + n).style.display = 'block';
 
+    document.body.classList.remove('tab-C1', 'tab-SMX5', 'tab-SDE');
+    document.body.classList.add('tab-' + n);
+
     btn.classList.add('active');
 
     recalc();
@@ -2449,17 +2452,6 @@ let nodoTxt =
         }});
 
     }});
-}}
-
-
-
-function applyExcel(tab) {{
-    const excelBtn = document.getElementById('btn-excel-view');
-    if (!excelBtn) return;
-
-    const show = (tab === 'C1');
-
-    excelBtn.hidden = !show;
 }}
 
 
@@ -3996,6 +3988,10 @@ document.getElementById('fleet-float-body').innerHTML = html;
     }}
 
 
+aplicarPerfil();
+
+    
+    recalc();
 
 
 // ==============================================================================
