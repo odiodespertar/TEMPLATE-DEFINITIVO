@@ -1529,6 +1529,57 @@ body.excel-view .spr-real-val{{
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+
+
+        <div id="excel-polys" style="display:none; margin-top:10px;">
+
+    <div style="
+        background:#0f5b84;
+        color:white;
+        font-weight:bold;
+        text-align:center;
+        padding:8px;
+        font-size:18px;
+        border:1px solid #0f5b84;
+    ">
+        📋 RESUMEN DE POLÍGONOS
+    </div>
+
+    <table style="
+        width:100%;
+        border-collapse:collapse;
+        background:white;
+        font-size:11px;
+    ">
+        <thead>
+            <tr>
+                <th>PLAN</th>
+                <th>VOL</th>
+                <th>NODOS</th>
+                <th>UNIDAD</th>
+                <th>ASIG</th>
+                <th>SPR</th>
+                <th>ESTADO</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>PRUEBA</td>
+                <td>100</td>
+                <td>0</td>
+                <td>Large Van MLP</td>
+                <td>2</td>
+                <td>100</td>
+                <td>OK</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</div>
+        
+        
     </div>
 
 
