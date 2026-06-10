@@ -2331,7 +2331,6 @@ function toggleExcelView() {{
     document.body.classList.toggle("excel-view");
 
     let btn = document.getElementById("excel-btn");
-
     let excel = document.getElementById("excel-polys");
 
     let p1 = document.getElementById("polys-1");
@@ -2339,28 +2338,41 @@ function toggleExcelView() {{
     let p4 = document.getElementById("polys-4");
     let p5 = document.getElementById("polys-5");
 
-    if(document.body.classList.contains("excel-view")) {{
+    if (document.body.classList.contains("excel-view")) {{
+
+        // 🔥 GUARDAS la pestaña actual antes de cambiar
+        if (p1 && p1.style.display === "block") ultimaPestana = "p1";
+        else if (p2 && p2.style.display === "block") ultimaPestana = "p2";
+        else if (p4 && p4.style.display === "block") ultimaPestana = "p4";
+        else if (p5 && p5.style.display === "block") ultimaPestana = "p5";
+
         generarExcelPolys();
 
         btn.innerHTML = "🔙 VISTA NORMAL";
 
-        if(excel) excel.style.display = "block";
+        if (excel) excel.style.display = "block";
 
-        if(p1) p1.style.display = "none";
-        if(p2) p2.style.display = "none";
-        if(p4) p4.style.display = "none";
-        if(p5) p5.style.display = "none";
+        if (p1) p1.style.display = "none";
+        if (p2) p2.style.display = "none";
+        if (p4) p4.style.display = "none";
+        if (p5) p5.style.display = "none";
 
     }} else {{
 
         btn.innerHTML = "📸 VISTA EXCEL";
 
-        if(excel) excel.style.display = "none";
+        if (excel) excel.style.display = "none";
 
-        if(p1) p1.style.display = "none";
-        if(p2) p2.style.display = "block";
-        if(p4) p4.style.display = "none";
-        if(p5) p5.style.display = "none";
+        // 🔥 RESTAURAS la pestaña real
+        if (p1) p1.style.display = "none";
+        if (p2) p2.style.display = "none";
+        if (p4) p4.style.display = "none";
+        if (p5) p5.style.display = "none";
+
+        if (ultimaPestana === "p1") p1.style.display = "block";
+        if (ultimaPestana === "p2") p2.style.display = "block";
+        if (ultimaPestana === "p4") p4.style.display = "block";
+        if (ultimaPestana === "p5") p5.style.display = "block";
     }}
 }}
 
