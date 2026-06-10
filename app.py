@@ -3476,6 +3476,7 @@ let htmlRight = "";
 let totalNoCar = 0;
 let totalCarReal = 0;
 let totalCarSchedule = 0;
+let totalRuteadasNoCar = 0;
 
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
@@ -3509,12 +3510,20 @@ if (isCar) {{
 
     }}
 
-}} else if (
-    name === "Large Van MLP" ||
-    name === "Small Van MLP"
-) {{
+}} else {{
 
-    totalNoCar += asignado;
+    // Todas las NO CAR cuentan para TOTAL RUTEADAS
+    totalRuteadasNoCar += asignado;
+
+    // Solo las MLP cuentan para TOTAL MLP
+    if (
+        name === "Large Van MLP" ||
+        name === "Small Van MLP"
+    ) {{
+
+        totalNoCar += asignado;
+
+    }}
 
 }}
 
@@ -3613,7 +3622,7 @@ if (elCarReal) {{
 
 
 let totalRuteadas =
-    totalNoCar + totalCarReal;
+    totalRuteadasNoCar + totalCarReal;
 
 let elRuteadas =
     document.getElementById(
