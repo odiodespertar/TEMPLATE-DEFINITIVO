@@ -3494,7 +3494,10 @@ if (isCar) {{
 
     }}
 
-}} else {{
+}} else if (
+    name === "Large Van MLP" ||
+    name === "Small Van MLP"
+) {{
 
     totalNoCar += asignado;
 
