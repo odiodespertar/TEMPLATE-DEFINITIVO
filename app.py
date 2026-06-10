@@ -1568,41 +1568,12 @@ body.excel-view .spr-real-val{{
 </tr>
 </thead>
 
-        <tbody>
 
-<tr style="height:24px;">
 
-    <td style="border:1px solid #d0d0d0;padding:4px;">
-        PRUEBA
-    </td>
-
-    <td style="border:1px solid #d0d0d0;text-align:center;">
-        100
-    </td>
-
-    <td style="border:1px solid #d0d0d0;text-align:center;">
-        0
-    </td>
-
-    <td style="border:1px solid #d0d0d0;padding-left:8px;">
-        Large Van MLP
-    </td>
-
-    <td style="border:1px solid #d0d0d0;text-align:center;">
-        2
-    </td>
-
-    <td style="border:1px solid #d0d0d0;text-align:center;">
-        100
-    </td>
-
-    <td style="border:1px solid #d0d0d0;text-align:center;color:green;font-weight:bold;">
-        OK
-    </td>
-
-</tr>
-
+        <tbody id="excel-polys-body">
 </tbody>
+
+
 
     </table>
 
@@ -2360,6 +2331,7 @@ function toggleExcelView() {{
     let p5 = document.getElementById("polys-5");
 
     if(document.body.classList.contains("excel-view")) {{
+        generarExcelPolys();
 
         btn.innerHTML = "🔙 VISTA NORMAL";
 
@@ -2384,6 +2356,34 @@ function toggleExcelView() {{
 }}
 
 
+
+function generarExcelPolys() {{
+    let body = document.getElementById("excel-polys-body");
+    if(!body) return;
+    body.innerHTML = "";
+    let tabId = (currentTab === 'C1') ? '2' : currentTab;
+    document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
+        let vol =
+            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
+        let estado =
+            bl.querySelector('.p-diff')?.innerText.trim() || "";
+        let fila = `
+            <tr style="height:24px;">
+                <td style="border:1px solid #d0d0d0;padding:4px;">
+                    ${{plan}}
+                </td>
+                <td style="border:1px solid #d0d0d0;text-align:center;">
+                    ${{vol}}
+                </td>
+                <td style="border:1px solid #d0d0d0;text-align:center;">
+                    ${{estado}}
+                </td>
+            </tr>
+        `;
+        body.innerHTML += fila;
+    }});
+}}
 
 
 
