@@ -2453,6 +2453,17 @@ let nodoTxt =
 
 
 
+function applyExcel(tab) {{
+    const excelBtn = document.getElementById('btn-excel-view');
+    if (!excelBtn) return;
+
+    const show = (tab === 'C1');
+
+    excelBtn.hidden = !show;
+}}
+
+
+
 
 function obtenerCarFlexible() {{
 
@@ -3985,10 +3996,6 @@ document.getElementById('fleet-float-body').innerHTML = html;
     }}
 
 
-aplicarPerfil();
-
-    
-    recalc();
 
 
 // ==============================================================================
