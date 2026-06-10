@@ -1827,9 +1827,9 @@ document.addEventListener("DOMContentLoaded", () => {{
 }}
 
 
-function showTab(n, btn) {{
-    currentTab = n;
 
+    function showTab(n, btn) {{
+        currentTab = n;
     // Oculta todo el contenido de polígonos y todas las tablas
     document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
     
@@ -1839,25 +1839,17 @@ function showTab(n, btn) {{
     // Muestra el bloque de polígonos de abajo
     document.getElementById('polys-' + n).style.display = 'block';
     
-    // Muestra la tabla de unidades de arriba
+    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
     document.getElementById('tab-' + n).style.display = 'block';
     
     // Pone el botón actual en azul
     btn.classList.add('active');
-
-    // 👇 AQUÍ ES DONDE VA LO DEL BOTÓN EXCEL
-    const excelBtn = document.getElementById('btn-excel-view');
-
-    if (n === 'C1') {{
-        excelBtn.style.display = 'block';
-    }} else {{
-        excelBtn.style.display = 'none';
-    }}
-
+    
     recalc();
-    updateFleetFloat();
-}}
 
+    updateFleetFloat();
+    
+    }}
 
 
     function showAlert(msg) {{
