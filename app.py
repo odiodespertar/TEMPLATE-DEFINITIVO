@@ -977,7 +977,7 @@ html body .meli-table tbody tr:last-child {{
     <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL MLP
     </td>
-    <td id="total-no-car-1"
+    <td id="total-no-car-2"
         style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
         0
     </td>
