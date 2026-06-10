@@ -960,6 +960,25 @@ html body .meli-table tbody tr:last-child {{
 </div>
 
 
+
+<button id="excel-btn"
+    onclick="toggleExcelView()"
+    style="
+        cursor:pointer;
+        background:#228B22;
+        color:white;
+        border:none;
+        font-size:12px;
+        padding:6px 12px;
+        border-radius:4px;
+        font-weight:bold;
+        box-shadow:0 3px 0 #1c6d1c;
+        transition:all 0.05s;
+        outline:none;">
+    📸 VISTA EXCEL
+</button>
+
+
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
@@ -2151,6 +2170,17 @@ actualizarDosPorciento();
             if (e.key === 'Backspace') del();
         }}
     }});
+
+
+
+
+function toggleExcelView() {{
+
+    document.body.classList.toggle("excel-view");
+
+}}
+
+
 
 
 
