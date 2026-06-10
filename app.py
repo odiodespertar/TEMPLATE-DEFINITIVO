@@ -1846,14 +1846,16 @@ function showTab(n, btn) {{
     recalc();
 
     setTimeout(() => {{
-        const excelBtn = document.getElementById('btn-excel-view');
-        if (!excelBtn) return;
+    const excelBtn = document.getElementById('btn-excel-view');
+    if (!excelBtn) return;
 
-        const show = (currentTab === 'C1');
+    const show = (currentTab === 'C1');
 
-        excelBtn.style.visibility = show ? 'visible' : 'hidden';
-        excelBtn.style.pointerEvents = show ? 'auto' : 'none';
-    }}, 0);
+    excelBtn.style.setProperty('visibility', show ? 'visible' : 'hidden', 'important');
+    excelBtn.style.setProperty('pointer-events', show ? 'auto' : 'none', 'important');
+
+    console.log("EXCEL LOCK:", show, "TAB:", currentTab);
+}}, 50);
 
     updateFleetFloat();
 }}
