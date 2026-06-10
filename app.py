@@ -1838,6 +1838,9 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 function showTab(n, btn) {{
+
+    document.body.classList.remove("excel-view"); // 👈 IMPORTANTE
+
     currentTab = n;
 
     document.querySelectorAll('.p-content, .t-content')
