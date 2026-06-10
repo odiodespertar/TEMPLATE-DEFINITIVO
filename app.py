@@ -2325,42 +2325,28 @@ actualizarDosPorciento();
 
 
 
-
 function toggleExcelView() {{
 
     document.body.classList.toggle("excel-view");
 
     let btn = document.getElementById("excel-btn");
-
     let excel = document.getElementById("excel-polys");
 
-    let p1 = document.getElementById("polys-1");
-    let p2 = document.getElementById("polys-2");
-    let p4 = document.getElementById("polys-4");
-    let p5 = document.getElementById("polys-5");
+    const isExcel = document.body.classList.contains("excel-view");
 
-    if(document.body.classList.contains("excel-view")) {{
+    if (isExcel) {{
+
         generarExcelPolys();
 
-        btn.innerHTML = "🔙 VISTA NORMAL";
+        if (btn) btn.innerHTML = "🔙 VISTA NORMAL";
 
-        if(excel) excel.style.display = "block";
-
-        if(p1) p1.style.display = "none";
-        if(p2) p2.style.display = "none";
-        if(p4) p4.style.display = "none";
-        if(p5) p5.style.display = "none";
+        if (excel) excel.style.display = "block";
 
     }} else {{
 
-        btn.innerHTML = "📸 VISTA EXCEL";
+        if (btn) btn.innerHTML = "📸 VISTA EXCEL";
 
-        if(excel) excel.style.display = "none";
-
-        if(p1) p1.style.display = "none";
-        if(p2) p2.style.display = "block";
-        if(p4) p4.style.display = "none";
-        if(p5) p5.style.display = "none";
+        if (excel) excel.style.display = "none";
     }}
 }}
 
