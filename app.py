@@ -1828,32 +1828,43 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 
-function showTab(n, btn) {{
+
+function showTab(n, btn) {
     currentTab = n;
 
+    // Oculta todo el contenido de polígonos y tablas
     document.querySelectorAll('.p-content, .t-content')
         .forEach(el => el.style.display = 'none');
 
+    // Quita el estado activo a los botones
     document.querySelectorAll('.tab-btn')
         .forEach(b => b.classList.remove('active'));
 
+    // Muestra solo la pestaña seleccionada
     document.getElementById('polys-' + n).style.display = 'block';
     document.getElementById('tab-' + n).style.display = 'block';
 
+    // Activa botón actual
     btn.classList.add('active');
 
-    const excelBtn = document.getElementById('btn-excel-view');
+    // Recalcular lógica
+    recalc();
 
-    if (excelBtn) {{
-        const show = (n === 'C1');
+    // 🔥 Control del botón Excel (DESPUÉS de recalc para evitar overrides)
+    setTimeout(() => {
+        const excelBtn = document.getElementById('btn-excel-view');
+        if (!excelBtn) return;
+
+        const show = (currentTab === 'C1');
 
         excelBtn.style.visibility = show ? 'visible' : 'hidden';
         excelBtn.style.pointerEvents = show ? 'auto' : 'none';
-    }}
+    }, 0);
 
-    recalc();
     updateFleetFloat();
-}}
+}
+
+
 
 
     function showAlert(msg) {{
