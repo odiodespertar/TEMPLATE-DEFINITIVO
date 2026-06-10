@@ -4090,8 +4090,10 @@ document.addEventListener("keydown", function(e){{
     const filaIdx = filas.indexOf(fila);
 
     const celdasFila = Array.from(
-        fila.querySelectorAll('[contenteditable="true"]')
-    );
+    fila.querySelectorAll(
+        '[contenteditable="true"], select, input[type="checkbox"]'
+    )
+);
 
     const colIdx = celdasFila.indexOf(celda);
 
@@ -4101,7 +4103,9 @@ document.addEventListener("keydown", function(e){{
         const sigFila = filas[filaIdx + 1];
 
         if(sigFila){{
-            const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
+            const celdas = sigFila.querySelectorAll(
+                '[contenteditable="true"], select, input[type="checkbox"]'
+            );
             if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
@@ -4112,7 +4116,9 @@ document.addEventListener("keydown", function(e){{
         const antFila = filas[filaIdx - 1];
 
         if(antFila){{
-            const celdas = antFila.querySelectorAll('[contenteditable="true"]');
+            const celdas = antFila.querySelectorAll(
+    '[contenteditable="true"], select, input[type="checkbox"]'
+);
             if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
