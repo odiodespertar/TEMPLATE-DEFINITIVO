@@ -836,6 +836,14 @@ body.excel-view .tools-panel{{
     display:none !important;
 }}
 
+/* 🔥 FIX IMPORTANTE: ocultar botón Excel en modo excel-view */
+body.excel-view #btn-excel-view{{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}}
+
 
 
 /* TABLAS COMPACTAS */
