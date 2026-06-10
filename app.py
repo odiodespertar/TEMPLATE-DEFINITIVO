@@ -1546,34 +1546,63 @@ body.excel-view .spr-real-val{{
     </div>
 
     <table style="
-        width:100%;
-        border-collapse:collapse;
-        background:white;
-        font-size:11px;
-    ">
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    font-size:12px;
+    table-layout:fixed;
+">
         <thead>
-            <tr>
-                <th>PLAN</th>
-                <th>VOL</th>
-                <th>NODOS</th>
-                <th>UNIDAD</th>
-                <th>ASIG</th>
-                <th>SPR</th>
-                <th>ESTADO</th>
-            </tr>
-        </thead>
+<tr style="
+    background:#135b83;
+    color:white;
+    height:28px;
+">
+    <th style="border:1px solid #c0c0c0;">PLAN</th>
+    <th style="border:1px solid #c0c0c0;">VOL</th>
+    <th style="border:1px solid #c0c0c0;">NODOS</th>
+    <th style="border:1px solid #c0c0c0;">UNIDAD</th>
+    <th style="border:1px solid #c0c0c0;">ASIG</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
+    <th style="border:1px solid #c0c0c0;">ESTADO</th>
+</tr>
+</thead>
 
         <tbody>
-            <tr>
-                <td>PRUEBA</td>
-                <td>100</td>
-                <td>0</td>
-                <td>Large Van MLP</td>
-                <td>2</td>
-                <td>100</td>
-                <td>OK</td>
-            </tr>
-        </tbody>
+
+<tr style="height:24px;">
+
+    <td style="border:1px solid #d0d0d0;padding:4px;">
+        PRUEBA
+    </td>
+
+    <td style="border:1px solid #d0d0d0;text-align:center;">
+        100
+    </td>
+
+    <td style="border:1px solid #d0d0d0;text-align:center;">
+        0
+    </td>
+
+    <td style="border:1px solid #d0d0d0;padding-left:8px;">
+        Large Van MLP
+    </td>
+
+    <td style="border:1px solid #d0d0d0;text-align:center;">
+        2
+    </td>
+
+    <td style="border:1px solid #d0d0d0;text-align:center;">
+        100
+    </td>
+
+    <td style="border:1px solid #d0d0d0;text-align:center;color:green;font-weight:bold;">
+        OK
+    </td>
+
+</tr>
+
+</tbody>
 
     </table>
 
