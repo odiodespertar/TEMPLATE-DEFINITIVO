@@ -1849,9 +1849,7 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     recalc();
     updateFleetFloat();
-
-    // 🔥 SOLO sincroniza UI global
-    syncUI();
+  
 }}
 
 
