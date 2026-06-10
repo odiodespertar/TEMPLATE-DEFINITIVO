@@ -3995,6 +3995,21 @@ function togglePrioridades() {{
         panel.style.top = '0px';    // Se despliega bajando
     }}
 }}
+
+
+document.addEventListener('keydown', function(e) {{
+    if (e.key !== 'Enter') return;
+    const panel = document.getElementById('panel-prioridades');
+    if (!panel) return;
+    if (panel.style.top === '0px') {{
+        e.preventDefault();
+        panel.style.top = '-600px';
+    }}
+}});
+
+
+
+
 // ==============================================================================
 
 
