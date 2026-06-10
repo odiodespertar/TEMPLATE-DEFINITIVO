@@ -1849,6 +1849,15 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     recalc();
     updateFleetFloat();
+
+
+    // 🔥 CONTROL DEL BOTÓN EXCEL
+let excelBtn = document.getElementById("excel-btn");
+
+if (excelBtn) {{
+    excelBtn.style.display = (n === 1) ? "inline-block" : "none";
+
+
 }}
 
 
