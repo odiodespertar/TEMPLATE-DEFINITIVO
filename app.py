@@ -1,5 +1,7 @@
 import json
 import streamlit as st
+import pandas as pd
+import io
 from streamlit.components.v1 import html      
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
@@ -181,6 +183,27 @@ def gen_master_rows(data_dict, table_id):
 
  </tr>''' 
     return rows
+
+
+
+
+
+def export_c1_csv():
+    data = []
+    for unidad, spr in u_C1.items():
+        data.append({{
+            "PLAN": "C1",
+            "UNIDAD": unidad,
+            "SPR_MIN": spr[0],
+            "SPR_MAX": spr[1]
+        }})
+
+    df_c1 = pd.DataFrame(data)
+    csv = df_c1.to_csv(index=False).encode("utf-8")
+    return csv
+
+
+
 
 
 
