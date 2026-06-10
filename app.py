@@ -3358,10 +3358,8 @@ console.log("TAB:", currentTab);
             // CALCULAR NECESARIAS
             // =================================
 
-            let necesarias =
-                Math.ceil(restante / unidad.spr);
-
-            let usar;
+          let necesarias =
+    Math.ceil(restante / unidad.spr);
 
 let usar;
 
@@ -3382,16 +3380,10 @@ if (unidad.restante > 0) {{
             unidad.restante
         );
 
-}} else if (permiteNegativo) {{
-
-    usar = necesarias;
-
 }} else {{
 
-    break;
-
+    usar = necesarias;
 }}
-
 
 
             // =================================
