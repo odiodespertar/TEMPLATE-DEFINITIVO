@@ -2422,7 +2422,7 @@ let nodoTxt =
                     </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
-                        ${nodoTxt}
+                        ${{nodoTxt}}
                     </td>
 
                 </tr>
