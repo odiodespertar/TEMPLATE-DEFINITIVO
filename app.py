@@ -822,10 +822,14 @@ html body .meli-table tbody tr:last-child {{
 
 body.excel-view #fleet-float{{
     display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
 }}
 
 body.excel-view #ruteo-float{{
     display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
 }}
 
 body.excel-view .tools-panel{{
