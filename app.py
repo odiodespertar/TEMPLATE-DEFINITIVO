@@ -1849,27 +1849,20 @@ function showTab(n, btn) {{
     document.getElementById('polys-' + n).style.display = 'block';
     document.getElementById('tab-' + n).style.display = 'block';
 
-    document.body.classList.remove('tab-1', 'tab-2', 'tab-4');
-    document.body.classList.add('tab-' + n);
-
     btn.classList.add('active');
 
     recalc();
 
-    setTimeout(() => {{
-    const excelBtn = document.getElementById('btn-excel-view');
-    if (!excelBtn) return;
-
-    const show = (currentTab === 'C1');
-
-    excelBtn.style.setProperty('visibility', show ? 'visible' : 'hidden', 'important');
-    excelBtn.style.setProperty('pointer-events', show ? 'auto' : 'none', 'important');
-
-    console.log("EXCEL LOCK:", show, "TAB:", currentTab);
-}}, 50);
-
     updateFleetFloat();
+
+    // 👇 AQUÍ VA EL CONTROL FINAL DEL BOTÓN EXCEL
+    const excelBtn = document.getElementById('excel-btn');
+
+    if (excelBtn) {{
+        excelBtn.style.display = (n === 2) ? 'inline-block' : 'none';
+    }}
 }}
+
 
 
 
