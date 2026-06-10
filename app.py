@@ -838,6 +838,35 @@ body.excel-view .tools-panel{{
 
 
 
+/* TABLAS COMPACTAS */
+
+body.excel-view .meli-table td{{
+    padding:1px 3px !important;
+    height:18px !important;
+    min-height:18px !important;
+    font-size:11px !important;
+}}
+
+body.excel-view .meli-table th{{
+    padding:1px 3px !important;
+    height:20px !important;
+    font-size:11px !important;
+}}
+
+body.excel-view .master-row{{
+    box-shadow:none !important;
+    border-radius:0 !important;
+}}
+
+
+/* ESTO VA DEBAJO */
+
+body.excel-view .poligono-bloque{{
+    box-shadow:none !important;
+    border-radius:0 !important;
+}}
+
+
     
     </style>
 
