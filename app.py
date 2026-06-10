@@ -1377,13 +1377,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-csv = df_c1.to_csv(index=False).encode('utf-8')
-st.download_button(
-    label="Descargar C1 (CSV)",
-    data=csv,
-    file_name="C1_planes_unidades.csv",
-    mime="text/csv"
-)
      
                 <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
