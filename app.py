@@ -38,7 +38,7 @@ st.markdown("""
 
 
 # --- DATOS BASE ---
-u_SDE = {"Moto Car - 3": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
+u_SDE = {"Moto Car - 3": [25, 30], "Moto Car Newbie": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
 u_PREC = {      
     "Car - 8h": [70, 75],
