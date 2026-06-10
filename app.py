@@ -2357,32 +2357,75 @@ function toggleExcelView() {{
 
 
 function generarExcelPolys() {{
+
     let body = document.getElementById("excel-polys-body");
+
     if(!body) return;
+
     body.innerHTML = "";
+
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
+
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
+
+        let plan =
+            bl.querySelector('tbody tr td')?.innerText.trim() || "";
+
         let vol =
             bl.querySelector('.v-total-val')?.innerText.trim() || "0";
+
         let estado =
             bl.querySelector('.p-diff')?.innerText.trim() || "";
-        let fila = `
-            <tr style="height:24px;">
-                <td style="border:1px solid #d0d0d0;padding:4px;">
-                    ${{plan}}
-                </td>
-                <td style="border:1px solid #d0d0d0;text-align:center;">
-                    ${{vol}}
-                </td>
-                <td style="border:1px solid #d0d0d0;text-align:center;">
-                    ${{estado}}
-                </td>
-            </tr>
-        `;
-        body.innerHTML += fila;
+
+        bl.querySelectorAll('.calc-row').forEach(r => {{
+
+            let unidad =
+                r.querySelector('.s-type')?.value || "";
+
+            let asignadas =
+                r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+            let spr =
+                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+
+            if(unidad === "" || unidad === "Seleccionar...")
+                return;
+
+            body.innerHTML += `
+                <tr style="height:22px;">
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
+                        ${{plan}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{vol}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
+                        ${{estado}}
+                    </td>
+
+                </tr>
+            `;
+
+        }});
+
     }});
 }}
+
 
 
 
