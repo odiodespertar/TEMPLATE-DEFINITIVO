@@ -1563,7 +1563,7 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
     <th style="border:1px solid #c0c0c0;">SPR</th>
-    <th style="border:1px solid #c0c0c0;">ESTADO</th>
+    <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
 
@@ -2374,8 +2374,15 @@ function generarExcelPolys() {{
         let vol =
             bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        let estado =
-            bl.querySelector('.p-diff')?.innerText.trim() || "";
+        let nodoExcel =
+    bl.querySelector('.nodos-val')?.innerText.trim() ||
+    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
+    "0";
+
+let nodoTxt =
+    (parseInt(nodoExcel) || 0) > 0
+        ? nodoExcel
+        : "-";
 
         bl.querySelectorAll('.calc-row').forEach(r => {{
 
@@ -2415,7 +2422,7 @@ function generarExcelPolys() {{
                     </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
-                        ${{estado}}
+                        ${nodoTxt}
                     </td>
 
                 </tr>
