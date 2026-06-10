@@ -2332,8 +2332,9 @@ actualizarDosPorciento();
 
 function toggleExcelView() {{
 
-    document.body.classList.toggle("excel-view");
-
+    const isExcel = !document.body.classList.contains("excel-view");
+    document.body.classList.toggle("excel-view", isExcel);
+    
     let btn = document.getElementById("excel-btn");
 
     let excel = document.getElementById("excel-polys");
