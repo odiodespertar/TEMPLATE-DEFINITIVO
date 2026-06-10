@@ -1829,38 +1829,27 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
     function showTab(n, btn) {{
-
-    currentTab = n;
-
-    // Oculta todo el contenido de polígonos y tablas
-    document.querySelectorAll('.p-content, .t-content')
-        .forEach(el => el.style.display = 'none');
-
-    // Quita activo a tabs
-    document.querySelectorAll('.tab-btn')
-        .forEach(b => b.classList.remove('active'));
-
-    // Muestra solo lo necesario
+        currentTab = n;
+    // Oculta todo el contenido de polígonos y todas las tablas
+    document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
+    
+    // Quita el color azul a los botones
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    // Muestra el bloque de polígonos de abajo
     document.getElementById('polys-' + n).style.display = 'block';
+    
+    // Muestra la tabla de unidades de arriba (la que acabamos de arreglar)
     document.getElementById('tab-' + n).style.display = 'block';
-
-    // Activa tab actual
+    
+    // Pone el botón actual en azul
     btn.classList.add('active');
-
+    
     recalc();
+
     updateFleetFloat();
-
-
-    // 🔥 CONTROL DEL BOTÓN EXCEL
-let excelBtn = document.getElementById("excel-btn");
-
-if (excelBtn) {{
-    excelBtn.style.display = (n === 1) ? "inline-block" : "none";
-
-
-}}
-
-
+    
+    }}
 
 
     function showAlert(msg) {{
@@ -2326,28 +2315,42 @@ actualizarDosPorciento();
 
 
 
+
 function toggleExcelView() {{
 
     document.body.classList.toggle("excel-view");
 
     let btn = document.getElementById("excel-btn");
+
     let excel = document.getElementById("excel-polys");
 
-    const isExcel = document.body.classList.contains("excel-view");
+    let p1 = document.getElementById("polys-1");
+    let p2 = document.getElementById("polys-2");
+    let p4 = document.getElementById("polys-4");
+    let p5 = document.getElementById("polys-5");
 
-    if (isExcel) {{
-
+    if(document.body.classList.contains("excel-view")) {{
         generarExcelPolys();
 
-        if (btn) btn.innerHTML = "🔙 VISTA NORMAL";
+        btn.innerHTML = "🔙 VISTA NORMAL";
 
-        if (excel) excel.style.display = "block";
+        if(excel) excel.style.display = "block";
+
+        if(p1) p1.style.display = "none";
+        if(p2) p2.style.display = "none";
+        if(p4) p4.style.display = "none";
+        if(p5) p5.style.display = "none";
 
     }} else {{
 
-        if (btn) btn.innerHTML = "📸 VISTA EXCEL";
+        btn.innerHTML = "📸 VISTA EXCEL";
 
-        if (excel) excel.style.display = "none";
+        if(excel) excel.style.display = "none";
+
+        if(p1) p1.style.display = "none";
+        if(p2) p2.style.display = "block";
+        if(p4) p4.style.display = "none";
+        if(p5) p5.style.display = "none";
     }}
 }}
 
@@ -3982,21 +3985,6 @@ function togglePrioridades() {{
         panel.style.top = '0px';    // Se despliega bajando
     }}
 }}
-
-
-document.addEventListener('keydown', function(e) {{
-    if (e.key !== 'Enter') return;
-    const panel = document.getElementById('panel-prioridades');
-    if (!panel) return;
-    if (panel.style.top === '0px') {{
-        e.preventDefault();
-        panel.style.top = '-600px';
-    }}
-}});
-
-
-
-
 // ==============================================================================
 
 
