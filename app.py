@@ -3380,9 +3380,14 @@ if (unidad.restante > 0) {{
             unidad.restante
         );
 
-}} else {{
+}} else if (permiteNegativo) {{
 
     usar = necesarias;
+
+}} else {{
+
+    usar = 0;
+
 }}
 
 
