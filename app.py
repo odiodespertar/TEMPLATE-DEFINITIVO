@@ -2420,7 +2420,7 @@ function generarExcelPolys() {{
             if (index === 0) {{
                 filaHtml += `
                     <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle; height:22px !important;">
-                        \${plan}
+                        \${{plan}}
                     </td>
                     <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle; height:22px !important;">
                         \${{vol}}
