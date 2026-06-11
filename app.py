@@ -832,10 +832,13 @@ body.excel-view tr:has(#total-ruteadas-2) {{
     display: table-row !important;
 }}
 
-/* Hacer más grande y en negritas el TEXTO de "TOTAL RUTEADAS" */
+/* Hacer más grande, en negritas y MÁS ALTA la fila de "TOTAL RUTEADAS" */
 body.excel-view tr:has(#total-ruteadas-2) td {{
     font-size: 16px !important;
     font-weight: bold !important;
+    padding-top: 10px !important;    /* Espacio extra arriba */
+    padding-bottom: 10px !important; /* Espacio extra abajo */
+    vertical-align: middle !important; /* Mantiene el texto perfectamente centrado verticalmente */
 }}
 
 /* Asegurar que el NÚMERO del total también se vea igual de grande y en negritas */
