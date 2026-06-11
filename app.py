@@ -827,9 +827,17 @@ body.excel-view tr:has(#total-no-car-2) {{
     display: none !important;
 }}
 
-/* Forzar que la fila naranja de TOTAL RUTEADAS sí sea visible en Vista Excel */
+/* Forzar visibilidad, aumentar tamaño y poner en negritas el TOTAL RUTEADAS en Vista Excel */
 body.excel-view tr:has(#total-ruteadas-2) {{
     display: table-row !important;
+    font-size: 16px !important; /* Aumenta el tamaño del texto */
+    font-weight: bold !important; /* Aplica negritas a toda la fila */
+}}
+
+/* Asegura que el número del total también se herede en grande */
+body.excel-view #total-ruteadas-2 {{
+    font-size: 16px !important;
+    font-weight: bold !important;
 }}
 
 body.excel-view #fleet-float{{
