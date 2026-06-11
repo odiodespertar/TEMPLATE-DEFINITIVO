@@ -1160,7 +1160,7 @@ body.excel-view .spr-real-val{{
 
 
 
-            </tr>
+            
 <!-- NUEVA FILA -->
     <tr class="fila-total">
     <td style="border:none;"></td>
