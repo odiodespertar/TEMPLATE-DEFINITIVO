@@ -2470,7 +2470,7 @@ function generarExcelPolys() {{
             }} else {{
                 // Para los demás planes, el nodo se muestra por fila normal
                 filaHtml += `
-                    <td style="border:2px solid #135b83; text-align:center;">
+                    <td style="border:1px solid #135b83; text-align:center;">
                         ${{nodoTxt}}
                     </td>
                 `;
