@@ -2436,10 +2436,10 @@ function generarExcelPolys() {{
             // Si es la primera fila válida del bloque, pintamos PLAN y VOL con su rowspan acumulado
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
                         ${{plan}}
                     </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; text-align:center; vertical-align:middle;">
                         ${{vol}}
                     </td>
                 `;
@@ -2447,13 +2447,13 @@ function generarExcelPolys() {{
 
             // Columnas estándar por cada unidad
             filaHtml += `
-                <td style="border:1px solid #d0d0d0; padding-left:6px;">
+                <td style="border:1px solid #135b83; padding-left:6px;">
                     ${{unidad}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
+                <td style="border:1px solid #135b83; text-align:center;">
                     ${{asignadas}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
+                <td style="border:1px solid #135b83; text-align:center;">
                     ${{spr}}
                 </td>
             `;
@@ -2462,7 +2462,7 @@ function generarExcelPolys() {{
             if (plan.toUpperCase() === "CAMPECHE") {{
                 if (index === 0) {{
                     filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle;">
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; text-align:center; font-weight:bold; vertical-align:middle;">
                             ${{nodoTxt}}
                         </td>
                     `;
@@ -2470,7 +2470,7 @@ function generarExcelPolys() {{
             }} else {{
                 // Para los demás planes, el nodo se muestra por fila normal
                 filaHtml += `
-                    <td style="border:1px solid #d0d0d0; text-align:center;">
+                    <td style="border:2px solid #135b83; text-align:center;">
                         ${{nodoTxt}}
                     </td>
                 `;
