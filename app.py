@@ -1541,34 +1541,53 @@ body.excel-view .spr-real-val{{
 
         <div id="excel-polys" style="display:none; margin-top:10px;">
 
-    <div style="background:#0f5b84; color:white; font-weight:bold; text-align:center; padding:8px; font-size:18px; border:1px solid #0f5b84;">
+    <div style="
+        background:#0f5b84;
+        color:white;
+        font-weight:bold;
+        text-align:center;
+        padding:8px;
+        font-size:18px;
+        border:1px solid #0f5b84;
+    ">
         📋 RESUMEN DE POLÍGONOS
     </div>
 
-    <table style="width:100%; border-collapse:collapse; background:white; font-size:12px; table-layout:fixed;">
+    <table style="
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    font-size:12px;
+    table-layout:fixed;
+">
         <thead>
-            <tr style="background:#135b83; color:white; height:28px;">
-                <th style="border:1px solid #c0c0c0; width: 12%;">PLAN</th>
-                <th style="border:1px solid #c0c0c0; width: 10%;">VOL</th>
-                <th style="border:1px solid #c0c0c0; width: 35%;">UNIDAD</th>
-                <th style="border:1px solid #c0c0c0; width: 15%;">ASignadas</th>
-                <th style="border:1px solid #c0c0c0; width: 13%;">SPR</th>
-                <th style="border:1px solid #c0c0c0; width: 15%;">NODO</th>
-            </tr>
-        </thead>
+<tr style="
+    background:#135b83;
+    color:white;
+    height:28px;
+">
+    <th style="border:1px solid #c0c0c0;">PLAN</th>
+    <th style="border:1px solid #c0c0c0;">VOL</th>
+    <th style="border:1px solid #c0c0c0;">UNIDAD</th>
+    <th style="border:1px solid #c0c0c0;">ASIG</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
+    <th style="border:1px solid #c0c0c0;">NODO</th>
+</tr>
+</thead>
+
+
+
         <tbody id="excel-polys-body">
-            </tbody>
-        <tfoot>
-            <tr style="height:26px; background-color:#f9f9f9; font-weight:bold;">
-                <td colspan="3" style="border:1px solid #c0c0c0; text-align:right; padding-right:10px; color:#FF8C00; font-size:13px;">TOTAL RUTEADAS:</td>
-                <td id="excel-total-ruteadas" style="border:1px solid #c0c0c0; text-align:center; color:#FF8C00; font-size:14px;">0</td>
-                <td colspan="2" style="border:1px solid #c0c0c0; background-color:#eaeaea;"></td>
-            </tr>
-        </tfoot>
+</tbody>
+
+
+
     </table>
+
 </div>
-
-
+        
+        
+    </div>
 
 
 <!-- CONTADOR FLOTANTE OCULTO -->
@@ -2356,93 +2375,78 @@ function toggleExcelView() {{
 
 
 function generarExcelPolys() {{
+
     let body = document.getElementById("excel-polys-body");
+
     if(!body) return;
 
     body.innerHTML = "";
+
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
-    
+
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
-        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        // Manejo y combinación de celdas del Nodo para CAMPECHE
-        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
-                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
-        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
+        let plan =
+            bl.querySelector('tbody tr td')?.innerText.trim() || "";
 
-        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
-        
-        // Filtramos las filas válidas (que tengan unidad seleccionada)
-        let filasValidas = filasCalc.filter(r => {{
-            let u = r.querySelector('.s-type')?.value || "";
-            return u !== "" && u !== "Seleccionar...";
-        }});
+        let vol =
+            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        // Si el bloque de polígono no tiene asignaciones, no imprimimos nada en Excel
-        if (filasValidas.length === 0) return;
+        let nodoExcel =
+    bl.querySelector('.nodos-val')?.innerText.trim() ||
+    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
+    "0";
 
-        filasValidas.forEach((r, index) => {{
-            let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
-            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+let nodoTxt =
+    (parseInt(nodoExcel) || 0) > 0
+        ? nodoExcel
+        : "-";
 
-            let filaHtml = `<tr style="height:22px;">`;
+        bl.querySelectorAll('.calc-row').forEach(r => {{
 
-            // Primera fila del bloque: agregamos Plan y Volumen con su respectivo rowspan
-            if (index === 0) {{
-                filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold;">
+            let unidad =
+                r.querySelector('.s-type')?.value || "";
+
+            let asignadas =
+                r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+            let spr =
+                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+
+            if(unidad === "" || unidad === "Seleccionar...")
+                return;
+
+            body.innerHTML += `
+                <tr style="height:22px;">
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
                         ${{plan}}
                     </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center;">
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
                         ${{vol}}
                     </td>
-                `;
-            }}
 
-            // Datos de la unidad y asignación individuales
-            filaHtml += `
-                <td style="border:1px solid #d0d0d0; padding-left:6px;">
-                    ${{unidad}}
-                </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
-                    ${{asignadas}}
-                </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
-                    ${{spr}}
-                </td>
-            `;
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
 
-            // LÓGICA DE COMBINACIÓN DE CELDAS PARA NODO (Solo Campeche)
-            if (plan.toUpperCase() === "CAMPECHE") {{
-                if (index === 0) {{
-                    filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold;">
-                            ${{nodoTxt}}
-                        </td>
-                    `;
-                }}
-            }} else {{
-                // Para cualquier otro plan que no sea Campeche, se muestra normal por fila
-                filaHtml += `
-                    <td style="border:1px solid #d0d0d0; text-align:center;">
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
                         ${{nodoTxt}}
                     </td>
-                `;
-            }}
 
-            filaHtml += `</tr>`;
-            body.innerHTML += filaHtml;
+                </tr>
+            `;
+
         }});
-    }});
-
-    // Vinculación automática de SOLO el total de ruteadas hacia la vista Excel
-    let ruteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
-    let excelRuteadas = document.getElementById('excel-total-ruteadas');
-
-    if(excelRuteadas) excelRuteadas.innerText = ruteadasNormal;
-}}
 
     }});
 }}
