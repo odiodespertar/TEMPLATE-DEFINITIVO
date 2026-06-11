@@ -2401,14 +2401,12 @@ function generarExcelPolys() {{
                         bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
         let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
 
-        // Obtenemos solo las filas que el usuario realmente usó/asignó
         let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
         let filasValidas = filasCalc.filter(r => {{
             let u = r.querySelector('.s-type')?.value || "";
             return u !== "" && u !== "Seleccionar...";
         }});
 
-        // Si el bloque está vacío, no pintamos nada en el resumen de Excel
         if (filasValidas.length === 0) return;
 
         filasValidas.forEach((r, index) => {{
@@ -2416,47 +2414,45 @@ function generarExcelPolys() {{
             let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
             let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
 
-            let filaHtml = `<tr style="height:22px;">`;
+            // Forzamos un alto fijo por propiedad de estilo en línea de la fila
+            let filaHtml = `<tr style="height:22px !important; max-height:22px !important;">`;
 
-            // Si es la primera fila válida del bloque, pintamos PLAN y VOL con su rowspan acumulado
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
-                        ${{plan}}
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle; height:22px !important;">
+                        \${plan}
                     </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
-                        ${{vol}}
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle; height:22px !important;">
+                        \${{vol}}
                     </td>
                 `;
             }}
 
-            // Columnas estándar por cada unidad
+            // Agregamos height a cada celda para evitar el estiramiento automático del navegador
             filaHtml += `
-                <td style="border:1px solid #d0d0d0; padding-left:6px;">
-                    ${{unidad}}
+                <td style="border:1px solid #d0d0d0; padding-left:6px; height:22px !important; vertical-align:middle;">
+                    \${{unidad}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
-                    ${{asignadas}}
+                <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
+                    \${{asignadas}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center;">
-                    ${{spr}}
+                <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
+                    \${{spr}}
                 </td>
             `;
 
-            // LÓGICA DE COMBINACIÓN PARA NODO: Si es CAMPECHE, aplica rowspan vertical completo
             if (plan.toUpperCase() === "CAMPECHE") {{
                 if (index === 0) {{
                     filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle;">
-                            ${{nodoTxt}}
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle; height:22px !important;">
+                            \${{nodoTxt}}
                         </td>
                     `;
                 }}
             }} else {{
-                // Para los demás planes, el nodo se muestra por fila normal
                 filaHtml += `
-                    <td style="border:1px solid #d0d0d0; text-align:center;">
-                        ${{nodoTxt}}
+                    <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
+                        \${{nodoTxt}}
                     </td>
                 `;
             }}
@@ -2465,8 +2461,8 @@ function generarExcelPolys() {{
             body.innerHTML += filaHtml;
         }});
     }});
-    // === AGREGA ESTAS LÍNEAS AQUÍ ===
-    // Asegurar que la fila de total ruteadas se muestre de forma obligatoria en la vista de Excel
+
+    // Asegurar que el contenedor de total ruteadas se muestre de forma obligatoria en la vista de Excel
     let filaRut = document.getElementById('total-ruteadas-' + tabId)?.closest('tr');
     if(filaRut) filaRut.style.setProperty('display', 'table-row', 'important');
 }}
