@@ -820,6 +820,13 @@ html body .meli-table tbody tr:last-child {{
 
 /* ===== MODO EXCEL ===== */
 
+/* Ocultar filas específicas de totales solo en Vista Excel */
+body.excel-view .fila-total:has(#total-car-schedule-2),
+body.excel-view .fila-total:has(#total-car-real-2),
+body.excel-view .fila-total:has(#total-no-car-2) {{
+    display: none !important;
+}}
+
 body.excel-view #fleet-float{{
     display:none !important;
     visibility:hidden !important;
@@ -1569,7 +1576,7 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">PLAN</th>
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
-    <th style="border:1px solid #c0c0c0;">ASIG</th>
+    <th style="border:1px solid #c0c0c0;">ASIGNADAS</th>
     <th style="border:1px solid #c0c0c0;">SPR</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
@@ -2375,79 +2382,83 @@ function toggleExcelView() {{
 
 
 function generarExcelPolys() {{
-
     let body = document.getElementById("excel-polys-body");
-
     if(!body) return;
 
     body.innerHTML = "";
-
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
-
+    
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
+        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        let plan =
-            bl.querySelector('tbody tr td')?.innerText.trim() || "";
+        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
+                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
+        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
 
-        let vol =
-            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
-
-        let nodoExcel =
-    bl.querySelector('.nodos-val')?.innerText.trim() ||
-    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
-    "0";
-
-let nodoTxt =
-    (parseInt(nodoExcel) || 0) > 0
-        ? nodoExcel
-        : "-";
-
-        bl.querySelectorAll('.calc-row').forEach(r => {{
-
-            let unidad =
-                r.querySelector('.s-type')?.value || "";
-
-            let asignadas =
-                r.querySelector('.u-manual')?.innerText.trim() || "0";
-
-            let spr =
-                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
-
-            if(unidad === "" || unidad === "Seleccionar...")
-                return;
-
-            body.innerHTML += `
-                <tr style="height:22px;">
-
-                    <td style="border:1px solid #d0d0d0;padding:3px;">
-                        ${{plan}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{vol}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
-                        ${{unidad}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{asignadas}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{spr}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
-                        ${{nodoTxt}}
-                    </td>
-
-                </tr>
-            `;
-
+        // Obtenemos solo las filas que el usuario realmente usó/asignó
+        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
+        let filasValidas = filasCalc.filter(r => {{
+            let u = r.querySelector('.s-type')?.value || "";
+            return u !== "" && u !== "Seleccionar...";
         }});
 
+        // Si el bloque está vacío, no pintamos nada en el resumen de Excel
+        if (filasValidas.length === 0) return;
+
+        filasValidas.forEach((r, index) => {{
+            let unidad = r.querySelector('.s-type')?.value || "";
+            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
+            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+
+            let filaHtml = `<tr style="height:22px;">`;
+
+            // Si es la primera fila válida del bloque, pintamos PLAN y VOL con su rowspan acumulado
+            if (index === 0) {{
+                filaHtml += `
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                        ${plan}
+                    </td>
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                        ${vol}
+                    </td>
+                `;
+            }}
+
+            // Columnas estándar por cada unidad
+            filaHtml += `
+                <td style="border:1px solid #d0d0d0; padding-left:6px;">
+                    ${unidad}
+                </td>
+                <td style="border:1px solid #d0d0d0; text-align:center;">
+                    ${asignadas}
+                </td>
+                <td style="border:1px solid #d0d0d0; text-align:center;">
+                    ${spr}
+                </td>
+            `;
+
+            // LÓGICA DE COMBINACIÓN PARA NODO: Si es CAMPECHE, aplica rowspan vertical completo
+            if (plan.toUpperCase() === "CAMPECHE") {{
+                if (index === 0) {{
+                    filaHtml += `
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle;">
+                            ${nodoTxt}
+                        </td>
+                    `;
+                }}
+            }} else {{
+                // Para los demás planes, el nodo se muestra por fila normal
+                filaHtml += `
+                    <td style="border:1px solid #d0d0d0; text-align:center;">
+                        ${{nodoTxt}}
+                    </td>
+                `;
+            }}
+
+            filaHtml += `</tr>`;
+            body.innerHTML += filaHtml;
+        }});
     }});
 }}
 
