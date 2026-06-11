@@ -2391,82 +2391,79 @@ function generarExcelPolys() {{
     if(!body) return;
 
     body.innerHTML = "";
-    let tabId = (currentTab === 'C1') ? '2' : currentTab;
+    let tabId = (currentTab === 'C1') ? '2' : currentTab; [cite: 414]
     
-    document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
-        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
+    document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{ [cite: 415]
+        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || ""; [cite: 415]
+        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0"; [cite: 415]
 
-        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
-                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
-        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
+        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() || [cite: 415]
+                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0"; [cite: 415]
+        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-"; [cite: 416]
 
-        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
+        let filasCalc = Array.from(bl.querySelectorAll('.calc-row')); [cite: 416]
         let filasValidas = filasCalc.filter(r => {{
-            let u = r.querySelector('.s-type')?.value || "";
-            return u !== "" && u !== "Seleccionar...";
+            let u = r.querySelector('.s-type')?.value || ""; [cite: 416]
+            return u !== "" && u !== "Seleccionar..."; [cite: 417]
         }});
 
-        if (filasValidas.length === 0) return;
+        if (filasValidas.length === 0) return; [cite: 417]
 
         filasValidas.forEach((r, index) => {{
-            let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
-            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+            let unidad = r.querySelector('.s-type')?.value || ""; [cite: 416]
+            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0"; [cite: 416]
+            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0"; [cite: 417]
 
-            // Forzamos un alto fijo por propiedad de estilo en línea de la fila
-            let filaHtml = `<tr style="height:22px !important; max-height:22px !important;">`;
+            let filaHtml = `<tr>`;
 
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle; height:22px !important;">
-                        \${{plan}}
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                        ${{plan}}
                     </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle; height:22px !important;">
-                        \${{vol}}
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                        ${{vol}}
                     </td>
                 `;
             }}
 
-            // Agregamos height a cada celda para evitar el estiramiento automático del navegador
             filaHtml += `
-                <td style="border:1px solid #d0d0d0; padding-left:6px; height:22px !important; vertical-align:middle;">
-                    \${{unidad}}
+                <td style="border:1px solid #d0d0d0; padding-left:6px; vertical-align:middle;">
+                    ${{unidad}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
-                    \${{asignadas}}
+                <td style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                    ${{asignadas}}
                 </td>
-                <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
-                    \${{spr}}
+                <td style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                    ${{spr}}
                 </td>
             `;
 
             if (plan.toUpperCase() === "CAMPECHE") {{
                 if (index === 0) {{
                     filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle; height:22px !important;">
-                            \${{nodoTxt}}
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #d0d0d0; text-align:center; font-weight:bold; vertical-align:middle;">
+                            ${{nodoTxt}}
                         </td>
                     `;
                 }}
             }} else {{
                 filaHtml += `
-                    <td style="border:1px solid #d0d0d0; text-align:center; height:22px !important; vertical-align:middle;">
-                        \${{nodoTxt}}
+                    <td style="border:1px solid #d0d0d0; text-align:center; vertical-align:middle;">
+                        ${{nodoTxt}}
                     </td>
                 `;
             }}
 
             filaHtml += `</tr>`;
-            body.innerHTML += filaHtml;
+            body.innerHTML += filaHtml; [cite: 421]
         }});
     }});
 
-    // Asegurar que el contenedor de total ruteadas se muestre de forma obligatoria en la vista de Excel
+    // Forzar visibilidad correcta del total de ruteadas en la pestaña activa
     let filaRut = document.getElementById('total-ruteadas-' + tabId)?.closest('tr');
     if(filaRut) filaRut.style.setProperty('display', 'table-row', 'important');
 }}
-
 
 
 
