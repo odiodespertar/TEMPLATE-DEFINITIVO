@@ -820,11 +820,16 @@ html body .meli-table tbody tr:last-child {{
 
 /* ===== MODO EXCEL ===== */
 
-/* Ocultar filas específicas de totales solo en Vista Excel */
-body.excel-view .fila-total:has(#total-car-schedule-2),
-body.excel-view .fila-total:has(#total-car-real-2),
-body.excel-view .fila-total:has(#total-no-car-2) {{
+/* Ocultar filas específicas de totales excepto total ruteadas en Vista Excel */
+body.excel-view tr:has(#total-car-schedule-2),
+body.excel-view tr:has(#total-car-real-2),
+body.excel-view tr:has(#total-no-car-2) {{
     display: none !important;
+}}
+
+/* Forzar que la fila naranja de TOTAL RUTEADAS sí sea visible en Vista Excel */
+body.excel-view tr:has(#total-ruteadas-2) {{
+    display: table-row !important;
 }}
 
 body.excel-view #fleet-float{{
@@ -2460,6 +2465,10 @@ function generarExcelPolys() {{
             body.innerHTML += filaHtml;
         }});
     }});
+    // === AGREGA ESTAS LÍNEAS AQUÍ ===
+    // Asegurar que la fila de total ruteadas se muestre de forma obligatoria en la vista de Excel
+    let filaRut = document.getElementById('total-ruteadas-' + tabId)?.closest('tr');
+    if(filaRut) filaRut.style.setProperty('display', 'table-row', 'important');
 }}
 
 
