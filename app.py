@@ -154,27 +154,6 @@ def gen_master_rows(data_dict, table_id):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            
-            # CONFIGURACIÓN DINÁMICA DE CELDAS SEGÚN LA PESTAÑA
-            if table_id == 2:
-                # Para C1, inyectamos cajas de texto INPUT editables con el formato estético que necesitas
-                celda_disponibles = f'''
-                <td style="text-align: center; border: 0.2px solid #135b83; width: 60px; padding: 2px; background: #ffecdb;">
-                    <input type="text" class="f-stock" oninput="recalc()" data-unit="{name}" placeholder="ORH" style="width: 85%; text-align: center; border: 1px solid #bbb; border-radius: 2px; font-size: 12px; font-weight: bold; height: 18px; color: #135b83;">
-                </td>'''
-                
-                celda_restantes = f'''
-                <td style="text-align: center; border: 0.2px solid #135b83; width: 75px; padding: 2px;">
-                    <input type="text" class="f-left" oninput="recalc()" data-unit="{name}" placeholder="%" style="width: 85%; text-align: center; border: 1px solid #bbb; border-radius: 2px; font-size: 12px; font-weight: bold; height: 18px; color: #135b83;">
-                </td>'''
-            else:
-                # Para SDE, PREC y SMX5 se conserva el formato numérico original con contenteditable sin alterar nada
-                celda_disponibles = f'''
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>'''
-                
-                celda_restantes = f'''
-                <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">0</td>'''
-
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
@@ -184,9 +163,25 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 
-                {celda_disponibles}
-                {celda_restantes}
-             </tr>''' 
+                <td contenteditable="true" class="f-stock" oninput="recalc()"
+    style="text-align: center; border: 0.2px solid #135b83;
+           width: 55px; font-weight: bold; font-size: 13px;">
+    0
+</td>
+
+<td class="f-left"
+    style="
+        text-align:center;
+        border:0.2px solid #135b83;
+        width:45px;
+        font-weight:bold;
+        color:#135b83;
+        border-radius:2px;
+    ">
+    0
+</td>
+
+ </tr>''' 
     return rows
 
 
@@ -1090,23 +1085,35 @@ body.excel-view .spr-real-val{{
 
         
        
-<div id="tab-2" class="t-content">
+        <div id="tab-2" class="t-content">
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 60px;">ORH</th>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    color: #0c3a54 !important;
+    width:60px;">
+    SCHEDULE
+</th>
 
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 11px; color: #0c3a54 !important; width: 75px;">OCUPACIÓN</th>
-            </tr>
+<th style="
+    border-right:0.5px solid #135b83;
+    padding:4px 8px;
+    font-size:11px;
+    color: #0c3a54 !important;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+
         </thead>
-
-        
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-        <tfoot class="fila-total">
+                  <tfoot class="fila-total"> 
                   <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
