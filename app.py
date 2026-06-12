@@ -2436,12 +2436,12 @@ let nodoTxt =
            if (tabId === "2") {{
     const target = (unidad || "").trim().toLowerCase();
 
-    const rowsFleet = Array.from(document.querySelectorAll('#body-2 tr.master-row'));
+    const rowsFleet = Array.from(document.querySelectorAll('#tab-2 tr.master-row'));
 
-    const row = rowsFleet.find(fr => {{
-        const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
-        return n === target || n.includes(target) || target.includes(n);
-    }});
+const row = rowsFleet.find(fr => {{
+    const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
+    return n === target || n.includes(target) || target.includes(n);
+}});
 
     if (row) {{
 
