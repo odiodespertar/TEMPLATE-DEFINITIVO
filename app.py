@@ -2429,28 +2429,28 @@ let nodoTxt =
                let orh = "0";
                let ocup = "0";
 
-            if (tabId === "2") {{
+           if (tabId === "2") {{
     const target = (unidad || "").trim().toLowerCase();
 
-    const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
-        .find(fr => {{
-            const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
-            return n === target || n.includes(target) || target.includes(n);
-        }});
+    const rowsFleet = Array.from(document.querySelectorAll('#body-2 tr.master-row'));
+
+    const row = rowsFleet.find(fr => {{
+        const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
+        return n === target || n.includes(target) || target.includes(n);
+    }});
 
     if (row) {{
         orh  = (row.querySelector('.edit-orh')?.textContent || "").trim();
         ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
 
-        // Limpieza: solo números
+        // Limpieza (quita <br>, símbolos, etc.)
         orh  = (orh  + "").replace(/[^\d.-]/g, "");
         ocup = (ocup + "").replace(/[^\d.-]/g, "");
 
-        if (orh === "") orh = "0";
-        if (ocup === "") ocup = "0";
+        if (!orh) orh = "0";
+        if (!ocup) ocup = "0";
     }}
 }}
-
 
 
             body.innerHTML += `
