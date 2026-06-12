@@ -2436,42 +2436,26 @@ let nodoTxt =
             if (row) {{
                 orh  = row.querySelector('.edit-orh')?.innerText.trim() || "0";
                 ocup = row.querySelector('.edit-ocup')?.innerText.trim() || "0";
+
+                // ✅ Limpieza: evita que se cuele "<" u otros caracteres raros
+                orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
+                ocup = (ocup + "").replace(/[^\d.-]/g, "") || "0";
+            
+
     }}
 }}
 
             body.innerHTML += `
-                <tr style="height:22px;">
-
-                    <td style="border:1px solid #d0d0d0;padding:3px;">
-                        ${{plan}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{vol}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
-                        ${{unidad}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{asignadas}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                         ${{orh}}
-<                   </td>
-
-<                   <td style="border:1px solid #d0d0d0;text-align:center;">
-                         ${{ocup}}
-<                   </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
-                        ${{nodoTxt}}
-                    </td>
-
-                </tr>
-            `;
+    <tr style="height:22px;">
+        <td style="border:1px solid #d0d0d0;padding:3px;">${{plan}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;">${{vol}}</td>
+        <td style="border:1px solid #d0d0d0;padding-left:6px;">${{unidad}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;">${{orh}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;">${{ocup}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodo}}</td>
+    </tr>
+`;
 
         }});
 
