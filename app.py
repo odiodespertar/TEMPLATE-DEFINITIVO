@@ -2367,7 +2367,7 @@ function toggleExcelView() {{
                 tdTexto.setAttribute('colspan', '2'); 
                 if(tdVacio) tdVacio.style.display = "none"; // Ocultamos la primera celda vacía para ganar espacio
             }}
-        });
+        }});
 
         if (!styleEl) {{
             styleEl = document.createElement("style");
