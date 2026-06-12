@@ -140,46 +140,48 @@ def gen_master_rows(data_dict, table_id):
         if "---" in name:
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="7" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="5" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
-                <td class="edit-orh" style="display:none;">0</td>
-                <td class="edit-ocup" style="display:none;">0</td>
                 <td class="edit-spr-min" style="display:none;">0</td>
                 <td class="edit-spr-max" style="display:none;">0</td>
+                <td class="edit-orh" style="display:none;">0</td>
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
         
-       # Caso B: Es una unidad normal o espacio vacío
+        # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            
-            # Condición estricta: Solo C1 (ID 2) y PREC SMX5 (ID 1) muestran las columnas. SDE (ID 4) las mantiene ocultas.
-            if table_id in [1, 2]:
-                estilo_celda = 'style="text-align: center; border: 0.2px solid #135b83; width: 45px; font-weight: bold; font-size: 13px; color: #135b83;"'
-            else:
-                estilo_celda = 'style="display: none;"'
-                
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
-                
-                <td contenteditable="true" class="edit-orh" oninput="recalc()" {estilo_celda}>0</td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()" {estilo_celda}>0</td>
-                
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
                 
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
-                    0
-                </td>
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
+                
+                <td contenteditable="true" class="f-stock" oninput="recalc()"
+    style="text-align: center; border: 0.2px solid #135b83;
+           width: 55px; font-weight: bold; font-size: 13px;">
+    0
+</td>
 
-                <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
-                    0
-                </td>
-             </tr>'''
+<td class="f-left"
+    style="
+        text-align:center;
+        border:0.2px solid #135b83;
+        width:45px;
+        font-weight:bold;
+        color:#135b83;
+        border-radius:2px;
+    ">
+    0
+</td>
+
+ </tr>''' 
     return rows
 
 
