@@ -1597,17 +1597,23 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIGNADAS</th>
-    <th style="border:1px solid #c0c0c0;">SPR</th>
+    <th style="border:1px solid #c0c0c0;">ORH</th>
+    <th style="border:1px solid #808080; width: 15%;">Ocupación</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
 
 
-
         <tbody id="excel-polys-body">
 </tbody>
 
-
+<tfoot>
+            <tr class="fila-total" style="background-color:#eaeaea; font-weight:bold;">
+                <td style="border:none;"></td>
+                <td colspan="4" style="padding:6px; text-align:right; border:1px solid #808080;">TOTAL RUTEADAS</td>
+                <td id="total-ruteadas-2" style="text-align:center; color:#FF8C00; border:1px solid #808080;">0</td>
+            </tr>
+        </tfoot>
 
     </table>
 
