@@ -2382,80 +2382,108 @@ function toggleExcelView() {{
 
 
 function generarExcelPolys() {{
-
     let body = document.getElementById("excel-polys-body");
-
     if(!body) return;
 
     body.innerHTML = "";
-
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
 
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
+        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        let plan =
-            bl.querySelector('tbody tr td')?.innerText.trim() || "";
+        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
+                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
+        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
 
-        let vol =
-            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
-
-        let nodoExcel =
-    bl.querySelector('.nodos-val')?.innerText.trim() ||
-    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
-    "0";
-
-let nodoTxt =
-    (parseInt(nodoExcel) || 0) > 0
-        ? nodoExcel
-        : "-";
-
-        bl.querySelectorAll('.calc-row').forEach(r => {{
-
-            let unidad =
-                r.querySelector('.s-type')?.value || "";
-
-            let asignadas =
-                r.querySelector('.u-manual')?.innerText.trim() || "0";
-
-            let spr =
-                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
-
-            if(unidad === "" || unidad === "Seleccionar...")
-                return;
-
-            body.innerHTML += `
-                <tr style="height:22px;">
-
-                    <td style="border:1px solid #d0d0d0;padding:3px;">
-                        ${{plan}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{vol}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
-                        ${{unidad}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{asignadas}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{spr}}
-                    </td>
-
-                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
-                        ${{nodoTxt}}
-                    </td>
-
-                </tr>
-            `;
-
+        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
+        let filasValidas = filasCalc.filter(r => {{
+            let u = r.querySelector('.s-type')?.value || "";
+            return u !== "" && u !== "Seleccionar...";
         }});
 
+        if (filasValidas.length === 0) return;
+
+        filasValidas.forEach((r, index) => {{
+            let unidad = r.querySelector('.s-type')?.value || "";
+            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+            let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
+            let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
+            let valSpr = "-";
+
+            if (fRow) {{
+                let sMin = fRow.querySelectorAll('td')[1]?.innerText.trim() || "0";
+                let sMax = fRow.querySelectorAll('td')[2]?.innerText.trim() || "0";
+                valSpr = sMin + " / " + sMax;
+            }}
+
+            let filaHtml = `<tr>`;
+
+            // VALIDADOR MAESTRO PARA CAMPECHE (Combina Plan, Vol y Nodo en la primera vuelta)
+            if (plan.toUpperCase() === "CAMPECHE") {{
+                if (index === 0) {{
+                    filaHtml += `
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                            ${{plan}}
+                        </td>
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
+                            ${{vol}}
+                        </td>
+                    `;
+                }}
+            }} else {{
+                // Para cualquier otro plan normal, se imprimen celda por celda sin combinar
+                filaHtml += `
+                    <td style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                        ${{plan}}
+                    </td>
+                    <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                        ${{vol}}
+                    </td>
+                `;
+            }}
+
+            // Columnas fijas individuales (Unidad, Asignadas y SPR)
+            filaHtml += `
+                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">
+                    ${{unidad}}
+                </td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                    ${{asignadas}}
+                </td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                    \${valSpr}
+                </td>
+            `;
+
+            // CONTINUACIÓN VALIDACIÓN CAMPECHE: Une también el Nodo en una sola celda
+            if (plan.toUpperCase() === "CAMPECHE") {{
+                if (index === 0) {{
+                    filaHtml += `
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
+                            ${{nodoTxt}}
+                        </td>
+                    `;
+                }}
+            }} else {{
+                // Para planes normales, el nodo va individual
+                filaHtml += `
+                    <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                        ${{nodoTxt}}
+                    </td>
+                `;
+            }}
+
+            filaHtml += `</tr>`;
+            body.innerHTML += filaHtml;
+        }});
     }});
+
+    // Vinculación del total naranja final
+    let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
+    let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
+    if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
 }}
 
 
