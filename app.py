@@ -1977,7 +1977,7 @@ function actualizarDosPorciento() {{
 
 
 
-let fleet = {{}};
+    let fleet = {{}};
 
 
 
@@ -2026,15 +2026,17 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     const orhVal  = parseFloat(orhTxt.replace(/[^\d.-]/g,'')) || 0;
     const ocupVal = parseFloat(ocupTxt.replace(/[^\d.-]/g,'')) || 0;
 
-    fleet[name] = {{
-        max: parseFloat(ma.innerText)||0,
-        stock: sch,
-        used: 0,
-        orh: orhVal,
-        ocup: ocupVal
+
+    const key = name.trim().toLowerCase().replace(/\s+/g,' ');
+
+    fleet[key] = {{
+    max: parseFloat(ma.innerText) || 0,
+    stock: sch,
+    used: 0,
+    orh: orhVal,
+    ocup: ocupVal
     }};
-    }}
-}});
+
 
         // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
@@ -2445,12 +2447,13 @@ let nodoTxt =
                 return;
 
               // valores por defecto
+
 let orh = "0";
 let ocup = "0";
 
 if (tabId === "2") {{
-    const key = (unidad || "").trim();
-    if (typeof fleet !== "undefined" && fleet[key]) {{
+    const key = (unidad || "").trim().toLowerCase().replace(/\s+/g,' ');
+    if (fleet && fleet[key]) {{
         orh  = String(fleet[key].orh ?? 0);
         ocup = String(fleet[key].ocup ?? 0);
     }}
