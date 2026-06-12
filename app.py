@@ -2430,20 +2430,28 @@ let nodoTxt =
                let ocup = "0";
 
             if (tabId === "2") {{
-               const target = (unidad || "").trim().toLowerCase();
+    const target = (unidad || "").trim().toLowerCase();
 
-               const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
-              .find(fr => (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase() === target);
+    const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
+        .find(fr => {{
+            const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
+            return n === target || n.includes(target) || target.includes(n);
+        }});
 
-            if (row) {{
-                orh  = (row.querySelector('.edit-orh')?.textContent || "").trim();
-                ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
+    if (row) {{
+        orh  = (row.querySelector('.edit-orh')?.textContent || "").trim();
+        ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
 
-                // ✅ Limpieza: evita que se cuele "<" u otros caracteres raros
-                orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
-                ocup = (ocup + "").replace(/[^\d.-]/g, "") || "0";
+        // Limpieza: solo números
+        orh  = (orh  + "").replace(/[^\d.-]/g, "");
+        ocup = (ocup + "").replace(/[^\d.-]/g, "");
+
+        if (orh === "") orh = "0";
+        if (ocup === "") ocup = "0";
     }}
 }}
+
+
 
             body.innerHTML += `
     <tr style="height:22px;">
