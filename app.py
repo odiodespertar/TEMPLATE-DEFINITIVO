@@ -73,7 +73,7 @@ NOMBRES_PLANES_C1 = [
 ]
 
 u_C1 = {
-    "Rental Large Van": [100, 100], "Large Van MLP": [100, 100], "Small Van MLP":[100, 100], "Delivery Cell Large Van": [1, 1]
+    "Rental Large Van": [100, 100], "Large Van MLP": [100, 100], "Small Van MLP":[80, 80], "Delivery Cell Large Van": [10, 10]
 }
 
 u_C2 = u_C1.copy()
@@ -820,33 +820,6 @@ html body .meli-table tbody tr:last-child {{
 
 /* ===== MODO EXCEL ===== */
 
-/* Ocultar filas específicas de totales excepto total ruteadas en Vista Excel */
-body.excel-view tr:has(#total-car-schedule-2),
-body.excel-view tr:has(#total-car-real-2),
-body.excel-view tr:has(#total-no-car-2) {{
-    display: none !important;
-}}
-
-/* Forzar visibilidad de la fila naranja de TOTAL RUTEADAS en Vista Excel */
-body.excel-view tr:has(#total-ruteadas-2) {{
-    display: table-row !important;
-}}
-
-/* Hacer más grande, en negritas y MÁS ALTA la fila de "TOTAL RUTEADAS" */
-body.excel-view tr:has(#total-ruteadas-2) td {{
-    font-size: 16px !important;
-    font-weight: bold !important;
-    padding-top: 10px !important;    /* Espacio extra arriba */
-    padding-bottom: 10px !important; /* Espacio extra abajo */
-    vertical-align: middle !important; /* Mantiene el texto perfectamente centrado verticalmente */
-}}
-
-/* Asegurar que el NÚMERO del total también se vea igual de grande y en negritas */
-body.excel-view #total-ruteadas-2 {{
-    font-size: 16px !important;
-    font-weight: bold !important;
-}}
-
 body.excel-view #fleet-float{{
     display:none !important;
     visibility:hidden !important;
@@ -1175,7 +1148,7 @@ body.excel-view .spr-real-val{{
 
 
 
-            
+            </tr>
 <!-- NUEVA FILA -->
     <tr class="fila-total">
     <td style="border:none;"></td>
@@ -1596,24 +1569,18 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">PLAN</th>
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
-    <th style="border:1px solid #c0c0c0;">ASIGNADAS</th>
-    <th style="border:1px solid #c0c0c0;">ORH</th>
-    <th style="border:1px solid #808080; width: 15%;">Ocupación</th>
+    <th style="border:1px solid #c0c0c0;">ASIG</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
 
 
+
         <tbody id="excel-polys-body">
 </tbody>
 
-<tfoot>
-            <tr class="fila-total" style="background-color:#eaeaea; font-weight:bold;">
-                <td style="border:none;"></td>
-                <td colspan="4" style="padding:6px; text-align:right; border:1px solid #808080;">TOTAL RUTEADAS</td>
-                <td id="total-ruteadas-2" style="text-align:center; color:#FF8C00; border:1px solid #808080;">0</td>
-            </tr>
-        </tfoot>
+
 
     </table>
 
@@ -2408,88 +2375,80 @@ function toggleExcelView() {{
 
 
 function generarExcelPolys() {{
+
     let body = document.getElementById("excel-polys-body");
+
     if(!body) return;
 
     body.innerHTML = "";
+
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
-    
+
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
-        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
-                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
-        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
+        let plan =
+            bl.querySelector('tbody tr td')?.innerText.trim() || "";
 
-        // Obtenemos solo las filas que el usuario realmente usó/asignó
-        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
-        let filasValidas = filasCalc.filter(r => {{
-            let u = r.querySelector('.s-type')?.value || "";
-            return u !== "" && u !== "Seleccionar...";
-        }});
+        let vol =
+            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
-        // Si el bloque está vacío, no pintamos nada en el resumen de Excel
-        if (filasValidas.length === 0) return;
+        let nodoExcel =
+    bl.querySelector('.nodos-val')?.innerText.trim() ||
+    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
+    "0";
 
-        filasValidas.forEach((r, index) => {{
-            let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
-            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+let nodoTxt =
+    (parseInt(nodoExcel) || 0) > 0
+        ? nodoExcel
+        : "-";
 
-            let filaHtml = `<tr style="height:22px;">`;
+        bl.querySelectorAll('.calc-row').forEach(r => {{
 
-            // Si es la primera fila válida del bloque, pintamos PLAN y VOL con su rowspan acumulado
-            if (index === 0) {{
-                filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+            let unidad =
+                r.querySelector('.s-type')?.value || "";
+
+            let asignadas =
+                r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+            let spr =
+                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+
+            if(unidad === "" || unidad === "Seleccionar...")
+                return;
+
+            body.innerHTML += `
+                <tr style="height:22px;">
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
                         ${{plan}}
                     </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; text-align:center; vertical-align:middle;">
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
                         ${{vol}}
                     </td>
-                `;
-            }}
 
-            // Columnas estándar por cada unidad
-            filaHtml += `
-                <td style="border:1px solid #135b83; padding-left:6px;">
-                    ${{unidad}}
-                </td>
-                <td style="border:1px solid #135b83; text-align:center;">
-                    ${{asignadas}}
-                </td>
-                <td style="border:1px solid #135b83; text-align:center;">
-                    ${{spr}}
-                </td>
-            `;
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
 
-            // LÓGICA DE COMBINACIÓN PARA NODO: Si es CAMPECHE, aplica rowspan vertical completo
-            if (plan.toUpperCase() === "CAMPECHE") {{
-                if (index === 0) {{
-                    filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #135b83; text-align:center; font-weight:bold; vertical-align:middle;">
-                            ${{nodoTxt}}
-                        </td>
-                    `;
-                }}
-            }} else {{
-                // Para los demás planes, el nodo se muestra por fila normal
-                filaHtml += `
-                    <td style="border:1px solid #135b83; text-align:center;">
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
                         ${{nodoTxt}}
                     </td>
-                `;
-            }}
 
-            filaHtml += `</tr>`;
-            body.innerHTML += filaHtml;
+                </tr>
+            `;
+
         }});
+
     }});
-    // === AGREGA ESTAS LÍNEAS AQUÍ ===
-    // Asegurar que la fila de total ruteadas se muestre de forma obligatoria en la vista de Excel
-    let filaRut = document.getElementById('total-ruteadas-' + tabId)?.closest('tr');
-    if(filaRut) filaRut.style.setProperty('display', 'table-row', 'important');
 }}
 
 
