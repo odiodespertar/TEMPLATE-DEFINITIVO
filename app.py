@@ -165,18 +165,16 @@ def gen_master_rows(data_dict, table_id):
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
-               celdas_orh_ocup = f'''
-               <td contenteditable="true" class="edit-orh"
-                   oninput="recalc(); this.closest('tr').dataset.orh=(this.textContent||'').trim(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"                   
-                   style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
-                   0
-               </td>
-               <td contenteditable="true" class="edit-ocup"
-                   oninput="recalc(); this.closest('tr').dataset.ocup=(this.textContent||'').trim(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
-                   style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
-                   0
-               </td>
-               '''
+                celdas_orh_ocup = f'''
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                '''
             else:
                 # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
@@ -1579,8 +1577,7 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">ORH</th>
-    <th style="border:1px solid #c0c0c0;">OCUPACIÓN</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
@@ -1977,12 +1974,12 @@ function actualizarDosPorciento() {{
 
 
 
-    let fleet = {{}};
+
 
 
 
     function recalc() {{
-        fleet = {{}};
+        let fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         // Guardamos el identificador real que usan los elementos HTML en pantalla
@@ -2019,27 +2016,9 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }}
     
     if(name !== "" && name !== "NUEVA UNIDAD") {{
-
-    const orhTxt  = (row.querySelector('.edit-orh')?.textContent || "0").trim();
-    const ocupTxt = (row.querySelector('.edit-ocup')?.textContent || "0").trim();
-
-    const orhVal  = parseFloat(orhTxt.replace(/[^\d.-]/g,'')) || 0;
-    const ocupVal = parseFloat(ocupTxt.replace(/[^\d.-]/g,'')) || 0;
-
-
-    const key = name.trim().toLowerCase().replace(/\s+/g,' ');
-
-    fleet[key] = {{
-    max: parseFloat(ma.innerText) || 0,
-    stock: sch,
-    used: 0,
-    orh: orhVal,
-    ocup: ocupVal
-    }};
+        fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
     }}
 }});
-
-
 
         // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
@@ -2315,11 +2294,7 @@ actualizarDosPorciento();
     function updateCalc() {{ document.getElementById('calc_r').innerText = curC || "0"; }}
     function calc_eq() {{ try {{ let res = eval(curC); document.getElementById('calc_h').innerText = curC + " ="; curC = res.toString(); updateCalc(); }} catch {{ }} }}
     
-    function updateReloj() {{ 
-    const el = document.getElementById('reloj-actual');
-    if(!el) return;
-    el.innerText = new Date().toLocaleTimeString('en-GB'); 
-    }}
+    function updateReloj() {{ document.getElementById('reloj-actual').innerText = new Date().toLocaleTimeString('en-GB'); }}
     setInterval(updateReloj, 1000);
 
     function startC() {{ if(!chronoInterval) {{ startTime = Date.now() - elapsedTime; chronoInterval = setInterval(()=>{{ elapsedTime = Date.now() - startTime; updateCDisplay(); }}, 100); }} }}
@@ -2371,6 +2346,7 @@ function toggleExcelView() {{
     document.body.classList.toggle("excel-view", isExcel);
     
     let btn = document.getElementById("excel-btn");
+
     let excel = document.getElementById("excel-polys");
 
     let p1 = document.getElementById("polys-1");
@@ -2379,8 +2355,6 @@ function toggleExcelView() {{
     let p5 = document.getElementById("polys-5");
 
     if(document.body.classList.contains("excel-view")) {{
-
-        recalc();              // ✅ NUEVO: actualiza fleet (incluye orh/ocup)
         generarExcelPolys();
 
         btn.innerHTML = "🔙 VISTA NORMAL";
@@ -2449,30 +2423,35 @@ let nodoTxt =
             if(unidad === "" || unidad === "Seleccionar...")
                 return;
 
-              // valores por defecto
-
-let orh = "0";
-let ocup = "0";
-
-if (tabId === "2") {{
-    const key = (unidad || "").trim().toLowerCase().replace(/\s+/g,' ');
-    if (fleet && fleet[key]) {{
-        orh  = String(fleet[key].orh ?? 0);
-        ocup = String(fleet[key].ocup ?? 0);
-    }}
-}}
-
             body.innerHTML += `
-    <tr style="height:22px;">
-        <td style="border:1px solid #d0d0d0;padding:3px;">${{plan}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;">${{vol}}</td>
-        <td style="border:1px solid #d0d0d0;padding-left:6px;">${{unidad}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;">${{orh}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;">${{ocup}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodoTxt}}</td>
-    </tr>
-`;
+                <tr style="height:22px;">
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
+                        ${{plan}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{vol}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
+                        ${{nodoTxt}}
+                    </td>
+
+                </tr>
+            `;
 
         }});
 
