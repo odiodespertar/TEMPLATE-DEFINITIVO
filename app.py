@@ -154,34 +154,31 @@ def gen_master_rows(data_dict, table_id):
         # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
+            
+            # REGLA DE VISIBILIDAD: Si es C1 (ID 2) o SMX5 (ID 5) les damos su estilo normal editable. 
+            # Si es SDE (ID 4) o cualquier otra, conservan el display:none; nativo de tu archivo.
+            if table_id in [2, 5]:
+                estilo_manual = 'contenteditable="true" style="text-align: center; border: 0.2px solid #135b83; width: 45px; font-weight: bold; font-size: 13px; background-color: #fffde6; color: #135b83;"'
+            else:
+                estilo_manual = 'style="display:none;"'
+                
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
                 
-                <td class="edit-orh" style="display:none;">0</td>
-                <td class="edit-ocup" style="display:none;">0</td>
+                <td class="edit-orh" oninput="recalc()" {estilo_manual}>0</td>
+                <td class="edit-ocup" oninput="recalc()" {estilo_manual}>0</td>
                 
-                <td contenteditable="true" class="f-stock" oninput="recalc()"
-    style="text-align: center; border: 0.2px solid #135b83;
-           width: 55px; font-weight: bold; font-size: 13px;">
-    0
-</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
+                    0
+                </td>
 
-<td class="f-left"
-    style="
-        text-align:center;
-        border:0.2px solid #135b83;
-        width:45px;
-        font-weight:bold;
-        color:#135b83;
-        border-radius:2px;
-    ">
-    0
-</td>
-
- </tr>''' 
+                <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
+                    0
+                </td>
+             </tr>''' 
     return rows
 
 
