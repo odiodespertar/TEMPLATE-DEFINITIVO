@@ -1977,12 +1977,12 @@ function actualizarDosPorciento() {{
 
 
 
-
+let fleet = {{}};
 
 
 
     function recalc() {{
-        let fleet = {{}};
+        fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         // Guardamos el identificador real que usan los elementos HTML en pantalla
@@ -2019,7 +2019,20 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }}
     
     if(name !== "" && name !== "NUEVA UNIDAD") {{
-        fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
+
+    const orhTxt  = (row.querySelector('.edit-orh')?.textContent || "0").trim();
+    const ocupTxt = (row.querySelector('.edit-ocup')?.textContent || "0").trim();
+
+    const orhVal  = parseFloat(orhTxt.replace(/[^\d.-]/g,'')) || 0;
+    const ocupVal = parseFloat(ocupTxt.replace(/[^\d.-]/g,'')) || 0;
+
+    fleet[name] = {{
+        max: parseFloat(ma.innerText)||0,
+        stock: sch,
+        used: 0,
+        orh: orhVal,
+        ocup: ocupVal
+    }};
     }}
 }});
 
@@ -2353,7 +2366,6 @@ function toggleExcelView() {{
     document.body.classList.toggle("excel-view", isExcel);
     
     let btn = document.getElementById("excel-btn");
-
     let excel = document.getElementById("excel-polys");
 
     let p1 = document.getElementById("polys-1");
@@ -2362,6 +2374,8 @@ function toggleExcelView() {{
     let p5 = document.getElementById("polys-5");
 
     if(document.body.classList.contains("excel-view")) {{
+
+        recalc();              // ✅ NUEVO: actualiza fleet (incluye orh/ocup)
         generarExcelPolys();
 
         btn.innerHTML = "🔙 VISTA NORMAL";
@@ -2430,35 +2444,17 @@ let nodoTxt =
             if(unidad === "" || unidad === "Seleccionar...")
                 return;
 
-               let orh = "0";
-               let ocup = "0";
+              // valores por defecto
+let orh = "0";
+let ocup = "0";
 
-           if (tabId === "2") {{
-    const target = (unidad || "").trim().toLowerCase();
-
-    const rowsFleet = Array.from(document.querySelectorAll('#tab-2 tr.master-row'));
-
-const row = rowsFleet.find(fr => {{
-    const n = (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase();
-    return n === target || n.includes(target) || target.includes(n);
-}});
-
-    if (row) {{
-
-    // ✅ Primero leer de dataset (más estable para contenteditable)
-    orh  = (row.dataset.orh  || "").trim();
-    ocup = (row.dataset.ocup || "").trim();
-
-    // Fallback si todavía no se ha editado y dataset está vacío
-    if (!orh)  orh  = (row.querySelector('.edit-orh')?.textContent  || "").trim();
-    if (!ocup) ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
-
-    // Limpieza (quita <br>, símbolos, etc.)
-    orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
-    ocup = (ocup + "").replace(/[^\d.-]/g, "") || "0";
+if (tabId === "2") {{
+    const key = (unidad || "").trim();
+    if (typeof fleet !== "undefined" && fleet[key]) {{
+        orh  = String(fleet[key].orh ?? 0);
+        ocup = String(fleet[key].ocup ?? 0);
+    }}
 }}
-}}
-
 
             body.innerHTML += `
     <tr style="height:22px;">
