@@ -167,12 +167,12 @@ def gen_master_rows(data_dict, table_id):
             if mostrar_orh_ocup:
                celdas_orh_ocup = f'''
                <td contenteditable="true" class="edit-orh"
-                   oninput="recalc(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
+                   oninput="recalc(); this.closest('tr').dataset.orh=(this.textContent||'').trim(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"                   
                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
                    0
                </td>
                <td contenteditable="true" class="edit-ocup"
-                   oninput="recalc(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
+                   oninput="recalc(); this.closest('tr').dataset.ocup=(this.textContent||'').trim(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
                    0
                </td>
@@ -2440,16 +2440,18 @@ let nodoTxt =
     }});
 
     if (row) {{
-        orh  = (row.querySelector('.edit-orh')?.textContent || "").trim();
-        ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
 
-        // Limpieza (quita <br>, símbolos, etc.)
-        orh  = (orh  + "").replace(/[^\d.-]/g, "");
-        ocup = (ocup + "").replace(/[^\d.-]/g, "");
+    // ✅ Primero leer de dataset (más estable para contenteditable)
+    orh  = (row.dataset.orh  || "").trim();
+    ocup = (row.dataset.ocup || "").trim();
 
-        if (!orh) orh = "0";
-        if (!ocup) ocup = "0";
-    }}
+    // Fallback si todavía no se ha editado y dataset está vacío
+    if (!orh)  orh  = (row.querySelector('.edit-orh')?.textContent  || "").trim();
+    if (!ocup) ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
+
+    // Limpieza (quita <br>, símbolos, etc.)
+    orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
+    ocup = (ocup + "").replace(/[^\d.-]/g, "") || "0";
 }}
 
 
