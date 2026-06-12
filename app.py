@@ -2431,11 +2431,11 @@ let nodoTxt =
                const target = (unidad || "").trim().toLowerCase();
 
                const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
-              .find(fr => (fr.querySelector('.edit-name')?.innerText || "").trim().toLowerCase() === target);
+              .find(fr => (fr.querySelector('.edit-name')?.textContent || "").trim().toLowerCase() === target);
 
             if (row) {{
-                orh  = row.querySelector('.edit-orh')?.innerText.trim() || "0";
-                ocup = row.querySelector('.edit-ocup')?.innerText.trim() || "0";
+                orh  = (row.querySelector('.edit-orh')?.textContent || "").trim();
+                ocup = (row.querySelector('.edit-ocup')?.textContent || "").trim();
 
                 // ✅ Limpieza: evita que se cuele "<" u otros caracteres raros
                 orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
