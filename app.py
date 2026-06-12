@@ -2440,8 +2440,6 @@ let nodoTxt =
                 // ✅ Limpieza: evita que se cuele "<" u otros caracteres raros
                 orh  = (orh  + "").replace(/[^\d.-]/g, "") || "0";
                 ocup = (ocup + "").replace(/[^\d.-]/g, "") || "0";
-            
-
     }}
 }}
 
@@ -2453,7 +2451,7 @@ let nodoTxt =
         <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
         <td style="border:1px solid #d0d0d0;text-align:center;">${{orh}}</td>
         <td style="border:1px solid #d0d0d0;text-align:center;">${{ocup}}</td>
-        <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodo}}</td>
+        <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodoTxt}}</td>
     </tr>
 `;
 
