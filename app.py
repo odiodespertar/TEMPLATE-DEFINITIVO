@@ -2358,17 +2358,16 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Ajuste dinámico de celdas para alinear TOTAL RUTEADAS perfectamente
+        // Ajustamos los colspans de los totales para dar espacio suficiente al texto largo
         document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
             let tdVacio = tr.querySelector('td:first-child');
             let tdTexto = tr.querySelector('td[colspan]');
             if (tdVacio && tdTexto) {{
-                // En modo normal hay 5 columnas. Al quitar 2, reducimos el espacio asignado
-                // para que el bloque numérico final quede perfectamente en su lugar.
-                tdTexto.setAttribute('colspan', '1'); 
-                tdVacio.style.width = "auto";
+                // Le asignamos 2 columnas al texto para que no se rompa la palabra en dos renglones
+                tdTexto.setAttribute('colspan', '2'); 
+                if(tdVacio) tdVacio.style.display = "none"; // Ocultamos la primera celda vacía para ganar espacio
             }}
-        }});
+        });
 
         if (!styleEl) {{
             styleEl = document.createElement("style");
@@ -2395,16 +2394,25 @@ function toggleExcelView() {{
                     visibility: hidden !important;
                     height: 0 !important;
                 }}
-                /* Forzar alineación perfecta del bloque de totales restante */
+                /* ESTILOS PARA HACER MÁS GRANDE Y EN NEGRITAS EL TOTAL EN VISTA EXCEL */
                 body.excel-view tr:has(#total-ruteadas-2) {{
                     display: table-row !important;
                     visibility: visible !important;
                     height: auto !important;
                 }}
-                body.excel-view tr:has(#total-ruteadas-2) td:nth-child(2) {{
+                /* Modificamos la celda del letrero "TOTAL RUTEADAS" */
+                body.excel-view tr:has(#total-ruteadas-2) td[colspan="2"] {{
                     text-align: right !important;
+                    font-size: 15px !important;       /* Texto más grande */
+                    font-weight: 900 !important;      /* Súper negritas */
+                    color: #0c3a54 !important;        /* Color institucional */
+                    padding-right: 20px !important;   /* Separación del número */
+                    white-space: nowrap !important;   /* Evita que la palabra se corte o se baje */
+                }}
+                /* Modificamos la celda del número final (El recuadro naranja) */
+                body.excel-view #total-ruteadas-2 {{
+                    font-size: 16px !important;       /* Número más grande y vistoso */
                     font-weight: bold !important;
-                    padding-right: 15px !important;
                 }}
             `;
             document.head.appendChild(styleEl);
@@ -2418,11 +2426,15 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Restauramos los colspans originales al regresar a la Vista Normal
+        // Restauramos los colspans y visibilidad originales al regresar a la Vista Normal
         document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
+            let tdVacio = tr.querySelector('td:first-child');
             let tdTexto = tr.querySelector('td[colspan]');
             if (tdTexto) {{
                 tdTexto.setAttribute('colspan', '3'); // Regresa a su valor nativo de 3 celdas
+            }}
+            if (tdVacio) {{
+                tdVacio.style.display = ""; // Vuelve a mostrarse la celda guía
             }}
         }});
 
