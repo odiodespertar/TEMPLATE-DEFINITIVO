@@ -1586,7 +1586,8 @@ body.excel-view #tab-2 td.edit-ocup{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">SPR</th>
+    <th style="border:1px solid #c0c0c0;">ORH</th>
+    <th style="border:1px solid #c0c0c0;">OCUPACIÓN</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
@@ -2452,7 +2453,11 @@ let nodoTxt =
                     </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{spr}}
+                        ${{orh}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{ocupación}}
                     </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
