@@ -2035,7 +2035,10 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     used: 0,
     orh: orhVal,
     ocup: ocupVal
-    }});
+    }};
+    }}
+}});
+
 
 
         // 2. Calcular ocupación por polígono (Tabla de abajo)
