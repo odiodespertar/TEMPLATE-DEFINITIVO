@@ -15,14 +15,7 @@ st.markdown("""
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #135b83; }
 
-    /* ESTO OCULTA DEFINITIVAMENTE LAS FILAS DE TOTALES */
-    .fila-total, tr[id*="total"] {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+    
 
     #contenedor-padre { display: flex; flex-direction: column; }
     
@@ -2341,12 +2334,10 @@ actualizarDosPorciento();
 
 
 function toggleExcelView() {{
-
     const isExcel = !document.body.classList.contains("excel-view");
     document.body.classList.toggle("excel-view", isExcel);
     
     let btn = document.getElementById("excel-btn");
-
     let excel = document.getElementById("excel-polys");
 
     let p1 = document.getElementById("polys-1");
@@ -2354,28 +2345,66 @@ function toggleExcelView() {{
     let p4 = document.getElementById("polys-4");
     let p5 = document.getElementById("polys-5");
 
-    if(document.body.classList.contains("excel-view")) {{
-        generarExcelPolys();
+    // === FILTRO VISUAL QUIRÚRGICO PARA MODO EXCEL ===
+    let styleId = "estilos-limpieza-excel";
+    let styleEl = document.getElementById(styleId);
 
+    if (document.body.classList.contains("excel-view")) {{
+        generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
 
         if(excel) excel.style.display = "block";
-
         if(p1) p1.style.display = "none";
         if(p2) p2.style.display = "none";
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
+        // Inyectamos las reglas para ocultar las columnas 4 y 5 (ORH/OCUP), y los primeros 3 totales de la flota lateral
+        if (!styleEl) {{
+            styleEl = document.createElement("style");
+            styleEl.id = styleId;
+            styleEl.innerHTML = `
+                /* Ocultar encabezados de ORH y OCUPACIÓN en la tabla de arriba */
+                body.excel-view .meli-table th:nth-child(4),
+                body.excel-view .meli-table th:nth-child(5) {{
+                    display: none !important;
+                }}
+                /* Ocultar las celdas de datos de ORH y OCUPACIÓN en la tabla de arriba */
+                body.excel-view .meli-table td.edit-orh,
+                body.excel-view .meli-table td.edit-ocup {{
+                    display: none !important;
+                }}
+                /* Ocultar las filas específicas de TOTAL MLP, DECLARADAS y CAR RUTEADAS */
+                body.excel-view #total-no-car-2,
+                body.excel-view #total-car-schedule-2,
+                body.excel-view #total-car-real-2,
+                body.excel-view tr:has(#total-no-car-2),
+                body.excel-view tr:has(#total-car-schedule-2),
+                body.excel-view tr:has(#total-car-real-2) {{
+                    display: none !important;
+                    visibility: hidden !important;
+                    height: 0 !important;
+                }}
+                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
+                body.excel-view tr:has(#total-ruteadas-2) {{
+                    display: table-row !important;
+                    visibility: visible !important;
+                    height: auto !important;
+                }}
+            `;
+            document.head.appendChild(styleEl);
+        }}
+
     }} else {{
-
         btn.innerHTML = "📸 VISTA EXCEL";
-
         if(excel) excel.style.display = "none";
-
         if(p1) p1.style.display = "none";
         if(p2) p2.style.display = "block";
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
+
+        // Al regresar a la Vista Normal, removemos las restricciones para que todo vuelva a aparecer
+        if (styleEl) styleEl.remove();
     }}
 }}
 
