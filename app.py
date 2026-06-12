@@ -119,10 +119,13 @@ def gen_master_rows(data_dict, table_id):
 
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
-    
+
+    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
+    mostrar_orh_ocup = (table_id in [1, 2, "PREC", "PREC_SMX5", "PREC SMX5"])
+
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
-    
+
     for i in range(1, rango_final + 1):
         if (data_dict == u_PREC) and (i-1) < len(nombres_prec):
             p_name = nombres_prec[i-1]
@@ -130,60 +133,85 @@ def gen_master_rows(data_dict, table_id):
             p_name = nombres_smx2[i-1]
         else:
             p_name = f"PLAN {i}"
-            
+
         if (i-1) < total_items:
             name, spr = items[i-1]
         else:
             name, spr = "", [0, 0]
-            
-        # Caso A: Es un Encabezado/Divisor
+
+        # Caso A: Encabezado/Divisor
         if "---" in name:
+            # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
+            colspan = 7 if mostrar_orh_ocup else 5
+
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="5" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="{colspan}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
                 <td class="edit-spr-min" style="display:none;">0</td>
                 <td class="edit-spr-max" style="display:none;">0</td>
                 <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
-        
-        # Caso B: Es una unidad normal o espacio vacío
+
+        # Caso B: unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            rows += f'''
-            <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
-                
+
+            # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
+            celdas_orh_ocup = ""
+            if mostrar_orh_ocup:
+                celdas_orh_ocup = f'''
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                '''
+            else:
+                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
+                celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
-                
+                '''
+
+            rows += f'''
+            <tr class="master-row" style="{st_base}">
+                <td contenteditable="true" class="edit-name" oninput="recalc()"
+                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
+                    {name}
+                </td>
+
+                {celdas_orh_ocup}
+
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    {spr[0]}
+                </td>
+
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    {spr[1]}
+                </td>
+
                 <td contenteditable="true" class="f-stock" oninput="recalc()"
-    style="text-align: center; border: 0.2px solid #135b83;
-           width: 55px; font-weight: bold; font-size: 13px;">
-    0
-</td>
+                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
+                    0
+                </td>
 
-<td class="f-left"
-    style="
-        text-align:center;
-        border:0.2px solid #135b83;
-        width:45px;
-        font-weight:bold;
-        color:#135b83;
-        border-radius:2px;
-    ">
-    0
-</td>
-
- </tr>''' 
+                <td class="f-left"
+                    style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
+                    0
+                </td>
+            </tr>'''
     return rows
-
 
 
 
