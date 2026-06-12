@@ -2413,8 +2413,8 @@ function generarExcelPolys() {{
             let valSpr = "-";
 
             if (fRow) {{
-                let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[3]?.innerText.trim() || "0";
-                let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[4]?.innerText.trim() || "0";
+                let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
+                let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
                 valSpr = sMin + " / " + sMax;
             }}
 
