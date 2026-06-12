@@ -155,27 +155,27 @@ def gen_master_rows(data_dict, table_id):
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
             
-            # === CONFIGURACIÓN EXCLUSIVA PARA C1 (ID 2) ===
-            # Si es C1, mostramos las celdas de forma normal. Si es otra pestaña (SDE, PREC, etc), se mantienen ocultas con display:none;
-            estilo_celda_manual = "" if table_id == 2 else "display:none;"
-            
-            # Construimos los inputs para que puedas capturar los datos cambiantes fila por fila
-            celda_orh = f'''<td class="edit-orh" style="text-align: center; border: 0.2px solid #135b83; width: 45px; {estilo_celda_manual} padding: 2px;">
-                <input type="text" class="manual-orh-input" data-unit="{name}" placeholder="ORH" style="width: 85%; text-align: center; border: 1px solid #bbb; border-radius: 2px; font-size: 11px;">
-            </td>'''
-            
-            celda_ocup = f'''<td class="edit-ocup" style="text-align: center; border: 0.2px solid #135b83; width: 50px; {estilo_celda_manual} padding: 2px;">
-                <input type="text" class="manual-ocupacion-input" data-unit="{name}" placeholder="%" style="width: 85%; text-align: center; border: 1px solid #bbb; border-radius: 2px; font-size: 11px;">
-            </td>'''
+            # Si es C1, inyectamos las cajitas flotantes del lado derecho dentro de la misma celda de UNIDAD
+            inputs_manuales = ""
+            if table_id == 2 and name:
+                inputs_manuales = f'''
+                <div class="ocultar-en-excel" style="display: inline-flex; gap: 4px; float: right; margin-right: 5px; margin-top: -2px;">
+                    <input type="text" class="manual-orh-input" data-unit="{name}" placeholder="ORH" style="width: 38px; text-align: center; border: 1px solid #135b83; border-radius: 3px; font-size: 10px; height: 18px; font-weight: bold; color: #135b83;">
+                    <input type="text" class="manual-ocupacion-input" data-unit="{name}" placeholder="%" style="width: 38px; text-align: center; border: 1px solid #135b83; border-radius: 3px; font-size: 10px; height: 18px; font-weight: bold; color: #135b83;">
+                </div>
+                '''
             
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">{name}</td>
+                <td class="edit-name" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; color: #135b83; vertical-align: middle;">
+                    <span>{name}</span>
+                    {inputs_manuales}
+                </td>
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
                 
-                {celda_orh}
-                {celda_ocup}
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
                 
                 <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
                     0
