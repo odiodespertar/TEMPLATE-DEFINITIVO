@@ -1577,7 +1577,8 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">SPR</th>
+    <th style="border:1px solid #c0c0c0;">ORH</th>
+    <th style="border:1px solid #c0c0c0;">OCUPACIÓN</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
@@ -2423,6 +2424,21 @@ let nodoTxt =
             if(unidad === "" || unidad === "Seleccionar...")
                 return;
 
+               let orh = "0";
+               let ocup = "0";
+
+            if (tabId === "2") {{
+               const target = (unidad || "").trim().toLowerCase();
+
+               const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
+              .find(fr => (fr.querySelector('.edit-name')?.innerText || "").trim().toLowerCase() === target);
+
+            if (row) {{
+                orh  = row.querySelector('.edit-orh')?.innerText.trim() || "0";
+                ocup = row.querySelector('.edit-ocup')?.innerText.trim() || "0";
+    }}
+}}}
+
             body.innerHTML += `
                 <tr style="height:22px;">
 
@@ -2443,8 +2459,12 @@ let nodoTxt =
                     </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;">
-                        ${{spr}}
-                    </td>
+                         ${{orh}}
+<                   </td>
+
+<                   <td style="border:1px solid #d0d0d0;text-align:center;">
+                         ${{ocup}}
+<                   </td>
 
                     <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
                         ${{nodoTxt}}
