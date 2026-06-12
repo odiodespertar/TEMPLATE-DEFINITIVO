@@ -152,14 +152,13 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
         
-        # Caso B: Es una unidad normal o espacio vacío
+       # Caso B: Es una unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
             
-            # Condición: table_id == 2 es C1 y table_id == 5 es PREC SMX5 (que internamente usa id 5)
-            # Si es C1 o PREC SMX5, se muestran normales las nuevas columnas. Si es SDE (id 4), se ocultan.
-            if table_id in [2, 5]:
-                estilo_celda = 'style="text-align: center; border: 0.2px solid #135b83; width: 50px; font-weight: bold; font-size: 13px; color: #135b83;"'
+            # Condición estricta: Solo C1 (ID 2) y PREC SMX5 (ID 1) muestran las columnas. SDE (ID 4) las mantiene ocultas.
+            if table_id in [1, 2]:
+                estilo_celda = 'style="text-align: center; border: 0.2px solid #135b83; width: 45px; font-weight: bold; font-size: 13px; color: #135b83;"'
             else:
                 estilo_celda = 'style="display: none;"'
                 
@@ -180,7 +179,7 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
                     0
                 </td>
-             </tr>''' 
+             </tr>'''
     return rows
 
 
