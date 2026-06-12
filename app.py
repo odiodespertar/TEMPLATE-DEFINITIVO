@@ -121,7 +121,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
-    mostrar_orh_ocup = (table_id in [1, 2, "PREC", "PREC_SMX5", "PREC SMX5"])
+    mostrar_orh_ocup = (data_dict == u_C1) or (data_dict == u_PREC_SMX2))
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -1118,26 +1118,16 @@ body.excel-view .spr-real-val{{
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:60px;">
-    SCHEDULE
+<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">
+  SCHEDULE
 </th>
-
-<th style="
-    border-right:0.5px solid #135b83;
-    padding:4px 8px;
-    font-size:11px;
-    color: #0c3a54 !important;
-    width:50px;">
-    DELTA
+<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
+  DELTA
 </th>
-</tr>
 
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
