@@ -165,16 +165,18 @@ def gen_master_rows(data_dict, table_id):
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
-                celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
-                    0
-                </td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
-                    0
-                </td>
-                '''
+               celdas_orh_ocup = f'''
+               <td contenteditable="true" class="edit-orh"
+                   oninput="recalc(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
+                   style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
+                   0
+               </td>
+               <td contenteditable="true" class="edit-ocup"
+                   oninput="recalc(); if(document.body.classList.contains('excel-view')) generarExcelPolys();"
+                   style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
+                   0
+               </td>
+               '''
             else:
                 # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
