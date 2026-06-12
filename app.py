@@ -2401,7 +2401,7 @@ function toggleExcelView() {{
                     height: auto !important;
                 }}
                 /* Modificamos la celda del letrero "TOTAL RUTEADAS" */
-                body.excel-view tr:has(#total-ruteadas-2) td[colspan="2"] {{
+                body.excel-view tr:has(#total-ruteadas-2) td[colspan="4"] {{
                     text-align: right !important;
                     font-size: 15px !important;       /* Texto más grande */
                     font-weight: 900 !important;      /* Súper negritas */
