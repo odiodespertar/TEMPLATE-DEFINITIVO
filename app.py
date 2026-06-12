@@ -943,15 +943,6 @@ body.excel-view .spr-real-val{{
 
 
 
-/* ✅ SOLO VISTA EXCEL + SOLO C1: ocultar ORH y OCUPACIÓN en DISPONIBILIDAD DE FLOTA */
-body.excel-view #tab-2 th.col-orh,
-body.excel-view #tab-2 th.col-ocup,
-body.excel-view #tab-2 td.edit-orh,
-body.excel-view #tab-2 td.edit-ocup{{
-    display:none !important;
-}}
-
-
     
     </style>
 
@@ -1127,8 +1118,8 @@ body.excel-view #tab-2 td.edit-ocup{{
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
                 <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th class="col-orh" style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-                <th class="col-ocup" style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">
@@ -1586,8 +1577,7 @@ body.excel-view #tab-2 td.edit-ocup{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">ORH</th>
-    <th style="border:1px solid #c0c0c0;">OCUPACIÓN</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
@@ -2423,43 +2413,50 @@ let nodoTxt =
 
             let unidad =
                 r.querySelector('.s-type')?.value || "";
+
             let asignadas =
                 r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+            let spr =
+                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
 
             if(unidad === "" || unidad === "Seleccionar...")
                 return;
 
-            // ✅ ORH/OCUP solo se leen desde flota en C1 (tabId = "2")
-let orh = "-";
-let ocup = "-";
-
-if (tabId === "2") {{
-    const target = (unidad || "").trim().toLowerCase();
-
-    const row = Array.from(document.querySelectorAll('#body-2 tr.master-row'))
-        .find(fr => (fr.querySelector('.edit-name')?.innerText || "").trim().toLowerCase() === target);
-
-    if (row) {{
-        orh  = row.querySelector('.edit-orh')?.innerText.trim() || "0";
-        ocup = row.querySelector('.edit-ocup')?.innerText.trim() || "0";
-    }}
-}}
-
-           body.innerHTML += `
+            body.innerHTML += `
                 <tr style="height:22px;">
-                    <td style="border:1px solid #d0d0d0;padding:3px;">${{plan}}</td>
-                    <td style="border:1px solid #d0d0d0;text-align:center;">${{vol}}</td>
-                    <td style="border:1px solid #d0d0d0;padding-left:6px;">${{unidad}}</td>
-                    <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
-                    <td style="border:1px solid #d0d0d0;text-align:center;">${{orh}}</td>
-                    <td style="border:1px solid #d0d0d0;text-align:center;">${{ocup}}</td>
-                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodoTxt}}</td>
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
+                        ${{plan}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{vol}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
+                        ${{nodoTxt}}
+                    </td>
+
                 </tr>
             `;
 
         }});
 
     }});
+}}
 
 
 
