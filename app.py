@@ -112,7 +112,7 @@ ORH_FIJOS = {
 
 
 
-def gen_master_rows(data_dict, table_id): 
+def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
     total_items = len(items)
