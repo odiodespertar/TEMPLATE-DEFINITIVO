@@ -2437,7 +2437,7 @@ let nodoTxt =
                 orh  = row.querySelector('.edit-orh')?.innerText.trim() || "0";
                 ocup = row.querySelector('.edit-ocup')?.innerText.trim() || "0";
     }}
-}}}
+}}
 
             body.innerHTML += `
                 <tr style="height:22px;">
