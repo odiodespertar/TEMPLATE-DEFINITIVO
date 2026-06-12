@@ -2345,7 +2345,6 @@ function toggleExcelView() {{
     let p4 = document.getElementById("polys-4");
     let p5 = document.getElementById("polys-5");
 
-    // === FILTRO VISUAL QUIRÚRGICO PARA MODO EXCEL ===
     let styleId = "estilos-limpieza-excel";
     let styleEl = document.getElementById(styleId);
 
@@ -2359,14 +2358,25 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Inyectamos las reglas para ocultar las columnas 4 y 5 (ORH/OCUP), y los primeros 3 totales de la flota lateral
+        // Ajuste dinámico de celdas para alinear TOTAL RUTEADAS perfectamente
+        document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
+            let tdVacio = tr.querySelector('td:first-child');
+            let tdTexto = tr.querySelector('td[colspan]');
+            if (tdVacio && tdTexto) {{
+                // En modo normal hay 5 columnas. Al quitar 2, reducimos el espacio asignado
+                // para que el bloque numérico final quede perfectamente en su lugar.
+                tdTexto.setAttribute('colspan', '1'); 
+                tdVacio.style.width = "auto";
+            }}
+        }});
+
         if (!styleEl) {{
             styleEl = document.createElement("style");
             styleEl.id = styleId;
             styleEl.innerHTML = `
                 /* Ocultar encabezados de ORH y OCUPACIÓN en la tabla de arriba */
-                body.excel-view .meli-table th:nth-child(4),
-                body.excel-view .meli-table th:nth-child(5) {{
+                body.excel-view .meli-table th:nth-child(2),
+                body.excel-view .meli-table th:nth-child(3) {{
                     display: none !important;
                 }}
                 /* Ocultar las celdas de datos de ORH y OCUPACIÓN en la tabla de arriba */
@@ -2385,11 +2395,16 @@ function toggleExcelView() {{
                     visibility: hidden !important;
                     height: 0 !important;
                 }}
-                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
+                /* Forzar alineación perfecta del bloque de totales restante */
                 body.excel-view tr:has(#total-ruteadas-2) {{
                     display: table-row !important;
                     visibility: visible !important;
                     height: auto !important;
+                }}
+                body.excel-view tr:has(#total-ruteadas-2) td:nth-child(2) {{
+                    text-align: right !important;
+                    font-weight: bold !important;
+                    padding-right: 15px !important;
                 }}
             `;
             document.head.appendChild(styleEl);
@@ -2403,7 +2418,14 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Al regresar a la Vista Normal, removemos las restricciones para que todo vuelva a aparecer
+        // Restauramos los colspans originales al regresar a la Vista Normal
+        document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
+            let tdTexto = tr.querySelector('td[colspan]');
+            if (tdTexto) {{
+                tdTexto.setAttribute('colspan', '3'); // Regresa a su valor nativo de 3 celdas
+            }}
+        }});
+
         if (styleEl) styleEl.remove();
     }}
 }}
