@@ -1577,8 +1577,7 @@ body.excel-view .spr-real-val{{
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">ORH</th>
-    <th style="border:1px solid #c0c0c0;">OCUPACIÓN</th>
+    <th style="border:1px solid #c0c0c0;">SPR</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
@@ -2385,75 +2384,79 @@ function toggleExcelView() {{
 function generarExcelPolys() {{
 
     let body = document.getElementById("excel-polys-body");
+
     if(!body) return;
 
     body.innerHTML = "";
 
     let tabId = (currentTab === 'C1') ? '2' : currentTab;
-    const esC1 = (tabId === "2");
-
-    // helper: buscar ORH/OCUP en la tabla de flota de C1
-    function getOrhOcupC1(unidadTxt) {{
-        let orh = "0";
-        let ocup = "0";
-
-        document.querySelectorAll('#body-2 tr.master-row').forEach(fr => {{
-            let n = fr.querySelector('.edit-name')?.innerText.trim() || "";
-            if (n === unidadTxt) {{
-                orh  = fr.querySelector('.edit-orh')?.innerText.trim() || "0";
-                ocup = fr.querySelector('.edit-ocup')?.innerText.trim() || "0";
-            }}
-        }});
-
-        return {{ orh, ocup }};
-    }}
 
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
-        let vol  = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
+        let plan =
+            bl.querySelector('tbody tr td')?.innerText.trim() || "";
+
+        let vol =
+            bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
         let nodoExcel =
-            bl.querySelector('.nodos-val')?.innerText.trim() ||
-            bl.querySelector('.nodos-campeche')?.innerText.trim() ||
-            "0";
+    bl.querySelector('.nodos-val')?.innerText.trim() ||
+    bl.querySelector('.nodos-campeche')?.innerText.trim() ||
+    "0";
 
-        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
+let nodoTxt =
+    (parseInt(nodoExcel) || 0) > 0
+        ? nodoExcel
+        : "-";
 
         bl.querySelectorAll('.calc-row').forEach(r => {{
 
-            let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
-            let spr = r.querySelector('.spr-real-val')?.innerText.trim() || "0";
+            let unidad =
+                r.querySelector('.s-type')?.value || "";
 
-            if(unidad === "" || unidad === "Seleccionar...") return;
+            let asignadas =
+                r.querySelector('.u-manual')?.innerText.trim() || "0";
 
-            if (esC1) {{
-                let vals = getOrhOcupC1(unidad);
-                let orh = vals.orh;
-                let ocup = vals.ocup;
+            let spr =
+                r.querySelector('.spr-real-val')?.innerText.trim() || "0";
 
-                body.innerHTML += `
-                    <tr style="height:22px;">
-                        <td style="border:1px solid #d0d0d0;padding:3px;">${{plan}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{vol}}</td>
-                        <td style="border:1px solid #d0d0d0;padding-left:6px;">${{unidad}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{orh}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{ocup}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">${{nodoTxt}}</td>
-                    </tr>
-                `;
-            }} else {{
+            if(unidad === "" || unidad === "Seleccionar...")
+                return;
 
-                body.innerHTML += `
-                    <tr style="height:22px;">
-                        <td style="border:1px solid #d0d0d0;padding:3px;">${{plan}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{vol}}</td>
-                        <td style="border:1px solid #d0d0d0;padding-left:6px;">${{unidad}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{asignadas}}</td>
-                        <td style="border:1px solid #d0d0d0;text-align:center;">${{spr}}</td>
-                        <td style="border:1px solid #d0d0
+            body.innerHTML += `
+                <tr style="height:22px;">
+
+                    <td style="border:1px solid #d0d0d0;padding:3px;">
+                        ${{plan}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{vol}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;padding-left:6px;">
+                        ${{unidad}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{asignadas}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;">
+                        ${{spr}}
+                    </td>
+
+                    <td style="border:1px solid #d0d0d0;text-align:center;font-weight:bold;">
+                        ${{nodoTxt}}
+                    </td>
+
+                </tr>
+            `;
+
+        }});
+
+    }});
+}}
 
 
 
