@@ -2371,7 +2371,7 @@ function toggleExcelView() {{
                     display: none !important;
                 }}
 
-                /* Ocultar las filas específicas de TOTAL MLP, DECLARADAS y CAR RUTEADAS */
+                /* Ocultar de forma estricta las filas de totales que no se usan */
                 body.excel-view #total-no-car-2,
                 body.excel-view #total-car-schedule-2,
                 body.excel-view #total-car-real-2,
@@ -2395,7 +2395,7 @@ function toggleExcelView() {{
                     height: 0 !important;
                 }}
 
-                /* Bloqueo estricto de altura máxima para las filas operativas */
+                /* === FIJAR ALTURA MÁXIMA EN LAS UNIDADES PARA QUE NO SE ESTIREN === */
                 body.excel-view .meli-table tbody tr {{
                     height: 18px !important;
                 }}
@@ -2405,41 +2405,58 @@ function toggleExcelView() {{
                     padding: 1px 3px !important;
                 }}
 
-                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
+                /* === INDEPENDENCIA PARA LA FILA DEL TOTAL === */
+                /* Sacamos la fila del flujo de la tabla usando display: flex para que no jale a Delivery Cell */
                 body.excel-view tr.fila-total,
                 body.excel-view tr:has(#total-ruteadas-2),
                 body.excel-view tr:has(#total-ruteadas-1),
                 body.excel-view tr:has(#total-ruteadas-5) {{
-                    display: table-row !important;
+                    display: flex !important;
                     visibility: visible !important;
                     height: 24px !important;
+                    border: 1px solid #135b83 !important;
+                    border-top: none !important;
+                    background-color: #eaeaea !important;
                 }}
                 
-                /* Diseño del letrero en mayúsculas y súper negritas */
+                /* Quitamos las celdas vacías de la izquierda para dar espacio total al letrero */
+                body.excel-view tr.fila-total td:first-child {{
+                    display: none !important;
+                }}
+
+                /* Estilo ejecutivo para el letrero TOTAL RUTEADAS */
                 body.excel-view tr.fila-total td[colspan],
                 body.excel-view tr:has(#total-ruteadas-2) td[colspan],
                 body.excel-view tr:has(#total-ruteadas-1) td[colspan],
                 body.excel-view tr:has(#total-ruteadas-5) td[colspan] {{
+                    flex: 1 !important;              /* Toma todo el ancho disponible */
                     font-size: 14px !important;
                     font-weight: 900 !important;
                     color: #0c3a54 !important;
                     text-transform: uppercase !important;
                     letter-spacing: 1px !important;
                     white-space: nowrap !important;
-                    padding-right: 12px !important;
+                    padding-right: 25px !important;
                     text-align: right !important;
                     height: 24px !important;
+                    line-height: 24px !important;
+                    border: none !important;
+                    background: transparent !important;
                 }}
 
-                /* Diseño del número final en color naranja */
+                /* Cuadro del número final (Naranja) alineado a la derecha */
                 body.excel-view #total-ruteadas-2,
                 body.excel-view #total-ruteadas-1,
                 body.excel-view #total-ruteadas-5 {{
+                    width: 75px !important;          /* Tamaño idéntico a las columnas numéricas */
                     font-size: 16px !important;
                     font-weight: 900 !important;
                     color: #FF8C00 !important;
                     text-align: center !important;
                     height: 24px !important;
+                    line-height: 24px !important;
+                    border-left: 1px solid #135b83 !important;
+                    background: white !important;
                 }}
             `;
             document.head.appendChild(styleEl);
@@ -2456,6 +2473,10 @@ function toggleExcelView() {{
         if (styleEl) styleEl.remove();
     }}
 }}
+
+
+
+
 
 
 
