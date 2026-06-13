@@ -2358,62 +2358,94 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // ELIMINAMOS EL CODIGO JAVASCRIPT VIEJO QUE ROMPÍA LAS CELDAS PERMANENTEMENTE.
-        // Ahora todo el control de alineación y diseño se maneja de forma segura por CSS aquí abajo.
-
         if (!styleEl) {{
             styleEl = document.createElement("style");
             styleEl.id = styleId;
             styleEl.innerHTML = `
-                /* Ocultar encabezados de ORH y OCUPACIÓN en la tabla de arriba */
+                /* === OCULTAR COLUMNAS POR CLASE EN LUGAR DE ORDEN NUMÉRICO === */
                 body.excel-view .meli-table th:nth-child(2),
-                body.excel-view .meli-table th:nth-child(3) {{
-                    display: none !important;
-                }}
-                /* Ocultar las celdas de datos de ORH y OCUPACIÓN en la tabla de arriba */
+                body.excel-view .meli-table th:nth-child(3),
                 body.excel-view .meli-table td.edit-orh,
                 body.excel-view .meli-table td.edit-ocup {{
                     display: none !important;
                 }}
-                /* Ocultar las filas específicas de TOTAL MLP, DECLARADAS y CAR RUTEADAS */
+
+                /* === OCULTAR FILAS DE TOTALES QUE NO SE USAN === */
                 body.excel-view #total-no-car-2,
                 body.excel-view #total-car-schedule-2,
                 body.excel-view #total-car-real-2,
                 body.excel-view tr:has(#total-no-car-2),
                 body.excel-view tr:has(#total-car-schedule-2),
-                body.excel-view tr:has(#total-car-real-2) {{
+                body.excel-view tr:has(#total-car-real-2),
+                body.excel-view #total-no-car-1,
+                body.excel-view #total-car-schedule-1,
+                body.excel-view #total-car-real-1,
+                body.excel-view tr:has(#total-no-car-1),
+                body.excel-view tr:has(#total-car-schedule-1),
+                body.excel-view tr:has(#total-car-real-1),
+                body.excel-view #total-no-car-5,
+                body.excel-view #total-car-schedule-5,
+                body.excel-view #total-car-real-5,
+                body.excel-view tr:has(#total-no-car-5),
+                body.excel-view tr:has(#total-car-schedule-5),
+                body.excel-view tr:has(#total-car-real-5) {{
                     display: none !important;
                     visibility: hidden !important;
                     height: 0 !important;
                 }}
-                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
-                body.excel-view tr:has(#total-ruteadas-2) {{
+
+                /* === ARREGLO DE ALTURA MÁXIMA PARA QUE NO SE ESTIRE DELIVERY CELL === */
+                body.excel-view .meli-table tbody tr {{
+                    height: 18px !important;
+                }}
+                body.excel-view .meli-table td {{
+                    height: 18px !important;
+                    font-size: 11px !important;
+                    padding: 1px 3px !important;
+                }}
+
+                /* === CONTROL INDEPENDIENTE Y DISEÑO ULTRA REFORZADO DEL TOTAL === */
+                /* Forzamos que la fila del total tenga una altura controlada independiente de la flota */
+                body.excel-view tr.fila-total,
+                body.excel-view tr:has(#total-ruteadas-2),
+                body.excel-view tr:has(#total-ruteadas-1),
+                body.excel-view tr:has(#total-ruteadas-5) {{
                     display: table-row !important;
                     visibility: visible !important;
-                    height: auto !important;
+                    height: 24px !important;
                 }}
                 
-                /* === RESALTADO ULTRA REFORZADO SÓLO PARA VISTA EXCEL === */
-                /* Forzamos que la celda del letrero "TOTAL RUTEADAS" se vea imponente y en negritas */
-                body.excel-view tr:has(#total-ruteadas-2) td[colspan="3"] {{
-                    font-size: 16px !important;       /* Texto un poco más grande y vistoso */
-                    font-weight: 900 !important;      /* Negritas ultra fuertes (grosor máximo) */
-                    color: #0c3a54 !important;        /* Azul oscuro institucional */
-                    text-transform: uppercase;        /* Forzado en MAYÚSCULAS para mayor resalte */
-                    letter-spacing: 1px !important;   /* Separación elegante entre letras */
+                /* Estilo de letras en mayúsculas, negritas y tamaño grande para el letrero */
+                body.excel-view tr.fila-total td[colspan],
+                body.excel-view tr:has(#total-ruteadas-2) td[colspan],
+                body.excel-view tr:has(#total-ruteadas-1) td[colspan],
+                body.excel-view tr:has(#total-ruteadas-5) td[colspan] {{
+                    font-size: 14px !important;
+                    font-weight: 900 !important;
+                    color: #0c3a54 !important;
+                    text-transform: uppercase !important;
+                    letter-spacing: 1px !important;
+                    white-space: nowrap !important;
+                    padding-right: 12px !important;
+                    text-align: right !important;
+                    height: 24px !important;
                 }}
-                
-                /* Modificamos la celda del número final (El recuadro del total naranja) */
-                body.excel-view #total-ruteadas-2 {{
-                    font-size: 18px !important;       /* Número más grande */
-                    font-weight: 900 !important;      /* Número en súper negritas */
-                    color: #FF8C00 !important;        /* Naranja brillante corporativo */
+
+                /* Cuadro del número final (Naranja) */
+                body.excel-view #total-ruteadas-2,
+                body.excel-view #total-ruteadas-1,
+                body.excel-view #total-ruteadas-5 {{
+                    font-size: 16px !important;
+                    font-weight: 900 !important;
+                    color: #FF8C00 !important;
+                    text-align: center !important;
+                    height: 24px !important;
                 }}
             `;
             document.head.appendChild(styleEl);
         }}
 
-    }} else {{
+    }} else{ {
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         if(p1) p1.style.display = "none";
@@ -2421,8 +2453,6 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Al salir, el CSS se autodestruye por completo.
-        // Tus tablas regresan al diseño original idéntico al de tu archivo CODIGO LILI.txt
         if (styleEl) styleEl.remove();
     }}
 }}
