@@ -2393,20 +2393,21 @@ function toggleExcelView() {{
                     height: auto !important;
                 }}
                 
-                /* === REGLA MAESTRA DE ALINEACIÓN SEGURA POR CSS === */
-                /* En lugar de alterar celdas, obligamos al texto a crecer y alinearse a la derecha */
+                /* === RESALTADO ULTRA REFORZADO SÓLO PARA VISTA EXCEL === */
+                /* Forzamos que la celda del letrero "TOTAL RUTEADAS" se vea imponente y en negritas */
                 body.excel-view tr:has(#total-ruteadas-2) td[colspan="3"] {{
-                    text-align: right !important;
-                    font-size: 15px !important;       /* Texto grande */
-                    font-weight: 900 !important;      /* Súper negritas */
-                    color: #0c3a54 !important;        /* Color institucional */
-                    padding-right: 15px !important;   /* Separación perfecta del cuadro naranja */
-                    white-space: nowrap !important;   /* Prohibido cortarse o bajarse */
+                    font-size: 16px !important;       /* Texto un poco más grande y vistoso */
+                    font-weight: 900 !important;      /* Negritas ultra fuertes (grosor máximo) */
+                    color: #0c3a54 !important;        /* Azul oscuro institucional */
+                    text-transform: uppercase;        /* Forzado en MAYÚSCULAS para mayor resalte */
+                    letter-spacing: 1px !important;   /* Separación elegante entre letras */
                 }}
-                /* Modificamos la celda del número final (El recuadro naranja) */
+                
+                /* Modificamos la celda del número final (El recuadro del total naranja) */
                 body.excel-view #total-ruteadas-2 {{
-                    font-size: 16px !important;       /* Número grande y vistoso */
-                    font-weight: bold !important;
+                    font-size: 18px !important;       /* Número más grande */
+                    font-weight: 900 !important;      /* Número en súper negritas */
+                    color: #FF8C00 !important;        /* Naranja brillante corporativo */
                 }}
             `;
             document.head.appendChild(styleEl);
