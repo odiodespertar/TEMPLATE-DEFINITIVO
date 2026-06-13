@@ -2358,16 +2358,8 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Ajustamos los colspans de los totales para dar espacio suficiente al texto largo
-        document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
-            let tdVacio = tr.querySelector('td:first-child');
-            let tdTexto = tr.querySelector('td[colspan]');
-            if (tdVacio && tdTexto) {{
-                // Le asignamos 2 columnas al texto para que no se rompa la palabra en dos renglones
-                tdTexto.setAttribute('colspan', '2'); 
-                if(tdVacio) tdVacio.style.display = "none"; // Ocultamos la primera celda vacía para ganar espacio
-            }}
-        }});
+        // ELIMINAMOS EL CODIGO JAVASCRIPT VIEJO QUE ROMPÍA LAS CELDAS PERMANENTEMENTE.
+        // Ahora todo el control de alineación y diseño se maneja de forma segura por CSS aquí abajo.
 
         if (!styleEl) {{
             styleEl = document.createElement("style");
@@ -2394,24 +2386,26 @@ function toggleExcelView() {{
                     visibility: hidden !important;
                     height: 0 !important;
                 }}
-                /* ESTILOS PARA HACER MÁS GRANDE Y EN NEGRITAS EL TOTAL EN VISTA EXCEL */
+                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
                 body.excel-view tr:has(#total-ruteadas-2) {{
                     display: table-row !important;
                     visibility: visible !important;
                     height: auto !important;
                 }}
-                /* Modificamos la celda del letrero "TOTAL RUTEADAS" */
-                body.excel-view tr:has(#total-ruteadas-2) td[colspan="4"] {{
+                
+                /* === REGLA MAESTRA DE ALINEACIÓN SEGURA POR CSS === */
+                /* En lugar de alterar celdas, obligamos al texto a crecer y alinearse a la derecha */
+                body.excel-view tr:has(#total-ruteadas-2) td[colspan="3"] {{
                     text-align: right !important;
-                    font-size: 15px !important;       /* Texto más grande */
+                    font-size: 15px !important;       /* Texto grande */
                     font-weight: 900 !important;      /* Súper negritas */
                     color: #0c3a54 !important;        /* Color institucional */
-                    padding-right: 20px !important;   /* Separación del número */
-                    white-space: nowrap !important;   /* Evita que la palabra se corte o se baje */
+                    padding-right: 15px !important;   /* Separación perfecta del cuadro naranja */
+                    white-space: nowrap !important;   /* Prohibido cortarse o bajarse */
                 }}
                 /* Modificamos la celda del número final (El recuadro naranja) */
                 body.excel-view #total-ruteadas-2 {{
-                    font-size: 16px !important;       /* Número más grande y vistoso */
+                    font-size: 16px !important;       /* Número grande y vistoso */
                     font-weight: bold !important;
                 }}
             `;
@@ -2426,18 +2420,8 @@ function toggleExcelView() {{
         if(p4) p4.style.display = "none";
         if(p5) p5.style.display = "none";
 
-        // Restauramos los colspans y visibilidad originales al regresar a la Vista Normal
-        document.querySelectorAll('.fila-total tr, tr.fila-total').forEach(tr => {{
-            let tdVacio = tr.querySelector('td:first-child');
-            let tdTexto = tr.querySelector('td[colspan]');
-            if (tdTexto) {{
-                tdTexto.setAttribute('colspan', '3'); // Regresa a su valor nativo de 3 celdas
-            }}
-            if (tdVacio) {{
-                tdVacio.style.display = ""; // Vuelve a mostrarse la celda guía
-            }}
-        }});
-
+        // Al salir, el CSS se autodestruye por completo.
+        // Tus tablas regresan al diseño original idéntico al de tu archivo CODIGO LILI.txt
         if (styleEl) styleEl.remove();
     }}
 }}
