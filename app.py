@@ -2362,7 +2362,7 @@ function toggleExcelView() {{
             styleEl = document.createElement("style");
             styleEl.id = styleId;
             styleEl.innerHTML = `
-                /* === OCULTAR COLUMNAS POR CLASE EN LUGAR DE ORDEN NUMÉRICO === */
+                /* Ocultar encabezados de ORH y OCUPACIÓN en la tabla de arriba */
                 body.excel-view .meli-table th:nth-child(2),
                 body.excel-view .meli-table th:nth-child(3),
                 body.excel-view .meli-table td.edit-orh,
@@ -2370,7 +2370,7 @@ function toggleExcelView() {{
                     display: none !important;
                 }}
 
-                /* === OCULTAR FILAS DE TOTALES QUE NO SE USAN === */
+                /* Ocultar filas de totales que no se usan */
                 body.excel-view #total-no-car-2,
                 body.excel-view #total-car-schedule-2,
                 body.excel-view #total-car-real-2,
@@ -2394,7 +2394,7 @@ function toggleExcelView() {{
                     height: 0 !important;
                 }}
 
-                /* === ARREGLO DE ALTURA MÁXIMA PARA QUE NO SE ESTIRE DELIVERY CELL === */
+                /* Bloqueo estricto de altura para que NO se estire Delivery Cell */
                 body.excel-view .meli-table tbody tr {{
                     height: 18px !important;
                 }}
@@ -2404,8 +2404,7 @@ function toggleExcelView() {{
                     padding: 1px 3px !important;
                 }}
 
-                /* === CONTROL INDEPENDIENTE Y DISEÑO ULTRA REFORZADO DEL TOTAL === */
-                /* Forzamos que la fila del total tenga una altura controlada independiente de la flota */
+                /* Diseño y control independiente para la fila del total */
                 body.excel-view tr.fila-total,
                 body.excel-view tr:has(#total-ruteadas-2),
                 body.excel-view tr:has(#total-ruteadas-1),
@@ -2415,7 +2414,7 @@ function toggleExcelView() {{
                     height: 24px !important;
                 }}
                 
-                /* Estilo de letras en mayúsculas, negritas y tamaño grande para el letrero */
+                /* Texto de TOTAL RUTEADAS en mayúsculas, negritas y tamaño correcto */
                 body.excel-view tr.fila-total td[colspan],
                 body.excel-view tr:has(#total-ruteadas-2) td[colspan],
                 body.excel-view tr:has(#total-ruteadas-1) td[colspan],
@@ -2431,7 +2430,7 @@ function toggleExcelView() {{
                     height: 24px !important;
                 }}
 
-                /* Cuadro del número final (Naranja) */
+                /* Ajuste del número final en color naranja resaltado */
                 body.excel-view #total-ruteadas-2,
                 body.excel-view #total-ruteadas-1,
                 body.excel-view #total-ruteadas-5 {{
