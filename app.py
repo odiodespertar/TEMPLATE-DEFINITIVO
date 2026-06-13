@@ -2334,6 +2334,7 @@ actualizarDosPorciento();
 
 
 function toggleExcelView() {{
+
     const isExcel = !document.body.classList.contains("excel-view");
     document.body.classList.toggle("excel-view", isExcel);
     
@@ -2370,7 +2371,7 @@ function toggleExcelView() {{
                     display: none !important;
                 }}
 
-                /* Ocultar filas de totales que no se usan */
+                /* Ocultar las filas específicas de TOTAL MLP, DECLARADAS y CAR RUTEADAS */
                 body.excel-view #total-no-car-2,
                 body.excel-view #total-car-schedule-2,
                 body.excel-view #total-car-real-2,
@@ -2394,7 +2395,7 @@ function toggleExcelView() {{
                     height: 0 !important;
                 }}
 
-                /* Bloqueo estricto de altura para que NO se estire Delivery Cell */
+                /* Bloqueo estricto de altura máxima para las filas operativas */
                 body.excel-view .meli-table tbody tr {{
                     height: 18px !important;
                 }}
@@ -2404,7 +2405,7 @@ function toggleExcelView() {{
                     padding: 1px 3px !important;
                 }}
 
-                /* Diseño y control independiente para la fila del total */
+                /* Forzar que la fila de TOTAL RUTEADAS sí sea visible en la flota de arriba */
                 body.excel-view tr.fila-total,
                 body.excel-view tr:has(#total-ruteadas-2),
                 body.excel-view tr:has(#total-ruteadas-1),
@@ -2414,7 +2415,7 @@ function toggleExcelView() {{
                     height: 24px !important;
                 }}
                 
-                /* Texto de TOTAL RUTEADAS en mayúsculas, negritas y tamaño correcto */
+                /* Diseño del letrero en mayúsculas y súper negritas */
                 body.excel-view tr.fila-total td[colspan],
                 body.excel-view tr:has(#total-ruteadas-2) td[colspan],
                 body.excel-view tr:has(#total-ruteadas-1) td[colspan],
@@ -2430,7 +2431,7 @@ function toggleExcelView() {{
                     height: 24px !important;
                 }}
 
-                /* Ajuste del número final en color naranja resaltado */
+                /* Diseño del número final en color naranja */
                 body.excel-view #total-ruteadas-2,
                 body.excel-view #total-ruteadas-1,
                 body.excel-view #total-ruteadas-5 {{
@@ -2444,7 +2445,7 @@ function toggleExcelView() {{
             document.head.appendChild(styleEl);
         }}
 
-    }} else{ {
+    }} else {{
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         if(p1) p1.style.display = "none";
