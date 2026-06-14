@@ -839,7 +839,7 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-/* ===== MODO EXCEL ===== */
+/* ===== MODO EXCEL ===== */ 
 
 body.excel-view #fleet-float{{
     display:none !important;
