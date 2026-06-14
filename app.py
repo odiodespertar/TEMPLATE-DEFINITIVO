@@ -2411,7 +2411,7 @@ function toggleExcelView() {{
                 /* === DISEÑO EXCLUSIVO PARA LA FILA INDEPENDIENTE DE TOTAL RUTEADAS === */
                 /* Regresamos a la estructura nativa de tabla para alinear perfectamente */
                 body.excel-view tr.fila-total,
-                body.excel-view tr:has(#total-ruteadas-2),
+                body.excel-view tr:has(#total-ruteadas-2), 
                 body.excel-view tr:has(#total-ruteadas-1),
                 body.excel-view tr:has(#total-ruteadas-5) {{
                     display: table-row !important;
