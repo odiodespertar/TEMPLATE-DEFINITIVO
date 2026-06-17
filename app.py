@@ -271,12 +271,15 @@ def gen_poligonos(data_target=None):
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 120px; min-width: 120px;">
-            <div style="display: flex; align-items: center; justify-content: flex-start; gap: 5px; width: 100%;">
-                <button type="button" onclick="cancelarPlan(this)" style="background:none; border:none; color:red; font-weight:bold; cursor:pointer; width: 20px;">X</button>
-                
-                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span>
+        <td class="u-manual-cell" style="position: relative; background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+            
+            <button type="button" onclick="cancelarPlan(this)" 
+                    style="position: absolute; left: 0px; top: 0px; background:none; border:none; color:red; font-size:12px; font-weight:bold; cursor:pointer; padding: 2px;">
+                X
+            </button>
+
+            <div style="{div_flex}; padding-left: 15px;"> <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #0c3a54 !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
