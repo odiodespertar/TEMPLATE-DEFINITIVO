@@ -453,58 +453,38 @@ def gen_poligonos(data_target=None):
         
         
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">            
-            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
-                <thead>
-                    <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th>
-                        <th style="width: 30px; border-right: 1px solid #135b83;">X</th>
-                        <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
-                        <th style="width: 80px; border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
-                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
-                        <td rowspan="{rowspan_actual}" style="border: 1px solid #135b83;"></td>
-                        <td rowspan="{rowspan_actual}" style="color:#808080; font-weight:bold; text-align:center; border:1px solid #135b83; padding:5px;">
-                            {contenido_volumen}
-                        </td>
-                        <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
-                            <div style="{div_flex}">
-                                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
-                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span>
-                                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-                            </div>
-                        </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
-                            <div style="{div_flex}">
-                                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
-                                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-                            </div>
-                        </td>
-                        <td style="border: 0.5px solid #135b83; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
-                                <option>Seleccionar...</option>
-                            </select>
-                        </td>
-                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
-                    </tr>
-                    {filas_extra}
-                    {""}
-                    <tr style="background:#ededed; height: 32px;">
-                        <td colspan="4" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
-                        <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>'''
+<div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">            
+    <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
+        <thead>
+            <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
+                <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th>
+                <th style="width: 30px; border-right: 1px solid #135b83;">X</th>
+                <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th>
+                <th style="width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th>
+                <th style="width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
+                <th style="width: 80px; border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
+                <th style="width: 45px; text-align: center;">OK</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="calc-row"> 
+                <td rowspan="{rowspan_actual}" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83;">{nombre_final}</td>
+                <td rowspan="{rowspan_actual}" style="border: 1px solid #135b83;"></td> 
+                <td rowspan="{rowspan_actual}" style="text-align:center; border:1px solid #135b83;">{contenido_volumen}</td>
+                <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83;">...</td>
+                <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83;">...</td>
+                <td style="border: 0.5px solid #135b83;">...</td>
+                <td style="text-align: center; border: 0.5px solid #135b83;"><input type="checkbox"></td>
+            </tr>
+            {filas_extra}
+            <tr style="background:#ededed; height: 32px;">
+                <td colspan="4" style="text-align:center; font-weight:bold; border: 1px solid #135b83;">ESTADO:</td>
+                <td class="v-calculado-total" style="border: 1px solid #135b83;">0</td>
+                <td colspan="2" style="text-align: center; border: 1px solid #135b83;">VACÍO:</td>
+            </tr>
+        </tbody>
+    </table>
+</div>'''
     return polys
 
 
