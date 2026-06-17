@@ -2304,13 +2304,16 @@ actualizarDosPorciento();
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
-   function resetRow(sel) {{ 
+  function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
 
+        let table = sel.closest('table');
+        if (!table) return;
+
         let unidadSeleccionada = sel.value;
 
-        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros como tu código original
+        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -2319,21 +2322,16 @@ actualizarDosPorciento();
             return;
         }}
 
-        // 2. Al elegir una unidad válida, le asignamos 1 unidad asignada por default
-        let spanU = r.querySelector('.u-manual');
-        if (spanU) {{
-            spanU.innerText = "1";
-        }}
+        // 2. Capturamos el Volumen Total que ingresaste en la celda gris de este polígono
+        let volTotalSpan = table.querySelector('.v-total-val');
+        let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
         // 3. Extracción automática del SPR Máximo desde tu pantalla (Flotante o Tabla Master)
         let sprEncontrado = 0;
-        
-        // Buscamos todas las filas de la tabla de flota disponibles en la página
         let filasFlota = document.querySelectorAll('.master-row');
         for (let filaFlota of filasFlota) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
-                // Extraemos el valor de la columna 'edit-spr-max' que ya está renderizada
                 let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
                 if (celdaSprMax) {{
                     sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
@@ -2348,7 +2346,20 @@ actualizarDosPorciento();
             spanS.innerText = sprEncontrado;
         }}
 
-        // 5. Ejecutamos tu manualEdit nativo original para que procese el cambio, reste de la flota y calcule
+        // 5. 🔥 ¡MATEMÁTICAS DEL DISTRIBUIDOR AUTOMÁTICO! 🔥
+        // Calculamos cuántas unidades se necesitan dividiendo el Volumen entre el SPR Encontrado
+        let unidadesCalculadas = 1; // Por defecto empezamos en 1
+        if (volumenTotal > 0 && sprEncontrado > 0) {{
+            unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
+        }}
+
+        // Inyectamos el resultado real en la columna de # Asignadas
+        let spanU = r.querySelector('.u-manual');
+        if (spanU) {{
+            spanU.innerText = unidadesCalculadas;
+        }}
+
+        // 6. Ejecutamos tu manualEdit nativo original para que procese el cambio y reste de la flota
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
