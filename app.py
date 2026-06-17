@@ -2198,30 +2198,54 @@ actualizarDosPorciento();
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
 
-    function resetRow(selectEl) {{
-    // 1. Buscamos la fila contenedora (.calc-row) para saber qué polígono se está editando
-    let fila = selectEl.closest('.calc-row');
-    if (!fila) return;
-
-    // 2. Localizamos la casilla de unidades asignadas (# ASIGNADAS) de esta fila
-    let inputAsignadas = fila.querySelector('.u-manual');
+   function resetRow(selectElement) {{
+    let row = selectElement.closest('tr');
     
-    if (inputAsignadas) {{
-        // Si el usuario selecciona una unidad válida (diferente a vacío o "Seleccionar...")
-        if (selectEl.value !== "" && selectEl.value !== "Seleccionar...") {{
-            // Si la casilla está en 0, le ponemos un 1 automático como ayuda inicial
-            if (inputAsignadas.innerText.trim() === "0") {{
-                inputAsignadas.innerText = "1";
-            }}
-        }} else {{
-            // Si el usuario regresa el selector a "Seleccionar...", reiniciamos la asignación a 0
-            inputAsignadas.innerText = "0";
+    // Si el usuario vuelve a poner "Seleccionar..." (valor vacío)
+    if (selectElement.value === "") {{
+        // 1. Buscamos el span de unidades y lo regresamos a 0
+        let spanU = row.querySelector('.u-manual');
+        if (spanU) {{
+            spanU.textContent = "0";
+            spanU.style.color = "#0c3a54"; 
         }}
+        
+        // 2. Buscamos el span de SPR Real y lo regresamos a 0
+        let spanS = row.querySelector('.spr-real-val');
+        if (spanS) {{
+            spanS.textContent = "0";
+            spanS.style.color = "#0c3a54"; 
+        }}
+        
+        // 3. Forzamos el recálculo inmediato para limpiar los totales
+        if (typeof manualEdit === 'function') {{
+            manualEdit(selectElement);
+        }} else if (typeof recalc === 'function') {{
+            recalc();
+        }}
+        return; 
     }}
-
-    // 3. Ejecutar el recálculo general del monitor para que suba la información de inmediato a la flota
-    if (typeof recalc === "function") {{
-        recalc();
+    
+    // --- CONTINUACIÓN DEL COMPORTAMIENTO NORMAL CUANDO SÍ SE SELECCIONA UNA UNIDAD ---
+    let selectedType = selectElement.value;
+    let tabContainer = selectElement.closest('.tab-content-active, .content-area, [id^="polys-"]');
+    let tabId = "SDE"; 
+    if (tabContainer) {{
+        let idStr = tabContainer.id || "";
+        if (idStr.includes("2")) tabId = "C1";
+        else if (idStr.includes("3")) tabId = "C2";
+        else if (idStr.includes("4")) tabId = "PREC";
+    }}
+    
+    if (typeof allData !== 'undefined' && allData[tabId] && allData[tabId][selectedType]) {{
+        let sprValue = allData[tabId][selectedType][1] || 0;
+        let spanS = row.querySelector('.spr-real-val');
+        if (spanS) spanS.textContent = sprValue;
+        
+        let spanU = row.querySelector('.u-manual');
+        if (spanU && spanU.textContent === "0") {{
+            spanU.textContent = "1";
+        }}
     }}
 }}
 
