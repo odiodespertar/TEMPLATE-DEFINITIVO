@@ -4788,75 +4788,92 @@ body:not(.tab-2) #excel-btn {{
 
     // 2. PEGA ESTA FUNCIÓN COMPLETA:
     function resetRow(selectElement) {{
-        let row = selectElement.closest('tr');
-        
-        // Si el usuario vuelve a poner "Seleccionar..." (valor vacío), limpia la fila
-        if (selectElement.value === "") {{
-            let spanU = row.querySelector('.u-manual');
-            if (spanU) {{
-                spanU.textContent = "0";
-                spanU.style.color = "#0c3a54"; 
-            }}
-            let spanS = row.querySelector('.spr-real-val');
-            if (spanS) {{
-                spanS.textContent = "0";
-                spanS.style.color = "#0c3a54"; 
-            }}
-            if (typeof manualEdit === 'function') {{
-                manualEdit(selectElement);
-            }} else if (typeof recalc === 'function') {{
-                recalc();
-            }}
-            return; 
-        }}
-        
-        // Si seleccionó una unidad válida, determinamos la pestaña activa de forma inteligente
-        let selectedType = selectElement.value;
-        let tabId = "SDE"; // Por defecto
-        
-        // Buscamos cuál es el botón de la pestaña que tiene la clase 'active' en la pantalla
-        let activeTabBtn = document.querySelector('.tab-btn.active');
-        if (activeTabBtn) {{
-            let tabTexto = activeTabBtn.textContent.trim();
-            // Validamos que sea un ID conocido, si es "SIDE LINE" o "ENLACES" podemos mapearlo o dejar SDE
-            if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) {{
-                tabId = tabTexto;
-            }}
-        }}
-        
-        // Caso especial: Si estás en la tabla especial de PREC_SMX2, la detectamos por el contenedor
-        let polyContainer = selectElement.closest('[id^="polys-"]');
-        if (polyContainer && polyContainer.id.includes("4")) {{
-            tabId = "PREC_SMX2";
-        }}
-        
-        // Vamos a buscar los datos del SPR en nuestro nuevo diccionario seguro
-        if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][selectedType]) {{
-            let infoUnidad = flotasDict[tabId][selectedType];
-            
-            // Obtenemos el SPR (el segundo elemento del array [25, 30] -> 30)
-            let sprValue = infoUnidad[1] || infoUnidad[0] || 0; 
-            
-            // Inyectamos el SPR real en su celda correspondientemente
-            let spanS = row.querySelector('.spr-real-val');
-            if (spanS) {{
-                spanS.textContent = sprValue;
-            }}
-            
-            // Ponemos automáticamente 1 en cantidad de unidades si estaba en 0 o vacío
-            let spanU = row.querySelector('.u-manual');
-            if (spanU && (spanU.textContent === "0" || spanU.textContent === "")) {{
-                spanU.textContent = "1";
-            }}
-            
-            // Forzamos que se disparen las matemáticas de tus funciones manualEdit o recalc
-            if (typeof manualEdit === 'function') {{
-                manualEdit(selectElement);
-            }} else if (typeof recalc === 'function') {{
-                recalc();
-            }}
+    // 1. Encontrar la tabla (polígono) completa a la que pertenece esta lista desplegable
+    let table = selectElement.closest('table');
+    if (!table) return;
+
+    // 2. Obtener el Volumen Total ingresado en este polígono específico
+    let volTotalSpan = table.querySelector('.v-total-val');
+    let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
+
+    // 3. Determinar en qué pestaña del mapa de flotas estamos operando
+    let tabId = "SDE"; // Valor por defecto
+    let activeTabBtn = document.querySelector('.tab-btn.active');
+    if (activeTabBtn) {{
+        let tabTexto = activeTabBtn.textContent.trim();
+        if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) {{
+            tabId = tabTexto;
         }}
     }}
+    // Caso especial: Validar si es la tabla de PREC_SMX2 mediante el ID de su contenedor
+    let polyContainer = table.closest('[id^="polys-"]');
+    if (polyContainer && polyContainer.id.includes("4")) {{
+        tabId = "PREC_SMX2";
+    }}
+
+    // 4. Mapear todas las filas de cálculo activas en este polígono
+    let rows = table.querySelectorAll('tbody tr.calc-row');
+    let filasConUnidad = [];
+
+    rows.forEach(row => {{
+        let select = row.querySelector('.s-type');
+        let spanU = row.querySelector('.u-manual');
+        let spanS = row.querySelector('.spr-real-val');
+
+        if (select && select.value !== "") {{
+            let type = select.value;
+            // Buscar el SPR real en flotasDict
+            if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][type]) {{
+                let infoUnidad = flotasDict[tabId][type];
+                let sprValue = infoUnidad[1] || infoUnidad[0] || 0;
+                
+                filasConUnidad.push({{
+                    rowElement: row,
+                    spr: sprValue,
+                    spanUnidades: spanU,
+                    spanSpr: spanS
+                }});
+            }}
+        }} else {{
+            // Si la fila se cambió a "Seleccionar...", la limpiamos a ceros de inmediato
+            if (spanU) spanU.textContent = "0";
+            if (spanS) spanS.textContent = "0";
+        }}
+    }});
+
+    // 5. ¡AQUÍ SE HACE LA MAGIA DE REPARTICIÓN AUTOMÁTICA!
+    let numVehiculosDiferentes = filasConUnidad.length;
+
+    if (numVehiculosDiferentes > 0 && volumenTotal > 0) {{
+        // Dividimos el volumen total equitativamente entre los tipos de unidades seleccionadas
+        let volumenPorTipo = volumenTotal / numVehiculosDiferentes;
+
+        filasConUnidad.forEach(item => {{
+            // Calculamos cuántas unidades de este tipo se necesitan para cubrir su parte del volumen
+            // Ejemplo: Si tocan 30 de volumen y el SPR es 30, se necesita 1 unidad.
+            // Usamos Math.ceil para redondear hacia arriba y asegurar que siempre se cubra el volumen.
+            let unidadesNecesarias = Math.ceil(volumenPorTipo / item.spr);
+            if (unidadesNecesarias < 1) unidadesNecesarias = 1;
+
+            // Inyectamos los valores calculados en tiempo real en la pantalla
+            if (item.spanUnidades) item.spanUnidades.textContent = unidadesNecesarias;
+            if (item.spanSpr) item.spanSpr.textContent = item.spr;
+        }});
+    }} else if (volumenTotal === 0) {{
+        // Si hay unidades seleccionadas pero el volumen total es cero, asignamos por defecto 1 unidad con su SPR
+        filasConUnidad.forEach(item => {{
+            if (item.spanUnidades) item.spanUnidades.textContent = "1";
+            if (item.spanSpr) item.spanSpr.textContent = item.spr;
+        }});
+    }}
+
+    // 6. Forzamos a que corran tus funciones globales para actualizar los contadores maestros en pantalla
+    if (typeof manualEdit === 'function') {{
+        manualEdit(selectElement);
+    }} else if (typeof recalc === 'function') {{
+        recalc();
+    }}
+}}
     
 
     
