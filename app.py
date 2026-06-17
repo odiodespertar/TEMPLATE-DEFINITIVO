@@ -410,7 +410,7 @@ def gen_poligonos(data_target=None):
 
 
     
-    for i in range(1, 11):
+   for i in range(1, 11):
 
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
@@ -424,7 +424,7 @@ def gen_poligonos(data_target=None):
         else:
              nombre_final = f"PLAN {i}"
 
-        # ← AGREGAR AQUÍ
+        # Asignación del contenido del volumen según el plan
         if nombre_final == "CAMPECHE":
              contenido_volumen = campo_campeche
 
@@ -441,30 +441,31 @@ def gen_poligonos(data_target=None):
         else:
              rowspan_actual = 3
 
-       # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON LAS UNIDADES CORRECTAS ===
+        # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON LAS UNIDADES CORRECTAS ===
         fila_inner = f'''
         <tr class="calc-row">
             <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
-                <div style="{{div_flex}}">
-                    <button style="{{btn_s}}" onclick="stepVal(this, -1, 'u')">-</button>
-                    <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{{span_num_u}}color: #0c3a54 !important;">0</span>
-                    <button style="{{btn_s}}" onclick="stepVal(this, 1, 'u')">+</button>
+                <div style="{div_flex}">
+                    <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
+                    <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #0c3a54 !important;">0</span>
+                    <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                 </div>
             </td>
             <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
-                <div style="{{div_flex}}">
-                    <button style="{{btn_s}}" onclick="stepVal(this, -1, 's')">-</button>
-                    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{{span_num_spr}} color: #0c3a54 !important;">0</span>
-                    <button style="{{btn_s}}" onclick="stepVal(this, 1, 's')">+</button>
+                <div style="{div_flex}">
+                    <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr} color: #0c3a54 !important;">0</span>
+                    <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                 </div>
             </td>
             <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-                <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{{select_style}} color: #808080;"> 
+                <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                     <option value="">Seleccionar...</option>'''
         
-        # Obtenemos dinámicamente las unidades del diccionario asignado a la pestaña
-        for name_u in list(dict_flota.keys()):
-            fila_inner += f'<option value="{name_u}">{name_u}</option>'
+        # Obtenemos dinámicamente las unidades del diccionario del plan actual usando data_target
+        if data_target and isinstance(data_target, dict):
+            for name_u in list(data_target.keys()):
+                fila_inner += f'<option value="{name_u}">{name_u}</option>'
             
         fila_inner += f'''
                 </select>
@@ -481,8 +482,9 @@ def gen_poligonos(data_target=None):
 
         # === CONSTRUCCIÓN DINÁMICA DE LAS OPCIONES PARA LA FILA MASTER ===
         opciones_select_master = '<option value="">Seleccionar...</option>'
-        for name_u in list(dict_flota.keys()):
-            opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
+        if data_target and isinstance(data_target, dict):
+            for name_u in list(data_target.keys()):
+                opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
         
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">            
