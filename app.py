@@ -2377,9 +2377,10 @@ actualizarDosPorciento();
             // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
             else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
                 permiteInfinito = true;
+            }}
         }}
 
-
+        // Si cumple cualquiera de las dos reglas válidas, expandimos la tabla al usar la última fila
         if (permiteInfinito && tbody) {{
             let filasCalculo = tbody.querySelectorAll('tr.calc-row');
             let ultimaFila = filasCalculo[filasCalculo.length - 1];
@@ -2414,12 +2415,11 @@ actualizarDosPorciento();
         }}
     }}
     
-    // === AQUÍ ESTÁ DE VUELTA TU ESCUCHADOR DE TECLADO COMPLETO CON LA CALCULADORA ===
+    // === TU ESCUCHADOR DE TECLADO SIGUE TOTALMENTE INTACTO ABAJO ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
         const alerta = document.getElementById('google-alert');
 
-        // Si la alerta está visible, el Enter la cierra y NO hace nada más
         if (e.key === 'Enter' && alerta.classList.contains('show')) {{
             e.preventDefault();
             e.stopPropagation();
@@ -2427,7 +2427,6 @@ actualizarDosPorciento();
             return;
         }}
 
-        // Lógica de la calculadora completa recuperada
         if (document.activeElement === calc) {{
             if (e.key >= '0' && e.key <= '9') an(e.key);
             if (e.key === '+') ao('+');
