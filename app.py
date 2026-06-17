@@ -2406,11 +2406,16 @@ function manualEdit(el) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 4. Matemáticas automáticas: Volumen / SPR Real (Redondeado hacia arriba)
+        // 4. Matemáticas automáticas
         let unidadesCalculadas = 1; 
-        if (volumenTotal > 0 && sprEncontrado > 0) {{
+        
+        // --- INICIO DE TU SOLICITUD ---
+        if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
+            unidadesCalculadas = 1;
+        }} else if (volumenTotal > 0 && sprEncontrado > 0) {{
             unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
         }}
+        // --- FIN DE TU SOLICITUD ---
 
         // Inyectamos el cálculo en el cuadro de # Asignadas
         let spanU = r.querySelector('.u-manual');
