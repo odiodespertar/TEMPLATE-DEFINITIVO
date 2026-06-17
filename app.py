@@ -2302,8 +2302,65 @@ actualizarDosPorciento();
         document.getElementById('crono-main').innerText = `${{h}}:${{m}}:${{s}}.${{ms}}`;
     }}
 
-    function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
+function manualEdit(el) {{ 
+        let r = el.closest('tr');
+        if (r) {{
+            editedRowsPlan.add(r);
+            
+            let table = r.closest('table');
+            let tbody = table ? table.querySelector('tbody') : null;
+            let selectType = r.querySelector('.s-type');
+            let unidadSeleccionada = selectType ? selectType.value : "";
+            
+            let permiteInfinito = false;
+            let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
+
+            // 1. Validamos la pestaña activa de la misma forma segura
+            let activeTabBtn = document.querySelector('.tab-btn.active');
+            if (activeTabBtn) {{
+                let tabId = activeTabBtn.textContent.trim();
+                
+                // Regra A: C1 con Large Van MLP
+                if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                    permiteInfinito = true;
+                }} 
+                // Regla B: SDE o PREC con cualquier Car
+                else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
+                    permiteInfinito = true;
+                }}
+            }}
+
+            // 2. Si cumple la regla y es la última fila, la clonamos antes del recálculo
+            if (permiteInfinito && tbody) {{
+                let filasCalculo = tbody.querySelectorAll('tr.calc-row');
+                let ultimaFila = filasCalculo[filasCalculo.length - 1];
+                
+                if (r === ultimaFila) {{
+                    let nuevaFila = r.cloneNode(true);
+                    
+                    let nuevoSelect = nuevaFila.querySelector('.s-type');
+                    if (nuevoSelect) {{
+                        nuevoSelect.value = "";
+                        nuevoSelect.style.color = "#808080";
+                    }}
+                    
+                    let nuevoSpanU = nuevaFila.querySelector('.u-manual');
+                    if (nuevoSpanU) nuevoSpanU.innerText = "0";
+                    
+                    let nuevoSpanS = nuevaFila.querySelector('.spr-real-val');
+                    if (nuevoSpanS) nuevoSpanS.innerText = "0";
+
+                    let nuevoCheck = nuevaFila.querySelector('.ok-check');
+                    if (nuevoCheck) nuevoCheck.checked = false;
+
+                    tbody.appendChild(nuevaFila);
+                }}
+            }}
+        }}
+        // 3. Ejecutamos tu recálculo original pase lo que pase
+        recalc(); 
+    }}
 
 
  function resetRow(sel) {{ 
