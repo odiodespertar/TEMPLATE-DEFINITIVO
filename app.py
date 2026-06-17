@@ -4763,13 +4763,103 @@ body:not(.tab-2) #excel-btn {{
 </div>
 
 <script>
+    // 1. AGREGA ESTE BLOQUE DE AQUÍ ABAJO:
+    const flotasDict = {{
+        "SDE": {u_SDE},
+        "C1": {u_C1},
+        "C2": {u_C2},
+        "PREC": {u_PREC},
+        "PREC_SMX2": {u_PREC_SMX2}
+    }};
+
+    // Esto ya lo tenías, déjalo igual:
     const allData = {info_operativa}; 
+
+
+    
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
     }}
+
+
+
+    // 2. PEGA ESTA FUNCIÓN COMPLETA:
+    function resetRow(selectElement) {{
+        let row = selectElement.closest('tr');
+        
+        // Si el usuario vuelve a poner "Seleccionar..." (valor vacío), limpia la fila
+        if (selectElement.value === "") {{
+            let spanU = row.querySelector('.u-manual');
+            if (spanU) {{
+                spanU.textContent = "0";
+                spanU.style.color = "#0c3a54"; 
+            }}
+            let spanS = row.querySelector('.spr-real-val');
+            if (spanS) {{
+                spanS.textContent = "0";
+                spanS.style.color = "#0c3a54"; 
+            }}
+            if (typeof manualEdit === 'function') {{
+                manualEdit(selectElement);
+            }} else if (typeof recalc === 'function') {{
+                recalc();
+            }}
+            return; 
+        }}
+        
+        // Si seleccionó una unidad válida, determinamos la pestaña activa de forma inteligente
+        let selectedType = selectElement.value;
+        let tabId = "SDE"; // Por defecto
+        
+        // Buscamos cuál es el botón de la pestaña que tiene la clase 'active' en la pantalla
+        let activeTabBtn = document.querySelector('.tab-btn.active');
+        if (activeTabBtn) {{
+            let tabTexto = activeTabBtn.textContent.trim();
+            // Validamos que sea un ID conocido, si es "SIDE LINE" o "ENLACES" podemos mapearlo o dejar SDE
+            if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) {{
+                tabId = tabTexto;
+            }}
+        }}
+        
+        // Caso especial: Si estás en la tabla especial de PREC_SMX2, la detectamos por el contenedor
+        let polyContainer = selectElement.closest('[id^="polys-"]');
+        if (polyContainer && polyContainer.id.includes("4")) {{
+            tabId = "PREC_SMX2";
+        }}
+        
+        // Vamos a buscar los datos del SPR en nuestro nuevo diccionario seguro
+        if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][selectedType]) {{
+            let infoUnidad = flotasDict[tabId][selectedType];
+            
+            // Obtenemos el SPR (el segundo elemento del array [25, 30] -> 30)
+            let sprValue = infoUnidad[1] || infoUnidad[0] || 0; 
+            
+            // Inyectamos el SPR real en su celda correspondientemente
+            let spanS = row.querySelector('.spr-real-val');
+            if (spanS) {{
+                spanS.textContent = sprValue;
+            }}
+            
+            // Ponemos automáticamente 1 en cantidad de unidades si estaba en 0 o vacío
+            let spanU = row.querySelector('.u-manual');
+            if (spanU && (spanU.textContent === "0" || spanU.textContent === "")) {{
+                spanU.textContent = "1";
+            }}
+            
+            // Forzamos que se disparen las matemáticas de tus funciones manualEdit o recalc
+            if (typeof manualEdit === 'function') {{
+                manualEdit(selectElement);
+            }} else if (typeof recalc === 'function') {{
+                recalc();
+            }}
+        }}
+    }}
+    
+
+    
     function ejecutarTodo() {{
         const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
