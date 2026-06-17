@@ -273,6 +273,7 @@ def gen_poligonos(data_target=None):
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
+                <button type="button" onclick="cancelarPlan(this)" style="background:none; border:none; color:red; font-weight:bold; cursor:pointer; margin-right:5px;">X</button>
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #0c3a54 !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
@@ -2500,6 +2501,45 @@ function manualEdit(el) {{
             if (e.key === 'Backspace') del();
         }}
     }});
+
+
+
+function cancelarPlan(btn) {{
+    // 1. Encontrar la fila (tr) donde se presionó la X
+    let fila = btn.closest('tr');
+    if (!fila) return;
+
+    // 2. Validación: Solo funciona en la pestaña C1
+    let activeTabBtn = document.querySelector('.tab-btn.active');
+    if (!activeTabBtn || activeTabBtn.textContent.trim() !== "C1") {{
+        return; 
+    }}
+
+    // 3. Resetear el Select (TIPO DE UNIDAD)
+    let select = fila.querySelector('.s-type');
+    if (select) {{
+        select.value = "";
+        select.style.color = "#808080";
+    }}
+
+    // 4. Resetear campos numéricos (U y SPR)
+    let spanU = fila.querySelector('.u-manual');
+    if (spanU) spanU.innerText = "0";
+
+    let spanS = fila.querySelector('.spr-real-val');
+    if (spanS) spanS.innerText = "0";
+    
+    // 5. Desmarcar Checkbox (OK)
+    let check = fila.querySelector('.ok-check');
+    if (check) check.checked = false;
+
+    // 6. Recalcular totales (Vital para que el volumen se actualice a 0)
+    if (typeof recalc === 'function') {{
+        recalc();
+    }}
+}}
+
+
 
 
 
