@@ -2304,6 +2304,8 @@ actualizarDosPorciento();
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
+
+
  function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
@@ -2311,6 +2313,7 @@ actualizarDosPorciento();
         let table = sel.closest('table');
         if (!table) return;
 
+        let tbody = table.querySelector('tbody');
         let unidadSeleccionada = sel.value;
 
         // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros exactamente como antes
@@ -2358,7 +2361,49 @@ actualizarDosPorciento();
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 5. Corremos tu manualEdit original para procesar los totales y restar de la flota
+        // 5. ADICIÓN MANUAL INFINITA DE FILAS (C1, SDE, PREC)
+        let tabId = "SDE";
+        let activeTabBtn = document.querySelector('.tab-btn.active');
+        if (activeTabBtn) {{
+            tabId = activeTabBtn.textContent.trim();
+        }}
+        
+        let permiteInfinito = false;
+        let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
+
+        if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+            permiteInfinito = true;
+        }} else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
+            permiteInfinito = true;
+        }}
+
+        if (permiteInfinito && tbody) {{
+            let filasCalculo = tbody.querySelectorAll('tr.calc-row');
+            let ultimaFila = filasCalculo[filasCalculo.length - 1];
+            
+            if (r === ultimaFila) {{
+                let nuevaFila = r.cloneNode(true);
+                
+                let nuevoSelect = nuevaFila.querySelector('.s-type');
+                if (nuevoSelect) {{
+                    nuevoSelect.value = "";
+                    nuevoSelect.style.color = "#808080";
+                }}
+                
+                let nuevoSpanU = nuevaFila.querySelector('.u-manual');
+                if (nuevoSpanU) nuevoSpanU.innerText = "0";
+                
+                let nuevoSpanS = nuevaFila.querySelector('.spr-real-val');
+                if (nuevoSpanS) nuevoSpanS.innerText = "0";
+
+                let nuevoCheck = nuevaFila.querySelector('.ok-check');
+                if (nuevoCheck) nuevoCheck.checked = false;
+
+                tbody.appendChild(nuevaFila);
+            }}
+        }}
+
+        // 6. Corremos tu manualEdit original para procesar los totales y restar de la flota
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
@@ -2366,20 +2411,20 @@ actualizarDosPorciento();
         }}
     }}
     
-    // === TU LÓGICA DE TECLADO Y ENTER QUEDA INTACTA AQUÍ ABAJO ===
+    // === AQUÍ ESTÁ DE VUELTA TU ESCUCHADOR DE TECLADO COMPLETO CON LA CALCULADORA ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
         const alerta = document.getElementById('google-alert');
 
-        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
+        // Si la alerta está visible, el Enter la cierra y NO hace nada más
         if (e.key === 'Enter' && alerta.classList.contains('show')) {{
             e.preventDefault();
             e.stopPropagation();
             hideAlert();
-            return; // Detiene la ejecución aquí para que no afecte a la calculadora
+            return;
         }}
 
-        // Lógica de la calculadora (solo si está seleccionada)
+        // Lógica de la calculadora completa recuperada
         if (document.activeElement === calc) {{
             if (e.key >= '0' && e.key <= '9') an(e.key);
             if (e.key === '+') ao('+');
@@ -2391,6 +2436,7 @@ actualizarDosPorciento();
             if (e.key === 'Backspace') del();
         }}
     }});
+
 
 
 function toggleExcelView() {{
