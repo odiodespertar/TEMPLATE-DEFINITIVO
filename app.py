@@ -4739,66 +4739,51 @@ function resetRow(selectElement) {{
     let row = selectElement.closest('tr');
     if (!row) return;
 
-    let table = selectElement.closest('table');
-    if (!table) return;
-
-    // 1. Capturar el volumen total ingresado arriba
-    let volTotalSpan = table.querySelector('.v-total-val');
-    let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
-
+    // 1. Obtener los elementos de la fila actual
     let select = row.querySelector('.s-type');
     let spanU = row.querySelector('.u-manual');
     let spanS = row.querySelector('.spr-real-val');
     
     let unidadSeleccionada = select ? select.value : "";
     
-    // 2. Si vuelve a "Seleccionar...", vaciamos la fila a ceros
+    // 2. Si el usuario selecciona "Seleccionar..." (vacío), limpiamos la fila a ceros
     if (unidadSeleccionada === "") {{
-        if (spanU) {{ spanU.textContent = "0"; spanU.style.color = "#808080"; }}
-        if (spanS) {{ spanS.textContent = "0"; spanS.style.color = "#808080"; }}
+        if (spanU) spanU.textContent = "0";
+        if (spanS) spanS.textContent = "0";
         if (typeof recalc === 'function') recalc();
         return;
     }}
     
-    // 3. Identificar la pestaña activa de tu aplicación para jalar el SPR correcto
+    // 3. Si el usuario no tiene unidades asignadas (está en 0), le ponemos 1 por defecto
+    if (spanU && (spanU.textContent === "0" || spanU.textContent === "")) {{
+        spanU.textContent = "1";
+    }}
+    
+    // 4. Identificar la pestaña activa para extraer el SPR correspondiente
     let tabId = "SDE";
     let activeTabBtn = document.querySelector('.tab-btn.active');
     if (activeTabBtn) {{
         let tabTexto = activeTabBtn.textContent.trim();
         if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) tabId = tabTexto;
     }}
+    // Si es la sección especial número 4, asignamos PREC_SMX2
     let polyContainer = selectElement.closest('[id^="polys-"]');
-    if (polyContainer && polyContainer.id.includes("4")) tabId = "PREC_SMX2";
+    if (polyContainer && polyContainer.id.includes("4")) {{
+        tabId = "PREC_SMX2";
+    }}
 
-    // 4. Buscar el SPR en nuestro mapa de flotas
+    // 5. Buscamos el SPR en el diccionario de flotas que envía Python
     if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][unidadSeleccionada]) {{
         let infoUnidad = flotasDict[tabId][unidadSeleccionada];
-        let sprReal = infoUnidad[1] || infoUnidad[0] || 0;
         
-        // Inyectamos el SPR real en caliente y lo activamos visualmente con color oscuro
+        // Inyectamos el valor del SPR automáticamente en la celda
         if (spanS) {{
-            spanS.textContent = sprReal;
-            spanS.style.color = "#0c3a54";
-        }}
-
-        // 5. REGLA DE ASIGNACIÓN AUTOMÁTICA
-        // Si hay volumen metido arriba, calculamos las unidades necesarias (Volumen / SPR redondeado arriba)
-        if (volumenTotal > 0 && sprReal > 0) {{
-            let unidadesCalculadas = Math.ceil(volumenTotal / sprReal);
-            if (spanU) {{
-                spanU.textContent = unidadesCalculadas;
-                spanU.style.color = "#0c3a54";
-            }}
-        }} else {{
-            // Si el volumen está en 0, le clavamos un 1 por defecto para que no se quede vacío
-            if (spanU) {{
-                spanU.textContent = "1";
-                spanU.style.color = "#0c3a54";
-            }}
+            spanS.textContent = infoUnidad[1] || infoUnidad[0] || 0;
         }}
     }}
 
-    // 6. Lanzar la actualización general de los cálculos en tu pantalla
+    // 6. Ejecutamos la función manualEdit original pasándole la casilla de unidades.
+    // Esto obligará a tu código original a activarse, restar de la flota y actualizar el estado.
     if (typeof manualEdit === 'function' && spanU) {{
         manualEdit(spanU);
     }} else if (typeof recalc === 'function') {{
