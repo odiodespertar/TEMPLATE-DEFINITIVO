@@ -2303,32 +2303,61 @@ actualizarDosPorciento();
     }}
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
-    function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
-    
-   document.addEventListener('keydown', (e) => {{
-        const calc = document.getElementById('calc_wrapper');
-        const alerta = document.getElementById('google-alert');
 
-        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
-        if (e.key === 'Enter' && alerta.classList.contains('show')) {{
-            e.preventDefault();
-            e.stopPropagation();
-            hideAlert();
-            return; // Detiene la ejecución aquí para que no afecte a la calculadora
-        }}
+    function resetRow(sel) {{
+    let r = sel.closest('tr');
+    if (!r) return;
 
-        // Lógica de la calculadora (solo si está seleccionada)
-        if (document.activeElement === calc) {{
-            if (e.key >= '0' && e.key <= '9') an(e.key);
-            if (e.key === '+') ao('+');
-            if (e.key === '-') ao('-');
-            if (e.key === '*') ao('*');
-            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
-            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
-            if (e.key === 'Escape') cl();
-            if (e.key === 'Backspace') del();
+    let unidadSeleccionada = sel.value;
+
+    // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros como antes
+    if (unidadSeleccionada === "") {{
+        r.querySelector('.u-manual').innerText = "0";
+        r.querySelector('.spr-real-val').innerText = "0";
+        editedRowsPlan.delete(r);
+        recalc();
+        return;
+    }}
+
+    // 2. ¡DÉJALO EN AUTOMÁTICO MANUAL! 
+    // Al elegir la unidad, le asignamos 1 por defecto
+    let spanU = r.querySelector('.u-manual');
+    if (spanU) {
+        spanU.innerText = "1";
+    }}
+
+    // 3. Jalar el SPR Máx automáticamente según la pestaña activa
+    let tabId = "SDE";
+    let activeTabBtn = document.querySelector('.tab-btn.active');
+    if (activeTabBtn) {{
+        let tabTexto = activeTabBtn.textContent.trim();
+        if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) tabId = tabTexto;
+    }}
+    // Verificación especial para el bloque 4 (PREC_SMX2)
+    let polyContainer = sel.closest('[id^="polys-"]');
+    if (polyContainer && polyContainer.id.includes("4")) {{
+        tabId = "PREC_SMX2";
+    }}
+
+    // Buscamos el valor en el diccionario original que te da Python
+    if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][unidadSeleccionada]) {{
+        let infoUnidad = flotasDict[tabId][unidadSeleccionada];
+        let sprMaximo = infoUnidad[1] || infoUnidad[0] || 0; // Toma el SPR Máx
+        
+        let spanS = r.querySelector('.spr-real-val');
+        if (spanS) {{
+            spanS.innerText = sprMaximo; // Lo inyecta directo en la columna de SPR Real
         }}
-    }});
+    }}
+
+    // 4. Forzamos a que se ejecute tu manualEdit nativo pasándole el cuadro de unidades.
+    // Esto hace que tu código calcule el volumen total, reste de la flota y pinte los colores correctos activos.
+    if (typeof manualEdit === 'function' && spanU) {{
+        manualEdit(spanU);
+    }} else {{
+        recalc();
+    }}
+}}
 
 
 
