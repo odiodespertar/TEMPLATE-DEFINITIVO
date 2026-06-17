@@ -441,7 +441,7 @@ def gen_poligonos(data_target=None):
         else:
              rowspan_actual = 3
 
-        # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON SUS OPCIONES ===
+       # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON LAS UNIDADES CORRECTAS ===
         fila_inner = f'''
         <tr class="calc-row">
             <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -462,7 +462,8 @@ def gen_poligonos(data_target=None):
                 <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{{select_style}} color: #808080;"> 
                     <option value="">Seleccionar...</option>'''
         
-        for name_u in lista_unidades:
+        # Obtenemos dinámicamente las unidades del diccionario asignado a la pestaña
+        for name_u in list(dict_flota.keys()):
             fila_inner += f'<option value="{name_u}">{name_u}</option>'
             
         fila_inner += f'''
@@ -478,9 +479,9 @@ def gen_poligonos(data_target=None):
         else:
              filas_extra = f"{fila_inner}{fila_inner}"
 
-        # === CONSTRUCCIÓN DINÁMICA DE LA OPCIÓN DESPLEGABLE EN LA FILA MASTER ===
+        # === CONSTRUCCIÓN DINÁMICA DE LAS OPCIONES PARA LA FILA MASTER ===
         opciones_select_master = '<option value="">Seleccionar...</option>'
-        for name_u in lista_unidades:
+        for name_u in list(dict_flota.keys()):
             opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
         
         polys += f'''
@@ -529,16 +530,16 @@ def gen_poligonos(data_target=None):
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
                     {filas_extra}
-                    {""}
                     <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
-                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td>
+                        <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td>
                     </tr>
                     
                 </tbody>
             </table>
         </div>'''
+
     return polys
 
 
