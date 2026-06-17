@@ -241,7 +241,6 @@ def gen_poligonos(data_target=None):
     es_sde = (data_target == u_SDE)
     es_prec = (data_target == u_PREC)
 
-    
     # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
     
@@ -249,26 +248,18 @@ def gen_poligonos(data_target=None):
     span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
     
-    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
+    # ESTILO DEL SELECTOR RECALIBRADO
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
-
 
     fila_nodos = '''
 <tr class="fila-nodos">
-    <td style="background:#ededed; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#FF6347;">
-        NODOS
-    </td>
-    <td contenteditable="true"
-        class="nodos-val"
-        style="border:1.0px solid #135b83; text-align:center; font-weight:bold;">
-        0
-    </td>
+    <td style="background:#ededed; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#FF6347;"> NODOS </td>
+    <td contenteditable="true" class="nodos-val" style="border:1.0px solid #135b83; text-align:center; font-weight:bold;"> 0 </td>
     <td colspan="2" style="border:0.5px solid #135b83;"></td>
 </tr>
 '''
-
-
     
+    # Fila interna dinámica para agregar de manera limpia las opciones de selección
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -287,262 +278,127 @@ def gen_poligonos(data_target=None):
         </td>
         <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
-                <option value="">Seleccionar...</option>
+                <option value="">Seleccionar...</option>'''
+                
+    if data_target and isinstance(data_target, dict):
+        for name_u in list(data_target.keys()):
+            fila_inner += f'<option value="{name_u}">{name_u}</option>'
+            
+    fila_inner += f'''
             </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
-
-
     campo_volumen_normal = '''
 <div style="text-align:center;">
-    <span class="v-total-val"
-          contenteditable="true"
-          oninput="recalc()"
-          style="
-            display:inline-block;
-            min-width:55px;
-            padding:2px 8px;
-            border:none;
-            border-radius:4px;
-            background:#ededed;
-            font-size:22px;
-            font-weight:bold;
-            color:#808080;
-            text-align:center;
-          ">
-        0
-    </span>
+    <span class="v-total-val" contenteditable="true" oninput="recalc()" style=" display:inline-block; min-width:55px; padding:2px 8px; border:none; border-radius:4px; background:#ededed; font-size:22px; font-weight:bold; color:#808080; text-align:center; "> 0 </span>
 </div>
 '''
 
-    
     campo_volumen_c1 = '''
 <div style="text-align:center;">
-    <span class="v-total-val"
-          contenteditable="true"
-          oninput="recalc()"
-          style="
-            display:inline-block;
-            min-width:55px;
-            padding:2px 8px;
-            border:none;
-            border-radius:4px;
-            background:#ededed;
-            font-size:22px;
-            font-weight:bold;
-            color:#808080;
-            text-align:center;
-          ">
-        0
-    </span>
+    <span class="v-total-val" contenteditable="true" oninput="recalc()" style=" display:inline-block; min-width:55px; padding:2px 8px; border:none; border-radius:4px; background:#ededed; font-size:22px; font-weight:bold; color:#808080; text-align:center; "> 0 </span>
 </div>
-
 <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
-
-<div style="font-size:13px;font-weight:bold;color:#135b83;">
-    Nodos:
-    <span class="nodos-val"
-      contenteditable="true"
-      style="
-        display:inline-block;
-        min-width:28px;
-        text-align:center;
-        border:none;
-        border-radius:4px;
-        background:#ededed;
-        font-size:16px;
-        font-weight:bold;
-        color:#FF6347;
-        padding:0 4px;
-        margin-left:3px;
-      ">
-    0
-</span>
-</div>
+<div style="font-size:13px;font-weight:bold;color:#135b83;"> Nodos: <span class="nodos-val" contenteditable="true" style=" display:inline-block; min-width:28px; text-align:center; border:none; border-radius:4px; background:#ededed; font-size:16px; font-weight:bold; color:#FF6347; padding:0 4px; margin-left:3px; "> 0 </span> </div>
 '''
 
     campo_campeche = '''
 <div style="text-align:center;">
-    <span class="v-total-val"
-          contenteditable="true"
-          oninput="recalc()"
-          style="
-            display:inline-block;
-            min-width:55px;
-            padding:2px 8px;
-            border:none;
-            border-radius:4px;
-            background:#ededed;
-            font-size:22px;
-            font-weight:bold;
-            color:#808080;
-            text-align:center;
-          ">
-        0
-    </span>
+    <span class="v-total-val" contenteditable="true" oninput="recalc()" style=" display:inline-block; min-width:55px; padding:2px 8px; border:none; border-radius:4px; background:#ededed; font-size:22px; font-weight:bold; color:#808080; text-align:center; "> 0 </span>
 </div>
-
 <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
-
-<div style="font-size:13px;font-weight:bold;color:#135b83;">
-    Nodos:
-    <span class="nodos-campeche"
-          contenteditable="true"
-          style="
-            display:inline-block;
-            min-width:28px;
-            text-align:center;
-            border:none;
-            border-radius:4px;
-            background:#ededed;
-            font-size:16px;
-            font-weight:bold;
-            color:#FF6347;
-            padding:0 4px;
-            margin-left:3px;
-          ">
-        0
-    </span>
-</div>
+<div style="font-size:13px;font-weight:bold;color:#135b83;"> Nodos: <span class="nodos-campeche" contenteditable="true" style=" display:inline-block; min-width:28px; text-align:center; border:none; border-radius:4px; background:#ededed; font-size:16px; font-weight:bold; color:#FF6347; padding:0 4px; margin-left:3px; "> 0 </span> </div>
 '''
 
+    # Opciones dinámicas para el select de la fila principal (Master Row)
+    opciones_select_master = '<option value="">Seleccionar...</option>'
+    if data_target and isinstance(data_target, dict):
+        for name_u in list(data_target.keys()):
+            opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
 
-    
-   for i in range(1, 11):
-
+    for i in range(1, 11):
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
-             nombre_final = nombres_smx2[i-1]
-
+            nombre_final = nombres_smx2[i-1]
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
-             nombre_final = NOMBRES_PLANES_C1[i-1]
-
+            nombre_final = NOMBRES_PLANES_C1[i-1]
         else:
-             nombre_final = f"PLAN {i}"
+            nombre_final = f"PLAN {i}"
 
-        # Asignación del contenido del volumen según el plan
         if nombre_final == "CAMPECHE":
-             contenido_volumen = campo_campeche
-
+            contenido_volumen = campo_campeche
         elif es_c1:
-             contenido_volumen = campo_volumen_c1
-
+            contenido_volumen = campo_volumen_c1
         else:
-             contenido_volumen = campo_volumen_normal
+            contenido_volumen = campo_volumen_normal
 
         if es_sde:
-             rowspan_actual = 5
+            rowspan_actual = 5
         elif es_prec:
-             rowspan_actual = 4
+            rowspan_actual = 4
         else:
-             rowspan_actual = 3
-
-        # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON LAS UNIDADES CORRECTAS ===
-        fila_inner = f'''
-        <tr class="calc-row">
-            <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
-                <div style="{div_flex}">
-                    <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                    <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #0c3a54 !important;">0</span>
-                    <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-                </div>
-            </td>
-            <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
-                <div style="{div_flex}">
-                    <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr} color: #0c3a54 !important;">0</span>
-                    <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-                </div>
-            </td>
-            <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-                <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
-                    <option value="">Seleccionar...</option>'''
-        
-        # Obtenemos dinámicamente las unidades del diccionario del plan actual usando data_target
-        if data_target and isinstance(data_target, dict):
-            for name_u in list(data_target.keys()):
-                fila_inner += f'<option value="{name_u}">{name_u}</option>'
-            
-        fila_inner += f'''
-                </select>
-            </td>
-            <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
-        </tr>'''
+            rowspan_actual = 3
 
         if es_sde:
-             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
         elif es_prec:
-             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
         else:
-             filas_extra = f"{fila_inner}{fila_inner}"
+            filas_extra = f"{fila_inner}{fila_inner}"
 
-        # === CONSTRUCCIÓN DINÁMICA DE LAS OPCIONES PARA LA FILA MASTER ===
-        opciones_select_master = '<option value="">Seleccionar...</option>'
-        if data_target and isinstance(data_target, dict):
-            for name_u in list(data_target.keys()):
-                opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
-        
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">            
-            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
-                <thead>
-                    <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th>
-                        <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
-                        <th style="width: 80px, border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;"> 
+            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;"> 
+                <thead> 
+                    <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;"> 
+                        <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th> 
+                        <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th> 
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># ASIGNADAS</th> 
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th> 
+                        <th style="width: 80px, border-right: 1px solid #135b83;">TIPO DE UNIDAD</th> 
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
-                    </tr>
-                </thead>
-                <tbody>
+                    </tr> 
+                </thead> 
+                <tbody> 
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
-                        <td rowspan="{rowspan_actual}"
-                            style="color:#808080;
-                                   font-weight:bold;
-                                   text-align:center;
-                                   border:1px solid #135b83;
-                                   padding:5px;">
-                            {contenido_volumen}
-                        </td>
-                        <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
-                            <div style="{div_flex}">
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td> 
+                        <td rowspan="{rowspan_actual}" style="color:#808080; font-weight:bold; text-align:center; border:1px solid #135b83; padding:5px;"> {contenido_volumen} </td> 
+                        <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;"> 
+                            <div style="{div_flex}"> 
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
-                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span>
-                                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
-                            </div>
-                        </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
-                            <div style="{div_flex}">
-                                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
-                                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
-                            </div>
-                        </td>
-                        <td style="border: 0.5px solid #135b83; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
-                                {opciones_select_master}
-                            </select>
-                        </td>
-                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
-                    </tr>
-                    {filas_extra}
-                    <tr style="background:#ededed; height: 32px;">
-                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
-                        <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span> 
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button> 
+                            </div> 
+                        </td> 
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;"> 
+                            <div style="{div_flex}"> 
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button> 
+                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span> 
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button> 
+                            </div> 
+                        </td> 
+                        <td style="border: 0.5px solid #135b83; padding: 2px;"> 
+                            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}"> 
+                                {opciones_select_master} 
+                            </select> 
+                        </td> 
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td> 
+                    </tr> 
+                    {filas_extra} 
+                    <tr style="background:#ededed; height: 32px;"> 
+                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td> 
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td> 
+                        <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td> 
+                    </tr> 
+                </tbody> 
+            </table> 
         </div>'''
-
+        
     return polys
+
 
 
 # --- PERFILES LIMPIOS (DESACTIVADOS) ---
