@@ -2304,7 +2304,7 @@ actualizarDosPorciento();
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
-  function resetRow(sel) {{ 
+ function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
 
@@ -2313,7 +2313,7 @@ actualizarDosPorciento();
 
         let unidadSeleccionada = sel.value;
 
-        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros
+        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros exactamente como antes
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -2322,11 +2322,11 @@ actualizarDosPorciento();
             return;
         }}
 
-        // 2. Capturamos el Volumen Total que ingresaste en la celda gris de este polígono
+        // 2. Capturamos el Volumen Total ingresado en la celda gris de este polígono
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
-        // 3. Extracción automática del SPR Máximo desde tu pantalla (Flotante o Tabla Master)
+        // 3. Extracción del SPR Máximo desde tu pantalla (Tabla de Disponibilidad de Flota)
         let sprEncontrado = 0;
         let filasFlota = document.querySelectorAll('.master-row');
         for (let filaFlota of filasFlota) {{
@@ -2340,38 +2340,57 @@ actualizarDosPorciento();
             }}
         }}
 
-        // 4. Inyectamos el valor recuperado en la columna de SPR Real de tu fila actual
+        // Inyectamos el valor del SPR Máx en el SPR Real de la fila
         let spanS = r.querySelector('.spr-real-val');
         if (spanS) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 5. Matemáticas del distribuidor automático (Volumen / SPR Real redondeado hacia arriba)
+        // 4. Matemáticas automáticas: Volumen / SPR Real (Redondeado hacia arriba)
         let unidadesCalculadas = 1; 
         if (volumenTotal > 0 && sprEncontrado > 0) {{
             unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
         }}
 
-        // Inyectamos el resultado real en la columna de # Asignadas
+        // Inyectamos el cálculo en el cuadro de # Asignadas
         let spanU = r.querySelector('.u-manual');
         if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 6. 🔥 CONEXIÓN REPARADA Y LIBERACIÓN DEL ENTER 🔥
-        // Ejecutamos tu manualEdit original para que procese el cambio y reste de la flota,
-        // pero usamos un mini retraso (setTimeout) de 0 milisegundos. Esto permite que JavaScript 
-        // termine de renderizar el cambio, despierte las alertas nativas y deje el teclado libre 
-        // para que cuando des "Enter", el document.addEventListener lo capture y cierre la alerta en rojo.
-        setTimeout(() => {{
-            if (typeof manualEdit === 'function' && spanU) {{
-                manualEdit(spanU);
-            }} else {{
-                recalc();
-            }}
-        }}, 0);
+        // 5. Corremos tu manualEdit original para procesar los totales y restar de la flota
+        if (typeof manualEdit === 'function' && spanU) {{
+            manualEdit(spanU);
+        }} else {{
+            recalc();
+        }}
     }}
+    
+    // === TU LÓGICA DE TECLADO Y ENTER QUEDA INTACTA AQUÍ ABAJO ===
+    document.addEventListener('keydown', (e) => {{
+        const calc = document.getElementById('calc_wrapper');
+        const alerta = document.getElementById('google-alert');
 
+        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
+        if (e.key === 'Enter' && alerta.classList.contains('show')) {{
+            e.preventDefault();
+            e.stopPropagation();
+            hideAlert();
+            return; // Detiene la ejecución aquí para que no afecte a la calculadora
+        }}
+
+        // Lógica de la calculadora (solo si está seleccionada)
+        if (document.activeElement === calc) {{
+            if (e.key >= '0' && e.key <= '9') an(e.key);
+            if (e.key === '+') ao('+');
+            if (e.key === '-') ao('-');
+            if (e.key === '*') ao('*');
+            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
+            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
+            if (e.key === 'Escape') cl();
+            if (e.key === 'Backspace') del();
+        }}
+    }});
 
 
 function toggleExcelView() {{
