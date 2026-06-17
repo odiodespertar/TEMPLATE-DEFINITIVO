@@ -2322,7 +2322,7 @@ actualizarDosPorciento();
     // 2. ¡DÉJALO EN AUTOMÁTICO MANUAL! 
     // Al elegir la unidad, le asignamos 1 por defecto
     let spanU = r.querySelector('.u-manual');
-    if (spanU) {
+    if (spanU) {{
         spanU.innerText = "1";
     }}
 
