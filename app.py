@@ -441,17 +441,50 @@ def gen_poligonos(data_target=None):
         else:
              rowspan_actual = 3
 
-        if es_sde:
-            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
-        elif es_prec:
-            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
-        else:
-            filas_extra = f"{fila_inner}{fila_inner}"
-
+        # === CONSTRUCCIÓN DINÁMICA DE FILA_INNER CON SUS OPCIONES ===
+        fila_inner = f'''
+        <tr class="calc-row">
+            <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                <div style="{{div_flex}}">
+                    <button style="{{btn_s}}" onclick="stepVal(this, -1, 'u')">-</button>
+                    <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{{span_num_u}}color: #0c3a54 !important;">0</span>
+                    <button style="{{btn_s}}" onclick="stepVal(this, 1, 'u')">+</button>
+                </div>
+            </td>
+            <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+                <div style="{{div_flex}}">
+                    <button style="{{btn_s}}" onclick="stepVal(this, -1, 's')">-</button>
+                    <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{{span_num_spr}} color: #0c3a54 !important;">0</span>
+                    <button style="{{btn_s}}" onclick="stepVal(this, 1, 's')">+</button>
+                </div>
+            </td>
+            <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
+                <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{{select_style}} color: #808080;"> 
+                    <option value="">Seleccionar...</option>'''
         
+        for name_u in lista_unidades:
+            fila_inner += f'<option value="{name_u}">{name_u}</option>'
+            
+        fila_inner += f'''
+                </select>
+            </td>
+            <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+        </tr>'''
+
+        if es_sde:
+             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+        elif es_prec:
+             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
+        else:
+             filas_extra = f"{fila_inner}{fila_inner}"
+
+        # === CONSTRUCCIÓN DINÁMICA DE LA OPCIÓN DESPLEGABLE EN LA FILA MASTER ===
+        opciones_select_master = '<option value="">Seleccionar...</option>'
+        for name_u in lista_unidades:
+            opciones_select_master += f'<option value="{name_u}">{name_u}</option>'
         
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">            
             <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
                 <thead>
                     <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
@@ -489,8 +522,8 @@ def gen_poligonos(data_target=None):
                             </div>
                         </td>
                         <td style="border: 0.5px solid #135b83; padding: 2px;">
-                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
-                                <option>Seleccionar...</option>
+                            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
+                                {opciones_select_master}
                             </select>
                         </td>
                         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
@@ -2302,33 +2335,36 @@ actualizarDosPorciento();
         document.getElementById('crono-main').innerText = `${{h}}:${{m}}:${{s}}.${{ms}}`;
     }}
 
+
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
-    function resetRow(sel) {{ let r=sel.closest('tr'); r.querySelector('.u-manual').innerText="0"; r.querySelector('.spr-real-val').innerText="0"; editedRowsPlan.delete(r); recalc(); }}
+
+
+    function resetRow(selectEl) {{
+    // 1. Buscamos la fila contenedora (.calc-row) para saber qué polígono se está editando
+    let fila = selectEl.closest('.calc-row');
+    if (!fila) return;
+
+    // 2. Localizamos la casilla de unidades asignadas (# ASIGNADAS) de esta fila
+    let inputAsignadas = fila.querySelector('.u-manual');
     
-   document.addEventListener('keydown', (e) => {{
-        const calc = document.getElementById('calc_wrapper');
-        const alerta = document.getElementById('google-alert');
-
-        // Si la alerta está visible (tiene la clase 'show'), el Enter la cierra y NO hace nada más
-        if (e.key === 'Enter' && alerta.classList.contains('show')) {{
-            e.preventDefault();
-            e.stopPropagation();
-            hideAlert();
-            return; // Detiene la ejecución aquí para que no afecte a la calculadora
+    if (inputAsignadas) {{
+        // Si el usuario selecciona una unidad válida (diferente a vacío o "Seleccionar...")
+        if (selectEl.value !== "" && selectEl.value !== "Seleccionar...") {{
+            // Si la casilla está en 0, le ponemos un 1 automático como ayuda inicial
+            if (inputAsignadas.innerText.trim() === "0") {{
+                inputAsignadas.innerText = "1";
+            }}
+        }} else {{
+            // Si el usuario regresa el selector a "Seleccionar...", reiniciamos la asignación a 0
+            inputAsignadas.innerText = "0";
         }}
+    }}
 
-        // Lógica de la calculadora (solo si está seleccionada)
-        if (document.activeElement === calc) {{
-            if (e.key >= '0' && e.key <= '9') an(e.key);
-            if (e.key === '+') ao('+');
-            if (e.key === '-') ao('-');
-            if (e.key === '*') ao('*');
-            if (e.key === '/') {{ e.preventDefault(); ao('/'); }}
-            if (e.key === 'Enter') {{ e.preventDefault(); calc_eq(); }}
-            if (e.key === 'Escape') cl();
-            if (e.key === 'Backspace') del();
-        }}
-    }});
+    // 3. Ejecutar el recálculo general del monitor para que suba la información de inmediato a la flota
+    if (typeof recalc === "function") {{
+        recalc();
+    }}
+}}
 
 
 
