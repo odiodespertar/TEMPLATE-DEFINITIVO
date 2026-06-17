@@ -2361,21 +2361,24 @@ actualizarDosPorciento();
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 5. ADICIÓN MANUAL INFINITA DE FILAS (C1, SDE, PREC)
-        let tabId = "SDE";
-        let activeTabBtn = document.querySelector('.tab-btn.active');
-        if (activeTabBtn) {{
-            tabId = activeTabBtn.textContent.trim();
-        }}
-        
+        // 5. 🔥 ADICIÓN MANUAL INFINITA: REGLAS PARA C1, SDE Y PREC 🔥
         let permiteInfinito = false;
         let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
 
-        if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
-            permiteInfinito = true;
-        }} else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-            permiteInfinito = true;
+        // Leemos la pestaña activa directamente de tus botones superiores
+        let activeTabBtn = document.querySelector('.tab-btn.active');
+        if (activeTabBtn) {{
+            let tabId = activeTabBtn.textContent.trim();
+            
+            // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
+            if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                permiteInfinito = true;
+            }} 
+            // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
+            else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
+                permiteInfinito = true;
         }}
+
 
         if (permiteInfinito && tbody) {{
             let filasCalculo = tbody.querySelectorAll('tr.calc-row');
