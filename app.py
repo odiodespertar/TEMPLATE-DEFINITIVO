@@ -61,7 +61,7 @@ NOMBRES_PLANES_C1 = [
     "SEYBAPLAYA",
     "CHAMPOTÓN",
     "HOLPECHEN",
-    "PLAN 9",
+    "CALKINI",
     "PLAN 10"
 ]
 
@@ -289,6 +289,9 @@ def gen_poligonos(data_target=None):
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                 <option value="">Seleccionar...</option>
             </select>
+        </td>
+        <td style="width: 40px; text-align: center; border: 0.5px solid #135b83;">
+            <button type="button" onclick="cancelarPlan(this)" style="background:none; border:none; color:red; font-size:16px; font-weight:bold; cursor:pointer;">X</button>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
@@ -2406,11 +2409,16 @@ function manualEdit(el) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 4. Matemáticas automáticas: Volumen / SPR Real (Redondeado hacia arriba)
+        // 4. Matemáticas automáticas
         let unidadesCalculadas = 1; 
-        if (volumenTotal > 0 && sprEncontrado > 0) {{
+        
+        // --- INICIO DE TU SOLICITUD ---
+        if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
+            unidadesCalculadas = 1;
+        }} else if (volumenTotal > 0 && sprEncontrado > 0) {{
             unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
         }}
+        // --- FIN DE TU SOLICITUD ---
 
         // Inyectamos el cálculo en el cuadro de # Asignadas
         let spanU = r.querySelector('.u-manual');
@@ -2495,6 +2503,30 @@ function manualEdit(el) {{
             if (e.key === 'Backspace') del();
         }}
     }});
+
+
+
+function cancelarPlan(btn) {{
+    let fila = btn.closest('tr');
+    if (!fila) return;
+
+    // Validación: Solo para C1
+    let activeTabBtn = document.querySelector('.tab-btn.active');
+    if (!activeTabBtn || activeTabBtn.textContent.trim() !== "C1") {{
+        return; 
+    }}
+
+    fila.querySelector('.s-type').value = "";
+    fila.querySelector('.s-type').style.color = "#808080";
+    fila.querySelector('.u-manual').innerText = "0";
+    fila.querySelector('.spr-real-val').innerText = "0";
+    
+    let check = fila.querySelector('.ok-check');
+    if (check) check.checked = false;
+
+    recalc(); // Esto es vital para actualizar los totales
+}}
+
 
 
 
