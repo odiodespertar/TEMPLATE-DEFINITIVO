@@ -2304,60 +2304,57 @@ actualizarDosPorciento();
 
     function manualEdit(el) {{ editedRowsPlan.add(el.closest('tr')); recalc(); }}
 
-    function resetRow(sel) {{
-    let r = sel.closest('tr');
-    if (!r) return;
+   function resetRow(sel) {{ 
+        let r = sel.closest('tr');
+        if (!r) return;
 
-    let unidadSeleccionada = sel.value;
+        let unidadSeleccionada = sel.value;
 
-    // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros como antes
-    if (unidadSeleccionada === "") {{
-        r.querySelector('.u-manual').innerText = "0";
-        r.querySelector('.spr-real-val').innerText = "0";
-        editedRowsPlan.delete(r);
-        recalc();
-        return;
-    }}
+        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros como tu código original
+        if (unidadSeleccionada === "") {{
+            r.querySelector('.u-manual').innerText = "0";
+            r.querySelector('.spr-real-val').innerText = "0";
+            editedRowsPlan.delete(r);
+            recalc();
+            return;
+        }}
 
-    // 2. ¡DÉJALO EN AUTOMÁTICO MANUAL! 
-    // Al elegir la unidad, le asignamos 1 por defecto
-    let spanU = r.querySelector('.u-manual');
-    if (spanU) {{
-        spanU.innerText = "1";
-    }}
+        // 2. Al elegir una unidad válida, le asignamos 1 unidad asignada por default
+        let spanU = r.querySelector('.u-manual');
+        if (spanU) {{
+            spanU.innerText = "1";
+        }}
 
-    // 3. Jalar el SPR Máx automáticamente según la pestaña activa
-    let tabId = "SDE";
-    let activeTabBtn = document.querySelector('.tab-btn.active');
-    if (activeTabBtn) {{
-        let tabTexto = activeTabBtn.textContent.trim();
-        if (["SDE", "C1", "C2", "PREC"].includes(tabTexto)) tabId = tabTexto;
-    }}
-    // Verificación especial para el bloque 4 (PREC_SMX2)
-    let polyContainer = sel.closest('[id^="polys-"]');
-    if (polyContainer && polyContainer.id.includes("4")) {{
-        tabId = "PREC_SMX2";
-    }}
-
-    // Buscamos el valor en el diccionario original que te da Python
-    if (typeof flotasDict !== 'undefined' && flotasDict[tabId] && flotasDict[tabId][unidadSeleccionada]) {{
-        let infoUnidad = flotasDict[tabId][unidadSeleccionada];
-        let sprMaximo = infoUnidad[1] || infoUnidad[0] || 0; // Toma el SPR Máx
+        // 3. Extracción automática del SPR Máximo desde tu pantalla (Flotante o Tabla Master)
+        let sprEncontrado = 0;
         
+        // Buscamos todas las filas de la tabla de flota disponibles en la página
+        let filasFlota = document.querySelectorAll('.master-row');
+        for (let filaFlota of filasFlota) {{
+            let celdaNombre = filaFlota.querySelector('.edit-name');
+            if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
+                // Extraemos el valor de la columna 'edit-spr-max' que ya está renderizada
+                let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
+                if (celdaSprMax) {{
+                    sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
+                }}
+                break;
+            }}
+        }}
+
+        // 4. Inyectamos el valor recuperado en la columna de SPR Real de tu fila actual
         let spanS = r.querySelector('.spr-real-val');
         if (spanS) {{
-            spanS.innerText = sprMaximo; // Lo inyecta directo en la columna de SPR Real
+            spanS.innerText = sprEncontrado;
+        }}
+
+        // 5. Ejecutamos tu manualEdit nativo original para que procese el cambio, reste de la flota y calcule
+        if (typeof manualEdit === 'function' && spanU) {{
+            manualEdit(spanU);
+        }} else {{
+            recalc();
         }}
     }}
-
-    // 4. Forzamos a que se ejecute tu manualEdit nativo pasándole el cuadro de unidades.
-    // Esto hace que tu código calcule el volumen total, reste de la flota y pinte los colores correctos activos.
-    if (typeof manualEdit === 'function' && spanU) {{
-        manualEdit(spanU);
-    }} else {{
-        recalc();
-    }}
-}}
 
 
 
