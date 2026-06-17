@@ -2346,9 +2346,8 @@ actualizarDosPorciento();
             spanS.innerText = sprEncontrado;
         }}
 
-        // 5. 🔥 ¡MATEMÁTICAS DEL DISTRIBUIDOR AUTOMÁTICO! 🔥
-        // Calculamos cuántas unidades se necesitan dividiendo el Volumen entre el SPR Encontrado
-        let unidadesCalculadas = 1; // Por defecto empezamos en 1
+        // 5. Matemáticas del distribuidor automático (Volumen / SPR Real redondeado hacia arriba)
+        let unidadesCalculadas = 1; 
         if (volumenTotal > 0 && sprEncontrado > 0) {{
             unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
         }}
@@ -2359,14 +2358,19 @@ actualizarDosPorciento();
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 6. Ejecutamos tu manualEdit nativo original para que procese el cambio y reste de la flota
-        if (typeof manualEdit === 'function' && spanU) {{
-            manualEdit(spanU);
-        }} else {{
-            recalc();
-        }}
+        // 6. 🔥 CONEXIÓN REPARADA Y LIBERACIÓN DEL ENTER 🔥
+        // Ejecutamos tu manualEdit original para que procese el cambio y reste de la flota,
+        // pero usamos un mini retraso (setTimeout) de 0 milisegundos. Esto permite que JavaScript 
+        // termine de renderizar el cambio, despierte las alertas nativas y deje el teclado libre 
+        // para que cuando des "Enter", el document.addEventListener lo capture y cierre la alerta en rojo.
+        setTimeout(() => {{
+            if (typeof manualEdit === 'function' && spanU) {{
+                manualEdit(spanU);
+            }} else {{
+                recalc();
+            }}
+        }}, 0);
     }}
-
 
 
 
