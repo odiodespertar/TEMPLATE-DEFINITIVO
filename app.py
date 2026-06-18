@@ -61,7 +61,7 @@ NOMBRES_PLANES_C1 = [
     "SEYBAPLAYA",
     "CHAMPOTÓN",
     "HOLPECHEN",
-    "PLAN 9",
+    "CALKINI",
     "PLAN 10"
 ]
 
