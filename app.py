@@ -433,7 +433,7 @@ def gen_poligonos(data_target=None):
     # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
     limite_tablas = 21 if data_target == u_C1_SJA1 else 11
     
-    for i in range(1, limite_tabla):
+    for i in range(1, limite_tablas): # <-- Asegúrate de que aquí tenga la "s" al final
 
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
@@ -442,8 +442,8 @@ def gen_poligonos(data_target=None):
              nombre_final = nombres_smx2[i-1]
 
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
-             nombre_final = NOMBRES_PLANES_C1[i-1]
-
+            nombre_final = NOMBRES_PLANES_C1[i-1]
+            
         elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
             nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
 
