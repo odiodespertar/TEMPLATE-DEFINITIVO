@@ -2571,260 +2571,150 @@ function manualEdit(el) {{
 
 function toggleExcelView() {{
 
-
-
     const isExcel = !document.body.classList.contains("excel-view");
-
     document.body.classList.toggle("excel-view", isExcel);
-
     
-
     let btn = document.getElementById("excel-btn");
-
     let excel = document.getElementById("excel-polys");
 
-
-
     let p1 = document.getElementById("polys-1");
-
     let p2 = document.getElementById("polys-2");
-
     let p4 = document.getElementById("polys-4");
-
     let p5 = document.getElementById("polys-5");
-
-
+    let p6 = document.getElementById("polys-6"); // 👈 Agregamos el elemento 6 de forma segura
 
     let styleId = "estilos-limpieza-excel";
-
     let styleEl = document.getElementById(styleId);
 
-
-
     if (document.body.classList.contains("excel-view")) {{
-
         generarExcelPolys();
-
         btn.innerHTML = "🔙 VISTA NORMAL";
 
-
-
         if(excel) excel.style.display = "block";
-
         if(p1) p1.style.display = "none";
-
         if(p2) p2.style.display = "none";
-
         if(p4) p4.style.display = "none";
-
         if(p5) p5.style.display = "none";
-
-
+        if(p6) p6.style.display = "none"; // 👈 Apagamos el bloque 6 en modo Excel
 
         if (!styleEl) {{
-
             styleEl = document.createElement("style");
-
             styleEl.id = styleId;
-
             styleEl.innerHTML = `
-
                 /* Ocultar encabezados de ORH y OCUPACIÓN en la tabla de arriba */
-
                 body.excel-view .meli-table th:nth-child(2),
-
                 body.excel-view .meli-table th:nth-child(3),
-
                 body.excel-view .meli-table td.edit-orh,
-
                 body.excel-view .meli-table td.edit-ocup {{
-
                     display: none !important;
-
                 }}
-
-
 
                 /* Ocultar las filas específicas de TOTAL MLP, DECLARADAS y CAR RUTEADAS */
-
                 body.excel-view #total-no-car-2,
-
                 body.excel-view #total-car-schedule-2,
-
                 body.excel-view #total-car-real-2,
-
                 body.excel-view tr:has(#total-no-car-2),
-
                 body.excel-view tr:has(#total-car-schedule-2),
-
                 body.excel-view tr:has(#total-car-real-2),
 
+                /* 👈 NUEVO: Ocultamos también los totales de tabla individuales de tu pestaña 6 */
+                body.excel-view #total-no-car-6,
+                body.excel-view #total-car-schedule-6,
+                body.excel-view #total-car-real-6,
+                body.excel-view tr:has(#total-no-car-6),
+                body.excel-view tr:has(#total-car-schedule-6),
+                body.excel-view tr:has(#total-car-real-6),
+
                 body.excel-view #total-no-car-1,
-
                 body.excel-view #total-car-schedule-1,
-
                 body.excel-view #total-car-real-1,
-
                 body.excel-view tr:has(#total-no-car-1),
-
                 body.excel-view tr:has(#total-car-schedule-1),
-
                 body.excel-view tr:has(#total-car-real-1),
-
                 body.excel-view #total-no-car-5,
-
                 body.excel-view #total-car-schedule-5,
-
                 body.excel-view #total-car-real-5,
-
                 body.excel-view tr:has(#total-no-car-5),
-
                 body.excel-view tr:has(#total-car-schedule-5),
-
                 body.excel-view tr:has(#total-car-real-5) {{
-
                     display: none !important;
-
                     visibility: hidden !important;
-
                     height: 0 !important;
-
                 }}
-
-
 
                 /* === FIJAR ALTURA MÁXIMA EN LAS FILAS DE UNIDADES OPERATIVAS === */
-
                 /* Obligamos a que todas las filas (incluyendo Delivery Cell) midan lo mismo */
-
                 body.excel-view .meli-table tbody tr:not(.fila-total) {{
-
                     height: 20px !important;
-
                     max-height: 20px !important;
-
                 }}
-
                 body.excel-view .meli-table tbody tr:not(.fila-total) td {{
-
                     height: 20px !important;
-
                     font-size: 11px !important;
-
                     padding: 2px 4px !important;
-
                     vertical-align: middle !important;
-
                 }}
-
-
 
                 /* === DISEÑO EXCLUSIVO PARA LA FILA INDEPENDIENTE DE TOTAL RUTEADAS === */
-
                 /* Regresamos a la estructura nativa de tabla para alinear perfectamente */
-
                 body.excel-view tr.fila-total,
-
                 body.excel-view tr:has(#total-ruteadas-2), 
-
+                body.excel-view tr:has(#total-ruteadas-6),  /* 👈 NUEVO: Barra master para la pestaña 6 */
                 body.excel-view tr:has(#total-ruteadas-1),
-
                 body.excel-view tr:has(#total-ruteadas-5) {{
-
                     display: table-row !important;
-
                     visibility: visible !important;
-
                     height: 26px !important;
-
                 }}
-
                 
-
                 /* Estilo en mayúsculas, súper negritas y ajuste del letrero */
-
                 body.excel-view tr.fila-total td[colspan],
-
                 body.excel-view tr:has(#total-ruteadas-2) td[colspan],
-
+                body.excel-view tr:has(#total-ruteadas-6) td[colspan], /* 👈 NUEVO */
                 body.excel-view tr:has(#total-ruteadas-1) td[colspan],
-
                 body.excel-view tr:has(#total-ruteadas-5) td[colspan] {{
-
                     font-size: 13px !important;
-
                     font-weight: 900 !important;
-
                     color: #0c3a54 !important;
-
                     text-transform: uppercase !important;
-
                     letter-spacing: 0.5px !important;
-
                     white-space: nowrap !important;
-
                     padding-right: 15px !important;
-
                     text-align: right !important;
-
                     height: 26px !important;
-
                     vertical-align: middle !important;
-
                 }}
-
-
 
                 /* Celda con el número en el recuadro naranja, perfectamente centrado */
-
                 body.excel-view #total-ruteadas-2,
-
+                body.excel-view #total-ruteadas-6, /* 👈 NUEVO */
                 body.excel-view #total-ruteadas-1,
-
                 body.excel-view #total-ruteadas-5 {{
-
                     font-size: 15px !important;
-
                     font-weight: 900 !important;
-
                     color: #FF8C00 !important;
-
                     text-align: center !important;
-
                     height: 26px !important;
-
                     vertical-align: middle !important;
-
                 }}
-
             `;
-
             document.head.appendChild(styleEl);
-
         }}
 
-
-
     }} else {{
-
         btn.innerHTML = "📸 VISTA EXCEL";
-
         if(excel) excel.style.display = "none";
-
-        if(p1) p1.style.display = "none";
-
-        if(p2) p2.style.display = "block";
-
-        if(p4) p4.style.display = "none";
-
-        if(p5) p5.style.display = "none";
+        
+        // 🚨 AQUÍ ESTÁ LA REPARACIÓN ABSOLUTA: Restauramos el encendido dinámico original de todas tus pestañas 🚨
+        if(p1) p1.style.display = (currentTab === 1) ? "block" : "none";
+        if(p2) p2.style.display = (currentTab === 2) ? "block" : "none";
+        if(p4) p4.style.display = (currentTab === 4) ? "block" : "none";
+        if(p5) p5.style.display = (currentTab === 5) ? "block" : "none";
+        if(p6) p6.style.display = (currentTab === 6) ? "block" : "none"; // 👈 Apaga o prende SJA1 según corresponda
 
         if (styleEl) styleEl.remove();
-
     }}
-
-}} 
-
+}}
 
 
 
