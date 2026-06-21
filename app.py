@@ -73,6 +73,27 @@ u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
+# --- DATOS NUEVOS PARA C1 SJA1 ---
+u_C1_SJA1 = {
+    "Rental Large Van": [100, 100], 
+    "Large Van MLP": [100, 100], 
+    "Small Van MLP": [100, 100], 
+    "Extra Large Van MLP H&B": [120, 130], 
+    "Truck 3.5 tons MLP": [200, 220], 
+    "Media milla SP": [150, 160], 
+    "Delivery Cell Large Van": [1, 1], 
+    "Delivery Cell Small Van": [1, 1]
+}
+
+NOMBRES_PLANES_C1_SJA1 = [
+    "CENTRO", "EJA1", "XICO", "TEZUITLAN", "CENTRO 2", 
+    "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
+    "EJA1 2", "NAOLINCO", "ACTOPAN", "BULK", "NEXT DAY ACHICHILCA", 
+    "MEGANODO", "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
+]
+
+
+
 # ================= ORH POR UNIDAD =================
 
 ORH_FIJOS = {
@@ -114,7 +135,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
-    mostrar_orh_ocup = (table_id in [1, 2])
+    mostrar_orh_ocup = (table_id in [1, 2, 6])
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -409,8 +430,10 @@ def gen_poligonos(data_target=None):
 '''
 
 
+    # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
+    limite_tablas = 21 if data_target == u_C1_SJA1 else 11
     
-    for i in range(1, 11):
+    for i in range(1, limite_tabla):
 
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
@@ -420,6 +443,9 @@ def gen_poligonos(data_target=None):
 
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
              nombre_final = NOMBRES_PLANES_C1[i-1]
+
+        elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
+            nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
 
         else:
              nombre_final = f"PLAN {i}"
@@ -1050,6 +1076,7 @@ body.excel-view .spr-real-val{{
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+                <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
                 <!--
                 <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
@@ -1200,6 +1227,48 @@ body.excel-view .spr-real-val{{
         </tfoot>
     </table>
 </div>
+
+
+
+<div id="tab-6" class="t-content" style="display:none;">
+    <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+        <thead>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
+                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+                <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
+                <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
+            </tr>
+        </thead>
+        <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
+        <tfoot class="fila-total"> 
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR DECLARADAS</td>
+                <td id="total-car-schedule-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR RUTEADAS</td>
+                <td id="total-car-real-6" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold !important;">0</td>
+            </tr>       
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
+                <td id="total-ruteadas-6" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold !important;">0</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
 
        
         <div id="tab-1" class="t-content" style="display:none;">
@@ -1534,6 +1603,7 @@ body.excel-view .spr-real-val{{
 </div>
         
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
+        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
@@ -1839,13 +1909,11 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 function showTab(n, btn) {{
 
-    document.body.classList.remove("excel-view"); // 👈 IMPORTANTE
+    document.body.classList.remove("excel-view"); 
 
     currentTab = n;
-
     document.querySelectorAll('.p-content, .t-content')
         .forEach(el => el.style.display = 'none');
-
     document.querySelectorAll('.tab-btn')
         .forEach(b => b.classList.remove('active'));
 
@@ -1858,11 +1926,10 @@ function showTab(n, btn) {{
 
     updateFleetFloat();
 
-    // 👇 AQUÍ VA EL CONTROL FINAL DEL BOTÓN EXCEL
     const excelBtn = document.getElementById('excel-btn');
-
     if (excelBtn) {{
-        excelBtn.style.display = (n === 2) ? 'inline-block' : 'none';
+        // Habilitado para C1 (2) y C1 SJA1 (6)
+        excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
     }}
 }}
 
@@ -1975,8 +2042,7 @@ function actualizarDosPorciento() {{
         let fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
-        // Guardamos el identificador real que usan los elementos HTML en pantalla
-        let tabId = (currentTab === 'C1') ? '2' : currentTab;
+        let tabId = currentTab;
         // ----------------------------------------------------
 
         // 1. Capturar datos de la flota (Tabla de arriba)
@@ -2644,7 +2710,7 @@ function generarExcelPolys() {{
     if(!body) return;
 
     body.innerHTML = "";
-    let tabId = (currentTab === 'C1') ? '2' : currentTab;
+    let tabId = currentTab;
 
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
         let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
@@ -3859,35 +3925,33 @@ if (currentTab == 2) {{
 let unidad;
 
 // =================================
-// REGLAS ESPECIALES C1
+// REGLAS ESPECIALES C1 Y C1 SJA1
 // =================================
 
-if (
-    currentTab == 2 &&
-    nombrePlan == "CAMPECHE"
-) {{
-
-    unidad =
-        fleet.find(f =>
-            f.nombre === "Rental Large Van"
-        );
-
-}} else if (currentTab == 2) {{
-
-    unidad =
-        fleet.find(f =>
-            f.restante > 0 &&
-            f.nombre !== "Rental Large Van"
-        );
-
+if (currentTab == 6) {{
+    // Reglas exclusivas para C1 SJA1
+    if (nombrePlan === "BULK") {{
+        unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
+    }} else if (nombrePlan === "MEGANODO") {{
+        unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+    }} else if (nombrePlan === "EJA1" || nombrePlan === "EJA1 2") {{
+        unidad = fleet.find(f => f.nombre === "Media milla SP");
+    }} else {{
+        // El resto de planes usa unidades que no sean las tres especiales controladas arriba
+        unidad = fleet.find(f => f.restante > 0 && 
+                            f.nombre !== "Extra Large Van MLP H&B" && 
+                            f.nombre !== "Truck 3.5 tons MLP" && 
+                            f.nombre !== "Media milla SP");
+    }}
+}} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+    unidad = fleet.find(f => f.nombre === "Rental Large Van");
+} else if (currentTab == 2) {{
+    unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
 }} else {{
-
-    unidad =
-        fleet.find(f =>
-            f.restante > 0
-        );
-
+    unidad = fleet.find(f => f.restante > 0);
 }}
+
+
 
 
 
