@@ -3945,7 +3945,7 @@ if (currentTab == 6) {{
     }}
 }} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
-} else if (currentTab == 2) {{
+}} else if (currentTab == 2) {{
     unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
 }} else {{
     unidad = fleet.find(f => f.restante > 0);
