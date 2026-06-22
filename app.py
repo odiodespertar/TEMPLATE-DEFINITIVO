@@ -4576,6 +4576,11 @@ const ruteos = [
     {{
         nombre:"SMX5 PREC",
         hora:"21:30"
+    }},
+    
+    {{
+        nombre:"SJA1 C1",
+        hora:"23:30"
     }}
 
 ];
