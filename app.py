@@ -1075,7 +1075,7 @@ body.excel-view .spr-real-val{{
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
-                <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
+                <button class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
                 <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
                 <!--
@@ -2388,7 +2388,7 @@ function manualEdit(el) {{
                 let tabId = activeTabBtn.textContent.trim();
                 
                 // Regra A: C1 con Large Van MLP
-                if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
                 }} 
                 // Regla B: SDE o PREC con cualquier Car
@@ -2499,7 +2499,7 @@ function manualEdit(el) {{
             let tabId = activeTabBtn.textContent.trim();
             
             // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
-            if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+            if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                 permiteInfinito = true;
             }} 
             // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
