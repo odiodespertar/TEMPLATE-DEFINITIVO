@@ -75,12 +75,12 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 # --- DATOS NUEVOS PARA C1 SJA1 ---
 u_C1_SJA1 = { 
-    "Small Van MLP foráneo": [100, 100], 
-    "Large Van MLP foráneo": [110, 110], 
+    "Small Van MLP foráneo": [110, 120], 
+    "Large Van MLP foráneo": [110, 120], 
     "Extra Large Van MLP H&B": [70, 70],
-    "Rental Electric Large Van": [125, 125],
-    "Rental Large Van": [125, 125],
-    "Rental Replacement": [126, 126],
+    "Rental Electric Large Van": [150, 170],
+    "Rental Large Van": [150, 170],
+    "Rental Replacement": [150, 170],
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
