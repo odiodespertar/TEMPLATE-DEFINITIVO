@@ -74,22 +74,26 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 # --- DATOS NUEVOS PARA C1 SJA1 ---
-u_C1_SJA1 = {
-    "Rental Large Van": [100, 100], 
-    "Large Van MLP": [100, 100], 
-    "Small Van MLP": [100, 100],  
-    "Truck 3.5 tons MLP": [200, 220], 
-    "Extra Large Van MLP H&B": [120, 130],
-    "Media milla SP": [150, 160], 
-    "Delivery Cell Large Van": [1, 1], 
-    "Delivery Cell Small Van": [1, 1]
+u_C1_SJA1 = { 
+    "Large Van MLP foráneo": [100, 100], 
+    "Small Van MLP foráneo": [100, 100], 
+    "Extra Large Van MLP H&B": [60, 60],
+    "Rental Electric Large Van": [100, 100],
+    "Rental Large Van": [100, 100],
+    "Rental Replacement": [100, 100],
+    "Truck 3.5 tons MLP": [1, 1], 
+    "Media milla SP": [100, 100], 
+    "Car 8h": [70, 70], 
+    "Small Van 9h": [70, 70],
+    "Small Van 9h Ext": [70, 70],
+    "Moto 3h": [50, 50]
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
-    "CENTRO", "EJA1", "XICO", "TEZUITLAN", "CENTRO 2", 
+    "CENTRO", "EJA1 SP", "XICO", "TEZUITLAN", "CENTRO 2", 
     "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
-    "EJA1 2", "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ACHICHILCA", 
-    "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
+    "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ALCHICHICA", 
+    "PLAN 16", "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
 ]
 
 
