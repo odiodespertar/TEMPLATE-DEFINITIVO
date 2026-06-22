@@ -52,7 +52,7 @@ u_PREC_SMX2 = {
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
 
-NOMBRES_PLANES_C1_SCP1 = [
+NOMBRES_PLANES_C1 = [
     "ESCÁRCEGA",
     "CAMPECHE",
     "ESCÁRCEGA EXT",
@@ -69,7 +69,7 @@ u_C1 = {
     "Rental Large Van": [100, 100], "Large Van MLP": [100, 100], "Small Van MLP":[100, 100], "Delivery Cell Large Van": [1, 1], "Delivery Cell Small Van": [1, 1]
 }
 
-u_C2 = u_C1_SCP1.copy()
+u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
 
@@ -134,7 +134,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
-    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 SCP1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
+    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
     mostrar_orh_ocup = (table_id in [1, 2, 6])
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
@@ -176,7 +176,7 @@ def gen_master_rows(data_dict, table_id):
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
 
-            # ✅ Celdas extra visibles SOLO en C1 SCP1 y PREC SMX5
+            # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
@@ -1075,7 +1075,7 @@ body.excel-view .spr-real-val{{
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
-                <button class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
+                <button class="tab-btn active" onclick="showTab(2, this)">C1</button>
                 <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
                 <!--
@@ -2388,7 +2388,7 @@ function manualEdit(el) {{
                 let tabId = activeTabBtn.textContent.trim();
                 
                 // Regra A: C1 con Large Van MLP
-                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
                 }} 
                 // Regla B: SDE o PREC con cualquier Car
@@ -2499,7 +2499,7 @@ function manualEdit(el) {{
             let tabId = activeTabBtn.textContent.trim();
             
             // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
-            if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+            if (tabId === "C1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                 permiteInfinito = true;
             }} 
             // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
@@ -3642,7 +3642,7 @@ if (currentTab == 5) {{
 
 
     // =========================================
-// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1 SCP1
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
 // =========================================
 
 if (currentTab == 2) {{
@@ -3942,7 +3942,7 @@ if (currentTab == 2) {{
 let unidad;
 
 // =================================
-// REGLAS ESPECIALES C1 SCP1 Y C1 SJA1
+// REGLAS ESPECIALES C1 Y C1 SJA1
 // =================================
 
 if (currentTab == 6) {{
@@ -3998,7 +3998,7 @@ console.log("TAB:", currentTab);
                 );
         }}
 
-    }} else if (currentTab == 2) {{   // C1 SCP1
+    }} else if (currentTab == 2) {{   // C1
 
     unidad =
         fleet.find(f =>
