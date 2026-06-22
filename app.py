@@ -84,9 +84,9 @@ u_C1_SJA1 = {
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [100, 100], 
     "Car 8h": [70, 70], 
+    "Moto 3h": [50, 50],
     "Small Van 9h": [70, 70],
-    "Small Van 9h Ext": [70, 70],
-    "Moto 3h": [50, 50]
+    "Small Van 9h Ext": [70, 70]
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
