@@ -77,9 +77,9 @@ u_C2["Large Van Híbrida"] = [100, 100]
 u_C1_SJA1 = {
     "Rental Large Van": [100, 100], 
     "Large Van MLP": [100, 100], 
-    "Small Van MLP": [100, 100], 
-    "Extra Large Van MLP H&B": [120, 130], 
+    "Small Van MLP": [100, 100],  
     "Truck 3.5 tons MLP": [200, 220], 
+    "Extra Large Van MLP H&B": [120, 130],
     "Media milla SP": [150, 160], 
     "Delivery Cell Large Van": [1, 1], 
     "Delivery Cell Small Van": [1, 1]
@@ -88,8 +88,8 @@ u_C1_SJA1 = {
 NOMBRES_PLANES_C1_SJA1 = [
     "CENTRO", "EJA1", "XICO", "TEZUITLAN", "CENTRO 2", 
     "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
-    "EJA1 2", "NAOLINCO", "ACTOPAN", "BULK", "NEXT DAY ACHICHILCA", 
-    "MEGANODO", "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
+    "EJA1 2", "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ACHICHILCA", 
+    "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
 ]
 
 
@@ -258,7 +258,7 @@ def gen_poligonos(data_target=None):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
    
-    es_c1 = (data_target == u_C1)
+    es_c1 = (data_target == u_C1 or data_target == u_C1_SJA1)
     es_sde = (data_target == u_SDE)
     es_prec = (data_target == u_PREC)
 
