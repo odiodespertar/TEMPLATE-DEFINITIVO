@@ -1045,10 +1045,10 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
                 <li>🟠 Local (Centros) ➤ Rental y crowd.</li>
-                <li>🔴 Foráneos ➤ MLP.</li>
+                <li>🔴 Foráneos (Xico puede llevar crowd) ➤ MLP.</li>
                 <li>🟡 EJA1 SP ➤ Media milla.</li>
                 <li>🟢 Meganodo ➤ Truck 3.5.</li>
-                <li>🔵 Alchichica ➤ Small MLP.</li>
+                <li>🔵 Alchichica (next day) ➤ Small MLP.</li>
             </ul>
         </div>
     </div>
