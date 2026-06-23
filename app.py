@@ -2650,41 +2650,41 @@ function toggleExcelView() {{
     let excel = document.getElementById("excel-polys");
 
     if (isExcel) {{
-        // --- ENTRANDO A MODO EXCEL ---
+        // --- MODO EXCEL ---
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
         
-        // Ocultar bloques innecesarios
+        // 1. Ocultar los bloques de pestañas (P1 al P6)
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
 
-        // Ocultar las filas de totales que NO quieres ver
-        // IMPORTANTE: Busca todas las filas con clase 'excel-hide' y ocúltalas mediante JS
+        // 2. Forzar el ocultamiento de las filas con clase 'excel-hide'
         document.querySelectorAll('.excel-hide').forEach(fila => {{
             fila.style.display = 'none';
         }});
 
     }} else {{
-        // --- SALIENDO A MODO NORMAL (LA LIMPIEZA) ---
+        // --- MODO NORMAL (EL RESET TOTAL) ---
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
-        // Restaurar bloques de pestañas
+        // 1. Restaurar bloques de pestañas (esto ya lo tenías y funciona)
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
+            // IMPORTANTE: Aquí aseguramos que SOLO la pestaña activa se muestre
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // ESTO ES LA CLAVE: Limpiamos el 'display: none' de las filas ocultas
+        // 2. EL RESET: Quitar el 'display: none' de todas las filas excel-hide
+        // Usamos removeProperty para borrar el estilo inline y dejar que el CSS original tome el mando
         document.querySelectorAll('.excel-hide').forEach(fila => {{
-            fila.style.display = ''; // Esto elimina el estilo 'none' y restaura la fila
+            fila.style.removeProperty('display');
         }});
     }}
 }}
-
 
 
 
