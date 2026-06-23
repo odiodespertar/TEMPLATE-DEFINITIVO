@@ -2161,7 +2161,7 @@ let totals = {{
     mlpDecl: 0, mlpRute: 0,
     rentalDecl: 0, rentalRute: 0,
     carDecl: 0, carRute: 0,
-    otrosRute: 0, // <--- ¿ESTÁ ESTA LÍNEA AQUÍ?
+    otrosRute: 0,
     totalRuteadas: 0
 }};
 
@@ -2175,56 +2175,48 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carDecl += sch;
 }});
 
-// 2. Calcular ocupación y totales (Tabla de abajo)
-totals.totalRuteadas = 0; // Reiniciamos antes de empezar
+
+// 2. Calcular ocupación y totales
+totals.totalRuteadas = 0; 
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
-let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
-if (!s || s === "Seleccionar...") return;
+    if (!s || s === "Seleccionar...") return;
 
-// Convertimos a minúsculas y limpiamos espacios al inicio y final
-let name = s.toLowerCase().trim();
-
-// Aquí está el truco: buscamos palabras clave en lugar de nombres exactos
-let isMlp = name.includes("mlp");
-let isRental = name.includes("rental");
-let isCar = name.includes("car") || name.includes("moto") || name.includes("van");
-
-// Clasificación
-if (isMlp) {{
-    totals.mlpRute += u; // Sumamos la unidad 'u'
-}} else if (isRental) {{
-    totals.rentalRute += u;
-}} else if (isCar) {{
-    totals.carRute += u;
-}} else {{
-    // AQUÍ ES DONDE DEBE CAER TU DELIVERY
-    totals.otrosRute += u;
-}}
-
-// Y al final, la suma total siempre se actualiza
-totals.totalRuteadas += u;
+    let name = s.toLowerCase().trim();
+    
+    // Clasificación
+    if (name.includes("mlp")) {{
+        totals.mlpRute += u;
+    }} else if (name.includes("rental")) {{
+        totals.rentalRute += u;
+    }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
+        totals.carRute += u;
+    }} else {{
+        totals.otrosRute += u;
     }}
-}});
 
+    totals.totalRuteadas += u;
+}});
 
 // 3. ACTUALIZACIÓN DE PANTALLA
 function setT(id, val) {{
+    // Si tu ID termina en el número de tab, esto es correcto:
     let el = document.getElementById(id + '-' + tabId);
     if (el) el.innerText = Math.round(val);
 }}
 
+// Asegúrate de llamar a TODOS los IDs que tienes en tu HTML
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
 setT('total-rental-decl', totals.rentalDecl);
 setT('total-rental-rute', totals.rentalRute);
-setT('total-car-schedule', totals.carDecl); // Suma las declaradas de Car/Moto/Van
-setT('total-car-real', totals.carRute);     // Suma las ruteadas de Car/Moto/Van
+setT('total-car-schedule', totals.carDecl);
+setT('total-car-real', totals.carRute);
+setT('total-otros', totals.otrosRute);     // <-- Esta línea debe existir
 setT('total-ruteadas', totals.totalRuteadas);
-
-
 
 updateFleetFloat();
 
