@@ -1827,6 +1827,16 @@ document.addEventListener("DOMContentLoaded", () => {{
     let elapsedTime = 0;
 
 
+    // --- AGREGA ESTO ---
+    // Esto asegura que al abrir la página, el contador se oculte/muestre 
+    // correctamente según la pestaña inicial (currentTab = 2)
+    document.addEventListener("DOMContentLoaded", () => {{
+        actualizarVisibilidadContador();
+    }});
+    // ------------------
+
+
+
     function aplicarPerfil() {{
 
     let perfil = perfiles[perfilActual];
@@ -1864,6 +1874,24 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 
+function actualizarVisibilidadContador() {{
+        const fleetFloat = document.getElementById("fleet-float");
+        if (!fleetFloat) return;
+
+        const isExcel = document.body.classList.contains("excel-view");
+
+        // Si es Excel, siempre oculto.
+        // Si no es Excel, mostramos SOLO si estamos en la pestaña 6.
+        if (isExcel) {{
+            fleetFloat.style.display = "none";
+        }} else {{
+            fleetFloat.style.display = (currentTab === 6) ? "block" : "none";
+        }}
+    }}
+
+
+
+
 
 function showTab(n, btn) {{
 
@@ -1888,6 +1916,7 @@ function showTab(n, btn) {{
     if (excelBtn) {{
         // Habilitado para C1 (2) y C1 SJA1 (6)
         excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
+        actualizarVisibilidadContador();
     }}
 }}
 
@@ -2685,7 +2714,6 @@ function toggleExcelView() {{
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // RESTAURACIÓN FORZADA:
         // 1. Quitar el 'display: none' de las filas ocultas
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
@@ -2698,6 +2726,10 @@ function toggleExcelView() {{
         // 2. Obligar a las filas del tfoot a mostrarse
         document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
             fila.style.setProperty('display', 'table-row', 'important');
+        }});
+
+        // 3. LLAMADA ÚNICA AQUÍ (fuera del forEach)
+        actualizarVisibilidadContador();
         }});
     }}
 }}
@@ -4771,6 +4803,8 @@ function dragElement(elmnt) {{
         document.onmousemove = elementDrag;
     }}
 
+
+
     function elementDrag(e) {{
         e = e || window.event;
         e.preventDefault();
@@ -4795,6 +4829,15 @@ console.log(
         document.onmousemove = null;
     }}
 }}
+
+
+
+// Agrega esto al final de tu bloque <script> principal
+document.addEventListener("DOMContentLoaded", () => {{
+    actualizarVisibilidadContador();
+}});
+
+
   
 </script>
 </body>
