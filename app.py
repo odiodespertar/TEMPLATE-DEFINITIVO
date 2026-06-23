@@ -4351,8 +4351,8 @@ function updateFleetFloat() {{
 
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                    <span style="color:#0a2745;">\${{name}}</span>
-                    <span style="color:\${{colorCategoria}}; font-weight:bold;">\${{left}}/\${{stock}}</span>
+                    <span style="color:#0a2745;">\text{\${{name}}}</span>
+                    <span style="color:\text{\${{colorCategoria}}}; font-weight:bold;">\text{\${{left}}}/\text{\${{stock}}}</span>
                 </div>
             `;
         }}
@@ -4362,25 +4362,25 @@ function updateFleetFloat() {{
     htmlRight = `
         <div style="margin-top: 5px; padding-top: 5px;"> 
             <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
-                <span>TOTAL CAR (sched):</span> <span>\${{totalCarSchedule}}</span>
+                <span>TOTAL CAR (sched):</span> <span>\text{\${{totalCarSchedule}}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>\${{totalCarReal}}</span>
+                <span>TOTAL CAR (real):</span> <span>\text{\${{totalCarReal}}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
-                <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
+                <span>TOTAL MLP (decl):</span> <span>\text{\${{totalMLPStock}}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\${{totalMLPReal}}</span>
+                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
             <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (decl):</span> <span>\${{totalRentalStock}}</span>
+                <span>TOTAL RENTAL (decl):</span> <span>\text{\${{totalRentalStock}}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
                 <span>TOTAL RENTAL (rute):</span> <span>\text{\${{totalRentalReal}}}</span>
@@ -4390,8 +4390,8 @@ function updateFleetFloat() {{
 
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">\${{htmlLeft}}</div>
-        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">\${{htmlRight}}</div>
+        <div style="flex:1; min-width:180px;">\text{\${{htmlLeft}}}</div>
+        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">\text{\${{htmlRight}}}</div>
     </div>
     `;
 
@@ -4408,7 +4408,7 @@ function updateFleetFloat() {{
         elCarReal.innerText = totalCarReal;
     }}
 
-    // Inyección en la celda final física de la tabla (Suma total real de TODO lo ruteado)
+    // Inyección en la celda final física de la tabla (Suma total real de TODO lo ruteado sin importar el tipo)
     let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
     if (elRuteadas) {{
         elRuteadas.innerText = totalRuteadasGeneral;
