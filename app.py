@@ -2213,15 +2213,20 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
 // 3. ACTUALIZACIÓN DE PANTALLA
 
-// FORZAMOS LA SUMA FINAL ANTES DE MOSTRAR
 totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
 
-// Log para verificar los valores reales que se van a imprimir
-console.log("Valores finales - MLP:", totals.mlpRute, "Rental:", totals.rentalRute, "Car:", totals.carRute, "Otros:", totals.otrosRute, "Total:", totals.totalRuteadas);
+console.log("DEBUG: MLP=" + totals.mlpRute + ", Rental=" + totals.rentalRute + ", Car=" + totals.carRute + ", Otros=" + totals.otrosRute + ", TOTAL=" + totals.totalRuteadas);
 
 function setT(id, val) {{
-    let el = document.getElementById(id + '-' + tabId);
-    if (el) el.innerText = Math.round(val);
+    let finalId = id + '-' + tabId; // Ejemplo: "total-ruteadas-2"
+    let el = document.getElementById(finalId);
+    
+    if (el) {{
+        el.innerText = Math.round(val);
+        console.log("ÉXITO: Se actualizó el ID " + finalId + " con valor " + val);
+    }} else {{
+        console.error("¡ERROR! No encontré el ID: " + finalId);
+    }}
 }}
 
 setT('total-mlp-decl', totals.mlpDecl);
