@@ -4274,68 +4274,16 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-    let htmlLeft = "";
-    let htmlRight = "";
+    let totalRentalStock = 0, totalRentalReal = 0;
+    let totalMLPStock = 0, totalMLPReal = 0;
+    // ... (tus otras variables) ...
 
-    let totalRentalStock = 0;   
-    let totalRentalReal = 0;    
-    let totalMLPStock = 0;      
-    let totalMLPReal = 0;       
-    let totalCarSchedule = 0;   
-    let totalCarReal = 0;       
-    let totalRuteadasGeneral = 0; 
-    let totalNoCar = 0;         
-
-    // 1. Buscamos filas en el visor (más seguro)
     document.querySelectorAll('#visor tr').forEach(row => {{
-        let name = row.querySelector('.edit-name')?.innerText.trim() || row.querySelector('td')?.innerText.trim();
-        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-        let asignado = stock - left;
-
-        if (name && stock > 0) {{
-            let nameLower = name.toLowerCase();
-
-            // Ignoramos las filas que son de totales para no duplicar sumas
-            if (nameLower.includes("total") && !row.classList.contains('fila-total-calculado')) {{
-                return;
-            }}
-
-            // Solo sumamos filas que NO sean nuestras filas de totales inyectadas
-            if (!row.classList.contains('fila-total-calculado')) {{
-                totalRuteadasGeneral += asignado;
-
-                if (nameLower.includes("rental")) {{
-                    totalRentalStock += stock;
-                    totalRentalReal += asignado;
-                }}
-                else if (nameLower.includes("mlp")) {{
-                    totalMLPStock += stock;
-                    totalMLPReal += asignado;
-                }} 
-                else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("newbie") || nameLower.includes("small van") || nameLower.includes("híbrida")) {{
-                    totalCarSchedule += stock;
-                    totalCarReal += (left < 0) ? (stock + Math.abs(left)) : asignado;
-                }}
-
-                // Generar el contenido para la lista izquierda (si el contador está activo)
-                let isCar = nameLower.includes("car") || nameLower.includes("híbrida") || nameLower.includes("moto") || nameLower.includes("small van");
-                let colorCategoria = isCar ? "#FF4500" : "#0000CD";
-                
-                htmlLeft += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                        <span style="color:#0a2745;">${{name}}</span>
-                        <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
-                    </div>
-                `;
-            }}
-        }}
+        // ... (tu lógica de suma actual) ...
     }});
 
-    // 2. ACTUALIZACIÓN DE CELDAS FÍSICAS EN LA TABLA
-    // Limpiamos espacios del tabId para IDs válidos (Ej: "C1_SCP1")
+    // 1. ACTUALIZA LOS IDs DE LA TABLA (lo que querías al principio)
     let tabId = currentTab.replace(/ /g, "_");
-    
     const updateEl = (id, val) => {{
         let el = document.getElementById(id + '-' + tabId);
         if (el) el.innerText = val;
@@ -4343,25 +4291,17 @@ function updateFleetFloat() {{
 
     updateEl('total-rental-decl', totalRentalStock);
     updateEl('total-rental-rute', totalRentalReal);
-    updateEl('total-mlp-decl', totalMLPStock);
-    updateEl('total-mlp-rute', totalMLPReal);
-    updateEl('total-car-real', totalCarReal);
-    updateEl('total-ruteadas', totalRuteadasGeneral);
+    // ... (demás actualizaciones de tabla) ...
 
-    // 3. ACTUALIZACIÓN DEL RELOJ/CONTADOR (PROTEGIDO)
+    // 2. ACTUALIZA EL CONTADOR (SOLO SI EXISTE)
+    // Usamos 'textContent' en lugar de 'innerHTML' si es posible, 
+    // o simplemente no sobreescribas el contenedor del reloj.
     let floatBody = document.getElementById('fleet-float-body');
     if (floatBody) {{
-        // Solo renderizamos el contenido estadístico dentro del cuerpo
-        // Esto permite que el contenedor padre (donde está el reloj) siga siendo arrastrable
-        floatBody.innerHTML = `
-        <div style="display:flex; gap:15px; align-items:flex-start;">
-            <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
-            <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">
-                </div>
-        </div>`;
+        // En lugar de borrar todo el HTML, solo actualiza las partes internas
+        // Así no eliminas el reloj que vive afuera o al lado.
+        floatBody.innerHTML = `<div>` + htmlLeft + `</div>`; 
     }}
-
-    if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
 
 
