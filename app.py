@@ -4277,65 +4277,70 @@ function updateFleetFloat() {{
     let htmlLeft = "";
     let htmlRight = "";
 
-    // Contadores para las métricas solicitadas
-    let totalRentalStock = 0;   // Rental Declaradas
-    let totalRentalReal = 0;    // Rental Ruteadas
-    let totalMLPStock = 0;      // MLP Declaradas
-    let totalMLPReal = 0;       // MLP Ruteadas
-    let totalCarSchedule = 0;   // Car Declaradas
-    let totalCarReal = 0;       // Car Ruteadas
+    let totalRentalStock = 0;   
+    let totalRentalReal = 0;    
+    let totalMLPStock = 0;      
+    let totalMLPReal = 0;       
+    let totalCarSchedule = 0;   
+    let totalCarReal = 0;       
     
-    let totalRuteadasGeneral = 0; // El gran total de todas las unidades asignadas
-    let totalNoCar = 0;         // Mantiene tu lógica original del pie de tabla físico
+    let totalRuteadasGeneral = 0; 
+    let totalNoCar = 0;         
 
-    // Buscamos las filas correspondientes a la pestaña activa
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
+        
+        // Si la fila no tiene .edit-name (como las nuevas filas de total inyectadas), extraemos su primer td directo
+        if (!name) {{
+            name = row.querySelector('td')?.innerText.trim();
+        }}
+
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-        
-        // Unidades asignadas/usadas (Ruteadas reales)
         let asignado = stock - left;
 
-        if (name && stock > 0) {{
+        if (name && (stock > 0 || row.classList.contains('master-row'))) {{
             let nameLower = name.toLowerCase();
 
-            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo sin excepción)
+            // Ignoramos por completo cualquier fila que sirva de totalizador para evitar duplicar sumas
+            if (nameLower.includes("total") || nameLower.includes("ignorar")) {{
+                return; 
+            }}
+
             totalRuteadasGeneral += asignado;
 
-            // 2. FILTRADO ULTRA ESTRICTO: Separación ciega por palabras clave
             if (nameLower.includes("rental")) {{
-                // Si la fila dice "rental", va ÚNICAMENTE a los contadores de Rental, jamás a MLP
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }} 
-            else if (nameLower.includes("mlp") && !nameLower.includes("rental")) {{ 
-                // Si dice MLP y NO contiene la palabra rental por error
+            else if (nameLower.includes("mlp")) {{
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }} 
-            else if (nameLower.includes("car")) {{
+            else if (
+                nameLower.includes("car") || 
+                nameLower.includes("moto") || 
+                nameLower.includes("newbie") || 
+                nameLower.includes("small van") || 
+                nameLower.includes("híbrida")
+            ) {{
                 totalCarSchedule += stock;
-            }}
-
-            // Lógica de color de tu interfaz original
-            let isCar = nameLower.includes("car") || nameLower.includes("híbrida");
-            let colorCategoria = isCar ? "#FF4500" : "#0000CD";
-
-            // --- CONSERVACIÓN DE TU LÓGICA DE TOTALES INFERIORES ORIGINALES ---
-            if (isCar) {{
                 if (left < 0) {{
                     totalCarReal += stock + Math.abs(left);
                 }} else {{
                     totalCarReal += asignado;
                 }}
-            }} else {{
+            }}
+
+            let isCar = nameLower.includes("car") || nameLower.includes("híbrida") || nameLower.includes("moto") || nameLower.includes("small van");
+            let colorCategoria = isCar ? "#FF4500" : "#0000CD";
+
+            if (!isCar) {{
                 if (nameLower.includes("mlp") || name.includes("foráneo") || nameLower.includes("rental")) {{
                     totalNoCar += asignado;
                 }}
             }}
 
-            // Generación de la lista de la columna izquierda flotante
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                     <span style="color:#0a2745;">` + name + `</span>
@@ -4345,8 +4350,8 @@ function updateFleetFloat() {{
         }}
     }});
 
-    // 3. VALIDACIÓN DE PESTAÑAS: Solo aplica el desglose en C1 SCP1 y C1 SJA1
-    if (currentTab === "C1 SCP1" || currentTab === "C1 SJA1") {{
+    // Renderizado del cuadro flotante derecho
+    if (currentTab === "C1 SCP1") {{
         htmlRight = `
             <div style="margin-top: 5px; padding-top: 5px;"> 
                 <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
@@ -4355,34 +4360,51 @@ function updateFleetFloat() {{
                 <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
                     <span>TOTAL RENTAL (rute):</span> <span>` + totalRentalReal + `</span>
                 </div>
-
                 <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
-
                 <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
                     <span>TOTAL MLP (decl):</span> <span>` + totalMLPStock + `</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
                     <span>TOTAL MLP (rute):</span> <span>` + totalMLPReal + `</span>
                 </div>
-
-                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
-
-                <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL CAR (decl):</span> <span>` + totalCarSchedule + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL CAR (real):</span> <span>` + totalCarReal + `</span>
-                </div>
-
                 <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
-
                 <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
                     <span>TOTAL RUTEADAS:</span> <span>` + totalRuteadasGeneral + `</span>
                 </div>
             </div>
         `;
-    }} else {{
-        // Lógica por defecto para las demás pestañas normales
+    }} 
+    else if (currentTab === "C1 SJA1") {{
+        htmlRight = `
+            <div style="margin-top: 5px; padding-top: 5px;"> 
+                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL RENTAL (decl):</span> <span>` + totalRentalStock + `</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL RENTAL (rute):</span> <span>` + totalRentalReal + `</span>
+                </div>
+                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL MLP (decl):</span> <span>` + totalMLPStock + `</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL MLP (rute):</span> <span>` + totalMLPReal + `</span>
+                </div>
+                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+                <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL CAR (decl):</span> <span>` + totalCarSchedule + `</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL CAR (rute):</span> <span>` + totalCarReal + `</span>
+                </div>
+                <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
+                <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
+                    <span>TOTAL RUTEADAS:</span> <span>` + totalRuteadasGeneral + `</span>
+                </div>
+            </div>
+        `;
+    }} 
+    else {{
         htmlRight = `
             <div style="margin-top: 5px; padding-top: 5px;">
                 <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px;">
@@ -4395,37 +4417,37 @@ function updateFleetFloat() {{
         `;
     }}
 
-    let html = `
+    // Inyección de valores en las nuevas celdas físicas creadas en la tabla HTML
+    let cellRentalDecl = document.getElementById('total-rental-decl-' + currentTab);
+    if (cellRentalDecl) cellRentalDecl.innerText = totalRentalStock;
+
+    let cellRentalRute = document.getElementById('total-rental-rute-' + currentTab);
+    if (cellRentalRute) cellRentalRute.innerText = totalRentalReal;
+
+    let cellMlpDecl = document.getElementById('total-mlp-decl-' + currentTab);
+    if (cellMlpDecl) cellMlpDecl.innerText = totalMLPStock;
+
+    let cellMlpRute = document.getElementById('total-mlp-rute-' + currentTab);
+    if (cellMlpRute) cellMlpRute.innerText = totalMLPReal;
+
+    // Sincronizaciones del footer antiguo
+    let elNoCar = document.getElementById('total-no-car-' + currentTab);
+    if (elNoCar) elNoCar.innerText = totalNoCar; 
+
+    let elCarReal = document.getElementById('total-car-real-' + currentTab);
+    if (elCarReal) elCarReal.innerText = totalCarReal;
+
+    let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
+    if (elRuteadas) elRuteadas.innerText = totalRuteadasGeneral;
+
+    let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
+    if (elCarSchedule) elCarSchedule.innerText = totalCarSchedule;
+
+    document.getElementById('fleet-float-body').innerHTML = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
         <div style="flex:1; min-width:180px;">` + htmlLeft + `</div>
         <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">` + htmlRight + `</div>
-    </div>
-    `;
-
-    // ==============================================================================
-    // ASIGNACIONES EN EL PIE DE TABLA ORIGINAL
-    // ==============================================================================
-    let elNoCar = document.getElementById('total-no-car-' + currentTab);
-    if (elNoCar) {{
-        elNoCar.innerText = totalNoCar; 
-    }}
-
-    let elCarReal = document.getElementById('total-car-real-' + currentTab);
-    if (elCarReal) {{
-        elCarReal.innerText = totalCarReal;
-    }}
-
-    let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
-    if (elRuteadas) {{
-        elRuteadas.innerText = totalRuteadasGeneral;
-    }}
-
-    let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
-    if (elCarSchedule) {{
-        elCarSchedule.innerText = totalCarSchedule;
-    }}
-
-    document.getElementById('fleet-float-body').innerHTML = html;
+    </div>`;
 
     if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
