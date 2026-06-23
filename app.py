@@ -972,7 +972,6 @@ body.excel-view .meli-table tfoot tr {{
     display: none !important;
 }}
 
-/* Fuerza a que SOLO la fila que contiene el ID de Total Ruteadas sea visible */
 body.excel-view .meli-table tfoot tr:has(#total-ruteadas-2),
 body.excel-view .meli-table tfoot tr:has(#total-ruteadas-6) {{
     display: table-row !important;
@@ -2649,7 +2648,7 @@ function toggleExcelView() {{
     let btn = document.getElementById("excel-btn");
     let excel = document.getElementById("excel-polys");
 
-    // IDs de las filas que queremos ocultar en modo Excel
+    // IDs de las filas que quieres ocultar en modo Excel
     const idsAocultar = [
         "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
         "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
@@ -2658,17 +2657,16 @@ function toggleExcelView() {{
     ];
 
     if (isExcel) {{
+        // --- MODO EXCEL: OCULTAR ---
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
         
-        // 1. Ocultar bloques de pestañas
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
 
-        // 2. Ocultar filas de totales (el padre <tr>)
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
             if(el) {{
@@ -2677,23 +2675,29 @@ function toggleExcelView() {{
             }}
         }});
     }} else {{
+        // --- MODO NORMAL: RESTAURAR ---
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
-        // 1. Restaurar bloques de pestañas
+        // Restaurar bloques de pestañas
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // 2. RESTAURAR FILAS (La parte que te fallaba)
-        // Eliminamos el 'display: none' para que vuelvan a su estado original
+        // RESTAURACIÓN FORZADA:
+        // 1. Quitar el 'display: none' de las filas ocultas
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
             if(el) {{
                 let fila = el.closest('tr');
                 if(fila) fila.style.removeProperty('display');
             }}
+        }});
+        
+        // 2. Obligar a las filas del tfoot a mostrarse
+        document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
+            fila.style.setProperty('display', 'table-row', 'important');
         }});
     }}
 }}
