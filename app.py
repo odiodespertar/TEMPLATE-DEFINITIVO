@@ -2171,8 +2171,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 // 2. RUTEADAS: Suma la columna "# ASIGNADAS" de los polígonos
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
-    let s = row.querySelector('.s-type').value; // Nombre plan
-    let u = parseInt(row.querySelector('.u-manual').innerText) || 0; // Unidades
+    let s = row.querySelector('.s-type').value; 
+    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
     if (!s || s === "Seleccionar...") return;
     
     let name = s.toLowerCase().trim();
@@ -2182,11 +2182,15 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     if (name.includes("mlp")) totals.mlpRute += valor;
     else if (name.includes("rental")) totals.rentalRute += valor;
-    else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carRute += valor;
+    // --- AQUÍ ESTÁ EL CAMBIO PARA INCLUIR DELIVERY ---
+    else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("delivery")) {{
+        totals.carRute += valor;
+    }}
     
-    // SUMA TOTAL: Todas las asignaciones hechas en los polígonos
+    // SUMA TOTAL: Todas las asignaciones (incluye MLP, Rental, Car/Moto/Van Y Delivery)
     totals.totalRuteadas += valor;
 }});
+
 
 // 3. ACTUALIZACIÓN DE PANTALLA
 function setT(id, val) {{
