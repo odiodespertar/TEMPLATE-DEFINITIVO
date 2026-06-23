@@ -1789,7 +1789,7 @@ gap:10px;
                 if (!moviendo) return;
                 reloj.style.left = (e.clientX - offsetX) + "px";
                 reloj.style.top = (e.clientY - offsetY) + "px";
-            });
+            }});
 
             document.addEventListener("mouseup", () => {{
                 moviendo = false;
