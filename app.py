@@ -841,31 +841,32 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-#ruteo-float{{
-
-    position:fixed;
-    top:200px;
-    right:15px;
-    width:220px;
-    background:
-        linear-gradient(
-            135deg,
-            #031d4d 0%,
-            #072868 50%,
-            #03163d 100%
-        );
-    border-radius:14px;
-    padding:6px;
-    color:white;
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.35);
-    z-index:999999;
-    cursor:move;
-    user-select:none;
+#ruteo-float {{
+    pointer-events: auto !important; /* Asegura que el reloj sea clicable */
 }}
-#ruteo-float:hover{{
-    box-shadow:
-        0 14px 35px rgba(0,0,0,0.22);
+    position: fixed;
+    top: 200px;
+    right: 15px;
+    width: 220px;
+    background: linear-gradient(135deg, #031d4d 0%, #072868 50%, #03163d 100%);
+    border-radius: 14px;
+    padding: 6px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    z-index: 999999;
+    cursor: move;
+    
+    /* --- CORRECCIONES PARA EVITAR EL SOMBREADO AZUL Y EL BLOQUEO --- */
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;         /* Estándar */
+    touch-action: none;        /* Evita que dispositivos táctiles intenten hacer scroll al mover */
+    pointer-events: auto;      /* Asegura que reciba clics */
+}}
+
+#ruteo-float:hover {{
+    box-shadow: 0 14px 35px rgba(0,0,0,0.22);
 }}
 
 
@@ -1775,25 +1776,31 @@ gap:10px;
         let offsetX = 0;
         let offsetY = 0;
 
-        if (reloj) {{
+       if (reloj) {{
             reloj.style.cursor = "move";
             reloj.addEventListener("mousedown", (e) => {{
+                e.preventDefault(); // <--- ESTA LÍNEA EVITA EL SOMBREADO AZUL
                 moviendo = true;
                 offsetX = e.clientX - reloj.offsetLeft;
                 offsetY = e.clientY - reloj.offsetTop;
             }});
+
             document.addEventListener("mousemove", (e) => {{
                 if (!moviendo) return;
                 reloj.style.left = (e.clientX - offsetX) + "px";
                 reloj.style.top = (e.clientY - offsetY) + "px";
             }});
-            document.addEventListener("mouseup", () => moviendo = false);
+
+            document.addEventListener("mouseup", () => {{
+                moviendo = false;
+            }});
         }}
         
         // Inicializar visibilidad al cargar
         actualizarVisibilidadContador();
     }});
 
+                
     // --- 2. FUNCIÓN DE VISIBILIDAD (CORREGIDA) ---
     function actualizarVisibilidadContador() {{
         const fleetFloat = document.getElementById("fleet-float");
