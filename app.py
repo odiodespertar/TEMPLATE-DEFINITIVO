@@ -2182,12 +2182,16 @@ totals.otrosRute = 0;
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
-    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+    // Capturamos el texto y forzamos a entero
+    let textoU = row.querySelector('.u-manual').innerText;
+    let u = parseInt(textoU) || 0;
 
     if (!s || s === "Seleccionar...") return;
 
-    // --- AQUÍ ESTÁ EL CAMBIO ---
-    // Sumamos al TOTAL general ANTES de clasificar, así nunca se nos escapa ninguna unidad
+    // Aquí veremos qué está leyendo el sistema por fila
+    console.log("Fila detectada. Unidad: " + s + " | Valor u: " + u);
+
+    // SUMA DIRECTA AL TOTAL
     totals.totalRuteadas += u;
 
     let name = s.toLowerCase().trim();
@@ -2205,6 +2209,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
         totals.otrosRute += u; 
     }}
 }});
+
 
 
 // 3. ACTUALIZACIÓN (Asegúrate de incluir todos los setT)
