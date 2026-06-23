@@ -2192,55 +2192,56 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         }});
 
 
-    // --- 5. CALCULO DE TOTALES PARA EL TFOOT ---
-    let totals = {{
-        mlpDecl: 0, mlpRute: 0,
-        rentalDecl: 0, rentalRute: 0,
-        carDecl: 0, carRute: 0,
-        totalRuteadas: 0
-    }};
+    // --- 5. CALCULO DE TOTALES (Lógica Precisa) ---
+let totals = {{
+    mlpDecl: 0, mlpRute: 0,
+    rentalDecl: 0, rentalRute: 0,
+    carDecl: 0, carRute: 0,
+    totalRuteadas: 0
+}};
 
-    // 1. Primero sumamos las DECLARADAS (Schedule) desde el objeto 'fleet'
-    Object.keys(fleet).forEach(name => {{
-        let n = name.toLowerCase().trim();
-        let stock = fleet[name].stock;
-        
-        if (n.includes("mlp")) totals.mlpDecl += stock;
-        else if (n.includes("rental")) totals.rentalDecl += stock;
-        else if (n.includes("car") || n.includes("moto") || n.includes("van")) totals.carDecl += stock;
-    }});
+// 1. DECLARADAS: Suma la columna "SCHEDULE" de la tabla de arriba
+document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+    let name = row.querySelector('.edit-name')?.innerText.toLowerCase().trim() || "";
+    let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+    
+    if (name.includes("mlp")) totals.mlpDecl += sch;
+    else if (name.includes("rental")) totals.rentalDecl += sch;
+    else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carDecl += sch;
+}});
 
-    // 2. Luego sumamos las RUTEADAS (lo que realmente asignaste abajo)
-    // Recorremos los polígonos para capturar las unidades asignadas
-    document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
-        let s = row.querySelector('.s-type').value; // Nombre del plan asignado
-        let u = parseInt(row.querySelector('.u-manual').innerText) || 0; // Unidades
-        let name = s.toLowerCase().trim();
-        
-        // Regla especial para los planes EJA1
-        let asignado = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
+// 2. RUTEADAS: Suma la columna "# ASIGNADAS" de los polígonos
+document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
+    let s = row.querySelector('.s-type').value; // Nombre plan
+    let u = parseInt(row.querySelector('.u-manual').innerText) || 0; // Unidades
+    if (!s || s === "Seleccionar...") return;
+    
+    let name = s.toLowerCase().trim();
+    
+    // Asignación de 1 si es EJA, si no, el valor manual
+    let valor = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
 
-        if (name.includes("mlp")) totals.mlpRute += asignado;
-        else if (name.includes("rental")) totals.rentalRute += asignado;
-        else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carRute += asignado;
-        
-        // Sumamos TODO al total general
-        totals.totalRuteadas += asignado;
-    }});
+    if (name.includes("mlp")) totals.mlpRute += valor;
+    else if (name.includes("rental")) totals.rentalRute += valor;
+    else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carRute += valor;
+    
+    // SUMA TOTAL: Todas las asignaciones hechas en los polígonos
+    totals.totalRuteadas += valor;
+}});
 
-    // 3. Función para actualizar el DOM
-    const updateVal = (id, val) => {{
-        let el = document.getElementById(id + '-' + tabId);
-        if (el) el.innerText = Math.round(val);
-    }};
+// 3. ACTUALIZACIÓN DE PANTALLA
+function setT(id, val) {{
+    let el = document.getElementById(id + '-' + tabId);
+    if (el) el.innerText = Math.round(val);
+}}
 
-    updateVal('total-mlp-decl', totals.mlpDecl);
-    updateVal('total-mlp-rute', totals.mlpRute);
-    updateVal('total-rental-decl', totals.rentalDecl);
-    updateVal('total-rental-rute', totals.rentalRute);
-    updateVal('total-car-schedule', totals.carDecl);
-    updateVal('total-car-real', totals.carRute);
-    updateVal('total-ruteadas', totals.totalRuteadas);
+setT('total-mlp-decl', totals.mlpDecl);
+setT('total-mlp-rute', totals.mlpRute);
+setT('total-rental-decl', totals.rentalDecl);
+setT('total-rental-rute', totals.rentalRute);
+setT('total-car-schedule', totals.carDecl); // Suma las declaradas de Car/Moto/Van
+setT('total-car-real', totals.carRute);     // Suma las ruteadas de Car/Moto/Van
+setT('total-ruteadas', totals.totalRuteadas);
 
 
 
