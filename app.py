@@ -2232,39 +2232,48 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         }});
 
 
-       // --- AQUÍ AÑADE EL BLOQUE DE TOTALES ---
-    let totals = {{ mlpDecl: 0, mlpRute: 0, rentalDecl: 0, rentalRute: 0, carDecl: 0, carRute: 0, totalRuteadas: 0 }};
+       // --- 5. CALCULO DE TOTALES PARA EL TFOOT ---
+    // --- 5. CALCULO DE TOTALES PARA EL TFOOT ---
+    let totals = {
+        mlpDecl: 0, mlpRute: 0,
+        rentalDecl: 0, rentalRute: 0,
+        carDecl: 0, carRute: 0,
+        totalRuteadas: 0
+    };
 
-    Object.keys(fleet).forEach(name => {{
+    // 1. Primero sumamos las DECLARADAS (Schedule) desde el objeto 'fleet'
+    Object.keys(fleet).forEach(name => {
+        let n = name.toLowerCase().trim();
         let stock = fleet[name].stock;
-        let used = fleet[name].used;
-        // Limpiamos el nombre: quitamos espacios al inicio/final y pasamos a minúsculas
-        let nameLower = name.toLowerCase().trim(); 
         
-        let asignado = (nameLower.includes("eja1 sp1") || nameLower.includes("eja1 sp2")) ? 1 : used;
+        if (n.includes("mlp")) totals.mlpDecl += stock;
+        else if (n.includes("rental")) totals.rentalDecl += stock;
+        else if (n.includes("car") || n.includes("moto") || n.includes("van")) totals.carDecl += stock;
+    });
 
-        // --- DEPURACIÓN: Si ves '0' en tus totales, mira esto en la consola (F12) ---
-        console.log("Procesando: " + nameLower + " | Asignado: " + asignado);
-
-        if (nameLower.includes("mlp")) {{
-            totals.mlpDecl += stock; 
-            totals.mlpRute += asignado;
-        }} else if (nameLower.includes("rental")) {{
-            totals.rentalDecl += stock; 
-            totals.rentalRute += asignado;
-        }} else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("small van") || nameLower.includes("van")) {{
-            totals.carDecl += stock; 
-            totals.carRute += asignado;
-        }}
+    // 2. Luego sumamos las RUTEADAS (lo que realmente asignaste abajo)
+    // Recorremos los polígonos para capturar las unidades asignadas
+    document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {
+        let s = row.querySelector('.s-type').value; // Nombre del plan asignado
+        let u = parseInt(row.querySelector('.u-manual').innerText) || 0; // Unidades
+        let name = s.toLowerCase().trim();
         
-        // Esto suma TODO, incluyendo lo que no cayó en los IF de arriba
+        // Regla especial para los planes EJA1
+        let asignado = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
+
+        if (name.includes("mlp")) totals.mlpRute += asignado;
+        else if (name.includes("rental")) totals.rentalRute += asignado;
+        else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carRute += asignado;
+        
+        // Sumamos TODO al total general
         totals.totalRuteadas += asignado;
-    }});
+    });
 
-    const updateVal = (id, val) => {{
+    // 3. Función para actualizar el DOM
+    const updateVal = (id, val) => {
         let el = document.getElementById(id + '-' + tabId);
         if (el) el.innerText = Math.round(val);
-    }};
+    };
 
     updateVal('total-mlp-decl', totals.mlpDecl);
     updateVal('total-mlp-rute', totals.mlpRute);
@@ -2273,7 +2282,6 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
     updateVal('total-car-schedule', totals.carDecl);
     updateVal('total-car-real', totals.carRute);
     updateVal('total-ruteadas', totals.totalRuteadas);
-    // ----------------------------------------
 
 
 
