@@ -2180,14 +2180,15 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     // Asignación de 1 si es EJA, si no, el valor manual
     let valor = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
 
-    if (name.includes("mlp")) totals.mlpRute += valor;
-    else if (name.includes("rental")) totals.rentalRute += valor;
-    // --- AQUÍ ESTÁ EL CAMBIO PARA INCLUIR DELIVERY ---
-    else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("Delivery Cell Large Van")) {{
+    if (name.includes("mlp")) {{
+        totals.mlpRute += valor;
+    }} else if (name.includes("rental")) {{
+        totals.rentalRute += valor;
+    }} else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("delivery")) {{
         totals.carRute += valor;
     }}
     
-    // SUMA TOTAL: Todas las asignaciones (incluye MLP, Rental, Car/Moto/Van Y Delivery)
+    // SUMA TOTAL: Esto sumará todo lo que sea válido
     totals.totalRuteadas += valor;
 }});
 
