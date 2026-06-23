@@ -2232,17 +2232,16 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         }});
 
 
-       // --- 5. CALCULO DE TOTALES PARA EL TFOOT ---
     // --- 5. CALCULO DE TOTALES PARA EL TFOOT ---
-    let totals = {
+    let totals = {{
         mlpDecl: 0, mlpRute: 0,
         rentalDecl: 0, rentalRute: 0,
         carDecl: 0, carRute: 0,
         totalRuteadas: 0
-    };
+    }};
 
     // 1. Primero sumamos las DECLARADAS (Schedule) desde el objeto 'fleet'
-    Object.keys(fleet).forEach(name => {
+    Object.keys(fleet).forEach(name => {{
         let n = name.toLowerCase().trim();
         let stock = fleet[name].stock;
         
@@ -2253,7 +2252,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
     // 2. Luego sumamos las RUTEADAS (lo que realmente asignaste abajo)
     // Recorremos los polígonos para capturar las unidades asignadas
-    document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {
+    document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
         let s = row.querySelector('.s-type').value; // Nombre del plan asignado
         let u = parseInt(row.querySelector('.u-manual').innerText) || 0; // Unidades
         let name = s.toLowerCase().trim();
@@ -2267,13 +2266,13 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         
         // Sumamos TODO al total general
         totals.totalRuteadas += asignado;
-    });
+    }});
 
     // 3. Función para actualizar el DOM
-    const updateVal = (id, val) => {
+    const updateVal = (id, val) => {{
         let el = document.getElementById(id + '-' + tabId);
         if (el) el.innerText = Math.round(val);
-    };
+    }};
 
     updateVal('total-mlp-decl', totals.mlpDecl);
     updateVal('total-mlp-rute', totals.mlpRute);
