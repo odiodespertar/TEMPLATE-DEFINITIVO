@@ -4299,7 +4299,7 @@ function updateFleetFloat() {{
     let totalCarReal = 0;       // Ruteadas
     let totalCarSchedule = 0;   // Declaradas
     
-    let totalRuteadasGeneral = 0; // 🔥 NUEVO CONTADOR: Va a sumar TODO lo asignado
+    let totalRuteadasGeneral = 0; // Va a sumar TODO lo asignado sin excepción
     let totalNoCar = 0;         // El total original para el pie de tabla físico
 
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
@@ -4374,7 +4374,7 @@ function updateFleetFloat() {{
                 <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}</span>
+                <span>TOTAL MLP (rute):</span> <span>\${{totalMLPReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
@@ -4383,7 +4383,7 @@ function updateFleetFloat() {{
                 <span>TOTAL RENTAL (decl):</span> <span>\${{totalRentalStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (rute):</span> <span>\${{totalRentalReal}}</span>
+                <span>TOTAL RENTAL (rute):</span> <span>\text{\${{totalRentalReal}}}</span>
             </div>
         </div>
     `;
@@ -4408,7 +4408,7 @@ function updateFleetFloat() {{
         elCarReal.innerText = totalCarReal;
     }}
 
-    // 🔥 AQUÍ SE INYECTA EL GRAN TOTAL: Incluye Cars, MLPs, Rentals y cualquier vehículo asignado
+    // Inyección en la celda final física de la tabla (Suma total real de TODO lo ruteado)
     let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
     if (elRuteadas) {{
         elRuteadas.innerText = totalRuteadasGeneral;
