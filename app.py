@@ -3962,7 +3962,7 @@ if (currentTab == 6) {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
         if (unidad) {{ usar = 1; }} 
     }} 
-    else if (pUpper === "EJA1 AM1" || pUpper === "EJA1 SP") {{
+    else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
         if (unidad) {{ usar = 1; }} 
     }}
@@ -4012,14 +4012,13 @@ if (currentTab == 6) {{
             ));
         }}
     }}
-}} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+}} else if (currentTab == 2 && nombrePlan.toUpperCase() == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
 }} else if (currentTab == 2) {{
     unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
 }} else {{
     unidad = fleet.find(f => f.restante > 0);
 }}
-
 
 
 
