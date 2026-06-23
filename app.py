@@ -4362,7 +4362,7 @@ function updateFleetFloat() {{
                 <span>TOTAL CAR (sched):</span> <span>\${{totalCarSchedule}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>\text{\${{totalCarReal}}}</span>
+                <span>TOTAL CAR (real):</span> <span>\text{\${{totalCarReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
