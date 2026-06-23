@@ -78,9 +78,9 @@ u_C1_SJA1 = {
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
     "Extra Large Van MLP H&B": [70, 70],
-    "Rental Electric Large Van": [150, 170],
-    "Rental Large Van": [150, 170],
-    "Rental Replacement": [150, 170],
+    "Rental Electric Large Van": [150, 150],
+    "Rental Large Van": [150, 150],
+    "Rental Replacement": [150, 150],
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
@@ -92,10 +92,10 @@ u_C1_SJA1 = {
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
-    "CENTRO", "EJA1 SP", "XICO", "TEZUITLAN", "CENTRO 2", 
+    "CENTRO 1", "CENTRO 2", "EJA1 SP1", "EJA1 SP2", "XICO", "TEZUITLAN", 
     "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
     "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ALCHICHICA", 
-    "PLAN 16", "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
+    "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
 ]
 
 
