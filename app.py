@@ -2173,13 +2173,17 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
     let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+    
+    // Si no hay unidad seleccionada, no sumamos nada
     if (!s || s === "Seleccionar...") return;
     
     let name = s.toLowerCase().trim();
-    
-    // Asignación de 1 si es EJA, si no, el valor manual
     let valor = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
 
+    // A. SUMA GLOBAL (Esto sumará siempre, sin filtros, si hay unidades)
+    totals.totalRuteadas += valor;
+
+    // B. CLASIFICACIÓN (Solo para los reportes específicos)
     if (name.includes("mlp")) {{
         totals.mlpRute += valor;
     }} else if (name.includes("rental")) {{
@@ -2187,9 +2191,6 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     }} else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("delivery")) {{
         totals.carRute += valor;
     }}
-    
-    // SUMA TOTAL: Esto sumará todo lo que sea válido
-    totals.totalRuteadas += valor;
 }});
 
 
