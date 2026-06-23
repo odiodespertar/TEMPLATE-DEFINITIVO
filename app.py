@@ -1343,24 +1343,6 @@ body.excel-view .spr-real-val{{
 
 
 
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="5" style="padding:6px; text-align:right;">
-        TOTAL RUTEADAS
-    </td>
-    <td id="total-ruteadas-1"
-        style="
-            text-align:center;
-            color:#FF8C00;
-            font-size:16px;
-            font-weight:bold;
-        ">
-        0
-    </td>
-</tr>
-
-
-
 
 </tfoot>
     </table>
@@ -1421,21 +1403,6 @@ body.excel-view .spr-real-val{{
 </tr>
 
 
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL RUTEADAS
-    </td>
-    <td id="total-ruteadas-5"
-        style="
-            text-align:center;
-            color:#FF8C00;
-            font-size:16px;
-            font-weight:bold;
-        ">
-        0
-    </td>
-</tr>
 
 
 
