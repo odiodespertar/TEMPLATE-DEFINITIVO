@@ -2231,6 +2231,42 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             }});
         }});
 
+
+       // --- AQUÍ AÑADE EL BLOQUE DE TOTALES ---
+    let totals = {{ mlpDecl: 0, mlpRute: 0, rentalDecl: 0, rentalRute: 0, carDecl: 0, carRute: 0, totalRuteadas: 0 }};
+
+    Object.keys(fleet).forEach(name => {{
+        let stock = fleet[name].stock;
+        let used = fleet[name].used;
+        let nameLower = name.toLowerCase();
+        let asignado = (nameLower.includes("eja1 sp1") || nameLower.includes("eja1 sp2")) ? 1 : used;
+
+        if (nameLower.includes("mlp")) {{
+            totals.mlpDecl += stock; totals.mlpRute += asignado;
+        }} else if (nameLower.includes("rental")) {{
+            totals.rentalDecl += stock; totals.rentalRute += asignado;
+        }} else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("small van")) {{
+            totals.carDecl += stock; totals.carRute += asignado;
+        }}
+        totals.totalRuteadas += asignado;
+    }});
+
+    const updateVal = (id, val) => {{
+        let el = document.getElementById(id + '-' + tabId);
+        if (el) el.innerText = Math.round(val);
+    }};
+
+    updateVal('total-mlp-decl', totals.mlpDecl);
+    updateVal('total-mlp-rute', totals.mlpRute);
+    updateVal('total-rental-decl', totals.rentalDecl);
+    updateVal('total-rental-rute', totals.rentalRute);
+    updateVal('total-car-schedule', totals.carDecl);
+    updateVal('total-car-real', totals.carRute);
+    updateVal('total-ruteadas', totals.totalRuteadas);
+    // ----------------------------------------
+
+
+
 updateFleetFloat();
 
 actualizarTotales();
