@@ -4358,10 +4358,10 @@ function updateFleetFloat() {{
     htmlRight = `
         <div style="margin-top: 5px; padding-top: 5px;"> 
             <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
-                <span>TOTAL CAR (sched):</span> <span>\text{\${{totalCarSchedule}}}</span>
+                <span>TOTAL CAR (sched):</span> <span>\${{totalCarSchedule}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>\${{totalCarReal}}</span>
+                <span>TOTAL CAR (real):</span> <span>\text{\${{totalCarReal}}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
@@ -4370,7 +4370,7 @@ function updateFleetFloat() {{
                 <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}}</span>
+                <span>TOTAL MLP (rute):</span> <span>\${{totalMLPReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
