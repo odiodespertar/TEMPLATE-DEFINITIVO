@@ -3642,7 +3642,7 @@ if (currentTab == 5) {{
 
 
     // =========================================
-// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1 SCP1
 // =========================================
 
 if (currentTab == 2) {{
@@ -3975,7 +3975,7 @@ if (currentTab == 6) {{
         }}
     }}
     // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
-    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
+    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
         unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
         // Contingencia XICO o TUZAMAPA
@@ -3985,7 +3985,7 @@ if (currentTab == 6) {{
             ));
         }}
     }} 
-    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
+    // 6. PLANES LOCALES (CENTRO 1, CENTRO 2): Cascada estricta obligatoria
     else {{
         // Prioridad 1: Rentals
         unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
