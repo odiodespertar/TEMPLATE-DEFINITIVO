@@ -1039,6 +1039,18 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
                 <li>🟢 Tlalpan nte, Tlalpan sur, Xochimilco ➤ /Car extra 8h E1.</li>
             </ul>
         </div>
+
+
+        <div>
+            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+                <li>🟠 Local (Centros) ➤ Rental y crowd.</li>
+                <li>🔴 Foráneos ➤ MLP.</li>
+                <li>🟡 EJA1 SP ➤ Media milla.</li>
+                <li>🟢 Meganodo ➤ Truck 3.5.</li>
+                <li>🔵 Alchichica ➤ Small MLP.</li>
+            </ul>
+        </div>
     </div>
 </div>
 
