@@ -4274,6 +4274,9 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
+    let htmlLeft = "";
+    let htmlRight = "";
+
     let totalRentalStock = 0;   
     let totalRentalReal = 0;    
     let totalMLPStock = 0;      
@@ -4283,7 +4286,7 @@ function updateFleetFloat() {{
     let totalRuteadasGeneral = 0; 
     let totalNoCar = 0;         
 
-    // 1. Usamos #visor tr para capturar todas las filas sin importar la pestaña
+    // 1. Buscamos filas en el visor (más seguro)
     document.querySelectorAll('#visor tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim() || row.querySelector('td')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
@@ -4293,12 +4296,12 @@ function updateFleetFloat() {{
         if (name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // Ignoramos las filas que nosotros mismos creamos para los totales
+            // Ignoramos las filas que son de totales para no duplicar sumas
             if (nameLower.includes("total") && !row.classList.contains('fila-total-calculado')) {{
                 return;
             }}
 
-            // Si es una fila de datos normal, sumamos
+            // Solo sumamos filas que NO sean nuestras filas de totales inyectadas
             if (!row.classList.contains('fila-total-calculado')) {{
                 totalRuteadasGeneral += asignado;
 
@@ -4314,14 +4317,25 @@ function updateFleetFloat() {{
                     totalCarSchedule += stock;
                     totalCarReal += (left < 0) ? (stock + Math.abs(left)) : asignado;
                 }}
+
+                // Generar el contenido para la lista izquierda (si el contador está activo)
+                let isCar = nameLower.includes("car") || nameLower.includes("híbrida") || nameLower.includes("moto") || nameLower.includes("small van");
+                let colorCategoria = isCar ? "#FF4500" : "#0000CD";
+                
+                htmlLeft += `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
+                        <span style="color:#0a2745;">${{name}}</span>
+                        <span style="color:${colorCategoria}; font-weight:bold;">${{left}}/${{stock}}</span>
+                    </div>
+                `;
             }}
         }}
     }});
 
-    // 2. ESCRIBIMOS EN LAS CELDAS DE LA TABLA (IDs inyectados desde Python)
-    // Usamos el ID limpio (reemplazando espacios por guiones bajos) para asegurar que lo encuentre
+    // 2. ACTUALIZACIÓN DE CELDAS FÍSICAS EN LA TABLA
+    // Limpiamos espacios del tabId para IDs válidos (Ej: "C1_SCP1")
     let tabId = currentTab.replace(/ /g, "_");
-
+    
     const updateEl = (id, val) => {{
         let el = document.getElementById(id + '-' + tabId);
         if (el) el.innerText = val;
@@ -4333,12 +4347,21 @@ function updateFleetFloat() {{
     updateEl('total-mlp-rute', totalMLPReal);
     updateEl('total-car-real', totalCarReal);
     updateEl('total-ruteadas', totalRuteadasGeneral);
-    updateEl('total-no-car', totalNoCar);
-    updateEl('total-car-schedule', totalCarSchedule);
 
-    // 3. Eliminamos la referencia a 'fleet-float-body' para que no cause error
-    // Si necesitas guardar el estado, lo mantenemos:
-    if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
+    // 3. ACTUALIZACIÓN DEL RELOJ/CONTADOR (PROTEGIDO)
+    let floatBody = document.getElementById('fleet-float-body');
+    if (floatBody) {{
+        // Solo renderizamos el contenido estadístico dentro del cuerpo
+        // Esto permite que el contenedor padre (donde está el reloj) siga siendo arrastrable
+        floatBody.innerHTML = `
+        <div style="display:flex; gap:15px; align-items:flex-start;">
+            <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
+            <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">
+                </div>
+        </div>`;
+    }}
+
+    if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
 
 
