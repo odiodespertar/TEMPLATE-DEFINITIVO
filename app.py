@@ -3947,33 +3947,28 @@ if (currentTab == 2) {{
 
 let unidad;
 
+
+
 // ==============================================================================
 // 🔥 REGLAS EXCLUSIVAS PARA C1 SJA1 (PESTAÑA 6) - SIN TOCAR NINGUNA OTRA PESTAÑA
 // ==============================================================================
 if (currentTab == 6) {{
-    let pUpper = nombrePlan.toUpperCase();
+    let pUpper = (nombrePlan || "").toUpperCase().trim();
 
     // 1. ASIGNACIONES FIJAS DE 1 SOLA UNIDAD
     if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-        if (unidad) {{ usar = 1; }} 
     }} 
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-        if (unidad) {{ usar = 1; }} 
-    }}
+    }} 
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-        if (unidad) {{ usar = 1; }} 
     }}
     
-    // 2. EXCEPCIÓN ALCHICHICA (No descuenta del stock disponible / No afecta Schedule)
+    // 2. EXCEPCIÓN ALCHICHICA (No descuenta del stock disponible)
     else if (pUpper.includes("ALCHICHICA")) {{
         unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
-        if (unidad) {{
-            usar = Math.ceil(restante / unidad.spr);
-            unidad.restante += usar; // Compensación interna para el ciclo neto
-        }}
     }}
     
     // 3. REGLAS PARA PLANES FORÁNEOS
@@ -3986,7 +3981,6 @@ if (currentTab == 6) {{
                 f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
             ));
         }}
-        if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
     }} 
     
     // 4. REGLAS PARA PLANES LOCALES (Cascada estricta: Rentals -> MLP -> CAR)
@@ -4005,24 +3999,10 @@ if (currentTab == 6) {{
                 f.nombre.toLowerCase().includes("newbie")
             ));
         }}
-        if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
     }}
+}} 
+// 🔴 DE AQUÍ PARA ABAJO SE QUEDA TU CÓDIGO ORIGINAL INTACTO
 
-    // Si encuentra la asignación en la pestaña 6, mete los datos y salta a la siguiente fila
-    if (unidad && usar > 0) {{
-        let select = fila.querySelector('.s-type');
-        if (select) {{
-            select.value = unidad.nombre;
-            updateSelectColor(select);
-        }}
-        fila.querySelector('.u-manual').innerText = usar;
-        fila.querySelector('.spr-real-val').innerText = unidad.spr;
-        editedRowsPlan.add(fila);
-
-        unidad.restante -= usar;
-        restante -= (usar * unidad.spr);
-        continue; // 👈 Ojo aquí: esto blinda el código para que no toque nada de lo de abajo
-    }}
 }} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
 }} else if (currentTab == 2) {{
