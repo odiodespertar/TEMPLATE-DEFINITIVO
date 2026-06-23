@@ -4274,182 +4274,71 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-    let htmlLeft = "";
-    let htmlRight = "";
-
     let totalRentalStock = 0;   
     let totalRentalReal = 0;    
     let totalMLPStock = 0;      
     let totalMLPReal = 0;       
     let totalCarSchedule = 0;   
     let totalCarReal = 0;       
-    
     let totalRuteadasGeneral = 0; 
     let totalNoCar = 0;         
 
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let name = row.querySelector('.edit-name')?.innerText.trim();
-        
-        // Si la fila no tiene .edit-name (como las nuevas filas de total inyectadas), extraemos su primer td directo
-        if (!name) {{
-            name = row.querySelector('td')?.innerText.trim();
-        }}
-
+    // 1. Usamos #visor tr para capturar todas las filas sin importar la pestaña
+    document.querySelectorAll('#visor tr').forEach(row => {{
+        let name = row.querySelector('.edit-name')?.innerText.trim() || row.querySelector('td')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         let asignado = stock - left;
 
-        if (name && (stock > 0 || row.classList.contains('master-row'))) {{
+        if (name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // Ignoramos por completo cualquier fila que sirva de totalizador para evitar duplicar sumas
-            if (nameLower.includes("total") || nameLower.includes("ignorar")) {{
-                return; 
+            // Ignoramos las filas que nosotros mismos creamos para los totales
+            if (nameLower.includes("total") && !row.classList.contains('fila-total-calculado')) {{
+                return;
             }}
 
-            totalRuteadasGeneral += asignado;
+            // Si es una fila de datos normal, sumamos
+            if (!row.classList.contains('fila-total-calculado')) {{
+                totalRuteadasGeneral += asignado;
 
-            if (nameLower.includes("rental")) {{
-                totalRentalStock += stock;
-                totalRentalReal += asignado;
-            }} 
-            else if (nameLower.includes("mlp")) {{
-                totalMLPStock += stock;
-                totalMLPReal += asignado;
-            }} 
-            else if (
-                nameLower.includes("car") || 
-                nameLower.includes("moto") || 
-                nameLower.includes("newbie") || 
-                nameLower.includes("small van") || 
-                nameLower.includes("híbrida")
-            ) {{
-                totalCarSchedule += stock;
-                if (left < 0) {{
-                    totalCarReal += stock + Math.abs(left);
-                }} else {{
-                    totalCarReal += asignado;
+                if (nameLower.includes("rental")) {{
+                    totalRentalStock += stock;
+                    totalRentalReal += asignado;
+                }}
+                else if (nameLower.includes("mlp")) {{
+                    totalMLPStock += stock;
+                    totalMLPReal += asignado;
+                }} 
+                else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("newbie") || nameLower.includes("small van") || nameLower.includes("híbrida")) {{
+                    totalCarSchedule += stock;
+                    totalCarReal += (left < 0) ? (stock + Math.abs(left)) : asignado;
                 }}
             }}
-
-            let isCar = nameLower.includes("car") || nameLower.includes("híbrida") || nameLower.includes("moto") || nameLower.includes("small van");
-            let colorCategoria = isCar ? "#FF4500" : "#0000CD";
-
-            if (!isCar) {{
-                if (nameLower.includes("mlp") || name.includes("foráneo") || nameLower.includes("rental")) {{
-                    totalNoCar += asignado;
-                }}
-            }}
-
-            htmlLeft += `
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                    <span style="color:#0a2745;">` + name + `</span>
-                    <span style="color:` + colorCategoria + `; font-weight:bold;">` + left + `/` + stock + `</span>
-                </div>
-            `;
         }}
     }});
 
-    // Renderizado del cuadro flotante derecho
-    if (currentTab === "C1 SCP1") {{
-        htmlRight = `
-            <div style="margin-top: 5px; padding-top: 5px;"> 
-                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL RENTAL (decl):</span> <span>` + totalRentalStock + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL RENTAL (rute):</span> <span>` + totalRentalReal + `</span>
-                </div>
-                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL MLP (decl):</span> <span>` + totalMLPStock + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL MLP (rute):</span> <span>` + totalMLPReal + `</span>
-                </div>
-                <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
-                <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
-                    <span>TOTAL RUTEADAS:</span> <span>` + totalRuteadasGeneral + `</span>
-                </div>
-            </div>
-        `;
-    }} 
-    else if (currentTab === "C1 SJA1") {{
-        htmlRight = `
-            <div style="margin-top: 5px; padding-top: 5px;"> 
-                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL RENTAL (decl):</span> <span>` + totalRentalStock + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL RENTAL (rute):</span> <span>` + totalRentalReal + `</span>
-                </div>
-                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL MLP (decl):</span> <span>` + totalMLPStock + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL MLP (rute):</span> <span>` + totalMLPReal + `</span>
-                </div>
-                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
-                <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL CAR (decl):</span> <span>` + totalCarSchedule + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL CAR (rute):</span> <span>` + totalCarReal + `</span>
-                </div>
-                <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
-                <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
-                    <span>TOTAL RUTEADAS:</span> <span>` + totalRuteadasGeneral + `</span>
-                </div>
-            </div>
-        `;
-    }} 
-    else {{
-        htmlRight = `
-            <div style="margin-top: 5px; padding-top: 5px;">
-                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px;">
-                    <span>TOTAL CAR:</span> <span>` + totalCarReal + `</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
-                    <span>TOTAL MLP:</span> <span>` + totalNoCar + `</span>
-                </div>
-            </div>
-        `;
-    }}
+    // 2. ESCRIBIMOS EN LAS CELDAS DE LA TABLA (IDs inyectados desde Python)
+    // Usamos el ID limpio (reemplazando espacios por guiones bajos) para asegurar que lo encuentre
+    let tabId = currentTab.replace(/ /g, "_");
 
-    // Inyección de valores en las nuevas celdas físicas creadas en la tabla HTML
-    let cellRentalDecl = document.getElementById('total-rental-decl-' + currentTab);
-    if (cellRentalDecl) cellRentalDecl.innerText = totalRentalStock;
+    const updateEl = (id, val) => {{
+        let el = document.getElementById(id + '-' + tabId);
+        if (el) el.innerText = val;
+    }};
 
-    let cellRentalRute = document.getElementById('total-rental-rute-' + currentTab);
-    if (cellRentalRute) cellRentalRute.innerText = totalRentalReal;
+    updateEl('total-rental-decl', totalRentalStock);
+    updateEl('total-rental-rute', totalRentalReal);
+    updateEl('total-mlp-decl', totalMLPStock);
+    updateEl('total-mlp-rute', totalMLPReal);
+    updateEl('total-car-real', totalCarReal);
+    updateEl('total-ruteadas', totalRuteadasGeneral);
+    updateEl('total-no-car', totalNoCar);
+    updateEl('total-car-schedule', totalCarSchedule);
 
-    let cellMlpDecl = document.getElementById('total-mlp-decl-' + currentTab);
-    if (cellMlpDecl) cellMlpDecl.innerText = totalMLPStock;
-
-    let cellMlpRute = document.getElementById('total-mlp-rute-' + currentTab);
-    if (cellMlpRute) cellMlpRute.innerText = totalMLPReal;
-
-    // Sincronizaciones del footer antiguo
-    let elNoCar = document.getElementById('total-no-car-' + currentTab);
-    if (elNoCar) elNoCar.innerText = totalNoCar; 
-
-    let elCarReal = document.getElementById('total-car-real-' + currentTab);
-    if (elCarReal) elCarReal.innerText = totalCarReal;
-
-    let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
-    if (elRuteadas) elRuteadas.innerText = totalRuteadasGeneral;
-
-    let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
-    if (elCarSchedule) elCarSchedule.innerText = totalCarSchedule;
-
-    document.getElementById('fleet-float-body').innerHTML = `
-    <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">` + htmlLeft + `</div>
-        <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">` + htmlRight + `</div>
-    </div>`;
-
-    if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
+    // 3. Eliminamos la referencia a 'fleet-float-body' para que no cause error
+    // Si necesitas guardar el estado, lo mantenemos:
+    if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
 }}
 
 
