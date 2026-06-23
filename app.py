@@ -78,9 +78,9 @@ u_C1_SJA1 = {
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
     "Extra Large Van MLP H&B": [70, 70],
-    "Rental Electric Large Van": [150, 170],
-    "Rental Large Van": [150, 170],
-    "Rental Replacement": [150, 170],
+    "Rental Electric Large Van": [150, 150],
+    "Rental Large Van": [150, 150],
+    "Rental Replacement": [150, 150],
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
@@ -92,10 +92,10 @@ u_C1_SJA1 = {
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
-    "CENTRO", "EJA1 SP", "XICO", "TEZUITLAN", "CENTRO 2", 
+    "CENTRO 1", "CENTRO 2", "EJA1 SP1", "EJA1 SP2", "XICO", "TEZUITLAN", 
     "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
     "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ALCHICHICA", 
-    "PLAN 16", "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
+    "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
 ]
 
 
@@ -3642,7 +3642,7 @@ if (currentTab == 5) {{
 
 
     // =========================================
-// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1 SCP1
 // =========================================
 
 if (currentTab == 2) {{
@@ -3975,7 +3975,7 @@ if (currentTab == 6) {{
         }}
     }}
     // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
-    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
+    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
         unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
         // Contingencia XICO o TUZAMAPA
@@ -3985,7 +3985,7 @@ if (currentTab == 6) {{
             ));
         }}
     }} 
-    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
+    // 6. PLANES LOCALES (CENTRO 1, CENTRO 2): Cascada estricta obligatoria
     else {{
         // Prioridad 1: Rentals
         unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
