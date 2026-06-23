@@ -4795,6 +4795,19 @@ console.log(
         document.onmousemove = null;
     }}
 }}
+
+
+function actualizarVisibilidadContador() {{
+    // Busca el contador
+    const fleetFloat = document.getElementById("fleet-float");
+    if (!fleetFloat) return;
+
+    // Lógica: Si es modo Excel, lo oculta. Si no, solo lo muestra en la pestaña 6.
+    const isExcel = document.body.classList.contains("excel-view");
+    fleetFloat.style.display = isExcel ? "none" : (currentTab === 6 ? "block" : "none");
+}}
+
+
   
 </script>
 </body>
