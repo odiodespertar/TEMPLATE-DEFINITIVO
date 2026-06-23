@@ -1006,7 +1006,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         top: -600px; 
         left: 0; 
         width: 100%; 
-        height: 255px; 
+        height: 250px; 
         background: #f7efeb; 
         border-bottom: 3px solid #FF6347; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
@@ -1027,28 +1027,28 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🔴 Campeche ➤ Rental Large Van / NODOS ➤ Delivery Cell-Dedicada.</li>
-                <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🔴 Campeche ➤ Rental Large Van / NODOS = Delivery Cell-Dedicada.</li>
+                <li>🟢 Escárcega ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Escárcega Ext ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Maxcanun ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Candelaria ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Seybaplaya ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Champotón ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🟢 Holpechen ➤ Large Van MLP (nodo=híbrida).</li>
             </ul>
         </div>
 
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Resto planes ➤ Car 8h/Small 9h ext.</li>
-                <li>🟢 Tlalpan nte, Tlalpan sur, Xochimilco ➤ /Car extra 8h E1.</li>
-            </ul>
-        </div>
-
-
-        <div>
-            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Local (Centros) ➤ Rental y crowd.</li>
-                <li>🔴 Foráneos (Xico puede llevar crowd) ➤ MLP.</li>
-                <li>🟡 EJA1 SP ➤ Media milla.</li>
-                <li>🟢 Meganodo ➤ Truck 3.5.</li>
-                <li>🔵 Alchichica (next day) ➤ Small MLP.</li>
+                <li>🟠 Chalco ➤ Car 8h.</li>
+                <li>🟢 Coyoacán centro ➤ Car 8h.</li>
+                <li>🟢 Iztapalapa ➤ Car 8h/Small 9h ext.</li>
+                <li>🟠 Milpa alta ➤ Car 8h.</li>
+                <li>🟢 Tláhuac ➤ Car 8h.</li>
+                <li>🟢 Tlalpan nte ➤ Small 9h ext/Car extra 8h E1.</li>
+                <li>🟢 Tlalpan sur ➤ Car extra 8h E1.</li>
+                <li>🟡 Xochimilco ➤ Small 9h ext/Car extra 8h E1.</li>
             </ul>
         </div>
     </div>
@@ -1772,7 +1772,9 @@ gap:10px;
 
 
 document.addEventListener("DOMContentLoaded", () => {{
+
     const flotante = document.getElementById("fleet-float");
+
     let moviendo = false;
     let offsetX = 0;
     let offsetY = 0;
@@ -1810,7 +1812,7 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     }});
 
-
+}});
         
 
 
@@ -1823,14 +1825,6 @@ document.addEventListener("DOMContentLoaded", () => {{
     let chronoInterval;
     let startTime;
     let elapsedTime = 0;
-
-
-   
-    document.addEventListener("DOMContentLoaded", () => {{
-        actualizarVisibilidadContador();
-    }});
-  
-
 
 
     function aplicarPerfil() {{
@@ -1870,24 +1864,6 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 
 
-function actualizarVisibilidadContador() {{
-        const fleetFloat = document.getElementById("fleet-float");
-        if (!fleetFloat) return;
-
-        const isExcel = document.body.classList.contains("excel-view");
-
-        // Si es Excel, siempre oculto.
-        // Si no es Excel, mostramos SOLO si estamos en la pestaña 6.
-        if (isExcel) {{
-            fleetFloat.style.display = "none";
-        }} else {{
-            fleetFloat.style.display = (currentTab === 6) ? "block" : "none";
-        }}
-    }}
-
-
-
-
 
 function showTab(n, btn) {{
 
@@ -1912,7 +1888,6 @@ function showTab(n, btn) {{
     if (excelBtn) {{
         // Habilitado para C1 (2) y C1 SJA1 (6)
         excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
-        actualizarVisibilidadContador();
     }}
 }}
 
@@ -2710,6 +2685,7 @@ function toggleExcelView() {{
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
+        // RESTAURACIÓN FORZADA:
         // 1. Quitar el 'display: none' de las filas ocultas
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
@@ -2722,10 +2698,6 @@ function toggleExcelView() {{
         // 2. Obligar a las filas del tfoot a mostrarse
         document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
             fila.style.setProperty('display', 'table-row', 'important');
-        }});
-
-        // 3. LLAMADA ÚNICA AQUÍ (fuera del forEach)
-        actualizarVisibilidadContador();
         }});
     }}
 }}
@@ -4750,7 +4722,7 @@ if(minutos > 15){{
         ){{
 
             alert(
-                "⚠️ Apúrate que ya inicia 😱: "
+                "⚠️ En menos de 5 minutos inicia: "
                 + siguiente.tarea.nombre
             );
 
@@ -4799,8 +4771,6 @@ function dragElement(elmnt) {{
         document.onmousemove = elementDrag;
     }}
 
-
-
     function elementDrag(e) {{
         e = e || window.event;
         e.preventDefault();
@@ -4825,12 +4795,6 @@ console.log(
         document.onmousemove = null;
     }}
 }}
-
-
-
-
-
-
   
 </script>
 </body>
