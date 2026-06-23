@@ -2217,8 +2217,12 @@ totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + tot
 
 console.log("DEBUG: MLP=" + totals.mlpRute + ", Rental=" + totals.rentalRute + ", Car=" + totals.carRute + ", Otros=" + totals.otrosRute + ", TOTAL=" + totals.totalRuteadas);
 
+// 3. ACTUALIZACIÓN DE PANTALLA
 function setT(id, val) {{
-    let finalId = id + '-' + tabId; // Ejemplo: "total-ruteadas-2"
+    // 1. Construimos el ID aquí adentro usando el id que recibes + tabId
+    let finalId = id + '-' + tabId;
+    
+    // 2. Buscamos el elemento usando el finalId que acabamos de crear
     let el = document.getElementById(finalId);
     
     if (el) {{
@@ -2229,6 +2233,7 @@ function setT(id, val) {{
     }}
 }}
 
+// Ahora tus llamadas funcionan perfecto porque pasan el nombre base
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
 setT('total-rental-decl', totals.rentalDecl);
