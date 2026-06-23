@@ -4290,48 +4290,50 @@ function updateFleetFloat() {{
     let htmlLeft = "";
     let htmlRight = "";
 
-    let totalMLPReal = 0;       // Ruteadas (Usadas)
-    let totalMLPStock = 0;      // Declaradas (Sched)
+    // Contadores para las métricas solicitadas
+    let totalRentalStock = 0;   // Rental Declaradas
+    let totalRentalReal = 0;    // Rental Ruteadas
+    let totalMLPStock = 0;      // MLP Declaradas
+    let totalMLPReal = 0;       // MLP Ruteadas
+    let totalCarSchedule = 0;   // Car Declaradas
+    let totalCarReal = 0;       // Car Ruteadas
+    
+    let totalRuteadasGeneral = 0; // El gran total de todas las unidades asignadas
+    let totalNoCar = 0;         // Mantiene tu lógica original del pie de tabla físico
 
-    let totalRentalReal = 0;    // Ruteadas (Usadas)
-    let totalRentalStock = 0;   // Declaradas (Sched)
-
-    let totalCarReal = 0;       // Ruteadas
-    let totalCarSchedule = 0;   // Declaradas
-    let totalNoCar = 0;         // El total original de MLP que tu código ya calculaba
-
+    // Buscamos las filas correspondientes a la pestaña activa
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         
-        // Calculamos lo asignado
+        // Unidades asignadas/usadas (Ruteadas reales)
         let asignado = stock - left;
 
-        if(name && stock > 0) {{
+        if (name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 1. CONTEO DE CARS
-            if(nameLower.includes("car")) {{
+            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo)
+            totalRuteadasGeneral += asignado;
+
+            // 2. Clasificación estricta para el desglose lateral
+            if (nameLower.includes("rental")) {{
+                totalRentalStock += stock;
+                totalRentalReal += asignado;
+            }} 
+            else if (name.includes("MLP")) {{
+                totalMLPStock += stock;
+                totalMLPReal += asignado;
+            }} 
+            else if (nameLower.includes("car")) {{
                 totalCarSchedule += stock;
             }}
 
-            // 2. CONTEO DE MLP (Acepta las normales y las que dicen "foráneo")
-            if(name.includes("MLP")) {{
-                totalMLPStock += stock;
-                totalMLPReal += asignado;
-            }}
-
-            // 3. CONTEO DE RENTALS (Cualquiera con la palabra "rental")
-            if(nameLower.includes("rental")) {{
-                totalRentalStock += stock;
-                totalRentalReal += asignado;
-            }}
-
+            // Lógica de color de tu interfaz original
             let isCar = nameLower.includes("car") || nameLower.includes("híbrida");
             let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
-            // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES DE ABAJO ---
+            // --- CONSERVACIÓN DE TU LÓGICA DE TOTALES INFERIORES ORIGINALES ---
             if (isCar) {{
                 if (left < 0) {{
                     totalCarReal += stock + Math.abs(left);
@@ -4339,64 +4341,85 @@ function updateFleetFloat() {{
                     totalCarReal += asignado;
                 }}
             }} else {{
-                // Mantenemos la regla exacta original para totalNoCar
-                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo")) {{
+                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo") || nameLower.includes("rental")) {{
                     totalNoCar += asignado;
                 }}
             }}
 
+            // Generación de la lista de la columna izquierda flotante
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                    <span style="color:#0a2745;">${{name}}</span>
-                    <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
+                    <span style="color:#0a2745;">\${name}</span>
+                    <span style="color:\${colorCategoria}; font-weight:bold;">\${left}/\${stock}</span>
                 </div>
             `;
         }}
     }});
 
-    // Columna derecha flotante: Aquí SÍ desglosamos Declaradas vs Ruteadas (Solo se ve en Vista Normal)
-    htmlRight = `
-        <div style="margin-top: 5px; padding-top: 5px;"> 
-            <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
-                <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
-            </div>
+    // 3. VALIDACIÓN DE PESTAÑAS: Solo aplica el desglose en C1 SCP1 y C1 SJA1
+    // Ajusta los nombres de las pestañas si difieren de tus IDs de tab internos
+    if (currentTab === "C1 SCP1" || currentTab === "C1 SJA1") {{
+        htmlRight = `
+            <div style="margin-top: 5px; padding-top: 5px;"> 
+                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL RENTAL (decl):</span> <span>\${totalRentalStock}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL RENTAL (rute):</span> <span>\text{\${totalRentalReal}}</span>
+                </div>
 
-            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
-            <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
-                <span>TOTAL MLP (decl):</span> <span>${{totalMLPStock}}</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>${{totalMLPReal}}</span>
-            </div>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL MLP (decl):</span> <span>\${totalMLPStock}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL MLP (rute):</span> <span>\${totalMLPReal}</span>
+                </div>
 
-            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+                <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
-            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (decl):</span> <span>${{totalRentalStock}}</span>
+                <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 13px;">
+                    <span>TOTAL CAR (decl):</span> <span>\${totalCarSchedule}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
+                    <span>TOTAL CAR (real):</span> <span>\${totalCarReal}</span>
+                </div>
+
+                <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
+
+                <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
+                    <span>TOTAL RUTEADAS:</span> <span>\${totalRuteadasGeneral}</span>
+                </div>
             </div>
-            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (rute):</span> <span>${{totalRentalReal}}</span>
+        `;
+    }} else {{
+        // Lógica por defecto para las demás pestañas si decides mantener el diseño anterior
+        htmlRight = `
+            <div style="margin-top: 5px; padding-top: 5px;">
+                <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px;">
+                    <span>TOTAL CAR:</span> <span>\${totalCarReal}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
+                    <span>TOTAL MLP:</span> <span>\${totalNoCar}</span>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }}
 
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
-        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">${{htmlRight}}</div>
+        <div style="flex:1; min-width:180px;">\${htmlLeft}</div>
+        <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">\${htmlRight}</div>
     </div>
     `;
 
     // ==============================================================================
-    // SE MANTIENEN LOS ELEMENTOS DE ABAJO CON EL COMPORTAMIENTO ORIGINAL INTACTO
+    // ASIGNACIONES EN EL PIE DE TABLA ORIGINAL (VISTA NORMAL / NO MUEVE TU EXCEL)
     // ==============================================================================
     let elNoCar = document.getElementById('total-no-car-' + currentTab);
     if (elNoCar) {{
-        elNoCar.innerText = totalNoCar; // Regresa al cálculo original (MLP Clásicas + Foráneas)
+        elNoCar.innerText = totalNoCar; 
     }}
 
     let elCarReal = document.getElementById('total-car-real-' + currentTab);
@@ -4404,10 +4427,9 @@ function updateFleetFloat() {{
         elCarReal.innerText = totalCarReal;
     }}
 
-    let totalRuteadas = totalMLPReal + totalCarReal + totalRentalReal; 
     let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
     if (elRuteadas) {{
-        elRuteadas.innerText = totalRuteadas;
+        elRuteadas.innerText = totalRuteadasGeneral;
     }}
 
     let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
@@ -4417,9 +4439,8 @@ function updateFleetFloat() {{
 
     document.getElementById('fleet-float-body').innerHTML = html;
 
-    if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
+    if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
-
 
 aplicarPerfil();
 
