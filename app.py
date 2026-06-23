@@ -978,6 +978,22 @@ body.excel-view .meli-table tfoot tr:has(#total-ruteadas-6) {{
     display: table-row !important;
 }}
 
+
+body.excel-view .fila-total td[colspan] {{
+    /* En lugar de estirarse, dejamos que el texto se ajuste */
+    width: auto !important;
+    text-align: right !important;
+    padding-right: 10px !important;
+    /* Si quieres que la fila no sea tan alta, ajusta esto: */
+    height: 22px !important;
+}}
+
+body.excel-view .fila-total td#total-ruteadas-6 {{
+    /* Aseguramos que el número tenga un ancho fijo pequeño */
+    width: 60px !important;
+    text-align: center !important;
+}}
+
     
     </style>
 
