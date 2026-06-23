@@ -1322,17 +1322,6 @@ body.excel-view .spr-real-val{{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="5" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-1"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="5" style="padding:6px; text-align:right;">
         TOTAL CAR DECLARADAS
     </td>
     <td id="total-car-schedule-1"
@@ -1412,17 +1401,6 @@ body.excel-view .spr-real-val{{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-5"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL CAR DECLARADAS
     </td>
     <td id="total-car-schedule-5"
@@ -1497,17 +1475,6 @@ body.excel-view .spr-real-val{{
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
        <tfoot class="fila-total">
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-4"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
 
 <tr class="fila-total">
     <td style="border:none;"></td>
