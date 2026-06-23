@@ -2183,7 +2183,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     if (name.includes("mlp")) totals.mlpRute += valor;
     else if (name.includes("rental")) totals.rentalRute += valor;
     // --- AQUÍ ESTÁ EL CAMBIO PARA INCLUIR DELIVERY ---
-    else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("delivery")) {{
+    else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("Delivery Cell Large Van")) {{
         totals.carRute += valor;
     }}
     
