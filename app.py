@@ -811,10 +811,17 @@ html body .meli-table tbody tr:last-child {{
     overflow-y: auto;
 }}
 
-/* --- ESTO ES LO NUEVO QUE QUITA LA COLUMNA 2 --- */
-#fleet-float table th:nth-child(2), 
-#fleet-float table td:nth-child(2) {{
-    display: none !important;
+/* Oculta el bloque de totales a la derecha de la línea divisoria */
+#fleet-float > div, 
+#fleet-float > span,
+#fleet-float .totales-container, /* Ajusta el nombre de esta clase si es diferente */
+#fleet-float div[style*="border-left"] {{
+    display: none !important; 
+}}
+
+/* Opcional: Si el contador sigue siendo muy ancho, ajusta el tamaño */
+#fleet-float {{
+    width: 250px !important; 
 }}
 
 /* Checkbox */
