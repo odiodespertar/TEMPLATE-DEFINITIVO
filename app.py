@@ -1211,7 +1211,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-2" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-ruteadas-2" style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
 
@@ -1274,7 +1274,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-6" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-ruteadas-6" style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold !important;">0</td>
     </tr>
 </tfoot>
     </table>
@@ -1320,7 +1320,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         TOTAL CAR RUTEADAS
     </td>
     <td id="total-car-real-1"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
@@ -1407,7 +1407,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <td id="total-ruteadas-5"
         style="
             text-align:center;
-            color:#FF8C00;
+            color:#FF0000;
             font-size:16px;
             font-weight:bold;
         ">
