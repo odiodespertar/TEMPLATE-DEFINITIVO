@@ -4298,6 +4298,8 @@ function updateFleetFloat() {{
 
     let totalCarReal = 0;       // Ruteadas
     let totalCarSchedule = 0;   // Declaradas
+    
+    let totalRuteadasGeneral = 0; // 🔥 NUEVO CONTADOR: Va a sumar TODO lo asignado
     let totalNoCar = 0;         // El total original para el pie de tabla físico
 
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
@@ -4305,24 +4307,27 @@ function updateFleetFloat() {{
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         
-        // Calculamos lo asignado (Ruteadas)
+        // Calculamos lo asignado en esta fila concreta (Ruteadas reales)
         let asignado = stock - left;
 
         if(name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 🔥 FILTRO EXCLUSIVO Y SEPARADO PARA QUE NO SE MEZCLEN
-            // 1. Si contiene la palabra RENTAL (Prioridad máxima de conteo)
+            // 1. Acumulamos directamente en el Gran Total de Ruteadas (Suma CAR, MLP, RENTAL...)
+            totalRuteadasGeneral += asignado;
+
+            // 2. FILTRO EXCLUSIVO PARA EL PANEL FLOTANTE DERECHO
+            // Si contiene la palabra RENTAL (Prioridad máxima de conteo)
             if (nameLower.includes("rental")) {{
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }}
-            // 2. Si contiene MLP y NO es rental (Evita que las Rental Large Van entren aquí)
+            // Si contiene MLP y NO es rental (Evita que las Rental Large Van entren aquí)
             else if (name.includes("MLP")) {{
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }}
-            // 3. Si contiene CAR
+            // Si contiene CAR
             else if (nameLower.includes("car")) {{
                 totalCarSchedule += stock;
             }}
@@ -4369,7 +4374,7 @@ function updateFleetFloat() {{
                 <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\${{totalMLPReal}}</span>
+                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
@@ -4403,11 +4408,10 @@ function updateFleetFloat() {{
         elCarReal.innerText = totalCarReal;
     }}
 
-    // Aquí sumamos todo lo ruteado real para el gran total de ruteadas del pie de tabla
-    let totalRuteadas = totalMLPReal + totalCarReal + totalRentalReal; 
+    // 🔥 AQUÍ SE INYECTA EL GRAN TOTAL: Incluye Cars, MLPs, Rentals y cualquier vehículo asignado
     let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
     if (elRuteadas) {{
-        elRuteadas.innerText = totalRuteadas;
+        elRuteadas.innerText = totalRuteadasGeneral;
     }}
 
     let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
