@@ -1035,7 +1035,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Planes ➤ Car 8h/Small 9h ext.</li>
+                <li>🟠 Resto planes ➤ Car 8h/Small 9h ext.</li>
                 <li>🟢 Tlalpan nte, Tlalpan sur, Xochimilco ➤ /Car extra 8h E1.</li>
             </ul>
         </div>
