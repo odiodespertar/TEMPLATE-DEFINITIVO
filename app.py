@@ -3961,7 +3961,7 @@ if (currentTab == 6) {{
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
         if (unidad) {{ usar = 1; }} 
-    } }
+    }}
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
         if (unidad) {{ usar = 1; }} 
