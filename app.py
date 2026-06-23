@@ -1882,6 +1882,8 @@ function showTab(n, btn) {{
 
     recalc();
 
+    actualizarVisibilidadContador();
+
     updateFleetFloat();
 
     const excelBtn = document.getElementById('excel-btn');
@@ -2698,6 +2700,7 @@ function toggleExcelView() {{
         // 2. Obligar a las filas del tfoot a mostrarse
         document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
             fila.style.setProperty('display', 'table-row', 'important');
+            actualizarVisibilidadContador();
         }});
     }}
 }}
