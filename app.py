@@ -2668,7 +2668,7 @@ function toggleExcelView() {{
             styleEl.id = styleId;
             styleEl.innerHTML = `
                 /* Ocultamos las filas que NO queremos ver */
-                body.excel-view .excel-hide { display: none !important; }}
+                body.excel-view .excel-hide {{ display: none !important; }}
                 
                 /* Mantenemos visible la fila de Total Ruteadas */
                 body.excel-view .fila-total-ruteadas { display: table-row !important; }}
