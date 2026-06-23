@@ -1191,7 +1191,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-        <td id="total-rental-rute-2" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-rental-rute-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
@@ -1201,7 +1201,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
-        <td id="total-mlp-rute-2" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-mlp-rute-2" style="text-align:center; color:#9370D8; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
     <td style="border:none;"></td>
@@ -1211,7 +1211,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-2" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-ruteadas-2" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
 
@@ -1244,7 +1244,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-        <td id="total-rental-rute-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-rental-rute-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
@@ -1254,27 +1254,27 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
-        <td id="total-mlp-rute-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-mlp-rute-6" style="text-align:center; color:#9370D8; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR DECLARADAS</td>
-        <td id="total-car-schedule-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-car-schedule-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR RUTEADAS</td>
-        <td id="total-car-real-6" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-car-real-6" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold !important;">0</td>
     </tr>   
         <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL OTROS (Delivery/Truck)</td>
-        <td id="total-otros-6" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-otros-6" style="text-align:center; color:#8B4513; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-6" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-ruteadas-6" style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold !important;">0</td>
     </tr>
 </tfoot>
     </table>
