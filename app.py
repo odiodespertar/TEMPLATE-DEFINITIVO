@@ -2750,7 +2750,6 @@ function generarExcelPolys() {{
 
     body.innerHTML = "";
     let tabId = currentTab;
-
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
         let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
         let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
@@ -2774,7 +2773,6 @@ function generarExcelPolys() {{
             let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
-
             if (fRow) {{
                 let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
                 let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
@@ -2782,31 +2780,21 @@ function generarExcelPolys() {{
             }}
 
             let filaHtml = '<tr>';
-
-            // VALIDACIÓN DE CAMPECHE PARA AGRUPAR EN UNA SOLA CELDA EL PLAN Y VOLUMEN
-            if (plan.toUpperCase() === "CAMPECHE") {{
-                if (index === 0) {{
-                    filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
-                            ${{plan}}
-                        </td>
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
-                            ${{vol}}
-                        </td>
-                    `;
-                }}
-            }} else {{
+            
+            // 🔥 UNIFICACIÓN UNIVERSAL (Estilo Campeche para todos los planes):
+            // En la primera fila del polígono creamos las celdas agrupadas con rowspan
+            if (index === 0) {{
                 filaHtml += `
-                    <td style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
                         ${{plan}}
                     </td>
-                    <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
                         ${{vol}}
                     </td>
                 `;
             }}
 
-            // Columnas que van individuales por cada fila de carro
+            // Columnas individuales por cada vehículo asignado
             filaHtml += `
                 <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">
                     ${{unidad}}
@@ -2819,18 +2807,10 @@ function generarExcelPolys() {{
                 </td>
             `;
 
-            // VALIDACIÓN DE CAMPECHE PARA AGRUPAR EN UNA SOLA CELDA EL NODO TAMBIÉN
-            if (plan.toUpperCase() === "CAMPECHE") {{
-                if (index === 0) {{
-                    filaHtml += `
-                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
-                            ${{nodoTxt}}
-                        </td>
-                    `;
-                }}
-            }} else {{
+            // Agrupamos también la celda de NODOS en un solo bloque con rowspan
+            if (index === 0) {{
                 filaHtml += `
-                    <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
                         ${{nodoTxt}}
                     </td>
                 `;
@@ -2840,12 +2820,10 @@ function generarExcelPolys() {{
             body.innerHTML += filaHtml;
         }});
     }});
-
     let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
     let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
     if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
 }}
-
 
 
 function obtenerCarFlexible() {{
