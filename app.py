@@ -1206,46 +1206,6 @@ body.excel-view .spr-real-val{{
 </tr>
 
             
-            <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="5"
-        style="
-            padding:6px;
-            text-align:right;
-        ">
-        TOTAL CAR DECLARADAS
-    </td>
-    <td id="total-car-schedule-2"
-        style="
-            text-align:center;
-            color:#3CB371;
-            font-size:16px;
-            font-weight:bold;
-        ">
-        0
-    </td>
-</tr>
-
-
-
-            </tr>
-<!-- NUEVA FILA -->
-    <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="5" style="padding:6px; text-align:right;">
-        TOTAL CAR RUTEADAS 
-    </td>
-    <td id="total-car-real-2"
-        style="text-align:center;
-               color:#FF4500;
-               font-size:16px;
-               font-weight:bold !important;">
-        0
-    </td>
-</tr>       
-
-
-
 
 <tr class="fila-total">
     <td style="border:none;"></td>
