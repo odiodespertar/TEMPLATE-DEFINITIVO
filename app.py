@@ -2805,50 +2805,46 @@ function generarExcelPolys() {{
             }}
 
             let filaHtml = '<tr>';
-            
-            // 🔥 UNIFICACIÓN UNIVERSAL (Estilo Campeche para todos los planes):
-            // En la primera fila del polígono creamos las celdas agrupadas con rowspan
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">
-                        ${{plan}}
-                    </td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
-                        ${{vol}}
-                    </td>
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">${{plan}}</td>
+                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{vol}}</td>
                 `;
             }}
-
-            // Columnas individuales por cada vehículo asignado
             filaHtml += `
-                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">
-                    ${{unidad}}
-                </td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
-                    ${{asignadas}}
-                </td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">
-                    ${{valSpr}}
-                </td>
+                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{asignadas}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{valSpr}}</td>
             `;
-
-            // Agrupamos también la celda de NODOS en un solo bloque con rowspan
             if (index === 0) {{
-                filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">
-                        ${{nodoTxt}}
-                    </td>
-                `;
+                filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
             }}
-
             filaHtml += '</tr>';
             body.innerHTML += filaHtml;
         }});
     }});
+
+
+    // 1. Asignamos el valor del total
     let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
     let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
     if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
+
+    // 2. 🔥 LIMPIEZA EXCLUSIVA PARA EXCEL:
+    // Ocultamos todas las filas del tfoot de la tabla actual que NO sean la de "TOTAL RUTEADAS"
+    let tablaActual = document.querySelector('#tab-' + tabId + ' table');
+    if (tablaActual) {{
+        let filasFooter = tablaActual.querySelectorAll('tfoot tr');
+        filasFooter.forEach(fila => {{
+            if (!fila.innerText.includes("TOTAL RUTEADAS")) {{
+                fila.style.display = 'none';
+            }}
+        }});
+    }}
 }}
+
+
+
 
 
 function obtenerCarFlexible() {{
