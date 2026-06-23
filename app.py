@@ -2219,10 +2219,7 @@ console.log("DEBUG: MLP=" + totals.mlpRute + ", Rental=" + totals.rentalRute + "
 
 // 3. ACTUALIZACIÓN DE PANTALLA
 function setT(id, val) {{
-    // 1. Construimos el ID aquí adentro usando el id que recibes + tabId
     let finalId = id + '-' + tabId;
-    
-    // 2. Buscamos el elemento usando el finalId que acabamos de crear
     let el = document.getElementById(finalId);
     
     if (el) {{
@@ -2233,7 +2230,11 @@ function setT(id, val) {{
     }}
 }}
 
-// Ahora tus llamadas funcionan perfecto porque pasan el nombre base
+// --- PONLO AQUÍ: Esto garantiza que la suma sea la correcta ---
+totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+// -----------------------------------------------------------------
+
+// Ahora llamamos a los setT
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
 setT('total-rental-decl', totals.rentalDecl);
@@ -2241,7 +2242,7 @@ setT('total-rental-rute', totals.rentalRute);
 setT('total-car-schedule', totals.carDecl);
 setT('total-car-real', totals.carRute);
 setT('total-otros', totals.otrosRute); 
-setT('total-ruteadas', totals.totalRuteadas);
+setT('total-ruteadas', totals.totalRuteadas); // Ahora usará el valor que acabas de recalcular
 
 
 updateFleetFloat();
