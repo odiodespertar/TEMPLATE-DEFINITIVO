@@ -2242,8 +2242,16 @@ setT('total-rental-rute', totals.rentalRute);
 setT('total-car-schedule', totals.carDecl);
 setT('total-car-real', totals.carRute);
 setT('total-otros', totals.otrosRute); 
-setT('total-ruteadas', totals.totalRuteadas); // Ahora usará el valor que acabas de recalcular
-
+// En lugar de llamar a setT normalmente para el total, hacemos esto:
+setTimeout(() => {{
+    let valorCorrecto = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+    let el = document.getElementById('total-ruteadas-' + tabId);
+    if (el) {{
+        el.innerText = Math.round(valorCorrecto);
+        el.style.color = "#FF8C00"; // Le damos un color para saber que el forzado funcionó
+        console.log("FORZADO: El total ahora es " + valorCorrecto);
+    }}
+}}, 500); // Espera medio segundo después de que todo se ejecute para forzar el valor
 
 updateFleetFloat();
 
