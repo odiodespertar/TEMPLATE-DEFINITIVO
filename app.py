@@ -4374,7 +4374,7 @@ function updateFleetFloat() {{
                 <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}}</span>
+                <span>TOTAL MLP (rute):</span> <span>\text{\${{totalMLPReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
