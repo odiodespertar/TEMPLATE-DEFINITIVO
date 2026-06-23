@@ -4018,7 +4018,7 @@ if (currentTab == 6) {{
         }}
     }} 
     // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
-    else {
+    else {{
         unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
         if (!unidad) {{
