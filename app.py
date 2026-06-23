@@ -2161,6 +2161,7 @@ let totals = {{
     mlpDecl: 0, mlpRute: 0,
     rentalDecl: 0, rentalRute: 0,
     carDecl: 0, carRute: 0,
+    otrosRute: 0, // <--- ¿ESTÁ ESTA LÍNEA AQUÍ?
     totalRuteadas: 0
 }};
 
@@ -2179,27 +2180,32 @@ totals.totalRuteadas = 0; // Reiniciamos antes de empezar
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
-    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
-    
-    // Si no hay unidad seleccionada, no sumamos nada
-    if (!s || s === "Seleccionar...") return;
-    
-    let name = s.toLowerCase().trim();
-    let valor = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
+let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
-    // A. SUMA TOTAL UNIVERSAL (Aquí entran Delivery, Trucks, Media Milla, TODO)
-    totals.totalRuteadas += valor;
+if (!s || s === "Seleccionar...") return;
 
-    // B. CLASIFICACIÓN (Solo para desglose de reportes)
-    if (name.includes("mlp")) {{
-    totals.mlpRute += valor;
-    }} else if (name.includes("rental")) {{
-    totals.rentalRute += valor;
-    }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
-    totals.carRute += valor;
-    }} else {{
-    // AQUÍ CAERÁ TODO LO DEMÁS: Delivery, Trucks, Media Milla, etc.
-    totals.otrosRute += valor;
+// Convertimos a minúsculas y limpiamos espacios al inicio y final
+let name = s.toLowerCase().trim();
+
+// Aquí está el truco: buscamos palabras clave en lugar de nombres exactos
+let isMlp = name.includes("mlp");
+let isRental = name.includes("rental");
+let isCar = name.includes("car") || name.includes("moto") || name.includes("van");
+
+// Clasificación
+if (isMlp) {{
+    totals.mlpRute += u; // Sumamos la unidad 'u'
+}} else if (isRental) {{
+    totals.rentalRute += u;
+}} else if (isCar) {{
+    totals.carRute += u;
+}} else {{
+    // AQUÍ ES DONDE DEBE CAER TU DELIVERY
+    totals.otrosRute += u;
+}}
+
+// Y al final, la suma total siempre se actualiza
+totals.totalRuteadas += u;
     }}
 }});
 
