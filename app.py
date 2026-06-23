@@ -1264,7 +1264,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR RUTEADAS</td>
-        <td id="total-car-real-6" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-car-real-6" style="text-align:center; color:#DA70D6; font-size:16px; font-weight:bold !important;">0</td>
     </tr>   
         <tr class="fila-total">
         <td style="border:none;"></td>
