@@ -2169,7 +2169,9 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carDecl += sch;
 }});
 
-// 2. RUTEADAS: Suma la columna "# ASIGNADAS" de los polígonos
+// 2. Calcular ocupación y totales (Tabla de abajo)
+totals.totalRuteadas = 0; // Reiniciamos antes de empezar
+
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
     let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
@@ -2180,15 +2182,17 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let name = s.toLowerCase().trim();
     let valor = (name.includes("eja1 sp1") || name.includes("eja1 sp2")) ? 1 : u;
 
-    // A. SUMA GLOBAL (Esto sumará siempre, sin filtros, si hay unidades)
+    // A. SUMA TOTAL UNIVERSAL (Aquí entran Delivery, Trucks, Media Milla, TODO)
     totals.totalRuteadas += valor;
 
-    // B. CLASIFICACIÓN (Solo para los reportes específicos)
+    // B. CLASIFICACIÓN (Solo para desglose de reportes)
     if (name.includes("mlp")) {{
         totals.mlpRute += valor;
     }} else if (name.includes("rental")) {{
         totals.rentalRute += valor;
-    }} else if (name.includes("car") || name.includes("moto") || name.includes("van") || name.includes("delivery")) {{
+    }} else {{
+        // Todo lo demás (Car, Moto, Van, Delivery, Trucks, Media Milla) 
+        // entra aquí automáticamente al ser el grupo "default"
         totals.carRute += valor;
     }}
 }});
