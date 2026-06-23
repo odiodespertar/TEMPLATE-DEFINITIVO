@@ -2178,6 +2178,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 // 2. Calcular ocupación y totales
 totals.totalRuteadas = 0; 
+totals.otrosRute = 0; // Aseguramos que inicie en 0
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
@@ -2186,7 +2187,10 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     if (!s || s === "Seleccionar...") return;
 
     let name = s.toLowerCase().trim();
-    
+
+    // Sumamos al TOTAL general SIEMPRE
+    totals.totalRuteadas += u;
+
     // Clasificación
     if (name.includes("mlp")) {{
         totals.mlpRute += u;
@@ -2195,28 +2199,26 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
         totals.carRute += u;
     }} else {{
-        totals.otrosRute += u;
+        // CUALQUIER COSA que no sea lo anterior (Delivery, Truck, etc.)
+        totals.otrosRute += u; 
     }}
-
-    totals.totalRuteadas += u;
 }});
 
-// 3. ACTUALIZACIÓN DE PANTALLA
+
+// 3. ACTUALIZACIÓN (Asegúrate de incluir todos los setT)
 function setT(id, val) {{
-    // Si tu ID termina en el número de tab, esto es correcto:
     let el = document.getElementById(id + '-' + tabId);
     if (el) el.innerText = Math.round(val);
 }}
 
-// Asegúrate de llamar a TODOS los IDs que tienes en tu HTML
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
 setT('total-rental-decl', totals.rentalDecl);
 setT('total-rental-rute', totals.rentalRute);
 setT('total-car-schedule', totals.carDecl);
 setT('total-car-real', totals.carRute);
-setT('total-otros', totals.otrosRute);     // <-- Esta línea debe existir
-setT('total-ruteadas', totals.totalRuteadas);
+setT('total-otros', totals.otrosRute); // <--- DEBE ESTAR AQUÍ
+setT('total-ruteadas', totals.totalRuteadas); // <--- ESTE DEBE SUMAR TODO
 
 updateFleetFloat();
 
