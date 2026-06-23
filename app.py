@@ -2211,15 +2211,18 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
 
 
-// 3. ACTUALIZACIÓN (Asegúrate de incluir todos los setT)
+// 3. ACTUALIZACIÓN DE PANTALLA
+
+// FORZAMOS LA SUMA FINAL ANTES DE MOSTRAR
+totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+
+// Log para verificar los valores reales que se van a imprimir
+console.log("Valores finales - MLP:", totals.mlpRute, "Rental:", totals.rentalRute, "Car:", totals.carRute, "Otros:", totals.otrosRute, "Total:", totals.totalRuteadas);
+
 function setT(id, val) {{
     let el = document.getElementById(id + '-' + tabId);
     if (el) el.innerText = Math.round(val);
 }}
-
-console.log("El valor de otrosRute es:", totals.otrosRute);
-console.log("El valor de totalRuteadas es:", totals.totalRuteadas);
-
 
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
@@ -2227,8 +2230,9 @@ setT('total-rental-decl', totals.rentalDecl);
 setT('total-rental-rute', totals.rentalRute);
 setT('total-car-schedule', totals.carDecl);
 setT('total-car-real', totals.carRute);
-setT('total-otros', totals.otrosRute); // <--- DEBE ESTAR AQUÍ
-setT('total-ruteadas', totals.totalRuteadas); // <--- ESTE DEBE SUMAR TODO
+setT('total-otros', totals.otrosRute); 
+setT('total-ruteadas', totals.totalRuteadas);
+
 
 updateFleetFloat();
 
