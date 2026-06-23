@@ -2177,26 +2177,21 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 // 2. Calcular ocupación y totales
-totals.totalRuteadas = 0; 
+totals.totalRuteadas = 0; // Reiniciamos el acumulador
+totals.mlpRute = 0;
+totals.rentalRute = 0;
+totals.carRute = 0;
 totals.otrosRute = 0; 
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
-    // Capturamos el texto y forzamos a entero
-    let textoU = row.querySelector('.u-manual').innerText;
-    let u = parseInt(textoU) || 0;
+    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
     if (!s || s === "Seleccionar...") return;
 
-    // Aquí veremos qué está leyendo el sistema por fila
-    console.log("Fila detectada. Unidad: " + s + " | Valor u: " + u);
-
-    // SUMA DIRECTA AL TOTAL
-    totals.totalRuteadas += u;
-
     let name = s.toLowerCase().trim();
 
-    // Clasificación
+    // 1. CLASIFICACIÓN
     if (name.includes("mlp")) {{
         totals.mlpRute += u;
     }} else if (name.includes("rental")) {{
@@ -2208,6 +2203,10 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     }} else {{
         totals.otrosRute += u; 
     }}
+
+    // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
+    // Esto garantiza que el total siempre sea la suma de las partes
+    totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
 }});
 
 
