@@ -4722,7 +4722,7 @@ if(minutos > 15){{
         ){{
 
             alert(
-                "⚠️ En menos de 5 minutos inicia: "
+                "⚠️ Apúrate que ya inicia 😱: "
                 + siguiente.tarea.nombre
             );
 
