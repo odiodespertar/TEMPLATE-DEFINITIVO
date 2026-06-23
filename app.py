@@ -967,6 +967,16 @@ body.excel-view .spr-real-val{{
 }}
 
 
+/* Oculta TODAS las filas del pie de tabla en modo excel */
+body.excel-view .meli-table tfoot tr {{
+    display: none !important;
+}}
+
+/* Fuerza a que SOLO la fila que contiene el ID de Total Ruteadas sea visible */
+body.excel-view .meli-table tfoot tr:has(#total-ruteadas-2),
+body.excel-view .meli-table tfoot tr:has(#total-ruteadas-6) {{
+    display: table-row !important;
+}}
 
     
     </style>
