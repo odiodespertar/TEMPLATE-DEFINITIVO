@@ -4007,31 +4007,70 @@ if (currentTab == 6) {{
             }};
         }}
     }}
-    // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
+    // 5. PLANES FORÁNEOS: Prioridad estricta Large Van MLP -> Small Van MLP
     else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
-        unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
-        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-            unidad = fleet.find(f => f.restante > 0 && (
-                f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
-            ));
+        // Prioridad 1: Large Van MLP foráneo
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+        
+        // Prioridad 2: Small Van MLP foráneo
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
         }}
-    }} 
-    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
-    else {{
-        unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
+        // Contingencia Exclusiva para XICO o TUZAMAPA si ya no hay Vans foráneas:
+        // Orden de prioridad CAR: Car 8h -> Small Van 9h -> Small Van 9h Ext.
+        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
+            
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h"); 
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext."); 
+            }}
+        }}
+    }}
+    // 6. PLANES LOCALES (CENTRO, CENTRO 2)
+    else {{
+        // Prioridad 1: Rental Electric Large Van
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Electric Large Van");
+        
+        // Prioridad 2: Rental Large Van
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Large Van");
+        }}
+        
+        // Prioridad 3: Rental Replacement
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Replacement");
+        }}
+        
+        // Prioridad 4: MLP Locales (Mantenemos tus Vans normales por si acaso antes de ir a CAR)
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
         }}
         
+        // Prioridad 5 (Contingencia final): Si ya no queda NINGUNA Rental ni MLP, se usan las CAR en orden estricto:
+        // Car Newbie -> Small Van Newbie -> Moto 3h -> Car 8h -> Small Van 9h -> Small Van 9h Ext.
         if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && (
-                f.nombre.includes("Car") || 
-                f.nombre.includes("Moto") || 
-                f.nombre.includes("Small Van 9h") || 
-                f.nombre.toLowerCase().includes("newbie")
-            ));
+            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("car newbie"));
+            
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van newbie"));
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("moto 3h"));
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h");
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext.");
+            }}
         }}
     }}
 }}
