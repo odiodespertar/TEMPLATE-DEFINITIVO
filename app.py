@@ -1772,9 +1772,7 @@ gap:10px;
 
 
 document.addEventListener("DOMContentLoaded", () => {{
-
     const flotante = document.getElementById("fleet-float");
-
     let moviendo = false;
     let offsetX = 0;
     let offsetY = 0;
@@ -1812,7 +1810,7 @@ document.addEventListener("DOMContentLoaded", () => {{
 
     }});
 
-}});
+
         
 
 
