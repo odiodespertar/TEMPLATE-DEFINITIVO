@@ -4298,7 +4298,7 @@ function updateFleetFloat() {{
     let totalCarSchedule = 0;   // Car Declaradas
     let totalCarReal = 0;       // Car Ruteadas
     
-    let totalRuteadasGeneral = 0; // El gran total de todas las unidades asignadas (Media milla, Trucks, Cells, etc.)
+    let totalRuteadasGeneral = 0; // El gran total de todas las unidades asignadas
     let totalNoCar = 0;         // Mantiene tu lógica original del pie de tabla físico
 
     // Buscamos las filas correspondientes a la pestaña activa
@@ -4313,16 +4313,17 @@ function updateFleetFloat() {{
         if (name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente TODO lo usado sin excepción)
+            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo sin excepción)
             totalRuteadasGeneral += asignado;
 
-            // 2. SEPARACIÓN ESTRICTA: Si es Rental, tiene prioridad máxima y NO entra en MLP
+            // 2. FILTRADO ULTRA ESTRICTO: Separación ciega por palabras clave
             if (nameLower.includes("rental")) {{
+                // Si la fila dice "rental", va ÚNICAMENTE a los contadores de Rental, jamás a MLP
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }} 
-            // Si tiene MLP pero NO es rental (así evitamos que una Rental Large Van entre aquí)
-            else if (nameLower.includes("mlp")) {{ 
+            else if (nameLower.includes("mlp") && !nameLower.includes("rental")) {{ 
+                // Si dice MLP y NO contiene la palabra rental por error
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }} 
