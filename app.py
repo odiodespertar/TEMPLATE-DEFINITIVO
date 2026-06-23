@@ -2187,13 +2187,14 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     // B. CLASIFICACIÓN (Solo para desglose de reportes)
     if (name.includes("mlp")) {{
-        totals.mlpRute += valor;
+    totals.mlpRute += valor;
     }} else if (name.includes("rental")) {{
-        totals.rentalRute += valor;
+    totals.rentalRute += valor;
+    }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
+    totals.carRute += valor;
     }} else {{
-        // Todo lo demás (Car, Moto, Van, Delivery, Trucks, Media Milla) 
-        // entra aquí automáticamente al ser el grupo "default"
-        totals.carRute += valor;
+    // AQUÍ CAERÁ TODO LO DEMÁS: Delivery, Trucks, Media Milla, etc.
+    totals.otrosRute += valor;
     }}
 }});
 
