@@ -2671,7 +2671,7 @@ function toggleExcelView() {{
         // 2. Ocultar filas de totales (el padre <tr>)
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
-            if(el) {
+            if(el) {{
                 let fila = el.closest('tr');
                 if(fila) fila.style.display = 'none';
             }}
