@@ -2670,7 +2670,7 @@ function toggleExcelView() {{
                 body.excel-view .excel-hide {{ display: none !important; }}
                 
                 /* Asegurar que la fila de Total Ruteadas se vea bien */
-                body.excel-view .fila-total-ruteadas { display: table-row !important; }}
+                body.excel-view .fila-total-ruteadas {{ display: table-row !important; }}
 
                 /* Fijar altura de filas operativas */
                 body.excel-view .meli-table tbody tr:not(.fila-total) {{
