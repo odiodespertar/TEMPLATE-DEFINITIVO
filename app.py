@@ -1136,6 +1136,8 @@ body.excel-view .spr-real-val{{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
+
+        
        
         <div id="tab-2" class="t-content">
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
@@ -1156,28 +1158,19 @@ body.excel-view .spr-real-val{{
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
                   <tfoot class="fila-total"> 
-                   <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-             <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-            <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-             <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
+                  <tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="5" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-2"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
             
-        <tr class="fila-total">
+            <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="5"
         style="
@@ -1258,24 +1251,9 @@ body.excel-view .spr-real-val{{
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
         <tfoot class="fila-total"> 
-             <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-             <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
             <tr class="fila-total">
                 <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
-                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-             <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
                 <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
             </tr>
             <tr class="fila-total">
@@ -1322,6 +1300,17 @@ body.excel-view .spr-real-val{{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="5" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-1"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="5" style="padding:6px; text-align:right;">
         TOTAL CAR DECLARADAS
     </td>
     <td id="total-car-schedule-1"
@@ -1337,6 +1326,24 @@ body.excel-view .spr-real-val{{
     </td>
     <td id="total-car-real-1"
         style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="5" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-1"
+        style="
+            text-align:center;
+            color:#FF8C00;
+            font-size:16px;
+            font-weight:bold;
+        ">
         0
     </td>
 </tr>
@@ -1383,6 +1390,17 @@ body.excel-view .spr-real-val{{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-5"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL CAR DECLARADAS
     </td>
     <td id="total-car-schedule-5"
@@ -1403,6 +1421,21 @@ body.excel-view .spr-real-val{{
 </tr>
 
 
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-5"
+        style="
+            text-align:center;
+            color:#FF8C00;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
 
 
 
@@ -1446,6 +1479,17 @@ body.excel-view .spr-real-val{{
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL MLP
+    </td>
+    <td id="total-no-car-4"
+        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
+        0
+    </td>
+</tr>
+
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL CAR DECLARADAS
     </td>
     <td id="total-car-schedule-4"
@@ -1466,7 +1510,21 @@ body.excel-view .spr-real-val{{
 </tr>
 
 
-
+<tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="3" style="padding:6px; text-align:right;">
+        TOTAL RUTEADAS
+    </td>
+    <td id="total-ruteadas-4"
+        style="
+            text-align:center;
+            color:#FF8C00;
+            font-size:16px;
+            font-weight:bold;
+        ">
+        0
+    </td>
+</tr>
 
 
 
@@ -3584,7 +3642,7 @@ if (currentTab == 5) {{
 
 
     // =========================================
-// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1 SCP1
 // =========================================
 
 if (currentTab == 2) {{
@@ -3895,19 +3953,52 @@ if (currentTab == 6) {{
     if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
     }} 
-    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP
+    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP (Y absorbe todo el volumen)
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+        if (unidad) {{
+            let usar = 1;
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                filaExistente.querySelector('.u-manual').innerText = usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                let select = fila.querySelector('.s-type');
+                if (select) select.value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+            unidad.restante -= usar;
+            restante = 0; // Se vuelve 0 para que no diga que falta volumen
+        }}
     }} 
-    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP
+    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP (Y absorbe todo el volumen)
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
+        if (unidad) {{
+            let usar = 1;
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                filaExistente.querySelector('.u-manual').innerText = usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                let select = fila.querySelector('.s-type');
+                if (select) select.value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+            unidad.restante -= usar;
+            restante = 0; // Se vuelve 0 para que no diga que falta volumen
+        }}
     }}
     // 4. EXCEPCIÓN ALCHICHICA: No toca la flota real, usa un clon virtual para no restar de SCHEDULE ni DELTA
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
         if (svReal) {{
-            // Creamos un clon exacto en SPR pero aislado de la tabla superior
             unidad = {{
                 nombre: svReal.nombre,
                 spr: svReal.spr,
@@ -3916,35 +4007,70 @@ if (currentTab == 6) {{
             }};
         }}
     }}
-    // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
+    // 5. PLANES FORÁNEOS: Prioridad estricta Large Van MLP -> Small Van MLP
     else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
-        unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
-        // Contingencia XICO o TUZAMAPA
-        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-            unidad = fleet.find(f => f.restante > 0 && (
-                f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
-            ));
+        // Prioridad 1: Large Van MLP foráneo
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+        
+        // Prioridad 2: Small Van MLP foráneo
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
         }}
-    }} 
-    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
-    else {{
-        // Prioridad 1: Rentals
-        unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
-        // Prioridad 2: MLP Locales
+        // Contingencia Exclusiva para XICO o TUZAMAPA si ya no hay Vans foráneas:
+        // Orden de prioridad CAR: Car 8h -> Small Van 9h -> Small Van 9h Ext.
+        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
+            
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h"); 
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext."); 
+            }}
+        }}
+    }}
+    // 6. PLANES LOCALES (CENTRO, CENTRO 2)
+    else {{
+        // Prioridad 1: Rental Electric Large Van
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Electric Large Van");
+        
+        // Prioridad 2: Rental Large Van
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Large Van");
+        }}
+        
+        // Prioridad 3: Rental Replacement
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Replacement");
+        }}
+        
+        // Prioridad 4: MLP Locales (Mantenemos tus Vans normales por si acaso antes de ir a CAR)
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
         }}
         
-        // Prioridad 3: Flota CAR / Motos / Variant 9h / Newbies
+        // Prioridad 5 (Contingencia final): Si ya no queda NINGUNA Rental ni MLP, se usan las CAR en orden estricto:
+        // Car Newbie -> Small Van Newbie -> Moto 3h -> Car 8h -> Small Van 9h -> Small Van 9h Ext.
         if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && (
-                f.nombre.includes("Car") || 
-                f.nombre.includes("Moto") || 
-                f.nombre.includes("Small Van 9h") || 
-                f.nombre.toLowerCase().includes("newbie")
-            ));
+            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("car newbie"));
+            
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van newbie"));
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("moto 3h"));
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h");
+            }}
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext.");
+            }}
         }}
     }}
 }}
@@ -4161,187 +4287,138 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-let htmlLeft = "";
-let htmlRight = "";
+    let htmlLeft = "";
+    let htmlRight = "";
 
-let totalNoCar = 0;
-let totalCarReal = 0;
-let totalCarSchedule = 0;
-let totalRuteadasNoCar = 0;
+    let totalMLPReal = 0;       // Ruteadas (Usadas)
+    let totalMLPStock = 0;      // Declaradas (Sched)
 
-        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-            let name = row.querySelector('.edit-name')?.innerText.trim();
-            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
-            
-            // Calculamos lo asignado
-            let asignado = stock - left;
+    let totalRentalReal = 0;    // Ruteadas (Usadas)
+    let totalRentalStock = 0;   // Declaradas (Sched)
 
-            if(name && stock > 0) {{
+    let totalCarReal = 0;       // Ruteadas
+    let totalCarSchedule = 0;   // Declaradas
+    let totalNoCar = 0;         // El total original de MLP que tu código ya calculaba
 
-    // 🔥 TOTAL CAR SCHEDULE
-    if(name.toLowerCase().includes("car")) {{
-        totalCarSchedule += stock;
-    }}
-
-    let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
-                let colorCategoria = isCar ? "#FF4500" : "#0000CD";
-
-                // Acumulamos totales
-if (isCar) {{
-
-    if (left < 0) {{
-
-        // Cuenta las declaradas + las adicionales
-        totalCarReal += stock + Math.abs(left);
-
-    }} else {{
-
-        totalCarReal += asignado;
-
-    }}
-
-}} else {{
-
-    // Todas las NO CAR cuentan para TOTAL RUTEADAS
-    totalRuteadasNoCar += asignado;
-
-    // Solo las MLP cuentan para TOTAL MLP
-    if (
-        name === "Large Van MLP" ||
-        name === "Small Van MLP"
-    ) {{
-
-        totalNoCar += asignado;
-
-    }}
-
-}}
-
-
-                htmlLeft += `
-    <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:4px;
-        font-size:14px;"> 
-        <span style="color:#0a2745;">${{name}}</span>
-        <span style="
-            color:${{colorCategoria}};
-            font-weight:bold;">
-            ${{left}}/${{stock}}
-        </span>
-    </div>
-`;
-            }}
-        }});
-
-        // Columna derecha
-        htmlRight = `
-
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
-
-
-<div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 16px;">
-    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
-</div>
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+        let name = row.querySelector('.edit-name')?.innerText.trim();
+        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         
-            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
+        // Calculamos lo asignado
+        let asignado = stock - left;
 
+        if(name && stock > 0) {{
+            let nameLower = name.toLowerCase();
 
-    <div style="font-weight:bold; margin-bottom:8px;">
-          <span>🚚 USADAS</span>
-          </div>
-          
-                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
-    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
-</div>
+            // 1. CONTEO DE CARS
+            if(nameLower.includes("car")) {{
+                totalCarSchedule += stock;
+            }}
 
-<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
-    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
-</div>
+            // 2. CONTEO DE MLP (Acepta las normales y las que dicen "foráneo")
+            if(name.includes("MLP")) {{
+                totalMLPStock += stock;
+                totalMLPReal += asignado;
+            }}
 
+            // 3. CONTEO DE RENTALS (Cualquiera con la palabra "rental")
+            if(nameLower.includes("rental")) {{
+                totalRentalStock += stock;
+                totalRentalReal += asignado;
+            }}
+
+            let isCar = nameLower.includes("car") || nameLower.includes("híbrida");
+            let colorCategoria = isCar ? "#FF4500" : "#0000CD";
+
+            // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES DE ABAJO ---
+            if (isCar) {{
+                if (left < 0) {{
+                    totalCarReal += stock + Math.abs(left);
+                }} else {{
+                    totalCarReal += asignado;
+                }}
+            }} else {{
+                // Mantenemos la regla exacta original para totalNoCar
+                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo")) {{
+                    totalNoCar += asignado;
+                }}
+            }}
+
+            htmlLeft += `
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
+                    <span style="color:#0a2745;">${{name}}</span>
+                    <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
+                </div>
+            `;
+        }}
+    }});
+
+    // Columna derecha flotante: Aquí SÍ desglosamos Declaradas vs Ruteadas (Solo se ve en Vista Normal)
+    htmlRight = `
+        <div style="margin-top: 5px; padding-top: 5px;"> 
+            <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
+                <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
             </div>
-        `;
+            <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
+                <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+            </div>
 
-let html = `
-<div style="
-    display:flex;
-    gap:15px;
-    align-items:flex-start;
-">
+            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
-    <div style="
-        flex:1;
-        min-width:180px;
-    ">
-        ${{htmlLeft}}
+            <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
+                <span>TOTAL MLP (decl):</span> <span>${{totalMLPStock}}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
+                <span>TOTAL MLP (rute):</span> <span>${{totalMLPReal}}</span>
+            </div>
+
+            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+
+            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
+                <span>TOTAL RENTAL (decl):</span> <span>${{totalRentalStock}}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
+                <span>TOTAL RENTAL (rute):</span> <span>${{totalRentalReal}}</span>
+            </div>
+        </div>
+    `;
+
+    let html = `
+    <div style="display:flex; gap:15px; align-items:flex-start;">
+        <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
+        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">${{htmlRight}}</div>
     </div>
+    `;
 
-    <div style="
-        width:170px;
-        border-left:2px solid #135b83;
-        padding-left:12px;
-    ">
-        ${{htmlRight}}
-    </div>
-
-</div>
-`;
-
-
-// Actualizar filas de totales de la tabla
-
-let elNoCar =
-    document.getElementById(
-        'total-no-car-' + currentTab
-    );
-
-if (elNoCar) {{
-    elNoCar.innerText = totalNoCar;
-}}
-
-let elCarReal =
-    document.getElementById(
-        'total-car-real-' + currentTab
-    );
-
-if (elCarReal) {{
-    elCarReal.innerText = totalCarReal;
-}}
-
-
-
-let totalRuteadas =
-    totalRuteadasNoCar + totalCarReal;
-
-let elRuteadas =
-    document.getElementById(
-        'total-ruteadas-' + currentTab
-    );
-
-if (elRuteadas) {{
-    elRuteadas.innerText = totalRuteadas;
-}}
-
-
-let elCarSchedule =
-    document.getElementById(
-        'total-car-schedule-' + currentTab
-    );
-
-if (elCarSchedule) {{
-    elCarSchedule.innerText = totalCarSchedule;
-}}
-
-
-
-document.getElementById('fleet-float-body').innerHTML = html;
-
-
-        // Guardar estado (si existe la función)
-        if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
+    // ==============================================================================
+    // SE MANTIENEN LOS ELEMENTOS DE ABAJO CON EL COMPORTAMIENTO ORIGINAL INTACTO
+    // ==============================================================================
+    let elNoCar = document.getElementById('total-no-car-' + currentTab);
+    if (elNoCar) {{
+        elNoCar.innerText = totalNoCar; // Regresa al cálculo original (MLP Clásicas + Foráneas)
     }}
+
+    let elCarReal = document.getElementById('total-car-real-' + currentTab);
+    if (elCarReal) {{
+        elCarReal.innerText = totalCarReal;
+    }}
+
+    let totalRuteadas = totalMLPReal + totalCarReal + totalRentalReal; 
+    let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
+    if (elRuteadas) {{
+        elRuteadas.innerText = totalRuteadas;
+    }}
+
+    let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
+    if (elCarSchedule) {{
+        elCarSchedule.innerText = totalCarSchedule;
+    }}
+
+    document.getElementById('fleet-float-body').innerHTML = html;
+
+    if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
+}}
 
 
 aplicarPerfil();
