@@ -84,11 +84,9 @@ u_C1_SJA1 = {
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
-    "Car Newbie": [70, 70], 
     "Moto 3h": [30, 30],
     "Small Van 9h": [70, 70],
-    "Small Van 9h Ext": [70, 70],
-    "Small Van Newbie": [70, 70]
+    "Small Van 9h Ext": [70, 70]
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
@@ -3947,132 +3945,34 @@ if (currentTab == 2) {{
 
 let unidad;
 
-// ==========================================
-// 🔥 NUEVAS REGLAS DE NEGOCIO PARA C1 SJA1 🔥
-// ==========================================
-    polys.forEach(poly => {{
-        let bloque = poly.bloque;
-        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.trim() || "";
-        let pUpper = nombrePlan.toUpperCase();
-        let objetivo = poly.volumen;
+// =================================
+// REGLAS ESPECIALES C1 Y C1 SJA1
+// =================================
 
-        // Restar lo que ya se asignó de forma manual en este polígono
-        let yaAsignado = 0;
-        bloque.querySelectorAll('.calc-row').forEach(r => {{
-            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
-            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
-            yaAsignado += (unidades * spr);
-        }});
+if (currentTab == 6) {{
+    // Reglas exclusivas para C1 SJA1
+    if (nombrePlan === "BULK") {{
+        unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
+    }} else if (nombrePlan === "MEGANODO") {{
+        unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+    }} else if (nombrePlan === "EJA1" || nombrePlan === "EJA1 2") {{
+        unidad = fleet.find(f => f.nombre === "Media milla SP");
+    }} else {{
+        // El resto de planes usa unidades que no sean las tres especiales controladas arriba
+        unidad = fleet.find(f => f.restante > 0 && 
+                            f.nombre !== "Extra Large Van MLP H&B" && 
+                            f.nombre !== "Truck 3.5 tons MLP" && 
+                            f.nombre !== "Media milla SP");
+    }}
+}} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+    unidad = fleet.find(f => f.nombre === "Rental Large Van");
+}} else if (currentTab == 2) {{
+    unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
+}} else {{
+    unidad = fleet.find(f => f.restante > 0);
+}}
 
-        let restante = objetivo - yaAsignado;
-        if (restante <= 0) return;
 
-        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-        for (let fila of filas) {{
-            if (restante <= 0) break;
-
-            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) || 0;
-            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
-            if (yaTieneUnidad > 0 || (tipoActual !== "" && tipoActual !== "Seleccionar...")) {{
-                continue;
-            }}
-
-            let unidad = null;
-            let usar = 0;
-
-            if (currentTab == 6) {{
-                // 1. ASIGNACIONES FIJAS DE 1 SOLA UNIDAD
-                if (pUpper === "BULK") {{
-                    unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-                    if (unidad) {{ usar = 1; }} 
-                }} 
-                else if (pUpper === "MEGANODO") {{
-                    unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-                    if (unidad) {{ usar = 1; }} 
-                }} 
-                else if (pUpper.includes("EJA1")) {{
-                    unidad = fleet.find(f => f.nombre === "Media milla SP");
-                    if (unidad) {{ usar = 1; }} 
-                }}
-                
-                // 2. EXCEPCIÓN ALCHICHICA (No descuenta del stock disponible)
-                else if (pUpper.includes("ALCHICHICA")) {{
-                    unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
-                    if (unidad) {{
-                        usar = Math.ceil(restante / unidad.spr);
-                        unidad.restante += usar; // Se compensa para dejar la resta neta en 0
-                    }}
-                }}
-                
-                // 3. REGLAS PARA PLANES FORÁNEOS
-                else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
-                    unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
-                    
-                    if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-                        unidad = fleet.find(f => f.restante > 0 && (
-                            f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
-                        ));
-                    }}
-                    if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
-                }} 
-                
-                // 4. REGLAS PARA PLANES LOCALES (Cascada estricta: Rentals -> MLP -> CAR)
-                else {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
-                    
-                    if (!unidad) {{
-                        unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
-                    }}
-                    
-                    if (!unidad) {{
-                        unidad = fleet.find(f => f.restante > 0 && (
-                            f.nombre.includes("Car") || 
-                            f.nombre.includes("Moto") || 
-                            f.nombre.includes("Small Van 9h") || 
-                            f.nombre.toLowerCase().includes("newbie")
-                        ));
-                    }}
-                    if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
-                }}
-            }} else if (currentTab == 2 && pUpper == "CAMPECHE") {{
-                unidad = fleet.find(f => f.nombre === "Rental Large Van");
-                if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
-            }} else if (currentTab == 2) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
-                if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
-            }} else {{
-                unidad = fleet.find(f => f.restante > 0);
-                if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
-            }}
-
-            // Procesar asignación física en la interfaz
-            if (unidad && usar > 0) {{
-                let permiteNegativo = unidad.nombre.includes("Car") || unidad.nombre.includes("Moto") || unidad.nombre.includes("9h") || (currentTab == 2 && unidad.nombre === "Large Van MLP");
-                
-                if (unidad.restante <= 0 && !permiteNegativo && !pUpper.includes("ALCHICHICA")) {{
-                    continue; 
-                }}
-
-                if (unidad.restante > 0 && !pUpper.includes("ALCHICHICA") && usar > unidad.restante && !permiteNegativo) {{
-                    usar = unidad.restante; 
-                }}
-
-                let select = fila.querySelector('.s-type');
-                if (select) {{
-                    select.value = unidad.nombre;
-                    updateSelectColor(select);
-                }}
-
-                fila.querySelector('.u-manual').innerText = usar;
-                fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(fila);
-
-                unidad.restante -= usar;
-                restante -= (usar * unidad.spr);
-            }}
-        }}
-    }});
-// ==============================================================================
 
 
 
