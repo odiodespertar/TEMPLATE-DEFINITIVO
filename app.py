@@ -2656,41 +2656,37 @@ function toggleExcelView() {{
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
         
-        // Ocultar bloques de pestañas
+        // Ocultar bloques innecesarios
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
 
+        // INYECTAR CSS: Solo se aplica mientras existe el elemento style
         if (!styleEl) {{
             styleEl = document.createElement("style");
             styleEl.id = styleId;
             styleEl.innerHTML = `
-                /* Ocultar filas marcadas como excel-hide */
-                body.excel-view .excel-hide {{ display: none !important; }}
+                /* Ocultamos las filas que NO queremos ver */
+                body.excel-view .excel-hide { display: none !important; }}
                 
-                /* Asegurar que la fila de Total Ruteadas se vea bien */
-                body.excel-view .fila-total-ruteadas {{ display: table-row !important; }}
-
-                /* Fijar altura de filas operativas */
-                body.excel-view .meli-table tbody tr:not(.fila-total) {{
-                    height: 20px !important;
-                    font-size: 11px !important;
-                }}
+                /* Mantenemos visible la fila de Total Ruteadas */
+                body.excel-view .fila-total-ruteadas { display: table-row !important; }}
             `;
             document.head.appendChild(styleEl);
         }}
     }} else {{
+        // --- SALIR DE VISTA EXCEL ---
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
-        // Restaurar pestañas
+        // Restaurar bloques de pestañas
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // Al eliminar el elemento style, el CSS desaparece y todo vuelve a la normalidad
+        // ¡ESTO ES LO IMPORTANTE! Al borrar el elemento, el CSS muere y todo vuelve a la normalidad
         if (styleEl) styleEl.remove();
     }}
 }}
