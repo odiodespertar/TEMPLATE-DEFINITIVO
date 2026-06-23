@@ -796,7 +796,7 @@ html body .meli-table tbody tr:last-child {{
     left: 14px;
     right: auto;
     top: 250px;
-    width: 300px; /* Reduje el ancho aquí para que se vea bien al quitar la columna */
+    width: 250px !important; /* Ajustado para que se vea compacto */
     background: linear-gradient(to bottom, rgba(255, 215, 157, 0.4), rgba(255, 215, 157, 0.4));
     color: #0a2745;
     border-radius: 14px;
@@ -811,17 +811,9 @@ html body .meli-table tbody tr:last-child {{
     overflow-y: auto;
 }}
 
-/* Oculta el bloque de totales a la derecha de la línea divisoria */
-#fleet-float > div, 
-#fleet-float > span,
-#fleet-float .totales-container, /* Ajusta el nombre de esta clase si es diferente */
+/* Ocultar la columna de totales */
 #fleet-float div[style*="border-left"] {{
     display: none !important; 
-}}
-
-/* Opcional: Si el contador sigue siendo muy ancho, ajusta el tamaño */
-#fleet-float {{
-    width: 250px !important; 
 }}
 
 /* Checkbox */
@@ -849,7 +841,6 @@ html body .meli-table tbody tr:last-child {{
 #ruteo-float:hover {{
     box-shadow: 0 14px 35px rgba(0,0,0,0.22);
 }}
-
 
 
 
