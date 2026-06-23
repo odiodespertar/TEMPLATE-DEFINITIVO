@@ -2178,7 +2178,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 // 2. Calcular ocupación y totales
 totals.totalRuteadas = 0; 
-totals.otrosRute = 0; // Aseguramos que inicie en 0
+totals.otrosRute = 0; 
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
@@ -2186,23 +2186,22 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     if (!s || s === "Seleccionar...") return;
 
-    let name = s.toLowerCase().trim();
-
-    // Sumamos al TOTAL general SIEMPRE
+    // --- AQUÍ ESTÁ EL CAMBIO ---
+    // Sumamos al TOTAL general ANTES de clasificar, así nunca se nos escapa ninguna unidad
     totals.totalRuteadas += u;
 
-    // Clasificación (EL ORDEN ES LA CLAVE)
+    let name = s.toLowerCase().trim();
+
+    // Clasificación
     if (name.includes("mlp")) {{
         totals.mlpRute += u;
     }} else if (name.includes("rental")) {{
         totals.rentalRute += u;
     }} else if (name.includes("delivery")) {{
-        // Si es delivery, se va a otros inmediatamente, sin importar si tiene "van"
         totals.otrosRute += u;
     }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
         totals.carRute += u;
     }} else {{
-        // CUALQUIER OTRA COSA (Trucks, Media Milla, etc.)
         totals.otrosRute += u; 
     }}
 }});
