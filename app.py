@@ -4316,12 +4316,12 @@ function updateFleetFloat() {{
             // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo sin excepción)
             totalRuteadasGeneral += asignado;
 
-            // 2. Clasificación estricta para el desglose lateral
+            // 2. Clasificación estricta en minúsculas para el desglose lateral
             if (nameLower.includes("rental")) {{
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }} 
-            else if (name.includes("MLP")) {{
+            else if (nameLower.includes("mlp")) {{ 
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }} 
@@ -4341,12 +4341,12 @@ function updateFleetFloat() {{
                     totalCarReal += asignado;
                 }}
             }} else {{
-                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo") || nameLower.includes("rental")) {{
+                if (nameLower.includes("mlp") || name.includes("foráneo") || nameLower.includes("rental")) {{
                     totalNoCar += asignado;
                 }}
             }}
 
-            // Generación de la lista de la columna izquierda flotante
+            // Generación de la lista de la columna izquierda flotante (con concatenación limpia)
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                     <span style="color:#0a2745;">` + name + `</span>
