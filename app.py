@@ -4348,7 +4348,7 @@ function updateFleetFloat() {{
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                     <span style="color:#0a2745;">\${{name}}</span>
-                    <span style="color:\${{colorCategoria}}; font-weight:bold;">\${{left}}/\${{stock}}</span>
+                    <span style="color:\${{colorCategoria}}; font-weight:bold;">\text{\${{left}}}/\text{\${{stock}}}</span>
                 </div>
             `;
         }}
@@ -4361,7 +4361,7 @@ function updateFleetFloat() {{
                 <span>TOTAL CAR (sched):</span> <span>\${{totalCarSchedule}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>\text{\${{totalCarReal}}}</span>
+                <span>TOTAL CAR (real):</span> <span>\${{totalCarReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
@@ -4386,8 +4386,8 @@ function updateFleetFloat() {{
 
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">\${{htmlLeft}}</div>
-        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">\${{htmlRight}}</div>
+        <div style="flex:1; min-width:180px;">\text{\${{htmlLeft}}}</div>
+        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">\text{\${{htmlRight}}}</div>
     </div>
     `;
 
