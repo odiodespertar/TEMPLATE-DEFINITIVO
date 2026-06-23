@@ -140,8 +140,8 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
-    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
     mostrar_orh_ocup = (table_id in [1, 2, 6])
+    colspan_divisor = 7 if mostrar_orh_ocup else 5
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -159,14 +159,10 @@ def gen_master_rows(data_dict, table_id):
         else:
             name, spr = "", [0, 0]
 
-        # Caso A: Encabezado/Divisor
         if "---" in name:
-            # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
-            colspan = 7 if mostrar_orh_ocup else 5
-
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="{colspan}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="{colspan_divisor}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
@@ -177,60 +173,51 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
-
-        # Caso B: unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-
-            # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
-            celdas_orh_ocup = ""
-            if mostrar_orh_ocup:
-                celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
-                    0
-                </td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
-                    0
-                </td>
-                '''
-            else:
-                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
-                celdas_orh_ocup = '''
-                <td class="edit-orh" style="display:none;">0</td>
-                <td class="edit-ocup" style="display:none;">0</td>
-                '''
+            celdas_orh_ocup = f'''
+                <td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">0</td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">0</td>
+            ''' if mostrar_orh_ocup else '<td class="edit-orh" style="display:none;">0</td><td class="edit-ocup" style="display:none;">0</td>'
 
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()"
-                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
+                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
                     {name}
                 </td>
-
                 {celdas_orh_ocup}
-
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
-                    {spr[0]}
-                </td>
-
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
-                    {spr[1]}
-                </td>
-
-                <td contenteditable="true" class="f-stock" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
-                    0
-                </td>
-
-                <td class="f-left"
-                    style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
-                    0
-                </td>
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
+                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>
+                <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">0</td>
             </tr>'''
+
+    # 🔥 NUEVO: Inyección manual de las filas de totales físicos para RENTAL y MLP
+    # Solo aplica para las tablas operativas C1 SCP1 y C1 SJA1
+    if table_id in ["C1 SCP1", "C1 SJA1"]:
+        celdas_vacias_extra = "<td></td><td></td>" if mostrar_orh_ocup else ""
+        
+        # Fila Total Rental (Declarada y Ruteada)
+        rows += f'''
+        <tr class="fila-total-calculado" style="background: #e6f2ff !important; font-weight: bold; color: #135b83;">
+            <td style="text-align: left; padding-left: 10px; border: 0.5px solid #135b83;">TOTAL RENTAL</td>
+            {celdas_vacias_extra}
+            <td></td><td></td>
+            <td id="total-rental-decl-{table_id}" style="text-align: center; border: 0.5px solid #135b83;">0</td>
+            <td id="total-rental-rute-{table_id}" style="text-align: center; border: 0.5px solid #135b83; color: #008b8b;">0</td>
+        </tr>
+        '''
+        # Fila Total MLP (Declarada y Ruteada)
+        rows += f'''
+        <tr class="fila-total-calculado" style="background: #e6f2ff !important; font-weight: bold; color: #0000CD;">
+            <td style="text-align: left; padding-left: 10px; border: 0.5px solid #135b83;">TOTAL MLP</td>
+            {celdas_vacias_extra}
+            <td></td><td></td>
+            <td id="total-mlp-decl-{table_id}" style="text-align: center; border: 0.5px solid #135b83;">0</td>
+            <td id="total-mlp-rute-{table_id}" style="text-align: center; border: 0.5px solid #135b83; color: #0000CD;">0</td>
+        </tr>
+        '''
+        
     return rows
 
 
