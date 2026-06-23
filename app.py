@@ -140,8 +140,8 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
+    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
     mostrar_orh_ocup = (table_id in [1, 2, 6])
-    colspan_divisor = 7 if mostrar_orh_ocup else 5
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -159,10 +159,14 @@ def gen_master_rows(data_dict, table_id):
         else:
             name, spr = "", [0, 0]
 
+        # Caso A: Encabezado/Divisor
         if "---" in name:
+            # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
+            colspan = 7 if mostrar_orh_ocup else 5
+
             rows += f'''
             <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
-                <td colspan="{colspan_divisor}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
+                <td colspan="{colspan}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
                 <td class="edit-name" style="display:none;">IGNORAR</td>
@@ -173,51 +177,60 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
+
+        # Caso B: unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
-            celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">0</td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">0</td>
-            ''' if mostrar_orh_ocup else '<td class="edit-orh" style="display:none;">0</td><td class="edit-ocup" style="display:none;">0</td>'
+
+            # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
+            celdas_orh_ocup = ""
+            if mostrar_orh_ocup:
+                celdas_orh_ocup = f'''
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
+                    0
+                </td>
+                '''
+            else:
+                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
+                celdas_orh_ocup = '''
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
+                '''
 
             rows += f'''
             <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
+                <td contenteditable="true" class="edit-name" oninput="recalc()"
+                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
                     {name}
                 </td>
-                {celdas_orh_ocup}
-                <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[0]}</td>
-                <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">{spr[1]}</td>
-                <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">0</td>
-                <td class="f-left" style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">0</td>
-            </tr>'''
 
-    # 🔥 NUEVO: Inyección manual de las filas de totales físicos para RENTAL y MLP
-    # Solo aplica para las tablas operativas C1 SCP1 y C1 SJA1
-    if table_id in ["C1 SCP1", "C1 SJA1"]:
-        celdas_vacias_extra = "<td></td><td></td>" if mostrar_orh_ocup else ""
-        
-        # Fila Total Rental (Declarada y Ruteada)
-        rows += f'''
-        <tr class="fila-total-calculado" style="background: #e6f2ff !important; font-weight: bold; color: #135b83;">
-            <td style="text-align: left; padding-left: 10px; border: 0.5px solid #135b83;">TOTAL RENTAL</td>
-            {celdas_vacias_extra}
-            <td></td><td></td>
-            <td id="total-rental-decl-{table_id}" style="text-align: center; border: 0.5px solid #135b83;">0</td>
-            <td id="total-rental-rute-{table_id}" style="text-align: center; border: 0.5px solid #135b83; color: #008b8b;">0</td>
-        </tr>
-        '''
-        # Fila Total MLP (Declarada y Ruteada)
-        rows += f'''
-        <tr class="fila-total-calculado" style="background: #e6f2ff !important; font-weight: bold; color: #0000CD;">
-            <td style="text-align: left; padding-left: 10px; border: 0.5px solid #135b83;">TOTAL MLP</td>
-            {celdas_vacias_extra}
-            <td></td><td></td>
-            <td id="total-mlp-decl-{table_id}" style="text-align: center; border: 0.5px solid #135b83;">0</td>
-            <td id="total-mlp-rute-{table_id}" style="text-align: center; border: 0.5px solid #135b83; color: #0000CD;">0</td>
-        </tr>
-        '''
-        
+                {celdas_orh_ocup}
+
+                <td contenteditable="true" class="edit-spr-min" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    {spr[0]}
+                </td>
+
+                <td contenteditable="true" class="edit-spr-max" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    {spr[1]}
+                </td>
+
+                <td contenteditable="true" class="f-stock" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
+                    0
+                </td>
+
+                <td class="f-left"
+                    style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
+                    0
+                </td>
+            </tr>'''
     return rows
 
 
@@ -3629,7 +3642,7 @@ if (currentTab == 5) {{
 
 
     // =========================================
-// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1 SCP1
+// 5.8 PREASIGNACIÓN LARGE VAN MLP - C1
 // =========================================
 
 if (currentTab == 2) {{
@@ -3940,52 +3953,19 @@ if (currentTab == 6) {{
     if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
     }} 
-    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP (Y absorbe todo el volumen)
+    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-        if (unidad) {{
-            let usar = 1;
-            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-            if (filaExistente) {{
-                filaExistente.querySelector('.u-manual').innerText = usar;
-                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(filaExistente);
-            }} else {{
-                let select = fila.querySelector('.s-type');
-                if (select) select.value = unidad.nombre;
-                fila.querySelector('.u-manual').innerText = usar;
-                fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(fila);
-            }}
-            unidad.restante -= usar;
-            restante = 0; // Se vuelve 0 para que no diga que falta volumen
-        }}
     }} 
-    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP (Y absorbe todo el volumen)
+    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-        if (unidad) {{
-            let usar = 1;
-            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-            if (filaExistente) {{
-                filaExistente.querySelector('.u-manual').innerText = usar;
-                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(filaExistente);
-            }} else {{
-                let select = fila.querySelector('.s-type');
-                if (select) select.value = unidad.nombre;
-                fila.querySelector('.u-manual').innerText = usar;
-                fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(fila);
-            }}
-            unidad.restante -= usar;
-            restante = 0; // Se vuelve 0 para que no diga que falta volumen
-        }}
     }}
     // 4. EXCEPCIÓN ALCHICHICA: No toca la flota real, usa un clon virtual para no restar de SCHEDULE ni DELTA
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
         if (svReal) {{
+            // Creamos un clon exacto en SPR pero aislado de la tabla superior
             unidad = {{
                 nombre: svReal.nombre,
                 spr: svReal.spr,
@@ -3994,70 +3974,35 @@ if (currentTab == 6) {{
             }};
         }}
     }}
-    // 5. PLANES FORÁNEOS: Prioridad estricta Large Van MLP -> Small Van MLP
+    // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
     else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
+        unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
-        // Prioridad 1: Large Van MLP foráneo
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        
-        // Prioridad 2: Small Van MLP foráneo
-        if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-        }}
-        
-        // Contingencia Exclusiva para XICO o TUZAMAPA si ya no hay Vans foráneas:
-        // Orden de prioridad CAR: Car 8h -> Small Van 9h -> Small Van 9h Ext.
+        // Contingencia XICO o TUZAMAPA
         if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
-            
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h"); 
-            }}
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext."); 
-            }}
+            unidad = fleet.find(f => f.restante > 0 && (
+                f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
+            ));
         }}
-    }}
-    // 6. PLANES LOCALES (CENTRO, CENTRO 2)
+    }} 
+    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
     else {{
-        // Prioridad 1: Rental Electric Large Van
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Electric Large Van");
+        // Prioridad 1: Rentals
+        unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
-        // Prioridad 2: Rental Large Van
-        if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Large Van");
-        }}
-        
-        // Prioridad 3: Rental Replacement
-        if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Rental Replacement");
-        }}
-        
-        // Prioridad 4: MLP Locales (Mantenemos tus Vans normales por si acaso antes de ir a CAR)
+        // Prioridad 2: MLP Locales
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
         }}
         
-        // Prioridad 5 (Contingencia final): Si ya no queda NINGUNA Rental ni MLP, se usan las CAR en orden estricto:
-        // Car Newbie -> Small Van Newbie -> Moto 3h -> Car 8h -> Small Van 9h -> Small Van 9h Ext.
+        // Prioridad 3: Flota CAR / Motos / Variant 9h / Newbies
         if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("car newbie"));
-            
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van newbie"));
-            }}
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("moto 3h"));
-            }}
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Car - 8h");
-            }}
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h");
-            }}
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van 9h Ext.");
-            }}
+            unidad = fleet.find(f => f.restante > 0 && (
+                f.nombre.includes("Car") || 
+                f.nombre.includes("Moto") || 
+                f.nombre.includes("Small Van 9h") || 
+                f.nombre.toLowerCase().includes("newbie")
+            ));
         }}
     }}
 }}
@@ -4274,36 +4219,187 @@ function actualizarTotales() {{
 
 
 function updateFleetFloat() {{
-    let totalRentalStock = 0, totalRentalReal = 0;
-    let totalMLPStock = 0, totalMLPReal = 0;
-    // ... (tus otras variables) ...
+let htmlLeft = "";
+let htmlRight = "";
 
-    document.querySelectorAll('#visor tr').forEach(row => {{
-        // ... (tu lógica de suma actual) ...
-    }});
+let totalNoCar = 0;
+let totalCarReal = 0;
+let totalCarSchedule = 0;
+let totalRuteadasNoCar = 0;
 
-    // 1. ACTUALIZA LOS IDs DE LA TABLA (lo que querías al principio)
-    let tabId = currentTab.replace(/ /g, "_");
-    const updateEl = (id, val) => {{
-        let el = document.getElementById(id + '-' + tabId);
-        if (el) el.innerText = val;
-    }};
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name')?.innerText.trim();
+            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
+            
+            // Calculamos lo asignado
+            let asignado = stock - left;
 
-    updateEl('total-rental-decl', totalRentalStock);
-    updateEl('total-rental-rute', totalRentalReal);
-    // ... (demás actualizaciones de tabla) ...
+            if(name && stock > 0) {{
 
-    // 2. ACTUALIZA EL CONTADOR (SOLO SI EXISTE)
-    // Usamos 'textContent' en lugar de 'innerHTML' si es posible, 
-    // o simplemente no sobreescribas el contenedor del reloj.
-    let floatBody = document.getElementById('fleet-float-body');
-    if (floatBody) {{
-        // En lugar de borrar todo el HTML, solo actualiza las partes internas
-        // Así no eliminas el reloj que vive afuera o al lado.
-        floatBody.innerHTML = `<div>` + htmlLeft + `</div>`; 
+    // 🔥 TOTAL CAR SCHEDULE
+    if(name.toLowerCase().includes("car")) {{
+        totalCarSchedule += stock;
     }}
+
+    let isCar = name.toLowerCase().includes("car") || name.toLowerCase().includes("híbrida");
+                let colorCategoria = isCar ? "#FF4500" : "#0000CD";
+
+                // Acumulamos totales
+if (isCar) {{
+
+    if (left < 0) {{
+
+        // Cuenta las declaradas + las adicionales
+        totalCarReal += stock + Math.abs(left);
+
+    }} else {{
+
+        totalCarReal += asignado;
+
+    }}
+
+}} else {{
+
+    // Todas las NO CAR cuentan para TOTAL RUTEADAS
+    totalRuteadasNoCar += asignado;
+
+    // Solo las MLP cuentan para TOTAL MLP
+    if (
+        name === "Large Van MLP" ||
+        name === "Small Van MLP"
+    ) {{
+
+        totalNoCar += asignado;
+
+    }}
+
 }}
 
+
+                htmlLeft += `
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:4px;
+        font-size:14px;"> 
+        <span style="color:#0a2745;">${{name}}</span>
+        <span style="
+            color:${{colorCategoria}};
+            font-weight:bold;">
+            ${{left}}/${{stock}}
+        </span>
+    </div>
+`;
+            }}
+        }});
+
+        // Columna derecha
+        htmlRight = `
+
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
+
+
+<div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 16px;">
+    <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
+</div>
+        
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px solid #135b83;"> 
+
+
+    <div style="font-weight:bold; margin-bottom:8px;">
+          <span>🚚 USADAS</span>
+          </div>
+          
+                <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 900; font-size: 16px;">
+    <span>TOTAL MLP:</span> <span>${{totalNoCar}}</span>
+</div>
+
+<div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 900; font-size: 16px;">
+    <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
+</div>
+
+            </div>
+        `;
+
+let html = `
+<div style="
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
+">
+
+    <div style="
+        flex:1;
+        min-width:180px;
+    ">
+        ${{htmlLeft}}
+    </div>
+
+    <div style="
+        width:170px;
+        border-left:2px solid #135b83;
+        padding-left:12px;
+    ">
+        ${{htmlRight}}
+    </div>
+
+</div>
+`;
+
+
+// Actualizar filas de totales de la tabla
+
+let elNoCar =
+    document.getElementById(
+        'total-no-car-' + currentTab
+    );
+
+if (elNoCar) {{
+    elNoCar.innerText = totalNoCar;
+}}
+
+let elCarReal =
+    document.getElementById(
+        'total-car-real-' + currentTab
+    );
+
+if (elCarReal) {{
+    elCarReal.innerText = totalCarReal;
+}}
+
+
+
+let totalRuteadas =
+    totalRuteadasNoCar + totalCarReal;
+
+let elRuteadas =
+    document.getElementById(
+        'total-ruteadas-' + currentTab
+    );
+
+if (elRuteadas) {{
+    elRuteadas.innerText = totalRuteadas;
+}}
+
+
+let elCarSchedule =
+    document.getElementById(
+        'total-car-schedule-' + currentTab
+    );
+
+if (elCarSchedule) {{
+    elCarSchedule.innerText = totalCarSchedule;
+}}
+
+
+
+document.getElementById('fleet-float-body').innerHTML = html;
+
+
+        // Guardar estado (si existe la función)
+        if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
+    }}
 
 
 aplicarPerfil();
