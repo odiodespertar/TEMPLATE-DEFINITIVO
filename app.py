@@ -2093,7 +2093,23 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
            bl.querySelectorAll('.calc-row').forEach(r => {{
                 let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
-                
+
+
+                // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA: No descuenta de la flota real (Schedule ni Delta)
+                let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
+                if (nombrePlanPadre.includes("ALCHICHICA")) {{
+                    if (s !== "Seleccionar..." && s !== "") {{
+                        let sprActual = parseFloat(sp.innerText) || 0;
+                        vA += (u * sprActual);
+                        sp.style.fontWeight = "bold";
+                        sp.style.setProperty("background-color", "#edf2f2");
+                        sp.style.setProperty("color", "#008B8B");
+                    }}
+                    return; 
+                }}
+
+
+
                 // Diccionario interno de mínimos oficiales para el freno operativo
                 const minimosFlota = {{
                     "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
