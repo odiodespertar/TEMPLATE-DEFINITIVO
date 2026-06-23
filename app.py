@@ -4325,7 +4325,7 @@ function updateFleetFloat() {{
                 htmlLeft += `
                     <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                         <span style="color:#0a2745;">${{name}}</span>
-                        <span style="color:${colorCategoria}; font-weight:bold;">${{left}}/${{stock}}</span>
+                        <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
                     </div>
                 `;
             }}
