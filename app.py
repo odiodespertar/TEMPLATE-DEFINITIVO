@@ -3953,19 +3953,52 @@ if (currentTab == 6) {{
     if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
     }} 
-    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP
+    // 2. MEGANODO: Solo 1 unidad fija de Truck 3.5 tons MLP (Y absorbe todo el volumen)
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+        if (unidad) {{
+            let usar = 1;
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                filaExistente.querySelector('.u-manual').innerText = usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                let select = fila.querySelector('.s-type');
+                if (select) select.value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+            unidad.restante -= usar;
+            restante = 0; // Se vuelve 0 para que no diga que falta volumen
+        }}
     }} 
-    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP
+    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP (Y absorbe todo el volumen)
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
+        if (unidad) {{
+            let usar = 1;
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                filaExistente.querySelector('.u-manual').innerText = usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                let select = fila.querySelector('.s-type');
+                if (select) select.value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+            unidad.restante -= usar;
+            restante = 0; // Se vuelve 0 para que no diga que falta volumen
+        }}
     }}
     // 4. EXCEPCIÓN ALCHICHICA: No toca la flota real, usa un clon virtual para no restar de SCHEDULE ni DELTA
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
         if (svReal) {{
-            // Creamos un clon exacto en SPR pero aislado de la tabla superior
             unidad = {{
                 nombre: svReal.nombre,
                 spr: svReal.spr,
@@ -3975,27 +4008,23 @@ if (currentTab == 6) {{
         }}
     }}
     // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
-    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
+    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
         unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
-        // Contingencia XICO o TUZAMAPA
         if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
             unidad = fleet.find(f => f.restante > 0 && (
                 f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
             ));
         }}
     }} 
-    // 6. PLANES LOCALES (CENTRO 1, CENTRO 2): Cascada estricta obligatoria
-    else {{
-        // Prioridad 1: Rentals
+    // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
+    else {
         unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
-        // Prioridad 2: MLP Locales
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
         }}
         
-        // Prioridad 3: Flota CAR / Motos / Variant 9h / Newbies
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (
                 f.nombre.includes("Car") || 
