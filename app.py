@@ -1827,13 +1827,11 @@ document.addEventListener("DOMContentLoaded", () => {{
     let elapsedTime = 0;
 
 
-    // --- AGREGA ESTO ---
-    // Esto asegura que al abrir la página, el contador se oculte/muestre 
-    // correctamente según la pestaña inicial (currentTab = 2)
+   
     document.addEventListener("DOMContentLoaded", () => {{
         actualizarVisibilidadContador();
     }});
-    // ------------------
+  
 
 
 
@@ -4832,10 +4830,7 @@ console.log(
 
 
 
-// Agrega esto al final de tu bloque <script> principal
-document.addEventListener("DOMContentLoaded", () => {{
-    actualizarVisibilidadContador();
-}});
+
 
 
   
