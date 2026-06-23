@@ -4005,7 +4005,7 @@ if (currentTab == 6) {{
                 f.nombre.toLowerCase().includes("newbie")
             ));
         }}
-        if (unidad) { usar = Math.ceil(restante / unidad.spr); }}
+        if (unidad) {{ usar = Math.ceil(restante / unidad.spr); }}
     }}
 
     // Si encuentra la asignación en la pestaña 6, mete los datos y salta a la siguiente fila
