@@ -2248,7 +2248,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         if (n.includes("mlp")) totals.mlpDecl += stock;
         else if (n.includes("rental")) totals.rentalDecl += stock;
         else if (n.includes("car") || n.includes("moto") || n.includes("van")) totals.carDecl += stock;
-    });
+    }});
 
     // 2. Luego sumamos las RUTEADAS (lo que realmente asignaste abajo)
     // Recorremos los polígonos para capturar las unidades asignadas
