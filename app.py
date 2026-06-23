@@ -4346,7 +4346,7 @@ function updateFleetFloat() {{
                 }}
             }}
 
-            // Generación de la lista de la columna izquierda flotante (sin signos de escape conflictivos)
+            // Generación de la lista de la columna izquierda flotante
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                     <span style="color:#0a2745;">` + name + `</span>
@@ -4440,7 +4440,6 @@ function updateFleetFloat() {{
 
     if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
-
 
 
 
