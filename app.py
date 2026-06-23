@@ -4313,7 +4313,7 @@ function updateFleetFloat() {{
         if (name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo)
+            // 1. Acumulador para el Gran Total de Ruteadas (Suma absolutamente todo sin excepción)
             totalRuteadasGeneral += asignado;
 
             // 2. Clasificación estricta para el desglose lateral
@@ -4346,62 +4346,61 @@ function updateFleetFloat() {{
                 }}
             }}
 
-            // Generación de la lista de la columna izquierda flotante
+            // Generación de la lista de la columna izquierda flotante (sin signos de escape conflictivos)
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                    <span style="color:#0a2745;">\${name}</span>
-                    <span style="color:\${colorCategoria}; font-weight:bold;">\${left}/\${stock}</span>
+                    <span style="color:#0a2745;">` + name + `</span>
+                    <span style="color:` + colorCategoria + `; font-weight:bold;">` + left + `/` + stock + `</span>
                 </div>
             `;
         }}
     }});
 
     // 3. VALIDACIÓN DE PESTAÑAS: Solo aplica el desglose en C1 SCP1 y C1 SJA1
-    // Ajusta los nombres de las pestañas si difieren de tus IDs de tab internos
     if (currentTab === "C1 SCP1" || currentTab === "C1 SJA1") {{
         htmlRight = `
             <div style="margin-top: 5px; padding-top: 5px;"> 
                 <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL RENTAL (decl):</span> <span>\${totalRentalStock}</span>
+                    <span>TOTAL RENTAL (decl):</span> <span>` + totalRentalStock + `</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL RENTAL (rute):</span> <span>\text{\${totalRentalReal}}</span>
+                    <span>TOTAL RENTAL (rute):</span> <span>` + totalRentalReal + `</span>
                 </div>
 
                 <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
                 <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL MLP (decl):</span> <span>\${totalMLPStock}</span>
+                    <span>TOTAL MLP (decl):</span> <span>` + totalMLPStock + `</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL MLP (rute):</span> <span>\${totalMLPReal}</span>
+                    <span>TOTAL MLP (rute):</span> <span>` + totalMLPReal + `</span>
                 </div>
 
                 <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
                 <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 13px;">
-                    <span>TOTAL CAR (decl):</span> <span>\${totalCarSchedule}</span>
+                    <span>TOTAL CAR (decl):</span> <span>` + totalCarSchedule + `</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 13px; margin-bottom: 6px;">
-                    <span>TOTAL CAR (real):</span> <span>\${totalCarReal}</span>
+                    <span>TOTAL CAR (real):</span> <span>` + totalCarReal + `</span>
                 </div>
 
                 <div style="border-top: 2px solid #0a2745; padding-top: 4px;"></div>
 
                 <div style="display:flex; justify-content:space-between; color: #0a2745; font-weight: 900; font-size: 14px; background-color: #e6f2ff; padding: 2px; border-radius: 3px;">
-                    <span>TOTAL RUTEADAS:</span> <span>\${totalRuteadasGeneral}</span>
+                    <span>TOTAL RUTEADAS:</span> <span>` + totalRuteadasGeneral + `</span>
                 </div>
             </div>
         `;
     }} else {{
-        // Lógica por defecto para las demás pestañas si decides mantener el diseño anterior
+        // Lógica por defecto para las demás pestañas normales
         htmlRight = `
             <div style="margin-top: 5px; padding-top: 5px;">
                 <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px;">
-                    <span>TOTAL CAR:</span> <span>\${totalCarReal}</span>
+                    <span>TOTAL CAR:</span> <span>` + totalCarReal + `</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
-                    <span>TOTAL MLP:</span> <span>\${totalNoCar}</span>
+                    <span>TOTAL MLP:</span> <span>` + totalNoCar + `</span>
                 </div>
             </div>
         `;
@@ -4409,13 +4408,13 @@ function updateFleetFloat() {{
 
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">\${htmlLeft}</div>
-        <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">\${htmlRight}</div>
+        <div style="flex:1; min-width:180px;">` + htmlLeft + `</div>
+        <div style="width:200px; border-left:2px solid #135b83; padding-left:12px;">` + htmlRight + `</div>
     </div>
     `;
 
     // ==============================================================================
-    // ASIGNACIONES EN EL PIE DE TABLA ORIGINAL (VISTA NORMAL / NO MUEVE TU EXCEL)
+    // ASIGNACIONES EN EL PIE DE TABLA ORIGINAL
     // ==============================================================================
     let elNoCar = document.getElementById('total-no-car-' + currentTab);
     if (elNoCar) {{
@@ -4441,6 +4440,9 @@ function updateFleetFloat() {{
 
     if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
 }}
+
+
+
 
 aplicarPerfil();
 
