@@ -4002,8 +4002,7 @@ if (currentTab == 6) {{
     }}
 }} 
 // 🔴 DE AQUÍ PARA ABAJO SE QUEDA TU CÓDIGO ORIGINAL INTACTO
-
-}} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
 }} else if (currentTab == 2) {{
     unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
