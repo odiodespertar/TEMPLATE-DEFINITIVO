@@ -1136,8 +1136,6 @@ body.excel-view .spr-real-val{{
         </div>
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
-
-        
        
         <div id="tab-2" class="t-content">
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
@@ -1158,6 +1156,26 @@ body.excel-view .spr-real-val{{
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
                   <tfoot class="fila-total"> 
+                   <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+             <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+             <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
                   <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="5" style="padding:6px; text-align:right;">
@@ -1251,9 +1269,24 @@ body.excel-view .spr-real-val{{
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
         <tfoot class="fila-total"> 
+             <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+             <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
             <tr class="fila-total">
                 <td style="border:none;"></td>
-                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP</td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
+                <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+             <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
                 <td id="total-no-car-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
             </tr>
             <tr class="fila-total">
