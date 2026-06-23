@@ -2191,15 +2191,18 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     // Sumamos al TOTAL general SIEMPRE
     totals.totalRuteadas += u;
 
-    // Clasificación
+    // Clasificación (EL ORDEN ES LA CLAVE)
     if (name.includes("mlp")) {{
         totals.mlpRute += u;
     }} else if (name.includes("rental")) {{
         totals.rentalRute += u;
+    }} else if (name.includes("delivery")) {{
+        // Si es delivery, se va a otros inmediatamente, sin importar si tiene "van"
+        totals.otrosRute += u;
     }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
         totals.carRute += u;
     }} else {{
-        // CUALQUIER COSA que no sea lo anterior (Delivery, Truck, etc.)
+        // CUALQUIER OTRA COSA (Trucks, Media Milla, etc.)
         totals.otrosRute += u; 
     }}
 }});
