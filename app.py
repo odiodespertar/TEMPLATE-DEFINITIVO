@@ -2211,6 +2211,10 @@ function setT(id, val) {{
     if (el) el.innerText = Math.round(val);
 }}
 
+console.log("El valor de otrosRute es:", totals.otrosRute);
+console.log("El valor de totalRuteadas es:", totals.totalRuteadas);
+
+
 setT('total-mlp-decl', totals.mlpDecl);
 setT('total-mlp-rute', totals.mlpRute);
 setT('total-rental-decl', totals.rentalDecl);
