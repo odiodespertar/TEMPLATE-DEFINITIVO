@@ -2238,16 +2238,26 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
     Object.keys(fleet).forEach(name => {{
         let stock = fleet[name].stock;
         let used = fleet[name].used;
-        let nameLower = name.toLowerCase();
+        // Limpiamos el nombre: quitamos espacios al inicio/final y pasamos a minúsculas
+        let nameLower = name.toLowerCase().trim(); 
+        
         let asignado = (nameLower.includes("eja1 sp1") || nameLower.includes("eja1 sp2")) ? 1 : used;
 
+        // --- DEPURACIÓN: Si ves '0' en tus totales, mira esto en la consola (F12) ---
+        console.log("Procesando: " + nameLower + " | Asignado: " + asignado);
+
         if (nameLower.includes("mlp")) {{
-            totals.mlpDecl += stock; totals.mlpRute += asignado;
+            totals.mlpDecl += stock; 
+            totals.mlpRute += asignado;
         }} else if (nameLower.includes("rental")) {{
-            totals.rentalDecl += stock; totals.rentalRute += asignado;
-        }} else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("small van")) {{
-            totals.carDecl += stock; totals.carRute += asignado;
+            totals.rentalDecl += stock; 
+            totals.rentalRute += asignado;
+        }} else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("small van") || nameLower.includes("van")) {{
+            totals.carDecl += stock; 
+            totals.carRute += asignado;
         }}
+        
+        // Esto suma TODO, incluyendo lo que no cayó en los IF de arriba
         totals.totalRuteadas += asignado;
     }});
 
