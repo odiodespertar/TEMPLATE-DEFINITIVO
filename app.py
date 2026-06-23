@@ -2649,43 +2649,54 @@ function toggleExcelView() {{
     let btn = document.getElementById("excel-btn");
     let excel = document.getElementById("excel-polys");
 
+    // IDs de las filas que queremos ocultar en modo Excel
+    const idsAocultar = [
+        "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
+        "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
+        "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
+        "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
+    ];
+
     if (isExcel) {{
-        // --- MODO EXCEL ---
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
         
-        // 1. Ocultar los bloques de pestañas (P1 al P6)
+        // 1. Ocultar bloques de pestañas
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
 
-        // 2. Forzar el ocultamiento de las filas con clase 'excel-hide'
-        document.querySelectorAll('.excel-hide').forEach(fila => {{
-            fila.style.display = 'none';
+        // 2. Ocultar filas de totales (el padre <tr>)
+        idsAocultar.forEach(id => {{
+            let el = document.getElementById(id);
+            if(el) {
+                let fila = el.closest('tr');
+                if(fila) fila.style.display = 'none';
+            }}
         }});
-
     }} else {{
-        // --- MODO NORMAL (EL RESET TOTAL) ---
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
-        // 1. Restaurar bloques de pestañas (esto ya lo tenías y funciona)
+        // 1. Restaurar bloques de pestañas
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
-            // IMPORTANTE: Aquí aseguramos que SOLO la pestaña activa se muestre
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // 2. EL RESET: Quitar el 'display: none' de todas las filas excel-hide
-        // Usamos removeProperty para borrar el estilo inline y dejar que el CSS original tome el mando
-        document.querySelectorAll('.excel-hide').forEach(fila => {{
-            fila.style.removeProperty('display');
+        // 2. RESTAURAR FILAS (La parte que te fallaba)
+        // Eliminamos el 'display: none' para que vuelvan a su estado original
+        idsAocultar.forEach(id => {{
+            let el = document.getElementById(id);
+            if(el) {{
+                let fila = el.closest('tr');
+                if(fila) fila.style.removeProperty('display');
+            }}
         }});
     }}
 }}
-
 
 
 
