@@ -3967,23 +3967,24 @@ if (currentTab == 6) {{
     else if (pUpper.includes("EJA1")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
     }}
-    // 4. EXCEPCIÓN ALCHICHICA: Small Van MLP foráneo sin descontar del stock
+    // 4. EXCEPCIÓN ALCHICHICA: No toca la flota real, usa un clon virtual para no restar de SCHEDULE ni DELTA
     else if (pUpper.includes("ALCHICHICA")) {{
-        unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
-        if (unidad) {{
-            // Calculamos cuántas necesita para cubrir el volumen completo
-            let necesarias = Math.ceil(restante / unidad.spr);
-            // Truco matemático: le sumamos al stock temporal el mismo número de unidades que va a usar.
-            // Así, cuando el código de abajo le reste 'usar', el stock neto quedará idéntico (no se descuenta).
-            unidad.restante += necesarias; 
+        let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
+        if (svReal) {{
+            // Creamos un clon exacto en SPR pero aislado de la tabla superior
+            unidad = {{
+                nombre: svReal.nombre,
+                spr: svReal.spr,
+                stock: 999,
+                restante: 999
+            }};
         }}
     }}
     // 5. PLANES FORÁNEOS: Solo MLP (Small y Large). Contingencia para XICO y TUZAMAPA
     else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
-        // Intentar primero con las MLP Foráneas que tengan stock disponible
         unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
         
-        // ** COMODÍN OPERATIVO: Si es XICO o TUZAMAPA y ya no hay MLP, o si se necesita cubrir el volumen restante, entran las CAR
+        // Contingencia XICO o TUZAMAPA
         if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
             unidad = fleet.find(f => f.restante > 0 && (
                 f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
@@ -3992,15 +3993,15 @@ if (currentTab == 6) {{
     }} 
     // 6. PLANES LOCALES (CENTRO, CENTRO 2): Cascada estricta obligatoria
     else {{
-        // Prioridad 1: Rentals (Todas las disponibles que lleven "rental" en su nombre)
+        // Prioridad 1: Rentals
         unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
         
-        // Prioridad 2: Si se acaban las Rentals, entran las MLP Locales de la casa
+        // Prioridad 2: MLP Locales
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"));
         }}
         
-        // Prioridad 3: Si se agotan todas las anteriores, usa la flota CAR / Motos / Variant 9h / Newbies
+        // Prioridad 3: Flota CAR / Motos / Variant 9h / Newbies
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && (
                 f.nombre.includes("Car") || 
