@@ -1769,17 +1769,17 @@ gap:10px;
 </div>
 
 <script>
-    // --- 1. LÓGICA DE ARRASTRE (CORREGIDA PARA EL RELOJ) ---
+    // --- 1. LÓGICA DE ARRASTRE (PARA EL RELOJ #ruteo-float) ---
     document.addEventListener("DOMContentLoaded", () => {{
         const reloj = document.getElementById("ruteo-float");
         let moviendo = false;
         let offsetX = 0;
         let offsetY = 0;
 
-       if (reloj) {{
+        if (reloj) {{
             reloj.style.cursor = "move";
             reloj.addEventListener("mousedown", (e) => {{
-                e.preventDefault(); // <--- ESTA LÍNEA EVITA EL SOMBREADO AZUL
+                e.preventDefault(); 
                 moviendo = true;
                 offsetX = e.clientX - reloj.offsetLeft;
                 offsetY = e.clientY - reloj.offsetTop;
@@ -1789,19 +1789,17 @@ gap:10px;
                 if (!moviendo) return;
                 reloj.style.left = (e.clientX - offsetX) + "px";
                 reloj.style.top = (e.clientY - offsetY) + "px";
-            }});
+            });
 
             document.addEventListener("mouseup", () => {{
                 moviendo = false;
             }});
         }}
         
-        // Inicializar visibilidad al cargar
         actualizarVisibilidadContador();
     }});
 
-                
-    // --- 2. FUNCIÓN DE VISIBILIDAD (CORREGIDA) ---
+    // --- 2. FUNCIÓN DE VISIBILIDAD ---
     function actualizarVisibilidadContador() {{
         const fleetFloat = document.getElementById("fleet-float");
         if (!fleetFloat) return;
@@ -1815,17 +1813,21 @@ gap:10px;
     let currentTab = 2;
     let editedRowsPlan = new Set();
 
-    // --- 4. FUNCIONES DE LÓGICA ---
+    // --- 4. FUNCIONES PRINCIPALES ---
     function showTab(n, btn) {{
         document.body.classList.remove("excel-view"); 
         currentTab = n;
+        
         document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
         document.getElementById('polys-' + n).style.display = 'block';
         document.getElementById('tab-' + n).style.display = 'block';
+
         btn.classList.add('active');
         recalc();
-        actualizarVisibilidadContador(); // Llamada integrada
+        actualizarVisibilidadContador();
+
         const excelBtn = document.getElementById('excel-btn');
         if (excelBtn) {{
             excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
@@ -1849,6 +1851,7 @@ gap:10px;
         }});
         recalc();
     }}
+</script>
 
 
 
