@@ -3945,24 +3945,70 @@ if (currentTab == 2) {{
 
 let unidad;
 
-// =================================
-// REGLAS ESPECIALES C1 Y C1 SJA1
-// =================================
-
+// ==========================================
+// 🔥 NUEVAS REGLAS DE NEGOCIO PARA C1 SJA1 🔥
+// ==========================================
 if (currentTab == 6) {{
-    // Reglas exclusivas para C1 SJA1
-    if (nombrePlan === "BULK") {{
+    let pUpper = nombrePlan.toUpperCase();
+
+    // 1. ASIGNACIONES FIJAS DE 1 SOLA UNIDAD
+    if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-    }} else if (nombrePlan === "MEGANODO") {{
+        if (unidad) {{ usar = 1; }} 
+    }} 
+    else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-    }} else if (nombrePlan === "EJA1" || nombrePlan === "EJA1 2") {{
+        if (unidad) {{ usar = 1; }} 
+    }} 
+    else if (pUpper === "EJA1 AM1" || pUpper === "EJA1 SP") {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-    }} else {{
-        // El resto de planes usa unidades que no sean las tres especiales controladas arriba
-        unidad = fleet.find(f => f.restante > 0 && 
-                            f.nombre !== "Extra Large Van MLP H&B" && 
-                            f.nombre !== "Truck 3.5 tons MLP" && 
-                            f.nombre !== "Media milla SP");
+        if (unidad) {{ usar = 1; }} 
+    }}
+    
+    // 2. EXCEPCIÓN ALCHICHICA (No descuenta del stock disponible)
+    else if (pUpper.includes("ALCHICHICA")) {{
+        unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
+        if (unidad) {{
+            let necesarias = Math.ceil(restante / unidad.spr);
+            usar = necesarias; 
+            unidad.restante += usar; // Truco para que la resta neta en flota quede en 0
+        }}
+    }}
+    
+    // 3. REGLAS PARA PLANES FORÁNEOS
+    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "XICO", "TUZAMAPA", "TRAPICHE"].includes(pUpper)) {{
+        // Prioridad única: Buscar camionetas MLP Foráneas
+        unidad = fleet.find(f => f.restante > 0 && (f.nombre === "Large Van MLP foráneo" || f.nombre === "Small Van MLP foráneo"));
+        
+        // Excepción de contingencia: Si es XICO o TUZAMAPA y ya se agotaron las MLP, entran las Car o Small Van 9h
+        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
+            unidad = fleet.find(f => f.restante > 0 && (
+                f.nombre.includes("Car") || f.nombre.includes("Moto") || f.nombre.includes("Small Van 9h") || f.nombre.toLowerCase().includes("newbie")
+            ));
+        }}
+    }} 
+    
+    // 4. REGLAS PARA PLANES LOCALES (Cascada estricta: Rentals -> MLP -> CAR)
+    else {{
+        // Nivel 1: Buscar cualquier Rental disponible
+        unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("rental"));
+        
+        // Nivel 2: Si no hay Rentals, buscar las unidades MLP Locales (las que NO dicen foráneo)
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && (
+                f.nombre === "Large Van MLP" || f.nombre === "Small Van MLP"
+            ));
+        }}
+        
+        // Nivel 3: Si todo lo anterior se agota, usar la flota CAR / Motos / Variant 9h
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && (
+                f.nombre.includes("Car") || 
+                f.nombre.includes("Moto") || 
+                f.nombre.includes("Small Van 9h") || 
+                f.nombre.toLowerCase().includes("newbie")
+            ));
+        }}
     }}
 }} else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
