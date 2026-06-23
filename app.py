@@ -790,82 +790,57 @@ html body .meli-table tbody tr:last-child {{
 }}
 
 
-/* Contador flotante*/
-
+/* Contador flotante */
 #fleet-float {{
-
     position: fixed;
     left: 14px;
     right: auto;
     top: 250px;
-    width: 420px;
-
-    /* Fondo: Tornasol de Durazno, Azul Cielo y Amarillo Crema */
-    background: linear-gradient(to bottom, 
-        rgba(255, 215, 157, 0.4),  /* Durazno pastel */
-        rgba(255, 215, 157, 0.4)  /* durazno pastel */
-    );
-    
-    color: #0a2745; /* Mantén blanco o un gris muy oscuro si prefieres más lectura */
+    width: 300px; /* Reduje el ancho aquí para que se vea bien al quitar la columna */
+    background: linear-gradient(to bottom, rgba(255, 215, 157, 0.4), rgba(255, 215, 157, 0.4));
+    color: #0a2745;
     border-radius: 14px;
     padding: 16px 18px;
     z-index: 999999 !important;
     font-size: 15px;
-
-    
-    /* Borde luminoso que atrapa el tono durazno */
     border: 2px solid #FF6347;
-    
-    /* Sombras para el efecto 3D iridiscente */
-    box-shadow: 
-        0 10px 30px rgba(0,0,0,0.5),            
-        inset 2px 2px 5px rgba(255,255,255,0.3), 
-        inset -2px -2px 5px rgba(0,0,0,0.5);     
-    
-    /* Vidrio esmerilado */
-    backdrop-filter: blur(50px); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
+    backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);
-    
     max-height: 75vh;
     overflow-y: auto;
 }}
 
-/////////////////
+/* --- ESTO ES LO NUEVO QUE QUITA LA COLUMNA 2 --- */
+#fleet-float table th:nth-child(2), 
+#fleet-float table td:nth-child(2) {{
+    display: none !important;
+}}
 
-/* Agrégalo al final de tu sección <style> */
+/* Checkbox */
 .ok-check {{
-    accent-color: #FFFF00 !important; /* Cambia aquí el color (ej. #AFEEEE para Turquesa) */
+    accent-color: #FFFF00 !important;
     cursor: pointer;
 }}
 
-
-
-
-#ruteo-float{{
-
-    position:fixed;
-    top:200px;
-    right:15px;
-    width:220px;
-    background:
-        linear-gradient(
-            135deg,
-            #031d4d 0%,
-            #072868 50%,
-            #03163d 100%
-        );
-    border-radius:14px;
-    padding:6px;
-    color:white;
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.35);
-    z-index:999999;
-    cursor:move;
-    user-select:none;
+/* Reloj flotante */
+#ruteo-float {{
+    position: fixed;
+    top: 200px;
+    right: 15px;
+    width: 220px;
+    background: linear-gradient(135deg, #031d4d 0%, #072868 50%, #03163d 100%);
+    border-radius: 14px;
+    padding: 6px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    z-index: 999999;
+    cursor: move;
+    user-select: none;
 }}
-#ruteo-float:hover{{
-    box-shadow:
-        0 14px 35px rgba(0,0,0,0.22);
+
+#ruteo-float:hover {{
+    box-shadow: 0 14px 35px rgba(0,0,0,0.22);
 }}
 
 
