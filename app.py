@@ -2671,7 +2671,7 @@ function toggleExcelView() {{
                 body.excel-view .excel-hide {{ display: none !important; }}
                 
                 /* Mantenemos visible la fila de Total Ruteadas */
-                body.excel-view .fila-total-ruteadas { display: table-row !important; }}
+                body.excel-view .fila-total-ruteadas {{ display: table-row !important; }}
             `;
             document.head.appendChild(styleEl);
         }}
