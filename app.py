@@ -841,32 +841,31 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-#ruteo-float {{
-    pointer-events: auto !important; /* Asegura que el reloj sea clicable */
-}}
-    position: fixed;
-    top: 200px;
-    right: 15px;
-    width: 220px;
-    background: linear-gradient(135deg, #031d4d 0%, #072868 50%, #03163d 100%);
-    border-radius: 14px;
-    padding: 6px;
-    color: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    z-index: 999999;
-    cursor: move;
-    
-    /* --- CORRECCIONES PARA EVITAR EL SOMBREADO AZUL Y EL BLOQUEO --- */
-    -webkit-user-select: none; /* Chrome, Safari, Opera */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* IE/Edge */
-    user-select: none;         /* Estándar */
-    touch-action: none;        /* Evita que dispositivos táctiles intenten hacer scroll al mover */
-    pointer-events: auto;      /* Asegura que reciba clics */
-}}
+#ruteo-float{{
 
-#ruteo-float:hover {{
-    box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+    position:fixed;
+    top:200px;
+    right:15px;
+    width:220px;
+    background:
+        linear-gradient(
+            135deg,
+            #031d4d 0%,
+            #072868 50%,
+            #03163d 100%
+        );
+    border-radius:14px;
+    padding:6px;
+    color:white;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.35);
+    z-index:999999;
+    cursor:move;
+    user-select:none;
+}}
+#ruteo-float:hover{{
+    box-shadow:
+        0 14px 35px rgba(0,0,0,0.22);
 }}
 
 
@@ -1769,89 +1768,99 @@ gap:10px;
 </div>
 
 <script>
-    // --- 1. LÓGICA DE ARRASTRE (PARA EL RELOJ #ruteo-float) ---
-    document.addEventListener("DOMContentLoaded", () => {{
-        const reloj = document.getElementById("ruteo-float");
-        let moviendo = false;
-        let offsetX = 0;
-        let offsetY = 0;
 
-        if (reloj) {{
-            reloj.style.cursor = "move";
-            reloj.addEventListener("mousedown", (e) => {{
-                e.preventDefault(); 
-                moviendo = true;
-                offsetX = e.clientX - reloj.offsetLeft;
-                offsetY = e.clientY - reloj.offsetTop;
-            }});
 
-            document.addEventListener("mousemove", (e) => {{
-                if (!moviendo) return;
-                reloj.style.left = (e.clientX - offsetX) + "px";
-                reloj.style.top = (e.clientY - offsetY) + "px";
-            }});
 
-            document.addEventListener("mouseup", () => {{
-                moviendo = false;
-            }});
-        }}
-        
-        actualizarVisibilidadContador();
+document.addEventListener("DOMContentLoaded", () => {{
+
+    const flotante = document.getElementById("fleet-float");
+
+    let moviendo = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    flotante.style.cursor = "move";
+
+    flotante.addEventListener("mousedown", (e) => {{
+
+        moviendo = true;
+
+        offsetX = e.clientX - flotante.offsetLeft;
+        offsetY = e.clientY - flotante.offsetTop;
+
+        console.log("INICIO ARRASTRE");
+
     }});
 
-    // --- 2. FUNCIÓN DE VISIBILIDAD ---
-    function actualizarVisibilidadContador() {{
-        const fleetFloat = document.getElementById("fleet-float");
-        if (!fleetFloat) return;
-        const isExcel = document.body.classList.contains("excel-view");
-        fleetFloat.style.display = isExcel ? "none" : (currentTab === 6 ? "block" : "none");
-    }}
+    document.addEventListener("mousemove", (e) => {{
 
-    // --- 3. VARIABLES GLOBALES ---
-    const perfiles = {{json.dumps(PERFILES)}};
-    const perfilActual = "{{perfil_actual}}";
+    if (!moviendo) return;
+
+    console.log("MOVIENDO");
+
+    flotante.style.left =
+        (e.clientX - offsetX) + "px";
+
+    flotante.style.top =
+        (e.clientY - offsetY) + "px";
+
+}});
+
+    document.addEventListener("mouseup", () => {{
+
+        moviendo = false;
+
+    }});
+
+}});
+        
+
+
+    const perfiles = {json.dumps(PERFILES)};
+    const perfilActual = "{perfil_actual}";
+
     let currentTab = 2;
     let editedRowsPlan = new Set();
+    let curC = "";
+    let chronoInterval;
+    let startTime;
+    let elapsedTime = 0;
 
-    // --- 4. FUNCIONES PRINCIPALES ---
-    function showTab(n, btn) {{
-        document.body.classList.remove("excel-view"); 
-        currentTab = n;
-        
-        document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        document.getElementById('polys-' + n).style.display = 'block';
-        document.getElementById('tab-' + n).style.display = 'block';
-
-        btn.classList.add('active');
-        recalc();
-        actualizarVisibilidadContador();
-
-        const excelBtn = document.getElementById('excel-btn');
-        if (excelBtn) {{
-            excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
-        }}
-    }}
 
     function aplicarPerfil() {{
-        let perfil = perfiles[perfilActual];
-        if(!perfil) return;
-        Object.keys(perfil).forEach(tabId => {{
-            document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-                let unidad = row.querySelector('.edit-name')?.innerText.trim(); 
-                if(perfil[tabId][unidad]) {{
-                    let data = perfil[tabId][unidad];
-                    let orh = row.querySelector('.edit-orh');
-                    let disp = row.querySelector('.edit-ocup');
-                    if(orh) orh.innerText = data.orh;
-                    if(disp) disp.innerText = data.disp;
-                }}
-            }});
+
+    let perfil = perfiles[perfilActual];
+
+    if(!perfil) return;
+
+    Object.keys(perfil).forEach(tabId => {{
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+
+            let unidad =
+                row.querySelector('.edit-name')?.innerText.trim(); 
+
+            if(perfil[tabId][unidad]) {{
+
+                let data = perfil[tabId][unidad];
+
+                let orh =
+                    row.querySelector('.edit-orh');
+
+                let disp =
+                    row.querySelector('.edit-ocup');
+
+                if(orh)
+                    orh.innerText = data.orh;
+
+                if(disp)
+                    disp.innerText = data.disp;
+            }}
         }});
-        recalc();
-    }}
-</script>
+    }});
+
+    recalc();
+}}
 
 
 
