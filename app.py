@@ -1179,6 +1179,11 @@ body.excel-view .spr-real-val{{
         <td id="total-mlp-rute-2" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
     </tr>
     <tr class="fila-total">
+    <td style="border:none;"></td>
+    <td colspan="5" style="padding:6px; text-align:right;">TOTAL OTROS (Delivery/Truck)</td>
+    <td id="total-otros-2" style="text-align:center; color:#8B4513; font-size:16px; font-weight:bold;">0</td>
+    </tr>
+    <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
         <td id="total-ruteadas-2" style="text-align:center; color:#FF8C00; font-size:16px; font-weight:bold;">0</td>
