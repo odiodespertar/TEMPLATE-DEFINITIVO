@@ -4298,41 +4298,40 @@ function updateFleetFloat() {{
 
     let totalCarReal = 0;       // Ruteadas
     let totalCarSchedule = 0;   // Declaradas
-    
-    let totalRuteadasGeneral = 0; // Va a sumar TODO lo asignado sin excepción
-    let totalNoCar = 0;         // El total original para el pie de tabla físico
+    let totalNoCar = 0;         // El total original de MLP que tu código ya calculaba
 
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
         let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         
-        // Calculamos lo asignado en esta fila concreta (Ruteadas reales)
+        // Calculamos lo asignado
         let asignado = stock - left;
 
         if(name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 1. Acumulamos directamente en el Gran Total de Ruteadas (Suma CAR, MLP, RENTAL...)
-            totalRuteadasGeneral += asignado;
-
-            // 2. FILTRO EXCLUSIVO PARA EL PANEL FLOTANTE DERECHO
-            if (nameLower.includes("rental")) {{
-                totalRentalStock += stock;
-                totalRentalReal += asignado;
+            // 1. CONTEO DE CARS
+            if(nameLower.includes("car")) {{
+                totalCarSchedule += stock;
             }}
-            else if (name.includes("MLP")) {{
+
+            // 2. CONTEO DE MLP (Acepta las normales y las que dicen "foráneo")
+            if(name.includes("MLP")) {{
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }}
-            else if (nameLower.includes("car")) {{
-                totalCarSchedule += stock;
+
+            // 3. CONTEO DE RENTALS (Cualquiera con la palabra "rental")
+            if(nameLower.includes("rental")) {{
+                totalRentalStock += stock;
+                totalRentalReal += asignado;
             }}
 
             let isCar = nameLower.includes("car") || nameLower.includes("híbrida");
             let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
-            // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES FISICOS DE ABAJO ---
+            // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES DE ABAJO ---
             if (isCar) {{
                 if (left < 0) {{
                     totalCarReal += stock + Math.abs(left);
@@ -4340,54 +4339,55 @@ function updateFleetFloat() {{
                     totalCarReal += asignado;
                 }}
             }} else {{
-                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo") || nameLower.includes("rental")) {{
+                // Mantenemos la regla exacta original para totalNoCar
+                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo")) {{
                     totalNoCar += asignado;
                 }}
             }}
 
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
-                    <span style="color:#0a2745;">\${{name}}</span>
-                    <span style="color:\${{colorCategoria}}; font-weight:bold;">\${{left}}/\${{stock}}</span>
+                    <span style="color:#0a2745;">${{name}}</span>
+                    <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
                 </div>
             `;
         }}
     }});
 
-    // Columna derecha flotante: Desglosa Declaradas vs Ruteadas (Solo en Vista Normal)
+    // Columna derecha flotante: Aquí SÍ desglosamos Declaradas vs Ruteadas (Solo se ve en Vista Normal)
     htmlRight = `
         <div style="margin-top: 5px; padding-top: 5px;"> 
             <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
-                <span>TOTAL CAR (sched):</span> <span>\text{\${{totalCarSchedule}}}</span>
+                <span>TOTAL CAR (sched):</span> <span>${{totalCarSchedule}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #FF4500; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL CAR (real):</span> <span>\${{totalCarReal}}</span>
+                <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
-                <span>TOTAL MLP (decl):</span> <span>\${{totalMLPStock}}</span>
+                <span>TOTAL MLP (decl):</span> <span>${{totalMLPStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px; margin-bottom: 8px;">
-                <span>TOTAL MLP (rute):</span> <span>\${{totalMLPReal}}</span>
+                <span>TOTAL MLP (rute):</span> <span>${{totalMLPReal}}</span>
             </div>
 
             <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
 
             <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (decl):</span> <span>\${{totalRentalStock}}</span>
+                <span>TOTAL RENTAL (decl):</span> <span>${{totalRentalStock}}</span>
             </div>
             <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
-                <span>TOTAL RENTAL (rute):</span> <span>\${{totalRentalReal}}</span>
+                <span>TOTAL RENTAL (rute):</span> <span>${{totalRentalReal}}</span>
             </div>
         </div>
     `;
 
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
-        <div style="flex:1; min-width:180px;">\${{htmlLeft}}</div>
-        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">\${{htmlRight}}</div>
+        <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
+        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">${{htmlRight}}</div>
     </div>
     `;
 
@@ -4396,7 +4396,7 @@ function updateFleetFloat() {{
     // ==============================================================================
     let elNoCar = document.getElementById('total-no-car-' + currentTab);
     if (elNoCar) {{
-        elNoCar.innerText = totalNoCar; 
+        elNoCar.innerText = totalNoCar; // Regresa al cálculo original (MLP Clásicas + Foráneas)
     }}
 
     let elCarReal = document.getElementById('total-car-real-' + currentTab);
@@ -4404,9 +4404,10 @@ function updateFleetFloat() {{
         elCarReal.innerText = totalCarReal;
     }}
 
+    let totalRuteadas = totalMLPReal + totalCarReal + totalRentalReal; 
     let elRuteadas = document.getElementById('total-ruteadas-' + currentTab);
     if (elRuteadas) {{
-        elRuteadas.innerText = totalRuteadasGeneral;
+        elRuteadas.innerText = totalRuteadas;
     }}
 
     let elCarSchedule = document.getElementById('total-car-schedule-' + currentTab);
@@ -4416,8 +4417,9 @@ function updateFleetFloat() {{
 
     document.getElementById('fleet-float-body').innerHTML = html;
 
-    if (typeof guardarEstado === 'function') {{ guardarEstado(); }} 
+    if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
 }}
+
 
 aplicarPerfil();
 
