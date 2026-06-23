@@ -2648,10 +2648,9 @@ function toggleExcelView() {{
     
     let btn = document.getElementById("excel-btn");
     let excel = document.getElementById("excel-polys");
-    let styleId = "estilos-limpieza-excel";
-    let styleEl = document.getElementById(styleId);
 
     if (isExcel) {{
+        // --- ENTRANDO A MODO EXCEL ---
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
@@ -2662,21 +2661,14 @@ function toggleExcelView() {{
             if(el) el.style.display = "none";
         }});
 
-        // INYECTAR CSS: Solo se aplica mientras existe el elemento style
-        if (!styleEl) {{
-            styleEl = document.createElement("style");
-            styleEl.id = styleId;
-            styleEl.innerHTML = `
-                /* Ocultamos las filas que NO queremos ver */
-                body.excel-view .excel-hide {{ display: none !important; }}
-                
-                /* Mantenemos visible la fila de Total Ruteadas */
-                body.excel-view .fila-total-ruteadas {{ display: table-row !important; }}
-            `;
-            document.head.appendChild(styleEl);
-        }}
+        // Ocultar las filas de totales que NO quieres ver
+        // IMPORTANTE: Busca todas las filas con clase 'excel-hide' y ocúltalas mediante JS
+        document.querySelectorAll('.excel-hide').forEach(fila => {{
+            fila.style.display = 'none';
+        }});
+
     }} else {{
-        // --- SALIR DE VISTA EXCEL ---
+        // --- SALIENDO A MODO NORMAL (LA LIMPIEZA) ---
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
@@ -2686,11 +2678,12 @@ function toggleExcelView() {{
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
-        // ¡ESTO ES LO IMPORTANTE! Al borrar el elemento, el CSS muere y todo vuelve a la normalidad
-        if (styleEl) styleEl.remove();
+        // ESTO ES LA CLAVE: Limpiamos el 'display: none' de las filas ocultas
+        document.querySelectorAll('.excel-hide').forEach(fila => {{
+            fila.style.display = ''; // Esto elimina el estilo 'none' y restaura la fila
+        }});
     }}
 }}
-
 
 
 
