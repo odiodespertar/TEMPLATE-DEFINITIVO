@@ -877,7 +877,7 @@ body.excel-view .poligono-bloque table {{
 /* Aplicamos reglas separadas para celdas y encabezados */
 body.excel-view .poligono-bloque td {{
     padding: 3px 2px !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     white-space: nowrap; /* Los datos se quedan en una línea */
     text-align: center;
 }}
@@ -886,7 +886,7 @@ body.excel-view .poligono-bloque th {{
     padding: 2px !important;
     font-size: 10px !important;
     white-space: normal; /* PERMITIMOS que el encabezado se parta si es muy largo */
-    line-height: 1.1;    /* Ajustamos el interlineado para que quepa mejor */
+    line-height: 1.2;    /* Ajustamos el interlineado para que quepa mejor */
     text-align: center !important;
     background-color: #f0f0f0 !important;
     vertical-align: middle;
@@ -896,7 +896,7 @@ body.excel-view .poligono-bloque th {{
 body.excel-view .poligono-bloque th:nth-last-child(3), /* SCHEDULE */
 body.excel-view .poligono-bloque th:nth-last-child(2), /* RUTEADAS */
 body.excel-view .poligono-bloque th:nth-last-child(1) {{ /* DELTA */
-    width: 50px !important; 
+    width: 40px !important; 
 }}
 
 </style> 
