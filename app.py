@@ -1458,8 +1458,7 @@ USADAS
 </div>
 
 
-<!-- NUEVO PANEL DE RUTEOS -->
-<div id="ruteo-float">
+
 
 
 
