@@ -979,7 +979,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         top: -600px; 
         left: 0; 
         width: 100%; 
-        height: 255px; 
+        height: 260px; 
         background: #f7efeb; 
         border-bottom: 3px solid #FF6347; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
