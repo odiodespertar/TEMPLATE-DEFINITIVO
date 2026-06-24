@@ -4105,10 +4105,30 @@ document.addEventListener('input', (e) => {{
 }});
 
 // Esto asegura que al cargar la página ya esté filtrado
-window.addEventListener('load', actualizarSelects);
+window.addEventListener('load', () => {{
+    actualizarSelects();
+    agregarIndicadorSchedule(); // <--- Aquí añadimos la llamada
+}});
+
 actualizarDosPorciento();
 // ==============================================================================
 
+
+// --- SEGUNDO PASO: Poner esta función al final de tu script ---
+function agregarIndicadorSchedule() {{
+    let headers = document.querySelectorAll('#body-' + currentTab + ' th');
+    headers.forEach(th => {{
+        // Buscamos el encabezado que diga SCHEDULE
+        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
+            let span = document.createElement('span');
+            span.className = 'hand-emoji';
+            span.innerHTML = " 👇"; // El emoji de la mano
+            span.style.display = "block";
+            span.style.fontSize = "16px";
+            th.prepend(span); // Lo pone arriba del texto
+        }}
+    }});
+}}
 
 
 
@@ -4264,7 +4284,6 @@ const ruteos = [
 ];
 
 let ultimaAlerta = "";
-
 
 
 function actualizarRelojRuteos() {{
