@@ -877,8 +877,8 @@ body.excel-view .poligono-bloque table {{
 body.excel-view .poligono-bloque td, 
 body.excel-view .poligono-bloque th {{
     padding: 6px 2px !important;    /* Aumentamos el primer valor (6px) para dar altura */
-    height: 30px !important;        /* Forzamos una altura de fila más cómoda */
-    font-size: 11px !important;     /* Subimos un pelín la letra para que se lea bien */
+    height: 50px !important;        /* Forzamos una altura de fila más cómoda */
+    font-size: 13px !important;     /* Subimos un pelín la letra para que se lea bien */
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
