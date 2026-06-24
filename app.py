@@ -3626,10 +3626,31 @@ if (currentTab == 6) {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
         // ... (aquí mantienes tu lógica original de asignación filaExistente)
     }} 
-    // 3. EJA1 SP
-    else if (pUpper.includes("EJA1")) {{
+    // 3. EJA1 SP: Solo 1 unidad fija de Media milla SP (Y absorbe todo el volumen)
+    else if (pUpper.includes("EJA1 SP1") || pUpper.includes("EJA1 SP2")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-        // ... (aquí mantienes tu lógica original de asignación filaExistente)
+        if (unidad) {{
+            let usar = 1;
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            
+            if (filaExistente) {{
+                filaExistente.querySelector('.u-manual').innerText = usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                let select = fila.querySelector('.s-type');
+                if (select) select.value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+            
+            // Reducimos el stock disponible de la flota
+            unidad.restante -= usar;
+            
+            // FORZAMOS EL RESTANTE A 0 para que el sistema no pida más volumen
+            restante = 0; 
+        }}
     }}
     // 4. ALCHICHICA
     else if (pUpper.includes("ALCHICHICA")) {{
