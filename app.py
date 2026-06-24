@@ -988,19 +988,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 ">
 
         <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
-       
-        
-        <div id="dos-pct-global"
-     style="
-        background:#f5f5f5;
-        border:1px solid #d0d0d0;
-        border-radius:6px;
-        padding:6px;
-        margin-bottom:10px;
-        text-align:center;
-        font-weight:bold;
-        color:#135b83;">
-</div>
+    
 
 
 <div id="panel-control-unico" style="display: flex; gap: 20px; background: #135b83; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
@@ -1032,6 +1020,19 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
     </div>
+
+
+<div id="dos-pct-global"
+     style="
+        background:#f5f5f5;
+        border:1px solid #d0d0d0;
+        border-radius:6px;
+        padding:6px;
+        margin-bottom:10px;
+        text-align:center;
+        font-weight:bold;
+        color:#135b83;">
+</div>
 
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
