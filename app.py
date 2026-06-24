@@ -1916,6 +1916,27 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }}
 }});
 
+
+// --- INICIO DEL BLOQUE DE SINCRONIZACIÓN ---
+let mapeoRuteadas = {{}};
+document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
+    let s = row.querySelector('.s-type').value;
+    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+    if (s && s !== "Seleccionar...") {{
+        mapeoRuteadas[s] = (mapeoRuteadas[s] || 0) + u;
+    }}
+}});
+
+document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+    let nameCell = row.querySelector('.edit-name');
+    let ruteadaCell = row.querySelector('.f-ruteadas');
+    if (nameCell && ruteadaCell) {{
+        let name = nameCell.innerText.trim();
+        ruteadaCell.innerText = mapeoRuteadas[name] || 0;
+    }}
+}});
+// --- FIN DEL BLOQUE DE SINCRONIZACIÓN ---
+
         // 2. Calcular ocupación por polígono (Tabla de abajo)
         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
