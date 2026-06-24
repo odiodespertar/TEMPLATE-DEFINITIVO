@@ -79,8 +79,8 @@ u_C1_SJA1 = {
     "Large Van MLP foráneo": [110, 120], 
     "Extra Large Van MLP H&B": [70, 70],
     "Rental Electric Large Van": [150, 150],
-    "Rental Large Van": [150, 150],
-    "Rental Replacement": [150, 150],
+    "Rental Large Van": [120, 120],
+    "Rental Replacement": [120, 120],
     "Truck 3.5 tons MLP": [1, 1], 
     "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
@@ -979,7 +979,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         top: -600px; 
         left: 0; 
         width: 100%; 
-        height: 250px; 
+        height: 255px; 
         background: #f7efeb; 
         border-bottom: 3px solid #FF6347; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
