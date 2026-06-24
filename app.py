@@ -1064,10 +1064,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
        
      <div id="tab-2" class="t-content">
 
-        <div style="background: #34495e; padding: 8px; border-radius: 5px; border: 1px solid #2c3e50; text-align: center; width: 100px;">
-    <div style="font-size: 10px; font-weight: bold; color: #ecf0f1;">TIEMPO</div>
-    <div id="reloj-fijo" style="font-size: 14px; font-weight: bold; color: #ffffff;">0h 0m</div>
-</div>
+       
         
         <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
         <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
@@ -1086,10 +1083,18 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 
-<div id="ruteo-integrado" style="background:#135b83; color:white; padding:10px; border-radius:10px; width: 200px;">
-        <span id="hora-actual">00:00:00</span>
-        <div id="proximo-ruteo">Sin tareas</div>
-        <div id="cuenta-regresiva">00:00</div>
+<div id="panel-control-unico" style="display: flex; gap: 20px; background: #135b83; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
+    <div style="text-align: center;">
+        <div id="hora-actual" style="font-size: 22px; font-weight: bold;">00:00:00</div>
+        <div style="font-size: 9px; color: #26d0ff; letter-spacing: 1px;">HORA ACTUAL</div>
+    </div>
+    <div style="text-align: center; border-left: 1px solid #ffffff33; padding-left: 20px;">
+        <div id="proximo-ruteo" style="font-size: 16px; font-weight: bold; color: #ff9b21;">Sin tareas</div>
+        <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px;">SIGUIENTE RUTEO</div>
+    </div>
+    <div style="text-align: center; border-left: 1px solid #ffffff33; padding-left: 20px;">
+        <div id="cuenta-regresiva" style="font-size: 22px; font-weight: bold; color: #7CFFB2;">00:00</div>
+        <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px;">TIEMPO RESTANTE</div>
     </div>
 </div>
 
@@ -4461,18 +4466,7 @@ let ultimaAlerta = "";
 
 function actualizarRelojRuteos() {{
     const ahora = new Date();
-    const hh = String(ahora.getHours()).padStart(2, "0");
-    const mm = String(ahora.getMinutes()).padStart(2, "0");
-    const ss = String(ahora.getSeconds()).padStart(2, "0");
-
-    // Usamos los IDs originales que ya tienes en tu HTML
-    const elHora = document.getElementById("hora-actual");
-    const elProximo = document.getElementById("proximo-ruteo");
-    const elHoraRuteo = document.getElementById("hora-ruteo");
-    const elCuenta = document.getElementById("cuenta-regresiva");
-    const elPanel = document.getElementById("ruteo-float"); // Tu panel flotante
-
-    if (elHora) elHora.innerText = hh + ":" + mm + ":" + ss;
+    document.getElementById("hora-actual").innerText = ahora.toLocaleTimeString();
 
     let siguiente = null;
     for (let tarea of ruteos) {{
@@ -4485,36 +4479,21 @@ function actualizarRelojRuteos() {{
         }}
     }}
 
+    const elProximo = document.getElementById("proximo-ruteo");
+    const elCuenta = document.getElementById("cuenta-regresiva");
+
     if (!siguiente) {{
-        if (elProximo) elProximo.innerText = "Fin del turno";
-        if (elHoraRuteo) elHoraRuteo.innerText = "--";
-        if (elCuenta) elCuenta.innerText = "--";
-        return;
-    }}
-
-    if (elProximo) elProximo.innerText = siguiente.tarea.nombre;
-    if (elHoraRuteo) elHoraRuteo.innerText = siguiente.tarea.hora;
-
-    let diferencia = siguiente.fechaTarea - ahora;
-    let minutos = Math.floor(diferencia / 60000);
-    let segundos = Math.floor((diferencia % 60000) / 1000);
-
-    if (elCuenta) {{
-        elCuenta.innerText = String(minutos).padStart(2, "0") + ":" + String(segundos).padStart(2, "0");
-        elCuenta.style.color = minutos > 15 ? "#2E8B57" : (minutos > 5 ? "#FF8C00" : "#FF0000");
-    }}
-
-    if (minutos <= 5) {{
-        if (elPanel) elPanel.style.borderColor = "#FF4500";
-        if (ultimaAlerta !== siguiente.tarea.nombre) {{
-            alert("⚠️ En menos de 5 minutos inicia: " + siguiente.tarea.nombre);
-            ultimaAlerta = siguiente.tarea.nombre;
-        }}
-    }} else if (elPanel) {{
-        elPanel.style.borderColor = "#135b83";
+        elProximo.innerText = "Fin del turno";
+        elCuenta.innerText = "--:--";
+    }} else {{
+        elProximo.innerText = siguiente.tarea.nombre;
+        let diff = siguiente.fechaTarea - ahora;
+        let mins = Math.floor(diff / 60000);
+        let secs = Math.floor((diff % 60000) / 1000);
+        elCuenta.innerText = String(mins).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
+        elCuenta.style.color = mins < 5 ? "#FF0000" : "#7CFFB2";
     }}
 }}
-
 setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
 
