@@ -4118,23 +4118,26 @@ actualizarDosPorciento();
 function agregarIndicadorSchedule() {{
     let headers = document.querySelectorAll('th');
     headers.forEach(th => {{
-        if (th.innerText.includes("SCHEDULE") && !document.getElementById('hand-indicator')) {{
-            // Creamos un contenedor fuera de la tabla para asegurar visibilidad
-            let hand = document.createElement('div');
-            hand.id = 'hand-indicator';
-            hand.innerHTML = "👇";
-            hand.style.textAlign = "center";
-            hand.style.fontSize = "25px";
-            hand.style.marginBottom = "5px";
+        // Buscamos el encabezado que contiene "SCHEDULE"
+        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
             
-            // Insertamos la mano justo antes de la tabla completa
-            let tabla = th.closest('table');
-            tabla.parentNode.insertBefore(hand, tabla);
+            // Creamos la mano
+            let span = document.createElement('span');
+            span.className = 'hand-emoji';
+            span.innerHTML = "👇";
             
-            // Ajuste fino: movemos la mano horizontalmente para que coincida con la columna
-            // Esto es un ajuste manual en píxeles (cambia 600px según tu tabla)
-            hand.style.position = "relative";
-            hand.style.left = "600px"; // <--- AJUSTA ESTE NÚMERO hasta que quede sobre "SCHEDULE"
+            // Estilos para obligar a que se vea y flote arriba
+            span.style.position = "absolute";
+            span.style.top = "-25px"; // La mueve 25px hacia arriba
+            span.style.left = "50%"; // Centrado relativo a la celda
+            span.style.transform = "translateX(-50%)"; // Centrado perfecto
+            span.style.fontSize = "20px";
+            span.style.zIndex = "9999"; // Obliga a que esté por encima de todo
+            span.style.pointerEvents = "none"; // Para que no estorbe al hacer clic
+            
+            // IMPORTANTE: El th debe tener posición relativa para que el absolute funcione
+            th.style.position = "relative";
+            th.appendChild(span);
         }}
     }});
 }}
