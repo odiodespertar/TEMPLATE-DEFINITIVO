@@ -1067,15 +1067,15 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
         <div style="background: #e3f2fd; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #1565c0;">MLP</div>
-            <div id="val-mlp-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #fff3e0; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #ef6c00;">RENTAL</div>
-            <div id="val-rental-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #f1f8e9; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #2e7d32;">CAR</div>
-            <div id="val-car-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
     </div>
   
@@ -1118,15 +1118,15 @@ DELTA
         <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
         <div style="background: #e3f2fd; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #1565c0;">MLP</div>
-            <div id="val-mlp-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-mlp-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #fff3e0; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #ef6c00;">RENTAL</div>
-            <div id="val-rental-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-rental-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #f1f8e9; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #2e7d32;">CAR</div>
-            <div id="val-car-rute" style="font-size: 14px; font-weight: bold;">0</div>
+            <div id="val-car-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
     </div>
 
@@ -2168,10 +2168,16 @@ actualizarTotales();
 
 actualizarDosPorciento();
 
-// --- AQUÍ PEGA LAS 3 LÍNEAS DE ABAJO ---
-    document.getElementById('val-mlp-rute').innerText = Math.round(totals.mlpRute);
-    document.getElementById('val-rental-rute').innerText = Math.round(totals.rentalRute);
-    document.getElementById('val-car-rute').innerText = Math.round(totals.carRute);
+// --- ACTUALIZACIÓN DINÁMICA SEGÚN LA PESTAÑA (tabId) ---
+    // Esto busca el ID específico de la pestaña actual (ej: val-mlp-rute-2)
+    let elMlp = document.getElementById('val-mlp-rute-' + tabId);
+    let elRental = document.getElementById('val-rental-rute-' + tabId);
+    let elCar = document.getElementById('val-car-rute-' + tabId);
+
+    // Solo actualizamos si el elemento realmente existe en la pestaña actual
+    if(elMlp) elMlp.innerText = Math.round(totals.mlpRute);
+    if(elRental) elRental.innerText = Math.round(totals.rentalRute);
+    if(elCar) elCar.innerText = Math.round(totals.carRute);
 
     }}
 
