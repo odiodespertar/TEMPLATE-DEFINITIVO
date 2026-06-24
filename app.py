@@ -886,7 +886,7 @@ body.excel-view .poligono-bloque th {{
 }}
 
 /* Fuerza anchos mínimos para las columnas críticas */
-body.excel-view .poligono-bloque th:nth-child(5) {{ width: 55px !important; }} /* SCHEDULE */
+body.excel-view .poligono-bloque th:nth-child(5) {{ width: 60px !important; }} /* SCHEDULE */
 body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* USADAS */
 body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
 
