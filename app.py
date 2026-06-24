@@ -2141,18 +2141,25 @@ actualizarDosPorciento();
 
     }}
 
-    // --- ARREGLO PARA EL ENTER EN ALERTAS ROJAS ---
-    document.addEventListener('keydown', function(event) {{ 
-        if (event.key === 'Enter') {{
-            // Busca cualquier div de alerta o mensaje de error y lo cierra/limpia
-            let alerta = document.querySelector('.alerta-roja, .p-diff'); 
-            if (alerta && alerta.innerText.includes('EXCESO')) {{
-                // Si tienes una función específica para cerrar, llámala aquí
-                // O simplemente quita el foco para que no bloquee
-                document.activeElement.blur();
-            }}
+    // --- ARREGLO PARA EL ENTER: CIERRA PANEL Y ALERTA ---
+document.addEventListener('keydown', function(event) { {
+    if (event.key === 'Enter') {{
+        
+        // 1. LÓGICA PARA EL PANEL DE PRIORIDADES
+        let panel = document.getElementById('panel-prioridades');
+        // Verificamos si el panel existe y si está desplegado (top es 0)
+        if (panel && panel.style.top === "0px") {{
+            panel.style.top = "-600px"; 
+            document.activeElement.blur();
         }}
-    }});
+
+        // 2. LÓGICA PARA TUS ALERTAS ROJAS
+        let alerta = document.querySelector('.alerta-roja, .p-diff'); 
+        if (alerta && alerta.innerText.includes('EXCESO')) {{
+            document.activeElement.blur();
+        }}
+    }}
+}});
 
 
 
