@@ -849,130 +849,62 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-/* ===== MODO EXCEL ===== */ 
+/* ===== MODO EXCEL CORREGIDO ===== */ 
 
-body.excel-view #fleet-float{{
-    display:none !important;
-    visibility:hidden !important;
-    opacity:0 !important;
-}}
-
-body.excel-view #ruteo-float{{
-    display:none !important;
-    visibility:hidden !important;
-    opacity:0 !important;
-}}
-
-body.excel-view .tools-panel{{
-    display:none !important;
-}}
-
-/* 🔥 FIX IMPORTANTE: ocultar botón Excel en modo excel-view */
-body.excel-view #btn-excel-view{{
-    display:none !important;
-    visibility:hidden !important;
-    opacity:0 !important;
-    pointer-events:none !important;
-}}
-
-
-
-/* TABLAS COMPACTAS */
-
-body.excel-view .meli-table td{{
-    padding:2px 4px !important;
-    height:20px !important;
-    min-height:18px !important;
-    font-size:13px !important;
-}}
-
-body.excel-view .meli-table th{{
-    padding:2px 4px !important;
-    height:22px !important;
-    font-size:13px !important;
-}}
-
-body.excel-view .master-row{{
-    box-shadow:none !important;
-    border-radius:0 !important;
-}}
-
-
-/* ESTO VA DEBAJO */
-
-body.excel-view .poligono-bloque{{
-    box-shadow:none !important;
-    border-radius:0 !important;
-}}
-
-
-
-/* ===== POLÍGONOS MODO EXCEL ===== */
-
-body.excel-view .poligono-bloque table{{
-    border-collapse:collapse !important;
-}}
-
-body.excel-view .poligono-bloque td{{
-    padding:1px !important;
-    font-size:11px !important;
-    height:18px !important;
-    line-height:16px !important;
-}}
-
-body.excel-view .poligono-bloque th{{
-    padding:1px !important;
-    font-size:10px !important;
-    height:18px !important;
-}}
-
-body.excel-view .poligono-bloque{{
-    margin-bottom:2px !important;
-}}
-
-
-
-body.excel-view .poligono-bloque button{{
-    display:none !important;
-}}
-
-
-
-
-body.excel-view .u-manual,
-body.excel-view .spr-real-val{{
-    font-size:11px !important;
-}}
-
-
-/* Oculta TODAS las filas del pie de tabla en modo excel */
-body.excel-view .meli-table tfoot tr {{
+body.excel-view #fleet-float,
+body.excel-view #ruteo-float,
+body.excel-view .tools-panel,
+body.excel-view #btn-excel-view {{
     display: none !important;
 }}
 
+/* TABLAS COMPACTAS */
+body.excel-view .meli-table td,
+body.excel-view .meli-table th {{
+    padding: 2px 4px !important;
+    font-size: 12px !important; /* Subimos un poco para que no se vea tan minúsculo */
+}}
+
+/* ===== POLÍGONOS MODO EXCEL ===== */
+body.excel-view .poligono-bloque table {{
+    border-collapse: collapse !important;
+    width: 100% !important; /* Forzamos a ocupar el ancho total */
+    table-layout: auto;      /* Permite que las columnas se ajusten según su contenido */
+}}
+
+body.excel-view .poligono-bloque td, 
+body.excel-view .poligono-bloque th {{
+    padding: 3px 6px !important; /* Más aire para que el texto NO se salga */
+    font-size: 11px !important;
+    white-space: nowrap;        /* Evita que las palabras se rompan en dos líneas */
+}}
+
+/* Ajuste específico para encabezados de polígonos */
+body.excel-view .poligono-bloque th {{
+    background-color: #f0f0f0 !important;
+    text-align: center !important;
+}}
+
+body.excel-view .poligono-bloque button {{ display: none !important; }}
+
+/* Pie de tabla */
+body.excel-view .meli-table tfoot tr {{ display: none !important; }}
 body.excel-view .meli-table tfoot tr:has(#total-ruteadas-2),
 body.excel-view .meli-table tfoot tr:has(#total-ruteadas-6) {{
     display: table-row !important;
 }}
 
-
 body.excel-view .fila-total td[colspan] {{
-    /* En lugar de estirarse, dejamos que el texto se ajuste */
-    width: auto !important;
     text-align: right !important;
     padding-right: 10px !important;
-    /* Si quieres que la fila no sea tan alta, ajusta esto: */
-    height: 22px !important;
 }}
 
-body.excel-view .fila-total td#total-ruteadas-6 {{
-    /* Aseguramos que el número tenga un ancho fijo pequeño */
-    width: 60px !important;
-    text-align: center !important;
+/* Asegurar que la tabla no se colapse en pantallas pequeñas */
+body.excel-view {{
+    overflow-x: auto !important;
 }}
 
-    
-    </style>
+
 
     
 </head>
