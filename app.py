@@ -1819,7 +1819,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             ruteadaCell.style.color = "#856404";           // Texto oscuro
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
-            ruteadaCell.style.backgroundColor = "";        // Vuelve a su color original
+            ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
             ruteadaCell.style.color = "";
             ruteadaCell.style.fontWeight = "bold";         // Mantenemos negrita si así lo quieres
         }}
