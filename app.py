@@ -877,14 +877,14 @@ body.excel-view .poligono-bloque table {{
 /* Aplicamos reglas separadas para celdas y encabezados */
 body.excel-view .poligono-bloque td {{
     padding: 3px 2px !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     white-space: nowrap; /* Los datos se quedan en una línea */
     text-align: center;
 }}
 
 body.excel-view .poligono-bloque th {{
     padding: 2px !important;
-    font-size: 10px !important;
+    font-size: 9px !important;
     white-space: normal; /* PERMITIMOS que el encabezado se parta si es muy largo */
     line-height: 1.2;    /* Ajustamos el interlineado para que quepa mejor */
     text-align: center !important;
