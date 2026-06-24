@@ -226,10 +226,10 @@ def gen_master_rows(data_dict, table_id):
                     0
                 </td>
 
-                <td contenteditable="true" class="f-ruteadas" oninput="recalc()"
+                <td class="f-ruteadas" 
                     style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #ffecdb; font-weight: bold;">
                     0
-                 </td>
+                </td>
 
                 <td class="f-left"
                     style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
