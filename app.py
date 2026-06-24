@@ -1900,7 +1900,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     if(sch > 0) {{
         row.style.background = "white"; 
         // Eliminamos row.style.color para no forzar toda la fila 
-        fs.style.background = "#c7e2f2"; 
+        fs.style.background = "#dfe6eb"; 
         mi.style.background = "#edf7f7"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
         ma.style.background = "#edf7f7"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
         
