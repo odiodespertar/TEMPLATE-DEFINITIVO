@@ -4116,21 +4116,19 @@ actualizarDosPorciento();
 
 // --- SEGUNDO PASO: Poner esta función al final de tu script ---
 function agregarIndicadorSchedule() {{
-    // Buscamos todos los th que contengan "SCHEDULE"
     let headers = document.querySelectorAll('th');
     headers.forEach(th => {{
         if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
             let span = document.createElement('span');
             span.className = 'hand-emoji';
-            span.innerHTML = "<br>👇"; 
+            span.innerHTML = "<br>👇"; // <br> crea un salto de línea para que quede abajo
             
-            // Ajustes para que no rompa el diseño y se vea bien
-            span.style.display = "block";
-            span.style.marginBottom = "2px"; // Pequeña separación
-            span.style.cursor = "default";
+            span.style.display = "block"; // Asegura que el salto de línea funcione
+            span.style.marginTop = "2px"; // Pequeña separación del texto
+            span.style.lineHeight = "1";  // Controla el espacio entre líneas
             
-            // Lo insertamos como primer hijo del th, antes del texto
-            th.insertBefore(span, th.firstChild);
+            // Usamos appendChild para ponerlo al final del contenido de la celda
+            th.appendChild(span);
         }}
     }});
 }}
