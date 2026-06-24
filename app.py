@@ -226,6 +226,11 @@ def gen_master_rows(data_dict, table_id):
                     0
                 </td>
 
+                <td contenteditable="true" class="f-ruteadas" oninput="recalc()"
+                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #e8f5e9; font-weight: bold;">
+                    0
+                 </td>
+
                 <td class="f-left"
                     style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
                     0
@@ -1151,37 +1156,15 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
   SCHEDULE
 </th>
 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
+  RUTEADAS
+</th>
+<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
   DELTA
 </th>
 
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
 <tfoot class="fila-total">
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
-        <td id="total-rental-decl-2" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-        <td id="total-rental-rute-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
-        <td id="total-mlp-decl-2" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
-        <td id="total-mlp-rute-2" style="text-align:center; color:#9370D8; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="5" style="padding:6px; text-align:right;">TOTAL OTROS (Delivery/Truck)</td>
-    <td id="total-otros-2" style="text-align:center; color:#8B4513; font-size:16px; font-weight:bold;">0</td>
-    </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
@@ -1205,46 +1188,12 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
+                <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
                 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
         <tfoot class="fila-total"> 
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL DECLARADAS</td>
-        <td id="total-rental-decl-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL RENTAL RUTEADAS</td>
-        <td id="total-rental-rute-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP DECLARADAS</td>
-        <td id="total-mlp-decl-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL MLP RUTEADAS</td>
-        <td id="total-mlp-rute-6" style="text-align:center; color:#9370D8; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR DECLARADAS</td>
-        <td id="total-car-schedule-6" style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL CAR RUTEADAS</td>
-        <td id="total-car-real-6" style="text-align:center; color:#DA70D6; font-size:16px; font-weight:bold !important;">0</td>
-    </tr>   
-        <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL OTROS (Delivery/Truck)</td>
-        <td id="total-otros-6" style="text-align:center; color:#8B4513; font-size:16px; font-weight:bold;">0</td>
-    </tr>
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
@@ -1269,6 +1218,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
+    <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
   </tr>
 </thead>
@@ -1323,7 +1273,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     width:60px;">
     SCHEDULE
 </th>
-
+<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
 <th style="
     border-right:0.5px solid #135b83;
     padding:4px 8px;
@@ -1338,40 +1288,6 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
          <tfoot class="fila-total">
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL MLP
-    </td>
-    <td id="total-no-car-5"
-        style="text-align:center; color:#135b83; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL CAR DECLARADAS
-    </td>
-    <td id="total-car-schedule-5"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL CAR RUTEADAS
-    </td>
-    <td id="total-car-real-5"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
 
 <tr class="fila-total">
     <td style="border:none;"></td>
@@ -1412,7 +1328,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
     width:60px;">
     SCHEDULE
 </th>
-
+<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
 <th style="
     border-right:0.5px solid #135b83;
     padding:4px 8px;
@@ -1427,19 +1343,6 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         </thead>
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
        <tfoot class="fila-total">
-
-
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL CAR DECLARADAS
-    </td>
-    <td id="total-car-schedule-4"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
