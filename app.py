@@ -1009,8 +1009,8 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Planes ➤ Car 8h.</li>
-                <li>🟢 Tlalpan nte, sur y Xochimilco ➤ Car extra 8h E1.</li>
+                <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan nte, syr y Xochi</li>
+                <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
             </ul>
         </div>
 
