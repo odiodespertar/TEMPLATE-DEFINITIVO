@@ -1218,7 +1218,9 @@ DELTA
     <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
-    <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
+   <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+RUTEADAS
+</th>
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
   </tr>
 </thead>
@@ -1273,7 +1275,9 @@ DELTA
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
+<th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+RUTEADAS
+</th>
 <th style="
     border-right:0.5px solid #135b83;
     padding:4px 8px;
@@ -1328,7 +1332,9 @@ DELTA
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">RUTEADAS</th>
+<th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+RUTEADAS
+</th>
 <th style="
     border-right:0.5px solid #135b83;
     padding:4px 8px;
