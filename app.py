@@ -1083,6 +1083,16 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
     </div>
+
+
+
+<div id="ruteo-integrado" style="background:#135b83; color:white; padding:10px; border-radius:10px; width: 200px;">
+        <span id="hora-actual">00:00:00</span>
+        <div id="proximo-ruteo">Sin tareas</div>
+        <div id="cuenta-regresiva">00:00</div>
+    </div>
+</div>
+
   
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
