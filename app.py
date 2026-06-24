@@ -4122,7 +4122,7 @@ function agregarIndicadorSchedule() {{
         if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
             let span = document.createElement('span');
             span.className = 'hand-emoji';
-            span.innerHTML = "👇"; 
+            span.innerHTML = "<br>👇"; 
             
             // Ajustes para que no rompa el diseño y se vea bien
             span.style.display = "block";
