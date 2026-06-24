@@ -4118,26 +4118,12 @@ actualizarDosPorciento();
 function agregarIndicadorSchedule() {{
     let headers = document.querySelectorAll('th');
     headers.forEach(th => {{
-        // Buscamos el encabezado que contiene "SCHEDULE"
-        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
+        // Buscamos el th que dice SCHEDULE y que no tenga ya el emoji
+        if (th.innerText.includes("SCHEDULE") && !th.innerText.includes("👇")) {{
             
-            // Creamos la mano
-            let span = document.createElement('span');
-            span.className = 'hand-emoji';
-            span.innerHTML = "👇";
-            
-            // Estilos para obligar a que se vea y flote arriba
-            span.style.position = "absolute";
-            span.style.top = "-25px"; // La mueve 25px hacia arriba
-            span.style.left = "50%"; // Centrado relativo a la celda
-            span.style.transform = "translateX(-50%)"; // Centrado perfecto
-            span.style.fontSize = "20px";
-            span.style.zIndex = "9999"; // Obliga a que esté por encima de todo
-            span.style.pointerEvents = "none"; // Para que no estorbe al hacer clic
-            
-            // IMPORTANTE: El th debe tener posición relativa para que el absolute funcione
-            th.style.position = "relative";
-            th.appendChild(span);
+            // Reemplazamos el texto original por el texto + el emoji abajo
+            // Usamos un salto de línea <br> para que el emoji quede debajo de la palabra
+            th.innerHTML = "SCHEDULE<br>👇";
         }}
     }});
 }}
