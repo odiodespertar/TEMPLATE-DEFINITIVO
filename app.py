@@ -1516,32 +1516,20 @@ USADAS
 
 
 
-function showTab(n, btn) {{
+function updateFleetFloat() {{
+    // ESTA LÍNEA ES LA QUE HACE LA MAGIA
+    // Usamos el 'currentTab' que ya se actualizó en showTab
+    const filas = document.querySelectorAll('#body-' + currentTab + ' tr');
 
-    document.body.classList.remove("excel-view"); 
+    // ... aquí sigue todo tu código de cálculo igualito ...
+    filas.forEach(row => {{
+        // ... tu lógica de name, stock, left, etc ...
+    });
 
-    currentTab = n;
-    document.querySelectorAll('.p-content, .t-content')
-        .forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.tab-btn')
-        .forEach(b => b.classList.remove('active'));
-
-    document.getElementById('polys-' + n).style.display = 'block';
-    document.getElementById('tab-' + n).style.display = 'block';
-
-    btn.classList.add('active');
-
-    recalc();
-
-    actualizarVisibilidadContador();
-
-    updateFleetFloat();
-
-    const excelBtn = document.getElementById('excel-btn');
-    if (excelBtn) {{
-        // Habilitado para C1 (2) y C1 SJA1 (6)
-        excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
-    }}
+    // ... y al final, tus cuadritos se actualizarán solos:
+    document.getElementById("val-mlp-rute-2").innerText = totalMLPReal;
+    document.getElementById("val-rental-rute-2").innerText = totalRentalReal;
+    document.getElementById("val-car-rute-2").innerText = totalCarReal;
 }}
 
 
