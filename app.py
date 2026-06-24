@@ -227,7 +227,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td contenteditable="true" class="f-ruteadas" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #e8f5e9; font-weight: bold;">
+                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #ffecdb; font-weight: bold;">
                     0
                  </td>
 
