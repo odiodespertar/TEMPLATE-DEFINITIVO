@@ -3650,11 +3650,8 @@ if (currentTab == 6) {{
             
             // FORZAMOS EL RESTANTE A 0 para que el sistema no pida más volumen
             restante = 0; 
-            fila.querySelector('.tu-elemento-de-falta').innerText = "OK";
         }}
     }}
-
-    
     // 4. ALCHICHICA
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
