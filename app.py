@@ -877,7 +877,7 @@ body.excel-view .poligono-bloque table {{
 body.excel-view .poligono-bloque td, 
 body.excel-view .poligono-bloque th {{
     padding: 1px 2px !important; 
-    font-size: 9px !important;    /* Reducimos ligeramente para ganar espacio */
+    font-size: 10px !important;    /* Reducimos ligeramente para ganar espacio */
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important; /* Si no cabe, pone puntos suspensivos (...) */
