@@ -4506,14 +4506,13 @@ function actualizarRelojRuteos() {{
     const mm = String(ahora.getMinutes()).padStart(2, "0");
     const ss = String(ahora.getSeconds()).padStart(2, "0");
 
-    // Buscamos los elementos usando el currentTab actual
-    const elHora = document.getElementById("hora-actual-" + currentTab);
-    const elProximo = document.getElementById("proximo-ruteo-" + currentTab);
-    const elHoraRuteo = document.getElementById("hora-ruteo-" + currentTab);
-    const elCuenta = document.getElementById("cuenta-regresiva-" + currentTab);
-    const elPanel = document.getElementById("ruteo-panel-" + currentTab);
+    // Usamos los IDs originales que ya tienes en tu HTML
+    const elHora = document.getElementById("hora-actual");
+    const elProximo = document.getElementById("proximo-ruteo");
+    const elHoraRuteo = document.getElementById("hora-ruteo");
+    const elCuenta = document.getElementById("cuenta-regresiva");
+    const elPanel = document.getElementById("ruteo-float"); // Tu panel flotante
 
-    // Actualizar Hora Actual
     if (elHora) elHora.innerText = hh + ":" + mm + ":" + ss;
 
     let siguiente = null;
@@ -4543,11 +4542,9 @@ function actualizarRelojRuteos() {{
 
     if (elCuenta) {{
         elCuenta.innerText = String(minutos).padStart(2, "0") + ":" + String(segundos).padStart(2, "0");
-        // Lógica de color
         elCuenta.style.color = minutos > 15 ? "#2E8B57" : (minutos > 5 ? "#FF8C00" : "#FF0000");
     }}
 
-    // Alerta de 5 minutos
     if (minutos <= 5) {{
         if (elPanel) elPanel.style.borderColor = "#FF4500";
         if (ultimaAlerta !== siguiente.tarea.nombre) {{
@@ -4558,9 +4555,7 @@ function actualizarRelojRuteos() {{
         elPanel.style.borderColor = "#135b83";
     }}
 }}
-
 setInterval(actualizarRelojRuteos, 1000);
-actualizarRelojRuteos();
 }}
 
 
