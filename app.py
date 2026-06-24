@@ -1015,7 +1015,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
             <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
-        <div style="background: #e5edda; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
+        <div style="background: #e4f5ce; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #209626;">CAR</div>
             <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
@@ -4118,12 +4118,14 @@ actualizarDosPorciento();
 function agregarIndicadorSchedule() {{
     let headers = document.querySelectorAll('th');
     headers.forEach(th => {{
-        // Buscamos el th que dice SCHEDULE y que no tenga ya el emoji
-        if (th.innerText.includes("SCHEDULE") && !th.innerText.includes("👇")) {{
+        // Buscamos el encabezado que contiene "SCHEDULE"
+        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
             
-            // Reemplazamos el texto original por el texto + el emoji abajo
-            // Usamos un salto de línea <br> para que el emoji quede debajo de la palabra
-            th.innerHTML = "SCHEDULE<br>👇";
+            // Reemplazamos el contenido manteniendo el texto y poniendo la mano arriba con un estilo controlado
+            th.innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; line-height: 1.1;">' +
+                           '<span class="hand-emoji" style="font-size: 14px; margin-bottom: 2px;">👇</span>' +
+                           '<span>SCHEDULE</span>' +
+                           '</div>';
         }}
     }});
 }}
