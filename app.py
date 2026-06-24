@@ -895,7 +895,7 @@ body.excel-view .poligono-bloque th {{
 /* Damos anchos específicos a las columnas clave */
 body.excel-view .poligono-bloque th:nth-last-child(3), /* SCHEDULE */
 body.excel-view .poligono-bloque th:nth-last-child(2), /* RUTEADAS */
-body.excel-view .poligono-bloque th:nth-last-child(1) { /* DELTA */
+body.excel-view .poligono-bloque th:nth-last-child(1) {{ /* DELTA */
     width: 50px !important; 
 }}
 
