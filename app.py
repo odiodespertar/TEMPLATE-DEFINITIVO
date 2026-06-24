@@ -1000,28 +1000,24 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🔴 Campeche ➤ Rental Large Van / NODOS = Delivery Cell-Dedicada.</li>
-                <li>🟢 Escárcega ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Escárcega Ext ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Maxcanun ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Candelaria ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Seybaplaya ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Champotón ➤ Large Van MLP (nodo=híbrida).</li>
-                <li>🟢 Holpechen ➤ Large Van MLP (nodo=híbrida).</li>
+                <li>🔴 Campeche ➤ Rental Large Van ➤ NODOS = Delivery Cell-Dedicada.</li>
+                <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
+            </ul>
+        </div>
+
+       <div>
+            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+                <li>🔴 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
+                <li>🟢 Planes foráneos ➤ MLP (nodo=híbrida) / Solo Xico ➤ MLP y Crowd.</li>
             </ul>
         </div>
 
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Chalco ➤ Car 8h.</li>
-                <li>🟢 Coyoacán centro ➤ Car 8h.</li>
-                <li>🟢 Iztapalapa ➤ Car 8h/Small 9h ext.</li>
-                <li>🟠 Milpa alta ➤ Car 8h.</li>
-                <li>🟢 Tláhuac ➤ Car 8h.</li>
-                <li>🟢 Tlalpan nte ➤ Small 9h ext/Car extra 8h E1.</li>
-                <li>🟢 Tlalpan sur ➤ Car extra 8h E1.</li>
-                <li>🟡 Xochimilco ➤ Small 9h ext/Car extra 8h E1.</li>
+                <li>🟠 Planes ➤ Car 8h.</li>
+                <li>🟢 Tlalpan nte, sur y Xochimilco ➤ Car extra 8h E1.</li>
             </ul>
         </div>
     </div>
