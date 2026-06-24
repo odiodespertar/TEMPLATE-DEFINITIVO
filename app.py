@@ -1003,23 +1003,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </div>
 
 
-        <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
-        <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
-            <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
-            <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-        <div style="background: #e5edda; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #209626;">CAR</div>
-            <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-    </div>
-
-
-
 <div id="panel-control-unico" style="display: flex; gap: 20px; background: #135b83; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
     <div style="text-align: center;">
         <div id="hora-actual" style="font-size: 22px; font-weight: bold;">00:00:00</div>
@@ -1034,6 +1017,21 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px;">TIEMPO RESTANTE</div>
     </div>
 </div>
+
+        <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
+        <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
+            <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
+            <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+        <div style="background: #e5edda; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #209626;">CAR</div>
+            <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+    </div>
 
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
@@ -1133,21 +1131,6 @@ DELTA
 
 
 <div id="tab-6" class="t-content" style="display:none;">
-
-        <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
-        <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
-            <div id="val-mlp-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
-            <div id="val-rental-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-        <div style="background: #e5edda; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #209626;">CAR</div>
-            <div id="val-car-rute-6" style="font-size: 14px; font-weight: bold;">0</div>
-        </div>
-    </div>
 
     <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
