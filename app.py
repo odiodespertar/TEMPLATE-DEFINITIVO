@@ -1464,15 +1464,8 @@ USADAS
 <div id="ruteo-float">
 
 
-<div style="
-background:#135b83;
-color:white;
-margin:-10px -10px 10px -10px;
-padding:6px;
-border-radius:18px 18px 0 0;
-font-weight:bold;
-text-align:center;
-font-size:10px;">
+<div id="ruteo-float" style="width: 300px; margin: 20px auto; position: static;">
+
 CONTROL DE RUTEOS
 </div>
 
@@ -1599,50 +1592,6 @@ gap:10px;
 
 <script>
 
-
-
-document.addEventListener("DOMContentLoaded", () => {{
-
-    const flotante = document.getElementById("fleet-float");
-
-    let moviendo = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    flotante.style.cursor = "move";
-
-    flotante.addEventListener("mousedown", (e) => {{
-
-        moviendo = true;
-
-        offsetX = e.clientX - flotante.offsetLeft;
-        offsetY = e.clientY - flotante.offsetTop;
-
-        console.log("INICIO ARRASTRE");
-
-    }});
-
-    document.addEventListener("mousemove", (e) => {{
-
-    if (!moviendo) return;
-
-    console.log("MOVIENDO");
-
-    flotante.style.left =
-        (e.clientX - offsetX) + "px";
-
-    flotante.style.top =
-        (e.clientY - offsetY) + "px";
-
-}});
-
-    document.addEventListener("mouseup", () => {{
-
-        moviendo = false;
-
-    }});
-
-}});
         
 
 
