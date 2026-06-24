@@ -799,13 +799,13 @@ html body .meli-table tbody tr:last-child {{
     width: 250px !important; /* Ajustado para que se vea compacto */
     background: linear-gradient(to bottom, rgba(255, 215, 157, 0), rgba(255, 215, 157, 0));
     color: #0a2745;
-    border-radius: 14px;
+    border-radius: 15px;
     padding: 16px 18px;
     z-index: 999999 !important;
     font-size: 15px;
     border: 2px solid #FF6347;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(50px);
     max-height: 75vh;
     overflow-y: auto;
