@@ -1114,6 +1114,22 @@ DELTA
 
 
 <div id="tab-6" class="t-content" style="display:none;">
+
+        <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
+        <div style="background: #e3f2fd; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #1565c0;">MLP</div>
+            <div id="val-mlp-rute" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+        <div style="background: #fff3e0; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #ef6c00;">RENTAL</div>
+            <div id="val-rental-rute" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+        <div style="background: #f1f8e9; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
+            <div style="font-size: 10px; font-weight: bold; color: #2e7d32;">CAR</div>
+            <div id="val-car-rute" style="font-size: 14px; font-weight: bold;">0</div>
+        </div>
+    </div>
+
     <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
