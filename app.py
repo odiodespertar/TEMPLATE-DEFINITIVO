@@ -4117,18 +4117,30 @@ actualizarDosPorciento();
 // --- SEGUNDO PASO: Poner esta función al final de tu script ---
 function agregarIndicadorSchedule() {{
     let headers = document.querySelectorAll('th');
+    
     headers.forEach(th => {{
-        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
-            let span = document.createElement('span');
-            span.className = 'hand-emoji';
-            span.innerHTML = "<br>👇"; // <br> crea un salto de línea para que quede abajo
+        if (th.innerText.includes("SCHEDULE")) {{
+            // Aseguramos que la tabla tenga posición relativa para que la mano no se pierda
+            th.closest('table').style.position = "relative";
             
-            span.style.display = "block"; // Asegura que el salto de línea funcione
-            span.style.marginTop = "2px"; // Pequeña separación del texto
-            span.style.lineHeight = "1";  // Controla el espacio entre líneas
-            
-            // Usamos appendChild para ponerlo al final del contenido de la celda
-            th.appendChild(span);
+            // Verificamos si ya existe para no duplicar
+            if (!document.getElementById('floating-hand')) {{
+                let hand = document.createElement('div');
+                hand.id = 'floating-hand';
+                hand.innerHTML = "👇";
+                hand.style.position = "absolute";
+                hand.style.fontSize = "20px";
+                
+                // Calculamos la posición exacta basándonos en la celda
+                let rect = th.getBoundingClientRect();
+                let tableRect = th.closest('table').getBoundingClientRect();
+                
+                // Ajuste de coordenadas: arriba de la celda (con un margen de 25px)
+                hand.style.left = (rect.left - tableRect.left + (rect.width / 2) - 10) + "px";
+                hand.style.top = (rect.top - tableRect.top - 30) + "px";
+                
+                th.closest('table').appendChild(hand);
+            }}
         }}
     }});
 }}
