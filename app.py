@@ -4117,30 +4117,24 @@ actualizarDosPorciento();
 // --- SEGUNDO PASO: Poner esta función al final de tu script ---
 function agregarIndicadorSchedule() {{
     let headers = document.querySelectorAll('th');
-    
     headers.forEach(th => {{
-        if (th.innerText.includes("SCHEDULE")) {{
-            // Aseguramos que la tabla tenga posición relativa para que la mano no se pierda
-            th.closest('table').style.position = "relative";
+        if (th.innerText.includes("SCHEDULE") && !document.getElementById('hand-indicator')) {{
+            // Creamos un contenedor fuera de la tabla para asegurar visibilidad
+            let hand = document.createElement('div');
+            hand.id = 'hand-indicator';
+            hand.innerHTML = "👇";
+            hand.style.textAlign = "center";
+            hand.style.fontSize = "25px";
+            hand.style.marginBottom = "5px";
             
-            // Verificamos si ya existe para no duplicar
-            if (!document.getElementById('floating-hand')) {{
-                let hand = document.createElement('div');
-                hand.id = 'floating-hand';
-                hand.innerHTML = "👇";
-                hand.style.position = "absolute";
-                hand.style.fontSize = "20px";
-                
-                // Calculamos la posición exacta basándonos en la celda
-                let rect = th.getBoundingClientRect();
-                let tableRect = th.closest('table').getBoundingClientRect();
-                
-                // Ajuste de coordenadas: arriba de la celda (con un margen de 25px)
-                hand.style.left = (rect.left - tableRect.left + (rect.width / 2) - 10) + "px";
-                hand.style.top = (rect.top - tableRect.top - 30) + "px";
-                
-                th.closest('table').appendChild(hand);
-            }}
+            // Insertamos la mano justo antes de la tabla completa
+            let tabla = th.closest('table');
+            tabla.parentNode.insertBefore(hand, tabla);
+            
+            // Ajuste fino: movemos la mano horizontalmente para que coincida con la columna
+            // Esto es un ajuste manual en píxeles (cambia 600px según tu tabla)
+            hand.style.position = "relative";
+            hand.style.left = "600px"; // <--- AJUSTA ESTE NÚMERO hasta que quede sobre "SCHEDULE"
         }}
     }});
 }}
