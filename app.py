@@ -1532,9 +1532,7 @@ function showTab(n, btn) {{
     btn.classList.add('active');
 
     recalc();
-
     actualizarVisibilidadContador();
-
     updateFleetFloat();
 
     const excelBtn = document.getElementById('excel-btn');
@@ -4086,6 +4084,13 @@ function updateFleetFloat() {{
     }}
 
     document.getElementById('fleet-float-body').innerHTML = html;
+
+
+    // --- ESTAS 3 LÍNEAS ACTUALIZAN TUS CUADRITOS DE LA IMAGEN ---
+    document.getElementById("val-mlp-rute-2").innerText = totalMLPReal;
+    document.getElementById("val-rental-rute-2").innerText = totalRentalReal;
+    document.getElementById("val-car-rute-2").innerText = totalCarReal;
+
 
     if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
 }}
