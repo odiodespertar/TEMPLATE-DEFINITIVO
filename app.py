@@ -1064,6 +1064,11 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
        
      <div id="tab-2" class="t-content">
 
+        <div style="background: #34495e; padding: 8px; border-radius: 5px; border: 1px solid #2c3e50; text-align: center; width: 100px;">
+    <div style="font-size: 10px; font-weight: bold; color: #ecf0f1;">TIEMPO</div>
+    <div id="reloj-fijo" style="font-size: 14px; font-weight: bold; color: #ffffff;">0h 0m</div>
+</div>
+        
         <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
         <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
@@ -4493,205 +4498,69 @@ const ruteos = [
 
 let ultimaAlerta = "";
 
-function actualizarRelojRuteos(){{
 
+
+function actualizarRelojRuteos() {{
     const ahora = new Date();
+    const hh = String(ahora.getHours()).padStart(2, "0");
+    const mm = String(ahora.getMinutes()).padStart(2, "0");
+    const ss = String(ahora.getSeconds()).padStart(2, "0");
 
-    const hh =
-        String(ahora.getHours()).padStart(2,"0");
+    // Buscamos los elementos usando el currentTab actual
+    const elHora = document.getElementById("hora-actual-" + currentTab);
+    const elProximo = document.getElementById("proximo-ruteo-" + currentTab);
+    const elHoraRuteo = document.getElementById("hora-ruteo-" + currentTab);
+    const elCuenta = document.getElementById("cuenta-regresiva-" + currentTab);
+    const elPanel = document.getElementById("ruteo-panel-" + currentTab);
 
-    const mm =
-        String(ahora.getMinutes()).padStart(2,"0");
-
-    const ss =
-        String(ahora.getSeconds()).padStart(2,"0");
-
-
-
-    document.getElementById("hora-actual").innerText =
-        hh + ":" + mm + ":" + ss;
+    // Actualizar Hora Actual
+    if (elHora) elHora.innerText = hh + ":" + mm + ":" + ss;
 
     let siguiente = null;
-
-    for(let tarea of ruteos){{
-
-        let partes =
-            tarea.hora.split(":");
-
-        let fechaTarea =
-            new Date();
-
-        fechaTarea.setHours(
-            parseInt(partes[0]),
-            parseInt(partes[1]),
-            0,
-            0
-        );
-
-        if(fechaTarea > ahora){{
-
-            siguiente = {{
-                tarea,
-                fechaTarea
-            }};
-
+    for (let tarea of ruteos) {{
+        let partes = tarea.hora.split(":");
+        let fechaTarea = new Date();
+        fechaTarea.setHours(parseInt(partes[0]), parseInt(partes[1]), 0, 0);
+        if (fechaTarea > ahora) {{
+            siguiente = {{ tarea, fechaTarea }};
             break;
         }}
     }}
 
-    if(!siguiente){{
-
-        document.getElementById("proximo-ruteo").innerText =
-            "Fin del turno";
-
-        document.getElementById("hora-ruteo").innerText =
-            "--";
-
-        document.getElementById("cuenta-regresiva").innerText =
-            "--";
-
+    if (!siguiente) {{
+        if (elProximo) elProximo.innerText = "Fin del turno";
+        if (elHoraRuteo) elHoraRuteo.innerText = "--";
+        if (elCuenta) elCuenta.innerText = "--";
         return;
     }}
 
-    document.getElementById("proximo-ruteo").innerText =
-        siguiente.tarea.nombre;
+    if (elProximo) elProximo.innerText = siguiente.tarea.nombre;
+    if (elHoraRuteo) elHoraRuteo.innerText = siguiente.tarea.hora;
 
-    document.getElementById("hora-ruteo").innerText =
-        siguiente.tarea.hora;
+    let diferencia = siguiente.fechaTarea - ahora;
+    let minutos = Math.floor(diferencia / 60000);
+    let segundos = Math.floor((diferencia % 60000) / 1000);
 
-    let diferencia =
-        siguiente.fechaTarea - ahora;
+    if (elCuenta) {{
+        elCuenta.innerText = String(minutos).padStart(2, "0") + ":" + String(segundos).padStart(2, "0");
+        // Lógica de color
+        elCuenta.style.color = minutos > 15 ? "#2E8B57" : (minutos > 5 ? "#FF8C00" : "#FF0000");
+    }}
 
-    let totalSeg =
-        Math.floor(diferencia / 1000);
-
-    let minutos =
-        Math.floor(totalSeg / 60);
-
-    let segundos =
-        totalSeg % 60;
-
-    document.getElementById("cuenta-regresiva").innerText =
-        String(minutos).padStart(2,"0")
-        + ":"
-        + String(segundos).padStart(2,"0");
-
-
-
-const contador =
-    document.getElementById("cuenta-regresiva");
-
-if(minutos > 15){{
-
-    contador.style.color = "#2E8B57"; // Verde
-
-}}else if(minutos > 5){{
-
-    contador.style.color = "#FF8C00"; // Naranja
-
-}}else{{
-
-    contador.style.color = "#FF0000"; // Rojo
-
-}}
-
-
-
-
-    if(minutos <= 5){{
-
-        document.getElementById("ruteo-float")
-            .style.borderColor = "#FF4500";
-
-        if(
-            ultimaAlerta !==
-            siguiente.tarea.nombre
-        ){{
-
-            alert(
-                "⚠️ En menos de 5 minutos inicia: "
-                + siguiente.tarea.nombre
-            );
-
-            ultimaAlerta =
-                siguiente.tarea.nombre;
+    // Alerta de 5 minutos
+    if (minutos <= 5) {{
+        if (elPanel) elPanel.style.borderColor = "#FF4500";
+        if (ultimaAlerta !== siguiente.tarea.nombre) {{
+            alert("⚠️ En menos de 5 minutos inicia: " + siguiente.tarea.nombre);
+            ultimaAlerta = siguiente.tarea.nombre;
         }}
-
-    }}else{{
-
-        document.getElementById("ruteo-float")
-            .style.borderColor = "#135b83";
+    }} else if (elPanel) {{
+        elPanel.style.borderColor = "#135b83";
     }}
 }}
 
-setInterval(
-    actualizarRelojRuteos,
-    1000
-);
-
+setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
-
-
-
-dragElement(document.getElementById("fleet-float"));
-
-dragElement(document.getElementById("ruteo-float"));
-
-// o dragElement(document.getElementById("panel-flota"));
-
-function dragElement(elmnt) {{
-
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    elmnt.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {{
-
-        console.log("DRAG MOUSEDOWN");
-        e = e || window.event;
-        e.preventDefault();
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-    }}
-
-    function elementDrag(e) {{
-        e = e || window.event;
-        e.preventDefault();
-
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
-console.log(
-    "LEFT:", elmnt.style.left,
-    "TOP:", elmnt.style.top
-);
-    }}
-
-    function closeDragElement() {{
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }}
-}}
-
-
-function actualizarVisibilidadContador() {{
-    // Busca el contador
-    const fleetFloat = document.getElementById("fleet-float");
-    if (!fleetFloat) return;
-
-    // Lógica: Si es modo Excel, lo oculta. Si no, solo lo muestra en la pestaña 6.
-    const isExcel = document.body.classList.contains("excel-view");
-    fleetFloat.style.display = isExcel ? "none" : (currentTab === 6 ? "block" : "none");
 }}
 
 
