@@ -4555,8 +4555,9 @@ function actualizarRelojRuteos() {{
         elPanel.style.borderColor = "#135b83";
     }}
 }}
+
 setInterval(actualizarRelojRuteos, 1000);
-}}
+actualizarRelojRuteos();
 
 
   
