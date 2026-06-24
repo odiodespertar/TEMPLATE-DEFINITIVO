@@ -797,7 +797,7 @@ html body .meli-table tbody tr:last-child {{
     right: auto;
     top: 250px;
     width: 250px !important; /* Ajustado para que se vea compacto */
-    background: linear-gradient(to bottom, rgba(255, 215, 157, 0), rgba(255, 215, 157, 0));
+    background: transparent;
     color: #0a2745;
     border-radius: 15px;
     padding: 16px 18px;
