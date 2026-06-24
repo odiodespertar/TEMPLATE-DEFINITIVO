@@ -797,13 +797,13 @@ html body .meli-table tbody tr:last-child {{
     right: auto;
     top: 250px;
     width: 250px !important; /* Ajustado para que se vea compacto */
-    background: #135b83;
-    color: #ffffff;
+    background: transparent;
+    color: #000080;
     border-radius: 15px;
     padding: 16px 18px;
     z-index: 999999 !important;
-    font-size: 15px;
-    border: 2px solid #FF6347;
+    font-size: 16px;
+    border: 2px solid #a0ff2b;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(50px);
@@ -818,7 +818,7 @@ html body .meli-table tbody tr:last-child {{
 
 /* Checkbox */
 .ok-check {{
-    accent-color: #FFFF00 !important;
+    accent-color: #aeff00 !important;
     cursor: pointer;
 }}
 
