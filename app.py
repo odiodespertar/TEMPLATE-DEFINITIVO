@@ -865,46 +865,41 @@ body.excel-view .meli-table th {{
     font-size: 12px !important; /* Subimos un poco para que no se vea tan minúsculo */
 }}
 
-/* ===== POLÍGONOS MODO EXCEL ===== */
+
+/* ===== POLÍGONOS MODO EXCEL (AJUSTADO) ===== */
+
 body.excel-view .poligono-bloque table {{
     border-collapse: collapse !important;
-    width: 100% !important; /* Forzamos a ocupar el ancho total */
-    table-layout: auto;      /* Permite que las columnas se ajusten según su contenido */
+    width: 100% !important;
+    table-layout: fixed; /* FIXED ayuda a que las columnas no se desborden */
 }}
 
-body.excel-view .poligono-bloque td, 
-body.excel-view .poligono-bloque th {{
-    padding: 3px 6px !important; /* Más aire para que el texto NO se salga */
+/* Aplicamos reglas separadas para celdas y encabezados */
+body.excel-view .poligono-bloque td {{
+    padding: 3px 2px !important;
     font-size: 11px !important;
-    white-space: nowrap;        /* Evita que las palabras se rompan en dos líneas */
+    white-space: nowrap; /* Los datos se quedan en una línea */
+    text-align: center;
 }}
 
-/* Ajuste específico para encabezados de polígonos */
 body.excel-view .poligono-bloque th {{
-    background-color: #f0f0f0 !important;
+    padding: 2px !important;
+    font-size: 10px !important;
+    white-space: normal; /* PERMITIMOS que el encabezado se parta si es muy largo */
+    line-height: 1.1;    /* Ajustamos el interlineado para que quepa mejor */
     text-align: center !important;
+    background-color: #f0f0f0 !important;
+    vertical-align: middle;
 }}
 
-body.excel-view .poligono-bloque button {{ display: none !important; }}
-
-/* Pie de tabla */
-body.excel-view .meli-table tfoot tr {{ display: none !important; }}
-body.excel-view .meli-table tfoot tr:has(#total-ruteadas-2),
-body.excel-view .meli-table tfoot tr:has(#total-ruteadas-6) {{
-    display: table-row !important;
+/* Damos anchos específicos a las columnas clave */
+body.excel-view .poligono-bloque th:nth-last-child(3), /* SCHEDULE */
+body.excel-view .poligono-bloque th:nth-last-child(2), /* RUTEADAS */
+body.excel-view .poligono-bloque th:nth-last-child(1) { /* DELTA */
+    width: 50px !important; 
 }}
 
-body.excel-view .fila-total td[colspan] {{
-    text-align: right !important;
-    padding-right: 10px !important;
-}}
-
-/* Asegurar que la tabla no se colapse en pantallas pequeñas */
-body.excel-view {{
-    overflow-x: auto !important;
-}}
-
-</style> ```
+</style> 
 
     
 </head>
