@@ -880,16 +880,16 @@ body.excel-view #btn-excel-view{{
 /* TABLAS COMPACTAS */
 
 body.excel-view .meli-table td{{
-    padding:1px 3px !important;
-    height:18px !important;
+    padding:2px 4px !important;
+    height:20px !important;
     min-height:18px !important;
-    font-size:11px !important;
+    font-size:13px !important;
 }}
 
 body.excel-view .meli-table th{{
-    padding:1px 3px !important;
-    height:20px !important;
-    font-size:11px !important;
+    padding:2px 4px !important;
+    height:22px !important;
+    font-size:13px !important;
 }}
 
 body.excel-view .master-row{{
