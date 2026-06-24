@@ -870,7 +870,7 @@ body.excel-view .meli-table th {{
 
 body.excel-view .poligono-bloque table {{
     border-collapse: collapse !important;
-    width: 100% !important;
+    width: 120% !important;
     table-layout: fixed !important; /* Mantiene las columnas bajo control estricto */
 }}
 
