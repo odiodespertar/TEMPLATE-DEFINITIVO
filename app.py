@@ -797,8 +797,8 @@ html body .meli-table tbody tr:last-child {{
     right: auto;
     top: 250px;
     width: 250px !important; /* Ajustado para que se vea compacto */
-    background: #0a2745;
-    color: #0a2745;
+    background: #135b83;
+    color: #ffffff;
     border-radius: 15px;
     padding: 16px 18px;
     z-index: 999999 !important;
