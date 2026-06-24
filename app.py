@@ -2006,31 +2006,41 @@ if (vT === 0) {{
 
 
 
-        // 3. REPLICAR NEGATIVOS EN TODAS LAS PESTAÑAS (SDE, C1, C2, PREC)
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-            let n = row.querySelector('.edit-name').innerText.trim();
-            if(fleet[n]) {{
-                let diff = fleet[n].stock - fleet[n].used;
-                console.log("Diferencia calculada:", diff);
-                let cL = row.querySelector('.f-left');
-                
-                // Regla universal para Car 3h, 5h, 8h y Crowd
-                let esFlexible = n.toUpperCase().includes('Car') || n.toUpperCase().includes('Crowd') || n.toUpperCase().includes('h');
-
-
-                console.log("Diferencia calculada:", diff);
-                cL.innerText = diff;
-                
-                // Color Rojo si es negativo
-                if (diff < 0) {{
-                    cL.style.color = "red"; cL.style.fontWeight = "bold"; cL.style.background = "transparent";
-                }} else if (diff === 0 && fleet[n].stock > 0) {{
-                    cL.style.color = "white"; cL.style.background = "#f05d5d";
-                }} else {{
-                    cL.style.color = "#0e4c6e"; cL.style.background = "transparent"; cL.style.fontWeight = "normal";
-                }}
-            }}
-        }});
+        // 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
+document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+    let nameCell = row.querySelector('.edit-name');
+    if (!nameCell) return;
+    
+    let n = nameCell.innerText.trim();
+    
+    // Buscamos el valor de Ruteadas en la nueva columna manual que creaste
+    let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
+    let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
+    
+    let cL = row.querySelector('.f-left'); // Esta es tu columna DELTA
+    
+    if (cL) {{
+        // --- AQUÍ ESTÁ EL CAMBIO ---
+        // El delta ahora es: Lo que tienes en Schedule - Lo que tú escribiste en Ruteadas
+        let diff = stock - ruteadasManuales;
+        
+        cL.innerText = diff;
+        
+        // Color Rojo si es negativo (te falta flota)
+        if (diff < 0) {{
+            cL.style.color = "red"; 
+            cL.style.fontWeight = "bold"; 
+            cL.style.background = "transparent";
+        }} else if (diff === 0 && stock > 0) {{
+            cL.style.color = "white"; 
+            cL.style.background = "#f05d5d";
+        }} else {{
+            cL.style.color = "#0e4c6e"; 
+            cL.style.background = "transparent"; 
+            cL.style.fontWeight = "normal";
+        }}
+    }}
+}});
 
 
        // 4. FILTRAR LISTA
