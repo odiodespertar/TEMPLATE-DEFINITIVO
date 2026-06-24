@@ -887,7 +887,7 @@ body.excel-view .poligono-bloque th {{
 
 /* Fuerza anchos mínimos para las columnas críticas */
 body.excel-view .poligono-bloque th:nth-child(5) {{ width: 55px !important; }} /* SCHEDULE */
-body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* RUTEADAS */
+body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* USADAS */
 body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
 
 </style> 
@@ -1074,7 +1074,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 SCHEDULE
 </th>
 <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-RUTEADAS
+USADAS
 </th>
 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
 DELTA
@@ -1107,7 +1107,7 @@ DELTA
                 <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
                 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
                 <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-RUTEADAS
+USADAS
 </th>
                 <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
             </tr>
@@ -1139,7 +1139,7 @@ RUTEADAS
 
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
    <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-RUTEADAS
+USADAS
 </th>
     <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
   </tr>
@@ -1196,7 +1196,7 @@ RUTEADAS
     SCHEDULE
 </th>
 <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-RUTEADAS
+USADAS
 </th>
 <th style="
     border-right:0.5px solid #135b83;
@@ -1253,7 +1253,7 @@ RUTEADAS
     SCHEDULE
 </th>
 <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-RUTEADAS
+USADAS
 </th>
 <th style="
     border-right:0.5px solid #135b83;
