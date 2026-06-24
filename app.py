@@ -1005,7 +1005,16 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
             </ul>
         </div>
 
-       <div>
+
+        <div>
+            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+                <li>🟠 Planes ➤ Car 8h.</li>
+                <li>🟢 Tlalpan nte, sur y Xochimilco ➤ Car extra 8h E1.</li>
+            </ul>
+        </div>
+
+        <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
                 <li>🔴 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
@@ -1013,14 +1022,6 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
                 <li>🟢 EJA1-SP ➤ Media milla-ruteo fake.</li>
                 <li>🟣 Meganodo ➤ Truck 3.5 MLP.</li>
                 <li>🟡 Alchichica ND ➤ Small Van-AM0.</li>
-            </ul>
-        </div>
-
-        <div>
-            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Planes ➤ Car 8h.</li>
-                <li>🟢 Tlalpan nte, sur y Xochimilco ➤ Car extra 8h E1.</li>
             </ul>
         </div>
     </div>
