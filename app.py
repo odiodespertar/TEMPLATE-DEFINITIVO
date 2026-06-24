@@ -2152,6 +2152,11 @@ actualizarTotales();
 
 actualizarDosPorciento();
 
+// --- AQUÍ PEGA LAS 3 LÍNEAS DE ABAJO ---
+    document.getElementById('val-mlp-rute').innerText = Math.round(totals.mlpRute);
+    document.getElementById('val-rental-rute').innerText = Math.round(totals.rentalRute);
+    document.getElementById('val-car-rute').innerText = Math.round(totals.carRute);
+
     }}
 
     // --- ARREGLO PARA EL ENTER: CIERRA PANEL Y ALERTA ---
