@@ -1953,27 +1953,37 @@ if (vT === 0) {{
 
 
 
-        // 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
+// 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let nameCell = row.querySelector('.edit-name');
     if (!nameCell) return;
     
     let n = nameCell.innerText.trim();
     
-    // Buscamos el valor de Ruteadas en la nueva columna manual que creaste
+    // Buscamos el valor de Ruteadas (USADAS)
     let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
     let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
+    let cL = row.querySelector('.f-left'); // Columna DELTA
     
-    let cL = row.querySelector('.f-left'); // Esta es tu columna DELTA
+    // --- NUEVO: Lógica de color para columna USADAS ---
+    let ruteadaCell = row.querySelector('.f-ruteadas');
+    if (ruteadaCell) {{
+        if (ruteadasManuales > 0) {{
+            ruteadaCell.style.backgroundColor = "#ffecdb"; // Color amarillito
+            ruteadaCell.style.color = "#856404";           // Texto oscuro
+            ruteadaCell.style.fontWeight = "bold";
+        }} else {{
+            ruteadaCell.style.backgroundColor = "";        // Vuelve a su color original
+            ruteadaCell.style.color = "";
+            ruteadaCell.style.fontWeight = "bold";         // Mantenemos negrita si así lo quieres
+        }}
+    }}
+    // --- FIN NUEVO ---
     
     if (cL) {{
-        // --- AQUÍ ESTÁ EL CAMBIO ---
-        // El delta ahora es: Lo que tienes en Schedule - Lo que tú escribiste en Ruteadas
         let diff = stock - ruteadasManuales;
-        
         cL.innerText = diff;
         
-        // Color Rojo si es negativo (te falta flota)
         if (diff < 0) {{
             cL.style.color = "red"; 
             cL.style.fontWeight = "bold"; 
