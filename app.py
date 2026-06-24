@@ -3979,9 +3979,14 @@ function updateFleetFloat() {{
         if(name && stock > 0) {{
             let nameLower = name.toLowerCase();
 
-            // 1. CONTEO DE CARS
-            if(nameLower.includes("car")) {{
-                totalCarSchedule += stock;
+            // 1. CONTEO DE CARS (INCLUYENDO MOTO, SMALL VANS, ETC)
+            if(
+            nameLower.includes("car") || 
+            nameLower.includes("moto") || 
+            nameLower.includes("small van") || 
+            nameLower.includes("newbie")
+            ) {{
+            totalCarSchedule += stock;
             }}
 
             // 2. CONTEO DE MLP (Acepta las normales y las que dicen "foráneo")
@@ -3996,7 +4001,14 @@ function updateFleetFloat() {{
                 totalRentalReal += asignado;
             }}
 
-            let isCar = nameLower.includes("car") || nameLower.includes("híbrida");
+
+            let isCar = nameLower.includes("car") || 
+            nameLower.includes("híbrida") || 
+            nameLower.includes("moto") || 
+            nameLower.includes("small van") || 
+            nameLower.includes("newbie");
+            
+            
             let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
             // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES DE ABAJO ---
