@@ -797,7 +797,7 @@ html body .meli-table tbody tr:last-child {{
     right: auto;
     top: 250px;
     width: 250px !important; /* Ajustado para que se vea compacto */
-    background: linear-gradient(to bottom, rgba(255, 215, 157, 0.4), rgba(255, 215, 157, 0.4));
+    background: linear-gradient(to bottom, rgba(255, 215, 157, 0), rgba(255, 215, 157, 0));
     color: #0a2745;
     border-radius: 14px;
     padding: 16px 18px;
@@ -979,7 +979,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         top: -600px; 
         left: 0; 
         width: 100%; 
-        height: 265px; 
+        height: 268px; 
         background: #f7efeb; 
         border-bottom: 3px solid #FF6347; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
@@ -1009,7 +1009,7 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan nte, syr y Xochi</li>
+                <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan Nte, Sur y Xochi</li>
                 <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
             </ul>
         </div>
@@ -1017,11 +1017,12 @@ body.excel-view .fila-total td#total-ruteadas-6 {{
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
-                <li>🔴 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
-                <li>🟠 Planes foráneos ➤ MLP (nodo=híbrida) ➡️ Solo Xico ➤ MLP y Crowd.</li>
-                <li>🟢 EJA1-SP ➤ Media milla-ruteo fake.</li>
+                <li>🟢 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
+                <li>👉 Planes foráneos ➤ MLP (nodo=híbrida) ➡️ Solo Xico/Tuzamapa ➤ MLP y Crowd.</li>
+                <li>👉 Cercanía de SVC ➤ 🟢Tuzamapa 🟢Xico 🟡Actopan 🟡Trapiche 🟠Naolinco 🟠Perote 🔴Misantla 🔴Tezuitlan 🔴Tlaltetela</li>
+                <li>🔵 EJA1-SP ➤ Media milla-ruteo fake.</li>
                 <li>🟣 Meganodo ➤ Truck 3.5 MLP.</li>
-                <li>🟡 Alchichica ND ➤ Small Van-AM0.</li>
+                <li>🟤 Alchichica ND ➤ Small Van-AM0.</li>
             </ul>
         </div>
     </div>
