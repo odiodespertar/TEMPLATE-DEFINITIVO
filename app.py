@@ -1524,7 +1524,7 @@ function updateFleetFloat() {{
     // ... aquí sigue todo tu código de cálculo igualito ...
     filas.forEach(row => {{
         // ... tu lógica de name, stock, left, etc ...
-    });
+    }});
 
     // ... y al final, tus cuadritos se actualizarán solos:
     document.getElementById("val-mlp-rute-2").innerText = totalMLPReal;
