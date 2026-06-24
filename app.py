@@ -803,7 +803,7 @@ html body .meli-table tbody tr:last-child {{
     padding: 16px 18px;
     z-index: 999999 !important;
     font-size: 16px;
-    border: 2px solid #a0ff2b;
+    border: 2px solid #FF4500;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(50px);
