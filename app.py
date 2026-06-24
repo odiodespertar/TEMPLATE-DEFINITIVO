@@ -2142,7 +2142,7 @@ actualizarDosPorciento();
     }}
 
     // --- ARREGLO PARA EL ENTER: CIERRA PANEL Y ALERTA ---
-document.addEventListener('keydown', function(event) { {
+document.addEventListener('keydown', function(event) {{
     if (event.key === 'Enter') {{
         
         // 1. LÓGICA PARA EL PANEL DE PRIORIDADES
