@@ -866,38 +866,29 @@ body.excel-view .meli-table th {{
 }}
 
 
-/* ===== POLÍGONOS MODO EXCEL (AJUSTADO) ===== */
+/* ===== POLÍGONOS MODO EXCEL (FORZADO) ===== */
 
 body.excel-view .poligono-bloque table {{
     border-collapse: collapse !important;
     width: 100% !important;
-    table-layout: fixed; /* FIXED ayuda a que las columnas no se desborden */
+    table-layout: fixed !important; /* Mantiene las columnas bajo control estricto */
 }}
 
-/* Aplicamos reglas separadas para celdas y encabezados */
-body.excel-view .poligono-bloque td {{
-    padding: 3px 2px !important;
-    font-size: 11px !important;
-    white-space: nowrap; /* Los datos se quedan en una línea */
-    text-align: center;
-}}
-
+body.excel-view .poligono-bloque td, 
 body.excel-view .poligono-bloque th {{
-    padding: 2px !important;
-    font-size: 9px !important;
-    white-space: normal; /* PERMITIMOS que el encabezado se parta si es muy largo */
-    line-height: 1.2;    /* Ajustamos el interlineado para que quepa mejor */
+    padding: 1px 2px !important; 
+    font-size: 9px !important;    /* Reducimos ligeramente para ganar espacio */
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important; /* Si no cabe, pone puntos suspensivos (...) */
     text-align: center !important;
-    background-color: #f0f0f0 !important;
-    vertical-align: middle;
+    vertical-align: middle !important;
 }}
 
-/* Damos anchos específicos a las columnas clave */
-body.excel-view .poligono-bloque th:nth-last-child(3), /* SCHEDULE */
-body.excel-view .poligono-bloque th:nth-last-child(2), /* RUTEADAS */
-body.excel-view .poligono-bloque th:nth-last-child(1) {{ /* DELTA */
-    width: 40px !important; 
-}}
+/* Fuerza anchos mínimos para las columnas críticas */
+body.excel-view .poligono-bloque th:nth-child(5) {{ width: 55px !important; }} /* SCHEDULE */
+body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* RUTEADAS */
+body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
 
 </style> 
 
