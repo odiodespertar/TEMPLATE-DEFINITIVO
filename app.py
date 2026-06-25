@@ -4086,45 +4086,54 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
+   // --- FUNCIÓN DE CALCULAR FLOTA (VERSION DEFINITIVA) ---
+function calcularFlota() {{
+    const contador = document.getElementById('mi-contador-flotante');
+    const filas = document.querySelectorAll('#visor tr:not(:has(th))');
+    
+    // Si no hay filas, el visor está vacío aún, no hacemos nada
+    if (filas.length === 0) return;
 
-    function calcularFlota() {{
-        // Obtenemos todas las filas del visor
-        const filas = document.querySelectorAll('#visor tr');
-        let totalUnidades = 0;
-        let totalORH = 0;
-        let totalOcc = 0;
+    let totalUnidades = 0;
+    let totalORH = 0;
+    let totalOcupacion = 0;
 
-        filas.forEach(row => {{
-            // Buscamos las celdas de la fila
-            const celdas = row.querySelectorAll('td');
-            
-            // ASUMIMOS POSICIONES DE COLUMNAS (¡Esto debemos ajustarlo!)
-            // Si la columna 1 es ORH, 2 es Ocupación y 4 es Stock:
-            const valORH = parseFloat(celdas[1]?.innerText) || 0;
-            const valOcc = parseFloat(celdas[2]?.innerText) || 0;
-            const valStock = parseInt(celdas[4]?.innerText) || 0;
-
-            if (valStock > 0) {{
-                totalUnidades += valStock;
-                totalORH += valORH;
-                totalOcc += valOcc;
+    filas.forEach(row => {{
+        const celdas = row.querySelectorAll('td');
+        if (celdas.length >= 7) {{
+            let sch = parseInt(celdas[5]?.innerText) || 0;
+            if (sch > 0) {{
+                totalUnidades += sch;
+                totalORH += parseFloat(celdas[1]?.innerText) || 0;
+                totalOcupacion += parseFloat(celdas[2]?.innerText) || 0;
             }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = 'U: ' + totalUnidades + 
-                                 ' | ORH: ' + totalORH.toFixed(0) + 
-                                 ' | Occ: ' + totalOcc.toFixed(0);
         }}
-    }}
+    }});
 
-    // Usamos MutationObserver: Observa cambios en el DOM sin bloquear NADA
-    const observer = new MutationObserver(calcularFlota);
+    if (contador) {{
+        contador.innerHTML = '<b>U:</b> ' + totalUnidades + 
+                             ' | <b>ORH:</b> ' + totalORH.toFixed(0) + 
+                             ' | <b>Occ:</b> ' + totalOcupacion.toFixed(0);
+    }}
+}}
+
+// --- OBSERVADOR DINÁMICO ---
+// En lugar de ejecutarlo al cargar, esperamos a que el visor exista
+function iniciarObservador() {{
     const target = document.getElementById('visor');
     if (target) {{
+        const observer = new MutationObserver(calcularFlota);
         observer.observe(target, {{ childList: true, subtree: true, characterData: true }});
+        calcularFlota(); // Primera llamada manual
+    }} else {{
+        // Si el visor aún no existe, reintentamos en 500ms
+        setTimeout(iniciarObservador, 500);
     }}
+}}
+
+// Iniciar el ciclo de vida del contador
+iniciarObservador();
+
 
 
 
