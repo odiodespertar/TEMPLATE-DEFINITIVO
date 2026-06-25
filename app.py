@@ -4084,53 +4084,52 @@ function togglePrioridades() {{
 }}
 
 
+// --- FUNCIÓN DE CALCULAR FLOTA ---
+<script>
+    function calcularFlota() {{
+        let totalUnidades = 0;
+        let totalORH = 0;
+        let totalOcupacion = 0;
 
-function actualizarContadorFlotante() {{
-    let totalUnidades = 0;
-    let totalORH = 0;
-    let totalOcupacion = 0;
-
-    // Buscamos dentro de la tabla activa (el 'visor')
-    const visor = document.getElementById('visor');
-    if (!visor) return;
-
-    // Buscamos todas las filas
-    visor.querySelectorAll('tr').forEach(row => {{
-        // Obtenemos el stock (cantidad disponible de la unidad)
-        let stockEl = row.querySelector('.f-stock');
-        let stock = parseInt(stockEl?.innerText) || 0;
+        // Buscamos las filas en la tabla activa
+        const filas = document.querySelectorAll('#visor tr');
         
-        // Solo sumamos si el stock es mayor a 0 (unidad activa)
-        if (stock > 0) {{
-            totalUnidades += stock;
+        filas.forEach(row => {{
+            // Buscamos el valor de stock
+            let stockEl = row.querySelector('.f-stock');
+            let stock = parseInt(stockEl?.innerText) || 0;
             
-            // Aquí sumamos los valores de ORH y OCUP
-            // NOTA: Asegúrate de que estas clases existen en tu tabla (si no, dímelo)
-            let valORH = parseFloat(row.querySelector('.v-orh')?.innerText) || 0;
-            let valOCUP = parseFloat(row.querySelector('.v-occ')?.innerText) || 0;
-            
-            totalORH += valORH;
-            totalOcupacion += valOCUP;
+            if (stock > 0) {{
+                totalUnidades += stock;
+                
+                // --- AQUÍ ESTÁ EL CAMBIO ---
+                // Si no sabes qué clase tienen tus celdas, usaremos el índice de la columna
+                // (ejemplo: la celda 3 es ORH, la 4 es OCUPACIÓN)
+                let celdas = row.querySelectorAll('td');
+                if (celdas.length > 4) {{
+                    totalORH += parseFloat(celdas[3].innerText) || 0;
+                    totalOcupacion += parseFloat(celdas[4].innerText) || 0;
+                }}
+            }}
+        }});
+
+        const contador = document.getElementById('mi-contador-flotante');
+        if (contador) {{
+            contador.innerHTML = '<b>Activas:</b> ' + totalUnidades + 
+                                 ' | <b>ORH:</b> ' + totalORH.toFixed(1) + 
+                                 ' | <b>Occ:</b> ' + totalOcupacion.toFixed(1) + '%';
         }}
-    }});
-
-    const contador = document.getElementById('mi-contador-flotante');
-    if (contador) {{
-        // Formato solicitado: Nombre Abreviado (lo sacamos del total) + Datos
-        contador.innerHTML = 
-            '<b>Unidades Activas:</b> ' + totalUnidades + 
-            ' | <b>ORH Total:</b> ' + totalORH.toFixed(0) + 
-            ' | <b>Ocupación:</b> ' + totalOcupacion.toFixed(0) + '%';
     }}
-}}
 
-// Llamar al actualizar cuando cambies de tab o escribas algo
-document.addEventListener('input', actualizarContadorFlotante);
-// También forzamos una actualización al hacer clic en las pestañas
-document.querySelectorAll('.tab-btn').forEach(btn => {{
-    btn.addEventListener('click', () => setTimeout(actualizarContadorFlotante, 100));
-}});
-// ==============================================================================
+    // Eventos para actualizar
+    document.getElementById('visor').addEventListener('input', calcularFlota);
+    document.querySelectorAll('.tab-btn').forEach(btn => {{
+        btn.addEventListener('click', () => setTimeout(calcularFlota, 200));
+    }});
+    
+    // Ejecución
+    setTimeout(calcularFlota, 500);
+</script>
 
 
 // --- FUNCIÓN DE FILTRADO ---
