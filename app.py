@@ -998,7 +998,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     </div>
     <div style="text-align: center; border-left: 1px solid #ffffff33; padding-left: 20px; min-width: 120px;">
         <div id="proximo-ruteo" style="font-size: 16px; font-weight: bold; color: #ff9b21; line-height: 1.1;">Sin tareas</div>
-        <div id="hora-ruteo" style="font-size: 12px; font-weight: bold; color: #ffffff; margin-top: 2px;">--</div>
+        <div id="hora-ruteo" style="font-size: 14px; font-weight: bold; color: #ffffff; margin-top: 2px;">--</div>
         <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px; margin-top: 2px;">SIGUIENTE RUTEO</div>
     </div>
     <div style="text-align: center; border-left: 1px solid #ffffff33; padding-left: 20px;">
