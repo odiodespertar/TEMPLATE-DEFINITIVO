@@ -1675,7 +1675,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }} else {{
         row.style.background = "#DCDCDC"; 
         // Eliminamos row.style.color = "#969696"
-        fs.style.background = "#FFFFFF"; 
+        fs.style.background = "#FFFF00"; 
         mi.style.background = "#DCDCDC"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
         ma.style.background = "#DCDCDC"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
         
