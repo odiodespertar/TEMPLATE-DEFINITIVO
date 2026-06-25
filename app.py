@@ -4318,63 +4318,19 @@ actualizarRelojRuteos();
 <div id="mi-contador-flotante" style="
     position: fixed; 
     top: 10px; 
-    right: 20px; 
-    background: rgba(0, 0, 0, 0.9); 
+    right: 220px; 
+    background: rgba(0, 0, 0, 0.85); 
     color: white; 
-    padding: 15px; 
-    border-radius: 8px; 
-    z-index: 99999; 
+    padding: 10px; 
+    border-radius: 5px; 
+    z-index: 9999; 
     pointer-events: none;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    border: 1px solid #555;
 ">
     Calculando...
 </div>
 
 
-    function calcularFlota() {{
-        const visor = document.getElementById('visor');
-        if (!visor) return;
-
-        // Buscamos todas las filas de la tabla activa
-        const filas = visor.querySelectorAll('tr');
-        let u = 0, orh = 0, occ = 0;
-
-        filas.forEach(row => {{
-            const tds = row.querySelectorAll('td');
-            // Si la fila tiene celdas, sumamos (ajusta los índices [1], [2], [5] si tus columnas son distintas)
-            if (tds.length >= 6) {{
-                let sch = parseInt(tds[5]?.innerText) || 0;
-                let valOrh = parseFloat(tds[1]?.innerText) || 0;
-                let valOcc = parseFloat(tds[2]?.innerText) || 0;
-                
-                if (sch > 0) {{
-                    u += sch;
-                    orh += valOrh;
-                    occ += valOcc;
-                }}
-            }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = '<b>Unidades:</b> ' + u + 
-                                 '<br><b>ORH:</b> ' + orh.toFixed(0) + 
-                                 '<br><b>Ocupación:</b> ' + occ.toFixed(0);
-        }}
-    }}
-
-    // Usamos el observador MÁS SEGURO que existe: solo se dispara cuando el contenido de 'visor' cambia
-    const targetNode = document.getElementById('visor');
-    if (targetNode) {{
-        const observer = new MutationObserver(calcularFlota);
-        observer.observe(targetNode, {{ childList: true, subtree: true }});
-        // Ejecución inicial
-        calcularFlota();
-    }}
-
-
+  
 </script>
 </body>
 </html>
