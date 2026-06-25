@@ -1442,39 +1442,6 @@ USADAS
 
 
 
-// --- ESTAS DOS FUNCIONES VAN DENTRO DE TU SCRIPT EXISTENTE ---
-    function calcularFlota() {{
-        const visor = document.getElementById('visor');
-        if (!visor) return;
-
-        const filas = visor.querySelectorAll('tr');
-        let u = 0, orh = 0, occ = 0;
-
-        filas.forEach(row => {{
-            const tds = row.querySelectorAll('td');
-            // Nota: Verifica si tus índices son [1], [2], [5]
-            if (tds.length >= 6) {{
-                let sch = parseInt(tds[5]?.innerText.trim()) || 0;
-                if (sch > 0) {{
-                    u += sch;
-                    orh += parseFloat(tds[1]?.innerText.trim()) || 0;
-                    occ += parseFloat(tds[2]?.innerText.trim()) || 0;
-                }}
-            }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
-        }}
-    }}
-
-    // Esta parte conecta con tu navegación actual sin romperla
-    const originalChangeTab = changeTab;
-    changeTab = function(e, name) {{
-        originalChangeTab(e, name);
-        calcularFlota();
-    }};
 
 
 
@@ -4678,6 +4645,8 @@ body:not(.tab-2) #excel-btn {{
 
 <script>
     const allData = {info_operativa}; 
+
+
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
