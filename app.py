@@ -4084,10 +4084,48 @@ function togglePrioridades() {{
         panel.style.top = '0px';    // Se despliega bajando
     }}
 }}
-// ==============================================================================
 
+
+
+// ==============================================================================
+// 🚨 FUNCIÓN DE ACTUALIZACIÓN DE CONTADOR
+// ==============================================================================
 function actualizarContadorFlotante() {{
-        // ... (el código de suma de unidades y ORH que definimos) ...
+    let totalUnidades = 0;
+    let totalORH = 0;
+    let totalOcupacion = 0;
+
+    // Buscamos todas las filas que tienen la clase '.master-row' (o el tr de la tabla)
+    document.querySelectorAll('tr').forEach(row => {{
+        // Obtenemos el stock (Schedule)
+        let schEl = row.querySelector('.f-stock');
+        if (!schEl) return; // Si no hay columna de stock en esta fila, saltamos
+
+        let sch = parseInt(schEl.innerText) || 0;
+        
+        if (sch > 0) {{
+            totalUnidades += sch;
+            
+            // Sumamos los valores de las celdas editables
+            // OJO: Ajusta '.edit-spr-min' o '.edit-spr-max' si tus celdas tienen otros nombres
+            totalORH += parseFloat(row.querySelector('.edit-spr-min')?.innerText) || 0;
+            totalOcupacion += parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
+        }}
+    }});
+
+    const contador = document.getElementById('mi-contador-flotante');
+    if (contador) {{
+        contador.innerHTML = `
+            <div style="font-size: 10px; color: #ccc; margin-bottom: 2px;">RESUMEN FLOTA</div>
+            <b>U:</b> ${totalUnidades} | <b>Min:</b> ${{totalORH.toFixed(0)}} | <b>Max:</b> ${{totalOcupacion.toFixed(0)}}
+        `;
+    }}
+}}
+
+// --- ESTO HACE QUE SE ACTUALICE AL ESCRIBIR O CARGAR ---
+document.addEventListener('input', actualizarContadorFlotante);
+setInterval(actualizarContadorFlotante, 2000); // Refresco de seguridad
+// ==============================================================================
     }}
 // ==============================================================================
 
