@@ -4416,9 +4416,9 @@ actualizarRelojRuteos();
 
     // Usamos el observador MÁS SEGURO que existe: solo se dispara cuando el contenido de 'visor' cambia
     const targetNode = document.getElementById('visor');
-    if (targetNode) {
+    if (targetNode) {{
         const observer = new MutationObserver(calcularFlota);
-        observer.observe(targetNode, { childList: true, subtree: true });
+        observer.observe(targetNode, {{ childList: true, subtree: true }});
         // Ejecución inicial
         calcularFlota();
     }}
