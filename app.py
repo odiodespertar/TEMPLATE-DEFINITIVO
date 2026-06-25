@@ -794,57 +794,7 @@ html body .meli-table tbody tr:last-child {{
 }}
 
 
-/* Contador flotante */
-#fleet-float {{
-    position: fixed;
-    left: 14px;
-    right: auto;
-    top: 250px;
-    width: 250px !important; /* Ajustado para que se vea compacto */
-    background: #fcfc6f;
-    color: #000080;
-    border-radius: 15px;
-    padding: 16px 18px;
-    z-index: 999999 !important;
-    font-size: 16px;
-    border: 2px solid #FF4500;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(50px);
-    max-height: 75vh;
-    overflow-y: auto;
-}}
 
-/* Ocultar la columna de totales */
-#fleet-float div[style*="border-left"] {{
-    display: none !important; 
-}}
-
-/* Checkbox */
-.ok-check {{
-    accent-color: #aeff00 !important;
-    cursor: pointer;
-}}
-
-/* Reloj flotante */
-#ruteo-float {{
-    position: fixed;
-    top: 200px;
-    right: 15px;
-    width: 220px;
-    background: linear-gradient(135deg, #031d4d 0%, #072868 50%, #03163d 100%);
-    border-radius: 14px;
-    padding: 6px;
-    color: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    z-index: 999999;
-    cursor: move;
-    user-select: none;
-}}
-
-#ruteo-float:hover {{
-    box-shadow: 0 14px 35px rgba(0,0,0,0.22);
-}}
 
 
 
