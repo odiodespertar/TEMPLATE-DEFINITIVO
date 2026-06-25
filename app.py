@@ -4381,7 +4381,7 @@ actualizarRelojRuteos();
     Calculando...
 </div>
 
-<script>
+
     function calcularFlota() {{
         const visor = document.getElementById('visor');
         if (!visor) return;
