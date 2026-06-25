@@ -4085,45 +4085,51 @@ function togglePrioridades() {{
 
 
 
-// ==============================================================================
-// 🚨 FUNCIÓN DE ACTUALIZACIÓN DE CONTADOR (CORREGIDA)
-// ==============================================================================
 function actualizarContadorFlotante() {{
     let totalUnidades = 0;
     let totalORH = 0;
     let totalOcupacion = 0;
 
-    // ACOTADO: Buscamos solo en filas que tengan clase .master-row o dentro de la tabla activa
-    // Cambia '.master-row' si tus filas tienen otra clase específica en tu tabla
-    document.querySelectorAll('.master-row').forEach(row => {{
-        let schEl = row.querySelector('.f-stock');
-        if (!schEl) return; 
+    // Buscamos dentro de la tabla activa (el 'visor')
+    const visor = document.getElementById('visor');
+    if (!visor) return;
 
-        let sch = parseInt(schEl.innerText) || 0;
+    // Buscamos todas las filas
+    visor.querySelectorAll('tr').forEach(row => {{
+        // Obtenemos el stock (cantidad disponible de la unidad)
+        let stockEl = row.querySelector('.f-stock');
+        let stock = parseInt(stockEl?.innerText) || 0;
         
-        if (sch > 0) {{
-            totalUnidades += sch;
-            totalORH += parseFloat(row.querySelector('.edit-spr-min')?.innerText) || 0;
-            totalOcupacion += parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
+        // Solo sumamos si el stock es mayor a 0 (unidad activa)
+        if (stock > 0) {{
+            totalUnidades += stock;
+            
+            // Aquí sumamos los valores de ORH y OCUP
+            // NOTA: Asegúrate de que estas clases existen en tu tabla (si no, dímelo)
+            let valORH = parseFloat(row.querySelector('.v-orh')?.innerText) || 0;
+            let valOCUP = parseFloat(row.querySelector('.v-occ')?.innerText) || 0;
+            
+            totalORH += valORH;
+            totalOcupacion += valOCUP;
         }}
     }});
 
     const contador = document.getElementById('mi-contador-flotante');
     if (contador) {{
-        // Concatenación segura sin llaves ${{}}
-        contador.innerHTML = 'RESUMEN FLOTA: U: ' + totalUnidades + 
-                             ' | Min: ' + totalORH.toFixed(0) + 
-                             ' | Max: ' + totalOcupacion.toFixed(0);
+        // Formato solicitado: Nombre Abreviado (lo sacamos del total) + Datos
+        contador.innerHTML = 
+            '<b>Unidades Activas:</b> ' + totalUnidades + 
+            ' | <b>ORH Total:</b> ' + totalORH.toFixed(0) + 
+            ' | <b>Ocupación:</b> ' + totalOcupacion.toFixed(0) + '%';
     }}
 }}
 
-// Eventos de seguridad para no romper la interfaz
-document.addEventListener('input', function(e) {{
-    if (e.target.closest('.master-row')) {{
-        actualizarContadorFlotante();
-    }}
+// Llamar al actualizar cuando cambies de tab o escribas algo
+document.addEventListener('input', actualizarContadorFlotante);
+// También forzamos una actualización al hacer clic en las pestañas
+document.querySelectorAll('.tab-btn').forEach(btn => {{
+    btn.addEventListener('click', () => setTimeout(actualizarContadorFlotante, 100));
 }});
-setInterval(actualizarContadorFlotante, 3000); 
 // ==============================================================================
 
 
