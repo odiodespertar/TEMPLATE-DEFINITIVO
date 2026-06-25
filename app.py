@@ -1443,6 +1443,9 @@ USADAS
 
 
     // 1. FUNCIÓN QUE CALCULA EN TIEMPO REAL
+    const allData = {info_operativa}; 
+
+    // 1. LA LÓGICA DE CÁLCULO
     function calcularFlota() {{
         const visor = document.getElementById('visor');
         if (!visor) return;
@@ -1452,9 +1455,9 @@ USADAS
 
         filas.forEach(row => {{
             const tds = row.querySelectorAll('td');
-            // Aseguramos que la fila tenga celdas (ignorando cabeceras si es necesario)
+            // Según tu captura, la tabla tiene 8 columnas (0 a 7)
+            // Schedule es la columna 5, ORH es 1, Ocupación es 2
             if (tds.length >= 6) {{
-                // Obtenemos los valores de texto y limpiamos
                 let sch = parseInt(tds[5]?.innerText.trim()) || 0;
                 let valOrh = parseFloat(tds[1]?.innerText.trim()) || 0;
                 let valOcc = parseFloat(tds[2]?.innerText.trim()) || 0;
@@ -1469,27 +1472,29 @@ USADAS
 
         const contador = document.getElementById('mi-contador-flotante');
         if (contador) {{
-            contador.innerHTML = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
+            contador.innerHTML = '<b>U:</b> ' + u + ' | <b>ORH:</b> ' + orh.toFixed(0) + ' | <b>Occ:</b> ' + occ.toFixed(0);
+        }} else {{
+            console.error("El elemento mi-contador-flotante no existe en el DOM");
         }}
     }}
 
-    // 2. MODIFICAMOS LA FUNCIÓN DE CAMBIO DE PESTAÑA (Ya existente)
-    // Buscamos tu función changeTab y añadimos la llamada al final
+    // 2. FUNCIÓN DE CAMBIO DE PESTAÑA
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
         for (let b of btns) {{ b.classList.remove('active'); }}
         e.currentTarget.classList.add('active');
         
-        // --- LLAMADA MÁGICA ---
-        // Esto dispara el cálculo cada vez que la tabla cambia
         calcularFlota();
     }}
+
+    // 3. ARRANQUE AUTOMÁTICO (LO QUE FALTABA)
+    // Esperamos a que la página cargue totalmente y lanzamos el primer cálculo
+    document.addEventListener('DOMContentLoaded', calcularFlota);
     
-    // Ejecución inicial al cargar la página
-    window.onload = function() {{
-        calcularFlota();
-    }};
+    // Un pequeño retraso para asegurar que Streamlit haya inyectado el HTML
+    setTimeout(calcularFlota, 1000);
+
 
 
 
