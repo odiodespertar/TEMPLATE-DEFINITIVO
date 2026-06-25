@@ -4290,7 +4290,7 @@ let ultimaAlerta = "";
 function actualizarRelojRuteos() {{
     const ahora = new Date();
     document.getElementById("hora-actual").innerText = ahora.toLocaleTimeString();
-
+    
     let siguiente = null;
     for (let tarea of ruteos) {{
         let partes = tarea.hora.split(":");
@@ -4304,15 +4304,24 @@ function actualizarRelojRuteos() {{
 
     const elProximo = document.getElementById("proximo-ruteo");
     const elCuenta = document.getElementById("cuenta-regresiva");
+    const elHora = document.getElementById("hora-ruteo");
 
     if (!siguiente) {{
         elProximo.innerText = "Fin del turno";
+        if (elHora) elHora.innerText = "--";
         elCuenta.innerText = "--:--";
     }} else {{
         elProximo.innerText = siguiente.tarea.nombre;
+        
+        // 🕒 AQUÍ SE INYECTA LA HORA AUTOMÁTICAMENTE
+        if (elHora) {{
+            elHora.innerText = "A LAS " + siguiente.tarea.hora;
+        }}
+        
         let diff = siguiente.fechaTarea - ahora;
         let mins = Math.floor(diff / 60000);
         let secs = Math.floor((diff % 60000) / 1000);
+        
         elCuenta.innerText = String(mins).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
         elCuenta.style.color = mins < 5 ? "#FF0000" : "#7CFFB2";
     }}
