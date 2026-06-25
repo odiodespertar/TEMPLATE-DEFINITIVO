@@ -4110,6 +4110,19 @@ setTimeout(calcularFlota, 2000);
 
 
 
+function diagnosticoTablas() {{
+    console.log("--- BUSCANDO TABLAS ---");
+    const tablas = document.querySelectorAll('table');
+    tablas.forEach((tabla, i) => {{
+        console.log("Tabla " + i + ": ID='" + tabla.id + "', Clase='" + tabla.className + "', Filas=" + tabla.rows.length);
+    }});
+    
+    if (tablas.length === 0) {{
+        console.log("¡No se encontraron etiquetas <table> en la página! Quizás usas divs.");
+    }}
+}}
+diagnosticoTablas();
+
 
 
 
