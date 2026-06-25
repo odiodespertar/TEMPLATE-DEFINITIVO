@@ -4091,51 +4091,22 @@ function togglePrioridades() {{
 // --- DIAGNÓSTICO ---
 console.log("El script del contador se ha cargado");
 
-    function calcularFlota() {{
-        // Buscamos la tabla dentro del contenedor principal de Streamlit
-        // Usamos una selección más abierta
-        const tablas = document.querySelectorAll('table');
-        if (tablas.length === 0) return;
-
-        // La tabla de arriba parece ser la primera (índice 0)
-        const tablaFlota = tablas[0]; 
-        const filas = tablaFlota.querySelectorAll('tbody tr');
-        
-        let totalUnidades = 0;
-        let totalORH = 0;
-        let totalOcc = 0;
-
-        filas.forEach(row => {{
-            const celdas = row.querySelectorAll('td');
-            // Según tu imagen, SCHEDULE está en la columna 5 (índice 5)
-            if (celdas.length >= 7) {{
-                let sch = parseInt(celdas[5]?.innerText) || 0;
-                if (sch > 0) {{
-                    totalUnidades += sch;
-                    totalORH += parseFloat(celdas[1]?.innerText) || 0;
-                    totalOcc += parseFloat(celdas[2]?.innerText) || 0;
-                }}
-            }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = '<b>U:</b> ' + totalUnidades + 
-                                 ' | <b>ORH:</b> ' + totalORH + 
-                                 ' | <b>Occ:</b> ' + totalOcc;
-        }}
-    }}
-
-    // Usamos MutationObserver sobre el body para capturar cuando Streamlit renderiza la tabla
-    const observer = new MutationObserver((mutations) => {{
-        // Solo recalcula si hubo cambios en la tabla
-        calcularFlota();
-    }});
-
-    observer.observe(document.body, {{ childList: true, subtree: true }});
+function calcularFlota() {{
+    console.log("Ejecutando calcularFlota...");
+    const filas = document.querySelectorAll('#visor tr');
+    console.log("Filas encontradas en visor: " + filas.length);
     
-    // Ejecución inicial
-    setTimeout(calcularFlota, 1000);
+    const contador = document.getElementById('mi-contador-flotante');
+    if (contador) {{
+        contador.innerText = "Filas: " + filas.length;
+        console.log("Contador actualizado en pantalla");
+    }} else {{
+        console.log("ERROR: No se encontró el elemento #mi-contador-flotante");
+    }}
+}}
+
+// Ejecutar después de 2 segundos para dar tiempo a que todo cargue
+setTimeout(calcularFlota, 2000);
 
 
 
