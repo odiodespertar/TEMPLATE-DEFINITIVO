@@ -1443,7 +1443,7 @@ USADAS
 
 
     // 1. FUNCIÓN QUE CALCULA EN TIEMPO REAL
-    const allData = {info_operativa}; 
+    const allData = {{info_operativa}}; 
 
     // 1. LA LÓGICA DE CÁLCULO
     function calcularFlota() {{
