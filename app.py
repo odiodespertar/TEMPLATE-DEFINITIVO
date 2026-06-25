@@ -1710,94 +1710,96 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 }});
 // --- FIN DEL BLOQUE DE SINCRONIZACIÓN ---
 
-        // 2. Calcular ocupación por polígono (Tabla de abajo)
-        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-            let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
 
-           bl.querySelectorAll('.calc-row').forEach(r => {{
-                let s = r.querySelector('.s-type').value, u = parseInt(r.querySelector('.u-manual').innerText) || 0, sp = r.querySelector('.spr-real-val');
+       // 2. Calcular ocupación por polígono (Tabla de abajo)
+document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+    let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+    let vCalcEl = bl.querySelector('.v-calculado-total'); 
 
-
-                // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA: No descuenta de la flota real (Schedule ni Delta)
-                let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
-                if (nombrePlanPadre.includes("ALCHICHICA")) {{
-                    if (s !== "Seleccionar..." && s !== "") {{
-                        let sprActual = parseFloat(sp.innerText) || 0;
-                        vA += (u * sprActual);
-                        sp.style.fontWeight = "bold";
-                        sp.style.setProperty("background-color", "#edf2f2");
-                        sp.style.setProperty("color", "#008B8B");
-                    }}
-                    return; 
-                }}
-
-
-
-                // Diccionario interno de mínimos oficiales para el freno operativo
-                const minimosFlota = {{
-                    "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-                    "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-                }};
-
-                if(s !== "Seleccionar..." && fleet[s]) {{
-                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
-                    fleet[s].used += u; 
-                    
-                    let sprActual = parseFloat(sp.innerText) || 0;
-                    vA += (u * sprActual);
-                    sp.style.fontWeight = "bold";
-
-                    // 🔥 CANDADO DE SEGURIDAD: Validar si hay unidades y el SPR cayó por debajo del mínimo
-                    if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                        sp.style.setProperty("background-color", "#f5e6e6", "important"); // Alerta roja
-                        sp.style.setProperty("color", "#cc0000", "important");
-                        sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
-                    }} else {{
-                        // Estilo normal de cálculo
-                        sp.style.setProperty("background-color", "#edf2f2");
-                        sp.style.setProperty("color", "#008B8B");
-                        sp.title = "";
-                    }}
-                }} else {{
-                    sp.style.color = "#969696"; 
-                    sp.style.fontWeight = "normal";   
-                    sp.style.setProperty("background-color", "#FFFFFF");
-                    sp.title = "";
-                }}
-            }});
-
-
-
-         // ... dentro de tu bucle ...
-vCalcEl.innerText = Math.round(vA);
-vCalcEl.style.background = "white";
-let d = bl.querySelector('.p-diff');
-
-if (vT === 0) {{
-    d.innerText = "VACÍO"; 
-    d.style.background = "none"; 
-    vCalcEl.style.color = "#808080";
-}} else {{
-    let diffVal = Math.round(vA);
-    if (diffVal === Math.round(vT)) {{
-        d.innerText = "OK"; 
-        d.style.background = "#61b888"; 
-        vCalcEl.style.color = "#0da852"; // El número ahora es VERDE como el fondo
-    }} else if (vA > vT) {{
-        d.innerText = "EXCESO: " + Math.round(vA - vT); 
-        d.style.background = "#f2bd5c"; 
-        vCalcEl.style.color = "#FFA500"; // El número ahora es AMARILLO/NARANJA como el fondo
-    }} else {{
-        d.innerText = "FALTAN: " + Math.round(vT - vA); 
-        d.style.background = "#fc9a88"; 
-        vCalcEl.style.color = "#FF6347"; // El número ahora es ROJO/ROSADO como el fondo
+    // --- AQUÍ DETECTAMOS LOS NODOS DEL BLOQUE ---
+    let celdaNodos = bl.querySelector('.nodos-val');
+    let nodosCount = celdaNodos ? parseInt(celdaNodos.innerText) : 0;
+    if (nodosCount > 0) {{
+        console.log("Nodo detectado en bloque actual:", nodosCount);
     }}
-}}
-}}); 
+    // --------------------------------------------
 
+    bl.querySelectorAll('.calc-row').forEach(r => {{
+        let s = r.querySelector('.s-type').value, 
+            u = parseInt(r.querySelector('.u-manual').innerText) || 0, 
+            sp = r.querySelector('.spr-real-val');
 
+        // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA
+        let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
+        if (nombrePlanPadre.includes("ALCHICHICA")) {{
+            if (s !== "Seleccionar..." && s !== "") {{
+                let sprActual = parseFloat(sp.innerText) || 0;
+                vA += (u * sprActual);
+                sp.style.fontWeight = "bold";
+                sp.style.setProperty("background-color", "#edf2f2");
+                sp.style.setProperty("color", "#008B8B");
+            }}
+            return; 
+        }}
+
+        // Diccionario interno de mínimos
+        const minimosFlota = {{
+            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
+            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
+        }};
+
+        if(s !== "Seleccionar..." && fleet[s]) {{
+            if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
+            fleet[s].used += u; 
+            
+            let sprActual = parseFloat(sp.innerText) || 0;
+            vA += (u * sprActual);
+            sp.style.fontWeight = "bold";
+
+            if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
+                sp.style.setProperty("background-color", "#f5e6e6", "important");
+                sp.style.setProperty("color", "#cc0000", "important");
+                sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
+            }} else {{
+                sp.style.setProperty("background-color", "#edf2f2");
+                sp.style.setProperty("color", "#008B8B");
+                sp.title = "";
+            }}
+        }} else {{
+            sp.style.color = "#969696"; 
+            sp.style.fontWeight = "normal";   
+            sp.style.setProperty("background-color", "#FFFFFF");
+            sp.title = "";
+        }}
+    }});
+
+    // ... resto del cálculo de vCalcEl y validaciones de vT ...
+    vCalcEl.innerText = Math.round(vA);
+    vCalcEl.style.background = "white";
+    let d = bl.querySelector('.p-diff');
+
+    if (vT === 0) {{
+        d.innerText = "VACÍO"; 
+        d.style.background = "none"; 
+        vCalcEl.style.color = "#808080";
+    }} else {{
+        let diffVal = Math.round(vA);
+        if (diffVal === Math.round(vT)) {{
+            d.innerText = "OK"; 
+            d.style.background = "#61b888"; 
+            vCalcEl.style.color = "#0da852";
+        }} else if (vA > vT) {{
+            d.innerText = "EXCESO: " + Math.round(vA - vT); 
+            d.style.background = "#f2bd5c"; 
+            vCalcEl.style.color = "#FFA500";
+        }} else {{
+            d.innerText = "FALTAN: " + Math.round(vT - vA); 
+            d.style.background = "#fc9a88"; 
+            vCalcEl.style.color = "#FF6347";
+        }}
+    }}
+}});
 
 
 // 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
