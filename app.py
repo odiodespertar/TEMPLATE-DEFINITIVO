@@ -4087,14 +4087,15 @@ function togglePrioridades() {{
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
 
-    function calcularFlota() {{
+   <script>
+    function calcularFlota() {
         // Obtenemos todas las filas del visor
         const filas = document.querySelectorAll('#visor tr');
         let totalUnidades = 0;
         let totalORH = 0;
         let totalOcc = 0;
 
-        filas.forEach(row => {{
+        filas.forEach(row => {
             // Buscamos las celdas de la fila
             const celdas = row.querySelectorAll('td');
             
@@ -4104,28 +4105,28 @@ function togglePrioridades() {{
             const valOcc = parseFloat(celdas[2]?.innerText) || 0;
             const valStock = parseInt(celdas[4]?.innerText) || 0;
 
-            if (valStock > 0) {{
+            if (valStock > 0) {
                 totalUnidades += valStock;
                 totalORH += valORH;
                 totalOcc += valOcc;
-            }}
-        }});
+            }
+        });
 
         const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
+        if (contador) {
             contador.innerHTML = 'U: ' + totalUnidades + 
                                  ' | ORH: ' + totalORH.toFixed(0) + 
                                  ' | Occ: ' + totalOcc.toFixed(0);
-        }}
-    }}
+        }
+    }
 
     // Usamos MutationObserver: Observa cambios en el DOM sin bloquear NADA
     const observer = new MutationObserver(calcularFlota);
     const target = document.getElementById('visor');
-    if (target) {{
-        observer.observe(target, {{ childList: true, subtree: true, characterData: true }});
-    }}
-}}
+    if (target) {
+        observer.observe(target, { childList: true, subtree: true, characterData: true });
+    }
+</script>
 
 
 
