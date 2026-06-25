@@ -4386,7 +4386,7 @@ function actualizarContadorFlota() {{
             // Mostramos suma de ORH, Ocupación y la lista de unidades usadas
             cont.innerHTML = `
                 <div style="font-size: 11px;">
-                    <b>U:</b> ${nombresUnidades.join(', ')}<br>
+                    <b>U:</b> ${{nombresUnidades.join(', ')}}<br>
                     <b>ORH:</b> ${{totalORH.toFixed(0)}} | 
                     <b>Occ:</b> ${{totalOcc.toFixed(0)}}
                 </div>
