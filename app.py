@@ -1654,29 +1654,6 @@ function actualizarDosPorciento() {{
         let tabId = currentTab;
         // ----------------------------------------------------
 
-        // --- PRE-RECALC DE PRIORIDAD (SEGURO Y SIN BUCLES) ---
-    if (tabId == 6) {{
-    document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let celdaNodos = bl.querySelector('.nodos-val');
-        let tieneNodo = celdaNodos && parseInt(celdaNodos.innerText) > 0;
-
-        if (tieneNodo) {{
-            bl.querySelectorAll('.calc-row').forEach(r => {{
-                let select = r.querySelector('.s-type');
-                // IMPORTANTE: Solo cambiamos si está vacío, sin disparar 'change'
-                if (select && (select.value === "" || select.value === "Seleccionar...")) {{
-                    select.value = "Large Van MLP foráneo";
-                    // Eliminamos el dispatchEvent para evitar el bucle infinito
-                }}
-            }});
-        }}
-    }});
-}}
-    // ---------------------------------------------------------
-
-
-
-
 
         // 1. Capturar datos de la flota (Tabla de arriba)
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
