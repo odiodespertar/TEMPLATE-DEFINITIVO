@@ -513,7 +513,7 @@ def gen_poligonos(data_target=None):
                         <td class="u-manual-cell" style="background: #fff8b8; border: 0.5px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
-                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span>
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #25282b !important;">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
@@ -1100,18 +1100,18 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">
+                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
+<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
 SCHEDULE
 </th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
+<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">
 DELTA
 </th>
 
@@ -1136,16 +1136,16 @@ DELTA
     <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
-                <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
@@ -1165,19 +1165,19 @@ USADAS
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
   <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-    <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+    <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
 
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
 
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
+    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 
-    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
-   <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+   <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
+    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
   </tr>
 </thead>
 
@@ -1209,25 +1209,25 @@ USADAS
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 <th style="
     border-right:0.5px solid #25282b;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54 !important;
+    color: #25282b !important;
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
 <th style="
     border-right:0.5px solid #25282b;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54 !important;
+    color: #25282b !important;
     width:50px;">
     DELTA
 </th>
@@ -1266,25 +1266,25 @@ USADAS
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 <th style="
     border-right:0.5px solid #25282b;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54 !important;
+    color: #25282b !important;
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
 <th style="
     border-right:0.5px solid #25282b;
     padding:4px 8px;
     font-size:11px;
-    color: #0c3a54 !important;
+    color: #25282b !important;
     width:50px;">
     DELTA
 </th>
@@ -1352,7 +1352,7 @@ USADAS
 
 
      
-                <div style="font-weight:bold; color:#0c3a54; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
                     <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
