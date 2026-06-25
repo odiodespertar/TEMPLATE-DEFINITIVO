@@ -226,7 +226,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="f-ruteadas" 
-                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #ffecdb; font-weight: bold;">
+                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #ffffff; font-weight: bold;">
                     0
                 </td>
 
