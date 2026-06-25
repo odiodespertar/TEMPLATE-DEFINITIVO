@@ -1663,12 +1663,21 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
     
     if(sch > 0) {{
+        // --- ESTE ES EL COLOR DE FONDO DE LA FILA COMPLETA ---
         row.style.background = "white"; 
+
+
         // Eliminamos row.style.color para no forzar toda la fila 
-        fs.style.background = "#edf7f7"; 
+// --- ESTE ES EL COLOR DE FONDO DE LA CELDA DE STOCK Y MÍNIMOS ---
+        fs.style.background = "#ffffa8"; 
+
+
+// --- ESTE ES EL COLOR DEL TEXTO EN MÍNIMOS Y MÁXIMOS ---
         mi.style.background = "#edf7f7"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
         ma.style.background = "#edf7f7"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
-        
+
+
+// --- ESTE ES EL COLOR DEL NOMBRE DE LA UNIDAD ---
         // Ponemos nombre en NEGRO
         nameCell.style.color = "#0e4c6e";
         nameCell.style.fontWeight = "bold";
