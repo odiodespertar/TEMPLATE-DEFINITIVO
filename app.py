@@ -13,7 +13,7 @@ st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
-    body { background-color: #135b83; }
+    body { background-color: #000000; }
 
     
 
@@ -164,7 +164,7 @@ def gen_master_rows(data_dict, table_id):
             colspan = 7 if mostrar_orh_ocup else 5
 
             rows += f'''
-            <tr class="es-divisor" style="background: #135b83 !important; color: #135b83; height: 28px;">
+            <tr class="es-divisor" style="background: #000000 !important; color: #000000; height: 28px;">
                 <td colspan="{colspan}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
@@ -186,11 +186,11 @@ def gen_master_rows(data_dict, table_id):
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
                 <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:45px; background:#ffffff; color:#135b83;">
+                    style="text-align:center; border:0.2px solid #000000; width:45px; background:#ffffff; color:#000000;">
                     0
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #135b83; width:70px; background:#ffffff; color:#135b83;">
+                    style="text-align:center; border:0.2px solid #000000; width:70px; background:#ffffff; color:#000000;">
                     0
                 </td>
                 '''
@@ -204,34 +204,34 @@ def gen_master_rows(data_dict, table_id):
             rows += f'''
             <tr class="master-row" style="{st_base}">
                 <td contenteditable="true" class="edit-name" oninput="recalc()"
-                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #135b83; width: 150px; color: #135b83;">
+                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #000000; width: 150px; color: #000000;">
                     {name}
                 </td>
 
                 {celdas_orh_ocup}
 
                 <td contenteditable="true" class="edit-spr-min" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    style="text-align: center; border: 0.2px solid #000000; width: 45px; background-color: #000000; color: #ffffff;">
                     {spr[0]}
                 </td>
 
                 <td contenteditable="true" class="edit-spr-max" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 45px; background-color: #135b83; color: #ffffff;">
+                    style="text-align: center; border: 0.2px solid #000000; width: 45px; background-color: #000000; color: #ffffff;">
                     {spr[1]}
                 </td>
 
                 <td contenteditable="true" class="f-stock" oninput="recalc()"
-                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; font-weight: bold; font-size: 13px;">
+                    style="text-align: center; border: 0.2px solid #000000; width: 55px; font-weight: bold; font-size: 13px;">
                     0
                 </td>
 
                 <td class="f-ruteadas" 
-                    style="text-align: center; border: 0.2px solid #135b83; width: 55px; background-color: #ffffff; font-weight: bold;">
+                    style="text-align: center; border: 0.2px solid #000000; width: 55px; background-color: #ffffff; font-weight: bold;">
                     0
                 </td>
 
                 <td class="f-left"
-                    style="text-align:center; border:0.2px solid #135b83; width:45px; font-weight:bold; color:#135b83; border-radius:2px;">
+                    style="text-align:center; border:0.2px solid #000000; width:45px; font-weight:bold; color:#000000; border-radius:2px;">
                     0
                 </td>
             </tr>'''
@@ -262,7 +262,7 @@ def export_c1_csv():
 def gen_poligonos(data_target=None):
     polys = ""
     # Botones con dimensiones totalmente congeladas a nivel píxel
-    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#135b83; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
+    btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#000000; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
@@ -281,20 +281,20 @@ def gen_poligonos(data_target=None):
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
     
     # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
-    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#135b83; padding: 4px; cursor: pointer;"
+    select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#000000; padding: 4px; cursor: pointer;"
 
 
     fila_nodos = '''
 <tr class="fila-nodos">
-    <td style="background:#ededed; border:0.5px solid #135b83; text-align:center; font-weight:bold; color:#FF6347;">
+    <td style="background:#ededed; border:0.5px solid #000000; text-align:center; font-weight:bold; color:#FF6347;">
         NODOS
     </td>
     <td contenteditable="true"
         class="nodos-val"
-        style="border:1.0px solid #135b83; text-align:center; font-weight:bold;">
+        style="border:1.0px solid #000000; text-align:center; font-weight:bold;">
         0
     </td>
-    <td colspan="2" style="border:0.5px solid #135b83;"></td>
+    <td colspan="2" style="border:0.5px solid #000000;"></td>
 </tr>
 '''
 
@@ -302,26 +302,26 @@ def gen_poligonos(data_target=None):
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+        <td class="u-manual-cell" style="background: #ffecdb; border: 0.6px solid #000000; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #0c3a54 !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #000000; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr} color: #0c3a54 !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #135b83; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
+        <td style="border: 0.5px solid #000000; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
             <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                 <option value="">Seleccionar...</option>
             </select>
         </td>
-        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #000000;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
 
@@ -372,7 +372,7 @@ def gen_poligonos(data_target=None):
 
 <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
 
-<div style="font-size:13px;font-weight:bold;color:#135b83;">
+<div style="font-size:13px;font-weight:bold;color:#000000;">
     Nodos:
     <span class="nodos-val"
       contenteditable="true"
@@ -417,7 +417,7 @@ def gen_poligonos(data_target=None):
 
 <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
 
-<div style="font-size:13px;font-weight:bold;color:#135b83;">
+<div style="font-size:13px;font-weight:bold;color:#000000;">
     Nodos:
     <span class="nodos-campeche"
           contenteditable="true"
@@ -487,56 +487,56 @@ def gen_poligonos(data_target=None):
         
         
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #135b83;">           
-            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #135b83;">
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #000000;">           
+            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000;">
                 <thead>
-                    <tr style="background: #135b83; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid #135b83;">PLAN</th>
-                        <th style="border-right: 1px solid #135b83; width: 85px;">VOL. TOTAL</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;"># USADAS</th>
-                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #135b83;">SPR REAL</th>
-                        <th style="width: 80px, border-right: 1px solid #135b83;">TIPO DE UNIDAD</th>
+                    <tr style="background: #000000; color: white; font-size: 12px; height: 28px;">                        
+                        <th style="padding: 0 10px; border-right: 1px solid #000000;">PLAN</th>
+                        <th style="border-right: 1px solid #000000; width: 85px;">VOL. TOTAL</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #000000;"># USADAS</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #000000;">SPR REAL</th>
+                        <th style="width: 80px, border-right: 1px solid #000000;">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #135b83; padding: 5px; color:#104e70;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #000000; padding: 5px; color:#104e70;">{nombre_final}</td>
                         <td rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
                                    text-align:center;
-                                   border:1px solid #135b83;
+                                   border:1px solid #000000;
                                    padding:5px;">
                             {contenido_volumen}
                         </td>
-                        <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #135b83; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                        <td class="u-manual-cell" style="background: #ffecdb; border: 0.5px solid #000000; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #0c3a54 !important;">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
                             </div>
                         </td>
-                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #135b83; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #000000; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
                                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
                             </div>
                         </td>
-                        <td style="border: 0.5px solid #135b83; padding: 2px;">
+                        <td style="border: 0.5px solid #000000; padding: 2px;">
                             <select class="s-type" onchange="resetRow(this)" style="{select_style}">
                                 <option>Seleccionar...</option>
                             </select>
                         </td>
-                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #135b83;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #000000;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
                     </tr>
                     {filas_extra}
                     {""}
                     <tr style="background:#ededed; height: 32px;">
-                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #135b83; font-size: 14px; color:#135b83;">ESTADO:</td>
-                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #135b83; text-align: center;">0</td>
-                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #135b83; font-size: 14px; color: #135b83">VACÍO:</td>
+                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #000000; font-size: 14px; color:#000000;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #000000; text-align: center;">0</td>
+                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #000000; font-size: 14px; color: #000000">VACÍO:</td>
                     </tr>
                     
                 </tbody>
@@ -616,7 +616,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     border-spacing: 0 !important;
     table-layout: fixed;
     background: white;
-    border: 1px solid #135b83;
+    border: 1px solid #000000;
     box-shadow: none !important;
     border-radius: 0 !important;
     overflow: hidden;
@@ -627,7 +627,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     color: #222 !important;
     font-size: 14px;
     font-weight: 600;
-    border: 1px solid #135b83 !important;
+    border: 1px solid #000000 !important;
     padding: 4px 6px;
     text-align: center;
     height: 24px;
@@ -646,12 +646,12 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 .meli-table td {{
-    border: 1px solid #135b83;
+    border: 1px solid #000000;
     padding: 2px 4px;
     font-size: 14px;
     height: 24px;
     background: white;
-    color: #135b83;
+    color: #000000;
 }}
 
 /* El efecto Neomórfico en cada fila */
@@ -676,12 +676,12 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 .tab-btn {{ 
     padding: 10px 12px; 
     cursor: pointer; 
-    border: 1px solid #135b83; 
+    border: 1px solid #000000; 
     background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
     border-radius: 8px 8px 0 0; 
     font-weight: bold; 
     font-size: 13px;
-    color: #135b83;
+    color: #000000;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
     margin-right: 2px;
@@ -691,14 +691,14 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* Efecto al pasar el mouse (Hover) */
 .tab-btn:hover {{ 
     background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    color: #135b83;
+    color: #000000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transform: translateY(-2px); /* Se levanta un poco */
 }}
 
 /* Pestaña Activa (Seleccionada) */
 .tab-btn.active {{
-    background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%) !important;
+    background: linear-gradient(180deg, #0a2e42 0%, #000000 100%) !important;
     color: #ffffff !important; 
     border: 1px solid #061821 !important;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
@@ -706,13 +706,13 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}        .tab-btn.active {{ background: #333; color: white; }}
         
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
-        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #135b83; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
+        .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #000000; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
         .google-tool:hover {{
             transform: translateY(-3px);
         }}
         .google-tool input {{
             border-radius: 8px;
-            border: 1px solid #135b83;
+            border: 1px solid #000000;
             padding: 5px;
             font-size: 16px;
             outline: none;
@@ -986,11 +986,11 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     margin-bottom:10px;
 ">
 
-        <div style="background-color: #135b83; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
+        <div style="background-color: #000000; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
     
 
 
-<div id="panel-control-unico" style="display: flex; gap: 20px; background: #135b83; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
+<div id="panel-control-unico" style="display: flex; gap: 20px; background: #000000; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
     <div style="text-align: center;">
         <div id="hora-actual" style="font-size: 22px; font-weight: bold;">00:00:00</div>
         <div style="font-size: 9px; color: #26d0ff; letter-spacing: 1px;">HORA ACTUAL</div>
@@ -1031,7 +1031,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         margin-bottom:10px;
         text-align:center;
         font-weight:bold;
-        color:#135b83;">
+        color:#000000;">
 </div>
 
         
@@ -1059,7 +1059,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #0f4563 0%, #135b83 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: linear-gradient(180deg, #0f4563 0%, #000000 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
         ACTIVAS
     </button>
 
@@ -1099,19 +1099,19 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
   
        <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #000000 100%); color: white;">
+                <th style="border-right: 0.5px solid #000000; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+<th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">
 SCHEDULE
 </th>
-<th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #000000; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-<th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
+<th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">
 DELTA
 </th>
 
@@ -1135,17 +1135,17 @@ DELTA
 
     <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
-                <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
-                <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #000000 100%); color: white;">
+                <th style="border-right: 0.5px solid #000000; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+                <th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:60px;">SCHEDULE</th>
+                <th style="border-right:0.7px solid #000000; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-                <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
+                <th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color:#0c3a54 !important; width:50px;">DELTA</th>
             </tr>
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
@@ -1164,20 +1164,20 @@ USADAS
         <div id="tab-1" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-  <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-    <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+  <tr style="background: linear-gradient(180deg, #0a2e42 0%, #000000 100%); color: white;">
+    <th style="border-right: 0.5px solid #000000; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
 
-    <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
-    <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
+    <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">ORH</th>
+    <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 70px;">OCUPACIÓN</th>
 
-    <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-    <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+    <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+    <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 
-    <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
-   <th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+    <th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:60px;">SCHEDULE</th>
+   <th style="border-right:0.7px solid #000000; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-    <th style="border-right:0.5px solid #135b83; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
+    <th style="border-right:0.5px solid #000000; padding:4px 8px; font-size:11px; color: #0c3a54 !important; width:50px;">DELTA</th>
   </tr>
 </thead>
 
@@ -1208,23 +1208,23 @@ USADAS
         <div id="tab-5" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #000000 100%); color: white;">
+                <th style="border-right: 0.5px solid #000000; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 <th style="
-    border-right:0.5px solid #135b83;
+    border-right:0.5px solid #000000;
     padding:4px 8px;
     font-size:11px;
     color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #000000; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
 <th style="
-    border-right:0.5px solid #135b83;
+    border-right:0.5px solid #000000;
     padding:4px 8px;
     font-size:11px;
     color: #0c3a54 !important;
@@ -1265,23 +1265,23 @@ USADAS
         <div id="tab-4" class="t-content" style="display:none;">
             <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #135b83 100%); color: white;">
-                <th style="border-right: 0.5px solid #135b83; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
-                <th style="border-right: 0.5px solid #135b83; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #000000 100%); color: white;">
+                <th style="border-right: 0.5px solid #000000; padding: 4px 8px; font-size: 14px; color: #0c3a54 !important;">UNIDAD</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MIN</th>
+                <th style="border-right: 0.5px solid #000000; padding: 2px; font-size: 11px; color: #0c3a54 !important; width: 45px;">SPR MAX</th>
 <th style="
-    border-right:0.5px solid #135b83;
+    border-right:0.5px solid #000000;
     padding:4px 8px;
     font-size:11px;
     color: #0c3a54 !important;
     width:60px;">
     SCHEDULE
 </th>
-<th style="border-right:0.7px solid #135b83; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="border-right:0.7px solid #000000; padding:4px 9px; font-size:11px; color:#0c3a54 !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
 <th style="
-    border-right:0.5px solid #135b83;
+    border-right:0.5px solid #000000;
     padding:4px 8px;
     font-size:11px;
     color: #0c3a54 !important;
@@ -1334,7 +1334,7 @@ USADAS
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
         style="cursor:pointer; 
-               background:#135b83 !important; 
+               background:#000000 !important; 
                background-image: none !important; 
                box-shadow: none !important; 
                color: #ffffff !important; 
@@ -1375,7 +1375,7 @@ USADAS
 
     
          <div style="
-    background: #135b83 !important; 
+    background: #000000 !important; 
     background-image: none !important; 
     box-shadow: none !important; 
     border: none !important;
@@ -1418,7 +1418,7 @@ USADAS
 ">
         <thead>
 <tr style="
-    background:#135b83;
+    background:#000000;
     color:white;
     height:28px;
 ">
@@ -3893,7 +3893,7 @@ function actualizarTotales() {{
         if (selectElement.value === "") {{
             selectElement.style.color = "#A9A9A9"; // Gris
         }} else {{
-            selectElement.style.color = "#135b83"; // Negro
+            selectElement.style.color = "#000000"; // Negro
         }}
     }}
 
@@ -3988,7 +3988,7 @@ function updateFleetFloat() {{
                 <span>TOTAL CAR (real):</span> <span>${{totalCarReal}}</span>
             </div>
 
-            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+            <div style="border-top: 1px solid #000000; padding-top: 4px;"></div>
 
             <div style="display:flex; justify-content:space-between; color: #0000CD; font-weight: 800; font-size: 14px;">
                 <span>TOTAL MLP (decl):</span> <span>${{totalMLPStock}}</span>
@@ -3997,12 +3997,12 @@ function updateFleetFloat() {{
                 <span>TOTAL MLP (rute):</span> <span>${{totalMLPReal}}</span>
             </div>
 
-            <div style="border-top: 1px solid #135b83; padding-top: 4px;"></div>
+            <div style="border-top: 1px solid #000000; padding-top: 4px;"></div>
 
-            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
+            <div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 14px;">
                 <span>TOTAL RENTAL (decl):</span> <span>${{totalRentalStock}}</span>
             </div>
-            <div style="display:flex; justify-content:space-between; color: #135b83; font-weight: 800; font-size: 14px;">
+            <div style="display:flex; justify-content:space-between; color: #000000; font-weight: 800; font-size: 14px;">
                 <span>TOTAL RENTAL (rute):</span> <span>${{totalRentalReal}}</span>
             </div>
         </div>
@@ -4011,7 +4011,7 @@ function updateFleetFloat() {{
     let html = `
     <div style="display:flex; gap:15px; align-items:flex-start;">
         <div style="flex:1; min-width:180px;">${{htmlLeft}}</div>
-        <div style="width:190px; border-left:2px solid #135b83; padding-left:12px;">${{htmlRight}}</div>
+        <div style="width:190px; border-left:2px solid #000000; padding-left:12px;">${{htmlRight}}</div>
     </div>
     `;
 
