@@ -1735,23 +1735,26 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 
-       // 2. Calcular ocupación por polígono (Tabla de abajo)
+// 2. Calcular ocupación por polígono (Tabla de abajo)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-    let vCalcEl = bl.querySelector('.v-calculado-total'); 
-
-    // --- AQUÍ DETECTAMOS LOS NODOS DEL BLOQUE ---
+    let vCalcEl = bl.querySelector('.v-calculado-total');
+    
+    // Detectamos si el bloque tiene nodos (SOLO EN TAB 6)
     let celdaNodos = bl.querySelector('.nodos-val');
-    let nodosCount = celdaNodos ? parseInt(celdaNodos.innerText) : 0;
-    if (nodosCount > 0) {{
-        console.log("Nodo detectado en bloque actual:", nodosCount);
-    }}
-    // --------------------------------------------
+    let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
 
     bl.querySelectorAll('.calc-row').forEach(r => {{
-        let s = r.querySelector('.s-type').value, 
-            u = parseInt(r.querySelector('.u-manual').innerText) || 0, 
-            sp = r.querySelector('.spr-real-val');
+        let sType = r.querySelector('.s-type');
+        
+        // 🔥 LÓGICA DE PRIORIDAD: Asignar Large Van si hay nodos y está vacío
+        if (tieneNodo && (sType.value === "" || sType.value === "Seleccionar...")) {{
+            sType.value = "Large Van MLP foráneo";
+        }}
+        
+        let s = sType.value;
+        let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
+        let sp = r.querySelector('.spr-real-val');
 
         // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
@@ -1766,29 +1769,18 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             return; 
         }}
 
-        // Diccionario interno de mínimos
-        const minimosFlota = {{
-            "Moto - 3h": 25, "Car - 3h": 25, "Car - 5h": 25, "Car - 5h Extendida": 25,
-            "Small Van SDD": 70, "Large Van SDD": 80, "Car Newbie": 40, "Car - 8h": 70
-        }};
-
-        if(s !== "Seleccionar..." && fleet[s]) {{
+        // Lógica de flota (Descuento real)
+        if(s !== "Seleccionar..." && s !== "" && fleet[s]) {{
             if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
+            
             fleet[s].used += u; 
             
             let sprActual = parseFloat(sp.innerText) || 0;
             vA += (u * sprActual);
             sp.style.fontWeight = "bold";
-
-            if (u > 0 && minimosFlota[s] && sprActual < minimosFlota[s]) {{
-                sp.style.setProperty("background-color", "#f5e6e6", "important");
-                sp.style.setProperty("color", "#cc0000", "important");
-                sp.title = `⚠️ Operación inválida: El mínimo para ${{s}} es de ${{minimosFlota[s]}} paquetes.`;
-            }} else {{
-                sp.style.setProperty("background-color", "#edf2f2");
-                sp.style.setProperty("color", "#008B8B");
-                sp.title = "";
-            }}
+            sp.style.setProperty("background-color", "#edf2f2");
+            sp.style.setProperty("color", "#008B8B");
+            sp.title = "";
         }} else {{
             sp.style.color = "#969696"; 
             sp.style.fontWeight = "normal";   
@@ -1797,7 +1789,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         }}
     }});
 
-    // ... resto del cálculo de vCalcEl y validaciones de vT ...
+    // 3. ACTUALIZACIÓN DE TOTALES Y COLORES DEL BLOQUE
     vCalcEl.innerText = Math.round(vA);
     vCalcEl.style.background = "white";
     let d = bl.querySelector('.p-diff');
@@ -1808,7 +1800,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         vCalcEl.style.color = "#808080";
     }} else {{
         let diffVal = Math.round(vA);
-        if (diffVal === Math.round(vT)) {{
+        if (diffVal === Math.round(vT)) {
             d.innerText = "OK"; 
             d.style.background = "#61b888"; 
             vCalcEl.style.color = "#0da852";
@@ -1823,6 +1815,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         }}
     }}
 }});
+
 
 
 // 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
