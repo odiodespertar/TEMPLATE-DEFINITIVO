@@ -4317,6 +4317,31 @@ actualizarRelojRuteos();
 
 
 
+html_contador = """
+<div id="mi-contador-flotante" style="
+    position: fixed; top: 10px; right: 20px; 
+    background: rgba(0,0,0,0.85); color: white; 
+    padding: 15px; border-radius: 8px; z-index: 9999; 
+    pointer-events: none; font-family: sans-serif;
+">
+    U: 0 | ORH: 0 | Occ: 0
+</div>
+<script>
+    // Este script solo se encarga de la tabla de flota, 
+    // es totalmente ajeno a las 'notitas'
+    function calcularFlota() {{
+        const tabla = document.querySelector('table'); // Ajustar al selector de tu tabla
+        if (!tabla) return;
+        
+        let u = 0, orh = 0, occ = 0;
+        // ... (lógica de suma) ...
+        document.getElementById('mi-contador-flotante').innerText = 'U:' + u + ' | ORH:' + orh + ' | Occ:' + occ;
+    }}
+    // Observador para flota
+    new MutationObserver(calcularFlota).observe(document.body, {{childList: true, subtree: true}});
+
+
+
 </script>
 </body>
 </html>
