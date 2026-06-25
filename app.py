@@ -4354,50 +4354,50 @@ actualizarRelojRuteos();
 
 
 
-function actualizarContadorFlota() {{
-        // Buscamos la tabla superior (Disponibilidad)
-        // Usamos las clases que ya tienes en gen_master_rows
-        const filasFlota = document.querySelectorAll('.master-row');
-        
-        let totalU = 0;
+    function actualizarContadorFlota() {{
         let totalORH = 0;
         let totalOcc = 0;
-        let nombresUnidades = [];
+        let unidadesActivas = [];
 
-        filasFlota.forEach(fila => {{
-            // Buscamos el valor de las celdas
-            const uVal = parseInt(fila.querySelector('.f-stock')?.innerText || 0);
-            const orhVal = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
-            const occVal = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
-            const nombre = fila.querySelector('.edit-name')?.innerText.trim();
+        // 1. Sumar ORH: busca todas las celdas con clase edit-orh
+        document.querySelectorAll('.edit-orh').forEach(el => {{
+            totalORH += parseFloat(el.innerText || 0);
+        }});
 
-            if (uVal > 0) {{
-                totalU += uVal;
-                totalORH += orhVal;
-                totalOcc += occVal;
-                if (nombre) nombresUnidades.push(nombre);
+        // 2. Sumar Ocupación: busca todas las celdas con clase edit-ocup
+        document.querySelectorAll('.edit-ocup').forEach(el => {{
+            totalOcc += parseFloat(el.innerText || 0);
+        }});
+
+        // 3. Capturar nombres de unidades con valores > 0
+        document.querySelectorAll('.edit-name').forEach(el => {{
+            let fila = el.closest('tr');
+            let orh = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
+            let occ = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
+            if (orh > 0 || occ > 0) {{
+                unidadesActivas.push(el.innerText.trim());
             }}
         }});
 
-        // Actualizamos el contador
+        // 4. Actualizar el contador en pantalla
         const cont = document.getElementById('mi-contador');
-        if (cont) {{
-            // Aquí puedes personalizar cómo se ve la info. 
-            // Mostramos suma de ORH, Ocupación y la lista de unidades usadas
+        if (cont) {
             cont.innerHTML = `
-                <div style="font-size: 11px;">
-                    <b>U:</b> ${{nombresUnidades.join(', ')}}<br>
-                    <b>ORH:</b> ${{totalORH.toFixed(0)}} | 
-                    <b>Occ:</b> ${{totalOcc.toFixed(0)}}
+                <div style="font-size: 11px; line-height: 1.2;">
+                    <b>U:</b> ${{unidadesActivas.length > 0 ? unidadesActivas.join(', ') : '0'}}<br>
+                    <b>ORH:</b> ${totalORH} | <b>Occ:</b> ${{totalOcc}}
                 </div>
             `;
         }}
     }}
 
-    // Escuchamos cambios en todo el contenedor visor
-    document.getElementById('visor').addEventListener('input', actualizarContadorFlota);
+    // Escucha cualquier edición
+    document.addEventListener('input', actualizarContadorFlota);
     
-    // Ejecución inicial
+    // Ejecutar cada vez que el usuario haga clic en cualquier parte (por si acaso)
+    document.addEventListener('click', actualizarContadorFlota);
+    
+    // Ejecutar al iniciar
     actualizarContadorFlota();
 
 
