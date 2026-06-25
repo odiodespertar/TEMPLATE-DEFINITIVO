@@ -4086,49 +4086,47 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
+    <script>
     function calcularFlota() {{
         let totalUnidades = 0;
-        let totalORH = 0;
-        let totalOcupacion = 0;
+        let totalMin = 0;
+        let totalMax = 0;
 
-        // Buscamos las filas en la tabla activa
-        const filas = document.querySelectorAll('#visor tr');
-        
-        filas.forEach(row => {{
-            // Buscamos el valor de stock
-            let stockEl = row.querySelector('.f-stock');
-            let stock = parseInt(stockEl?.innerText) || 0;
+        // Buscamos todas las filas de la tabla de PLANIFICACIÓN POR POLÍGONOS
+        // Esas filas suelen tener inputs o spans con valores
+        document.querySelectorAll('tr').forEach(row => {{
+            // Buscamos los valores en las celdas de SPR (clase 'spr-valor' o similar)
+            // Según tu imagen, los valores están en celdas de la tabla de abajo
+            let minEl = row.querySelector('.spr-min'); // Asegúrate que tu Python ponga class="spr-min"
+            let maxEl = row.querySelector('.spr-max'); // Asegúrate que tu Python ponga class="spr-max"
             
-            if (stock > 0) {{
-                totalUnidades += stock;
-                
-                // --- AQUÍ ESTÁ EL CAMBIO ---
-                // Si no sabes qué clase tienen tus celdas, usaremos el índice de la columna
-                // (ejemplo: la celda 3 es ORH, la 4 es OCUPACIÓN)
-                let celdas = row.querySelectorAll('td');
-                if (celdas.length > 4) {{
-                    totalORH += parseFloat(celdas[3].innerText) || 0;
-                    totalOcupacion += parseFloat(celdas[4].innerText) || 0;
-                }}
+            // Si no tienen clases, busquemos por el valor que tienen dentro
+            let valMin = parseFloat(minEl?.innerText) || 0;
+            let valMax = parseFloat(maxEl?.innerText) || 0;
+
+            if (valMin > 0 || valMax > 0) {{
+                totalMin += valMin;
+                totalMax += valMax;
+                totalUnidades += 1;
             }}
         }});
 
         const contador = document.getElementById('mi-contador-flotante');
         if (contador) {{
-            contador.innerHTML = '<b>Activas:</b> ' + totalUnidades + 
-                                 ' | <b>ORH:</b> ' + totalORH.toFixed(1) + 
-                                 ' | <b>Occ:</b> ' + totalOcupacion.toFixed(1) + '%';
+            contador.innerHTML = 'RESUMEN FLOTA: U: ' + totalUnidades + 
+                                 ' | Min: ' + totalMin.toFixed(0) + 
+                                 ' | Max: ' + totalMax.toFixed(0);
+            // Quitamos el fondo rojo llamativo y lo ponemos discreto
+            contador.style.background = "rgba(0, 0, 0, 0.7)";
+            contador.style.border = "none";
         }}
     }}
 
-    // Eventos para actualizar
-    document.getElementById('visor').addEventListener('input', calcularFlota);
-    document.querySelectorAll('.tab-btn').forEach(btn => {{
-        btn.addEventListener('click', () => setTimeout(calcularFlota, 200));
-    }});
-    
-    // Ejecución
-    setTimeout(calcularFlota, 500);
+    // Escuchar cualquier cambio en los botones + o -
+    document.addEventListener('click', calcularFlota);
+    setInterval(calcularFlota, 2000);
+</script>
+
 
 
 
