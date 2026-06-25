@@ -3642,7 +3642,7 @@ if (currentTab == 6) {{
     // --- FIN DE LÓGICA DE NODO ---
 
     // 1. REGLAS ESPECIALES (BULK, MEGANODO, EJA1, ALCHICHICA)
-    else if (pUpper === "BULK") {
+    else if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
     }} 
     else if (pUpper === "MEGANODO") {{
