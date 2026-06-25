@@ -4087,7 +4087,6 @@ function togglePrioridades() {{
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
 
-   <script>
     function calcularFlota() {{
         // Obtenemos todas las filas del visor
         const filas = document.querySelectorAll('#visor tr');
@@ -4126,7 +4125,6 @@ function togglePrioridades() {{
     if (target) {{
         observer.observe(target, {{ childList: true, subtree: true, characterData: true }});
     }}
-</script>
 
 
 
