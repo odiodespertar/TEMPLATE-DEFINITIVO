@@ -4385,7 +4385,7 @@ actualizarRelojRuteos();
             cont.innerHTML = `
                 <div style="font-size: 11px; line-height: 1.2;">
                     <b>U:</b> ${{unidadesActivas.length > 0 ? unidadesActivas.join(', ') : '0'}}<br>
-                    <b>ORH:</b> ${totalORH} | <b>Occ:</b> ${{totalOcc}}
+                    <b>ORH:</b> ${{totalORH}} | <b>Occ:</b> ${{totalOcc}}
                 </div>
             `;
         }}
