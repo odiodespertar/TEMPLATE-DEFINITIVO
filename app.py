@@ -3627,20 +3627,19 @@ let unidad;
 // ==============================================================================
 if (currentTab == 6) {{
     let pUpper = (nombrePlan || "").toUpperCase().trim();
-    
-    // --- NUEVA LÓGICA DE PRIORIDAD DE NODO ---
     let nodoVal = parseInt(bloque.querySelector('.nodos-val')?.innerText) || 0;
-    
-    // Obtenemos el índice de la fila actual (0, 1 o 2)
     let indexFila = Array.from(bloque.querySelectorAll('.calc-row')).indexOf(fila);
-    
-    // AÑADIMOS: && indexFila === 0
+
+    // 1. PRIORIDAD NODO: Solo en fila 0
     if (nodoVal > 0 && indexFila === 0) {{
         unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        
         if (unidad) {{
-            fila.querySelector('.u-manual').innerText = "3"; 
+            fila.querySelector('.u-manual').innerText = "3";
         }}
+    }}
+    // 2. BLOQUEO: Si es fila 1 o 2 y hay nodo, FORZAMOS a que NO se auto-asigne nada
+    else if (nodoVal > 0 && indexFila > 0) {{
+        unidad = null; // Esto le dice al sistema "no asignes nada en estas filas"
     }}
 
     // 1. REGLAS ESPECIALES (BULK, MEGANODO, EJA1, ALCHICHICA)
