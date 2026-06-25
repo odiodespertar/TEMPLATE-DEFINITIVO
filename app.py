@@ -1740,30 +1740,37 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
     let vCalcEl = bl.querySelector('.v-calculado-total');
     
-    // Detectamos si el bloque tiene nodos (SOLO EN TAB 6)
     let celdaNodos = bl.querySelector('.nodos-val');
     let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
+    
+    // Obtenemos todas las filas del bloque
+    let filas = bl.querySelectorAll('.calc-row');
 
-    bl.querySelectorAll('.calc-row').forEach(r => {{
+    filas.forEach((r, index) => {{
         let sType = r.querySelector('.s-type');
-        let uManual = r.querySelector('.u-manual'); 
+        let uManual = r.querySelector('.u-manual');
         let sp = r.querySelector('.spr-real-val');
         
-        // 🔥 LÓGICA DE PRIORIDAD: Asignar Large Van y cantidad 1 solo si está vacío
-        if (tieneNodo && (sType.value === "" || sType.value === "Seleccionar...")) {{
+        // 🔥 LOGICA DE PRIORIDAD: Solo en la PRIMERA fila del bloque (index 0)
+        // Y solo si el usuario no ha tocado nada todavía
+        if (tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
             sType.value = "Large Van MLP foráneo";
-            uManual.innerText = "1"; // Asignamos cantidad 1 para que el cálculo la tome
+            uManual.innerText = "3"; // Asignamos la cantidad de 3 que necesitas
+        }}
+
+        // Si el usuario cambió la unidad manualmente, aseguramos que si es "Seleccionar...", la cantidad sea 0
+        if (sType.value === "" || sType.value === "Seleccionar...") {{
+            uManual.innerText = "0";
         }}
         
         let s = sType.value;
         let u = parseInt(uManual.innerText) || 0;
 
-        // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA
+        // 🔥 CANDADO ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
         if (nombrePlanPadre.includes("ALCHICHICA")) {{
             if (s !== "Seleccionar..." && s !== "") {{
-                let sprActual = parseFloat(sp.innerText) || 0;
-                vA += (u * sprActual);
+                vA += (u * (parseFloat(sp.innerText) || 0));
                 sp.style.fontWeight = "bold";
                 sp.style.setProperty("background-color", "#edf2f2");
                 sp.style.setProperty("color", "#008B8B");
@@ -1771,51 +1778,26 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             return; 
         }}
 
-        // Lógica de flota (Descuento real)
+        // Lógica de flota
         if(s !== "Seleccionar..." && s !== "" && fleet[s]) {{
             if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
-            
             fleet[s].used += u; 
-            
-            let sprActual = parseFloat(sp.innerText) || 0;
-            vA += (u * sprActual);
-            sp.style.fontWeight = "bold";
+            vA += (u * (parseFloat(sp.innerText) || 0));
             sp.style.setProperty("background-color", "#edf2f2");
             sp.style.setProperty("color", "#008B8B");
-            sp.title = "";
         }} else {{
-            sp.style.color = "#969696"; 
-            sp.style.fontWeight = "normal";   
             sp.style.setProperty("background-color", "#FFFFFF");
-            sp.title = "";
         }}
     }});
 
-    // 3. ACTUALIZACIÓN DE TOTALES Y COLORES DEL BLOQUE
+    // ... (Cálculo de vCalcEl y vT igual que antes) ...
     vCalcEl.innerText = Math.round(vA);
-    vCalcEl.style.background = "white";
     let d = bl.querySelector('.p-diff');
-
-    if (vT === 0) {{
-        d.innerText = "VACÍO"; 
-        d.style.background = "none"; 
-        vCalcEl.style.color = "#808080";
-    }} else {{
-        let diffVal = Math.round(vA);
-        if (diffVal === Math.round(vT)) {{
-            d.innerText = "OK"; 
-            d.style.background = "#61b888"; 
-            vCalcEl.style.color = "#0da852";
-        }} else if (vA > vT) {{
-            d.innerText = "EXCESO: " + Math.round(vA - vT); 
-            d.style.background = "#f2bd5c"; 
-            vCalcEl.style.color = "#FFA500";
-        }} else {{
-            d.innerText = "FALTAN: " + Math.round(vT - vA); 
-            d.style.background = "#fc9a88"; 
-            vCalcEl.style.color = "#FF6347";
-        }}
-    }}
+    let diffVal = Math.round(vA);
+    if (vT === 0) d.innerText = "VACÍO";
+    else if (diffVal === Math.round(vT)) {{ d.innerText = "OK"; d.style.background = "#61b888"; }}
+    else if (vA > vT) {{ d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; }}
+    else {{ d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fc9a88"; }}
 }});
 
 
