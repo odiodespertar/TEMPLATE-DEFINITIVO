@@ -3654,58 +3654,31 @@ let unidad;
 // ==============================================================================
 if (currentTab == 6) {{
     let pUpper = (nombrePlan || "").toUpperCase().trim();
-    let nodoVal = parseInt(bloque.querySelector('.nodos-val')?.innerText) || 0;
-    let indexFila = Array.from(bloque.querySelectorAll('.calc-row')).indexOf(fila);
 
-    // 1. PRIORIDAD NODO: Solo en fila 0
-    if (nodoVal > 0 && indexFila === 0) {{
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        if (unidad) {{
-            fila.querySelector('.u-manual').innerText = "3";
-        }}
-    }}
-    // 2. BLOQUEO: Si es fila 1 o 2 y hay nodo, FORZAMOS a que NO se auto-asigne nada
-    else if (nodoVal > 0 && indexFila > 0) {{
-        unidad = null; // Esto le dice al sistema "no asignes nada en estas filas"
-    }}
-
-    // 1. REGLAS ESPECIALES (BULK, MEGANODO, EJA1, ALCHICHICA)
-    else if (pUpper === "BULK") {{
+    // 1. REGLAS ESPECIALES
+    if (pUpper === "BULK") {{
         unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-    }} 
+    }}
     else if (pUpper === "MEGANODO") {{
         unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-    }}
+    }} 
     else if (pUpper.includes("EJA1 SP1") || pUpper.includes("EJA1 SP2")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-        if (unidad) {{ restante = 0; }}
     }}
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
         if (svReal) {{ unidad = {{ nombre: svReal.nombre, spr: svReal.spr, stock: 999, restante: 999 }}; }}
     }}
     
-    // 2. PRIORIDAD ABSOLUTA NODO: Si tiene ",", solo busca Large Van
-    else if (pUpper.includes(",")) {{
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-    }}
-
-    // 3. FORÁNEOS ESPECÍFICOS
+    // 2. FORÁNEOS ESPECÍFICOS (Aquí entrará tu Large/Small Van normal)
     else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "XICO", "TUZAMAPA"].includes(pUpper)) {{
         unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
         if (!unidad) {{
             unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
         }}
-        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-            const listaCar = ["Car - 8h", "Small Van 9h", "Small Van 9h Ext.", "Car Newbie", "Small Van Newbie", "Moto 3h"];
-            for (let nombre of listaCar) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                if (unidad) break;
-            }}
-        }}
     }}
     
-    // 4. LOCALES
+    // 3. LOCALES
     else {{ 
         const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
         for (let nombre of listaRental) {{
