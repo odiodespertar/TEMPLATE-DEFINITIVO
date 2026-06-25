@@ -1441,7 +1441,7 @@ USADAS
     let elapsedTime = 0;
 
 
-   <script>
+
     // 1. FUNCIÓN QUE CALCULA EN TIEMPO REAL
     function calcularFlota() {{
         const visor = document.getElementById('visor');
