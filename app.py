@@ -1673,8 +1673,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 // --- ESTE ES EL COLOR DEL TEXTO EN MÍNIMOS Y MÁXIMOS ---
-        mi.style.background = "#edf7f7"; mi.style.color = "#008B8B"; mi.style.fontWeight = "bold";
-        ma.style.background = "#edf7f7"; ma.style.color = "#008B8B"; ma.style.fontWeight = "bold";
+        mi.style.background = "#edf7f7"; mi.style.color = "#062952"; mi.style.fontWeight = "bold";
+        ma.style.background = "#edf7f7"; ma.style.color = "#062952"; ma.style.fontWeight = "bold";
 
 
 // --- ESTE ES EL COLOR DEL NOMBRE DE LA UNIDAD ---
