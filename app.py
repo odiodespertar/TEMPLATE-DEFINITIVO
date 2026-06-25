@@ -3529,6 +3529,33 @@ if (currentTab == 2) {{
 
 
 
+// =========================================
+// 5.9 PREASIGNACIÓN NODO - C1 SJA1 (PESTAÑA 6)
+// =========================================
+if (currentTab == 6) {{
+    let bloquesConNodo = polys.filter(p => {{
+        let n = parseInt(p.bloque.querySelector('.nodos-val')?.innerText) || 0;
+        return n > 0;
+    }});
+
+    bloquesConNodo.forEach(p => {{
+        let largeVan = fleet.find(f => f.nombre === "Large Van MLP foráneo" && f.restante > 0);
+        if (largeVan) {{
+            let fila = p.bloque.querySelector('.calc-row'); // Solo la primera fila
+            if (fila) {{
+                let sType = fila.querySelector('.s-type');
+                // Solo asignar si está vacío
+                if (sType.value === "" || sType.value === "Seleccionar...") {{
+                    sType.value = largeVan.nombre;
+                    fila.querySelector('.u-manual').innerText = "3";
+                    fila.querySelector('.spr-real-val').innerText = largeVan.spr;
+                    editedRowsPlan.add(fila);
+                    largeVan.restante -= 1;
+                }}
+            }}
+        }}
+    }});
+}}
 
 
 
