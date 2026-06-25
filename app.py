@@ -4087,52 +4087,26 @@ function togglePrioridades() {{
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
    // --- FUNCIÓN DE CALCULAR FLOTA (VERSION DEFINITIVA) ---
+
+// --- DIAGNÓSTICO ---
+console.log("El script del contador se ha cargado");
+
 function calcularFlota() {{
-    const contador = document.getElementById('mi-contador-flotante');
-    const filas = document.querySelectorAll('#visor tr:not(:has(th))');
+    console.log("Ejecutando calcularFlota...");
+    const filas = document.querySelectorAll('#visor tr');
+    console.log("Filas encontradas en visor: " + filas.length);
     
-    // Si no hay filas, el visor está vacío aún, no hacemos nada
-    if (filas.length === 0) return;
-
-    let totalUnidades = 0;
-    let totalORH = 0;
-    let totalOcupacion = 0;
-
-    filas.forEach(row => {{
-        const celdas = row.querySelectorAll('td');
-        if (celdas.length >= 7) {{
-            let sch = parseInt(celdas[5]?.innerText) || 0;
-            if (sch > 0) {{
-                totalUnidades += sch;
-                totalORH += parseFloat(celdas[1]?.innerText) || 0;
-                totalOcupacion += parseFloat(celdas[2]?.innerText) || 0;
-            }}
-        }}
-    }});
-
+    const contador = document.getElementById('mi-contador-flotante');
     if (contador) {{
-        contador.innerHTML = '<b>U:</b> ' + totalUnidades + 
-                             ' | <b>ORH:</b> ' + totalORH.toFixed(0) + 
-                             ' | <b>Occ:</b> ' + totalOcupacion.toFixed(0);
-    }}
-}}
-
-// --- OBSERVADOR DINÁMICO ---
-// En lugar de ejecutarlo al cargar, esperamos a que el visor exista
-function iniciarObservador() {{
-    const target = document.getElementById('visor');
-    if (target) {{
-        const observer = new MutationObserver(calcularFlota);
-        observer.observe(target, {{ childList: true, subtree: true, characterData: true }});
-        calcularFlota(); // Primera llamada manual
+        contador.innerText = "Filas: " + filas.length;
+        console.log("Contador actualizado en pantalla");
     }} else {{
-        // Si el visor aún no existe, reintentamos en 500ms
-        setTimeout(iniciarObservador, 500);
+        console.log("ERROR: No se encontró el elemento #mi-contador-flotante");
     }}
 }}
 
-// Iniciar el ciclo de vida del contador
-iniciarObservador();
+// Ejecutar después de 2 segundos para dar tiempo a que todo cargue
+setTimeout(calcularFlota, 2000);
 
 
 
