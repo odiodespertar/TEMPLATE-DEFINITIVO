@@ -4697,7 +4697,7 @@ body:not(.tab-2) #excel-btn {{
 </div>
 
 <script>
-    const allData = {info_operativa}; 
+    const allData = {{info_operativa}}; 
     function changeTab(e, name) {{
         document.getElementById('visor').innerHTML = allData[name];
         let btns = document.getElementsByClassName('tab-btn');
