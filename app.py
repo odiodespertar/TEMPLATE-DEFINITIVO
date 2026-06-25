@@ -3736,17 +3736,19 @@ function procesarAsignacionUnidad(poly) {{
                 window.forzarUsarUnidad = 0;
             }}
         }}
-        // RESTAURACIÓN INTEGRAL DE LAS OTRAS PESTAÑAS (INTACTAS)
-        else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
-            unidad = fleet.find(f => f.nombre === "Rental Large Van");
-            window.forzarUsarUnidad = 0;
-        }} else if (currentTab == 2) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
-            window.forzarUsarUnidad = 0;
-        }} else {{
-            unidad = fleet.find(f => f.restante > 0);
-            window.forzarUsarUnidad = 0;
-        }}
+        // ==============================================================================
+            // 🔴 RESTAURACIÓN 100% FIEL A TU CÓDIGO NATIVO PARA LAS OTRAS PESTAÑAS
+            // ==============================================================================
+            else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+                // Regla nativa: Campeche busca una Rental Large Van si queda disponible
+                unidad = fleet.find(f => f.nombre === "Rental Large Van");
+                window.forzarUsarUnidad = 0;
+            }} else {{
+                // Regla nativa para TODO lo demás (C1 SCP1, SDE, PREC): 
+                // Agarra el primer vehículo disponible de la lista (ordenada de mayor a menor SPR)
+                unidad = fleet.find(f => f.restante > 0);
+                window.forzarUsarUnidad = 0;
+            }}
 
         // Si la flota principal de la pestaña se agotó por volumen, aplicar comodines de emergencia nativos
         if (!unidad) {{
