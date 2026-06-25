@@ -1676,8 +1676,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         row.style.background = "#DCDCDC"; 
         // Eliminamos row.style.color = "#969696"
         fs.style.background = "#FFFF00"; 
-        mi.style.background = "#ffffa6"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-        ma.style.background = "#ffffa6"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+        mi.style.background = "#dcdcdc"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+        ma.style.background = "#dcdcdc"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
         
         // Ponemos nombre en GRIS
         nameCell.style.color = "#969696";
