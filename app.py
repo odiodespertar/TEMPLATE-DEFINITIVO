@@ -1442,56 +1442,7 @@ USADAS
 
 
 
-    // 1. FUNCIÓN QUE CALCULA EN TIEMPO REAL
-    function calcularFlota() {{
-        const visor = document.getElementById('visor');
-        if (!visor) return;
-
-        const filas = visor.querySelectorAll('tr');
-        let u = 0, orh = 0, occ = 0;
-
-        filas.forEach(row => {{
-            const tds = row.querySelectorAll('td');
-            // Aseguramos que la fila tenga celdas (ignorando cabeceras si es necesario)
-            if (tds.length >= 6) {{
-                // Obtenemos los valores de texto y limpiamos
-                let sch = parseInt(tds[5]?.innerText.trim()) || 0;
-                let valOrh = parseFloat(tds[1]?.innerText.trim()) || 0;
-                let valOcc = parseFloat(tds[2]?.innerText.trim()) || 0;
-                
-                if (sch > 0) {{
-                    u += sch;
-                    orh += valOrh;
-                    occ += valOcc;
-                }}
-            }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
-        }}
-    }}
-
-    // 2. MODIFICAMOS LA FUNCIÓN DE CAMBIO DE PESTAÑA (Ya existente)
-    // Buscamos tu función changeTab y añadimos la llamada al final
-    function changeTab(e, name) {{
-        document.getElementById('visor').innerHTML = allData[name];
-        let btns = document.getElementsByClassName('tab-btn');
-        for (let b of btns) {{ b.classList.remove('active'); }}
-        e.currentTarget.classList.add('active');
-        
-        // --- LLAMADA MÁGICA ---
-        // Esto dispara el cálculo cada vez que la tabla cambia
-        calcularFlota();
-    }}
-    
-    // Ejecución inicial al cargar la página
-    window.onload = function() {{
-        calcularFlota();
-    }};
-
-
+  
 
     function aplicarPerfil() {{
 
