@@ -263,10 +263,10 @@ def gen_poligonos(data_target=None):
 
     # 1. Iniciamos la cadena con el contador
     polys = '''
-<div id="mi-contador-flotante" style="position: fixed; top: 10px; right: 220px; background: rgba(0,0,0,0.85); color: white; padding: 10px; border-radius: 5px; z-index: 9999; pointer-events: none; font-family: sans-serif;">
-    U: 0 | ORH: 0 | Occ: 0
-</div>
-'''
+    <div id="mi-contador" style="position: fixed; top: 10px; right: 220px; background: #000; color: #fff; padding: 10px; border-radius: 5px; z-index: 9999; pointer-events: none; font-family: sans-serif; font-weight: bold;">
+        U: 0 | ORH: 0 | Occ: 0
+    </div>
+    '''
 
  
     # Botones con dimensiones totalmente congeladas a nivel píxel
@@ -4331,6 +4331,26 @@ function actualizarRelojRuteos() {{
 }}
 setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
+
+
+
+    function sumarTodo() {{
+        let u = 0, orh = 0;
+        // Suma las unidades
+        document.querySelectorAll('.u-manual').forEach(el => u += parseInt(el.innerText || 0));
+        // Suma el ORH
+        document.querySelectorAll('.spr-real-val').forEach(el => orh += parseFloat(el.innerText || 0));
+        
+        // Muestra el resultado
+        const cont = document.getElementById('mi-contador');
+        if (cont) cont.innerText = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: 0';
+    }}
+
+    // Se activa cada vez que escribes algo
+    document.addEventListener('input', sumarTodo);
+    // Se activa cada vez que haces clic (por si usas los botones +/-)
+    document.addEventListener('click', sumarTodo);
+
 
 
 
