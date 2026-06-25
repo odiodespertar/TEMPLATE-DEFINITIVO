@@ -1679,7 +1679,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 // --- ESTE ES EL COLOR DEL NOMBRE DE LA UNIDAD ---
         // Ponemos nombre en NEGRO
-        nameCell.style.color = "#0e4c6e";
+        nameCell.style.color = "#25282b";
         nameCell.style.fontWeight = "bold";
     }} else {{
         row.style.background = "#DCDCDC"; 
