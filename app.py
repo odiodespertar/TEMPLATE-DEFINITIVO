@@ -4086,7 +4086,6 @@ function togglePrioridades() {{
 
 // --- FUNCIÓN DE CALCULAR FLOTA ---
 
-    <script>
     function calcularFlota() {{
         let totalUnidades = 0;
         let totalMin = 0;
@@ -4125,7 +4124,6 @@ function togglePrioridades() {{
     // Escuchar cualquier cambio en los botones + o -
     document.addEventListener('click', calcularFlota);
     setInterval(calcularFlota, 2000);
-</script>
 
 
 
