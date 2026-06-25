@@ -1746,15 +1746,17 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
     bl.querySelectorAll('.calc-row').forEach(r => {{
         let sType = r.querySelector('.s-type');
+        let uManual = r.querySelector('.u-manual'); 
+        let sp = r.querySelector('.spr-real-val');
         
-        // 🔥 LÓGICA DE PRIORIDAD: Asignar Large Van si hay nodos y está vacío
+        // 🔥 LÓGICA DE PRIORIDAD: Asignar Large Van y cantidad 1 solo si está vacío
         if (tieneNodo && (sType.value === "" || sType.value === "Seleccionar...")) {{
             sType.value = "Large Van MLP foráneo";
+            uManual.innerText = "1"; // Asignamos cantidad 1 para que el cálculo la tome
         }}
         
         let s = sType.value;
-        let u = parseInt(r.querySelector('.u-manual').innerText) || 0;
-        let sp = r.querySelector('.spr-real-val');
+        let u = parseInt(uManual.innerText) || 0;
 
         // 🔥 CANDADO ABSOLUTO PARA ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
