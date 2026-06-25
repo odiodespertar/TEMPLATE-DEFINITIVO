@@ -3650,7 +3650,7 @@ if (currentTab == 6) {{
     }}
     else if (pUpper.includes("EJA1 SP1") || pUpper.includes("EJA1 SP2")) {{
         unidad = fleet.find(f => f.nombre === "Media milla SP");
-        if (unidad) { restante = 0; }}
+        if (unidad) {{ restante = 0; }}
     }}
     else if (pUpper.includes("ALCHICHICA")) {{
         let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
