@@ -4084,36 +4084,6 @@ function togglePrioridades() {{
 }}
 
 
-// --- FUNCIÓN DE CALCULAR FLOTA ---
-
-   // --- FUNCIÓN DE CALCULAR FLOTA (VERSION DEFINITIVA) ---
-
-// --- DIAGNÓSTICO ---
-
-ffunction calcularFlota() {{
-    // Buscamos las celdas directamente por su texto (sin IDs ni clases)
-    // Buscamos todas las filas
-    const filas = document.querySelectorAll('tr');
-    let u = 0, orh = 0, occ = 0;
-
-    filas.forEach(row => {{
-        const tds = row.querySelectorAll('td');
-        // Filtramos para asegurar que es una fila de datos (con al menos 7 celdas)
-        if (tds.length >= 7) {{
-            let sch = parseInt(tds[5]?.innerText) || 0;
-            if (sch > 0) {{
-                u += sch;
-                orh += parseFloat(tds[1]?.innerText) || 0;
-                occ += parseFloat(tds[2]?.innerText) || 0;
-            }}
-        }}
-    }});
-
-    const contador = document.getElementById('mi-contador-flotante');
-    if (contador) {{
-        contador.innerText = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
-    }}
-}}
 
 
 
