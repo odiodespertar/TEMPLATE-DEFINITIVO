@@ -969,7 +969,21 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </button>
 
 
-
+<div id="mi-contador-flotante" style="
+        position: fixed; 
+        bottom: 20px; 
+        right: 20px; 
+        background: rgba(0, 0, 0, 0.85); 
+        color: #ffffff; 
+        padding: 12px 20px; 
+        border-radius: 8px; 
+        font-family: Arial, sans-serif; 
+        font-size: 14px; 
+        z-index: 99999; 
+        pointer-events: none; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        Calculando flota...
+    </div>
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
@@ -4072,7 +4086,10 @@ function togglePrioridades() {{
 }}
 // ==============================================================================
 
-
+function actualizarContadorFlotante() {{
+        // ... (el código de suma de unidades y ORH que definimos) ...
+    }}
+// ==============================================================================
 
 
 // --- FUNCIÓN DE FILTRADO ---
