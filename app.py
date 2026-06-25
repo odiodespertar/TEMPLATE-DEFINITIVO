@@ -263,15 +263,10 @@ def gen_poligonos(data_target=None):
 
     # 1. Iniciamos la cadena con el contador
     polys = '''
-    <div id="mi-contador-flotante" style="
-        position: fixed; top: 10px; right: 220px; 
-        background: rgba(0,0,0,0.85); color: white; 
-        padding: 10px; border-radius: 5px; z-index: 9999; 
-        pointer-events: none; font-family: sans-serif;
-    ">
-        U: 0 | ORH: 0 | Occ: 0
-    </div>
-    '''
+<div id="mi-contador-flotante" style="position: fixed; top: 10px; right: 220px; background: rgba(0,0,0,0.85); color: white; padding: 10px; border-radius: 5px; z-index: 9999; pointer-events: none; font-family: sans-serif;">
+    U: 0 | ORH: 0 | Occ: 0
+</div>
+'''
 
  
     # Botones con dimensiones totalmente congeladas a nivel píxel
