@@ -554,7 +554,6 @@ app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
-<head>
     <style>
         /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
 
