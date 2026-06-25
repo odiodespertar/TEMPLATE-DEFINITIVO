@@ -4381,7 +4381,7 @@ actualizarRelojRuteos();
 
         // 4. Actualizar el contador en pantalla
         const cont = document.getElementById('mi-contador');
-        if (cont) {
+        if (cont) {{
             cont.innerHTML = `
                 <div style="font-size: 11px; line-height: 1.2;">
                     <b>U:</b> ${{unidadesActivas.length > 0 ? unidadesActivas.join(', ') : '0'}}<br>
