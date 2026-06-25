@@ -1804,8 +1804,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#ffecdb"; // Color amarillito
-            ruteadaCell.style.color = "#856404";           // Texto oscuro
+            ruteadaCell.style.backgroundColor = "#ffffff"; // Color amarillito
+            ruteadaCell.style.color = "#FF6347";           // Texto oscuro
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
             ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
