@@ -501,7 +501,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #ced7db; font-weight:bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#104e70;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #fff8b8; font-weight:bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#25282b;">{nombre_final}</td>
                         <td rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
@@ -1804,8 +1804,8 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#ffffff"; // Color amarillito
-            ruteadaCell.style.color = "#FF6347";           // Texto oscuro
+            ruteadaCell.style.backgroundColor = "#ffffff"; // Color amarillito neon
+            ruteadaCell.style.color = "#FF6347";           // Texto naranja
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
             ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
