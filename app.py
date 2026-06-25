@@ -3613,13 +3613,12 @@ let unidad;
 
 
 // ==============================================================================
-// 🔥 LÓGICA REGLAMENTADA PARA C1 SJA1 (PESTAÑA 6)
+// 🔥 LÓGICA REGLAMENTADA PARA C1 SJA1 (PESTAÑA 6) - CORREGIDA
 // ==============================================================================
 if (currentTab == 6) {{
     let pUpper = (nombrePlan || "").toUpperCase().trim();
     let esCentro = (pUpper === "CENTRO 1" || pUpper === "CENTRO 2");
     let esForaneo = ["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "XICO", "TUZAMAPA"].includes(pUpper);
-    let tieneNodo = pUpper.includes(",");
     let esEspecial = ["BULK", "MEGANODO", "ALCHICHICA"].includes(pUpper) || pUpper.includes("EJA1");
 
     // 1. PRIORIDAD CENTROS (RENTA)
@@ -3629,7 +3628,6 @@ if (currentTab == 6) {{
             unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
             if (unidad) break;
         }}
-        // Si no hay rental, permite MLP o CAR (tu lógica actual permite esto al final si !unidad)
     }}
 
     // 2. PRIORIDAD ESPECIALES (FIJAS)
@@ -3640,35 +3638,31 @@ if (currentTab == 6) {{
         else if (pUpper.includes("ALCHICHICA")) unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
     }}
 
-    // ... (dentro de tu if (currentTab == 6)) ...
+    // 3. PRIORIDAD FORÁNEOS
+    else if (esForaneo) {{
+        // Buscamos el valor en la fila actual
+        let celdaNodos = fila.querySelector('.nodos-val'); 
+        let tieneNodo = celdaNodos ? (parseInt(celdaNodos.innerText) > 0) : false;
 
-// 3. PRIORIDAD FORÁNEOS
-else if (esForaneo) {{
-    // Buscamos el valor en la fila actual, buscando la clase .nodos-val
-    let celdaNodos = fila.querySelector('.nodos-val'); 
-    let tieneNodo = celdaNodos ? (parseInt(celdaNodos.innerText) > 0) : false;
-
-    if (tieneNodo) {{
-        // REGLA: Si tiene Nodos, prioridad absoluta a Large Van MLP foráneo
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-    }} else {{
-        // Lógica foráneo sin nodos (Large -> Small)
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-        }}
-        
-        // REGLA XICO/TUZAMAPA (Mezcla con CAR si no hay MLP)
-        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-            const listaCar = ["Car - 8h", "Small Van 9h", "Car Newbie", "Moto 3h"];
-            for (let nombre of listaCar) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                if (unidad) break;
+        if (tieneNodo) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+        }} else {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+            }}
+            
+            // REGLA XICO/TUZAMAPA
+            if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
+                const listaCar = ["Car - 8h", "Small Van 9h", "Car Newbie", "Moto 3h"];
+                for (let nombre of listaCar) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                    if (unidad) break;
+                }}
             }}
         }}
     }}
-}}
-
+}} // <--- ESTA LLAVE CIERRA EL IF (currentTab == 6)
 
 
 
