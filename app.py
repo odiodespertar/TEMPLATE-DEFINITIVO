@@ -260,7 +260,20 @@ def export_c1_csv():
 
 
 def gen_poligonos(data_target=None):
-    polys = ""
+
+    # 1. Iniciamos la cadena con el contador
+    polys = '''
+    <div id="mi-contador-flotante" style="
+        position: fixed; top: 10px; right: 220px; 
+        background: rgba(0,0,0,0.85); color: white; 
+        padding: 10px; border-radius: 5px; z-index: 9999; 
+        pointer-events: none; font-family: sans-serif;
+    ">
+        U: 0 | ORH: 0 | Occ: 0
+    </div>
+    '''
+
+ 
     # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
