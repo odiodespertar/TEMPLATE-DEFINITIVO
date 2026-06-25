@@ -3631,15 +3631,17 @@ if (currentTab == 6) {{
     // --- NUEVA LÓGICA DE PRIORIDAD DE NODO ---
     let nodoVal = parseInt(bloque.querySelector('.nodos-val')?.innerText) || 0;
     
-    if (nodoVal > 0) {{
+    // Obtenemos el índice de la fila actual (0, 1 o 2)
+    let indexFila = Array.from(bloque.querySelectorAll('.calc-row')).indexOf(fila);
+    
+    // AÑADIMOS: && indexFila === 0
+    if (nodoVal > 0 && indexFila === 0) {{
         unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
         
-        // FORZAR CANTIDAD: Si encontramos la unidad, asignamos manualmente la cantidad
         if (unidad) {{
-            fila.querySelector('.u-manual').innerText = "3"; // Tu cantidad deseada
+            fila.querySelector('.u-manual').innerText = "3"; 
         }}
-    }} 
-    // --- FIN DE LÓGICA DE NODO ---
+    }}
 
     // 1. REGLAS ESPECIALES (BULK, MEGANODO, EJA1, ALCHICHICA)
     else if (pUpper === "BULK") {{
