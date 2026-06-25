@@ -969,19 +969,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </button>
 
 
-<div id="mi-contador-flotante" style="
-    position: fixed; 
-    top: 100px; 
-    left: 20px; 
-    background: red !important; 
-    color: white !important; 
-    padding: 20px !important; 
-    font-size: 20px !important; 
-    z-index: 999999999 !important; 
-    border: 5px solid yellow !important;
-    display: block !important;">
-    BUSCANDO FLOTA...
-</div>
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
