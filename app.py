@@ -1800,7 +1800,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         vCalcEl.style.color = "#808080";
     }} else {{
         let diffVal = Math.round(vA);
-        if (diffVal === Math.round(vT)) {
+        if (diffVal === Math.round(vT)) {{
             d.innerText = "OK"; 
             d.style.background = "#61b888"; 
             vCalcEl.style.color = "#0da852";
