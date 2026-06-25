@@ -861,7 +861,7 @@ body.excel-view #btn-excel-view {{
 /* TABLAS COMPACTAS */
 body.excel-view .meli-table td,
 body.excel-view .meli-table th {{
-    padding: 2px 4px !important;
+    padding: 2px 3px !important;
     font-size: 12px !important; /* Subimos un poco para que no se vea tan minúsculo */
 }}
 
