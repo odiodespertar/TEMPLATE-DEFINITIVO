@@ -795,23 +795,24 @@ html body .meli-table tbody tr:last-child {{
 }}
 
 
-/* Contador flotante ULTRA-MINIMALISTA y compacto */
+/* Contador flotante */
 #fleet-float {{
     position: fixed;
-    right: 20px; /* Movido a la derecha junto al reloj para liberar espacio */
-    left: auto;
-    top: 340px;
-    width: 190px !important; 
-    background: rgba(19, 91, 131, 0.85); /* Azul de tu app pero transparente */
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 10px 12px;
+    left: 14px;
+    right: auto;
+    top: 250px;
+    width: 250px !important; /* Ajustado para que se vea compacto */
+    background: #fcfc6f;
+    color: #000080;
+    border-radius: 15px;
+    padding: 16px 18px;
     z-index: 999999 !important;
-    font-size: 12px;
-    font-family: sans-serif;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    max-height: 50vh;
+    font-size: 16px;
+    border: 2px solid #FF4500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3), inset -2px -2px 5px rgba(0,0,0,0.5);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(50px);
+    max-height: 75vh;
     overflow-y: auto;
 }}
 
@@ -1447,9 +1448,13 @@ USADAS
 
 
 <!-- CONTADOR FLOTANTE OCULTO -->
-<div id="fleet-float">
+<div id="fleet-float" hidden>
+    <div style="font-weight:bold; margin-bottom:8px;">
+        🚛 DISPONIBLE
+    </div>
+
     <div id="fleet-float-body">
-        Cargando disponibles...
+        Cargando...
     </div>
 </div>
 
