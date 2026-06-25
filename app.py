@@ -1654,6 +1654,27 @@ function actualizarDosPorciento() {{
         let tabId = currentTab;
         // ----------------------------------------------------
 
+        // --- AQUÍ PEGA EL BLOQUE DE PRIORIDAD PARA LA PESTAÑA 6 ---
+    if (tabId == 6) {{
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            let celdaNodos = bl.querySelector('.nodos-val');
+            if (celdaNodos && parseInt(celdaNodos.innerText) > 0) {{
+                bl.querySelectorAll('.calc-row').forEach(r => {{
+                    let select = r.querySelector('.s-type');
+                    if (select && (select.value === "" || select.value === "Seleccionar...")) {{
+                        select.value = "Large Van MLP foráneo"; 
+                        select.dispatchEvent(new Event('change'));
+                    }}
+                }});
+            }}
+        }});
+    }}
+    // ---------------------------------------------------------
+
+
+
+
+
         // 1. Capturar datos de la flota (Tabla de arriba)
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let nameCell = row.querySelector('.edit-name');
