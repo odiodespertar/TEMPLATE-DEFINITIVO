@@ -3545,18 +3545,19 @@ if (currentTab == 6) {{
 
     polys.forEach(poly => {{
         let bloque = poly.bloque;
-        // --- INICIO DEL CAMBIO: Candado para Pestaña 6 ---
-        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
-        let yaAsignado = 0;
-        bloque.querySelectorAll('.calc-row').forEach(r => {{
-            yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-        }});
 
-        let restante = objetivo - yaAsignado;
-
-        // Si es Pestaña 6 y ya cubrimos el objetivo, NO HACEMOS NADA en este bloque
-        if (currentTab == 6 && restante <= 0) return;
-        // --- FIN DEL CAMBIO ---
+        // --- PROTECCIÓN PARA PESTAÑA 6 ---
+        if (currentTab == 6) {{
+            let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+            let yaAsignado = 0;
+            bloque.querySelectorAll('.calc-row').forEach(r => {{
+                yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
+            }});
+            
+            // Si ya se cumplió el objetivo, nos salimos de este bloque sin hacer nada
+            if (objetivo > 0 && yaAsignado >= objetivo) return; 
+        }}
+        // --- FIN DE PROTECCIÓN ---
         
 
 
