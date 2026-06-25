@@ -4117,7 +4117,7 @@ function actualizarContadorFlotante() {{
     if (contador) {{
         contador.innerHTML = `
             <div style="font-size: 10px; color: #ccc; margin-bottom: 2px;">RESUMEN FLOTA</div>
-            <b>U:</b> ${totalUnidades} | <b>Min:</b> ${{totalORH.toFixed(0)}} | <b>Max:</b> ${{totalOcupacion.toFixed(0)}}
+            <b>U:</b> ${{totalUnidades}} | <b>Min:</b> ${{totalORH.toFixed(0)}} | <b>Max:</b> ${{totalOcupacion.toFixed(0)}}
         `;
     }}
 }}
