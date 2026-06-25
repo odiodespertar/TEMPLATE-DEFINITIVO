@@ -4354,6 +4354,55 @@ actualizarRelojRuteos();
 
 
 
+function actualizarContadorFlota() {{
+        // Buscamos la tabla superior (Disponibilidad)
+        // Usamos las clases que ya tienes en gen_master_rows
+        const filasFlota = document.querySelectorAll('.master-row');
+        
+        let totalU = 0;
+        let totalORH = 0;
+        let totalOcc = 0;
+        let nombresUnidades = [];
+
+        filasFlota.forEach(fila => {{
+            // Buscamos el valor de las celdas
+            const uVal = parseInt(fila.querySelector('.f-stock')?.innerText || 0);
+            const orhVal = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
+            const occVal = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
+            const nombre = fila.querySelector('.edit-name')?.innerText.trim();
+
+            if (uVal > 0) {{
+                totalU += uVal;
+                totalORH += orhVal;
+                totalOcc += occVal;
+                if (nombre) nombresUnidades.push(nombre);
+            }}
+        }});
+
+        // Actualizamos el contador
+        const cont = document.getElementById('mi-contador');
+        if (cont) {{
+            // Aquí puedes personalizar cómo se ve la info. 
+            // Mostramos suma de ORH, Ocupación y la lista de unidades usadas
+            cont.innerHTML = `
+                <div style="font-size: 11px;">
+                    <b>U:</b> ${nombresUnidades.join(', ')}<br>
+                    <b>ORH:</b> ${{totalORH.toFixed(0)}} | 
+                    <b>Occ:</b> ${{totalOcc.toFixed(0)}}
+                </div>
+            `;
+        }}
+    }}
+
+    // Escuchamos cambios en todo el contenedor visor
+    document.getElementById('visor').addEventListener('input', actualizarContadorFlota);
+    
+    // Ejecución inicial
+    actualizarContadorFlota();
+
+
+
+
 </script>
 </body>
 </html>
