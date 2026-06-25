@@ -1012,7 +1012,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
             <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
-        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #ffe0b2; text-align: center; width: 100px;">
+        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #FF00FF; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
             <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
