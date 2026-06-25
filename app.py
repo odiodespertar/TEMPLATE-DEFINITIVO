@@ -4315,48 +4315,6 @@ actualizarRelojRuteos();
 
 
 
-// Función que lee la tabla y suma los valores
-    function calcularFlota() {{
-        const visor = document.getElementById('visor');
-        if (!visor) return;
-
-        // Buscamos todas las filas de la tabla activa dentro del visor
-        const filas = visor.querySelectorAll('tr');
-        let u = 0, orh = 0, occ = 0;
-
-        filas.forEach(row => {{
-            const tds = row.querySelectorAll('td');
-            // Ajusta estos índices [1], [2], [5] según las columnas reales de tu tabla
-            if (tds.length >= 6) {{
-                let sch = parseInt(tds[5]?.innerText.trim()) || 0;
-                if (sch > 0) {{
-                    u += sch;
-                    orh += parseFloat(tds[1]?.innerText.trim()) || 0;
-                    occ += parseFloat(tds[2]?.innerText.trim()) || 0;
-                }}
-            }}
-        }});
-
-        // Actualizamos el contador flotante
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = 
-                '<b>Unidades:</b> ' + u + 
-                '<br><b>ORH:</b> ' + orh.toFixed(0) + 
-                '<br><b>Ocupación:</b> ' + occ.toFixed(0);
-        }}
-    }}
-
-    // EL VIGILANTE: Este observador detecta cuando cambias de pestaña
-    // sin tener que editar tu función 'changeTab'
-    const targetNode = document.getElementById('visor');
-    if (targetNode) {{
-        const observer = new MutationObserver(calcularFlota);
-        observer.observe(targetNode, {{ childList: true, subtree: true }});
-        
-        // Ejecución inicial al cargar
-        calcularFlota();
-    }}
 
 
 
