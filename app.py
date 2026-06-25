@@ -1441,35 +1441,55 @@ USADAS
     let elapsedTime = 0;
 
 
-   function calcularFlota() {{
-    // 1. Buscamos el elemento visor
-    const visor = document.getElementById('visor');
-    if (!visor) return;
+   <script>
+    // 1. FUNCIÓN QUE CALCULA EN TIEMPO REAL
+    function calcularFlota() {{
+        const visor = document.getElementById('visor');
+        if (!visor) return;
 
-    // 2. Buscamos todas las filas
-    const filas = visor.querySelectorAll('tr');
-    let u = 0, orh = 0, occ = 0;
+        const filas = visor.querySelectorAll('tr');
+        let u = 0, orh = 0, occ = 0;
 
-    // 3. Recorremos las filas para sumar los valores (ajusta los índices [X] si es necesario)
-    filas.forEach(row => {{
-        const tds = row.querySelectorAll('td');
-        if (tds.length >= 6) {{
-            // Ejemplo: asumiendo que SCHEDULE está en la columna 5
-            let sch = parseInt(tds[5]?.innerText) || 0;
-            if (sch > 0) {{
-                u += sch;
-                orh += parseFloat(tds[1]?.innerText) || 0;
-                occ += parseFloat(tds[2]?.innerText) || 0;
+        filas.forEach(row => {{
+            const tds = row.querySelectorAll('td');
+            // Aseguramos que la fila tenga celdas (ignorando cabeceras si es necesario)
+            if (tds.length >= 6) {{
+                // Obtenemos los valores de texto y limpiamos
+                let sch = parseInt(tds[5]?.innerText.trim()) || 0;
+                let valOrh = parseFloat(tds[1]?.innerText.trim()) || 0;
+                let valOcc = parseFloat(tds[2]?.innerText.trim()) || 0;
+                
+                if (sch > 0) {{
+                    u += sch;
+                    orh += valOrh;
+                    occ += valOcc;
+                }}
             }}
-        }}
-    }});
+        }});
 
-    // 4. Actualizamos el contador
-    const contador = document.getElementById('mi-contador-flotante');
-    if (contador) {{
-        contador.innerHTML = '<b>U:</b> ' + u + ' | <b>ORH:</b> ' + orh.toFixed(0) + ' | <b>Occ:</b> ' + occ.toFixed(0);
+        const contador = document.getElementById('mi-contador-flotante');
+        if (contador) {{
+            contador.innerHTML = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
+        }}
     }}
-}}
+
+    // 2. MODIFICAMOS LA FUNCIÓN DE CAMBIO DE PESTAÑA (Ya existente)
+    // Buscamos tu función changeTab y añadimos la llamada al final
+    function changeTab(e, name) {{
+        document.getElementById('visor').innerHTML = allData[name];
+        let btns = document.getElementsByClassName('tab-btn');
+        for (let b of btns) {{ b.classList.remove('active'); }}
+        e.currentTarget.classList.add('active');
+        
+        // --- LLAMADA MÁGICA ---
+        // Esto dispara el cálculo cada vez que la tabla cambia
+        calcularFlota();
+    }}
+    
+    // Ejecución inicial al cargar la página
+    window.onload = function() {{
+        calcularFlota();
+    }};
 
 
 
@@ -4344,49 +4364,7 @@ actualizarRelojRuteos();
 
 
 
-app_html = f"""
-    <div id="mi-contador-flotante" style="position: fixed; top: 10px; right: 220px; background: rgba(0, 0, 0, 0.8); color: white; padding: 10px; z-index: 9999; border-radius: 5px; pointer-events: none;">
-        Cargando...
-    </div>
-    
-    <div id="visor" class="content-area">
-        {{info_operativa['SDE']}}
-    </div>
-    
-    <script>
-        // Esta es la función que hace el trabajo sucio
-        function calcularFlota() {{
-            const visor = document.getElementById('visor');
-            const filas = visor.querySelectorAll('tr');
-            let u = 0, orh = 0, occ = 0;
 
-            filas.forEach(row => {{
-                const tds = row.querySelectorAll('td');
-                // IMPORTANTE: Ajusta estos índices [1], [2], [5] a las columnas reales
-                if (tds.length >= 6) {{
-                    let sch = parseInt(tds[5]?.innerText) || 0;
-                    if (sch > 0) {{
-                        u += sch;
-                        orh += parseFloat(tds[1]?.innerText) || 0;
-                        occ += parseFloat(tds[2]?.innerText) || 0;
-                    }}
-                }}
-            }});
-
-            const contador = document.getElementById('mi-contador-flotante');
-            if (contador) {{
-                contador.innerHTML = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: ' + occ.toFixed(0);
-            }}
-        }}
-
-        // Esta línea es la que tú preguntabas:
-        // Se ejecuta cada vez que el visor recibe contenido nuevo
-        calcularFlota();
-
-
-
-
-  
 </script>
 </body>
 </html>
