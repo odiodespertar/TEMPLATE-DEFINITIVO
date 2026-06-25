@@ -92,8 +92,9 @@ u_C1_SJA1 = {
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
-    "CENTRO 1", "CENTRO 2", "TEZUITLAN", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
-    "NAOLINCO", "ACTOPAN", "XICO", "TUZAMAPA", "EJA1 SP1", "EJA1 SP2", "MEGANODO", "BULK", "NEXT DAY ALCHICHICA", 
+    "CENTRO 1", "CENTRO 2", "EJA1 SP1", "EJA1 SP2", "XICO", "TEZUITLAN", 
+    "TUZAMAPA", "TLALTETELA", "PEROTE", "TRAPICHE", "MISANTLA", 
+    "NAOLINCO", "ACTOPAN", "MEGANODO", "BULK", "NEXT DAY ALCHICHICA", 
     "PLAN 17", "PLAN 18", "PLAN 19", "PLAN 20"
 ]
 
@@ -553,6 +554,7 @@ perfil_actual = "LUNES"
 app_html = f"""
 <!DOCTYPE html>
 <html>
+<head>
 <head>
     <style>
         /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
@@ -1648,7 +1650,6 @@ function actualizarDosPorciento() {{
 
     function recalc() {{
         let fleet = {{}};
-        let tabId = currentTab;
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         let tabId = currentTab;
@@ -3612,62 +3613,66 @@ let unidad;
 
 
 // ==============================================================================
-// 🔥 LÓGICA REGLAMENTADA PARA C1 SJA1 (PESTAÑA 6) - CORREGIDA
+// ==============================================================================
+// 🔥 REGLAS EXCLUSIVAS PARA C1 SJA1 (PESTAÑA 6) - PRIORIDAD NODO/LARGE
 // ==============================================================================
 if (currentTab == 6) {{
     let pUpper = (nombrePlan || "").toUpperCase().trim();
-    let esCentro = (pUpper === "CENTRO 1" || pUpper === "CENTRO 2");
-    let esForaneo = ["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "XICO", "TUZAMAPA"].includes(pUpper);
-    let esEspecial = ["BULK", "MEGANODO", "ALCHICHICA"].includes(pUpper) || pUpper.includes("EJA1");
 
-    // 1. PRIORIDAD CENTROS (RENTA)
-    if (esCentro) {{
+    // 1. REGLAS ESPECIALES (BULK, MEGANODO, EJA1, ALCHICHICA)
+    if (pUpper === "BULK") {{
+        unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
+    }} 
+    else if (pUpper === "MEGANODO") {{
+        unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+        // ... (tu lógica de asignación original)
+    }} 
+    else if (pUpper.includes("EJA1 SP1") || pUpper.includes("EJA1 SP2")) {{
+        unidad = fleet.find(f => f.nombre === "Media milla SP");
+        if (unidad) {{
+            // ... (tu lógica de asignación original)
+            restante = 0; 
+        }}
+    }}
+    else if (pUpper.includes("ALCHICHICA")) {{
+        let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
+        if (svReal) {{ unidad = {{ nombre: svReal.nombre, spr: svReal.spr, stock: 999, restante: 999 }}; }}
+    }}
+    
+    // 2. PRIORIDAD ABSOLUTA NODO: Si tiene ",", solo busca Large Van
+    else if (pUpper.includes(",")) {{
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+    }}
+
+    // 3. FORÁNEOS ESPECÍFICOS (Incluye XICO/TUZAMAPA pero sin nodo)
+    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "XICO", "TUZAMAPA"].includes(pUpper)) {{
+        // Primero intenta Large
+        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+        
+        // Si no hay Large, intenta Small
+        if (!unidad) {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+        }}
+
+        // Solo si sigue sin haber unidad y es XICO/TUZAMAPA, permite las CAR
+        if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
+            const listaCar = ["Car - 8h", "Small Van 9h", "Small Van 9h Ext.", "Car Newbie", "Small Van Newbie", "Moto 3h"];
+            for (let nombre of listaCar) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                if (unidad) break;
+            }}
+        }}
+    }}
+    
+    // 4. LOCALES
+    else {{ 
         const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
         for (let nombre of listaRental) {{
             unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
             if (unidad) break;
         }}
     }}
-
-    // 2. PRIORIDAD ESPECIALES (FIJAS)
-    else if (esEspecial) {{
-        if (pUpper === "BULK") unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-        else if (pUpper === "MEGANODO") unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-        else if (pUpper.includes("EJA1")) unidad = fleet.find(f => f.nombre === "Media milla SP");
-        else if (pUpper.includes("ALCHICHICA")) unidad = fleet.find(f => f.nombre === "Small Van MLP foráneo");
-    }}
-
-    // 3. PRIORIDAD FORÁNEOS
-    else if (esForaneo) {{
-        // Buscamos el valor en la fila actual
-        let celdaNodos = fila.querySelector('.nodos-val'); 
-        let tieneNodo = celdaNodos ? (parseInt(celdaNodos.innerText) > 0) : false;
-
-        if (tieneNodo) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        }} else {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-            }}
-            
-            // REGLA XICO/TUZAMAPA
-            if (!unidad && (pUpper === "XICO" || pUpper === "TUZAMAPA")) {{
-                const listaCar = ["Car - 8h", "Small Van 9h", "Car Newbie", "Moto 3h"];
-                for (let nombre of listaCar) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                    if (unidad) break;
-                }}
-            }}
-        }}
-    }}
-}} // <--- ESTA LLAVE CIERRA EL IF (currentTab == 6)
-
-
-
-
-
-
+}}
 // 🔴 RESTAURACIÓN RESTO DE PESTAÑAS
 else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
@@ -3676,6 +3681,9 @@ else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
 }} else {{
     unidad = fleet.find(f => f.restante > 0);
 }}
+
+
+
 
 // Si ya no hay unidades disponibles,
 // permitir seguir usando la unidad especial 
@@ -3758,6 +3766,8 @@ console.log("TAB:", currentTab);
 
     if (!unidad) break;
 }}
+
+
 
             // =================================
             // CALCULAR NECESARIAS
