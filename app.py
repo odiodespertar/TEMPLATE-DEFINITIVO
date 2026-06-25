@@ -970,20 +970,18 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 <div id="mi-contador-flotante" style="
-        position: fixed; 
-        bottom: 20px; 
-        right: 20px; 
-        background: rgba(0, 0, 0, 0.85); 
-        color: #ffffff; 
-        padding: 12px 20px; 
-        border-radius: 8px; 
-        font-family: Arial, sans-serif; 
-        font-size: 14px; 
-        z-index: 99999; 
-        pointer-events: none; 
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-        Calculando flota...
-    </div>
+    position: fixed; 
+    top: 100px; 
+    left: 20px; 
+    background: red !important; 
+    color: white !important; 
+    padding: 20px !important; 
+    font-size: 20px !important; 
+    z-index: 999999999 !important; 
+    border: 5px solid yellow !important;
+    display: block !important;">
+    BUSCANDO FLOTA...
+</div>
 
 
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
@@ -1819,7 +1817,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
             ruteadaCell.style.backgroundColor = "#ffffff"; // Color amarillito neon
-            ruteadaCell.style.color = "#FF6347";           // Texto naranja
+            ruteadaCell.style.color = "#2E8B57";           // Texto verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
             ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
