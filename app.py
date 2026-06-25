@@ -554,20 +554,34 @@ app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
-<head>
     <style>
-        /* ... Aquí están tus estilos anteriores (meli-table, google-alert, etc.) ... */
-
-        /* AÑADE EL ÚLTIMO CÓDIGO AQUÍ, ANTES DEL CIERRE */
-
-       
-        
+      
+         
         /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
             background-color: #ffffff !important;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
             cursor: default;
         }}
+
+
+
+/* AÑADE AQUÍ EL ESTILO DEL CONTADOR */
+        #mi-contador {{
+            position: fixed; 
+            top: 10px; 
+            right: 220px; 
+            background: #000; 
+            color: #fff; 
+            padding: 10px; 
+            border-radius: 5px; 
+            z-index: 9999; 
+            pointer-events: none; 
+            font-family: sans-serif;
+            font-size: 12px;
+        }}
+
+
 
         /* Redondear botones de +/- para que parezcan botones 3D físicos */
         .poligono-bloque button {{
@@ -841,12 +855,9 @@ body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /
 body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
 
 </style> 
-
-    
 </head>
+
 <body>
-
-
 <div id="panel-prioridades" style="
         position: fixed; 
         top: -600px; 
