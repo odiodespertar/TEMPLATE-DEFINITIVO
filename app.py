@@ -4359,47 +4359,39 @@ actualizarRelojRuteos();
         let totalOcc = 0;
         let unidadesActivas = [];
 
-        // 1. Sumar ORH: busca todas las celdas con clase edit-orh
-        document.querySelectorAll('.edit-orh').forEach(el => {{
-            totalORH += parseFloat(el.innerText || 0);
-        }});
+        // 1. Buscamos todas las filas de la tabla superior
+        document.querySelectorAll('tr.master-row').forEach(fila => {{
+            // Buscamos la columna SCHEDULE para saber si la unidad está activa
+            // (Si no tienes clase en la celda de Schedule, cámbiala por su selector)
+            const scheduleCelda = fila.querySelector('.edit-schedule'); 
+            const scheduleVal = parseInt(scheduleCelda?.innerText || 0);
 
-        // 2. Sumar Ocupación: busca todas las celdas con clase edit-ocup
-        document.querySelectorAll('.edit-ocup').forEach(el => {{
-            totalOcc += parseFloat(el.innerText || 0);
-        }});
+            // SOLO si el valor en SCHEDULE es mayor a 0, contamos la unidad
+            if (scheduleVal > 0) {{
+                const nombre = fila.querySelector('.edit-name')?.innerText.trim();
+                const orh = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
+                const occ = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
 
-        // 3. Capturar nombres de unidades con valores > 0
-        document.querySelectorAll('.edit-name').forEach(el => {{
-            let fila = el.closest('tr');
-            let orh = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
-            let occ = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
-            if (orh > 0 || occ > 0) {{
-                unidadesActivas.push(el.innerText.trim());
+                unidadesActivas.push(nombre + " (" + scheduleVal + ")");
+                totalORH += orh;
+                totalOcc += occ;
             }}
         }});
 
-        // 4. Actualizar el contador en pantalla
+        // 2. Actualizar el contador
         const cont = document.getElementById('mi-contador');
         if (cont) {{
-            cont.innerHTML = `
-                <div style="font-size: 11px; line-height: 1.2;">
-                    <b>U:</b> ${{unidadesActivas.length > 0 ? unidadesActivas.join(', ') : '0'}}<br>
-                    <b>ORH:</b> ${{totalORH}} | <b>Occ:</b> ${{totalOcc}}
-                </div>
-            `;
+            cont.innerHTML = '<div style="font-size: 11px;">' +
+                '<b>U:</b> ' + (unidadesActivas.length > 0 ? unidadesActivas.join(', ') : 'Ninguna') + '<br>' +
+                '<b>ORH:</b> ' + totalORH + ' | <b>Occ:</b> ' + totalOcc +
+                '</div>';
         }}
     }}
 
-    // Escucha cualquier edición
+    // Escucha cambios en las celdas
     document.addEventListener('input', actualizarContadorFlota);
-    
-    // Ejecutar cada vez que el usuario haga clic en cualquier parte (por si acaso)
-    document.addEventListener('click', actualizarContadorFlota);
-    
-    // Ejecutar al iniciar
-    actualizarContadorFlota();
-
+    // Ejecutar al cargar
+    setTimeout(actualizarContadorFlota, 1000);
 
 
 
