@@ -4085,7 +4085,7 @@ function togglePrioridades() {{
 
 
 // --- FUNCIÓN DE CALCULAR FLOTA ---
-<script>
+
     function calcularFlota() {{
         let totalUnidades = 0;
         let totalORH = 0;
@@ -4129,7 +4129,7 @@ function togglePrioridades() {{
     
     // Ejecución
     setTimeout(calcularFlota, 500);
-</script>
+
 
 
 // --- FUNCIÓN DE FILTRADO ---
