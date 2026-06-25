@@ -1759,7 +1759,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                 vA += (u * (parseFloat(sp.innerText) || 0));
                 sp.style.fontWeight = "bold";
                 sp.style.setProperty("background-color", "#edf2f2");
-                sp.style.setProperty("color", "#008B8B");
+                sp.style.setProperty("color", "#25282b");
             }}
             return; 
         }}
@@ -1770,7 +1770,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             fleet[s].used += u; 
             vA += (u * (parseFloat(sp.innerText) || 0));
             sp.style.setProperty("background-color", "#edf2f2");
-            sp.style.setProperty("color", "#008B8B");
+            sp.style.setProperty("color", "#25282b");
         }} else {{
             sp.style.setProperty("background-color", "#FFFFFF");
         }}
