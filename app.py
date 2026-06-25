@@ -1379,7 +1379,7 @@ USADAS
     background-image: none !important; 
     box-shadow: none !important; 
     border: none !important;
-    color: #ffe600; 
+    color: #f9d633; 
     padding: 10px; 
     border-radius: 6px; 
     text-align: center; 
