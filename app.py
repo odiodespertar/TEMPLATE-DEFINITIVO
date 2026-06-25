@@ -3678,7 +3678,7 @@ if (currentTab == 6) {{
     }}
     
     // 4. LOCALES
-    else { 
+    else {{ 
         const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
         for (let nombre of listaRental) {{
             unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
