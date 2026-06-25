@@ -4088,44 +4088,27 @@ function togglePrioridades() {{
 
 
     function calcularFlota() {{
-        let totalUnidades = 0;
-        let totalORH = 0;
-        let totalOcupacion = 0;
+    let totalUnidades = 0;
+    let totalORH = 0;
+    let totalOcupacion = 0;
 
-        // Buscamos solo en la tabla de arriba (Disponibilidad de Flota)
-        // Usamos una clase que identifique esa tabla (ejemplo: .tabla-flota)
-        const filas = document.querySelectorAll('#visor tr'); 
-
-        filas.forEach(row => {{
-            // Buscamos inputs o celdas donde escribes manualmente
-            let orh = parseFloat(row.querySelector('.v-orh')?.innerText) || 0;
-            let occ = parseFloat(row.querySelector('.v-occ')?.innerText) || 0;
-            let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-
-            if (sch > 0) {{
-                totalUnidades += sch;
-                totalORH += orh;
-                totalOcupacion += occ;
-            }}
-        }});
-
-        const contador = document.getElementById('mi-contador-flotante');
-        if (contador) {{
-            contador.innerHTML = 'U: ' + totalUnidades + ' | ORH: ' + totalORH + ' | Occ: ' + totalOcupacion;
+    const filas = document.querySelectorAll('#visor tr');
+    filas.forEach(row => {{
+        // Obtenemos los valores por su posición, no por eventos
+        const celdas = row.querySelectorAll('td');
+        if (celdas.length > 5) {{
+            // Ajusta el índice [x] según la posición de la columna en tu tabla
+            totalORH += parseFloat(celdas[1].innerText) || 0; 
+            totalOcupacion += parseFloat(celdas[2].innerText) || 0;
+            totalUnidades += parseInt(celdas[5].innerText) || 0;
         }}
+    }});
+
+    const contador = document.getElementById('mi-contador-flotante');
+    if (contador) {{
+        contador.innerHTML = 'U: ' + totalUnidades + ' | ORH: ' + totalORH + ' | Occ: ' + totalOcupacion;
     }}
-
-    // --- AQUÍ ESTÁ EL CAMBIO PARA NO BLOQUEAR ---
-    // Usamos 'blur' (cuando terminas de escribir y haces clic fuera)
-    // Esto es mucho más ligero que escuchar todos los clics
-    document.getElementById('visor').addEventListener('blur', function(e) {{
-        if (e.target.tagName === 'INPUT' || e.target.contentEditable === 'true') {{
-            setTimeout(calcularFlota, 300);
-        }}
-    }}, true); // El 'true' es la clave para que no interfiera con tu lógica interna
-
-    // Cálculo inicial
-    setInterval(calcularFlota, 3000);
+}}
 
 
 
