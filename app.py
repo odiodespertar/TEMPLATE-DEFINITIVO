@@ -2500,7 +2500,7 @@ function obtenerCarFlexible() {{
 
 
 
-function distribuirAutomatico() {
+function distribuirAutomatico() {{
 
     // ==============================================================================
     // ⚙️ SECCIÓN 1: CAPTURA DE DATOS EN PANTALLA Y CONFIGURACIÓN INICIAL
@@ -2508,33 +2508,33 @@ function distribuirAutomatico() {
     
     // 1.1 LEER FLOTA DISPONIBLE DESDE LA TABLA SUPERIOR ACTIVA
     let fleet = [];
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {
+    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let nombre = row.querySelector('.edit-name')?.innerText.trim();
         let sprMax = parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
 
-        if (nombre && nombre !== "IGNORAR" && stock > 0) {
-            fleet.push({
+        if (nombre && nombre !== "IGNORAR" && stock > 0) {{
+            fleet.push({{
                 nombre: nombre,
                 spr: sprMax,
                 stock: stock,
                 restante: stock
-            });
-        }
-    });
+            }});
+        }}
+    }});
 
     // 1.2 DESCONTAR DEL INVENTARIO LO QUE YA INGRESASTE MANUALMENTE EN LOS POLÍGONOS
-    document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(r => {
+    document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(r => {{
         let tipo = r.querySelector('.s-type')?.value;
         let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
 
-        if (tipo && tipo !== "Seleccionar..." && unidades > 0) {
+        if (tipo && tipo !== "Seleccionar..." && unidades > 0) {{
             let unidadReal = fleet.find(f => f.nombre === tipo);
-            if (unidadReal) {
+            if (unidadReal) {{
                 unidadReal.restante -= unidades;
-            }
-        }
-    });
+            }}
+        }}
+    }});
 
     console.log("FLEET DISPONIBLE EN PESTAÑA ACTIVA:", fleet.map(f => f.nombre));
 
@@ -2545,15 +2545,15 @@ function distribuirAutomatico() {
     let bloques = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
     let polys = [];
 
-    bloques.forEach(bl => {
+    bloques.forEach(bl => {{
         let volumen = parseFloat(bl.querySelector('.v-total-val')?.innerText) || 0;
-        if (volumen > 0) {
+        if (volumen > 0) {{
             polys.push({
                 bloque: bl,
                 volumen: volumen
-            });
-        }
-    });
+            }});
+        }}
+    }});
 
 
     // ==============================================================================
@@ -2561,19 +2561,19 @@ function distribuirAutomatico() {
     // ==============================================================================
     
     // --- 🟢 CARRIL PESTAÑA 1: PREC SMX5 ---
-    if (currentTab == 1) {
+    if (currentTab == 1) {{
         let small9h = fleet.find(f => f.nombre === "Small 9h Ext Car");
-        if (small9h && small9h.restante > 0) {
+        if (small9h && small9h.restante > 0) {{
             let planesPrioridad = ["IZTAPALAPA", "COYOACÁN"];
-            planesPrioridad.forEach(nombreBuscado => {
+            planesPrioridad.forEach(nombreBuscado => {{
                 let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
                 if (!polyPlan) return;
 
                 let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                 let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                     yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                });
+                }});
 
                 let restante = objetivo - yaAsignado;
                 if (restante <= 0) return;
@@ -2581,33 +2581,33 @@ function distribuirAutomatico() {
                 let usar = Math.min(Math.ceil(restante / small9h.spr), small9h.restante);
                 if (usar <= 0) return;
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                     let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                     let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                     return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                });
+                }});
 
-                if (filaLibre) {
+                if (filaLibre) {{
                     filaLibre.querySelector('.s-type').value = small9h.nombre;
                     filaLibre.querySelector('.u-manual').innerText = usar;
                     filaLibre.querySelector('.spr-real-val').innerText = small9h.spr;
                     editedRowsPlan.add(filaLibre);
                     small9h.restante -= usar;
-                }
-            });
+                }}
+            }});
 
             // Asignación de stock sobrante a Tláhuac
-            if (small9h.restante > 0) {
-                polys.forEach(polyPlan => {
+            if (small9h.restante > 0) {{
+                polys.forEach(polyPlan => {{
                     if (small9h.restante <= 0) return;
                     let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
                     if (nombrePlan !== "TLAHUAC") return;
 
                     let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                     let yaAsignado = 0;
-                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                         yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                    });
+                    }});
 
                     let restante = objetivo - yaAsignado;
                     if (restante <= 0) return;
@@ -2615,39 +2615,39 @@ function distribuirAutomatico() {
                     let usar = Math.min(Math.ceil(restante / small9h.spr), small9h.restante);
                     if (usar <= 0) return;
 
-                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                         let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                         let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                         return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                    });
+                    }});
 
-                    if (filaLibre) {
+                    if (filaLibre) {{
                         filaLibre.querySelector('.s-type').value = small9h.nombre;
                         filaLibre.querySelector('.u-manual').innerText = usar;
                         filaLibre.querySelector('.spr-real-val').innerText = small9h.spr;
                         editedRowsPlan.add(filaLibre);
                         small9h.restante -= usar;
-                    }
-                });
-            }
-        }
-    }
+                    }}
+                }});
+            }}
+        }}
+    }}
 
     // --- 🟡 CARRIL PESTAÑA 5: PREC SMX2 ---
-    if (currentTab == 5) {
+    if (currentTab == 5) {{
         // Preasignación Small Van SDD
         let smallVan = fleet.find(f => f.nombre === "Small Van SDD");
-        if (smallVan && smallVan.restante > 0) {
+        if (smallVan && smallVan.restante > 0) {{
             let planesPrioridad = ["IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ"];
-            planesPrioridad.forEach(nombreBuscado => {
+            planesPrioridad.forEach(nombreBuscado => {{
                 let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
                 if (!polyPlan) return;
 
                 let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                 let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                     yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                });
+                }});
 
                 let restante = objetivo - yaAsignado;
                 if (restante <= 0) return;
@@ -2655,33 +2655,33 @@ function distribuirAutomatico() {
                 let usar = Math.min(Math.ceil(restante / smallVan.spr), smallVan.restante);
                 if (usar <= 0) return;
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                     let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                     let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                     return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                });
+                }});
 
-                if (filaLibre) {
+                if (filaLibre) {{
                     filaLibre.querySelector('.s-type').value = smallVan.nombre;
                     filaLibre.querySelector('.u-manual').innerText = usar;
                     filaLibre.querySelector('.spr-real-val').innerText = smallVan.spr;
                     editedRowsPlan.add(filaLibre);
                     smallVan.restante -= usar;
-                }
-            });
+                }}
+            }});
 
             // Sobrante de Small Van a Chimas
-            if (smallVan.restante > 0) {
-                polys.forEach(polyPlan => {
+            if (smallVan.restante > 0) {{
+                polys.forEach(polyPlan => {{
                     if (smallVan.restante <= 0) return;
                     let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
                     if (!nombrePlan.includes("CHIMAS")) return;
 
                     let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                     let yaAsignado = 0;
-                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                         yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                    });
+                    }});
 
                     let restante = objetivo - yaAsignado;
                     if (restante <= 0) return;
@@ -2689,36 +2689,36 @@ function distribuirAutomatico() {
                     let usar = Math.min(Math.ceil(restante / smallVan.spr), smallVan.restante);
                     if (usar <= 0) return;
 
-                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                         let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                         let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                         return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                    });
+                    }});
 
-                    if (filaLibre) {
+                    if (filaLibre) {{
                         filaLibre.querySelector('.s-type').value = smallVan.nombre;
                         filaLibre.querySelector('.u-manual').innerText = usar;
                         filaLibre.querySelector('.spr-real-val').innerText = smallVan.spr;
                         editedRowsPlan.add(filaLibre);
                         smallVan.restante -= usar;
-                    }
-                });
-            }
+                    }}
+                }});
+            }}
         }
 
         // Preasignación Car Zona Extendida
         let CarZonaExtendida = fleet.find(f => f.nombre === "Car Zona Extendida");
-        if (CarZonaExtendida && CarZonaExtendida.restante > 0) {
+        if (CarZonaExtendida && CarZonaExtendida.restante > 0) {{
             let planesPrioridad = ["PUEBLOS", "TEXCOCO"];
-            planesPrioridad.forEach(nombreBuscado => {
+            planesPrioridad.forEach(nombreBuscado => {{
                 let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
                 if (!polyPlan) return;
 
                 let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                 let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                     yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                });
+                }});
 
                 let restante = objetivo - yaAsignado;
                 if (restante <= 0) return;
@@ -2726,57 +2726,57 @@ function distribuirAutomatico() {
                 let usar = Math.min(Math.ceil(restante / CarZonaExtendida.spr), CarZonaExtendida.restante);
                 if (usar <= 0) return;
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                     let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                     let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                     return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                });
+                }});
 
-                if (filaLibre) {
+                if (filaLibre) {{
                     filaLibre.querySelector('.s-type').value = CarZonaExtendida.nombre;
                     filaLibre.querySelector('.u-manual').innerText = usar;
                     filaLibre.querySelector('.spr-real-val').innerText = CarZonaExtendida.spr;
                     editedRowsPlan.add(filaLibre);
                     CarZonaExtendida.restante -= usar;
-                }
-            });
+                }}
+            }});
 
             // Sobrante de Car Zona Extendida a Chalco
-            if (CarZonaExtendida.restante > 0) {
+            if (CarZonaExtendida.restante > 0) {{
                 let chalco = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CHALCO");
-                if (chalco) {
-                    let filaLibre = Array.from(chalco.bloque.querySelectorAll('.calc-row')).find(f => {
+                if (chalco) {{
+                    let filaLibre = Array.from(chalco.bloque.querySelectorAll('.calc-row')).find(f => {{
                         let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                         let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                         return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                    });
-                    if (filaLibre) {
+                    }});
+                    if (filaLibre) {{
                         filaLibre.querySelector('.s-type').value = CarZonaExtendida.nombre;
                         filaLibre.querySelector('.u-manual').innerText = CarZonaExtendida.restante;
                         filaLibre.querySelector('.spr-real-val').innerText = CarZonaExtendida.spr;
                         editedRowsPlan.add(filaLibre);
                         CarZonaExtendida.restante = 0;
-                    }
-                }
-            }
+                    }}
+                }}
+            }}
         }
     }
 
     // --- 🔵 CARRIL PESTAÑA 2: C1 SCP1 (Incluye Campeche y sus Dedicadas) ---
-    if (currentTab == 2) {
+    if (currentTab == 2) {{
         // Preasignación Large Van MLP
         let largeVanMLP = fleet.find(f => f.nombre === "Large Van MLP");
-        if (largeVanMLP && largeVanMLP.restante > 0) {
+        if (largeVanMLP && largeVanMLP.restante > 0) {{
             let planesPrioridad = ["ESCÁRCEGA", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"];
-            planesPrioridad.forEach(nombreBuscado => {
+            planesPrioridad.forEach(nombreBuscado => {{
                 let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
                 if (!polyPlan) return;
 
                 let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                 let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {
+                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
                     yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                });
+                }});
 
                 let restante = objetivo - yaAsignado;
                 if (restante <= 0) return;
@@ -2784,45 +2784,45 @@ function distribuirAutomatico() {
                 let usar = Math.min(Math.ceil(restante / largeVanMLP.spr), largeVanMLP.restante);
                 if (usar <= 0) return;
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {
+                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                     let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                     let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                     return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                });
+                }});
 
-                if (filaLibre) {
+                if (filaLibre) {{
                     filaLibre.querySelector('.s-type').value = largeVanMLP.nombre;
                     filaLibre.querySelector('.u-manual').innerText = usar;
                     filaLibre.querySelector('.spr-real-val').innerText = largeVanMLP.spr;
                     editedRowsPlan.add(filaLibre);
                     largeVanMLP.restante -= usar;
-                }
+                }}
             }});
-        }
+        }}
 
         // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
         let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
-        if (deliveryCell && deliveryCell.restante > 0) {
+        if (deliveryCell && deliveryCell.restante > 0) {{
             let campeche = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CAMPECHE");
-            if (campeche) {
+            if (campeche) {{
                 let nodos = parseInt(campeche.bloque.querySelector('.nodos-campeche')?.innerText) || 0;
-                if (nodos > 0) {
-                    let filaLibre = Array.from(campeche.bloque.querySelectorAll('.calc-row')).find(f => {
+                if (nodos > 0) {{
+                    let filaLibre = Array.from(campeche.bloque.querySelectorAll('.calc-row')).find(f => {{
                         let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                         let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                         return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                    });
-                    if (filaLibre) {
+                    }});
+                    if (filaLibre) {{
                         filaLibre.querySelector('.s-type').value = deliveryCell.nombre;
                         filaLibre.querySelector('.u-manual').innerText = 1;
                         filaLibre.querySelector('.spr-real-val').innerText = deliveryCell.spr;
                         editedRowsPlan.add(filaLibre);
                         deliveryCell.restante -= 1;
-                    }
-                }
-            }
-        }
-    }
+                    }}
+                }}
+            }}
+        }}
+    }}
 
 
     // ==============================================================================
@@ -2830,28 +2830,28 @@ function distribuirAutomatico() {
     // ==============================================================================
     
     // Aquí el sistema lee qué pestaña está abierta y ejecuta el algoritmo correspondiente
-    if (currentTab == 6) {
+    if (currentTab == 6) {{
         // 🚀 BLOQUE EXCLUSIVO PARA C1 SJA1 (Se programará a detalle en el siguiente paso)
-        polys.forEach(poly => {
+        polys.forEach(poly => {{
             procesarAsignacionUnidadSJA1(poly);
-        });
-    } else {
+        }});
+    }} else {{
         // 🔴 BLOQUE DE OPERACIÓN PARA EL RESTO DE LAS PESTAÑAS (C1 SCP1, SDE, PREC)
-        polys.forEach(poly => {
+        polys.forEach(poly => {{
             let bloque = poly.bloque;
             let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
             let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
 
             let yaAsignado = 0;
-            bloque.querySelectorAll('.calc-row').forEach(r => {
+            bloque.querySelectorAll('.calc-row').forEach(r => {{
                 yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-            });
+            }});
 
             let restante = objetivo - yaAsignado;
             if (restante <= 0) return;
 
             let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-            for (let fila of filas) {
+            for (let fila of filas) {{
                 let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
                 let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
                 let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
@@ -2862,60 +2862,60 @@ function distribuirAutomatico() {
                 let unidad = null;
 
                 // Regla Nativa de Flota para Pestaña 2 (Asignación General vs Campeche)
-                if (currentTab == 2 && nombrePlan == "CAMPECHE") {
+                if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
                     unidad = fleet.find(f => f.nombre === "Rental Large Van");
-                } else if (currentTab == 2) {
+                }} else if (currentTab == 2) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
-                } else {
+                }} else {{
                     unidad = fleet.find(f => f.restante > 0);
-                }
+                }}
 
                 // Desborde de Emergencia Tradicional (Si se vacía el stock principal)
-                if (!unidad) {
+                if (!unidad) {{
                     if (currentTab == 4) { // SDE
                         unidad = fleet.find(f => f.nombre.includes("Car - 5h")) || fleet.find(f => f.nombre.includes("Car - 3h"));
-                    } else if (currentTab == 2) { // C1 SCP1
+                    }} else if (currentTab == 2) {{ // C1 SCP1
                         unidad = fleet.find(f => f.nombre.includes("Large Van MLP")) || fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
-                    } else if (currentTab == 1 || currentTab == 5) { // PRECARGAS
+                    } }else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
                         unidad = fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
-                    }
+                    }}
                     if (!unidad) break;
-                }
+                }}
 
                 // MATEMÁTICA TRADICIONAL DE REPARTO REAL NATIVO
                 let necesarias = Math.ceil(restante / unidad.spr);
                 let usar;
 
                 let permiteNegativo = unidad.nombre === "Car - 8h" || unidad.nombre === "Car - 5h" || unidad.nombre === "Car - 3h" || (currentTab == 2 && unidad.nombre === "Large Van MLP");
-                if (unidad.restante > 0) {
+                if (unidad.restante > 0) {{
                     usar = Math.min(necesarias, unidad.restante);
-                } else if (permiteNegativo) {
+                }} else if (permiteNegativo) {{
                     usar = necesarias;
-                } else {
+                }} else {{
                     usar = 0;
-                }
+                }}
 
                 if (usar <= 0) continue;
 
                 // Inyección física en las celdas de la pantalla
                 let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-                if (filaExistente) {
+                if (filaExistente) {{
                     let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
                     filaExistente.querySelector('.u-manual').innerText = actual + usar;
                     filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
                     editedRowsPlan.add(filaExistente);
-                } else {
+                }} else {{
                     fila.querySelector('.s-type').value = unidad.nombre;
                     fila.querySelector('.u-manual').innerText = usar;
                     fila.querySelector('.spr-real-val').innerText = unidad.spr;
                     editedRowsPlan.add(fila);
-                }
+                }}
 
                 unidad.restante -= usar;
                 restante -= (usar * unidad.spr);
-            }
-        });
-    }
+            }}
+        }});
+    }}
 
     // ==============================================================================
     // 🔥 SECCIÓN 4: FUNCIÓN AISLADA Y DEDICADA ÚNICAMENTE PARA C1 SJA1 (PESTAÑA 6)
@@ -2923,13 +2923,13 @@ function distribuirAutomatico() {
     function "procesarAsignacionUnidadSJA1"(poly) {
         // En este espacio vacío colocaremos el nuevo motor de la Pestaña 6
         // Con tus cascadas y prioridades exactas de Centros y Foráneos sin nodos
-    }
+    }}
 
     // ==============================================================================
     // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES
     // ==============================================================================
     recalc();
-}
+}}
 
 
 
