@@ -259,8 +259,11 @@ def export_c1_csv():
 
 
 def gen_poligonos(data_target=None):
-    # Contenedor flotante base que será llenado dinámicamente por JavaScript
-    polys = '<div id="mi-contador">🔄 Cargando flota...</div>'
+    # Generamos ambos contadores independientes en el HTML base
+    polys = '''
+    <div id="mi-contador-scp1">🔄 Cargando flota SCP1...</div>
+    <div id="mi-contador-sja1">🔄 Cargando flota SJA1...</div>
+    '''
 
  
     # Botones con dimensiones totalmente congeladas a nivel píxel
@@ -575,8 +578,8 @@ app_html = f"""
 
 
 
-/* 🌟 TARJETA FLOTANTE ULTRA-COMPACTA PARA MONITOREO EN TIEMPO REAL */
-        #mi-contador {{
+/* 📊 CONTADOR EXCLUSIVO PESTAÑA SCP1 */
+        #mi-contador-scp1 {{
             position: fixed;
             top: 156px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
             right: 20px; 
@@ -593,6 +596,28 @@ app_html = f"""
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto; /* Permite scroll si la lista de flota es larga */
+            display: block; /* Visible por defecto al arrancar */
+        }
+
+        /* 📊 CONTADOR EXCLUSIVO PESTAÑA SJA1 */
+        #mi-contador-sja1 {{
+            position: fixed;
+            top: 156px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
+            right: 20px; 
+            background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
+            color: #ffffff; 
+            padding: 16px; 
+            border-radius: 10px; 
+            z-index: 999999; 
+            font-family: sans-serif;
+            font-size: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            border: 1.2px solid transparent;
+            width: 260px;
+            max-height: 410px;
+            overflow-y: auto;
+            pointer-events: auto; /* Permite scroll si la lista de flota es larga */
+            display: none; /* Oculto inicialmente, se activa al ir a SJA1 */
         }}
 
         .cont-item {{
@@ -3557,7 +3582,116 @@ actualizarRelojRuteos();
 
 
    
+// ==============================================================================
+    // 📊 DOBLE NÚCLEO: CONTADORES DUPLICADOS E INDEPENDIENTES PARA SCP1 Y SJA1
+    // ==============================================================================
+    function actualizarContadoresDuplicados() {{
+        let contScp1 = document.getElementById('mi-contador-scp1');
+        let contSja1 = document.getElementById('mi-contador-sja1');
+        
+        // --- CONTROL AUTOMÁTICO DE PANTALLA ---
+        if (contScp1 && contSja1) {{
+            if (currentTab == 2) {{
+                contScp1.style.display = 'block';
+                contSja1.style.display = 'none';
+            }} else if (currentTab == 6) {{
+                contScp1.style.display = 'none';
+                contSja1.style.display = 'block';
+            }} else {{
+                // Si estás en SDE, PREC u otras pestañas, los ocultamos para no estorbar
+                contScp1.style.display = 'none';
+                contSja1.style.display = 'none';
+            }}
+        }}
 
+        // 1️⃣ MONITOR INDEPENDIENTE SCP1 (TAB 2)
+        if (contScp1 && currentTab == 2) {{
+            let html = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+                            📊 STOCK DISPONIBLE (SCP1)
+                        </div>`;
+            let conteo = 0;
+            let filas = document.querySelectorAll('#body-2 tr.master-row');
+            
+            filas.forEach(fila => {{
+                let name = fila.querySelector('.edit-name')?.innerText.trim();
+                if (!name || name === "IGNORAR" || name === "NUEVA UNIDAD") return;
+                
+                let stock = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
+                let left = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
+                let celdas = fila.querySelectorAll('td');
+                let orh = celdas[1] ? celdas[1].innerText.trim() : "0";
+                let ocup = celdas[2] ? celdas[2].innerText.trim() : "0";
+
+                if (stock > 0) {{
+                    conteo++;
+                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#DC143C" : "#00FF00");
+                    html += `<div class="cont-item">
+                                <div class="cont-name" title="${{name}}">${{name}}</div>
+                                <div class="cont-vals">
+                                    <span style="color:${{color}};">${{left}}</span>
+                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
+                                </div>
+                             </div>`;
+                }}
+            }});
+            if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
+            contScp1.innerHTML = html;
+        }}
+
+        // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
+        if (contSja1 && currentTab == 6) {{
+            let html = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+                            📊 STOCK DISPONIBLE (SJA1)
+                        </div>`;
+            let conteo = 0;
+            let filas = document.querySelectorAll('#body-6 tr.master-row');
+            
+            filas.forEach(fila => {{
+                let name = fila.querySelector('.edit-name')?.innerText.trim();
+                if (!name || name === "IGNORAR" || name === "NUEVA UNIDAD") return;
+                
+                let stock = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
+                let left = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
+                let celdas = fila.querySelectorAll('td');
+                let orh = celdas[1] ? celdas[1].innerText.trim() : "0";
+                let ocup = celdas[2] ? celdas[2].innerText.trim() : "0";
+
+                if (stock > 0) {{
+                    conteo++;
+                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#DC143C" : "#00FF00");
+                    html += `<div class="cont-item">
+                                <div class="cont-name" title="${{name}}">${{name}}</div>
+                                <div class="cont-vals">
+                                    <span style="color:${{color}};">${{left}}</span>
+                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${orh} | %:${ocup}</span>
+                                </div>
+                             </div>`;
+                }}
+            });
+            if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
+            contSja1.innerHTML = html;
+        }}
+    }}
+
+    // --- ESCUCHADORES DE EVENTOS ASINCRÓNICOS ---
+    document.addEventListener('input', function(e) {{
+        actualizarContadoresDuplicados();
+    });
+
+    document.addEventListener('click', function(e) {{
+        // Delay optimizado a 40ms para dar tiempo a que cambie la pestaña activa
+        setTimeout(actualizarContadoresDuplicados, 40);
+    }});
+
+    // Enlace transparente al recálculo matemático de tu Streamlit
+    let funcionRecalcOriginal = recalc;
+    recalc = function() {{
+        funcionRecalcOriginal();
+        actualizarContadoresDuplicados();
+    }};
+
+    // Arranque inicial limpio
+    setTimeout(actualizarContadoresDuplicados, 600);
 
 
 
