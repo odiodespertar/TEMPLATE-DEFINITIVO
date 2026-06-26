@@ -6054,7 +6054,7 @@ function manualEdit(el) {{
             // 1. Validamos la pestaña activa de la misma forma segura
             let activeTabBtn = document.querySelector('.tab-btn.active');
             if (activeTabBtn) {{
-                let tabId = activeTabBtn.textContent.trim();
+                let tabId = activeTabBtn.textContent.trim(); 
                 // Regla A: C1 SCP1 con Large Van MLP
                 if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
