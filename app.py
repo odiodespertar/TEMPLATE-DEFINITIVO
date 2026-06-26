@@ -2335,7 +2335,7 @@ function toggleTools() {{
         document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
             let name = row.querySelector('.edit-name')?.innerText.trim();
             if (name && name !== "IGNORAR") {{
-                optionsHtml += `<option value="\${name}">\${name}</option>`;
+                optionsHtml += `<option value="\${{name}}">\${{name}}</option>`;
             }}
         }});
         document.querySelectorAll('#polys-' + currentTab + ' .s-type').forEach(select => {{
