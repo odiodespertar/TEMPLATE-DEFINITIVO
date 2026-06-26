@@ -1360,7 +1360,7 @@ function toggleTools() {{
         let m = String(d.getUTCMinutes()).padStart(2,'0');
         let s = String(d.getUTCSeconds()).padStart(2,'0');
         let ms = Math.floor(d.getUTCMilliseconds()/100);
-        document.getElementById('crono-main').innerText = `\${h}:\${m}:\${s}.\${ms}`;
+        document.getElementById('crono-main').innerText = `\${{h}}:\${{m}}:\${{s}}.\${{ms}}`;
     }}
 
 function manualEdit(el) {{ 
