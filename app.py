@@ -2800,7 +2800,7 @@ function distribuirAutomatico() {{
                     largeVanMLP.restante -= usar;
                 }}
             }});
-        }
+        }}
 
         // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
         let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
