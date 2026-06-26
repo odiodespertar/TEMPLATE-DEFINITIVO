@@ -2931,7 +2931,7 @@ function distribuirAutomatico() {{
 
 
 // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON REGLAS DE NODOS Y RENTALS PARA C1 SJA1 (TAB 6)
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
     // ==============================================================================
     function procesarAsignacionUnidadSJA1(poly) {{
         let bloque = poly.bloque;
@@ -2959,38 +2959,45 @@ function distribuirAutomatico() {{
 
             let unidad = null;
 
-            // 🌟 CONDICIÓN A: SI ES "CENTRO 1" O "CENTRO 2" ➤ EXCLUSIVIDAD DE RENTALS
+            // 🌟 4.1 PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Únicamente Rentals)
             if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
-                // Buscamos estrictamente en tu orden de prioridad (Electric ➔ Normal ➔ Replacement)
                 const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
                 for (let nombre of listaRental) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === name || f.nombre === nombre);
                     if (unidad) break;
                 }}
             }}
-            // 🌟 CONDICIÓN B: SI ES UN PLAN FORÁNEO (Actopan, Xico, Perote, etc.) ➤ PUEDE LLEVAR LARGE VAN MLP
-            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
-                
-                // Intentamos vaciar primero las pesadas foráneas (Large Van MLP foráneo)
+            // 🌟 4.2 CASO ESPECIAL FORÁNEOS FLEXIBLES: "XICO" Y "TUZAMAPA" (Llevan MLP y desbordan en Cars)
+            else if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
+                // Primero intentan consumir las pesadas foráneas
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                 if (!unidad) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                 }}
 
-                // Si ya no quedan pesadas foráneas en stock, se desborda en las ligeras en el orden exacto que pediste
+                // CASCADA EXCLUSIVA: Si se agotan las pesadas, desbordan de forma inteligente en las ligeras (Cars/Motos)
                 if (!unidad) {{
-                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
+                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie", "Car Newbie"];
                     for (let nombreCar of listaLigeras) {{
                         unidad = fleet.find(f => f.restante > 0 && f.nombre === nombreCar);
                         if (unidad) break;
                     }}
                 }}
             }}
+            // 🌟 4.3 RESTO DE PLANES FORÁNEOS STANDARD (Actopan, Perote, Misantla, etc. - Solo MLP)
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE"].includes(nombrePlan)) {{
+                // Únicamente se les permite asignar Large Van o Small Van MLP foráneo
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+                if (!unidad) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                }}
+                // Si no hay stock de pesadas, no se intenta asignar nada más (Tope estricto de seguridad)
+            }}
 
-            // Si por volumen total o falta de stock general no halla unidad válida, se detiene
+            // Si no se halló stock disponible para este tipo de plan, se frena la asignación de este bloque
             if (!unidad) break;
 
-            // MATEMÁTICA Y ASIGNACIÓN EN PANTALLA
+            // MATEMÁTICA CON TOPE DE SEGURIDAD ABSOLUTO (No genera números negativos en Tab 6)
             let necesarias = Math.ceil(restante / unidad.spr);
             let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
 
@@ -3245,6 +3252,16 @@ function actualizarSelects() {{
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
             let nameLower = name.toLowerCase();
 
+            // 🌟 TOPE PARA PESTAÑA 6: No permite sobreasignación manual (left <= 0 bloquea la opción)
+            if (currentTab == 6) {{
+                if (stock > 0 && (left > 0 || name === valorActual)) {{
+                    let opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    select.appendChild(opt);
+                }}
+            }} else {{
+            
             let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
             
             // Si permite negativos o aún tiene stock, la agregamos al select
