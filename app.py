@@ -6837,7 +6837,7 @@ function distribuirAutomatico() {{
 
 
 // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6) - CORREGIDO
     // ==============================================================================
     function procesarAsignacionUnidadSJA1(poly) {{
         let bloque = poly.bloque;
@@ -6850,7 +6850,6 @@ function distribuirAutomatico() {{
             let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
             yaAsignado += (unidades * spr);
         }});
-
         let restante = objetivo - yaAsignado;
         if (restante <= 0) return;
 
@@ -6859,59 +6858,64 @@ function distribuirAutomatico() {{
             let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
             let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
             let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
-
             if (yaTieneUnidad || yaTieneTipo) continue;
             if (restante <= 0) break;
 
             let unidad = null;
-
-            // 🌟 4.1 PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Únicamente Rentals)
+            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
             if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
                 const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
                 for (let nombre of listaRental) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === name || f.nombre === nombre);
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
                     if (unidad) break;
                 }}
             }}
-            // 🌟 4.2 CASO ESPECIAL FORÁNEOS FLEXIBLES: "XICO" Y "TUZAMAPA" (Llevan MLP y desbordan en Cars)
-            else if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
-                // Primero intentan consumir las pesadas foráneas
+            // 4.2 PRIORIDAD PLANES FORÁNEOS
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
+                
+                let tieneUnidadYaAsignada = filas.some(f => {{
+                    let t = f.querySelector('.s-type')?.value || "";
+                    let u = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                    return t !== "" && t !== "Seleccionar..." && u > 0;
+                }});
+
+                // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                 if (!unidad) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                 }}
 
-                // CASCADA EXCLUSIVA: Si se agotan las pesadas, desbordan de forma inteligente en las ligeras (Cars/Motos)
+                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras
                 if (!unidad) {{
-                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie", "Car Newbie"];
+                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
                     for (let nombreCar of listaLigeras) {{
                         unidad = fleet.find(f => f.restante > 0 && f.nombre === nombreCar);
                         if (unidad) break;
                     }}
                 }}
             }}
-            // 🌟 4.3 RESTO DE PLANES FORÁNEOS STANDARD (Actopan, Perote, Misantla, etc. - Solo MLP)
-            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE"].includes(nombrePlan)) {{
-                // Únicamente se les permite asignar Large Van o Small Van MLP foráneo
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-                if (!unidad) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-                }}
-                // Si no hay stock de pesadas, no se intenta asignar nada más (Tope estricto de seguridad)
-            }}
 
-            // Si no se halló stock disponible para este tipo de plan, se frena la asignación de este bloque
-            if (!unidad) break;
+            // Si no se halla unidad con stock restante, frena el ciclo para este polígono
+            if (!unidad || unidad.restante <= 0) break;
 
-            // MATEMÁTICA CON TOPE DE SEGURIDAD ABSOLUTO (No genera números negativos en Tab 6)
+            // --- 🛑 CANDADO DE TOPE DE UNIDADES ---
+            // Se calcula cuántas se necesitan, pero se limita estrictamente al stock que queda disponible (unidad.restante)
             let necesarias = Math.ceil(restante / unidad.spr);
-            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+            let usar = Math.min(necesarias, unidad.restante);
 
             if (usar <= 0) continue;
 
             let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
             if (filaExistente) {{
                 let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                
+                // Doble validación: asegurar que al agrupar filas no superemos el inventario
+                if (actual + usar > unidad.stock) {{
+                    usar = unidad.stock - actual;
+                }}
+                
+                if (usar <= 0) continue;
+                
                 filaExistente.querySelector('.u-manual').innerText = actual + usar;
                 filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
                 editedRowsPlan.add(filaExistente);
@@ -6922,6 +6926,7 @@ function distribuirAutomatico() {{
                 editedRowsPlan.add(fila);
             }}
 
+            // Restamos del inventario global de la distribución automática y actualizamos el loop
             unidad.restante -= usar;
             restante -= (usar * unidad.spr);
         }}
