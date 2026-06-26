@@ -3572,9 +3572,7 @@ actualizarRelojRuteos();
 
 
 
-   // ==============================================================================
-    // 📊 NUEVO MOTOR INDEPENDIENTE: CONTADOR FLOTANTE DE DISPONIBILIDAD REAL RECALIBRADO
-    // ==============================================================================
+ 
     // ==============================================================================
     // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS
     // ==============================================================================
@@ -3583,7 +3581,7 @@ actualizarRelojRuteos();
         if (!cont) return;
 
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#7CFFB2; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                                📊 STOCK DISPONIBLE (Tab ${{currentTab}})
+                                📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
