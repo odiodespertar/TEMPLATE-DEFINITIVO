@@ -597,7 +597,7 @@ app_html = f"""
             overflow-y: auto;
             pointer-events: auto; /* Permite scroll si la lista de flota es larga */
             display: block; /* Visible por defecto al arrancar */
-        }
+        }}
 
         /* 📊 CONTADOR EXCLUSIVO PESTAÑA SJA1 */
         #mi-contador-sja1 {{
