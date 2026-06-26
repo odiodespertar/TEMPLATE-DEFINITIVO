@@ -2928,8 +2928,10 @@ function distribuirAutomatico() {{
         }});
     }}
 
-    // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
+
+
+// ==============================================================================
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON REGLAS DE NODOS Y RENTALS PARA C1 SJA1 (TAB 6)
     // ==============================================================================
     function procesarAsignacionUnidadSJA1(poly) {{
         let bloque = poly.bloque;
@@ -2957,31 +2959,25 @@ function distribuirAutomatico() {{
 
             let unidad = null;
 
-            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
+            // 🌟 CONDICIÓN A: SI ES "CENTRO 1" O "CENTRO 2" ➤ EXCLUSIVIDAD DE RENTALS
             if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+                // Buscamos estrictamente en tu orden de prioridad (Electric ➔ Normal ➔ Replacement)
                 const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
                 for (let nombre of listaRental) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
                     if (unidad) break;
                 }}
             }}
-            // 4.2 PRIORIDAD PLANES FORÁNEOS: Con protección si ingresaste una unidad manualmente
+            // 🌟 CONDICIÓN B: SI ES UN PLAN FORÁNEO (Actopan, Xico, Perote, etc.) ➤ PUEDE LLEVAR LARGE VAN MLP
             else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
                 
-                // 👉 CONDICIÓN OPERATIVA: Revisamos si ya hay un vehículo metido a mano en la pantalla
-                let tieneUnidadYaAsignada = filas.some(f => {{
-                    let t = f.querySelector('.s-type')?.value || "";
-                    let u = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return t !== "" && t !== "Seleccionar..." && u > 0;
-                }});
-
-                // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
+                // Intentamos vaciar primero las pesadas foráneas (Large Van MLP foráneo)
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                 if (!unidad) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                 }}
 
-                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en el orden de prioridad exacto que solicitaste
+                // Si ya no quedan pesadas foráneas en stock, se desborda en las ligeras en el orden exacto que pediste
                 if (!unidad) {{
                     const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
                     for (let nombreCar of listaLigeras) {{
@@ -2991,10 +2987,10 @@ function distribuirAutomatico() {{
                 }}
             }}
 
-            // Si por volumen total o falta de stock global no halla unidad, frena el ciclo
+            // Si por volumen total o falta de stock general no halla unidad válida, se detiene
             if (!unidad) break;
 
-            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
+            // MATEMÁTICA Y ASIGNACIÓN EN PANTALLA
             let necesarias = Math.ceil(restante / unidad.spr);
             let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
 
@@ -3017,6 +3013,8 @@ function distribuirAutomatico() {{
             restante -= (usar * unidad.spr);
         }}
     }}
+
+   
 
     // ============================================================================================
     // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES// TERMINA DISTRIBUIDOR AUTOMATICO
