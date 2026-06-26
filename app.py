@@ -6150,7 +6150,7 @@ function manualEdit(el) {{
 
         // Leemos la pestaña activa directamente de tus botones superiores
         let activeTabBtn = document.querySelector('.tab-btn.active');
-        if (activeTabBtn) {
+        if (activeTabBtn) {{
             let tabId = activeTabBtn.textContent.trim();
             if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {
                 permiteInfinito = true;
