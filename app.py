@@ -1001,6 +1001,11 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
 
+<div id="mi-contador-scp1">🔄 Cargando flota SCP1...</div>
+<div id="mi-contador-sja1">🔄 Cargando flota SJA1...</div>
+
+
+
     <!-- COLUMNA DERECHA --> 
 
 
