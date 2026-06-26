@@ -3563,34 +3563,34 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 EL CONTADOR ORIGINAL RESTAURADO: BARRIDO POR VISIBILIDAD DE PESTAÑA
+    // 📊 EL REGRESO DEL CONTADOR ORIGINAL: TOTALMENTE BLINDADO PARA SJA1
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título limpio con el verde brillante (#00FF00) de tu diseño
+        // Título limpio con tu color verde brillante (#00FF00)
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // 🌟 EL TRUCO DEL CÓDIGO VIEJO: 
-        // Buscamos las filas master-row de la tabla que esté VISIBLE en la pantalla en este instante.
-        // Esto evita tener que adivinar si el ID es body-2, body-6, etc., solucionando el error en SJA1.
-        let todasLasFilas = document.querySelectorAll('.t-content');
-        let contenedorActivo = null;
+        // 🌟 RASTREO SEGURO POR VISIBILIDAD:
+        // Buscamos cuál es el contenedor de pestaña que se está mostrando actualmente en la pantalla
+        let todasLasPestanas = document.querySelectorAll('.t-content');
+        let pestanaVisible = null;
         
-        todasLasFilas.forEach(tab => {{
+        todasLasPestanas.forEach(tab => {{
             if (window.getComputedStyle(tab).display !== 'none') {{
-                contenedorActivo = tab;
+                pestanaVisible = tab;
             }}
         }});
 
-        // Si encontramos la pestaña activa en pantalla, leemos sus unidades master
-        if (contenedorActivo) {{
-            let filasFlota = contenedorActivo.querySelectorAll('tr.master-row');
+        // Si logramos enganchar la pestaña que el usuario está viendo en su monitor
+        if (pestanaVisible) {{
+            // Escaneamos únicamente las filas de flota de esa sección visible
+            let filasFlota = pestanaVisible.querySelectorAll('tr.master-row');
             
             filasFlota.forEach(fila => {{
                 let nameCell = fila.querySelector('.edit-name');
@@ -3599,29 +3599,27 @@ actualizarRelojRuteos();
                 let nombreUnidad = nameCell.innerText.trim();
                 if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
 
+                // Leemos los datos de stock y deltas de forma ultra-segura
                 let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
                 let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
                 
-                // Mapeo seguro de ORH y Ocupación por orden de celda para evitar fallos de clase
-                let celdas = fila.querySelectorAll('td');
-                let orhVal = "0";
-                let ocupVal = "0";
+                // Buscamos las celdas de ORH y Ocupación por su clase asignada por Python
+                let celdaOrh = fila.querySelector('.edit-orh');
+                let celdaOcup = fila.querySelector('.edit-ocup');
 
-                if (celdas.length >= 3) {{
-                    orhVal = celdas[1] ? celdas[1].innerText.trim() : "0";
-                    ocupVal = celdas[2] ? celdas[2].innerText.trim() : "0";
-                }}
+                let orhVal = celdaOrh ? celdaOrh.innerText.trim() : "0";
+                let ocupVal = celdaOcup ? celdaOcup.innerText.trim() : "0";
 
-                // Condición nativa: Solo aparecen en la tarjeta flotante si Schedule > 0
+                // Regla de oro: Solo aparecen en la tarjeta flotante si Schedule > 0
                 if (stockInicial > 0) {{
                     conteoUnidadesValidas++;
                     
-                    // Tus reglas de colores adaptativos para el Patio
-                    let colorDelta = "#00FF00"; // Verde si queda stock disponible
-                    if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
-                    else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
+                    // Tus colores dinámicos del patio
+                    let colorDelta = "#00FF00"; // Verde
+                    if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
+                    else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson (Agotado)
 
-                    // Estructura visual grande a 14px con tus tonos personalizados
+                    // Estructura visual de alta visibilidad a 14px y texto gris (#D3D3D3)
                     htmlInyeccion += `
                         <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
                             <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
@@ -3634,7 +3632,7 @@ actualizarRelojRuteos();
             }});
         }}
 
-        // Si el Schedule está en ceros en la pestaña abierta, muestra la advertencia limpia
+        // Si entras a una pestaña sin datos o limpia, muestra la alerta original en gris
         if (conteoUnidadesValidas === 0) {{
             htmlInyeccion += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
         }}
@@ -3642,25 +3640,24 @@ actualizarRelojRuteos();
         cont.innerHTML = htmlInyeccion;
     }}
 
-    // --- ESCUCHADORES DE EVENTOS BLINDADOS Y ENLAZADOS ---
-    // Detecta cualquier cambio de número en el Schedule o clics en los botones de la página
+    // --- ESCUCHADORES DE EVENTOS AUTOMÁTICOS ---
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
     document.addEventListener('click', function(e) {{
-        // Un delay de 40ms asegura que la pestaña ya cambió de estado antes de leer la flota
-        setTimeout(actualizarContadorFlota, 40);
+        // Un delay de 50ms permite que las pestañas terminen de hacer el cambio visual antes de leer la flota
+        setTimeout(actualizarContadorFlota, 50);
     }});
 
-    // Sincronización inyectada directamente en el recálculo nativo de tu sistema
+    // Sincronizamos con tu motor de recálculo nativo de Streamlit
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadorFlota();
     }};
 
-    // Inicialización inicial limpia
+    // Inicialización forzada al cargar la página
     setTimeout(actualizarContadorFlota, 600);
 
     
