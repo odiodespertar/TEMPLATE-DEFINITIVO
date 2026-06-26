@@ -582,14 +582,14 @@ app_html = f"""
             right: 20px; 
             background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
             color: #ffffff; 
-            padding: 14px; 
-            border-radius: 9px; 
+            padding: 16px; 
+            border-radius: 10px; 
             z-index: 999999; 
             font-family: sans-serif;
-            font-size: 13px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            border: 1px solid #fce726;
-            width: 250px;
+            font-size: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            border: 1.2px solid #fce726;
+            width: 260px;
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto; /* Permite scroll si la lista de flota es larga */
@@ -3615,10 +3615,10 @@ actualizarRelojRuteos();
 
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
-                        <div class="cont-name" style="font-weight: bold; color: #ff9b21; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
+                        <div class="cont-name" style="font-weight: bold; color: #ffec21; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
                         <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right;">
                             <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
-                            <span style="color:#aaa; font-size:9px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
+                            <span style="color:#ffffff; font-size:9px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
                         </div>
                     </div>`;
             }}
