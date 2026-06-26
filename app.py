@@ -2704,7 +2704,7 @@ function distribuirAutomatico() {{
                     }}
                 }});
             }}
-        }
+        }}
 
         // Preasignación Car Zona Extendida
         let CarZonaExtendida = fleet.find(f => f.nombre === "Car Zona Extendida");
