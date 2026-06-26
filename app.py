@@ -1833,9 +1833,9 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             cL.style.background = "transparent";
         }} else if (diff === 0 && stock > 0) {{
             cL.style.color = "white"; 
-            cL.style.background = "#f05d5d";
+            cL.style.background = "#FF6347";
         }} else {{
-            cL.style.color = "#0e4c6e"; 
+            cL.style.color = "#17191a"; 
             cL.style.background = "transparent"; 
             cL.style.fontWeight = "normal";
         }}
