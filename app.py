@@ -2244,7 +2244,7 @@ function manualEdit(el) {{
         }}
 
         let spanU = r.querySelector('.u-manual');
-        if (spanU) {
+        if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
 
