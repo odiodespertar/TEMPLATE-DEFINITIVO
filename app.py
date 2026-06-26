@@ -3563,21 +3563,21 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 CONTADOR FLOTANTE EXCLUSIVO PARA C1 SJA1 (CORRECCIÓN DE BÚSQUEDA DIRECTA)
+    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS (RESTAURADO)
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título limpio con tu color verde personalizado (#00FF00)
+        // Título personalizado con tu color verde (#00FF00) original
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                                📊 STOCK DISPONIBLE (SJA1)
+                                📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // 🌟 CORRECCIÓN CRÍTICA: Apuntamos al contenedor real '#tab-6' en lugar de '#body-6'
-        let filasFlota = document.querySelectorAll('#tab-6 tr.master-row');
+        // Escaneamos las filas maestras de la pestaña seleccionada actualmente (currentTab)
+        let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
             let nameCell = fila.querySelector('.edit-name');
@@ -3586,31 +3586,23 @@ actualizarRelojRuteos();
             let nombreUnidad = nameCell.innerText.trim();
             if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
 
-            // Extraemos los valores numéricos directo de las celdas de la fila
             let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
             let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
             
-            // Forzamos el mapeo físico de celdas (Columna 2 para ORH y Columna 3 para Ocupación)
-            let celdasfila = fila.querySelectorAll('td');
-            let orhVal = "0";
-            let ocupVal = "0";
+            // Buscar los valores de ORH y Ocupación ingresados manualmente
+            let orhVal = fila.querySelector('.edit-orh')?.innerText?.trim() || "0";
+            let ocupVal = fila.querySelector('.edit-ocup')?.innerText?.trim() || "0";
 
-            if (celdasfila.length >= 4) {{
-                // En el formato con ORH/OCUPACIÓN activo, las posiciones reales son 1 y 2
-                orhVal = celdasfila[1] ? celdasfila[1].innerText.trim() : "0";
-                ocupVal = celdasfila[2] ? celdasfila[2].innerText.trim() : "0";
-            }}
-
-            // Condición solicitada: Solo se muestran si se activan en Schedule (>0)
+            // Condición original exacta: Solo aparecen en el panel flotante si están activos (>0)
             if (stockInicial > 0) {{
                 conteoUnidadesValidas++;
                 
-                // Tus reglas de colores inteligentes para la columna Delta
-                let colorDelta = "#00FF00"; // Verde
-                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
-                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson (Agotado)
+                // Tus reglas originales de colores adaptativos para el Patio
+                let colorDelta = "#00FF00"; // Verde si queda stock disponible
+                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
+                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
 
-                // Renderizado con tus fuentes (#D3D3D3, #ffffff y tamaño 14px)
+                // Maquetación exacta aplicando tus estilos de texto (#D3D3D3, #ffffff y 14px)
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
                         <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
@@ -3629,25 +3621,28 @@ actualizarRelojRuteos();
         cont.innerHTML = htmlInyeccion;
     }}
 
-    // --- ESCUCHADORES DE EVENTOS GLOBALES DE INTEGRACIÓN DIRECTA ---
+    // --- ESCUCHADORES DE EVENTOS BLINDADOS DE ALTA VELOCIDAD ---
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
-    // Escucha clics generales (como el cambio de pestaña en la botonera superior o clics +/-)
     document.addEventListener('click', function(e) {{
-        setTimeout(actualizarContadorFlota, 60);
+        if (e.target.tagName === 'BUTTON' || e.target.classList.contains('s-type') || e.target.classList.contains('ok-check')) {{
+            setTimeout(actualizarContadorFlota, 30);
+        }}
     }});
 
-    // Forzar actualización inmediata dentro de la función de recálculo nativa
+    // Sincronización inyectada directamente en el recálculo nativo de la app
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadorFlota();
     }};
 
-    // Inicialización al arrancar la página
-    setTimeout(actualizarContadorFlota, 600);
+    // Inicialización inicial limpia
+    setTimeout(actualizarContadorFlota, 500);
+
+    
     
 
 </script>
