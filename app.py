@@ -1154,7 +1154,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                     let tieneCapacidad = (stock - used > 0);
             
                     if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
-                        opt += `<option value="\${k}">\${k}</option>`;
+                        opt += `<option value="\${{k}}">\${{k}}</option>`;
                     }}
                 }});
                 
