@@ -3563,20 +3563,20 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 MOTOR UNIFICADO MULTI-TAB: CONTADOR FLOTANTE CORREGIDO Y COMPATIBLE
+    // 📊 MOTOR UNIFICADO MULTI-TAB: CONTADOR FLOTANTE SOLO CON UNIDADES ACTIVAS (>0)
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título limpio con el color verde (#00FF00) de tu configuración
+        // Título personalizado en verde brillante (#00FF00)
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // Escaneamos las filas maestras de la pestaña en la que estés parado (currentTab)
+        // Escaneamos las filas maestras de la pestaña seleccionada actualmente (currentTab)
         let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3589,25 +3589,24 @@ actualizarRelojRuteos();
             let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
             let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
             
-            // 🛡️ LECTURA MULTI-ENTORNO: Buscamos por la clase nativa. Si no existe, usamos la posición física de la fila
+            // 🛡️ SISTEMA DE SEGURIDAD INTERNO: 
+            // Si la pestaña no tiene las clases explícitas, lee las celdas por su posición nativa en la fila
             let celdaOrh = fila.querySelector('.edit-orh');
             let celdaOcup = fila.querySelector('.edit-ocup');
             
-            // Si las celdas no tienen clase explícita en esta pestaña, las rescatamos por su orden de td
             if (!celdaOrh || !celdaOcup) {{
                 let todosLosTd = fila.querySelectorAll('td');
                 if (todosLosTd.length >= 4) {{
                     celdaOrh = todosLosTd[1];  // Segunda celda (ORH)
-                    celdaOcup = todosLosTd[2]; // Tercera celda (OCUPACIÓN)
+                    celdaOcup = todosLosTd[2]; // Tercera celda (% OCUPACIÓN)
                 }}
             }}
 
             let orhVal = celdaOrh ? celdaOrh.innerText.trim() : "0";
             let ocupVal = celdaOcup ? celdaOcup.innerText.trim() : "0";
 
-            // Modificación: Para verificar que el motor reaccione en tiempo real, mostramos
-            // las unidades del Schedule. Cambia a (stockInicial >= 0) si deseas ver el listado completo vacío.
-            if (stockInicial >= 0) {{
+            // 🌟 REGRESO A LA CONDICIÓN ORIGINAL: Solo entran al panel si están activadas en Schedule
+            if (stockInicial > 0) {{
                 conteoUnidadesValidas++;
                 
                 // Tus reglas de colores adaptativos para el Patio
@@ -3627,6 +3626,7 @@ actualizarRelojRuteos();
             }}
         }});
 
+        // Si el Schedule está completamente en ceros, muestra el mensaje de advertencia limpio
         if (conteoUnidadesValidas === 0) {{
             htmlInyeccion += `<div style="text-align:center; color:#aaa; padding:10px 0;">⚠️ No hay flota declarada en Schedule</div>`;
         }}
@@ -3652,7 +3652,7 @@ actualizarRelojRuteos();
         actualizarContadorFlota();
     }};
 
-    // Inicialización de arranque limpia
+    // Inicialización de arranque limpia al cargar la pestaña
     setTimeout(actualizarContadorFlota, 600);
 
 
