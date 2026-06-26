@@ -3353,21 +3353,6 @@ actualizarDosPorciento();
 // ==============================================================================
 
 
-// --- SEGUNDO PASO: Poner esta función al final de tu script ---
-function agregarIndicadorSchedule() {{
-    let headers = document.querySelectorAll('th');
-    headers.forEach(th => {{
-        // Buscamos el encabezado que contiene "SCHEDULE"
-        if (th.innerText.includes("SCHEDULE") && !th.querySelector('.hand-emoji')) {{
-            
-            // Reemplazamos el contenido manteniendo el texto y poniendo la mano arriba con un estilo controlado
-            th.innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; line-height: 1.1;">' +
-                           '<span class="hand-emoji" style="font-size: 14px; margin-bottom: 2px;">👇</span>' +
-                           '<span>SCHEDULE</span>' +
-                           '</div>';
-        }}
-    }});
-}}
 
 
 
