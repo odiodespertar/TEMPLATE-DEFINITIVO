@@ -259,13 +259,8 @@ def export_c1_csv():
 
 
 def gen_poligonos(data_target=None):
-
-    # 1. Iniciamos la cadena con el contador
-    polys = '''
-    <div id="mi-contador" style="position: fixed; top: 10px; right: 220px; background: #000; color: #fff; padding: 10px; border-radius: 5px; z-index: 9999; pointer-events: none; font-family: sans-serif; font-weight: bold;">
-        U: 0 | ORH: 0 | Occ: 0
-    </div>
-    '''
+    # Contenedor flotante base que será llenado dinámicamente por JavaScript
+    polys = '<div id="mi-contador">🔄 Cargando flota...</div>'
 
  
     # Botones con dimensiones totalmente congeladas a nivel píxel
