@@ -3628,7 +3628,7 @@ actualizarRelojRuteos();
                                     <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
-                }
+                }}
             }});
             if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
             contScp1.innerHTML = html;
