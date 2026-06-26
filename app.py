@@ -2213,17 +2213,17 @@ function resetRow(sel) {{
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
-        // 3. Obtener el SPR, el Stock Total inicial (Schedule) y cuántas se han usado en TOTAL en toda la app
+        // 3. Obtener el SPR, el Stock Total inicial (Schedule)
         let sprEncontrado = 0;
         let stockInicialFlota = 0;
-        let totalUnidadesUsadasEnTodaLaApp = 0;
+        let totalUnidadesUsadasEnEstaPestana = 0;
         
-        let filasFlota = document.querySelectorAll('.master-row');
+        let filasFlota = document.querySelectorAll('#body-' + currentTab + ' .master-row');
         for (let filaFlota of filasFlota) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
                 let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
-                let celdaStock = filaFlota.querySelector('.f-stock'); // Columna SCHEDULE de la tabla superior
+                let celdaStock = filaFlota.querySelector('.f-stock'); // Columna SCHEDULE de la tabla superior activa
                 
                 if (celdaSprMax) sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
                 if (celdaStock) stockInicialFlota = parseInt(celdaStock.innerText) || 0;
@@ -2249,23 +2249,23 @@ function resetRow(sel) {{
             }}
         }});
 
-        // El volumen que verdaderamente nos falta cubrir (en tu imagen, los 603 sobrantes)
+        // El volumen que verdaderamente nos falta cubrir
         let volumenRestantePlan = volumenTotal - volumenYaCubierto;
         if (volumenRestantePlan < 0) volumenRestantePlan = 0;
 
-        // 6. CONTAR CUÁNTAS UNIDADES DE ESTE TIPO YA ESTÁN OCUPADAS EN TODA LA PÁGINA (MENOS LA FILA ACTUAL)
-        // Esto evita depender de la celda "f-left" que se calcula a destiempo
-        document.querySelectorAll('.p-content .calc-row').forEach(fGlobal => {{
+        // 6. CORREGIDO: CONTAR UNIDADES OCUPADAS ÚNICAMENTE EN LA PESTAÑA ACTIVA
+        // Filtramos usando el ID específico de los polígonos activos (#polys-X)
+        document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(fGlobal => {{
             if (fGlobal !== r) {{
                 let t = fGlobal.querySelector('.s-type')?.value || "";
                 if (t.trim() === unidadSeleccionada.trim()) {{
-                    totalUnidadesUsadasEnTodaLaApp += parseInt(fGlobal.querySelector('.u-manual').innerText) || 0;
+                    totalUnidadesUsadasEnEstaPestana += parseInt(fGlobal.querySelector('.u-manual').innerText) || 0;
                 }}
             }}
         }});
 
-        // Inventario real remanente en el patio antes de asignarle a esta celda
-        let inventarioDisponibleReal = stockInicialFlota - totalUnidadesUsadasEnTodaLaApp;
+        // Inventario real remanente en el patio para la pestaña actual
+        let inventarioDisponibleReal = stockInicialFlota - totalUnidadesUsadasEnEstaPestana;
         if (inventarioDisponibleReal < 0) inventarioDisponibleReal = 0;
 
         // 7. CÁLCULO DE LAS UNIDADES NECESARIAS CON SU TOPE INVIOLABLE
@@ -2293,10 +2293,10 @@ function resetRow(sel) {{
                 }}
             }}
 
-            // CANDADO DE DISPONIBILIDAD: Si no es unidad infinita, limitamos estrictamente al stock físico real
+            // CANDADO DE DISPONIBILIDAD: Si no es unidad infinita, limitamos estrictamente al stock físico real de la pestaña
             if (!permiteInfinito) {{
                 if (unidadesCalculadas > inventarioDisponibleReal) {{
-                    unidadesCalculadas = inventarioDisponibleReal; // Agarra todo lo que queda y vacía el patio
+                    unidadesCalculadas = inventarioDisponibleReal; // Agarra todo lo que queda de esta pestaña
                     
                     if (unidadesCalculadas === 0) {{
                         showAlert("⚠️ FLOTA AGOTADA. No quedan unidades disponibles de: " + unidadSeleccionada);
@@ -2361,7 +2361,6 @@ function resetRow(sel) {{
             recalc();
         }}
     }}
-
 
 
 
