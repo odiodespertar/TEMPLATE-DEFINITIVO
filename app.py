@@ -6062,7 +6062,7 @@ function manualEdit(el) {{
                 // Regla B: SDE o PREC (Tab 1 y 5) con cualquier Car clásico (excepto Small 9h Ext Car si así lo deseas, o generalizando por pestaña)
                 else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
                      // Excluimos explícitamente la unidad con tope de la pestaña PREC SMX5
-                     if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {
+                     if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
                          permiteInfinito = true;
                      }}
                  }}
