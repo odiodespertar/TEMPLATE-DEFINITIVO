@@ -599,8 +599,8 @@ app_html = f"""
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 0;
         }}
 
         .cont-item:last-child {{
@@ -613,13 +613,15 @@ app_html = f"""
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 110px;
+            max-width: 150px;
+            font-size: 14px;
         }}
 
         .cont-vals {{
             font-family: monospace;
             font-weight: bold;
             text-align: right;
+            font-size: 14px;
         }}
 
 
