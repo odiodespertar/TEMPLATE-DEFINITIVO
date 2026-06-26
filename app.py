@@ -2198,6 +2198,66 @@ function manualEdit(el) {{
         recalc();
     }}
 
+    # Asegúrate de que este bloque reemplace a tus funciones manualEdit y resetRow
+# dentro de la cadena grande de app_html = f""" ... """
+
+    function manualEdit(el) {{ 
+        let r = el.closest('tr');
+        if (r) {{
+            editedRowsPlan.add(r);
+            
+            let table = r.closest('table');
+            let tbody = table ? table.querySelector('tbody') : null;
+            let selectType = r.querySelector('.s-type');
+            let unidadSeleccionada = selectType ? selectType.value : "";
+            let permiteInfinito = false;
+            let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
+
+            let activeTabBtn = document.querySelector('.tab-btn.active');
+            if (activeTabBtn) {{
+                let tabId = activeTabBtn.textContent.trim();
+                
+                // Regla A: C1 SCP1 con Large Van MLP
+                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                    permiteInfinito = true;
+                }} 
+                // Regla B: SDE o PREC con cualquier Car (menos la que tiene tope)
+                else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                    if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                        permiteInfinito = true;
+                    }}
+                }}
+                // NOTA: Para Tab 6 (C1 SJA1) permiteInfinito se queda en FALSE (Tope estricto)
+            }}
+
+            if (permiteInfinito && tbody) {{
+                let filasCalculo = tbody.querySelectorAll('tr.calc-row');
+                let ultimaFila = filasCalculo[filasCalculo.length - 1];
+                
+                if (r === ultimaFila) {{
+                    let nuevaFila = r.cloneNode(true);
+                    let nuevoSelect = nuevaFila.querySelector('.s-type');
+                    if (nuevoSelect) {{
+                        nuevoSelect.value = "";
+                        nuevoSelect.style.color = "#808080";
+                    }}
+                    
+                    let nuevoSpanU = nuevaFila.querySelector('.u-manual');
+                    if (nuevoSpanU) nuevoSpanU.innerText = "0";
+                    
+                    let nuevoSpanS = nuevaFila.querySelector('.spr-real-val');
+                    if (nuevoSpanS) nuevoSpanS.innerText = "0";
+
+                    let nuevoCheck = nuevaFila.querySelector('.ok-check');
+                    if (nuevoCheck) nuevoCheck.checked = false;
+
+                    tbody.appendChild(nuevaFila);
+                }}
+            }}
+        }}
+        recalc();
+    }}
+
     function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
