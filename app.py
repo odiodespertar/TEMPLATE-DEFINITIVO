@@ -2860,7 +2860,7 @@ function distribuirAutomatico() {{
             let restante = objetivo - yaAsignado;
             if (restante <= 0) return;
 
-            let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+            let filas = Array.from(bloque.querySelectorAll('.calc-row')); 
             for (let fila of filas) {{
                 let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
                 let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
@@ -2956,7 +2956,7 @@ function distribuirAutomatico() {{
         if (restante <= 0) return;
 
         let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-        for (let fila of filas) {
+        for (let fila of filas) {{
             let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
             let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
             let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
