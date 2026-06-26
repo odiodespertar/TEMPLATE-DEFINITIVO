@@ -3562,21 +3562,21 @@ actualizarRelojRuteos();
 
 
  
-  // ==============================================================================
-    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS (PERSONALIZADO)
+ // ==============================================================================
+    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE ULTRA-BLINDADO (SOPORTE TOTAL C1 SJA1)
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título limpio con el color verde (#00FF00) que definiste
+        // Título personalizado en verde brillante (#00FF00)
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // Escaneamos las filas maestras de la pestaña seleccionada actualmente
+        // Escaneamos las filas maestras de la pestaña seleccionada actualmente (currentTab)
         let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3589,19 +3589,23 @@ actualizarRelojRuteos();
             let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
             let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
             
-            // Buscar los valores de ORH y Ocupación ingresados manualmente
-            let orhVal = fila.querySelector('.edit-orh')?.innerText?.trim() || "0";
-            let ocupVal = fila.querySelector('.edit-ocup')?.innerText?.trim() || "0";
+            // 🛡️ SITEMA DE RASTREO BLINDADO: 
+            // Intenta buscar por clase (.edit-orh), si no existe en el HTML, lee la celda por su orden físico (Columna 2 y Columna 3)
+            let celdaOrh = fila.querySelector('.edit-orh') || fila.querySelectorAll('td')[1];
+            let celdaOcup = fila.querySelector('.edit-ocup') || fila.querySelectorAll('td')[2];
+
+            let orhVal = celdaOrh ? celdaOrh.innerText.trim() : "0";
+            let ocupVal = celdaOcup ? celdaOcup.innerText.trim() : "0";
 
             if (stockInicial > 0) {{
                 conteoUnidadesValidas++;
                 
-                // Tus nuevas reglas de colores adaptativos para el Patio
+                // Tus reglas de colores adaptativos para el Patio
                 let colorDelta = "#00FF00"; // Verde si queda stock disponible
                 if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
                 else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
 
-                // Maquetación ampliada aplicando tus estilos de texto (#D3D3D3, #ffffff y 14px)
+                // Maquetación exacta con tus estilos (#D3D3D3, #ffffff y 14px)
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
                         <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
