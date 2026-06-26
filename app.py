@@ -3580,15 +3580,13 @@ actualizarRelojRuteos();
 
 
 
-   
-// ==============================================================================
+   // ==============================================================================
     // 📊 DOBLE NÚCLEO: CONTADORES DUPLICADOS E INDEPENDIENTES PARA SCP1 Y SJA1
     // ==============================================================================
     function actualizarContadoresDuplicados() {{
         let contScp1 = document.getElementById('mi-contador-scp1');
         let contSja1 = document.getElementById('mi-contador-sja1');
         
-        // --- CONTROL AUTOMÁTICO DE PANTALLA ---
         if (contScp1 && contSja1) {{
             if (currentTab == 2) {{
                 contScp1.style.display = 'block';
@@ -3597,7 +3595,6 @@ actualizarRelojRuteos();
                 contScp1.style.display = 'none';
                 contSja1.style.display = 'block';
             }} else {{
-                // Si estás en SDE, PREC u otras pestañas, los ocultamos para no estorbar
                 contScp1.style.display = 'none';
                 contSja1.style.display = 'none';
             }}
@@ -3631,7 +3628,7 @@ actualizarRelojRuteos();
                                     <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
-                }}
+                }
             }});
             if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
             contScp1.innerHTML = html;
@@ -3665,133 +3662,28 @@ actualizarRelojRuteos();
                                     <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
-                }}
+                }
             }});
             if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
             contSja1.innerHTML = html;
         }}
     }}
 
-    // --- ESCUCHADORES DE EVENTOS ASINCRÓNICOS ---
     document.addEventListener('input', function(e) {{
         actualizarContadoresDuplicados();
     }});
 
     document.addEventListener('click', function(e) {{
-        // Delay optimizado a 40ms para dar tiempo a que cambie la pestaña activa
-        setTimeout(actualizarContadoresDuplicados, 40);
+        setTimeout(actualadoresDuplicados, 40);
     }});
 
-    // Enlace transparente al recálculo matemático de tu Streamlit
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadoresDuplicados();
     }};
 
-    // Arranque inicial limpio
     setTimeout(actualizarContadoresDuplicados, 600);
-
-
-
- 
-// ==============================================================================
-    // 📊 EL REGRESO DEL CONTADOR ORIGINAL: TOTALMENTE BLINDADO PARA SJA1
-    // ==============================================================================
-    function actualizarContadorFlota() {{
-        let cont = document.getElementById('mi-contador');
-        if (!cont) return;
-
-        // Título limpio con tu color verde brillante (#00FF00)
-        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                                📊 STOCK DISPONIBLE 
-                             </div>`;
-
-        let conteoUnidadesValidas = 0;
-
-        // 🌟 RASTREO SEGURO POR VISIBILIDAD:
-        // Buscamos cuál es el contenedor de pestaña que se está mostrando actualmente en la pantalla
-        let todasLasPestanas = document.querySelectorAll('.t-content');
-        let pestanaVisible = null;
-        
-        todasLasPestanas.forEach(tab => {{
-            if (window.getComputedStyle(tab).display !== 'none') {{
-                pestanaVisible = tab;
-            }}
-        }});
-
-        // Si logramos enganchar la pestaña que el usuario está viendo en su monitor
-        if (pestanaVisible) {{
-            // Escaneamos únicamente las filas de flota de esa sección visible
-            let filasFlota = pestanaVisible.querySelectorAll('tr.master-row');
-            
-            filasFlota.forEach(fila => {{
-                let nameCell = fila.querySelector('.edit-name');
-                if (!nameCell) return;
-
-                let nombreUnidad = nameCell.innerText.trim();
-                if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
-
-                // Leemos los datos de stock y deltas de forma ultra-segura
-                let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
-                let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
-                
-                // Buscamos las celdas de ORH y Ocupación por su clase asignada por Python
-                let celdaOrh = fila.querySelector('.edit-orh');
-                let celdaOcup = fila.querySelector('.edit-ocup');
-
-                let orhVal = celdaOrh ? celdaOrh.innerText.trim() : "0";
-                let ocupVal = celdaOcup ? celdaOcup.innerText.trim() : "0";
-
-                // Regla de oro: Solo aparecen en la tarjeta flotante si Schedule > 0
-                if (stockInicial > 0) {{
-                    conteoUnidadesValidas++;
-                    
-                    // Tus colores dinámicos del patio
-                    let colorDelta = "#00FF00"; // Verde
-                    if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
-                    else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson (Agotado)
-
-                    // Estructura visual de alta visibilidad a 14px y texto gris (#D3D3D3)
-                    htmlInyeccion += `
-                        <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
-                            <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
-                            <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right; font-size: 14px;">
-                                <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
-                                <span style="color:#ffffff; font-size:14px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
-                            </div>
-                        </div>`;
-                }}
-            }});
-        }}
-
-        // Si entras a una pestaña sin datos o limpia, muestra la alerta original en gris
-        if (conteoUnidadesValidas === 0) {{
-            htmlInyeccion += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
-        }}
-
-        cont.innerHTML = htmlInyeccion;
-    }}
-
-    // --- ESCUCHADORES DE EVENTOS AUTOMÁTICOS ---
-    document.addEventListener('input', function(e) {{
-        actualizarContadorFlota();
-    }});
-
-    document.addEventListener('click', function(e) {{
-        // Un delay de 50ms permite que las pestañas terminen de hacer el cambio visual antes de leer la flota
-        setTimeout(actualizarContadorFlota, 50);
-    }});
-
-    // Sincronizamos con tu motor de recálculo nativo de Streamlit
-    let funcionRecalcOriginal = recalc;
-    recalc = function() {{
-        funcionRecalcOriginal();
-        actualizarContadorFlota();
-    }};
-
-    // Inicialización forzada al cargar la página
-    setTimeout(actualizarContadorFlota, 600);
 
     
     
