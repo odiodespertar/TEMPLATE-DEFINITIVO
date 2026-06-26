@@ -1612,17 +1612,17 @@ function generarExcelPolys() {{
             let filaHtml = '<tr>';
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="\${filasValidas.length}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">\${plan}</td>
-                    <td rowspan="\${filasValidas.length}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">\${vol}</td>
+                    <td rowspan="\${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">\${{plan}}</td>
+                    <td rowspan="\${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">\${{vol}}</td>
                 `;
             }}
             filaHtml += `
-                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">\${unidad}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">\${asignadas}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">\${valSpr}</td>
+                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">\${{unidad}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">\${{asignadas}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">\${{valSpr}}</td>
             `;
             if (index === 0) {{
-                filaHtml += `<td rowspan="\${filasValidas.length}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">\${nodoTxt}</td>`;
+                filaHtml += `<td rowspan="\${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">\${{nodoTxt}}</td>`;
             }}
             filaHtml += '</tr>';
             body.innerHTML += filaHtml;
