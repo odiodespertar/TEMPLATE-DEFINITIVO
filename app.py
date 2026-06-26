@@ -3663,7 +3663,7 @@ actualizarRelojRuteos();
                                 <div class="cont-name" title="${{name}}">${{name}}</div>
                                 <div class="cont-vals">
                                     <span style="color:${{color}};">${{left}}</span>
-                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${orh} | %:${ocup}</span>
+                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
                 }}
