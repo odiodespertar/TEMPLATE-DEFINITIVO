@@ -580,17 +580,17 @@ app_html = f"""
             position: fixed;
             top: 140px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
             right: 20px; 
-            background: rgba(37, 40, 43, 0.95); /* Color a juego con tu fondo oscuro */
+            background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
             color: #ffffff; 
-            padding: 12px; 
-            border-radius: 8px; 
+            padding: 14px; 
+            border-radius: 9px; 
             z-index: 999999; 
             font-family: sans-serif;
-            font-size: 11px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border: 1px solid #4682B4;
-            width: 210px;
-            max-height: 400px;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: 1px solid #fce726;
+            width: 250px;
+            max-height: 410px;
             overflow-y: auto;
             pointer-events: auto; /* Permite scroll si la lista de flota es larga */
         }}
