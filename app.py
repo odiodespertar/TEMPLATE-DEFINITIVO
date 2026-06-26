@@ -1137,14 +1137,14 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     }}
 }});
 
-document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {
+document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
             const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h", "Car 8h"];
 
-            bl.querySelectorAll('.s-type').forEach(s => {
+            bl.querySelectorAll('.s-type').forEach(s => {{
                 let cur = s.value; 
                 let opt = '<option value="">Seleccionar...</option>';
              
-                Object.keys(fleet).forEach(k => {
+                Object.keys(fleet).forEach(k => {{
                     let nameLower = k.toLowerCase();
                     let stock = fleet[k].stock;
                     let used = fleet[k].used;
@@ -1153,16 +1153,16 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
                     let tieneStockInicial = (stock > 0); 
                     let tieneCapacidad = (stock - used > 0);
             
-                    if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {
+                    if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
                         opt += `<option value="\${k}">\${k}</option>`;
-                    }
-                });
+                    }}
+                }});
                 
                 s.innerHTML = opt;
                 s.value = cur;
                 updateSelectColor(s);
-            });
-        });
+            }});
+        }});
 
 let totals = {{
     mlpDecl: 0, mlpRute: 0,
