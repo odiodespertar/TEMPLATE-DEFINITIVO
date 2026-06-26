@@ -1551,18 +1551,16 @@ function showTab(n, btn) {{
     }}
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
-    function stepVal(btn, delta, type) {{
+
+function stepVal(btn, delta, type) {{
     let row = btn.closest('tr');
     let sel = row.querySelector('.s-type').value;
     
-    // Si no hay unidad seleccionada, no hace nada
     if(sel === "Seleccionar...") return;
-
-    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
     let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
     let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
     
-    if (!fRow) return; // Seguridad por si no encuentra la unidad
+    if (!fRow) return;
 
     let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
     let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
@@ -1571,45 +1569,48 @@ function showTab(n, btn) {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
 
+        let nombreUpper = sel.toUpperCase();
+        
+        // REGLA DE FLEXIBILIDAD: ¿Qué unidades pueden ser infinitas/negativas?
+        let esFlexible = false;
+        
+        if (currentTab == 1 || currentTab == 4 || currentTab == 5) {{
+            // En pestañas PREC y SDE, las clásicas Car con guion son infinitas
+            esFlexible = nombreUpper.includes("CAR - 3H") || nombreUpper.includes("CAR - 5H") || nombreUpper.includes("CAR - 8H");
+        }} else if (currentTab == 2) {{
+            // En C1 SCP1, la Large Van MLP suele ser la flexible
+            esFlexible = nombreUpper.includes("LARGE VAN MLP");
+        }} else if (currentTab == 6) {{
+            // En C1 SJA1, NO queremos que ninguna sea infinita (Tope estricto para todas)
+            esFlexible = false; 
+        }}
 
-// 🔥 SOLO ALGUNOS CAR PUEDEN EXCEDERSE
-let nombreUpper = sel.toUpperCase();
+        // Si NO es flexible y el usuario presiona "+", bloquear cuando ya no hay flota en patio
+        if (delta > 0 && left <= 0 && !esFlexible) {{
+            showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES. Flota agotada para esta unidad.");
+            return;
+        }}
 
-let esFlexible =
-    nombreUpper.includes("CAR - 3H") ||
-    nombreUpper.includes("CAR - 5H") ||
-    nombreUpper.includes("CAR - 8H");
-
-// Si NO es flexible, bloquear cuando ya no hay disponibles
-if (delta > 0 && left <= 0 && !esFlexible) {{
-    showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
-    return;
-}}
-
-// Si SÍ es flexible, permitir negativos pero mostrar alerta
-if (delta > 0 && left <= 0 && esFlexible) {{
-    showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
-}}
+        // Si SÍ es flexible, permitir el exceso registrándolo en negativo
+        if (delta > 0 && left <= 0 && esFlexible) {{
+            showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+        }}
         span.innerText = val + delta;
-                }} else {{
+    }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = Math.round(val + delta);
 
-        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
-        if (delta > 0 && newVal > sprMaxReal) {{
+        if (delta > 0 && newVal > sprMaxReal) {
             showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
             return; 
         }}
         
-        // Si es para bajar o está dentro del rango, permite el cambio
         span.innerText = newVal;
     }}
     editedRowsPlan.add(row);
     recalc();
 }}
-
-
 
 
 
@@ -2940,7 +2941,7 @@ function distribuirAutomatico() {{
     // ==============================================================================
     // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
     // ==============================================================================
-    function procesarAsignacionUnidadSJA1(poly) {{
+   function procesarAsignacionUnidadSJA1(poly) {{
         let bloque = poly.bloque;
         let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
         let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
@@ -2951,21 +2952,19 @@ function distribuirAutomatico() {{
             let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
             yaAsignado += (unidades * spr);
         }});
-
         let restante = objetivo - yaAsignado;
         if (restante <= 0) return;
 
         let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-        for (let fila of filas) {{
+        for (let fila of filas) {
             let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
             let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
             let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
-
             if (yaTieneUnidad || yaTieneTipo) continue;
             if (restante <= 0) break;
 
             let unidad = null;
-
+            
             // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
             if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
                 const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
@@ -2974,23 +2973,16 @@ function distribuirAutomatico() {{
                     if (unidad) break;
                 }}
             }}
-            // 4.2 PRIORIDAD PLANES FORÁNEOS: Con protección si ingresaste una unidad manualmente
-            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
+            // 4.2 PRIORIDAD PLANES FORÁNEOS
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {
                 
-                // 👉 CONDICIÓN OPERATIVA: Revisamos si ya hay un vehículo metido a mano en la pantalla
-                let tieneUnidadYaAsignada = filas.some(f => {{
-                    let t = f.querySelector('.s-type')?.value || "";
-                    let u = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return t !== "" && t !== "Seleccionar..." && u > 0;
-                }});
-
                 // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                 if (!unidad) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                 }}
 
-                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en el orden de prioridad exacto que solicitaste
+                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en orden estricto
                 if (!unidad) {{
                     const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
                     for (let nombreCar of listaLigeras) {{
@@ -3000,18 +2992,27 @@ function distribuirAutomatico() {{
                 }}
             }}
 
-            // Si por volumen total o falta de stock global no halla unidad, frena el ciclo
-            if (!unidad) break;
+            // CANDADO DE SEGURIDAD GENERAL: Si la unidad seleccionada no tiene stock real, frena el ciclo
+            if (!unidad || unidad.restante <= 0) break;
 
-            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
+            // --- APLICACIÓN DEL TOPE COMO EN SMALL 9H EXT CAR ---
             let necesarias = Math.ceil(restante / unidad.spr);
-            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+            
+            // Ninguna unidad en esta pestaña permite desborde negativo. El tope es lo que queda en bodega (unidad.restante)
+            let usar = Math.min(necesarias, unidad.restante);
 
             if (usar <= 0) continue;
 
             let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
             if (filaExistente) {{
                 let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                
+                // Evitar que la consolidación de filas rompa el inventario máximo inicial
+                if (actual + usar > unidad.stock) {{
+                    usar = unidad.stock - actual;
+                }}
+                if (usar <= 0) continue;
+
                 filaExistente.querySelector('.u-manual').innerText = actual + usar;
                 filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
                 editedRowsPlan.add(filaExistente);
@@ -6054,16 +6055,17 @@ function manualEdit(el) {{
             let activeTabBtn = document.querySelector('.tab-btn.active');
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
-                
-                // Regra A: C1 con Large Van MLP
+                // Regla A: C1 SCP1 con Large Van MLP
                 if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
-                }} 
-                // Regla B: SDE o PREC con cualquier Car
-                else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-                    permiteInfinito = true;
                 }}
-            }}
+                // Regla B: SDE o PREC (Tab 1 y 5) con cualquier Car clásico (excepto Small 9h Ext Car si así lo deseas, o generalizando por pestaña)
+                else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                     // Excluimos explícitamente la unidad con tope de la pestaña PREC SMX5
+                     if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {
+                         permiteInfinito = true;
+                     }}
+                 }}
 
             // 2. Si cumple la regla y es la última fila, la clonamos antes del recálculo
             if (permiteInfinito && tbody) {{
@@ -6163,18 +6165,17 @@ function manualEdit(el) {{
 
         // Leemos la pestaña activa directamente de tus botones superiores
         let activeTabBtn = document.querySelector('.tab-btn.active');
-        if (activeTabBtn) {{
+        if (activeTabBtn) {
             let tabId = activeTabBtn.textContent.trim();
-            
-            // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
-            if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+            if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {
                 permiteInfinito = true;
-            }} 
-            // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
-            else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-                permiteInfinito = true;
+            } 
+            else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {
+                if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {
+                    permiteInfinito = true;
             }}
         }}
+
 
         // Si cumple cualquiera de las dos reglas válidas, expandimos la tabla al usar la última fila
         if (permiteInfinito && tbody) {{
