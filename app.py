@@ -2302,7 +2302,7 @@ function updateFleetFloat() {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let left = row.querySelector('.f-left')?.innerText.trim();
         if (name && name !== "IGNORAR") {{
-            html += `<div><b>\${name}:</b> \${left}</div>`;
+            html += `<div><b>\${{name}}:</b> \${{left}}</div>`;
         }}
     }});
     body.innerHTML = html;
