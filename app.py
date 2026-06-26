@@ -261,10 +261,6 @@ def export_c1_csv():
 def gen_poligonos(data_target=None):
     # Generamos ambos contadores independientes en el HTML base
     polys = '''
-    <div id="mi-contador-scp1">🔄 Cargando flota SCP1...</div>
-    <div id="mi-contador-sja1">🔄 Cargando flota SJA1...</div>
-    '''
-
  
     # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
