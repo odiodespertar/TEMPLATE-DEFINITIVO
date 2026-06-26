@@ -330,9 +330,9 @@ def gen_poligonos(data_target=None):
     campo_volumen_normal = '''
 <div style="text-align:center;">
     <span class="v-total-val"
-          contenteditable="true"
-          oninput="recalc()"
-          style="
+            contenteditable="true"
+            oninput="recalc()"
+            style="
             display:inline-block;
             min-width:55px;
             padding:2px 8px;
