@@ -3567,7 +3567,7 @@ actualizarRelojRuteos();
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#7CFFB2; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#9ACD32; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
@@ -3594,7 +3594,7 @@ actualizarRelojRuteos();
                 conteoUnidadesValidas++;
                 
                 // Color inteligente según la disponibilidad real en patio
-                let colorDelta = "#7CFFB2"; // Verde
+                let colorDelta = "#9ACD32"; // Verde
                 if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
                 else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo (Agotado)
 
