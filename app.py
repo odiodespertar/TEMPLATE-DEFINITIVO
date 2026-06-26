@@ -3567,22 +3567,7 @@ actualizarRelojRuteos();
 
 
 
-    function sumarTodo() {{
-        let u = 0, orh = 0;
-        // Suma las unidades
-        document.querySelectorAll('.u-manual').forEach(el => u += parseInt(el.innerText || 0));
-        // Suma el ORH
-        document.querySelectorAll('.spr-real-val').forEach(el => orh += parseFloat(el.innerText || 0));
-        
-        // Muestra el resultado
-        const cont = document.getElementById('mi-contador');
-        if (cont) cont.innerText = 'U: ' + u + ' | ORH: ' + orh.toFixed(0) + ' | Occ: 0';
-    }}
-
-    // Se activa cada vez que escribes algo
-    document.addEventListener('input', sumarTodo);
-    // Se activa cada vez que haces clic (por si usas los botones +/-)
-    document.addEventListener('click', sumarTodo);
+   
 
 
 
@@ -3590,17 +3575,20 @@ actualizarRelojRuteos();
    // ==============================================================================
     // 📊 NUEVO MOTOR INDEPENDIENTE: CONTADOR FLOTANTE DE DISPONIBILIDAD REAL RECALIBRADO
     // ==============================================================================
+    // ==============================================================================
+    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS
+    // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#7CFFB2; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                                📊 STOCK DISPONIBLE (Tab ${{currentTab}})
+                                📊 STOCK DISPONIBLE (Tab ${currentTab})
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // Escaneamos las filas maestras de la tabla superior de la pestaña seleccionada
+        // Escaneamos las filas maestras de la pestaña seleccionada
         let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3610,27 +3598,27 @@ actualizarRelojRuteos();
             let nombreUnidad = nameCell.innerText.trim();
             if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
 
-            // Extraemos los valores vigentes calculados en tiempo real por tu sistema
             let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
             let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
+            
+            // Buscar los valores de ORH y Ocupación ingresados manualmente
             let orhVal = fila.querySelector('.edit-orh')?.innerText?.trim() || "0";
             let ocupVal = fila.querySelector('.edit-ocup')?.innerText?.trim() || "0";
 
-            // Solo mostramos en el panel flotante aquellas unidades que tengan stock asignado en el Schedule
             if (stockInicial > 0) {{
                 conteoUnidadesValidas++;
                 
-                // Color adaptativo según el remanente en patio
-                let colorDelta = "#7CFFB2"; // Verde si queda stock
-                if (deltaRestante < 0) colorDelta = "#ff5d5d"; // Rojo si hay sobre-asignación
-                else if (deltaRestante === 0) colorDelta = "#ff9b21"; // Naranja si se agotó justo a tiempo
+                // Color inteligente según la disponibilidad real en patio
+                let colorDelta = "#7CFFB2"; // Verde
+                if (deltaRestante < 0) colorDelta = "#ff5d5d"; // Rojo (Exceso)
+                else if (deltaRestante === 0) colorDelta = "#ff9b21"; // Naranja (Agotado)
 
                 htmlInyeccion += `
-                    <div class="cont-item">
-                        <div class="cont-name" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
-                        <div class="cont-vals">
-                            <span style="color:${{colorDelta}};" title="Disponibles / Programadas">${{deltaRestante}}</span>
-                            <span style="color:#aaa; font-size:9px;"> | O:${{orhVal}} | C:${{ocupVal}}</span>
+                    <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
+                        <div class="cont-name" style="font-weight: bold; color: #ff9b21; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${nombreUnidad}">${nombreUnidad}</div>
+                        <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right;">
+                            <span style="color:${colorDelta};" title="Disponibles">${deltaRestante}</span>
+                            <span style="color:#aaa; font-size:9px;"> | O:${orhVal} | C:${ocupVal}</span>
                         </div>
                     </div>`;
             }}
@@ -3643,30 +3631,28 @@ actualizarRelojRuteos();
         cont.innerHTML = htmlInyeccion;
     }}
 
-    // --- ESCUCHADORES DE EVENTOS BLINDADOS ---
-    // En lugar de sobreescribir tus funciones 'sumarTodo' o eventos nativos, añadimos disparadores secundarios
-    // que se ejecutan armónicamente cada vez que el usuario teclea datos o presiona los botones de incremento +/-
+    // --- ESCUCHADORES DE EVENTOS BLINDADOS DE ALTA VELOCIDAD ---
+    // Eliminamos 'sumarTodo' para que no destruya la estructura HTML al hacer clic o escribir
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
     document.addEventListener('click', function(e) {{
-        // Si el clic viene de un botón de incrementar/decrementar, disparamos el refresco inmediatamente
+        // Si haces clic en botones +/- o selectores, actualizamos inmediatamente el stock
         if (e.target.tagName === 'BUTTON' || e.target.classList.contains('s-type') || e.target.classList.contains('ok-check')) {{
-            setTimeout(actualizarContadorFlota, 50);
+            setTimeout(actualizarContadorFlota, 30);
         }}
     }});
 
-    // Enganchamos el refresco del contador flotante al final de tu función nativa de recálculo masivo
+    // Inyección forzada en el recálculo nativo de Streamlit
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadorFlota();
     }};
 
-    // Ciclo de inicialización segura en cascada al cargar la interfaz
-    setTimeout(actualizarContadorFlota, 800);
-
+    // Inicialización inicial limpia
+    setTimeout(actualizarContadorFlota, 500);
 
 
 </script>
