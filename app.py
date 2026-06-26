@@ -608,8 +608,8 @@ app_html = f"""
         }}
 
         .cont-name {{
-            font-weight: bold;
-            color: #FFFF00;
+            font-weight: normal;
+            color: #F0E68C;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -3600,7 +3600,7 @@ actualizarRelojRuteos();
 
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
-                        <div class="cont-name" style="font-weight: bold; color: #FFFF00; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
+                        <div class="cont-name" style="font-weight: normal; color: #F0E68C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
                         <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right;">
                             <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
                             <span style="color:#ffffff; font-size:14px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
