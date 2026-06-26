@@ -609,7 +609,7 @@ app_html = f"""
 
         .cont-name {{
             font-weight: bold;
-            color: #ff9b21;
+            color: #ffe921;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
