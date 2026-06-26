@@ -3587,44 +3587,85 @@ actualizarRelojRuteos();
 
 
 
+   // ==============================================================================
+    // 📊 NUEVO MOTOR INDEPENDIENTE: CONTADOR FLOTANTE DE DISPONIBILIDAD REAL RECALIBRADO
+    // ==============================================================================
     function actualizarContadorFlota() {{
-        let totalORH = 0;
-        let totalOcc = 0;
-        let unidadesActivas = [];
+        let cont = document.getElementById('mi-contador');
+        if (!cont) return;
 
-        // 1. Buscamos todas las filas de la tabla superior
-        document.querySelectorAll('tr.master-row').forEach(fila => {{
-            // Buscamos la columna SCHEDULE para saber si la unidad está activa
-            // (Si no tienes clase en la celda de Schedule, cámbiala por su selector)
-            const scheduleCelda = fila.querySelector('.edit-schedule'); 
-            const scheduleVal = parseInt(scheduleCelda?.innerText || 0);
+        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#7CFFB2; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+                                📊 STOCK DISPONIBLE (Tab ${{currentTab}})
+                             </div>`;
 
-            // SOLO si el valor en SCHEDULE es mayor a 0, contamos la unidad
-            if (scheduleVal > 0) {{
-                const nombre = fila.querySelector('.edit-name')?.innerText.trim();
-                const orh = parseFloat(fila.querySelector('.edit-orh')?.innerText || 0);
-                const occ = parseFloat(fila.querySelector('.edit-ocup')?.innerText || 0);
+        let conteoUnidadesValidas = 0;
 
-                unidadesActivas.push(nombre + " (" + scheduleVal + ")");
-                totalORH += orh;
-                totalOcc += occ;
+        // Escaneamos las filas maestras de la tabla superior de la pestaña seleccionada
+        let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
+        
+        filasFlota.forEach(fila => {{
+            let nameCell = fila.querySelector('.edit-name');
+            if (!nameCell) return;
+
+            let nombreUnidad = nameCell.innerText.trim();
+            if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
+
+            // Extraemos los valores vigentes calculados en tiempo real por tu sistema
+            let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
+            let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
+            let orhVal = fila.querySelector('.edit-orh')?.innerText?.trim() || "0";
+            let ocupVal = fila.querySelector('.edit-ocup')?.innerText?.trim() || "0";
+
+            // Solo mostramos en el panel flotante aquellas unidades que tengan stock asignado en el Schedule
+            if (stockInicial > 0) {{
+                conteoUnidadesValidas++;
+                
+                // Color adaptativo según el remanente en patio
+                let colorDelta = "#7CFFB2"; // Verde si queda stock
+                if (deltaRestante < 0) colorDelta = "#ff5d5d"; // Rojo si hay sobre-asignación
+                else if (deltaRestante === 0) colorDelta = "#ff9b21"; // Naranja si se agotó justo a tiempo
+
+                htmlInyeccion += `
+                    <div class="cont-item">
+                        <div class="cont-name" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
+                        <div class="cont-vals">
+                            <span style="color:${{colorDelta}};" title="Disponibles / Programadas">${{deltaRestante}}</span>
+                            <span style="color:#aaa; font-size:9px;"> | O:${{orhVal}} | C:${{ocupVal}}</span>
+                        </div>
+                    </div>`;
             }}
         }});
 
-        // 2. Actualizar el contador
-        const cont = document.getElementById('mi-contador');
-        if (cont) {{
-            cont.innerHTML = '<div style="font-size: 11px;">' +
-                '<b>U:</b> ' + (unidadesActivas.length > 0 ? unidadesActivas.join(', ') : 'Ninguna') + '<br>' +
-                '<b>ORH:</b> ' + totalORH + ' | <b>Occ:</b> ' + totalOcc +
-                '</div>';
+        if (conteoUnidadesValidas === 0) {{
+            htmlInyeccion += `<div style="text-align:center; color:#aaa; padding:10px 0;">⚠️ No hay flota declarada en Schedule</div>`;
         }}
+
+        cont.innerHTML = htmlInyeccion;
     }}
 
-    // Escucha cambios en las celdas
-    document.addEventListener('input', actualizarContadorFlota);
-    // Ejecutar al cargar
-    setTimeout(actualizarContadorFlota, 1000);
+    // --- ESCUCHADORES DE EVENTOS BLINDADOS ---
+    // En lugar de sobreescribir tus funciones 'sumarTodo' o eventos nativos, añadimos disparadores secundarios
+    // que se ejecutan armónicamente cada vez que el usuario teclea datos o presiona los botones de incremento +/-
+    document.addEventListener('input', function(e) {{
+        actualizarContadorFlota();
+    }});
+
+    document.addEventListener('click', function(e) {{
+        // Si el clic viene de un botón de incrementar/decrementar, disparamos el refresco inmediatamente
+        if (e.target.tagName === 'BUTTON' || e.target.classList.contains('s-type') || e.target.classList.contains('ok-check')) {{
+            setTimeout(actualizarContadorFlota, 50);
+        }}
+    }});
+
+    // Enganchamos el refresco del contador flotante al final de tu función nativa de recálculo masivo
+    let funcionRecalcOriginal = recalc;
+    recalc = function() {{
+        funcionRecalcOriginal();
+        actualizarContadorFlota();
+    }};
+
+    // Ciclo de inicialización segura en cascada al cargar la interfaz
+    setTimeout(actualizarContadorFlota, 800);
 
 
 
