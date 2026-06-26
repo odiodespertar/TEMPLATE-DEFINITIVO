@@ -2764,7 +2764,7 @@ function distribuirAutomatico() {{
         }}
     }}
 
-    // --- 🔵 CARRIL PESTAÑA 2: C1 SCP1 (Incluye Campeche y sus Dedicadas) ---
+    // --- 🔵 CARRIL PESTAÑA 2: C1 BASE / SCP1 (Incluye Campeche y sus Dedicadas) ---
     if (currentTab == 2) {{
         // Preasignación Large Van MLP
         let largeVanMLP = fleet.find(f => f.nombre === "Large Van MLP");
@@ -2800,7 +2800,7 @@ function distribuirAutomatico() {{
                     largeVanMLP.restante -= usar;
                 }}
             }});
-        }}
+        }
 
         // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
         let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
@@ -2873,11 +2873,23 @@ function distribuirAutomatico() {{
                 // Desborde de Emergencia Tradicional Nativo (Si se vacía el stock principal)
                 if (!unidad) {{
                     if (currentTab == 4) {{ // SDE
-                        unidad = fleet.find(f => f.nombre.includes("Car - 5h")) || fleet.find(f => f.nombre.includes("Car - 3h"));
+                        let options = ["Car - 5h", "Car - 3h"];
+                        for (let opt of options) {{
+                            unidad = fleet.find(f => f.nombre.includes(opt));
+                            if (unidad) break;
+                        }}
                     }} else if (currentTab == 2) {{ // C1 SCP1
-                        unidad = fleet.find(f => f.nombre.includes("Large Van MLP")) || fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
+                        let options = ["Large Van MLP", "Car - 8h", "Car - 5h"];
+                        for (let opt of options) {{
+                            unidad = fleet.find(f => f.nombre.includes(opt));
+                            if (unidad) break;
+                        }}
                     }} else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
-                        unidad = fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
+                        let options = ["Car - 8h", "Car - 5h"];
+                        for (let opt of options) {{
+                            unidad = fleet.find(f => f.nombre.includes(opt));
+                            if (unidad) break;
+                        }}
                     }}
                     if (!unidad) break;
                 }}
@@ -2963,18 +2975,13 @@ function distribuirAutomatico() {{
                     return t !== "" && t !== "Seleccionar..." && u > 0;
                 }});
 
-                // Si ya asignaste una unidad, se respeta al 100% y se continúa calculando sobre el restante
-                if (tieneUnidadYaAsignada) {{
-                    // Solo una validación lógica para mantener el flujo regular
-                }}
-
                 // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                 if (!unidad) {{
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                 }}
 
-                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en el orden de prioridad exacto
+                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en el orden de prioridad exacto que solicitaste
                 if (!unidad) {{
                     const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
                     for (let nombreCar of listaLigeras) {{
@@ -3011,9 +3018,9 @@ function distribuirAutomatico() {{
         }}
     }}
 
-    // ==============================================================================
-    // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES
-    // ==============================================================================
+    // ============================================================================================
+    // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES// TERMINA DISTRIBUIDOR AUTOMATICO
+    // ============================================================================================
     recalc();
 }}
 
