@@ -1307,15 +1307,15 @@ function focusCalc() {{ document.getElementById('calc_wrapper').focus(); }}
                 celdaVolumen.setAttribute('rowspan', nuevoRowspan);
             }}
 
-            if (onlyActive) {
-                if (vTotal === 0 && filasVisiblesEnBloque === 0) {
+            if (onlyActive) {{
+                if (vTotal === 0 && filasVisiblesEnBloque === 0) {{
                     bl.style.display = 'none';
-                } else {
+                }} else {{
                     bl.style.display = '';
-                }
-            } else {
+                }}
+            }} else {{
                 bl.style.display = '';
-            }
+            }}
         }});
     }}
 
