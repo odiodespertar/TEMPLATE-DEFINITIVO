@@ -3674,7 +3674,7 @@ actualizarRelojRuteos();
     }});
 
     document.addEventListener('click', function(e) {{
-        setTimeout(actualadoresDuplicados, 40);
+        setTimeout(actualizarContadoresDuplicados, 40);
     }});
 
     let funcionRecalcOriginal = recalc;
