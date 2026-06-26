@@ -309,7 +309,7 @@ def gen_poligonos(data_target=None):
     
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #dcdcdc; border: 0.6px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+        <td class="u-manual-cell" style="background: #fff8b8; border: 0.6px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #25282b !important;">0</span>
@@ -514,7 +514,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #fff8b8; font-weight:bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#25282b;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight:bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#25282b;">{nombre_final}</td>
                         <td rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
