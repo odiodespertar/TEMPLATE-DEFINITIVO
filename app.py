@@ -3539,146 +3539,216 @@ if (currentTab == 6) {{
 
 
 
-    // =========================================
-    // 6. AUTO-ASIGNACIÓN
-    // =========================================
-
-    polys.forEach(poly => {{
-        let bloque = poly.bloque;
-
-        // --- PROTECCIÓN PARA PESTAÑA 6 ---
-        if (currentTab == 6) {{
+ // ==============================================================================
+    // 6. AUTO-ASIGNACIÓN CON ESTRATEGIA EXCLUSIVA PARA PESTAÑA 6 (CORREGIDA AL 100%)
+    // ==============================================================================
+    if (currentTab == 6) {{
+        // En la pestaña 6 procesamos las asignaciones bajo las nuevas reglas
+        polys.forEach(poly => {{
+            procesarAsignacionUnidadSJA1(poly);
+        }});
+    }} else {{
+        // Para las demás pestañas (C1 SCP1, SDE, PREC) se queda el orden secuencial nativo e intacto
+        polys.forEach(poly => {{
+            let bloque = poly.bloque;
+            let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
             let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+
             let yaAsignado = 0;
             bloque.querySelectorAll('.calc-row').forEach(r => {{
                 yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
             }});
-            
-            // Si ya se cumplió el objetivo, nos salimos de este bloque sin hacer nada
-            if (objetivo > 0 && yaAsignado >= objetivo) return; 
-        }}
-        // --- FIN DE PROTECCIÓN ---
-        
 
+            let restante = objetivo - yaAsignado;
+            if (restante <= 0) return;
 
+            let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+            for (let fila of filas) {{
+                let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+                let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+                let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
 
-        let nombrePlan =
-        bloque
-            .querySelector('td[rowspan]')
-            ?.innerText
-            ?.trim()
-            ?.toUpperCase() || "";
+                if (yaTieneUnidad || yaTieneTipo) continue;
+                if (restante <= 0) break;
 
-       console.log(
-        "PLAN:",
-        bloque.querySelector('td[rowspan]')?.innerText
-    );
+                let unidad = null;
+                if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+                    unidad = fleet.find(f => f.nombre === "Rental Large Van");
+                    window.forzarUsarUnidad = 0;
+                }} else {{
+                    unidad = fleet.find(f => f.restante > 0);
+                    window.forzarUsarUnidad = 0;
+                }}
 
-        let objetivo =
-            parseFloat(
-                bloque.querySelector('.v-total-val')?.innerText
-            ) || 0;
+                if (!unidad) {{
+                    if (currentTab == 4) {{
+                        unidad = fleet.find(f => f.nombre.includes("Car - 5h")) || fleet.find(f => f.nombre.includes("Car - 3h"));
+                    }} else if (currentTab == 2 || currentTab == 1 || currentTab == 5) {{
+                        unidad = fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
+                    }}
+                    if (!unidad) break;
+                }}
 
-        // =====================================
-        // RESTAR LO YA MANUALMENTE ASIGNADO
-        // =====================================
+                let necesarias = Math.ceil(restante / unidad.spr);
+                let usar;
+
+                let permiteNegativo = unidad.nombre === "Car - 8h" || unidad.nombre === "Car - 5h" || (currentTab == 2 && unidad.nombre === "Large Van MLP");
+                if (unidad.restante > 0) {{
+                    usar = Math.min(necesarias, unidad.restante);
+                }} else if (permiteNegativo) {{
+                    usar = necesarias;
+                }} else {{
+                    usar = 0;
+                }}
+
+                if (usar <= 0) continue;
+
+                let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+                if (filaExistente) {{
+                    let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                    filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                    filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                    editedRowsPlan.add(filaExistente);
+                }} else {{
+                    fila.querySelector('.s-type').value = unidad.nombre;
+                    fila.querySelector('.u-manual').innerText = usar;
+                    fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                    editedRowsPlan.add(fila);
+                }}
+
+                unidad.restante -= usar;
+                restante -= (usar * unidad.spr);
+            }}
+        }});
+    }}
+
+    // 🔥 FUNCIÓN EXCLUSIVA Y COMPLETA PARA LA PESTAÑA 6 (C1 SJA1)
+    function procesarAsignacionUnidadSJA1(poly) {{
+        let bloque = poly.bloque;
+        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
 
         let yaAsignado = 0;
-
         bloque.querySelectorAll('.calc-row').forEach(r => {{
-
-            let unidades =
-                parseInt(
-                    r.querySelector('.u-manual')?.innerText
-                ) || 0;
-
-            let spr =
-                parseFloat(
-                    r.querySelector('.spr-real-val')?.innerText
-                ) || 0;
-
+            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
+            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
             yaAsignado += (unidades * spr);
         }});
 
         let restante = objetivo - yaAsignado;
-
         if (restante <= 0) return;
 
-        let filas = Array.from(
-            bloque.querySelectorAll('.calc-row')
-        );
-
+        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
         for (let fila of filas) {{
+            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+            let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
 
-            // =================================
-            // RESPETAR FILAS MANUALES
-            // =================================
-
-            let yaTieneUnidad =
-                parseInt(
-                    fila.querySelector('.u-manual')?.innerText
-                ) > 0;
-
-            let tipoActual =
-                fila.querySelector('.s-type')?.value?.trim() || "";
-
-            let yaTieneTipo =
-                tipoActual !== "" &&
-                tipoActual !== "Seleccionar";
-
-
-            if (yaTieneUnidad || yaTieneTipo) {{
-                continue;
-            }}
-
+            if (yaTieneUnidad || yaTieneTipo) continue;
             if (restante <= 0) break;
 
-       // =================================
-// BUSCAR MEJOR UNIDAD DISPONIBLE
-// =================================
+            let unidad = null;
+            window.forzarUsarUnidad = 0; // Por defecto no forzamos nada
 
-let unidad;
+            // 1. ASIGNACIONES FIJAS INTACTAS
+            if (nombrePlan === "BULK") {{
+                unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
+                window.forzarUsarUnidad = 1;
+            }} 
+            else if (nombrePlan === "MEGANODO") {{
+                unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
+                window.forzarUsarUnidad = 1;
+            }} 
+            else if (nombrePlan.includes("EJA1")) {{
+                unidad = fleet.find(f => f.nombre === "Media milla SP");
+                window.forzarUsarUnidad = 1;
+            }}
+            else if (nombrePlan.includes("ALCHICHICA")) {{
+                let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
+                if (svReal) {{ unidad = {{ nombre: svReal.nombre, spr: svReal.spr, stock: 999, restante: 999 }}; }}
+                window.forzarUsarUnidad = 0;
+            }}
+            
+            // 2. PRIORIDAD LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
+            else if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                for (let nombre of listaRental) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                    if (unidad) break;
+                }}
+            }}
 
+            // 3. PRIORIDAD FORÁNEOS ESPECÍFICOS: Con protección si detecta que ya hay una unidad asignada
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
+                
+                // 👉 CONDICIÓN OPERATIVA NUEVA: Revisamos si ya hay un vehículo asignado en alguna fila de este plan
+                let tieneUnidadYaAsignada = filas.some(f => {{
+                    let t = f.querySelector('.s-type')?.value || "";
+                    let u = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                    return t !== "" && t !== "Seleccionar..." && u > 0;
+                }});
 
+                if (tieneUnidadYaAsignada) {{
+                    // Si ya se detectó una unidad asignada, respetamos el cálculo y dejamos que se sigan asignando unidades basándose en el restante actual
+                    window.forzarUsarUnidad = 0;
+                }}
 
-// ==============================================================================
-// 🔥 REGLAS EXCLUSIVAS PARA C1 SJA1 (PESTAÑA 6) - PRIORIDAD NODO/LARGE
-// ==============================================================================
-if (currentTab == 6) {{
-    let pUpper = (nombrePlan || "").toUpperCase().trim();
+                // Cascada 1: Flota Pesada Foránea
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+                if (!unidad) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                }}
 
-    // 1. REGLAS ESPECIALES
-    if (pUpper === "BULK") {{
-        unidad = fleet.find(f => f.nombre === "Extra Large Van MLP H&B");
-    }}
-    else if (pUpper === "MEGANODO") {{
-        unidad = fleet.find(f => f.nombre === "Truck 3.5 tons MLP");
-    }} 
-    else if (pUpper.includes("EJA1 SP1") || pUpper.includes("EJA1 SP2")) {{
-        unidad = fleet.find(f => f.nombre === "Media milla SP");
-    }}
-    else if (pUpper.includes("ALCHICHICA")) {{
-        let svReal = fleet.find(f => f.nombre === "Small Van MLP foráneo");
-        if (svReal) {{ unidad = {{ nombre: svReal.nombre, spr: svReal.spr, stock: 999, restante: 999 }}; }}
-    }}
-    
-    // 2. FORÁNEOS ESPECÍFICOS (Aquí entrará tu Large/Small Van normal)
-    else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "XICO", "TUZAMAPA"].includes(pUpper)) {{
-        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-        if (!unidad) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                // Cascada 2: Si se agotaron las f-foráneas, se desbordan en las Ligeras / Crowd en orden de prioridad estricto
+                if (!unidad) {{
+                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
+                    for (let nombreCar of listaLigeras) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre === nombreCar);
+                        if (unidad) break;
+                    }}
+                }}
+            }}
+
+            // Si por volumen global o desborde no encuentra unidad asignada, rompemos el ciclo
+            if (!unidad) break;
+
+            // MATEMÁTICA DE UNIDADES NECESARIAS
+            let necesarias = Math.ceil(restante / unidad.spr);
+            let usar;
+
+            if (window.forzarUsarUnidad === 1) {{
+                usar = 1;
+            }} else {{
+                if (unidad.restante > 0) {{
+                    usar = Math.min(necesarias, unidad.restante);
+                }} else {{
+                    usar = 0;
+                }}
+            }}
+
+            if (usar <= 0) continue;
+
+            // Inyectar físicamente el resultado en la cuadrícula
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                fila.querySelector('.s-type').value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+
+            unidad.restante -= usar;
+            restante -= (usar * unidad.spr);
         }}
     }}
-    
-    // 3. LOCALES
-    else {{ 
-        const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
-        for (let nombre of listaRental) {{
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-            if (unidad) break;
-        }}
-    }}
-}}
+
+
+
 // 🔴 RESTAURACIÓN RESTO DE PESTAÑAS
 else if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
     unidad = fleet.find(f => f.nombre === "Rental Large Van");
