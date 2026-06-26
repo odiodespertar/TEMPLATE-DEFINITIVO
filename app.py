@@ -1499,7 +1499,7 @@ USADAS
                     disp.innerText = data.disp;
             }}
         }});
-
+   }});
 
     recalc();
 }}
@@ -2500,6 +2500,8 @@ function obtenerCarFlexible() {{
 
 
 
+
+
 function distribuirAutomatico() {{
 
     // ==============================================================================
@@ -2548,7 +2550,7 @@ function distribuirAutomatico() {{
     bloques.forEach(bl => {{
         let volumen = parseFloat(bl.querySelector('.v-total-val')?.innerText) || 0;
         if (volumen > 0) {{
-            polys.push({
+            polys.push({{
                 bloque: bl,
                 volumen: volumen
             }});
@@ -2759,8 +2761,8 @@ function distribuirAutomatico() {{
                     }}
                 }}
             }}
-        }
-    }
+        }}
+    }}
 
     // --- 🔵 CARRIL PESTAÑA 2: C1 SCP1 (Incluye Campeche y sus Dedicadas) ---
     if (currentTab == 2) {{
@@ -2798,7 +2800,7 @@ function distribuirAutomatico() {{
                     largeVanMLP.restante -= usar;
                 }}
             }});
-        }}
+        }
 
         // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
         let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
@@ -2826,17 +2828,15 @@ function distribuirAutomatico() {{
 
 
     // ==============================================================================
-    // 🎛️ SECCIÓN 3: MOTOR DE DISTRIBUCIÓN PRINCIPAL (PASO 2 DEL MOTOR)
+    // 🎛️ SECCIÓN 3: MOTOR DE DISTRIBUCIÓN PRINCIPAL POR PESTAÑA (PASO 2 DEL MOTOR)
     // ==============================================================================
-    
-    // Aquí el sistema lee qué pestaña está abierta y ejecuta el algoritmo correspondiente
     if (currentTab == 6) {{
-        // 🚀 BLOQUE EXCLUSIVO PARA C1 SJA1 (Se programará a detalle en el siguiente paso)
+        // 🚀 EJECUTA EL NUEVO MOTOR EN CARRIL AISLADO PARA C1 SJA1
         polys.forEach(poly => {{
             procesarAsignacionUnidadSJA1(poly);
         }});
     }} else {{
-        // 🔴 BLOQUE DE OPERACIÓN PARA EL RESTO DE LAS PESTAÑAS (C1 SCP1, SDE, PREC)
+        // 🔴 OPERACIÓN ORIGINAL PARA EL RESTO DE LAS PESTAÑAS (C1 SCP1, SDE, PREC)
         polys.forEach(poly => {{
             let bloque = poly.bloque;
             let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
@@ -2870,13 +2870,13 @@ function distribuirAutomatico() {{
                     unidad = fleet.find(f => f.restante > 0);
                 }}
 
-                // Desborde de Emergencia Tradicional (Si se vacía el stock principal)
+                // Desborde de Emergencia Tradicional Nativo (Si se vacía el stock principal)
                 if (!unidad) {{
-                    if (currentTab == 4) { // SDE
+                    if (currentTab == 4) {{ // SDE
                         unidad = fleet.find(f => f.nombre.includes("Car - 5h")) || fleet.find(f => f.nombre.includes("Car - 3h"));
                     }} else if (currentTab == 2) {{ // C1 SCP1
                         unidad = fleet.find(f => f.nombre.includes("Large Van MLP")) || fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
-                    } }else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
+                    }} else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
                         unidad = fleet.find(f => f.nombre.includes("Car - 8h")) || fleet.find(f => f.nombre.includes("Car - 5h"));
                     }}
                     if (!unidad) break;
@@ -2897,7 +2897,6 @@ function distribuirAutomatico() {{
 
                 if (usar <= 0) continue;
 
-                // Inyección física en las celdas de la pantalla
                 let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
                 if (filaExistente) {{
                     let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
@@ -2918,11 +2917,98 @@ function distribuirAutomatico() {{
     }}
 
     // ==============================================================================
-    // 🔥 SECCIÓN 4: FUNCIÓN AISLADA Y DEDICADA ÚNICAMENTE PARA C1 SJA1 (PESTAÑA 6)
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
     // ==============================================================================
-    function "procesarAsignacionUnidadSJA1"(poly) {
-        // En este espacio vacío colocaremos el nuevo motor de la Pestaña 6
-        // Con tus cascadas y prioridades exactas de Centros y Foráneos sin nodos
+    function procesarAsignacionUnidadSJA1(poly) {{
+        let bloque = poly.bloque;
+        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+
+        let yaAsignado = 0;
+        bloque.querySelectorAll('.calc-row').forEach(r => {{
+            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
+            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
+            yaAsignado += (unidades * spr);
+        }});
+
+        let restante = objetivo - yaAsignado;
+        if (restante <= 0) return;
+
+        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+        for (let fila of filas) {{
+            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+            let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
+
+            if (yaTieneUnidad || yaTieneTipo) continue;
+            if (restante <= 0) break;
+
+            let unidad = null;
+
+            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
+            if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                for (let nombre of listaRental) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                    if (unidad) break;
+                }}
+            }}
+            // 4.2 PRIORIDAD PLANES FORÁNEOS: Con protección si ingresaste una unidad manualmente
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
+                
+                // 👉 CONDICIÓN OPERATIVA: Revisamos si ya hay un vehículo metido a mano en la pantalla
+                let tieneUnidadYaAsignada = filas.some(f => {{
+                    let t = f.querySelector('.s-type')?.value || "";
+                    let u = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                    return t !== "" && t !== "Seleccionar..." && u > 0;
+                }});
+
+                // Si ya asignaste una unidad, se respeta al 100% y se continúa calculando sobre el restante
+                if (tieneUnidadYaAsignada) {{
+                    // Solo una validación lógica para mantener el flujo regular
+                }}
+
+                // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
+                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+                if (!unidad) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                }}
+
+                // CASCADA 2: Si ya no hay pesadas, se desborda en las ligeras en el orden de prioridad exacto
+                if (!unidad) {{
+                    const listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
+                    for (let nombreCar of listaLigeras) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre === nombreCar);
+                        if (unidad) break;
+                    }}
+                }}
+            }}
+
+            // Si por volumen total o falta de stock global no halla unidad, frena el ciclo
+            if (!unidad) break;
+
+            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
+            let necesarias = Math.ceil(restante / unidad.spr);
+            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+
+            if (usar <= 0) continue;
+
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                fila.querySelector('.s-type').value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+
+            unidad.restante -= usar;
+            restante -= (usar * unidad.spr);
+        }}
     }}
 
     // ==============================================================================
