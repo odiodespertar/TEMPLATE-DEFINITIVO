@@ -581,9 +581,9 @@ app_html = f"""
 /* 📊 CONTADOR EXCLUSIVO PESTAÑA SCP1 */
         #mi-contador-scp1 {{
             position: fixed;
-            top: 156px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
+            top: 156px; 
             right: 20px; 
-            background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
+            background: rgba(37, 40, 43, 0.98); 
             color: #ffffff; 
             padding: 16px; 
             border-radius: 10px; 
@@ -595,16 +595,16 @@ app_html = f"""
             width: 260px;
             max-height: 410px;
             overflow-y: auto;
-            pointer-events: auto; /* Permite scroll si la lista de flota es larga */
-            display: block; /* Visible por defecto al arrancar */
+            pointer-events: auto;
+            display: block;
         }}
 
         /* 📊 CONTADOR EXCLUSIVO PESTAÑA SJA1 */
         #mi-contador-sja1 {{
             position: fixed;
-            top: 156px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
+            top: 156px; 
             right: 20px; 
-            background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
+            background: rgba(37, 40, 43, 0.98); 
             color: #ffffff; 
             padding: 16px; 
             border-radius: 10px; 
@@ -616,8 +616,8 @@ app_html = f"""
             width: 260px;
             max-height: 410px;
             overflow-y: auto;
-            pointer-events: auto; /* Permite scroll si la lista de flota es larga */
-            display: none; /* Oculto inicialmente, se activa al ir a SJA1 */
+            pointer-events: auto;
+            display: none;
         }}
 
         .cont-item {{
@@ -648,7 +648,6 @@ app_html = f"""
             text-align: right;
             font-size: 14px;
         }}
-
 
 
 
