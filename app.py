@@ -578,7 +578,7 @@ app_html = f"""
 /* 🌟 TARJETA FLOTANTE ULTRA-COMPACTA PARA MONITOREO EN TIEMPO REAL */
         #mi-contador {{
             position: fixed;
-            top: 140px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
+            top: 160px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
             right: 20px; 
             background: rgba(37, 40, 43, 0.98); /* Color a juego con tu fondo oscuro */
             color: #ffffff; 
