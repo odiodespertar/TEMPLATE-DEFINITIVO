@@ -588,7 +588,7 @@ app_html = f"""
             font-family: sans-serif;
             font-size: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-            border: 1.2px solid #fce726;
+            border: 1.2px solid transparent;
             width: 260px;
             max-height: 410px;
             overflow-y: auto;
@@ -3567,7 +3567,7 @@ actualizarRelojRuteos();
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#9ACD32; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+        let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
@@ -3594,7 +3594,7 @@ actualizarRelojRuteos();
                 conteoUnidadesValidas++;
                 
                 // Color inteligente según la disponibilidad real en patio
-                let colorDelta = "#9ACD32"; // Verde
+                let colorDelta = "#00FF00"; // Verde (disponible)
                 if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
                 else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo (Agotado)
 
