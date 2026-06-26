@@ -1433,24 +1433,6 @@ USADAS
 
 
 
-<div id="mi-contador-flotante" style="
-    position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    background: rgba(0, 0, 0, 0.85); 
-    color: white; 
-    padding: 15px; 
-    border-radius: 8px; 
-    font-family: sans-serif; 
-    z-index: 9999; 
-    pointer-events: none; 
-    border: 1px solid #444;
-">
-    Cargando datos...
-</div>
-
-
-
 
 <script>
 
