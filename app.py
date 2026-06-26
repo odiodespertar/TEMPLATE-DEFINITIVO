@@ -3635,7 +3635,7 @@ actualizarRelojRuteos();
         actualizarContadorFlota();
     }});
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function(e) {{
         // Ejecución inmediata al hacer clic en botones de cambio de pestañas o botones numéricos
         setTimeout(actualizarContadorFlota, 50);
     });
