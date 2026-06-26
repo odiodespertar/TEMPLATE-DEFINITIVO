@@ -579,20 +579,56 @@ app_html = f"""
 
 
 
-/* AÑADE AQUÍ EL ESTILO DEL CONTADOR */
+
+/* 🌟 TARJETA FLOTANTE ULTRA-COMPACTA PARA MONITOREO EN TIEMPO REAL */
         #mi-contador {{
-            position: fixed; 
-            top: 10px; 
-            right: 220px; 
-            background: #000; 
-            color: #fff; 
-            padding: 10px; 
-            border-radius: 5px; 
-            z-index: 9999; 
-            pointer-events: none; 
+            position: fixed;
+            top: 140px; /* Bajado estratégicamente para no tapar el botón de Prioridades */
+            right: 20px; 
+            background: rgba(37, 40, 43, 0.95); /* Color a juego con tu fondo oscuro */
+            color: #ffffff; 
+            padding: 12px; 
+            border-radius: 8px; 
+            z-index: 999999; 
             font-family: sans-serif;
-            font-size: 12px;
+            font-size: 11px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #4682B4;
+            width: 210px;
+            max-height: 400px;
+            overflow-y: auto;
+            pointer-events: auto; /* Permite scroll si la lista de flota es larga */
         }}
+
+        .cont-item {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 0;
+        }}
+
+        .cont-item:last-child {{
+            border-bottom: none;
+        }}
+
+        .cont-name {{
+            font-weight: bold;
+            color: #ff9b21;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 110px;
+        }}
+
+        .cont-vals {{
+            font-family: monospace;
+            font-weight: bold;
+            text-align: right;
+        }}
+
+
+
 
 
 
