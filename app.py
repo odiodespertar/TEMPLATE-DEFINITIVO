@@ -2191,7 +2191,7 @@ function manualEdit(el) {{
     }}
 
 
- function resetRow(sel) {{ 
+function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
         let table = sel.closest('table');
@@ -2200,7 +2200,7 @@ function manualEdit(el) {{
         let tbody = table.querySelector('tbody');
         let unidadSeleccionada = sel.value;
 
-        // 1. Si el usuario regresa a "Seleccionar...", limpiamos la fila
+        // 1. Limpieza si se regresa a la opción por defecto
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -2209,39 +2209,39 @@ function manualEdit(el) {{
             return;
         }}
 
-        // 2. Capturamos el Volumen Total ingresado en este polígono
+        // 2. Capturar el Volumen Total de este bloque de polígono
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
-        // 3. Extracción del SPR Máximo y Disponibilidad Real (f-left) desde la tabla de flota
+        // 3. Obtener el SPR, el Stock Total inicial (Schedule) y cuántas se han usado en TOTAL en toda la app
         let sprEncontrado = 0;
-        let unidadesDisponiblesFlota = 0;
-        let filasFlota = document.querySelectorAll('.master-row');
+        let stockInicialFlota = 0;
+        let totalUnidadesUsadasEnTodaLaApp = 0;
         
+        let filasFlota = document.querySelectorAll('.master-row');
         for (let filaFlota of filasFlota) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
                 let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
-                let celdaLeft = filaFlota.querySelector('.f-left');
+                let celdaStock = filaFlota.querySelector('.f-stock'); // Columna SCHEDULE de la tabla superior
                 
                 if (celdaSprMax) sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
-                if (celdaLeft) unidadesDisponiblesFlota = parseInt(celdaLeft.innerText) || 0;
+                if (celdaStock) stockInicialFlota = parseInt(celdaStock.innerText) || 0;
                 break;
             }}
         }}
 
-        // Inyectamos el valor del SPR Máx en el SPR Real de la fila
+        // 4. Inyectar el SPR en la celda correspondiente
         let spanS = r.querySelector('.spr-real-val');
         if (spanS) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 4. CALCULAR VOLUMEN YA CUBIERTO POR OTRAS FILAS DE ESTE MISMO PLAN
+        // 5. CALCULAR EL VOLUMEN CUBIERTO POR LAS *OTRAS* FILAS DE ESTE MISMO POLÍGONO
         let volumenYaCubierto = 0;
         let todasLasFilasPlan = tbody.querySelectorAll('tr.calc-row');
         
         todasLasFilasPlan.forEach(filaPlan => {{
-            // Solo sumamos el volumen de las OTRAS filas, ignoramos la fila actual que estamos editando
             if (filaPlan !== r) {{
                 let u = parseInt(filaPlan.querySelector('.u-manual').innerText) || 0;
                 let spr = parseFloat(filaPlan.querySelector('.spr-real-val').innerText) || 0;
@@ -2249,20 +2249,35 @@ function manualEdit(el) {{
             }}
         }});
 
-        // Calcular cuánto volumen queda realmente libre para esta fila
+        // El volumen que verdaderamente nos falta cubrir (en tu imagen, los 603 sobrantes)
         let volumenRestantePlan = volumenTotal - volumenYaCubierto;
         if (volumenRestantePlan < 0) volumenRestantePlan = 0;
 
-        // 5. Matemáticas automáticas con tope de inventario
+        // 6. CONTAR CUÁNTAS UNIDADES DE ESTE TIPO YA ESTÁN OCUPADAS EN TODA LA PÁGINA (MENOS LA FILA ACTUAL)
+        // Esto evita depender de la celda "f-left" que se calcula a destiempo
+        document.querySelectorAll('.p-content .calc-row').forEach(fGlobal => {{
+            if (fGlobal !== r) {{
+                let t = fGlobal.querySelector('.s-type')?.value || "";
+                if (t.trim() === unidadSeleccionada.trim()) {{
+                    totalUnidadesUsadasEnTodaLaApp += parseInt(fGlobal.querySelector('.u-manual').innerText) || 0;
+                }}
+            }}
+        }});
+
+        // Inventario real remanente en el patio antes de asignarle a esta celda
+        let inventarioDisponibleReal = stockInicialFlota - totalUnidadesUsadasEnTodaLaApp;
+        if (inventarioDisponibleReal < 0) inventarioDisponibleReal = 0;
+
+        // 7. CÁLCULO DE LAS UNIDADES NECESARIAS CON SU TOPE INVIOLABLE
         let unidadesCalculadas = 0;
         
         if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
             unidadesCalculadas = 1;
         }} else if (volumenRestantePlan > 0 && sprEncontrado > 0) {{
-            // Calcula cuántas se necesitan para el residuo del volumen
+            // Cuántas se necesitan idealmente para finiquitar los paquetes faltantes
             unidadesCalculadas = Math.ceil(volumenRestantePlan / sprEncontrado);
             
-            // Determinar si la unidad permite sobrepasarse (unidades infinitas en pestañas específicas)
+            // Reglas de excepciones infinitas/negativas para tus otras pestañas
             let permiteInfinito = false;
             let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
             let activeTabBtn = document.querySelector('.tab-btn.active');
@@ -2278,26 +2293,27 @@ function manualEdit(el) {{
                 }}
             }}
 
-            // CANDADO: Si NO permite infinito, lo topamos estrictamente a lo que queda libre en la Flota (f-left)
+            // CANDADO DE DISPONIBILIDAD: Si no es unidad infinita, limitamos estrictamente al stock físico real
             if (!permiteInfinito) {{
-                if (unidadesCalculadas > unidadesDisponiblesFlota) {{
-                    unidadesCalculadas = Math.max(0, unidadesDisponiblesFlota);
+                if (unidadesCalculadas > inventarioDisponibleReal) {{
+                    unidadesCalculadas = inventarioDisponibleReal; // Agarra todo lo que queda y vacía el patio
+                    
                     if (unidadesCalculadas === 0) {{
                         showAlert("⚠️ FLOTA AGOTADA. No quedan unidades disponibles de: " + unidadSeleccionada);
                     }} else {{
-                        showAlert("⚠️ FLOTA INSUFICIENTE. Solo se asignaron " + unidadesCalculadas + " unidades restantes.");
+                        showAlert("⚠️ FLOTA INSUFICIENTE. Se asignaron las últimas " + unidadesCalculadas + " unidades para amortiguar el volumen.");
                     }}
                 }}
             }}
         }}
 
-        // Inyectamos el cálculo inteligente en el cuadro de # Asignadas
+        // Inyectar el resultado final calculado en la columna "# USADAS"
         let spanU = r.querySelector('.u-manual');
         if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 6. ADICIÓN MANUAL INFINITA DE FILAS (Mantiene tu lógica de expandir la tabla si aplica)
+        // 8. ADICIÓN MANUAL DE FILA EXTRA (Conserva tu expansión automática de la tabla)
         let permiteInfinitoFila = false;
         let esUnidadCarFila = unidadSeleccionada.toLowerCase().includes("car");
         let activeTabBtnFila = document.querySelector('.tab-btn.active');
@@ -2338,14 +2354,18 @@ function manualEdit(el) {{
             }}
         }}
 
-        // Corremos el proceso de actualización para restar dinámicamente de la flota derecha
+        // Disparar recálculo general para sincronizar los paneles flotantes y contadores
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
             recalc();
         }}
     }}
-    
+
+
+
+
+
     // === TU ESCUCHADOR DE TECLADO SIGUE TOTALMENTE INTACTO ABAJO ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
