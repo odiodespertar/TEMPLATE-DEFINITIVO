@@ -2143,7 +2143,7 @@ document.addEventListener('keydown', function(event) {{
 
 function manualEdit(el) {{
         let r = el.closest('tr');
-        if (r) {
+        if (r) {{
             editedRowsPlan.add(r);
             
             let table = r.closest('table');
