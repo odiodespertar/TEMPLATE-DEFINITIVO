@@ -2974,7 +2974,7 @@ function distribuirAutomatico() {{
                 }}
             }}
             // 4.2 PRIORIDAD PLANES FORÁNEOS
-            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {
+            else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
                 
                 // CASCADA 1: Intentamos vaciar primero las pesadas foráneas
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
