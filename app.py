@@ -3562,20 +3562,21 @@ actualizarRelojRuteos();
 
 
  
-    // ==============================================================================
-    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS
+  // ==============================================================================
+    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS (PERSONALIZADO)
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
+        // Título limpio con el color verde (#00FF00) que definiste
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // Escaneamos las filas maestras de la pestaña seleccionada
+        // Escaneamos las filas maestras de la pestaña seleccionada actualmente
         let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3595,15 +3596,16 @@ actualizarRelojRuteos();
             if (stockInicial > 0) {{
                 conteoUnidadesValidas++;
                 
-                // Color inteligente según la disponibilidad real en patio
-                let colorDelta = "#00FF00"; // Verde (disponible)
-                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
-                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo (Agotado)
+                // Tus nuevas reglas de colores adaptativos para el Patio
+                let colorDelta = "#00FF00"; // Verde si queda stock disponible
+                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
+                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
 
+                // Maquetación ampliada aplicando tus estilos de texto (#D3D3D3, #ffffff y 14px)
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
-                        <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
-                        <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right;">
+                        <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
+                        <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right; font-size: 14px;">
                             <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
                             <span style="color:#ffffff; font-size:14px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
                         </div>
@@ -3619,26 +3621,24 @@ actualizarRelojRuteos();
     }}
 
     // --- ESCUCHADORES DE EVENTOS BLINDADOS DE ALTA VELOCIDAD ---
-    // Eliminamos 'sumarTodo' para que no destruya la estructura HTML al hacer clic o escribir
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
     document.addEventListener('click', function(e) {{
-        // Si haces clic en botones +/- o selectores, actualizamos inmediatamente el stock
         if (e.target.tagName === 'BUTTON' || e.target.classList.contains('s-type') || e.target.classList.contains('ok-check')) {{
             setTimeout(actualizarContadorFlota, 30);
         }}
     }});
 
-    // Inyección forzada en el recálculo nativo de Streamlit
+    // Sincronización inyectada directamente en el recálculo nativo de la app
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadorFlota();
     }};
 
-    // Inicialización inicial limpia
+    // Inicialización inicial limpia al cargar la pestaña
     setTimeout(actualizarContadorFlota, 500);
 
 
