@@ -2194,14 +2194,13 @@ function manualEdit(el) {{
  function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
-
         let table = sel.closest('table');
         if (!table) return;
 
         let tbody = table.querySelector('tbody');
         let unidadSeleccionada = sel.value;
 
-        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros exactamente como antes
+        // 1. Si el usuario regresa a "Seleccionar...", limpiamos la fila
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -2210,20 +2209,23 @@ function manualEdit(el) {{
             return;
         }}
 
-        // 2. Capturamos el Volumen Total ingresado en la celda gris de este polígono
+        // 2. Capturamos el Volumen Total ingresado en este polígono
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
-        // 3. Extracción del SPR Máximo desde tu pantalla (Tabla de Disponibilidad de Flota)
+        // 3. Extracción del SPR Máximo y Disponibilidad Real (f-left) desde la tabla de flota
         let sprEncontrado = 0;
+        let unidadesDisponiblesFlota = 0;
         let filasFlota = document.querySelectorAll('.master-row');
+        
         for (let filaFlota of filasFlota) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
                 let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
-                if (celdaSprMax) {{
-                    sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
-                }}
+                let celdaLeft = filaFlota.querySelector('.f-left');
+                
+                if (celdaSprMax) sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
+                if (celdaLeft) unidadesDisponiblesFlota = parseInt(celdaLeft.innerText) || 0;
                 break;
             }}
         }}
@@ -2234,50 +2236,89 @@ function manualEdit(el) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 4. Matemáticas automáticas
-        let unidadesCalculadas = 1; 
+        // 4. CALCULAR VOLUMEN YA CUBIERTO POR OTRAS FILAS DE ESTE MISMO PLAN
+        let volumenYaCubierto = 0;
+        let todasLasFilasPlan = tbody.querySelectorAll('tr.calc-row');
         
-        // --- INICIO DE TU SOLICITUD ---
+        todasLasFilasPlan.forEach(filaPlan => {{
+            // Solo sumamos el volumen de las OTRAS filas, ignoramos la fila actual que estamos editando
+            if (filaPlan !== r) {{
+                let u = parseInt(filaPlan.querySelector('.u-manual').innerText) || 0;
+                let spr = parseFloat(filaPlan.querySelector('.spr-real-val').innerText) || 0;
+                volumenYaCubierto += (u * spr);
+            }}
+        }});
+
+        // Calcular cuánto volumen queda realmente libre para esta fila
+        let volumenRestantePlan = volumenTotal - volumenYaCubierto;
+        if (volumenRestantePlan < 0) volumenRestantePlan = 0;
+
+        // 5. Matemáticas automáticas con tope de inventario
+        let unidadesCalculadas = 0;
+        
         if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
             unidadesCalculadas = 1;
-        }} else if (volumenTotal > 0 && sprEncontrado > 0) {{
-            unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
-        }}
-        // --- FIN DE TU SOLICITUD ---
+        }} else if (volumenRestantePlan > 0 && sprEncontrado > 0) {{
+            // Calcula cuántas se necesitan para el residuo del volumen
+            unidadesCalculadas = Math.ceil(volumenRestantePlan / sprEncontrado);
+            
+            // Determinar si la unidad permite sobrepasarse (unidades infinitas en pestañas específicas)
+            let permiteInfinito = false;
+            let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
+            let activeTabBtn = document.querySelector('.tab-btn.active');
+            
+            if (activeTabBtn) {{
+                let tabId = activeTabBtn.textContent.trim();
+                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                    permiteInfinito = true;
+                }} else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                    if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                        permiteInfinito = true;
+                    }}
+                }}
+            }}
 
-        // Inyectamos el cálculo en el cuadro de # Asignadas
+            // CANDADO: Si NO permite infinito, lo topamos estrictamente a lo que queda libre en la Flota (f-left)
+            if (!permiteInfinito) {{
+                if (unidadesCalculadas > unidadesDisponiblesFlota) {{
+                    unidadesCalculadas = Math.max(0, unidadesDisponiblesFlota);
+                    if (unidadesCalculadas === 0) {{
+                        showAlert("⚠️ FLOTA AGOTADA. No quedan unidades disponibles de: " + unidadSeleccionada);
+                    }} else {{
+                        showAlert("⚠️ FLOTA INSUFICIENTE. Solo se asignaron " + unidadesCalculadas + " unidades restantes.");
+                    }}
+                }}
+            }}
+        }}
+
+        // Inyectamos el cálculo inteligente en el cuadro de # Asignadas
         let spanU = r.querySelector('.u-manual');
         if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 5. 🔥 ADICIÓN MANUAL INFINITA: REGLAS PARA C1, SDE Y PREC 🔥
-        let permiteInfinito = false;
-        let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
-
-        // Leemos la pestaña activa directamente de tus botones superiores
-        let activeTabBtn = document.querySelector('.tab-btn.active');
-        if (activeTabBtn) {{
-            let tabId = activeTabBtn.textContent.trim();
-            
-            // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
+        // 6. ADICIÓN MANUAL INFINITA DE FILAS (Mantiene tu lógica de expandir la tabla si aplica)
+        let permiteInfinitoFila = false;
+        let esUnidadCarFila = unidadSeleccionada.toLowerCase().includes("car");
+        let activeTabBtnFila = document.querySelector('.tab-btn.active');
+        
+        if (activeTabBtnFila) {{
+            let tabId = activeTabBtnFila.textContent.trim();
             if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
-                permiteInfinito = true;
-            }} 
-            // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
-            else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-                permiteInfinito = true;
+                permiteInfinitoFila = true;
+            }} else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCarFila) {{
+                if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                    permiteInfinitoFila = true;
+                }}
             }}
         }}
 
-        // Si cumple cualquiera de las dos reglas válidas, expandimos la tabla al usar la última fila
-        if (permiteInfinito && tbody) {{
+        if (permiteInfinitoFila && tbody) {{
             let filasCalculo = tbody.querySelectorAll('tr.calc-row');
             let ultimaFila = filasCalculo[filasCalculo.length - 1];
             
             if (r === ultimaFila) {{
                 let nuevaFila = r.cloneNode(true);
-                
                 let nuevoSelect = nuevaFila.querySelector('.s-type');
                 if (nuevoSelect) {{
                     nuevoSelect.value = "";
@@ -2297,7 +2338,7 @@ function manualEdit(el) {{
             }}
         }}
 
-        // 6. Corremos tu manualEdit original para procesar los totales y restar de la flota
+        // Corremos el proceso de actualización para restar dinámicamente de la flota derecha
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
