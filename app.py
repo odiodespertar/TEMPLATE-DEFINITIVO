@@ -477,17 +477,23 @@ def gen_poligonos(data_target=None):
         else:
              contenido_volumen = campo_volumen_normal
 
+        # 🌟 DEFINIMOS EL ALTO DE LA CELDA GRIS (ROWSPAN)
         if es_sde:
              rowspan_actual = 5
         elif es_prec:
              rowspan_actual = 4
+        elif data_target == u_C1_SJA1:
+             rowspan_actual = 5  # Cambia a 5 para la celda gris de C1 SJA1
         else:
              rowspan_actual = 3
 
+        # 🌟 AGREGAMOS LAS FILAS EXTRA CORRESPONDIENTES
         if es_sde:
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
         elif es_prec:
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
+        elif data_target == u_C1_SJA1:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 4 filas extra + 1 principal = 5 filas totales
         else:
             filas_extra = f"{fila_inner}{fila_inner}"
 
