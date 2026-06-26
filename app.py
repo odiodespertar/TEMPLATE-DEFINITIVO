@@ -3667,7 +3667,7 @@ actualizarRelojRuteos();
                                 </div>
                              </div>`;
                 }}
-            });
+            }});
             if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
             contSja1.innerHTML = html;
         }}
@@ -3676,7 +3676,7 @@ actualizarRelojRuteos();
     // --- ESCUCHADORES DE EVENTOS ASINCRÓNICOS ---
     document.addEventListener('input', function(e) {{
         actualizarContadoresDuplicados();
-    });
+    }});
 
     document.addEventListener('click', function(e) {{
         // Delay optimizado a 40ms para dar tiempo a que cambie la pestaña activa
