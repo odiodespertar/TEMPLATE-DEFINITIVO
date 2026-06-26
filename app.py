@@ -3608,15 +3608,15 @@ actualizarRelojRuteos();
                 
                 // Color inteligente según la disponibilidad real en patio
                 let colorDelta = "#7CFFB2"; // Verde
-                if (deltaRestante < 0) colorDelta = "#ff5d5d"; // Rojo (Exceso)
-                else if (deltaRestante === 0) colorDelta = "#ff9b21"; // Naranja (Agotado)
+                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja (Exceso)
+                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo (Agotado)
 
                 htmlInyeccion += `
                     <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
                         <div class="cont-name" style="font-weight: bold; color: #ff9b21; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
                         <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right;">
                             <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
-                            <span style="color:#aaa; font-size:9px;"> | O:${{orhVal}} | C:${{ocupVal}}</span>
+                            <span style="color:#aaa; font-size:9px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
                         </div>
                     </div>`;
             }}
