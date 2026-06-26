@@ -1655,7 +1655,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
         // Eliminamos row.style.color para no forzar toda la fila 
 // --- ESTE ES EL COLOR DE FONDO DE LA CELDA DE STOCK Y MÍNIMOS ---
-        fs.style.background = "#ffffa8"; 
+        fs.style.background = "#fcf8cc"; 
 
 
 // --- ESTE ES EL COLOR DEL TEXTO EN MÍNIMOS Y MÁXIMOS ---
@@ -1790,7 +1790,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#ffffff"; // Color amarillito neon
+            ruteadaCell.style.backgroundColor = "#ffffff"; // Color blanco 
             ruteadaCell.style.color = "#2E8B57";           // Texto verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
