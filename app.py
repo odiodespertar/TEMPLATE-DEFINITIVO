@@ -1014,7 +1014,7 @@ function actualizarDosPorciento() {{
     let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
     
     if(sch > 0) {
-        row.style.background = "white"; 
+        row.style.background = "#FFFFFF"; 
         fs.style.background = "#fcf8cc"; 
         mi.style.background = "#edf7f7"; mi.style.color = "#25282b"; mi.style.fontWeight = "bold";
         ma.style.background = "#edf7f7"; ma.style.color = "#25282b"; ma.style.fontWeight = "bold";
