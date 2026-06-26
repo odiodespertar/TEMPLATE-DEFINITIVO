@@ -1678,9 +1678,11 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         fs.style.background = "#fcf8cc"; 
 
 
-// --- ESTE ES EL COLOR DEL TEXTO EN MÍNIMOS Y MÁXIMOS ---
-        mi.style.background = "#edf7f7"; mi.style.color = "#25282b"; mi.style.fontWeight = "bold";
-        ma.style.background = "#edf7f7"; ma.style.color = "#25282b"; ma.style.fontWeight = "bold";
+// =======================================================================
+        // 🔥 AQUÍ SE CAMBIA EL COLOR DE SPR MIN Y SPR MAX CUANDO SCHEDULE > 0
+        // =======================================================================
+        mi.style.background = "#ffffff"; mi.style.color = "#25282b"; mi.style.fontWeight = "bold";
+        ma.style.background = "#ffffff"; ma.style.color = "#25282b"; ma.style.fontWeight = "bold";
 
 
 // --- ESTE ES EL COLOR DEL NOMBRE DE LA UNIDAD ---
