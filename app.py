@@ -1499,7 +1499,7 @@ USADAS
                     disp.innerText = data.disp;
             }}
         }});
-    }});
+
 
     recalc();
 }}
