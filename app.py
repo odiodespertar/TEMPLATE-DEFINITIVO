@@ -3563,31 +3563,20 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE DE ALTA PRECISIÓN PARA TAB 2 Y TAB 6
+    // 📊 MOTOR UNIFICADO MULTI-TAB: CONTADOR FLOTANTE CORREGIDO Y COMPATIBLE
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título limpio con el color verde (#00FF00) de tu diseño
+        // Título limpio con el color verde (#00FF00) de tu configuración
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // 1. Mapeo dinámico de cabeceras para saber exactamente en qué columna está cada dato
-        let colOrhIdx = -1;
-        let colOcupIdx = -1;
-        
-        let ths = document.querySelectorAll('#tab-' + currentTab + ' table thead th');
-        ths.forEach((th, idx) => {{
-            let textoTh = th.innerText.toUpperCase().trim();
-            if (textoTh.includes("ORH")) colOrhIdx = idx;
-            if (textoTh.includes("OCUPACIÓN") || textoTh.includes("OCUPACION")) colOcupIdx = idx;
-        }});
-
-        // 2. Escaneamos las filas maestras de la pestaña seleccionada actualmente (currentTab)
+        // Escaneamos las filas maestras de la pestaña en la que estés parado (currentTab)
         let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3600,16 +3589,25 @@ actualizarRelojRuteos();
             let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
             let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
             
-            // Extraemos todas las celdas de la fila para mapear según la cabecera encontrada
-            let celdas = fila.querySelectorAll('td');
-            let orhVal = "0";
-            let ocupVal = "0";
+            // 🛡️ LECTURA MULTI-ENTORNO: Buscamos por la clase nativa. Si no existe, usamos la posición física de la fila
+            let celdaOrh = fila.querySelector('.edit-orh');
+            let celdaOcup = fila.querySelector('.edit-ocup');
+            
+            // Si las celdas no tienen clase explícita en esta pestaña, las rescatamos por su orden de td
+            if (!celdaOrh || !celdaOcup) {{
+                let todosLosTd = fila.querySelectorAll('td');
+                if (todosLosTd.length >= 4) {{
+                    celdaOrh = todosLosTd[1];  // Segunda celda (ORH)
+                    celdaOcup = todosLosTd[2]; // Tercera celda (OCUPACIÓN)
+                }}
+            }}
 
-            // Si se encontraron las columnas por nombre en el thead, las leemos con precisión
-            if (colOrhIdx !== -1 && celdas[colOrhIdx]) orhVal = celdas[colOrhIdx].innerText.trim();
-            if (colOcupIdx !== -1 && celdas[colOcupIdx]) ocupVal = celdas[colOcupIdx].innerText.trim();
+            let orhVal = celdaOrh ? celdaOrh.innerText.trim() : "0";
+            let ocupVal = celdaOcup ? celdaOcup.innerText.trim() : "0";
 
-            if (stockInicial > 0) {{
+            // Modificación: Para verificar que el motor reaccione en tiempo real, mostramos
+            // las unidades del Schedule. Cambia a (stockInicial >= 0) si deseas ver el listado completo vacío.
+            if (stockInicial >= 0) {{
                 conteoUnidadesValidas++;
                 
                 // Tus reglas de colores adaptativos para el Patio
@@ -3654,8 +3652,8 @@ actualizarRelojRuteos();
         actualizarContadorFlota();
     }};
 
-    // Inicialización inicial limpia al cargar la pestaña
-    setTimeout(actualizarContadorFlota, 500);
+    // Inicialización de arranque limpia
+    setTimeout(actualizarContadorFlota, 600);
 
 
 </script>
