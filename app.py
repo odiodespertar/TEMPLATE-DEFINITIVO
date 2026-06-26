@@ -3563,7 +3563,7 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 CONTADOR FLOTANTE EXCLUSIVO PARA C1 SJA1 (MÉTODO DE RASTREO DIRECTO)
+    // 📊 CONTADOR FLOTANTE EXCLUSIVO PARA C1 SJA1 (CORRECCIÓN DE BÚSQUEDA DIRECTA)
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
@@ -3576,8 +3576,7 @@ actualizarRelojRuteos();
 
         let conteoUnidadesValidas = 0;
 
-        // 🌟 ENFOQUE ABSOLUTO: Buscamos directamente las filas master dentro de la Tab 6 (C1 SJA1)
-        // Esto ignora por completo en qué pestaña estés parado físicamente y evita colapsos.
+        // 🌟 CORRECCIÓN CRÍTICA: Apuntamos al contenedor real '#tab-6' en lugar de '#body-6'
         let filasFlota = document.querySelectorAll('#tab-6 tr.master-row');
         
         filasFlota.forEach(fila => {{
@@ -3597,6 +3596,7 @@ actualizarRelojRuteos();
             let ocupVal = "0";
 
             if (celdasfila.length >= 4) {{
+                // En el formato con ORH/OCUPACIÓN activo, las posiciones reales son 1 y 2
                 orhVal = celdasfila[1] ? celdasfila[1].innerText.trim() : "0";
                 ocupVal = celdasfila[2] ? celdasfila[2].innerText.trim() : "0";
             }}
@@ -3629,27 +3629,25 @@ actualizarRelojRuteos();
         cont.innerHTML = htmlInyeccion;
     }}
 
-    // --- ESCUCHADORES DE EVENTOS GLOBALES DE ALTA VELOCIDAD ---
-    // Escucha cualquier escritura de números o clics en TODA la página y actualiza de inmediato
+    // --- ESCUCHADORES DE EVENTOS GLOBALES DE INTEGRACIÓN DIRECTA ---
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
+    // Escucha clics generales (como el cambio de pestaña en la botonera superior o clics +/-)
     document.addEventListener('click', function(e) {{
-        // Ejecución inmediata al hacer clic en botones de cambio de pestañas o botones numéricos
-        setTimeout(actualizarContadorFlota, 50);
+        setTimeout(actualizarContadorFlota, 60);
     }});
 
-    // Inyección en el método de recálculo matemático de tu aplicación
+    // Forzar actualización inmediata dentro de la función de recálculo nativa
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
         actualizarContadorFlota();
     }};
 
-    // Forzar lectura inicial limpia
-    setTimeout(actualizarContadorFlota, 500);
-
+    // Inicialización al arrancar la página
+    setTimeout(actualizarContadorFlota, 600);
     
 
 </script>
