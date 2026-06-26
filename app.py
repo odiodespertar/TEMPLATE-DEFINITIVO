@@ -999,7 +999,7 @@ function actualizarDosPorciento() {{
     let permitido = Math.round(volumenTotal * 0.02);
     let div = document.getElementById('dos-pct-global');
     if (div) {{
-        div.innerHTML = `<b>2% PERMITIDO:</b> \${permitido.toLocaleString()}`;
+        div.innerHTML = `<b>2% PERMITIDO:</b> \${{permitido.toLocaleString()}}`;
     }}
 }}
 
