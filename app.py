@@ -1926,7 +1926,7 @@ function distribuirAutomatico() {{
                     largeVanMLP.restante -= usar;
                 }}
             }});
-        }
+        }}
 
         let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
         if (deliveryCell && deliveryCell.restante > 0) {{
