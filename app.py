@@ -1717,8 +1717,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
     let vCalcEl = bl.querySelector('.v-calculado-total');
     
-    let celdaNodos = bl.querySelector('.nodos-val');
-    let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
+    
     
     // Obtenemos todas las filas del bloque
     let filas = bl.querySelectorAll('.calc-row');
