@@ -1601,7 +1601,7 @@ function stepVal(btn, delta, type) {{
         let val = parseFloat(span.innerText) || 0;
         let newVal = Math.round(val + delta);
 
-        if (delta > 0 && newVal > sprMaxReal) {
+        if (delta > 0 && newVal > sprMaxReal) {{
             showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
             return; 
         }}
