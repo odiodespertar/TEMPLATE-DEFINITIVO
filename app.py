@@ -3229,17 +3229,8 @@ function togglePrioridades() {{
 
 
 
-// --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
-
-    const listaNegativos = [
-    "Car - 8h",
-    "Car - 5h",
-    "Car - 3h"
-];
-
-
-    
+    const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h"];
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
         select.innerHTML = '<option value="">Seleccionar...</option>';
@@ -3261,20 +3252,21 @@ function actualizarSelects() {{
                     select.appendChild(opt);
                 }}
             }} else {{
-            
-            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
-            
-            // Si permite negativos o aún tiene stock, la agregamos al select
-            if (permiteNegativos || stock > left) {{
-                let opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                select.appendChild(opt);
+                // LÓGICA NATIVA ORIGINAL PARA LAS DEMÁS PESTAÑAS (NO SE TOCAN)
+                let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
+                if (permiteNegativos || stock > left) {{
+                    let opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    select.appendChild(opt);
+                }}
             }}
         }});
         select.value = valorActual;
     }});
 }}
+
+
 
 // Este bloque ahora llama a recalc() en lugar de a actualizarSelects
 document.addEventListener('input', (e) => {{
