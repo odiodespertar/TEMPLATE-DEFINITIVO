@@ -2141,42 +2141,41 @@ document.addEventListener('keydown', function(event) {{
     }}
 
 
-function manualEdit(el) {{ 
+function manualEdit(el) {{
         let r = el.closest('tr');
-        if (r) {{
+        if (r) {
             editedRowsPlan.add(r);
             
             let table = r.closest('table');
             let tbody = table ? table.querySelector('tbody') : null;
             let selectType = r.querySelector('.s-type');
             let unidadSeleccionada = selectType ? selectType.value : "";
-            
             let permiteInfinito = false;
             let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
 
-            // 1. Validamos la pestaña activa de la misma forma segura
             let activeTabBtn = document.querySelector('.tab-btn.active');
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
                 
-                // Regra A: C1 con Large Van MLP
+                // Regla A: C1 SCP1 con Large Van MLP
                 if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
-                }} 
-                // Regla B: SDE o PREC con cualquier Car
-                else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-                    permiteInfinito = true;
                 }}
+                // Regla B: SDE o PREC con cualquier Car (menos la que tiene tope)
+                else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                    if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                        permiteInfinito = true;
+                    }}
+                }}
+                // NOTA: Para Tab 6 (C1 SJA1) permiteInfinito se queda en FALSE (Tope estricto)
             }}
 
-            // 2. Si cumple la regla y es la última fila, la clonamos antes del recálculo
             if (permiteInfinito && tbody) {{
                 let filasCalculo = tbody.querySelectorAll('tr.calc-row');
                 let ultimaFila = filasCalculo[filasCalculo.length - 1];
                 
                 if (r === ultimaFila) {{
                     let nuevaFila = r.cloneNode(true);
-                    
                     let nuevoSelect = nuevaFila.querySelector('.s-type');
                     if (nuevoSelect) {{
                         nuevoSelect.value = "";
@@ -2196,22 +2195,18 @@ function manualEdit(el) {{
                 }}
             }}
         }}
-        // 3. Ejecutamos tu recálculo original pase lo que pase
-        recalc(); 
+        recalc();
     }}
 
-
- function resetRow(sel) {{ 
+    function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
-
         let table = sel.closest('table');
         if (!table) return;
 
         let tbody = table.querySelector('tbody');
         let unidadSeleccionada = sel.value;
 
-        // 1. Si el usuario regresa a "Seleccionar..." (vacío), limpiamos la fila a ceros exactamente como antes
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -2220,13 +2215,11 @@ function manualEdit(el) {{
             return;
         }}
 
-        // 2. Capturamos el Volumen Total ingresado en la celda gris de este polígono
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
-
-        // 3. Extracción del SPR Máximo desde tu pantalla (Tabla de Disponibilidad de Flota)
         let sprEncontrado = 0;
         let filasFlota = document.querySelectorAll('.master-row');
+        
         for (let filaFlota of filasFlota) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
@@ -2238,56 +2231,45 @@ function manualEdit(el) {{
             }}
         }}
 
-        // Inyectamos el valor del SPR Máx en el SPR Real de la fila
         let spanS = r.querySelector('.spr-real-val');
         if (spanS) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 4. Matemáticas automáticas
-        let unidadesCalculadas = 1; 
-        
-        // --- INICIO DE TU SOLICITUD ---
+        let unidadesCalculadas = 1;
         if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
             unidadesCalculadas = 1;
         }} else if (volumenTotal > 0 && sprEncontrado > 0) {{
             unidadesCalculadas = Math.ceil(volumenTotal / sprEncontrado);
         }}
-        // --- FIN DE TU SOLICITUD ---
 
-        // Inyectamos el cálculo en el cuadro de # Asignadas
         let spanU = r.querySelector('.u-manual');
-        if (spanU) {{
+        if (spanU) {
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 5. 🔥 ADICIÓN MANUAL INFINITA: REGLAS PARA C1, SDE Y PREC 🔥
         let permiteInfinito = false;
         let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
 
-        // Leemos la pestaña activa directamente de tus botones superiores
         let activeTabBtn = document.querySelector('.tab-btn.active');
         if (activeTabBtn) {{
             let tabId = activeTabBtn.textContent.trim();
-            
-            // REGLA A: Si estamos en C1, SOLO permitimos infinito para Large Van MLP
             if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                 permiteInfinito = true;
             }} 
-            // REGLA B: Si estamos en SDE o PREC, permitimos infinito para cualquier variante de Car (3h, 5h, 8h)
-            else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
-                permiteInfinito = true;
+            else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                    permiteInfinito = true;
+                }}
             }}
         }}
 
-        // Si cumple cualquiera de las dos reglas válidas, expandimos la tabla al usar la última fila
         if (permiteInfinito && tbody) {{
             let filasCalculo = tbody.querySelectorAll('tr.calc-row');
             let ultimaFila = filasCalculo[filasCalculo.length - 1];
             
             if (r === ultimaFila) {{
                 let nuevaFila = r.cloneNode(true);
-                
                 let nuevoSelect = nuevaFila.querySelector('.s-type');
                 if (nuevoSelect) {{
                     nuevoSelect.value = "";
@@ -2307,14 +2289,17 @@ function manualEdit(el) {{
             }}
         }}
 
-        // 6. Corremos tu manualEdit original para procesar los totales y restar de la flota
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
             recalc();
         }}
     }}
-    
+
+
+
+
+
     // === TU ESCUCHADOR DE TECLADO SIGUE TOTALMENTE INTACTO ABAJO ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
@@ -6211,7 +6196,9 @@ function manualEdit(el) {{
             recalc();
         }}
     }}
-    
+
+
+
     // === TU ESCUCHADOR DE TECLADO SIGUE TOTALMENTE INTACTO ABAJO ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
