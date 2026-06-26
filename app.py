@@ -3563,57 +3563,78 @@ actualizarRelojRuteos();
 
  
 // ==============================================================================
-    // 📊 MOTOR UNIFICADO: CONTADOR FLOTANTE SIN INTERFERENCIAS NI PARPADEOS (RESTAURADO)
+    // 📊 EL CONTADOR ORIGINAL RESTAURADO: BARRIDO POR VISIBILIDAD DE PESTAÑA
     // ==============================================================================
     function actualizarContadorFlota() {{
         let cont = document.getElementById('mi-contador');
         if (!cont) return;
 
-        // Título personalizado con tu color verde (#00FF00) original
+        // Título limpio con el verde brillante (#00FF00) de tu diseño
         let htmlInyeccion = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                                 📊 STOCK DISPONIBLE 
                              </div>`;
 
         let conteoUnidadesValidas = 0;
 
-        // Escaneamos las filas maestras de la pestaña seleccionada actualmente (currentTab)
-        let filasFlota = document.querySelectorAll('#body-' + currentTab + ' tr.master-row');
+        // 🌟 EL TRUCO DEL CÓDIGO VIEJO: 
+        // Buscamos las filas master-row de la tabla que esté VISIBLE en la pantalla en este instante.
+        // Esto evita tener que adivinar si el ID es body-2, body-6, etc., solucionando el error en SJA1.
+        let todasLasFilas = document.querySelectorAll('.t-content');
+        let contenedorActivo = null;
         
-        filasFlota.forEach(fila => {{
-            let nameCell = fila.querySelector('.edit-name');
-            if (!nameCell) return;
-
-            let nombreUnidad = nameCell.innerText.trim();
-            if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
-
-            let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
-            let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
-            
-            // Buscar los valores de ORH y Ocupación ingresados manualmente
-            let orhVal = fila.querySelector('.edit-orh')?.innerText?.trim() || "0";
-            let ocupVal = fila.querySelector('.edit-ocup')?.innerText?.trim() || "0";
-
-            // Condición original exacta: Solo aparecen en el panel flotante si están activos (>0)
-            if (stockInicial > 0) {{
-                conteoUnidadesValidas++;
-                
-                // Tus reglas originales de colores adaptativos para el Patio
-                let colorDelta = "#00FF00"; // Verde si queda stock disponible
-                if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
-                else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
-
-                // Maquetación exacta aplicando tus estilos de texto (#D3D3D3, #ffffff y 14px)
-                htmlInyeccion += `
-                    <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
-                        <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
-                        <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right; font-size: 14px;">
-                            <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
-                            <span style="color:#ffffff; font-size:14px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
-                        </div>
-                    </div>`;
+        todasLasFilas.forEach(tab => {{
+            if (window.getComputedStyle(tab).display !== 'none') {{
+                contenedorActivo = tab;
             }}
         }});
 
+        // Si encontramos la pestaña activa en pantalla, leemos sus unidades master
+        if (contenedorActivo) {{
+            let filasFlota = contenedorActivo.querySelectorAll('tr.master-row');
+            
+            filasFlota.forEach(fila => {{
+                let nameCell = fila.querySelector('.edit-name');
+                if (!nameCell) return;
+
+                let nombreUnidad = nameCell.innerText.trim();
+                if (nombreUnidad === "" || nombreUnidad === "IGNORAR" || nombreUnidad === "NUEVA UNIDAD") return;
+
+                let stockInicial = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
+                let deltaRestante = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
+                
+                // Mapeo seguro de ORH y Ocupación por orden de celda para evitar fallos de clase
+                let celdas = fila.querySelectorAll('td');
+                let orhVal = "0";
+                let ocupVal = "0";
+
+                if (celdas.length >= 3) {{
+                    orhVal = celdas[1] ? celdas[1].innerText.trim() : "0";
+                    ocupVal = celdas[2] ? celdas[2].innerText.trim() : "0";
+                }}
+
+                // Condición nativa: Solo aparecen en la tarjeta flotante si Schedule > 0
+                if (stockInicial > 0) {{
+                    conteoUnidadesValidas++;
+                    
+                    // Tus reglas de colores adaptativos para el Patio
+                    let colorDelta = "#00FF00"; // Verde si queda stock disponible
+                    if (deltaRestante < 0) colorDelta = "#ff9b21"; // Naranja si se genera Exceso
+                    else if (deltaRestante === 0) colorDelta = "#DC143C"; // Rojo Crimson si está Agotado
+
+                    // Estructura visual grande a 14px con tus tonos personalizados
+                    htmlInyeccion += `
+                        <div class="cont-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0;">
+                            <div class="cont-name" style="font-weight: normal; color: #D3D3D3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;" title="${{nombreUnidad}}">${{nombreUnidad}}</div>
+                            <div class="cont-vals" style="font-family: monospace; font-weight: bold; text-align: right; font-size: 14px;">
+                                <span style="color:${{colorDelta}};" title="Disponibles">${{deltaRestante}}</span>
+                                <span style="color:#ffffff; font-size:14px;"> | ORH:${{orhVal}} | %:${{ocupVal}}</span>
+                            </div>
+                        </div>`;
+                }}
+            }});
+        }}
+
+        // Si el Schedule está en ceros en la pestaña abierta, muestra la advertencia limpia
         if (conteoUnidadesValidas === 0) {{
             htmlInyeccion += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
         }}
@@ -3621,18 +3642,18 @@ actualizarRelojRuteos();
         cont.innerHTML = htmlInyeccion;
     }}
 
-    // --- ESCUCHADORES DE EVENTOS BLINDADOS DE ALTA VELOCIDAD ---
+    // --- ESCUCHADORES DE EVENTOS BLINDADOS Y ENLAZADOS ---
+    // Detecta cualquier cambio de número en el Schedule o clics en los botones de la página
     document.addEventListener('input', function(e) {{
         actualizarContadorFlota();
     }});
 
     document.addEventListener('click', function(e) {{
-        if (e.target.tagName === 'BUTTON' || e.target.classList.contains('s-type') || e.target.classList.contains('ok-check')) {{
-            setTimeout(actualizarContadorFlota, 30);
-        }}
+        // Un delay de 40ms asegura que la pestaña ya cambió de estado antes de leer la flota
+        setTimeout(actualizarContadorFlota, 40);
     }});
 
-    // Sincronización inyectada directamente en el recálculo nativo de la app
+    // Sincronización inyectada directamente en el recálculo nativo de tu sistema
     let funcionRecalcOriginal = recalc;
     recalc = function() {{
         funcionRecalcOriginal();
@@ -3640,7 +3661,7 @@ actualizarRelojRuteos();
     }};
 
     // Inicialización inicial limpia
-    setTimeout(actualizarContadorFlota, 500);
+    setTimeout(actualizarContadorFlota, 600);
 
     
     
