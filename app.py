@@ -734,12 +734,6 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 
-/* Borde del panel flotante */
-#fleet-sticky.fleet-floating{{
-  border: 6px solid #1b1d1f !important;  /* color */
-  border-radius: 15px;                   /* opcional */
-  box-sizing: border-box;                /* para que no “agrande” raro */
-}}
 
 
 /* ===== DISEÑO DE PANEL FLOTANTE PARA TABLA DE FLOTA ===== */
@@ -754,7 +748,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
   overflow: hidden !important;
   z-index: 999999 !important;
   background: rgba(255,255,255,0.98) !important;
-  border: 3px solid rgba(25, 118, 210, 0.75) !important;
+  border: 3px solid #696969 !important;
   border-radius: 12px !important;
   box-shadow: 0 14px 28px rgba(0,0,0,0.30) !important;
   padding: 10px !important;
