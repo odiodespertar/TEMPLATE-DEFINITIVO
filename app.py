@@ -801,6 +801,27 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 
+/* Panel de flota en modo NORMAL (forzado para revertir flotante/drag) */
+#fleet-sticky.fleet-normal {{
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  z-index: auto !important;
+
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}}
+
+
+
+
 /* El efecto Neomórfico en cada fila */
         .master-row {{ 
             border-radius: 9px;
@@ -1148,7 +1169,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </div>
 
 
-<div id="fleet-sticky">
+<div id="fleet-sticky" class="fleet-normal">
 <div id="fleet-drag-handle">
   PUEDES MOVERME
   <button onclick="toggleFleetFloating()"
@@ -1633,14 +1654,15 @@ USADAS
 
 function toggleFleetFloating() {{
   const panel = document.getElementById("fleet-sticky");
-  const handle = document.getElementById("fleet-drag-handle");
+  const btn = document.querySelector("#fleet-drag-handle button");
   if (!panel) return;
 
-  const willFloat = !panel.classList.contains("fleet-floating");
-  panel.classList.toggle("fleet-floating", willFloat);
+  const goingToFloat = !panel.classList.contains("fleet-floating");
 
-  if (willFloat) {{
-    // ENTRAR A FLOTANTE: fija coordenadas reales para drag
+  if (goingToFloat) {{
+    panel.classList.remove("fleet-normal");
+    panel.classList.add("fleet-floating");
+
     const rect = panel.getBoundingClientRect();
     panel.style.transform = "none";
     panel.style.left = rect.left + "px";
@@ -1649,11 +1671,12 @@ function toggleFleetFloating() {{
     panel.style.bottom = "auto";
     panel.style.margin = "0";
 
-    // elige SOLO UN drag (yo dejaría el vertical-only)
-    // makeDraggableWithHandle(panel, handle, "pos-fleet-panel");
-    enableFleetVerticalDrag();
+    if (btn) btn.textContent = "NORMAL";
   }} else {{
-    // SALIR A NORMAL: limpiar TODO lo que dejó flotante/drag
+    panel.classList.remove("fleet-floating");
+    panel.classList.add("fleet-normal");
+
+    // hard reset extra
     panel.style.position = "";
     panel.style.top = "";
     panel.style.left = "";
@@ -1661,12 +1684,12 @@ function toggleFleetFloating() {{
     panel.style.bottom = "";
     panel.style.transform = "";
     panel.style.zIndex = "";
-    panel.style.width = "";
-    panel.style.maxHeight = "";
-    panel.style.overflow = "";
     panel.style.margin = "";
+
+    panel.removeAttribute("style");
+
+    if (btn) btn.textContent = "FLOTAR";
   }}
-}}
 
 
 
