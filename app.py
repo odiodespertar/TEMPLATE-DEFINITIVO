@@ -995,7 +995,7 @@ body.excel-view .meli-table tfoot.fila-total td {{
 body.excel-view .meli-table tfoot.fila-total td[id^="total-ruteadas-"] {{
     font-size: 20px !important;   /* tamaño del número */
     font-weight: 900 !important;
-    color: #077d69 !important;
+    color: #66CDAA !important;
     text-align: center !important;
 }}
 
