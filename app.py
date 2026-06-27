@@ -3750,11 +3750,6 @@ function enableFleetVerticalDrag(){{
   function down(e){{
     if (!el.classList.contains("fleet-floating")) return;
 
-    // ✅ Si el pointerdown fue en el botón, NO activar drag
-  if (e.target && e.target.closest && e.target.closest("#fleet-toggle-btn")) {{
-    return;
-  }}
-
     dragging = true;
     startY = e.clientY;
     startTop = el.getBoundingClientRect().top;
