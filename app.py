@@ -1987,7 +1987,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
             ruteadaCell.style.backgroundColor = "#d3f0e5"; // Color fondo usadas 
-            ruteadaCell.style.color = "#66c904";           // Texto verde usadas
+            ruteadaCell.style.color = "#20B2AA";           // numero verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
             ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
