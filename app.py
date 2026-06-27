@@ -3602,7 +3602,7 @@ actualizarRelojRuteos();
 
         // 1️⃣ MONITOR INDEPENDIENTE SCP1 (TAB 2)
         if (contScp1 && currentTab == 2) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#FF00FF; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `<div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SCP1)
                         </div>`;
             let conteo = 0;
@@ -3636,7 +3636,7 @@ actualizarRelojRuteos();
 
         // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
         if (contSja1 && currentTab == 6) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#FF00FF; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `<div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SJA1)
                         </div>`;
             let conteo = 0;
