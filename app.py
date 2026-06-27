@@ -3603,7 +3603,7 @@ function makeDraggableFloatingBox(el, storageKey) {{
 
     const getPoint = (ev) => {{
         if (ev.touches && ev.touches[0]) {{
-            return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+            return {{ x: ev.touches[0].clientX, y: ev.touches[0].clientY }};
         }}
         return {{ x: ev.clientX, y: ev.clientY }};
     }};
