@@ -929,8 +929,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         left: 0; 
         width: 100%; 
         height: 268px; 
-        background: #f7efeb; 
-        border-bottom: 3px solid #FF6347; 
+        background: #212121; 
+        border-bottom: 3px solid #FF00FF; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
         transition: top 0.4s ease; 
@@ -940,15 +940,15 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         font-family: Arial, sans-serif;
     ">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #696969; padding-bottom: 8px; margin-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FF00FF; padding-bottom: 8px; margin-bottom: 12px;">
         <h3 style="margin: 0; color: #333; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         
         <div>
-            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+            <h4 style="margin: 0 0 10px 0; color: #FF00FF; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
                 <li>🔴 Campeche ➤ Rental Large Van ➤ NODOS = Delivery Cell-Dedicada.</li>
                 <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
             </ul>
@@ -956,16 +956,16 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
         <div>
-            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+            <h4 style="margin: 0 0 10px 0; color: #FF00FF; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
                 <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan Nte, Sur y Xochi</li>
                 <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
             </ul>
         </div>
 
         <div>
-            <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px;">
+            <h4 style="margin: 0 0 10px 0; color: #FF00FF; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
                 <li>🟢 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
                 <li>👉 Planes foráneos ➤ MLP (nodo=híbrida) ➡️ Solo Xico/Tuzamapa ➤ MLP y Crowd.</li>
                 <li>👉 Cercanía de SVC ➤ 🟢Tuzamapa 🟢Xico 🟡Actopan 🟡Trapiche 🟠Naolinco 🟠Perote 🔴Misantla 🔴Tezuitlan 🔴Tlaltetela</li>
