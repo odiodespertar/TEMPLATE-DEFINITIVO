@@ -3791,7 +3791,7 @@ function makeDraggableFloatingBox(el, storageKey) {{
 
                 if (stock > 0) {{
                     conteo++;
-                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#DC143C" : "#00FF00");
+                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#fc765d" : "#49bf49");
                     html += `<div class="cont-item">
                                 <div class="cont-name" title="${{name}}">${{name}}</div>
                                 <div class="cont-vals">
