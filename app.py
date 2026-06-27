@@ -931,7 +931,7 @@ body.excel-view .poligono-bloque th {{
 }}
 
 /* Fuerza anchos mínimos para las columnas críticas */
-body.excel-view .poligono-bloque th:nth-child(5) {{ width: 70px !important; }} /* SCHEDULE */
+body.excel-view .poligono-bloque th:nth-child(5) {{ width: 90px !important; }} /* SCHEDULE */
 body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* USADAS */
 body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
 
@@ -1105,7 +1105,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #0f4563 0%, #25282b 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
         ACTIVAS
     </button>
 
