@@ -736,7 +736,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* Borde del panel flotante */
 #fleet-sticky.fleet-floating{{
-  border: 2px solid #1b1d1f !important;  /* color */
+  border: 3px solid #1b1d1f !important;  /* color */
   border-radius: 10px;                   /* opcional */
   box-sizing: border-box;                /* para que no “agrande” raro */
 }}
