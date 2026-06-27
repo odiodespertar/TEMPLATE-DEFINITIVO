@@ -1443,7 +1443,7 @@ USADAS
     width:100%;
     border-collapse:collapse;
     background:white;
-    font-size:14px;
+    font-size:16px;
     table-layout:fixed;
 ">
         <thead>
