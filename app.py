@@ -2165,23 +2165,44 @@ actualizarDosPorciento();
 
     }}
 
-    // --- ARREGLO PARA EL ENTER: CIERRA PANEL Y ALERTA ---
-document.addEventListener('keydown', function(event) {{
-    if (event.key === 'Enter') {{
-        
-        // 1. LÓGICA PARA EL PANEL DE PRIORIDADES
-        let panel = document.getElementById('panel-prioridades');
-        // Verificamos si el panel existe y si está desplegado (top es 0)
-        if (panel && panel.style.top === "0px") {{
-            panel.style.top = "-600px"; 
-            document.activeElement.blur();
-        }}
 
-        // 2. LÓGICA PARA TUS ALERTAS ROJAS
-        let alerta = document.querySelector('.alerta-roja, .p-diff'); 
-        if (alerta && alerta.innerText.includes('EXCESO')) {{
-            document.activeElement.blur();
-        }}
+
+    // --- ENTER: CIERRA PRIORIDADES / ALERTAS (y opcional: devuelve flotante a NORMAL) ---
+document.addEventListener('keydown', function(event) {{
+    if (event.key !== 'Enter') return;
+
+    // 0) NO interceptar Enter si el foco está en controles (inputs/botones/selects)
+    const ae = document.activeElement;
+    const tag = ae && ae.tagName ? ae.tagName.toLowerCase() : "";
+    if (tag === "button" || tag === "input" || tag === "select" || tag === "textarea") {{
+        return;
+    }}
+    // Si estás editando una celda contenteditable, tampoco
+    if (ae && ae.isContentEditable) {{
+        return;
+    }}
+
+    // (Opcional) 0.5) Si tienes el fleet flotando, Enter lo devuelve a NORMAL
+    // Quita este bloque si NO quieres que Enter haga esto.
+    const fleet = document.getElementById("fleet-sticky");
+    if (fleet && fleet.classList.contains("fleet-floating")) {{
+        event.preventDefault();
+        // usa tu función real:
+        if (typeof toggleFleetFloating === "function") toggleFleetFloating();
+        return;
+    }}
+
+    // 1) LÓGICA PANEL PRIORIDADES
+    let panel = document.getElementById('panel-prioridades');
+    if (panel && panel.style.top === "0px") {{
+        panel.style.top = "-600px";
+        if (document.activeElement) document.activeElement.blur();
+    }}
+
+    // 2) LÓGICA ALERTAS ROJAS
+    let alerta = document.querySelector('.alerta-roja, .p-diff');
+    if (alerta && alerta.innerText.includes('EXCESO')) {{
+        if (document.activeElement) document.activeElement.blur();
     }}
 }});
 
