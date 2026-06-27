@@ -1179,7 +1179,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
       FLOTAR
     </button>
   </div>
-</div>
+
 
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
