@@ -587,7 +587,7 @@ app_html = f"""
             font-size: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
             border: 1.2px solid transparent;
-            width: 280px;
+            width: 300px;
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto;
@@ -608,7 +608,7 @@ app_html = f"""
             font-size: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
             border: 1.2px solid transparent;
-            width: 280px;
+            width: 300px;
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto;
@@ -3602,7 +3602,7 @@ actualizarRelojRuteos();
 
         // 1️⃣ MONITOR INDEPENDIENTE SCP1 (TAB 2)
         if (contScp1 && currentTab == 2) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `<div style="text-align:center; font-weight:bold; color:#9932CC; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SCP1)
                         </div>`;
             let conteo = 0;
@@ -3625,7 +3625,7 @@ actualizarRelojRuteos();
                                 <div class="cont-name" title="${{name}}">${{name}}</div>
                                 <div class="cont-vals">
                                     <span style="color:${{color}};">${{left}}</span>
-                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
+                                    <span style="color:#ffffff; font-size:15px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
                 }}
@@ -3636,7 +3636,7 @@ actualizarRelojRuteos();
 
         // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
         if (contSja1 && currentTab == 6) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#00FF00; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `<div style="text-align:center; font-weight:bold; color:#9932CC; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SJA1)
                         </div>`;
             let conteo = 0;
@@ -3659,7 +3659,7 @@ actualizarRelojRuteos();
                                 <div class="cont-name" title="${{name}}">${{name}}</div>
                                 <div class="cont-vals">
                                     <span style="color:${{color}};">${{left}}</span>
-                                    <span style="color:#ffffff; font-size:14px;"> | ORH:${{orh}} | %:${{ocup}}</span>
+                                    <span style="color:#ffffff; font-size:15px;"> | ORH:${{orh}} | %:${{ocup}}</span>
                                 </div>
                              </div>`;
                 }}
