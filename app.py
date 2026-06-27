@@ -995,7 +995,7 @@ body.excel-view .meli-table tfoot.fila-total td {{
 body.excel-view .meli-table tfoot.fila-total td[id^="total-ruteadas-"] {{
     font-size: 20px !important;   /* tamaño del número */
     font-weight: 900 !important;
-    color: #ff8c00 !important;
+    color: #077d69 !important;
     text-align: center !important;
 }}
 
@@ -2142,7 +2142,7 @@ setTimeout(() => {{
     let el = document.getElementById('total-ruteadas-' + tabId);
     if (el) {{
         el.innerText = Math.round(valorCorrecto);
-        el.style.color = "#3cb371"; // Le damos un color para saber que el forzado funcionó
+        el.style.color = "#077d69"; // Le damos un color para saber que el forzado funcionó
         console.log("FORZADO: El total ahora es " + valorCorrecto);
     }}
 }}, 500); // Espera medio segundo después de que todo se ejecute para forzar el valor
