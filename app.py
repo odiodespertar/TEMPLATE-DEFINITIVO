@@ -3580,6 +3580,99 @@ actualizarRelojRuteos();
 
 
 
+function makeDraggableFloatingBox(el, storageKey) {{
+    if (!el) return;
+
+    // ✅ Candado para no poner listeners muchas veces
+    if (el.dataset.dragReady === "1") return;
+    el.dataset.dragReady = "1";
+
+    // Restaurar posición guardada
+    try {{
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (saved && typeof saved.top === "number" && typeof saved.left === "number") {{
+            el.style.top = saved.top + "px";
+            el.style.left = saved.left + "px";
+            el.style.right = "auto";
+        }}
+    }} catch (e) {{}}
+
+    let isDown = false;
+    let startX = 0, startY = 0;
+    let startTop = 0, startLeft = 0;
+
+    const getPoint = (ev) => {{
+        if (ev.touches && ev.touches[0]) {{
+            return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+        }}
+        return {{ x: ev.clientX, y: ev.clientY }};
+    }};
+
+    const onDown = (ev) => {{
+        // No arrastrar si estás tocando controles
+        const tag = (ev.target && ev.target.tagName || "").toLowerCase();
+        if (["select", "option", "input", "textarea", "button", "label"].includes(tag)) return;
+
+        isDown = true;
+        const p = getPoint(ev);
+        startX = p.x; startY = p.y;
+
+        const rect = el.getBoundingClientRect();
+        startTop = rect.top;
+        startLeft = rect.left;
+
+        el.style.right = "auto";
+        el.style.left = startLeft + "px";
+        el.style.top = startTop + "px";
+        el.style.userSelect = "none";
+
+        ev.preventDefault();
+    }};
+
+    const onMove = (ev) => {{
+        if (!isDown) return;
+
+        const p = getPoint(ev);
+        const dx = p.x - startX;
+        const dy = p.y - startY;
+
+        // límites dentro de pantalla
+        const maxLeft = Math.max(0, window.innerWidth - el.offsetWidth);
+        const maxTop  = Math.max(0, window.innerHeight - el.offsetHeight);
+
+        const newLeft = Math.max(0, Math.min(maxLeft, startLeft + dx));
+        const newTop  = Math.max(0, Math.min(maxTop, startTop + dy));
+
+        el.style.left = newLeft + "px";
+        el.style.top = newTop + "px";
+
+        ev.preventDefault();
+    }};
+
+    const onUp = () => {{
+        if (!isDown) return;
+        isDown = false;
+        el.style.userSelect = "";
+
+        const rect = el.getBoundingClientRect();
+        localStorage.setItem(storageKey, JSON.stringify({{ top: rect.top, left: rect.left }}));
+    }};
+
+    // Mouse
+    el.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+
+    // Touch
+    el.addEventListener("touchstart", onDown, {{ passive: false }});
+    window.addEventListener("touchmove", onMove, {{ passive: false }});
+    window.addEventListener("touchend", onUp);
+}}
+
+
+
+
+
    // ==============================================================================
     // 📊 DOBLE NÚCLEO: CONTADORES DUPLICADOS E INDEPENDIENTES PARA SCP1 Y SJA1
     // ==============================================================================
@@ -3693,6 +3786,12 @@ actualizarRelojRuteos();
             }});
             if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
             contSja1.innerHTML = html;
+            }}
+
+            // ✅ AQUÍ EXACTO (antes de cerrar actualizarContadoresDuplicados)
+        if (typeof makeDraggableFloatingBox === "function") {{
+            makeDraggableFloatingBox(contScp1, "pos-contador-scp1");
+            makeDraggableFloatingBox(contSja1, "pos-contador-sja1");
         }}
     }}
 
