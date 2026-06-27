@@ -733,6 +733,78 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
     color: #25282b;
 }}
 
+
+
+/* ===== DISEÑO DE PANEL FLOTANTE PARA TABLA DE FLOTA ===== */
+#fleet-sticky.fleet-floating {{
+  position: fixed !important;
+  
+  top: 70px;
+  left: 20px; 
+  right: 20px;
+  
+  width: min(1100px, 92vw) !important;
+  margin: 0 auto;
+
+  max-height: 360px !important;
+  overflow: hidden !important;
+
+  z-index: 999999 !important;
+  background: rgba(255,255,255,0.98) !important;
+  border: 1px solid rgba(0,0,0,0.20) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.30) !important;
+  padding: 10px !important;
+}}
+
+/* scroll interno solo para la tabla activa */
+#fleet-sticky.fleet-floating .t-content {{
+  max-height: 200px !important; /* ajusta */
+  overflow: auto !important;
+}}
+
+/* una barrita para mover (opcional) */
+#fleet-drag-handle {{
+  position: relative;
+  z-index: 9999999;
+  cursor: grab;
+  
+  user-select: none;
+  -webkit-user-select: none;   /* Safari */
+
+  touch-action: none;          /* clave: evita scroll/zoom mientras arrastras */
+  -webkit-touch-callout: none; /* iOS: evita menú de selección */
+
+  font-weight: 900;
+  font-size: 12px;
+  padding: 6px 10px;
+  margin: -6px -6px 8px -6px;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+  color: #0a2e42;
+}}
+
+#fleet-drag-handle:active {{
+  cursor: grabbing;
+}}
+
+
+
+
+/* Panel de flota en modo NORMAL (no se pega / no colapsa) */
+#fleet-sticky{{
+  position: static;
+  top: auto;
+  z-index: auto;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}}
+
+
 /* El efecto Neomórfico en cada fila */
         .master-row {{ 
             border-radius: 9px;
@@ -1017,8 +1089,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
 
-<div id="mi-contador-scp1">🔄 Cargando flota SCP1...</div>
-<div id="mi-contador-sja1">🔄 Cargando flota SJA1...</div>
+
 
 
 
@@ -1080,6 +1151,16 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         color:#25282b;">
 </div>
 
+
+<div id="fleet-sticky">
+<div id="fleet-drag-handle">
+  MOVER TABLA / FLOTA
+  <button onclick="toggleFleetFloating()"
+          style="float:right; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
+    FLOTAR
+  </button>
+</div>
+
         
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
@@ -1139,7 +1220,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
         <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
 
-        
        
      <div id="tab-2" class="t-content">
   
@@ -1350,15 +1430,9 @@ USADAS
         0
     </td>
 </tr>
-
-
-
-
 </tfoot>
     </table>
 </div>
-
-
 
 
 </div>
@@ -1557,6 +1631,27 @@ USADAS
    }});
 
     recalc();
+}}
+
+
+
+function toggleFleetFloating() {{
+    const panel = document.getElementById("fleet-sticky");
+    const handle = document.getElementById("fleet-drag-handle");
+    if (!panel) return;
+
+    panel.classList.toggle("fleet-floating");
+
+    if (panel.classList.contains("fleet-floating")) {{
+
+        // ✅ fijar posición real y quitar translateX para drag
+        const rect = panel.getBoundingClientRect();
+        panel.style.transform = "none";
+        panel.style.left = rect.left + "px";
+        panel.style.top  = rect.top + "px";
+
+        makeDraggableWithHandle(panel, handle, "pos-fleet-panel");
+    }}
 }}
 
 
@@ -3596,21 +3691,89 @@ setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
 
 
+// ==============================================================================
+    // FUNCIÓN MOVER VERTICAL LA TABLA FLOTANTE
+    // ==============================================================================
 
-function makeDraggableFloatingBox(el, storageKey) {{
+
+function enableFleetVerticalDrag(){{
+  const el = document.querySelector("#fleet-sticky");
+  const handle = document.querySelector("#fleet-drag-handle");
+  if (!el || !handle) return;
+
+  // guard para no duplicar listeners
+  if (el.dataset.vdragInit === "1") return;
+  el.dataset.vdragInit = "1";
+
+  let dragging = false;
+  let startY = 0;
+  let startTop = 0;
+
+  function down(e){{
+    if (!el.classList.contains("fleet-floating")) return;
+
+    dragging = true;
+    startY = e.clientY;
+    startTop = el.getBoundingClientRect().top;
+
+    // asegura que top sea controlable
+    el.style.position = "fixed";
+    el.style.bottom = "auto";
+    el.style.top = `${{startTop}}px`;
+
+    handle.style.cursor = "grabbing";
+    e.preventDefault();
+    handle.setPointerCapture(e.pointerId);
+  }}
+
+  function move(e){{
+    if (!dragging) return;
+
+    const dy = e.clientY - startY;
+    let newTop = startTop + dy;
+
+    const pad = 8;
+    const minTop = pad;
+    const maxTop = window.innerHeight - el.offsetHeight - pad;
+    newTop = Math.max(minTop, Math.min(maxTop, newTop));
+
+    el.style.top = `${{newTop}}px`;
+  }}
+
+  function up(e){{
+    if (!dragging) return;
+    dragging = false;
+    handle.style.cursor = "grab";
+    try {{ handle.releasePointerCapture(e.pointerId); }} catch {{}}
+  }}
+
+  handle.addEventListener("pointerdown", down, {{ passive: false }});
+  window.addEventListener("pointermove", move, {{ passive: false }});
+  window.addEventListener("pointerup", up, {{ passive: true }});
+}}
+
+
+
+ // ==============================================================================
+    // FUNCIÓN TABLA FLOTANTE
+    // ==============================================================================
+
+function makeDraggableWithHandle(el, handleEl, storageKey) {{
     if (!el) return;
 
-    // ✅ Candado para no poner listeners muchas veces
-    if (el.dataset.dragReady === "1") return;
-    el.dataset.dragReady = "1";
+    // candado por llave (para que no se duplique)
+    const key = "dragReady_" + storageKey;
+    if (el.dataset[key] === "1") return;
+    el.dataset[key] = "1";
 
-    // Restaurar posición guardada
+    // restaurar
     try {{
         const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
         if (saved && typeof saved.top === "number" && typeof saved.left === "number") {{
             el.style.top = saved.top + "px";
             el.style.left = saved.left + "px";
             el.style.right = "auto";
+            el.style.transform = "none"; // importante si antes estaba centrado
         }}
     }} catch (e) {{}}
 
@@ -3626,11 +3789,15 @@ function makeDraggableFloatingBox(el, storageKey) {{
     }};
 
     const onDown = (ev) => {{
-        // No arrastrar si estás tocando controles
-        const tag = (ev.target && ev.target.tagName || "").toLowerCase();
-        if (["select", "option", "input", "textarea", "button", "label"].includes(tag)) return;
-
         isDown = true;
+
+        // ✅ liberar centrado para que left/top funcionen
+        el.style.right = "auto";
+        el.style.margin = "0";
+
+        // quita el centrado por transform al comenzar a arrastrar
+        el.style.transform = "none";
+
         const p = getPoint(ev);
         startX = p.x; startY = p.y;
 
@@ -3653,15 +3820,11 @@ function makeDraggableFloatingBox(el, storageKey) {{
         const dx = p.x - startX;
         const dy = p.y - startY;
 
-        // límites dentro de pantalla
         const maxLeft = Math.max(0, window.innerWidth - el.offsetWidth);
         const maxTop  = Math.max(0, window.innerHeight - el.offsetHeight);
 
-        const newLeft = Math.max(0, Math.min(maxLeft, startLeft + dx));
-        const newTop  = Math.max(0, Math.min(maxTop, startTop + dy));
-
-        el.style.left = newLeft + "px";
-        el.style.top = newTop + "px";
+        el.style.left = Math.max(0, Math.min(maxLeft, startLeft + dx)) + "px";
+        el.style.top  = Math.max(0, Math.min(maxTop, startTop + dy)) + "px";
 
         ev.preventDefault();
     }};
@@ -3675,160 +3838,18 @@ function makeDraggableFloatingBox(el, storageKey) {{
         localStorage.setItem(storageKey, JSON.stringify({{ top: rect.top, left: rect.left }}));
     }};
 
-    // Mouse
-    el.addEventListener("mousedown", onDown);
+    const h = handleEl || el;
+
+    h.addEventListener("mousedown", onDown);
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
 
-    // Touch
-    el.addEventListener("touchstart", onDown, {{ passive: false }});
+    h.addEventListener("touchstart", onDown, {{ passive: false }});
     window.addEventListener("touchmove", onMove, {{ passive: false }});
     window.addEventListener("touchend", onUp);
 }}
 
-
-
-
-
-   // ==============================================================================
-    // 📊 DOBLE NÚCLEO: CONTADORES DUPLICADOS E INDEPENDIENTES PARA SCP1 Y SJA1
-    // ==============================================================================
-    function actualizarContadoresDuplicados() {{
-        let contScp1 = document.getElementById('mi-contador-scp1');
-        let contSja1 = document.getElementById('mi-contador-sja1');
-        
-        if (contScp1 && contSja1) {{
-            if (currentTab == 2) {{
-                contScp1.style.display = 'block';
-                contSja1.style.display = 'none';
-            }} else if (currentTab == 6) {{
-                contScp1.style.display = 'none';
-                contSja1.style.display = 'block';
-            }} else {{
-                contScp1.style.display = 'none';
-                contSja1.style.display = 'none';
-            }}
-        }}
-
-        // 1️⃣ MONITOR INDEPENDIENTE SCP1 (TAB 2)
-        if (contScp1 && currentTab == 2) {{
-            let html = `
-                <div class="drag-handle" style="
-                     cursor: move;
-                     user-select:none;
-                     font-weight:800;
-                     font-size:12px;
-                     letter-spacing:0.5px;
-                     padding:6px 8px;
-                     margin:-8px -8px 10px -8px;
-                     border-bottom:1px solid rgba(255,255,255,0.15);
-                     color:#26d0ff;">
-                 MOVER
-                </div>
-                <div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                   📊 STOCK DISPONIBLE (SCP1)
-                </div>`;
-            let conteo = 0;
-            let filas = document.querySelectorAll('#body-2 tr.master-row');
-            
-            filas.forEach(fila => {{
-                let name = fila.querySelector('.edit-name')?.innerText.trim();
-                if (!name || name === "IGNORAR" || name === "NUEVA UNIDAD") return;
-                
-                let stock = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
-                let left = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
-                let celdas = fila.querySelectorAll('td');
-                let orh = celdas[1] ? celdas[1].innerText.trim() : "0";
-                let ocup = celdas[2] ? celdas[2].innerText.trim() : "0";
-
-                if (stock > 0) {{
-                    conteo++;
-                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#DC143C" : "#00FF00");
-                    html += `<div class="cont-item">
-                                <div class="cont-name" title="${{name}}">${{name}}</div>
-                                <div class="cont-vals">
-                                    <span style="color:${{color}};">${{left}}</span>
-                                    <span style="color:#ffffff; font-size:15px;"> | ORH:${{orh}} | %:${{ocup}}</span>
-                                </div>
-                             </div>`;
-                }}
-            }});
-            if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
-            contScp1.innerHTML = html;
-        }}
-
-        // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
-        if (contSja1 && currentTab == 6) {{
-            let html = `
-            <div class="drag-handle" style="
-            cursor: move;
-            user-select:none;
-            font-weight:800;
-            font-size:12px;
-            letter-spacing:0.5px;
-            padding:6px 8px;
-            margin:-8px -8px 10px -8px;
-            border-bottom:1px solid rgba(255,255,255,0.15);
-            color:#26d0ff;">
-          MOVER
-        </div>
-            
-            <div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                            📊 STOCK DISPONIBLE (SJA1)
-                        </div>`;
-            let conteo = 0;
-            let filas = document.querySelectorAll('#body-6 tr.master-row');
-            
-            filas.forEach(fila => {{
-                let name = fila.querySelector('.edit-name')?.innerText.trim();
-                if (!name || name === "IGNORAR" || name === "NUEVA UNIDAD") return;
-                
-                let stock = parseInt(fila.querySelector('.f-stock')?.innerText) || 0;
-                let left = parseInt(fila.querySelector('.f-left')?.innerText) || 0;
-                let celdas = fila.querySelectorAll('td');
-                let orh = celdas[1] ? celdas[1].innerText.trim() : "0";
-                let ocup = celdas[2] ? celdas[2].innerText.trim() : "0";
-
-                if (stock > 0) {{
-                    conteo++;
-                    let color = (left < 0) ? "#ff9b21" : (left === 0 ? "#fc765d" : "#49bf49");
-                    html += `<div class="cont-item">
-                                <div class="cont-name" title="${{name}}">${{name}}</div>
-                                <div class="cont-vals">
-                                    <span style="color:${{color}};">${{left}}</span>
-                                    <span style="color:#ffffff; font-size:15px;"> | ORH:${{orh}} | %:${{ocup}}</span>
-                                </div>
-                             </div>`;
-                }}
-            }});
-            if (conteo === 0) html += `<div style="text-align:center; color:#aaa; padding:10px 0; font-size:13px;">⚠️ No hay flota declarada en Schedule</div>`;
-            contSja1.innerHTML = html;
-            }}
-
-            // ✅ AQUÍ EXACTO (antes de cerrar actualizarContadoresDuplicados)
-        if (typeof makeDraggableFloatingBox === "function") {{
-            makeDraggableFloatingBox(contScp1, "pos-contador-scp1");
-            makeDraggableFloatingBox(contSja1, "pos-contador-sja1");
-        }}
-    }}
-
-    document.addEventListener('input', function(e) {{
-        actualizarContadoresDuplicados();
-    }});
-
-    document.addEventListener('click', function(e) {{
-        setTimeout(actualizarContadoresDuplicados, 40);
-    }});
-
-    let funcionRecalcOriginal = recalc;
-    recalc = function() {{
-        funcionRecalcOriginal();
-        actualizarContadoresDuplicados();
-    }};
-
-    setTimeout(actualizarContadoresDuplicados, 600);
-
-    
+enableFleetVerticalDrag();   
     
 
 </script>
