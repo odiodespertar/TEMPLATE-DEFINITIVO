@@ -1247,7 +1247,7 @@ DELTA
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-2" style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold;">0</td>
+        <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
 
@@ -1279,7 +1279,7 @@ USADAS
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-6" style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-ruteadas-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
     </tr>
 </tfoot>
     </table>
@@ -1317,7 +1317,7 @@ USADAS
         TOTAL CAR RUTEADAS
     </td>
     <td id="total-car-real-1"
-        style="text-align:center; color:#FF0000; font-size:16px; font-weight:bold;">
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
@@ -1372,7 +1372,7 @@ USADAS
     <td id="total-ruteadas-5"
         style="
             text-align:center;
-            color:#FF0000;
+            color:#3CB371;
             font-size:16px;
             font-weight:bold;
         ">
@@ -1426,7 +1426,7 @@ USADAS
         TOTAL CAR RUTEADAS
     </td>
     <td id="total-car-real-4"
-        style="text-align:center; color:#FF4500; font-size:16px; font-weight:bold;">
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
