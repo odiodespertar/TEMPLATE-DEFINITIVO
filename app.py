@@ -894,6 +894,22 @@ body.excel-view .meli-table th {{
 }}
 
 
+/* ===== TOTAL RUTEADAS EN VISTA EXCEL (más grande y visible) ===== */
+body.excel-view .meli-table tfoot.fila-total td {{
+    font-size: 16px !important;   /* tamaño letra */
+    padding: 6px 8px !important;  /* alto de la fila */
+    line-height: 18px !important;
+    font-weight: 800 !important;
+}}
+
+body.excel-view .meli-table tfoot.fila-total td[id^="total-ruteadas-"] {{
+    font-size: 20px !important;   /* tamaño del número */
+    font-weight: 900 !important;
+    color: #ff8c00 !important;
+    text-align: center !important;
+}}
+
+
 /* ===== POLÍGONOS MODO EXCEL (FORZADO) ===== */
 
 body.excel-view .poligono-bloque table {{
