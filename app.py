@@ -929,7 +929,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         left: 0; 
         width: 100%; 
         height: 268px; 
-        background: #212121; 
+        background: #808080; 
         border-bottom: 3px solid #FF00FF; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
@@ -941,7 +941,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     ">
     
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FF00FF; padding-bottom: 8px; margin-bottom: 12px;">
-        <h3 style="margin: 0; color: #333; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
+        <h3 style="margin: 0; color: #D3D3D3; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
