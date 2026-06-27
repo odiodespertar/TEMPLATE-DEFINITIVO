@@ -1172,10 +1172,10 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 <div id="fleet-sticky" class="fleet-normal">
 <div id="fleet-drag-handle">
   PUEDES MOVERME
-  <button onclick="toggleFleetFloating()"
-          style="float:right; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
-    FLOTAR
-  </button>
+  <button onclick="console.log('CLICK BOTON FLOTAR/NORMAL'); toggleFleetFloating();"
+  style="float:right; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
+  FLOTAR
+</button>
 </div>
 
         
