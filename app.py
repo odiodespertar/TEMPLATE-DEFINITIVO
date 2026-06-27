@@ -609,7 +609,7 @@ app_html = f"""
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
             border: 1.2px solid transparent;
             width: 350px;
-            max-height: 410px;
+            max-height: 210px;
             overflow-y: auto;
             pointer-events: auto;
             display: none;
