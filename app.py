@@ -1632,24 +1632,41 @@ USADAS
 
 
 function toggleFleetFloating() {{
-    const panel = document.getElementById("fleet-sticky");
-    const handle = document.getElementById("fleet-drag-handle");
-    if (!panel) return;
+  const panel = document.getElementById("fleet-sticky");
+  const handle = document.getElementById("fleet-drag-handle");
+  if (!panel) return;
 
-    panel.classList.toggle("fleet-floating");
+  const willFloat = !panel.classList.contains("fleet-floating");
+  panel.classList.toggle("fleet-floating", willFloat);
 
-    if (panel.classList.contains("fleet-floating")) {{
+  if (willFloat) {{
+    // ENTRAR A FLOTANTE: fija coordenadas reales para drag
+    const rect = panel.getBoundingClientRect();
+    panel.style.transform = "none";
+    panel.style.left = rect.left + "px";
+    panel.style.top  = rect.top + "px";
+    panel.style.right = "auto";
+    panel.style.bottom = "auto";
+    panel.style.margin = "0";
 
-        // ✅ fijar posición real y quitar translateX para drag
-        const rect = panel.getBoundingClientRect();
-        panel.style.transform = "none";
-        panel.style.left = rect.left + "px";
-        panel.style.top  = rect.top + "px";
-
-        makeDraggableWithHandle(panel, handle, "pos-fleet-panel");
-    }}
+    // elige SOLO UN drag (yo dejaría el vertical-only)
+    // makeDraggableWithHandle(panel, handle, "pos-fleet-panel");
+    enableFleetVerticalDrag();
+  }} else {{
+    // SALIR A NORMAL: limpiar TODO lo que dejó flotante/drag
+    panel.style.position = "";
+    panel.style.top = "";
+    panel.style.left = "";
+    panel.style.right = "";
+    panel.style.bottom = "";
+    panel.style.transform = "";
+    panel.style.zIndex = "";
+    panel.style.width = "";
+    panel.style.maxHeight = "";
+    panel.style.overflow = "";
+    panel.style.margin = "";
+  }}
 }}
-
 
 
 
