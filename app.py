@@ -734,10 +734,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 }}
 
 
-/* Borde extra SOLO cuando flota */
-#fleet-sticky.fleet-floating .meli-table{{
-  border: 2px solid #1b1d1f !important;   /* el color que quieras */
-}}
+
 
 
 /* ===== DISEÑO DE PANEL FLOTANTE PARA TABLA DE FLOTA ===== */
