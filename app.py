@@ -1197,17 +1197,17 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #FFD700; color: black; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #FFA500; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #FFA500';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #FFA500';">
+    style="cursor:pointer; background: #20B2AA; color: black; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #1d7878; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1d7878';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1d7878';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1d7878';">
 
     
     🧠 AUTO-CALCULAR
 </button>
     
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #0a3045; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
+        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
         ACTIVAS
     </button>
 
