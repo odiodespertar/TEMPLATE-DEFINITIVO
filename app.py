@@ -507,7 +507,7 @@ def gen_poligonos(data_target=None):
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight:bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight: extra bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
                         <td rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
