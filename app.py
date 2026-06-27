@@ -1852,7 +1852,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#cef0ce"; // Color fondo usadas 
+            ruteadaCell.style.backgroundColor = "#d8f0d8"; // Color fondo usadas 
             ruteadaCell.style.color = "#008000";           // Texto verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
@@ -1861,8 +1861,9 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             ruteadaCell.style.fontWeight = "bold";         // Mantenemos negrita si así lo quieres
         }}
     }}
-    // --- FIN NUEVO ---
-    
+
+
+    // --- NUEVO: Lógica de color para columna DELTA ---
     if (cL) {{
         let diff = stock - ruteadasManuales;
         cL.innerText = diff;
@@ -1873,7 +1874,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
             cL.style.background = "transparent";
         }} else if (diff === 0 && stock > 0) {{
             cL.style.color = "white"; 
-            cL.style.background = "#FF6347";
+            cL.style.background = "#fc765d";
         }} else {{
             cL.style.color = "#17191a"; 
             cL.style.background = "transparent"; 
