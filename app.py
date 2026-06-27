@@ -3602,9 +3602,22 @@ actualizarRelojRuteos();
 
         // 1️⃣ MONITOR INDEPENDIENTE SCP1 (TAB 2)
         if (contScp1 && currentTab == 2) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
-                            📊 STOCK DISPONIBLE (SCP1)
-                        </div>`;
+            let html = `
+                <div class="drag-handle" style="
+                     cursor: move;
+                     user-select:none;
+                     font-weight:800;
+                     font-size:12px;
+                     letter-spacing:0.5px;
+                     padding:6px 8px;
+                     margin:-8px -8px 10px -8px;
+                     border-bottom:1px solid rgba(255,255,255,0.15);
+                     color:#26d0ff;">
+                 MOVER
+                </div>
+                <div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+                   📊 STOCK DISPONIBLE (SCP1)
+                </div>`;
             let conteo = 0;
             let filas = document.querySelectorAll('#body-2 tr.master-row');
             
