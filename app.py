@@ -1852,7 +1852,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#baf7ba"; // Color blanco 
+            ruteadaCell.style.backgroundColor = "#cef0ce"; // Color fondo usadas 
             ruteadaCell.style.color = "#008000";           // Texto verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
