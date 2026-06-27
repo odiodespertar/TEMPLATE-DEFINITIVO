@@ -738,17 +738,13 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* ===== DISEÑO DE PANEL FLOTANTE PARA TABLA DE FLOTA ===== */
 #fleet-sticky.fleet-floating {{
   position: fixed !important;
-  
   top: 70px;
-  left: 20px; 
+  left: 20px;
   right: 20px;
-  
   width: min(1100px, 92vw) !important;
   margin: 0 auto;
-
   max-height: 360px !important;
   overflow: hidden !important;
-
   z-index: 999999 !important;
   background: rgba(255,255,255,0.98) !important;
   border: 1px solid rgba(0,0,0,0.20) !important;
