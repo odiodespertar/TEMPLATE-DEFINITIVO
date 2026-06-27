@@ -1652,6 +1652,7 @@ USADAS
 
 
 
+
 function toggleFleetFloating() {{
   const panel = document.getElementById("fleet-sticky");
   const btn = document.querySelector("#fleet-drag-handle button");
@@ -1660,6 +1661,8 @@ function toggleFleetFloating() {{
   const goingToFloat = !panel.classList.contains("fleet-floating");
 
   if (goingToFloat) {{
+    // entrar a flotante
+    panel.removeAttribute("style");          // limpia restos previos
     panel.classList.remove("fleet-normal");
     panel.classList.add("fleet-floating");
 
@@ -1673,13 +1676,20 @@ function toggleFleetFloating() {{
 
     if (btn) btn.textContent = "NORMAL";
   }} else {{
+    // volver a normal
     panel.classList.remove("fleet-floating");
     panel.classList.add("fleet-normal");
+    panel.removeAttribute("style");          // <- clave
 
-    panel.removeAttribute("style");
     if (btn) btn.textContent = "FLOTAR";
   }}
+
+  // DEBUG rápido
+  console.log("toggle ->", panel.className, "style=", panel.getAttribute("style"));
 }}
+
+
+
 
 function showTab(n, btn) {{
 
