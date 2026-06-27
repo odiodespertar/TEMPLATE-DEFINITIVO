@@ -750,7 +750,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
   background: rgba(255,255,255,0.98) !important;
   border: 4px solid #303030 !important;
   border-radius: 12px !important;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.30) !important;
+  box-shadow: 0 14px 28px rgba(195, 195, 195, 0.76) !important;
   padding: 10px !important;
 }}
 
