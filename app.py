@@ -982,7 +982,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         top: 25px; 
         right: 25px; 
         z-index: 99999999; /* Botón en la capa más alta */
-        background: #aa14c4; 
+        background: #9932CC; 
         color: white; 
         border: 1px solid #333; 
         padding: 8px 12px; 
