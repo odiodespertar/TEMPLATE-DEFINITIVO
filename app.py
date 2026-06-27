@@ -1146,11 +1146,11 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
             <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
-        <div style="background: #edddea; padding: 8px; border-radius: 5px; border: 1px solid #ffa8ff; text-align: center; width: 100px;">
+        <div style="background: #88b6b8; padding: 8px; border-radius: 5px; border: 1px solid #20B2AA; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
             <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
-        <div style="background: #e4f5ce; padding: 8px; border-radius: 5px; border: 1px solid #c8e6c9; text-align: center; width: 100px;">
+        <div style="background: #d3f5d3; padding: 8px; border-radius: 5px; border: 1px solid #90EE90; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #209626;">CAR</div>
             <div id="val-car-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
@@ -1197,10 +1197,10 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #20B2AA; color: black; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #1d7878; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1d7878';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1d7878';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1d7878';">
+    style="cursor:pointer; background: #20B2AA; color: white; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #1b4b4d; transition: all 0.05s; outline: none;"
+    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1b4b4d';"
+    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';"
+    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';">
 
     
     🧠 AUTO-CALCULAR
