@@ -1676,22 +1676,10 @@ function toggleFleetFloating() {{
     panel.classList.remove("fleet-floating");
     panel.classList.add("fleet-normal");
 
-    // hard reset extra
-    panel.style.position = "";
-    panel.style.top = "";
-    panel.style.left = "";
-    panel.style.right = "";
-    panel.style.bottom = "";
-    panel.style.transform = "";
-    panel.style.zIndex = "";
-    panel.style.margin = "";
-
     panel.removeAttribute("style");
-
     if (btn) btn.textContent = "FLOTAR";
   }}
 }}
-
 
 function showTab(n, btn) {{
 
@@ -1718,6 +1706,7 @@ function showTab(n, btn) {{
         excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
     }}
 }}
+
 
 
 
