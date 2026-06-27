@@ -929,7 +929,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         left: 0; 
         width: 100%; 
         height: 268px; 
-        background: #808080; 
+        background: #696969; 
         border-bottom: 3px solid #FF00FF; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
