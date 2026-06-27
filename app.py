@@ -748,7 +748,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
   overflow: hidden !important;
   z-index: 999999 !important;
   background: rgba(255,255,255,0.98) !important;
-  border: 3px solid #696969 !important;
+  border: 4px solid #303030 !important;
   border-radius: 12px !important;
   box-shadow: 0 14px 28px rgba(0,0,0,0.30) !important;
   padding: 10px !important;
