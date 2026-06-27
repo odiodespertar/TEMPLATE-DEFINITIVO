@@ -516,7 +516,7 @@ def gen_poligonos(data_target=None):
                                    padding:5px;">
                             {contenido_volumen}
                         </td>
-                        <td class="u-manual-cell" style="background: #ccffeb; border: 0.5px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                        <td class="u-manual-cell" style="background: #d3f0e5; border: 0.5px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
                             <div style="{div_flex}">
                                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
                                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #25282b !important;">0</span>
@@ -1987,7 +1987,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
             ruteadaCell.style.backgroundColor = "#d3f0e5"; // Color fondo usadas 
-            ruteadaCell.style.color = "#20B2AA";           // numero verde usadas
+            ruteadaCell.style.color = "#008B8B";           // numero verde usadas
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
             ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
