@@ -777,7 +777,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 /* Pestaña Activa (Seleccionada) */
 .tab-btn.active {{
-    background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%) !important;
+    background: linear-gradient(180deg, #424242 0%, #25282b 100%) !important;
     color: #ffffff !important; 
     border: 1px solid #061821 !important;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
