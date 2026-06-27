@@ -587,7 +587,7 @@ app_html = f"""
             font-size: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
             border: 1.2px solid transparent;
-            width: 260px;
+            width: 280px;
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto;
@@ -608,7 +608,7 @@ app_html = f"""
             font-size: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.6);
             border: 1.2px solid transparent;
-            width: 260px;
+            width: 280px;
             max-height: 410px;
             overflow-y: auto;
             pointer-events: auto;
