@@ -3636,7 +3636,7 @@ actualizarRelojRuteos();
 
         // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
         if (contSja1 && currentTab == 6) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#FF00FFC; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `<div style="text-align:center; font-weight:bold; color:#FF00FF; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SJA1)
                         </div>`;
             let conteo = 0;
