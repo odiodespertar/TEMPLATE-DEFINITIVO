@@ -1017,7 +1017,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         left: 0; 
         width: 100%; 
         height: 268px; 
-        background: #fad7ca; 
+        background: #fce6de; 
         border-bottom: 3px solid #FF7F50; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
@@ -1036,7 +1036,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
                 <li>🔴 Campeche ➤ Rental Large Van ➤ NODOS = Delivery Cell-Dedicada.</li>
                 <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
             </ul>
@@ -1045,7 +1045,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
                 <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan Nte, Sur y Xochi</li>
                 <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
             </ul>
@@ -1053,7 +1053,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
         <div>
             <h4 style="margin: 0 0 10px 0; color: #FF6347; font-size: 14px; font-weight: bold;">Prioridades SJA1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: white;">
+            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
                 <li>🟢 Locales (Centros) ➤ Rentals, MLP y crowd.</li>
                 <li>👉 Planes foráneos ➤ MLP (nodo=híbrida) ➡️ Solo Xico/Tuzamapa ➤ MLP y Crowd.</li>
                 <li>👉 Cercanía de SVC ➤ 🟢Tuzamapa 🟢Xico 🟡Actopan 🟡Trapiche 🟠Naolinco 🟠Perote 🔴Misantla 🔴Tezuitlan 🔴Tlaltetela</li>
