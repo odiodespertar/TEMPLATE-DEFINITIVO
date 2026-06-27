@@ -1690,7 +1690,7 @@ function toggleFleetFloating() {{
 
     if (btn) btn.textContent = "FLOTAR";
   }}
-
+}}
 
 
 function showTab(n, btn) {{
