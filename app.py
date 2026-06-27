@@ -1035,8 +1035,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         left: 0; 
         width: 100%; 
         height: 268px; 
-        background: #fce6de; 
-        border-bottom: 3px solid #FF7F50; 
+        background: #F0E68C; 
+        border-bottom: 3px solid #FFD700; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         z-index: 9999999; 
         transition: top 0.4s ease; 
@@ -1046,8 +1046,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         font-family: Arial, sans-serif;
     ">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FF6347; padding-bottom: 8px; margin-bottom: 12px;">
-        <h3 style="margin: 0; color: #FF6347; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #403f3e; padding-bottom: 8px; margin-bottom: 12px;">
+        <h3 style="margin: 0; color: #FFD700; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -1088,8 +1088,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         top: 25px; 
         right: 25px; 
         z-index: 99999999; /* Botón en la capa más alta */
-        background: #FF7F50; 
-        color: white; 
+        background: #FFD700; 
+        color: #3c4040; 
         border: 1px solid #333; 
         padding: 8px 12px; 
         font-weight: bold; 
