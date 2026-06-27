@@ -3649,7 +3649,21 @@ actualizarRelojRuteos();
 
         // 2️⃣ MONITOR INDEPENDIENTE SJA1 (TAB 6)
         if (contSja1 && currentTab == 6) {{
-            let html = `<div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
+            let html = `
+            <div class="drag-handle" style="
+            cursor: move;
+            user-select:none;
+            font-weight:800;
+            font-size:12px;
+            letter-spacing:0.5px;
+            padding:6px 8px;
+            margin:-8px -8px 10px -8px;
+            border-bottom:1px solid rgba(255,255,255,0.15);
+            color:#26d0ff;">
+          MOVER
+        </div>
+            
+            <div style="text-align:center; font-weight:bold; color:#FFD700; border-bottom:1.5px solid #4682B4; padding-bottom:4px; margin-bottom:6px; letter-spacing:0.5px;">
                             📊 STOCK DISPONIBLE (SJA1)
                         </div>`;
             let conteo = 0;
