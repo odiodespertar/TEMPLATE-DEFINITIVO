@@ -82,7 +82,6 @@ u_C1_SJA1 = {
     "Rental Large Van": [120, 120],
     "Rental Replacement": [120, 120],
     "Truck 3.5 tons MLP": [1, 1], 
-    "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
     "Car Newbie": [70, 70],
     "Moto 3h": [30, 30],
