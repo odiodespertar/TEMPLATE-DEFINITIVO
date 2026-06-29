@@ -1179,9 +1179,9 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
    
 
     <button id="fleet-toggle-btn"
-      onclick="console.log('CLICK BOTON FLOTAR (da clic)/NORMAL (enter)'); toggleFleetFloating();"
+      onclick="console.log('CLICK BOTON FLOTAR ☁️/NORMAL (enter)'); toggleFleetFloating();"
       style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
-      FLOTAR (clic)
+      FLOTAR ☁️
     </button>
   </div>
 
@@ -1689,7 +1689,7 @@ function toggleFleetFloating() {{
     panel.classList.add("fleet-normal");
     panel.removeAttribute("style");          // <- clave
 
-    if (btn) btn.textContent = "FLOTAR (clic)";
+    if (btn) btn.textContent = "FLOTAR ☁️";
   }}
 
   // DEBUG rápido
