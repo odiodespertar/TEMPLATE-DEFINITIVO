@@ -1617,6 +1617,31 @@ USADAS
 
 
 
+   // Agrega esto al final de tu tag <script>
+function agregarBulkChecks() {{
+    // Identificamos las pestañas que nos interesan
+    const targets = ['C1', 'C2']; 
+    targets.forEach(tabId => {{
+        let contenedor = document.getElementById('polys-' + tabId);
+        if (contenedor) {{
+            let bloques = contenedor.querySelectorAll('.poligono-bloque');
+            bloques.forEach(bl => {{
+                // Solo si no existe ya el checkbox, lo creamos
+                if (!bl.querySelector('.bulk-container')) {{
+                    let div = document.createElement('div');
+                    div.className = 'bulk-container';
+                    div.innerHTML = '<label>Bulk: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                    // Lo insertamos junto al contenedor de nodos/volumen
+                    bl.prepend(div);
+                }}
+            }});
+        }}
+    }});
+}}
+// Llamamos a esto cada vez que cambias de pestaña
+// Modifica tu función changeTab para que incluya: agregarBulkChecks();
+
+
 
 
     function aplicarPerfil() {{
