@@ -2815,6 +2815,18 @@ function distribuirAutomatico() {{
 
     // 1.3 ORDENAR FLOTA POR CAPACIDAD (MAYOR SPR) REGLA NATIVA
     fleet.sort((a, b) => b.spr - a.spr);
+        // Identificamos si son Newbie
+    let aIsNewbie = a.nombre.toLowerCase().includes("newbie");
+    let bIsNewbie = b.nombre.toLowerCase().includes("newbie");
+
+    // Si uno es newbie y el otro no, el newbie va primero (retorna -1)
+    if (aIsNewbie && !bIsNewbie) return -1;
+    if (!aIsNewbie && bIsNewbie) return 1;
+
+    // Si ambos son (o no son) newbies, ordenamos por capacidad SPR descendente
+    return b.spr - a.spr;
+}});
+
 
     // 1.4 CAPTURAR TODOS LOS POLÍGONOS CON VOLUMEN ACTIVO (MAYOR A 0)
     let bloques = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
