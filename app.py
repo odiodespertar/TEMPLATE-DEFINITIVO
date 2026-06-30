@@ -2817,16 +2817,21 @@ function distribuirAutomatico() {{
     console.log("FLEET DISPONIBLE EN PESTAÑA ACTIVA:", fleet.map(f => f.nombre));
 
     // 1.3 ORDENAR FLOTA POR CAPACIDAD (MAYOR SPR) REGLA NATIVA
-    fleet.sort((a, b) => {{
-        // Identificamos si son Newbie
-    let aIsNewbie = a.nombre.toLowerCase().includes("newbie");
-    let bIsNewbie = b.nombre.toLowerCase().includes("newbie");
+   fleet.sort((a, b) => {{
+    // Obtenemos los nombres (usamos a.nombre o a.name según tu objeto)
+    let nameA = (a.nombre || a.name || "").toLowerCase();
+    let nameB = (b.nombre || b.name || "").toLowerCase();
+    
+    // Identificar si son Newbie
+    let aIsNewbie = nameA.includes("newbie");
+    let bIsNewbie = nameB.includes("newbie");
 
-    // Si uno es newbie y el otro no, el newbie va primero (retorna -1)
-    if (aIsNewbie && !bIsNewbie) return -1;
-    if (!aIsNewbie && bIsNewbie) return 1;
+    // LÓGICA DE PRIORIDAD:
+    // Si uno es Newbie y el otro no, el Newbie va primero (retorna -1)
+        if (aIsNewbie && !bIsNewbie) return -1;
+        if (!aIsNewbie && bIsNewbie) return 1;
 
-    // Si ambos son (o no son) newbies, ordenamos por capacidad SPR descendente
+    // Si ambos son (o no son) Newbies, ordenamos por capacidad SPR descendente
     return b.spr - a.spr;
 }});
 
@@ -2844,6 +2849,12 @@ function distribuirAutomatico() {{
             }});
         }}
     }});
+
+
+polys.forEach(p => {{
+let unidadAsignada = fleet.find(f => f.spr >= p.volumen);
+}});
+
 
 
     // ==============================================================================
