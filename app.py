@@ -77,14 +77,16 @@ u_C2["Large Van Híbrida"] = [100, 100]
 u_C1_SJA1 = { 
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
+    "Car MLP": [80, 100],
     "Extra Large Van MLP H&B": [70, 70],
     "Rental Electric Large Van": [150, 150],
     "Rental Large Van": [120, 120],
     "Rental Replacement": [120, 120],
-    "Truck 3.5 tons MLP": [1, 1], 
-    "Media milla SP": [1, 1], 
+    "Truck 3.5 tons MLP": [1, 1],
+    "Delivery Cell Large Van": [1, 1],
     "Car 8h": [70, 70], 
     "Car Newbie": [70, 70],
+    "Car Zona Extendida": [70, 70],
     "Moto 3h": [30, 30],
     "Small Van 9h": [70, 70],
     "Small Van 9h Ext": [70, 70],
@@ -441,7 +443,12 @@ def gen_poligonos(data_target=None):
 
 
     # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
-    limite_tablas = 21 if data_target == u_C1_SJA1 else 11
+    if data_target == u_C1_SJA1:
+        limite_tablas = 21
+    elif es_sde:
+        limite_tablas = 5  # 🌟 Renderizará exactamente 4 PLANES (1 al 4)
+    else:
+        limite_tablas = 11
     
     for i in range(1, limite_tablas): # <-- Asegúrate de que aquí tenga la "s" al final
 
@@ -1172,12 +1179,12 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 <div id="fleet-sticky" class="fleet-normal">
   <div id="fleet-drag-handle">
-    PUEDES MOVERME
+   
 
     <button id="fleet-toggle-btn"
-      onclick="console.log('CLICK BOTON FLOTAR/NORMAL'); toggleFleetFloating();"
-      style="float:right; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
-      FLOTAR
+      onclick="console.log('CLICK BOTON FLOTAR ☁️/NORMAL (enter)'); toggleFleetFloating();"
+      style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
+      FLOTAR ☁️
     </button>
   </div>
 
@@ -1197,7 +1204,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;"
+    style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;"
     onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1b4b4d';"
     onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';"
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';">
@@ -1678,14 +1685,14 @@ function toggleFleetFloating() {{
     panel.style.bottom = "auto";
     panel.style.margin = "0";
 
-    if (btn) btn.textContent = "NORMAL";
+    if (btn) btn.textContent = "NORMAL (enter)";
   }} else {{
-    // volver a normal
+    // volver a normal 
     panel.classList.remove("fleet-floating");
     panel.classList.add("fleet-normal");
     panel.removeAttribute("style");          // <- clave
 
-    if (btn) btn.textContent = "FLOTAR";
+    if (btn) btn.textContent = "FLOTAR ☁️";
   }}
 
   // DEBUG rápido
