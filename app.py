@@ -289,13 +289,13 @@ def gen_poligonos(data_target=None):
     # Modificación sugerida dentro de gen_poligonos
 es_centro_1_2 = (nombre_final == "CENTRO 1" or nombre_final == "CENTRO 2")
 
-    fila_nodos = f'''
-    <tr class="fila-nodos">
+fila_nodos = f'''
+<tr class="fila-nodos">
     <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
-        {"BULK" if es_centro_1_2 else "NODOS"}
+        { "BULK" if es_centro_1_2 else "NODOS" }
     </td>
     <td style="border:0.5px solid #25282b; text-align:center; font-weight:bold;">
-        {'<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>'}
+        { '<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>' }
     </td>
     <td colspan="2" style="border:0.5px solid #25282b;"></td>
 </tr>
