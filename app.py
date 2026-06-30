@@ -1856,7 +1856,7 @@ function actualizarDosPorciento() {{
     function recalc() {{
 
         // --- INYECCIÓN QUIRÚRGICA (Se ejecuta siempre que hay un cambio) ---
-      if (currentTab === 2 || currentTab === 3) { // Ajusta el 2 y 3 a los índices de tus Centros
+     if (currentTab === 2 || currentTab === 3) {{ // Ajusta el 2 y 3 a los índices de tus Centros
         document.querySelectorAll('.poligono-bloque').forEach(bl => {{
              if (!bl.querySelector('.bulk-container')) {{
                 let div = document.createElement('div');
