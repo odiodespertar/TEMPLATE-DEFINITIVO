@@ -1634,7 +1634,7 @@ function agregarBulkChecks(tabName) {{
 
         // 3. FILTRO POR NOMBRE DE PLAN (Centro 1 y 2)
         if (nombre === "CENTRO 1" || nombre === "CENTRO 2") {{
-            if (!bl.querySelector('.bulk-container')) {
+            if (!bl.querySelector('.bulk-container')) {{
                 let div = document.createElement('div');
                 div.className = 'bulk-container';
                 div.style.marginBottom = "5px";
