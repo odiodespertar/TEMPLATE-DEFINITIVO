@@ -1617,24 +1617,24 @@ USADAS
 
 
 
-function agregarBulkChecks() {{
-    // Solo actuamos si estamos en la pestaña C1 SJA1 (ajusta este ID si es distinto)
-    if (currentTab !== 'C1_SJA1') return;
+function inyectarBulkCheck(n) {{
+    // 1. FILTRO DE PESTAÑA: Solo actúa en C1 (2) o C1 SJA1 (6)
+    // Ajusta estos números si tus IDs de pestaña son diferentes
+    if (n !== 2 && n !== 6) return; 
 
-    let contenedor = document.getElementById('polys-' + currentTab);
+    let contenedor = document.getElementById('polys-' + n);
     if (!contenedor) return;
 
     let bloques = contenedor.querySelectorAll('.poligono-bloque');
     bloques.forEach(bl => {{
-        // 1. Buscamos el nombre del plan en la celda correspondiente
-        // Asumiendo que el nombre del plan está en la celda con rowspan
+        // 2. FILTRO DE NOMBRE: Buscamos el nombre del plan en la celda del rowspan
         let celdaNombre = bl.querySelector('td[rowspan]');
-        let nombrePlan = celdaNombre ? celdaNombre.innerText.trim().toUpperCase() : "";
+        if (!celdaNombre) return;
 
-        // 2. FILTRO QUIRÚRGICO: Solo si es CENTRO 1 o CENTRO 2
-        if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
-            
-            // 3. Insertar solo si no existe
+        let nombre = celdaNombre.innerText.trim().toUpperCase();
+
+        // 3. SOLO SI SE LLAMA EXACTAMENTE "CENTRO 1" O "CENTRO 2"
+        if (nombre === "CENTRO 1" || nombre === "CENTRO 2") {{
             if (!bl.querySelector('.bulk-container')) {{
                 let div = document.createElement('div');
                 div.className = 'bulk-container';
@@ -1645,9 +1645,6 @@ function agregarBulkChecks() {{
         }}
     }});
 }}
-// Llamamos a esto cada vez que cambias de pestaña
-// Modifica tu función changeTab para que incluya: agregarBulkChecks();
-
 
 
 
