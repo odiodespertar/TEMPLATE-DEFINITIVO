@@ -1859,6 +1859,23 @@ function actualizarDosPorciento() {{
         let tabId = currentTab;
         // ----------------------------------------------------
 
+// --- INSERCIÓN QUIRÚRGICA: Inyectar Checkbox Bulk ---
+     if (tabId === 'C1' || tabId === 'C2') {{
+         document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            if (!bl.querySelector('.bulk-container')) {{
+                let div = document.createElement('div');
+                div.className = 'bulk-container';
+                div.style.marginBottom = "5px";
+                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check">';
+                bl.prepend(div);
+            }}
+         }});
+      }}
+        // --- FIN DE INSERCIÓN ---
+
+
+
+
 
         // 1. Capturar datos de la flota (Tabla de arriba)
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
