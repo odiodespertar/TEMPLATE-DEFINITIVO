@@ -1931,6 +1931,25 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 // 2. Calcular ocupación por polígono (Tabla de abajo)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+
+
+    let isCentro = (tabId === 'C1' || tabId === 'C2');
+    let hayBulk = isCentro ? bl.querySelector('.bulk-check')?.checked : false;
+
+    if (isCentro) {{
+        let volC1 = parseFloat(document.getElementById('total-vol-C1')?.innerText || 0);
+        let volC2 = parseFloat(document.getElementById('total-vol-C2')?.innerText || 0);
+        let destinoPrioritario = (volC1 >= volC2) ? 'C1' : 'C2';
+    
+        // Si estás en el centro prioritario, asigna Truck 3.5 / Delivery
+        if (tabId === destinoPrioritario) {{
+        // Lógica de asignación automática de Truck/Delivery aquí
+        }}
+     }}
+// --- FIN DE INSERCIÓN ---
+
+
+
     let vCalcEl = bl.querySelector('.v-calculado-total');
     
     let celdaNodos = bl.querySelector('.nodos-val');
