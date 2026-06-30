@@ -286,15 +286,16 @@ def gen_poligonos(data_target=None):
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#25282b; padding: 4px; cursor: pointer;"
 
 
-    fila_nodos = '''
+    # Modificación sugerida dentro de gen_poligonos
+es_centro_1_2 = (nombre_final == "CENTRO 1" or nombre_final == "CENTRO 2")
+
+fila_nodos = f'''
 <tr class="fila-nodos">
     <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
-        NODOS
+        { "BULK" if es_centro_1_2 else "NODOS" }
     </td>
-    <td contenteditable="true"
-        class="nodos-val"
-        style="border:1.0px solid #25282b; text-align:center; font-weight:bold;">
-        0
+    <td style="border:0.5px solid #25282b; text-align:center; font-weight:bold;">
+        { '<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>' }
     </td>
     <td colspan="2" style="border:0.5px solid #25282b;"></td>
 </tr>
