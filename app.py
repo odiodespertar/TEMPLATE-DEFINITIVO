@@ -1617,39 +1617,37 @@ USADAS
 
 
 
-function inyectarBulkCheck(n) {{
-    // 1. FILTRO DE PESTAÑA: Solo se ejecuta si n es 2 o 6
-    if (n !== 2 && n !== 6) return;
+function agregarBulkChecks(tabName) {{
+    // 1. FILTRO ESTRICTO: Solo funciona si la pestaña es C1 o C2
+    if (tabName !== 'C1' && tabName !== 'C2') return;
 
-    // 2. BUSCAR EL CONTENEDOR ESPECÍFICO
-    // Aseguramos que solo buscamos en el div que corresponde a la pestaña n
-    let contenedor = document.getElementById('polys-' + n);
-    if (!contenedor) return;
-
-    // 3. FILTRO POR BLOQUE: Solo en los que se llamen "CENTRO 1" o "CENTRO 2"
-    let bloques = contenedor.querySelectorAll('.poligono-bloque');
+    // 2. BUSCAR SOLO EN EL VISOR
+    let visor = document.getElementById('visor');
+    let bloques = visor.querySelectorAll('.poligono-bloque');
     
     bloques.forEach(bl => {{
-        // Buscamos el nombre en la celda que tiene el título (usualmente un td con rowspan)
+        // Buscamos el nombre del plan en la celda con rowspan
         let celdaNombre = bl.querySelector('td[rowspan]');
         if (!celdaNombre) return;
 
         let nombre = celdaNombre.innerText.trim().toUpperCase();
 
-        // 4. SOLO INSERTAR SI ES EL CENTRO QUE BUSCAMOS
+        // 3. FILTRO POR NOMBRE DE PLAN (Centro 1 y 2)
         if (nombre === "CENTRO 1" || nombre === "CENTRO 2") {{
-            // Verificar si ya existe para no duplicar
-            if (!bl.querySelector('.bulk-container')) {{
+            if (!bl.querySelector('.bulk-container')) {
                 let div = document.createElement('div');
                 div.className = 'bulk-container';
-                div.style.marginTop = "5px";
-                div.innerHTML = '<label style="font-weight:bold; font-size:11px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                div.style.marginBottom = "5px";
+                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
                 bl.prepend(div);
             }}
+        }} else {{
+            // Si no es Centro 1 o 2, nos aseguramos de que no tenga Bulk
+            let bulk = bl.querySelector('.bulk-container');
+            if (bulk) bulk.remove();
         }}
     }});
 }}
-
 
 
     function aplicarPerfil() {{
