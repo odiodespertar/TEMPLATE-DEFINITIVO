@@ -3293,7 +3293,6 @@ function procesarAsignacionUnidadSJA1(poly) {{
         restante -= (usar * unidad.spr);
     }}
     
-    // 📊 SECCIÓN 5: RECALCULAR COMPLETO
     recalc();
 }}
 
