@@ -3245,23 +3245,30 @@ function distribuirAutomatico() {{
                     if (unidad) break;
                 }}
             }}
+            
             // 4.2 PRIORIDAD PLANES FORÁNEOS
         else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
             
-            // CASCADA 1: MLP (Siempre prioridad absoluta)
+            // CASCADA 1: MLP primero
             unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
             if (!unidad) {{
                 unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
             }}
 
-            // CASCADA 2: Si no hay MLP, prioridad Newbie sobre otros carros (Solo si es Xico o Tuzamapa)
+            // CASCADA 2: Si no hay MLP, prioridad a las NEWBIE (Car o Small Van)
             if (!unidad) {{
-                let listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
-                if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
-                    listaLigeras = ["Small Van Newbie", "Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h"];
-                }}
-                for (let nombreCar of listaLigeras) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombreCar);
+                // Definimos la jerarquía: Newbies primero, luego el resto
+                let listaLigeras = [
+                    "Newbie", // Al poner solo "Newbie", capturará "Small Van Newbie" Y "Car Newbie"
+                    "Car 8h", 
+                    "Small Van 9h", 
+                    "Small Van 9h Ext", 
+                    "Moto 3h"
+                ];
+                
+                // Usamos .includes para que si el nombre en la tabla tiene la palabra, la capture
+                for (let palabra of listaLigeras) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre.includes(palabra));
                     if (unidad) break;
                 }}
             }}
