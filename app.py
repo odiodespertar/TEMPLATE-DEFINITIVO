@@ -1617,37 +1617,6 @@ USADAS
 
 
 
-function agregarBulkChecks(tabName) {{
-    // 1. FILTRO ESTRICTO: Solo funciona si la pestaña es C1 o C2
-    if (tabName !== 'C1' && tabName !== 'C2') return;
-
-    // 2. BUSCAR SOLO EN EL VISOR
-    let visor = document.getElementById('visor');
-    let bloques = visor.querySelectorAll('.poligono-bloque');
-    
-    bloques.forEach(bl => {{
-        // Buscamos el nombre del plan en la celda con rowspan
-        let celdaNombre = bl.querySelector('td[rowspan]');
-        if (!celdaNombre) return;
-
-        let nombre = celdaNombre.innerText.trim().toUpperCase();
-
-        // 3. FILTRO POR NOMBRE DE PLAN (Centro 1 y 2)
-        if (nombre === "CENTRO 1" || nombre === "CENTRO 2") {{
-            if (!bl.querySelector('.bulk-container')) {{
-                let div = document.createElement('div');
-                div.className = 'bulk-container';
-                div.style.marginBottom = "5px";
-                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
-                bl.prepend(div);
-            }}
-        }} else {{
-            // Si no es Centro 1 o 2, nos aseguramos de que no tenga Bulk
-            let bulk = bl.querySelector('.bulk-container');
-            if (bulk) bulk.remove();
-        }}
-    }});
-}}
 
 
     function aplicarPerfil() {{
@@ -1742,7 +1711,6 @@ function showTab(n, btn) {{
     btn.classList.add('active');
 
     recalc();
-    inyectarBulkCheck(n);
     actualizarVisibilidadContador();
     updateFleetFloat();
 
