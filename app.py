@@ -4014,7 +4014,35 @@ function makeDraggableWithHandle(el, handleEl, storageKey) {{
 }}
 
 enableFleetVerticalDrag();   
-    
+
+
+// --- OBSERVADOR QUIRÚRGICO ---
+// Detecta cuando el contenido del div "visor" cambia y aplica la lógica automáticamente
+const observer = new MutationObserver((mutations) => {{
+    // Solo actuamos si el nombre de la pestaña actual es C1 o C2
+    // Nota: 'currentTab' es la variable que tu código usa para saber la pestaña
+    if (typeof currentTab !== 'undefined' && (currentTab === 'C1' || currentTab === 'C2')) {{
+        let bloques = document.querySelectorAll('#visor .poligono-bloque');
+        bloques.forEach(bl => {{
+            let celdaNombre = bl.querySelector('td[rowspan]');
+            if (!celdaNombre) return;
+
+            let nombre = celdaNombre.innerText.trim().toUpperCase();
+            if ((nombre === "CENTRO 1" || nombre === "CENTRO 2") && !bl.querySelector('.bulk-container')) {{
+                let div = document.createElement('div');
+                div.className = 'bulk-container';
+                div.style.marginBottom = "5px";
+                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                bl.prepend(div);
+            }}
+        }});
+    }}
+}});
+
+// Iniciamos la observación sobre el div "visor"
+observer.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
+
+
 
 </script>
 </body>
