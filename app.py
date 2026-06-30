@@ -1618,28 +1618,32 @@ USADAS
 
 
 function inyectarBulkCheck(n) {{
-    // 1. FILTRO DE PESTAÑA: Solo actúa en C1 (2) o C1 SJA1 (6)
-    // Ajusta estos números si tus IDs de pestaña son diferentes
-    if (n !== 2 && n !== 6) return; 
+    // 1. FILTRO DE PESTAÑA: Solo se ejecuta si n es 2 o 6
+    if (n !== 2 && n !== 6) return;
 
+    // 2. BUSCAR EL CONTENEDOR ESPECÍFICO
+    // Aseguramos que solo buscamos en el div que corresponde a la pestaña n
     let contenedor = document.getElementById('polys-' + n);
     if (!contenedor) return;
 
+    // 3. FILTRO POR BLOQUE: Solo en los que se llamen "CENTRO 1" o "CENTRO 2"
     let bloques = contenedor.querySelectorAll('.poligono-bloque');
+    
     bloques.forEach(bl => {{
-        // 2. FILTRO DE NOMBRE: Buscamos el nombre del plan en la celda del rowspan
+        // Buscamos el nombre en la celda que tiene el título (usualmente un td con rowspan)
         let celdaNombre = bl.querySelector('td[rowspan]');
         if (!celdaNombre) return;
 
         let nombre = celdaNombre.innerText.trim().toUpperCase();
 
-        // 3. SOLO SI SE LLAMA EXACTAMENTE "CENTRO 1" O "CENTRO 2"
+        // 4. SOLO INSERTAR SI ES EL CENTRO QUE BUSCAMOS
         if (nombre === "CENTRO 1" || nombre === "CENTRO 2") {{
+            // Verificar si ya existe para no duplicar
             if (!bl.querySelector('.bulk-container')) {{
                 let div = document.createElement('div');
                 div.className = 'bulk-container';
-                div.style.marginBottom = "5px";
-                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                div.style.marginTop = "5px";
+                div.innerHTML = '<label style="font-weight:bold; font-size:11px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
                 bl.prepend(div);
             }}
         }}
