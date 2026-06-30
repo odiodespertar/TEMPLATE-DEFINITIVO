@@ -3265,7 +3265,7 @@ function procesarAsignacionUnidadSJA1(poly) {{
             }}
         }}
         // 4.2 PRIORIDAD PLANES FORÁNEOS (XICO, TUZAMAPA, ETC)
-        else {
+        else {{
             // LISTA DE JERARQUÍA ESTRICTA PARA TUZAMAPA, XICO Y RESTO
             // Orden: Newbie -> Moto -> Car 8h -> Car Zona Ext -> Small 9h -> Small 9h Ext
             const listaJerarquia = [
