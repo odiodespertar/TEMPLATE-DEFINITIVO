@@ -286,46 +286,47 @@ def gen_poligonos(data_target=None):
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#25282b; padding: 4px; cursor: pointer;"
 
 
-    # Modificación sugerida dentro de gen_poligonos
-es_centro_1_2 = (nombre_final == "CENTRO 1" or nombre_final == "CENTRO 2")
+def gen_poligonos(nombre_final):
+    # Todo lo que escribas debajo debe llevar 4 espacios de sangría
+    es_centro_1_2 = (nombre_final == "CENTRO 1" or nombre_final == "CENTRO 2")
 
-fila_nodos = f'''
-<tr class="fila-nodos">
-    <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
-        { "BULK" if es_centro_1_2 else "NODOS" }
-    </td>
-    <td style="border:0.5px solid #25282b; text-align:center; font-weight:bold;">
-        { '<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>' }
-    </td>
-    <td colspan="2" style="border:0.5px solid #25282b;"></td>
-</tr>
-'''
+    fila_nodos = f'''
+    <tr class="fila-nodos">
+        <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
+            { "BULK" if es_centro_1_2 else "NODOS" }
+        </td>
+        <td style="border:0.5px solid #25282b; text-align:center; font-weight:bold;">
+            { '<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>' }
+        </td>
+        <td colspan="2" style="border:0.5px solid #25282b;"></td>
+    </tr>
+    '''
 
-
-    
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #d3f0e5; border: 0.6px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
-            <div style="{div_flex}">
-                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
-                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #25282b !important;">0</span>
-                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+            <div style="{{div_flex}}">
+                <button style="{{btn_s}}" onclick="stepVal(this, -1, 'u')">-</button>
+                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{{span_num_u}}color: #25282b !important;">0</span>
+                <button style="{{btn_s}}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
         <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #25282b; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
-            <div style="{div_flex}">
-                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
-                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr} color: #25282b !important;">0</span>
-                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+            <div style="{{div_flex}}">
+                <button style="{{btn_s}}" onclick="stepVal(this, -1, 's')">-</button>
+                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{{span_num_spr}} color: #25282b !important;">0</span>
+                <button style="{{btn_s}}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
         <td style="border: 0.5px solid #25282b; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{{select_style}} color: #808080;"> 
                 <option value="">Seleccionar...</option>
             </select>
         </td>
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
+    
+    return fila_nodos + fila_inner
 
 
 
