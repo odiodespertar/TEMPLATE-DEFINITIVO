@@ -1736,6 +1736,7 @@ function showTab(n, btn) {{
     btn.classList.add('active');
 
     recalc();
+    inyectarBulkCheck(n);
     actualizarVisibilidadContador();
     updateFleetFloat();
 
@@ -1853,6 +1854,21 @@ function actualizarDosPorciento() {{
 
 
     function recalc() {{
+
+        // --- INYECCIÓN QUIRÚRGICA (Se ejecuta siempre que hay un cambio) ---
+    if (currentTab === 2 || currentTab === 3) { // Ajusta el 2 y 3 a los índices de tus Centros
+        document.querySelectorAll('.poligono-bloque').forEach(bl => {
+            if (!bl.querySelector('.bulk-container')) {
+                let div = document.createElement('div');
+                div.className = 'bulk-container';
+                div.innerHTML = '<label style="font-weight:bold;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                bl.prepend(div);
+            }
+        });
+    }
+    // -------------------------------------------------------------------
+
+        
         let fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
