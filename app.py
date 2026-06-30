@@ -86,6 +86,7 @@ u_C1_SJA1 = {
     "Delivery Cell Large Van": [1, 1],
     "Car 8h": [70, 70], 
     "Car Newbie": [70, 70],
+    "Car Zona Extendida": [70, 70],
     "Moto 3h": [30, 30],
     "Small Van 9h": [70, 70],
     "Small Van 9h Ext": [70, 70],
