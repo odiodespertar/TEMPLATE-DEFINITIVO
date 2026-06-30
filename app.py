@@ -1959,6 +1959,27 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let s = sType.value;
         let u = parseInt(uManual.innerText) || 0;
 
+        
+
+        // --- INSERTA ESTO AQUÍ: Prioridad de "Otros" ---
+        if ((s === "" || s === "Seleccionar...") && !isCentro && !nombrePlanPadre.includes("XICO") && !nombrePlanPadre.includes("TUZAMAPA")) {{
+            const ordenPrioridad = ["Car Newbie", "Small van newbie", "Moto 3h", "Car 8h", "Car zona extendida", "small van 9h", "small van 9h Ext"];
+            for (let tipo of ordenPrioridad) {{
+                if (fleet[tipo] && fleet[tipo].stock > fleet[tipo].used) {{
+                    sType.value = tipo;
+                    uManual.innerText = "1"; // O la cantidad que necesites
+                    fleet[tipo].used += 1;
+                    break;
+                }}
+            }}
+        }}
+// --- FIN DE INSERCIÓN ---
+
+
+
+
+
+
         // 🔥 CANDADO ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
         if (nombrePlanPadre.includes("ALCHICHICA")) {{
