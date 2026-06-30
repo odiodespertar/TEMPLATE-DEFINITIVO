@@ -1828,13 +1828,11 @@ function actualizarDosPorciento() {{
 
 
     function recalc() {{
-        
         let fleet = {{}};
         
         // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         let tabId = currentTab;
         // ----------------------------------------------------
-
 
 
         // 1. Capturar datos de la flota (Tabla de arriba)
@@ -1908,25 +1906,6 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 // 2. Calcular ocupación por polígono (Tabla de abajo)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-
-
-    let isCentro = (tabId === 'C1' || tabId === 'C2');
-    let hayBulk = isCentro ? bl.querySelector('.bulk-check')?.checked : false;
-
-    if (isCentro) {{
-        let volC1 = parseFloat(document.getElementById('total-vol-C1')?.innerText || 0);
-        let volC2 = parseFloat(document.getElementById('total-vol-C2')?.innerText || 0);
-        let destinoPrioritario = (volC1 >= volC2) ? 'C1' : 'C2';
-    
-        // Si estás en el centro prioritario, asigna Truck 3.5 / Delivery
-        if (tabId === destinoPrioritario) {{
-        // Lógica de asignación automática de Truck/Delivery aquí
-        }}
-     }}
-// --- FIN DE INSERCIÓN ---
-
-
-
     let vCalcEl = bl.querySelector('.v-calculado-total');
     
     let celdaNodos = bl.querySelector('.nodos-val');
@@ -1954,27 +1933,6 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         
         let s = sType.value;
         let u = parseInt(uManual.innerText) || 0;
-
-        
-
-        // --- INSERTA ESTO AQUÍ: Prioridad de "Otros" ---
-        if ((s === "" || s === "Seleccionar...") && !isCentro && !nombrePlanPadre.includes("XICO") && !nombrePlanPadre.includes("TUZAMAPA")) {{
-            const ordenPrioridad = ["Car Newbie", "Small van newbie", "Moto 3h", "Car 8h", "Car zona extendida", "small van 9h", "small van 9h Ext"];
-            for (let tipo of ordenPrioridad) {{
-                if (fleet[tipo] && fleet[tipo].stock > fleet[tipo].used) {{
-                    sType.value = tipo;
-                    uManual.innerText = "1"; // O la cantidad que necesites
-                    fleet[tipo].used += 1;
-                    break;
-                }}
-            }}
-        }}
-// --- FIN DE INSERCIÓN ---
-
-
-
-
-
 
         // 🔥 CANDADO ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
@@ -3952,35 +3910,7 @@ function makeDraggableWithHandle(el, handleEl, storageKey) {{
 }}
 
 enableFleetVerticalDrag();   
-
-
-// --- OBSERVADOR QUIRÚRGICO ---
-// Detecta cuando el contenido del div "visor" cambia y aplica la lógica automáticamente
-const observer = new MutationObserver((mutations) => {{
-    // Solo actuamos si el nombre de la pestaña actual es C1 o C2
-    // Nota: 'currentTab' es la variable que tu código usa para saber la pestaña
-    if (typeof currentTab !== 'undefined' && (currentTab === 'C1' || currentTab === 'C2')) {{
-        let bloques = document.querySelectorAll('#visor .poligono-bloque');
-        bloques.forEach(bl => {{
-            let celdaNombre = bl.querySelector('td[rowspan]');
-            if (!celdaNombre) return;
-
-            let nombre = celdaNombre.innerText.trim().toUpperCase();
-            if ((nombre === "CENTRO 1" || nombre === "CENTRO 2") && !bl.querySelector('.bulk-container')) {{
-                let div = document.createElement('div');
-                div.className = 'bulk-container';
-                div.style.marginBottom = "5px";
-                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
-                bl.prepend(div);
-            }}
-        }});
-    }}
-}});
-
-// Iniciamos la observación sobre el div "visor"
-observer.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
-
-
+    
 
 </script>
 </body>
