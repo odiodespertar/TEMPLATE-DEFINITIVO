@@ -77,16 +77,14 @@ u_C2["Large Van Híbrida"] = [100, 100]
 u_C1_SJA1 = { 
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
-    "Car MLP": [80, 100],
     "Extra Large Van MLP H&B": [70, 70],
     "Rental Electric Large Van": [150, 150],
     "Rental Large Van": [120, 120],
     "Rental Replacement": [120, 120],
-    "Truck 3.5 tons MLP": [1, 1],
-    "Delivery Cell Large Van": [1, 1],
+    "Truck 3.5 tons MLP": [1, 1], 
+    "Media milla SP": [1, 1], 
     "Car 8h": [70, 70], 
     "Car Newbie": [70, 70],
-    "Car Zona Extendida": [70, 70],
     "Moto 3h": [30, 30],
     "Small Van 9h": [70, 70],
     "Small Van 9h Ext": [70, 70],
@@ -260,55 +258,299 @@ def export_c1_csv():
 
 
 
-def gen_poligonos(nombre_final, data_target):
-    # 1. Definir estilos (fuera de las triples comillas para evitar errores)
+def gen_poligonos(data_target=None):
+    polys = ""  # ✅ NO usar triple comillas aquí
+ 
+    # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
+    
+    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
+    nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
+    nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
+   
+    es_c1 = (data_target == u_C1 or data_target == u_C1_SJA1)
+    es_sde = (data_target == u_SDE)
+    es_prec = (data_target == u_PREC)
+
+    
+    # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
+    
+    # Cajas de texto para números (Unidades y SPR)
     span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
+    
+    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#25282b; padding: 4px; cursor: pointer;"
 
-    # 2. Lógica de Nodos vs Bulk
-    es_centro_1_2 = (nombre_final == "CENTRO 1" or nombre_final == "CENTRO 2")
-    
-    fila_nodos = f'''
-    <tr class="fila-nodos">
-        <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
-            { "BULK" if es_centro_1_2 else "NODOS" }
-        </td>
-        <td style="border:0.5px solid #25282b; text-align:center; font-weight:bold;">
-            { '<input type="checkbox" class="bulk-check" onchange="recalc()">' if es_centro_1_2 else '<span contenteditable="true" class="nodos-val">0</span>' }
-        </td>
-        <td colspan="2" style="border:0.5px solid #25282b;"></td>
-    </tr>
-    '''
 
+    fila_nodos = '''
+<tr class="fila-nodos">
+    <td style="background:#ededed; border:0.5px solid #25282b; text-align:center; font-weight:bold; color:#FF6347;">
+        NODOS
+    </td>
+    <td contenteditable="true"
+        class="nodos-val"
+        style="border:1.0px solid #25282b; text-align:center; font-weight:bold;">
+        0
+    </td>
+    <td colspan="2" style="border:0.5px solid #25282b;"></td>
+</tr>
+'''
+
+
+    
     fila_inner = f'''
     <tr class="calc-row">
-        <td class="u-manual-cell" style="background: #d3f0e5; border: 0.6px solid #25282b; padding: 2px; width: 105px;">
+        <td class="u-manual-cell" style="background: #d3f0e5; border: 0.6px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button>
                 <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u}color: #25282b !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
             </div>
         </td>
-        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #25282b; padding: 2px; width: 90px;">
+        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #25282b; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
             <div style="{div_flex}">
                 <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
                 <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr} color: #25282b !important;">0</span>
                 <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
             </div>
         </td>
-        <td style="border: 0.5px solid #25282b; padding: 2px;">
-            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style}">
+        <td style="border: 0.5px solid #25282b; padding: 2px; width: 170px; min-width: 170px; max-width: 170px;">
+            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="{select_style} color: #808080;"> 
                 <option value="">Seleccionar...</option>
             </select>
         </td>
-        <td style="width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
-    # Retornamos la estructura completa que va dentro de tu tabla
-    return fila_nodos + fila_inner
+
+
+    campo_volumen_normal = '''
+<div style="text-align:center;">
+    <span class="v-total-val"
+            contenteditable="true"
+            oninput="recalc()"
+            style="
+            display:inline-block;
+            min-width:55px;
+            padding:2px 8px;
+            border:none;
+            border-radius:4px;
+            background:#ededed;
+            font-size:22px;
+            font-weight:bold;
+            color:#808080;
+            text-align:center;
+          ">
+        0
+    </span>
+</div>
+'''
+
+    
+    campo_volumen_c1 = '''
+<div style="text-align:center;">
+    <span class="v-total-val"
+          contenteditable="true"
+          oninput="recalc()"
+          style="
+            display:inline-block;
+            min-width:55px;
+            padding:2px 8px;
+            border:none;
+            border-radius:4px;
+            background:#ededed;
+            font-size:22px;
+            font-weight:bold;
+            color:#808080;
+            text-align:center;
+          ">
+        0
+    </span>
+</div>
+
+<hr style="margin:4px 0; border:none; border-top:2px solid #999;">
+
+<div style="font-size:13px;font-weight:bold;color:#25282b;">
+    Nodos:
+    <span class="nodos-val"
+      contenteditable="true"
+      style="
+        display:inline-block;
+        min-width:28px;
+        text-align:center;
+        border:none;
+        border-radius:4px;
+        background:#ededed;
+        font-size:16px;
+        font-weight:bold;
+        color:#FF6347;
+        padding:0 4px;
+        margin-left:3px;
+      ">
+    0
+</span>
+</div>
+'''
+
+    campo_campeche = '''
+<div style="text-align:center;">
+    <span class="v-total-val"
+          contenteditable="true"
+          oninput="recalc()"
+          style="
+            display:inline-block;
+            min-width:55px;
+            padding:2px 8px;
+            border:none;
+            border-radius:4px;
+            background:#ededed;
+            font-size:22px;
+            font-weight:bold;
+            color:#808080;
+            text-align:center;
+          ">
+        0
+    </span>
+</div>
+
+<hr style="margin:4px 0; border:none; border-top:2px solid #999;">
+
+<div style="font-size:13px;font-weight:bold;color:#25282b;">
+    Nodos:
+    <span class="nodos-campeche"
+          contenteditable="true"
+          style="
+            display:inline-block;
+            min-width:28px;
+            text-align:center;
+            border:none;
+            border-radius:4px;
+            background:#ededed;
+            font-size:16px;
+            font-weight:bold;
+            color:#FF6347;
+            padding:0 4px;
+            margin-left:3px;
+          ">
+        0
+    </span>
+</div>
+'''
+
+
+    # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
+    limite_tablas = 21 if data_target == u_C1_SJA1 else 11
+    
+    for i in range(1, limite_tablas): # <-- Asegúrate de que aquí tenga la "s" al final
+
+        if data_target == u_PREC and (i-1) < len(nombres_prec):
+            nombre_final = nombres_prec[i-1]
+
+        elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
+             nombre_final = nombres_smx2[i-1]
+
+        elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
+            nombre_final = NOMBRES_PLANES_C1[i-1]
+            
+        elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
+            nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
+
+        else:
+             nombre_final = f"PLAN {i}"
+
+        # ← AGREGAR AQUÍ
+        if nombre_final == "CAMPECHE":
+             contenido_volumen = campo_campeche
+
+        elif es_c1:
+             contenido_volumen = campo_volumen_c1
+
+        else:
+             contenido_volumen = campo_volumen_normal
+
+        # 🌟 DEFINIMOS EL ALTO DE LA CELDA GRIS (ROWSPAN)
+        if es_sde:
+             rowspan_actual = 5
+        elif es_prec:
+             rowspan_actual = 4
+        elif data_target == u_C1_SJA1:
+             rowspan_actual = 5  # Cambia a 5 para la celda gris de C1 SJA1
+        else:
+             rowspan_actual = 3
+
+        # 🌟 AGREGAMOS LAS FILAS EXTRA CORRESPONDIENTES
+        if es_sde:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+        elif es_prec:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
+        elif data_target == u_C1_SJA1:
+            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 4 filas extra + 1 principal = 5 filas totales
+        else:
+            filas_extra = f"{fila_inner}{fila_inner}"
+
+        
+        
+        polys += f'''
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #25282b;">           
+            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #25282b;">
+                <thead>
+                    <tr style="background: #25282b; color: white; font-size: 12px; height: 28px;">                        
+                        <th style="padding: 0 10px; border-right: 1px solid #25282b;">PLAN</th>
+                        <th style="border-right: 1px solid #25282b; width: 85px;">VOL. TOTAL</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #25282b;"># USADAS</th>
+                        <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #25282b;">SPR</th>
+                        <th style="width: 80px, border-right: 1px solid #25282b;">TIPO DE UNIDAD</th>
+                        <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="calc-row"> 
+                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight: bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
+                        <td rowspan="{rowspan_actual}"
+                            style="color:#808080;
+                                   font-weight:bold;
+                                   text-align:center;
+                                   border:1px solid #25282b;
+                                   padding:5px;">
+                            {contenido_volumen}
+                        </td>
+                        <td class="u-manual-cell" style="background: #d3f0e5; border: 0.5px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
+                            <div style="{div_flex}">
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 'u')">-</button> 
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="{span_num_u} color: #25282b !important;">0</span>
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 'u')">+</button>
+                            </div>
+                        </td>
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #25282b; padding: 2px; width: 90px; min-width: 90px; max-width: 90px;">
+                            <div style="{div_flex}">
+                                <button style="{btn_s}" onclick="stepVal(this, -1, 's')">-</button>
+                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="{span_num_spr}">0</span>
+                                <button style="{btn_s}" onclick="stepVal(this, 1, 's')">+</button>
+                            </div>
+                        </td>
+                        <td style="border: 0.5px solid #25282b; padding: 2px;">
+                            <select class="s-type" onchange="resetRow(this)" style="{select_style}">
+                                <option>Seleccionar...</option>
+                            </select>
+                        </td>
+                        <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+                    </tr>
+                    {filas_extra}
+                    {""}
+                    <tr style="background:#ededed; height: 32px;">
+                        <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #25282b; font-size: 14px; color:#25282b;">ESTADO:</td>
+                        <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #25282b; text-align: center;">0</td>
+                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #25282b; font-size: 14px; color: #25282b">VACÍO:</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>'''
+    return polys
+
+
 # --- PERFILES LIMPIOS (DESACTIVADOS) ---
 PERFILES = {}
 perfil_actual = "LUNES"
@@ -930,12 +1172,12 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 <div id="fleet-sticky" class="fleet-normal">
   <div id="fleet-drag-handle">
-   
+    PUEDES MOVERME
 
     <button id="fleet-toggle-btn"
-      onclick="console.log('CLICK BOTON FLOTAR ☁️/NORMAL (enter)'); toggleFleetFloating();"
-      style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
-      FLOTAR ☁️
+      onclick="console.log('CLICK BOTON FLOTAR/NORMAL'); toggleFleetFloating();"
+      style="float:right; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
+      FLOTAR
     </button>
   </div>
 
@@ -955,7 +1197,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
     <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;"
+    style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;"
     onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1b4b4d';"
     onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';"
     onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';">
@@ -1436,14 +1678,14 @@ function toggleFleetFloating() {{
     panel.style.bottom = "auto";
     panel.style.margin = "0";
 
-    if (btn) btn.textContent = "NORMAL (enter)";
+    if (btn) btn.textContent = "NORMAL";
   }} else {{
-    // volver a normal 
+    // volver a normal
     panel.classList.remove("fleet-floating");
     panel.classList.add("fleet-normal");
     panel.removeAttribute("style");          // <- clave
 
-    if (btn) btn.textContent = "FLOTAR ☁️";
+    if (btn) btn.textContent = "FLOTAR";
   }}
 
   // DEBUG rápido
