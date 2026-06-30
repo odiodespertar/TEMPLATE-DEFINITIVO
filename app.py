@@ -3257,7 +3257,7 @@ function procesarAsignacionUnidadSJA1(poly) {{
             // CASCADA 2: Si no hay MLP, prioridad Newbie sobre otros carros (Solo si es Xico o Tuzamapa)
             if (!unidad) {{
                 let listaLigeras = ["Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h", "Small Van Newbie"];
-                if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {
+                if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
                     listaLigeras = ["Small Van Newbie", "Car 8h", "Small Van 9h", "Small Van 9h Ext", "Moto 3h"];
                 }}
                 for (let nombreCar of listaLigeras) {{
