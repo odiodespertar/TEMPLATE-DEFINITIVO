@@ -1617,24 +1617,31 @@ USADAS
 
 
 
-   // Agrega esto al final de tu tag <script>
 function agregarBulkChecks() {{
-    // Identificamos las pestañas que nos interesan
-    const targets = ['C1', 'C2']; 
-    targets.forEach(tabId => {{
-        let contenedor = document.getElementById('polys-' + tabId);
-        if (contenedor) {{
-            let bloques = contenedor.querySelectorAll('.poligono-bloque');
-            bloques.forEach(bl => {{
-                // Solo si no existe ya el checkbox, lo creamos
-                if (!bl.querySelector('.bulk-container')) {{
-                    let div = document.createElement('div');
-                    div.className = 'bulk-container';
-                    div.innerHTML = '<label>Bulk: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
-                    // Lo insertamos junto al contenedor de nodos/volumen
-                    bl.prepend(div);
-                }}
-            }});
+    // Solo actuamos si estamos en la pestaña C1 SJA1 (ajusta este ID si es distinto)
+    if (currentTab !== 'C1_SJA1') return;
+
+    let contenedor = document.getElementById('polys-' + currentTab);
+    if (!contenedor) return;
+
+    let bloques = contenedor.querySelectorAll('.poligono-bloque');
+    bloques.forEach(bl => {{
+        // 1. Buscamos el nombre del plan en la celda correspondiente
+        // Asumiendo que el nombre del plan está en la celda con rowspan
+        let celdaNombre = bl.querySelector('td[rowspan]');
+        let nombrePlan = celdaNombre ? celdaNombre.innerText.trim().toUpperCase() : "";
+
+        // 2. FILTRO QUIRÚRGICO: Solo si es CENTRO 1 o CENTRO 2
+        if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+            
+            // 3. Insertar solo si no existe
+            if (!bl.querySelector('.bulk-container')) {{
+                let div = document.createElement('div');
+                div.className = 'bulk-container';
+                div.style.marginBottom = "5px";
+                div.innerHTML = '<label style="font-weight:bold; font-size:12px;">BULK: </label><input type="checkbox" class="bulk-check" onchange="recalc()">';
+                bl.prepend(div);
+            }}
         }}
     }});
 }}
