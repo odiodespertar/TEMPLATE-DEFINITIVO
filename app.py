@@ -3208,44 +3208,44 @@ function distribuirAutomatico() {{
         }});
     }}
 
- // ==============================================================================
-// 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
-// ==============================================================================
-function procesarAsignacionUnidadSJA1(poly) {{
-    let bloque = poly.bloque;
-    let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-    let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+    // ==============================================================================
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
+    // ==============================================================================
+    function procesarAsignacionUnidadSJA1(poly) {{
+        let bloque = poly.bloque;
+        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
 
-    let yaAsignado = 0;
-    bloque.querySelectorAll('.calc-row').forEach(r => {{
-        let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
-        let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
-        yaAsignado += (unidades * spr);
-    }});
+        let yaAsignado = 0;
+        bloque.querySelectorAll('.calc-row').forEach(r => {{
+            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
+            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
+            yaAsignado += (unidades * spr);
+        }});
 
-    let restante = objetivo - yaAsignado;
-    if (restante <= 0) return;
+        let restante = objetivo - yaAsignado;
+        if (restante <= 0) return;
 
-    let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-    for (let fila of filas) {{
-        let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
-        let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
-        let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
+        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+        for (let fila of filas) {{
+            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+            let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
 
-        if (yaTieneUnidad || yaTieneTipo) continue;
-        if (restante <= 0) break;
+            if (yaTieneUnidad || yaTieneTipo) continue;
+            if (restante <= 0) break;
 
-        let unidad = null;
+            let unidad = null;
 
-        // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2"
-        if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
-            const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
-            for (let nombre of listaRental) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                if (unidad) break;
+            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
+            if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                for (let nombre of listaRental) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                    if (unidad) break;
+                }}
             }}
-        }} 
-        // 4.2 PRIORIDAD PLANES FORÁNEOS
+            // 4.2 PRIORIDAD PLANES FORÁNEOS
         else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
             
             // CASCADA 1: MLP (Siempre prioridad absoluta)
@@ -3269,30 +3269,35 @@ function procesarAsignacionUnidadSJA1(poly) {{
 
         // Si no se encontró unidad en la jerarquía, frena
         if (!unidad) break;
+        
 
-        // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1 (MANTENIDA COMPLETAMENTE)
-        let necesarias = Math.ceil(restante / unidad.spr);
-        let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
+            let necesarias = Math.ceil(restante / unidad.spr);
+            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
 
-        if (usar <= 0) continue;
+            if (usar <= 0) continue;
 
-        let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-        if (filaExistente) {{
-            let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
-            filaExistente.querySelector('.u-manual').innerText = actual + usar;
-            filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-            editedRowsPlan.add(filaExistente);
-        }} else {{
-            fila.querySelector('.s-type').value = unidad.nombre;
-            fila.querySelector('.u-manual').innerText = usar;
-            fila.querySelector('.spr-real-val').innerText = unidad.spr;
-            editedRowsPlan.add(fila);
+            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+            if (filaExistente) {{
+                let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(filaExistente);
+            }} else {{
+                fila.querySelector('.s-type').value = unidad.nombre;
+                fila.querySelector('.u-manual').innerText = usar;
+                fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                editedRowsPlan.add(fila);
+            }}
+
+            unidad.restante -= usar;
+            restante -= (usar * unidad.spr);
         }}
-
-        unidad.restante -= usar;
-        restante -= (usar * unidad.spr);
     }}
-    
+
+    // ============================================================================================
+    // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES// TERMINA DISTRIBUIDOR AUTOMATICO
+    // ============================================================================================
     recalc();
 }}
 
