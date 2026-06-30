@@ -2814,7 +2814,7 @@ function distribuirAutomatico() {{
     console.log("FLEET DISPONIBLE EN PESTAÑA ACTIVA:", fleet.map(f => f.nombre));
 
     // 1.3 ORDENAR FLOTA POR CAPACIDAD (MAYOR SPR) REGLA NATIVA
-    fleet.sort((a, b) => b.spr - a.spr);
+    fleet.sort((a, b) => {{
         // Identificamos si son Newbie
     let aIsNewbie = a.nombre.toLowerCase().includes("newbie");
     let bIsNewbie = b.nombre.toLowerCase().includes("newbie");
