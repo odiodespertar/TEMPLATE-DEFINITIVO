@@ -483,6 +483,8 @@ def gen_poligonos(data_target=None):
         elif es_prec:
              rowspan_actual = 4
         elif data_target == u_C1_SJA1:
+            if nombre_final == "CENTRO 2":
+                rowspan_actual = 8  # 1 principal + 7 extra
              rowspan_actual = 5  # Cambia a 5 para la celda gris de C1 SJA1
         else:
              rowspan_actual = 3
