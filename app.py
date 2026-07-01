@@ -496,7 +496,10 @@ def gen_poligonos(data_target=None):
         elif es_prec:
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
         elif data_target == u_C1_SJA1:
-            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 4 filas extra + 1 principal = 5 filas totales
+           if nombre_final == "CENTRO 2":
+               filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 7 filas extra + 1 principal = 5 filas totales
+           else:
+               filas_extra = f"{fila_inner * 4}" # 4 filas extra
         else:
             filas_extra = f"{fila_inner}{fila_inner}"
 
