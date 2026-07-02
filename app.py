@@ -1397,25 +1397,16 @@ USADAS
         </thead>
         <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
          <tfoot class="fila-total">
-
 <tr class="fila-total">
     <td style="border:none;"></td>
     <td colspan="3" style="padding:6px; text-align:right;">
-        TOTAL RUTEADAS
+        TOTAL CAR RUTEADAS
     </td>
-    <td id="total-ruteadas-5"
-        style="
-            text-align:center;
-            color:#3CB371;
-            font-size:16px;
-            font-weight:bold;
-        ">
+    <td id="total-car-real-5"
+        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
         0
     </td>
 </tr>
-
-
-
 </tfoot>
     </table>
 </div>
