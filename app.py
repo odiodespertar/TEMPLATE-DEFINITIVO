@@ -2101,7 +2101,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
         totals.rentalRute += u;
     }} else if (name.includes("delivery")) {{
         totals.otrosRute += u;
-    }} else if (name.includes("car") || name.includes("moto") || name.includes("van")) {{
+    }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
         totals.carRute += u;
     }} else {{
         totals.otrosRute += u; 
