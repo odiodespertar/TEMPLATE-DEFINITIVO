@@ -2075,7 +2075,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     
     if (name.includes("mlp")) totals.mlpDecl += sch;
     else if (name.includes("rental")) totals.rentalDecl += sch;
-    else if (name.includes("car") || name.includes("moto") || name.includes("van")) totals.carDecl += sch;
+    else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) totals.carDecl += sch;
 }});
 
 
