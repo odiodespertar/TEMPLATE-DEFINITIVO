@@ -2224,6 +2224,8 @@ document.addEventListener('keydown', function(event) {{
         document.getElementById('calc_wrapper').focus();
     }}
 
+
+
     function filterRows(onlyActive) {{
         // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
         const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
@@ -2231,70 +2233,13 @@ document.addEventListener('keydown', function(event) {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
-
-        // 2. Filtrar los bloques, celdas y filas de ESTADO de los Polígonos (Izquierda)
-        document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque').forEach(bl => {{
-            let filasVisiblesEnBloque = 0;
-            let vTotal = parseFloat(bl.querySelector('.v-total-val').innerText) || 0;
-
-            // Buscamos todas las filas de asignación en la tabla del polígono
-            bl.querySelectorAll('tbody tr.calc-row').forEach(r => {{
-                let uManual = parseInt(r.querySelector('.u-manual').innerText) || 0;
-                let sTypeSelect = r.querySelector('.s-type');
-                let sType = sTypeSelect ? sTypeSelect.value : "Seleccionar..."; 
-
-                if (onlyActive) {{
-                    // Si está en "ACTIVAS", ocultamos las filas vacías y sin selección
-                    if (uManual === 0 && (sType === "Seleccionar..." || sType === "")) {{
-                        r.style.display = 'none';
-                    }} else {{
-                        r.style.display = '';
-                        filasVisiblesEnBloque++;
-                    }}
-                }} else {{
-                    // Si es "TODAS", mostramos todo el desglose original
-                    r.style.display = '';
-                    filasVisiblesEnBloque++;
-                }}
-            }});
-
-            // 🔥 NUEVO: Ocultar o mostrar la fila de ESTADO (la última fila del tbody)
-            // Buscamos la fila que no tiene la clase 'calc-row' (que es tu fila de ESTADO)
-            let filaEstado = bl.querySelector('tbody tr:not(.calc-row)');
-            if (filaEstado) {{
-                // Si está en ACTIVAS se oculta por completo, si está en TODAS se vuelve a mostrar
-                filaEstado.style.display = onlyActive ? 'none' : '';
-            }}
-
-            // CORRECCIÓN REFORZADA CON setAttribute Y rowSpan
-            let nuevoRowspan = Math.max(1, filasVisiblesEnBloque); 
-            
-            let celdaPlan = bl.querySelector('tbody tr.calc-row td[rowspan]');
-            let celdaVolumen = bl.querySelector('tbody tr.calc-row .v-total-val');
-            
-            if (celdaPlan) {{ 
-                celdaPlan.rowSpan = nuevoRowspan;
-                celdaPlan.setAttribute('rowspan', nuevoRowspan);
-            }}
-            if (celdaVolumen) {{ 
-                celdaVolumen.rowSpan = nuevoRowspan;
-                celdaVolumen.setAttribute('rowspan', nuevoRowspan);
-            }}
-
-            // Control visual del bloque completo (Polígono)
-            if (onlyActive) {{
-                if (vTotal === 0 && filasVisiblesEnBloque === 0) {{
-                    bl.style.display = 'none';
-                }} else {{
-                    bl.style.display = '';
-                }}
-            }} else {{
-                bl.style.display = '';
-            }}
-        }});
+        
+        // La lógica de polígonos fue eliminada para que no interfiera.
     }}
 
 
+
+            
     // ==========================================
 // 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
 // ==========================================
