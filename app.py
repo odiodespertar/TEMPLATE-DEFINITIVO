@@ -15,7 +15,12 @@ st.markdown("""
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #25282b; }
 
-    
+    /* AÑADE AQUÍ EL NUEVO BLOQUE */
+    .poligono-bloque {
+        letter-spacing: -0.2px; 
+        white-space: nowrap;    
+        zoom: 0.95; /* Añade esto si quieres que Windows lo comprima un poquito más */
+    }
 
     #contenedor-padre { display: flex; flex-direction: column; }
     
