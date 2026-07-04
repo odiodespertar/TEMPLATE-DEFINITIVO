@@ -616,9 +616,10 @@ app_html = f"""
          
         /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
-            background-color: #ffffff !important;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-            cursor: default;
+            background-color: #fff3cd !important;
+            box-shadow: inset 0 0 2px #ffc107 !important;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+            cursor: pointer;
         }}
 
 
