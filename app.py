@@ -29,6 +29,39 @@ st.markdown("""
         margin-right: auto;
     }
     </style>
+
+
+<style>
+    /* Forzar que las tablas no se expandan más allá de su contenedor */
+    table {{
+        table-layout: fixed; /* Esto es clave: obliga a las celdas a respetar el ancho */
+        width: 100%;
+        word-wrap: break-word;
+    }}
+
+    /* Reducir ligeramente la fuente solo cuando la pantalla es chica */
+    @media (max-width: 1200px) {{
+        .calc-row td, .calc-row select, .calc-row span {{
+            font-size: 12px !important; /* En Windows se ve bien a 12px */
+        }}
+    }}
+
+    /* Si Windows sigue distorsionando, forzamos un zoom negativo leve */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {{
+        /* Solo aplica si el sistema detecta que no es Retina (Mac) */
+        .poligono-bloque {{
+            zoom: 0.95; /* Reduce el tamaño al 95% para ganar espacio en Windows */
+        }}
+    }}
+</style>
+
+
+
+
+
+
+
+    
     """, unsafe_allow_html=True)
 
 
