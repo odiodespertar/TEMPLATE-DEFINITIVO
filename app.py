@@ -623,6 +623,10 @@ app_html = f"""
         }}
 
 
+        /* Opcional: Para asegurar que el texto no se pierda al iluminar */
+tr.master-row:hover td, tr.calc-row:hover td {{
+    color: #000 !important; /* Asegura que el texto sea oscuro sobre el fondo amarillo */
+}}
 
 
 /* 📊 CONTADOR EXCLUSIVO PESTAÑA SCP1 */
