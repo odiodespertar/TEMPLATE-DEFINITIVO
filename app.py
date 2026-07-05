@@ -4167,20 +4167,93 @@ info_operativa = {
         </div>
     """,
     
-    "C1":  """
-    "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C1 pendiente...</i></div>",
+    "C1": """
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #25282b; padding: 5px;">
+            
+            <h2 style='color: #008000; margin-top: 10px; margin-bottom: 5px; font-weight: bold;'>👉 *** SJA1 C1 (Nueva exp)***</h2>
+            <hr style='border: 1.5px solid #008000; margin-bottom: 15px;'> 
 
-        <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
-        <hr style='border: 1px solid #808080; margin-bottom: 20px;'> 
+            <div style="background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px;">
+                <p style="margin: 0; font-size: 14px; line-height: 1.5;">
+                    • Hay <strong>18.888 paquetes disponibles</strong> para planificar y hacer ruteo.<br>
+                    • SVC indica si será uniciclo o 2 ciclos (mandan orígenes).
+                </p>
+            </div>
 
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
-            - 📌 Origen 20 / ❌ SPR / ❌ Ocupación<br>
-            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / solo para dividir paquetes uso SPR 30<br>
-            - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
+            <h4 style="color: #ff8c00; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📦 VOLUMEN</h4>
+            <div style="background: white; border-left: 5px solid #ff8c00; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
+                • <strong>NO RUT:</strong> 🚫 Todo lo <em>At station (sorting+buffered) - EJA1</em> (está en id nodo/cluster) se manda a no rut (no sale en Pivot).<br>
+                • <strong>C1:</strong> Orígenes solo lo onway / si piden tomar <em>at station + buffered</em> se toma de toda la data para C1.<br>
+                • <strong>C2:</strong> Orígenes solo lo onway nada más.<br>
+                • <strong>En caso de BULK:</strong> Xalapa 60 ids. Revisar tipo de nodo y vigencia del nodo.<br>
+                • <strong>Fecha ETA:</strong> Fecha a trabajar y solita. 🚫 Prohibido fecha futura.
+            </div>
+
+            <h4 style="color: #1E90FF; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">⚙️ LOGIS</h4>
+            <div style="background: white; border-left: 5px solid #1E90FF; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
+                • <strong>👉 PIVOT:</strong> ✅ Subo lo NO ruteado (EJA1-at station + C2-depende si son 2 ciclos).<br>
+                • Identificar voluminosos (si hay BULK).<br>
+                • <strong>UNICICLO:</strong> 🚫 No se permite cherry.<br>
+                • <strong>2 CICLOS:</strong> ✅ Permitido cherry.
+            </div>
+
+            <h4 style="color: #6a1b9a; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🛑 DROPEO NODOS</h4>
+            <div style="background: white; border-left: 5px solid #6a1b9a; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
+                • Si dropea nodos de centro se cargan en <strong>AM1 Cont. con crowd</strong>:<br>
+                <span style="padding-left: 15px; display:block;">- Descargo data y se hace cruce con data original (con C1), subo lo ND.</span>
+                • No se quita delimitación.<br>
+                • Sale Alchichica (se borra).<br>
+                • Se publica XPT (no permite editar). ¿EJA1 SP también?
+            </div>
+
+            <h4 style="color: #d32f2f; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🛡️ ALCHICHICA ND (AM0)</h4>
+            <div style="background: white; border-left: 5px solid #d32f2f; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
+                • Se carga en AM0 con ✅ <strong>2 Small Van MLP</strong>.<br>
+                • Unidades no se descuentan de schedule.<br>
+                • <strong>Procedimiento:</strong> Se vuelve a subir data de no ruteado y se eliminan el resto de planes, solo se deja Alchichica.<br>
+                • Descargo data y se hace cruce con data original (con C1), subo lo ND.
+            </div>
+
+            <h4 style="color: #2e7d32; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🚚 UNIDADES DEL MODELO</h4>
+            <div style="background: white; border-left: 5px solid #2e7d32; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
+                <strong>🟢 LOCAL:</strong><br>
+                • ✅ <strong>RENTALS como híbridas</strong> (SPR 150-170).<br>
+                • <strong>CROWD-newbie / 8h / 9h:</strong> (SPR aprox 70).<br>
+                • <strong>MLP:</strong> (SPR aprox 110-120).<br>
+                • Delivery cell y truck 3.5 con 3 paradas (dedicadas).<br>
+                • ⚡ Acabamos primero capacidad MLP y luego CROWD.<br>
+                • 🚫 No apagar reglas de restricción para los DM planeados.<br>
+                • Nodos = 👉 Rental híbrida.<br><br>
+
+                <strong>🟢 FORÁNEOS:</strong><br>
+                • ✅ <strong>Solo MLP</strong> (SPR aprox 110-120).<br>
+                • Nodos = MLP híbrida (large preferencia).<br>
+                • 📊 <strong>Estatus de Cercanía / Destino:</strong><br>
+                <span style="padding-left: 15px; display:block;">
+                    🟢 Xico | 🟢 Tuzamapa | 🟡 Actopan | 🟡 Trapiche | 🟠 Naolinco | 🟠 Perote | 🔴 Misantla | 🔴 Tezuitlán | 🔴 Tlaltetela
+                </span>
+                • 💡 <strong>Xico y Tuzamapa SÍ pueden</strong> llevar unidades CROWD-newbie / 8h / 9h / 9h ext.<br>
+                • <strong>EJA1 - SP:</strong> ✅ Media milla - ruteo fake (no se mueve nada) - ¿En nueva exp no sale?
+            </div>
+
+            <h4 style="color: #333333; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📢 REGLAS GENERALES Y CANDADOS</h4>
+            <div style="background: #fdfefe; border: 1px solid #d0d3d4; padding: 15px; border-radius: 6px; font-size: 13.5px; line-height: 1.6;">
+                <p style="margin-top:0; font-weight:bold;">Buenas noches, team. Les pido su apoyo considerando los siguientes puntos para el ruteo:</p>
+                • ✅ Contemplar toda la flota disponible en el schedule.<br>
+                • ✅ El polígono de Alchichica deberá operar con AM0 por temas de seguridad.<br>
+                • Procurar que las unidades Small no superen los 65 ID's en SPR o (300min = 5 hrs).<br>
+                • ✅ Utilizar todas las rentals disponibles y configurarlas como híbridas.<br>
+                • ✅ En el polígono Centro, cubrir primero la operación con rentals; si es necesario, complementar con crowd o MLP.<br>
+                • ✅ Considerar el Mega Nodo (TRUCK 3.5), ruteo de newbies y zonas extendidas con crowd, especialmente en Xico y Tuzamapan.<br><br>
+                
+                <div style="background: #fdf2f2; border: 1px solid #fadbd8; padding: 10px; border-radius: 4px; color: #c0392b; font-weight: bold; margin-top: 5px;">
+                    🚫 Las unidades CROWD NO pueden ir a Tezuitlán (zona muy alejada del SVC).<br>
+                    🚫 Las RENTALS NO pueden ir a zonas tan foráneas (Tlaltetela y Perote).
+                </div>
+            </div>
+
         </div>
-    </div>
-    """
+    """,
 
 
 
