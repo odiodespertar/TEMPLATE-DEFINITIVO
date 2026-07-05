@@ -4175,7 +4175,6 @@ info_operativa = {
 
             <div style="background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px;">
                 <p style="margin: 0; font-size: 14px; line-height: 1.5;">
-                    • Hay <strong>18.888 paquetes disponibles</strong> para planificar y hacer ruteo.<br>
                     • SVC indica si será uniciclo o 2 ciclos (mandan orígenes).
                 </p>
             </div>
