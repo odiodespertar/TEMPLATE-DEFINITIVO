@@ -4214,7 +4214,7 @@ info_operativa = {
                 • Descargo data y se hace cruce con data original (con C1), subo lo ND.
             </div>
 
-            <h4 style="color: #2e7d32; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🚚 UNIDADES DEL MODELO</h4>
+            <h4 style="color: #2e7d32; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🚚 UNIDADES PARA ASIGNAR</h4>
             <div style="background: white; border-left: 5px solid #2e7d32; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
                 <strong>🟢 LOCAL:</strong><br>
                 • ✅ <strong>RENTALS como híbridas</strong> (SPR 150-170).<br>
@@ -4228,15 +4228,10 @@ info_operativa = {
                 <strong>🟢 FORÁNEOS:</strong><br>
                 • ✅ <strong>Solo MLP</strong> (SPR aprox 110-120).<br>
                 • Nodos = MLP híbrida (large preferencia).<br>
-                • 📊 <strong>Estatus de Cercanía / Destino:</strong><br>
-                <span style="padding-left: 15px; display:block;">
-                    🟢 Xico | 🟢 Tuzamapa | 🟡 Actopan | 🟡 Trapiche | 🟠 Naolinco | 🟠 Perote | 🔴 Misantla | 🔴 Tezuitlán | 🔴 Tlaltetela
-                </span>
                 • 💡 <strong>Xico y Tuzamapa SÍ pueden</strong> llevar unidades CROWD-newbie / 8h / 9h / 9h ext.<br>
-                • <strong>EJA1 - SP:</strong> ✅ Media milla - ruteo fake (no se mueve nada) - ¿En nueva exp no sale?
-            </div>
+                • <strong>EJA1 - SP:</strong> ✅ Media milla </div>
 
-            <h4 style="color: #333333; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📢 REGLAS GENERALES Y CANDADOS</h4>
+            <h4 style="color: #333333; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📢 REGLAS GENERALES </h4>
             <div style="background: #fdfefe; border: 1px solid #d0d3d4; padding: 15px; border-radius: 6px; font-size: 13.5px; line-height: 1.6;">
                 <p style="margin-top:0; font-weight:bold;">Buenas noches, team. Les pido su apoyo considerando los siguientes puntos para el ruteo:</p>
                 • ✅ Contemplar toda la flota disponible en el schedule.<br>
