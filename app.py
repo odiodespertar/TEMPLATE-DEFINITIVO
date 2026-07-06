@@ -62,6 +62,13 @@ st.markdown("""
 
 
 
+<div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-bottom: 10px; border-radius: 5px;">
+        <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes (C1)</h4>
+        <div style="display: flex; gap: 10px;">
+            <input type="number" placeholder="Antes" style="width:80px;">
+            <input type="number" placeholder="Después" style="width:80px;">
+        </div>
+    </div>
 
 
 
