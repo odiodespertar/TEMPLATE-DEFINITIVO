@@ -75,7 +75,7 @@ app_html = f"""
         </div>
     </div>
 </div>
-"""
+
 
 
 
