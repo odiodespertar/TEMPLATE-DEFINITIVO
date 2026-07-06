@@ -1273,8 +1273,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 
-<button id="excel-btn" class="excel-only"
-    onclick="toggleExcelView()"
+<button id="excel-btn" onclick="toggleExcelView()"
     style="
         cursor:pointer;
         background:#228B22;
@@ -1286,7 +1285,9 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         font-weight:bold;
         box-shadow:0 3px 0 #1c6d1c;
         transition:all 0.05s;
-        outline:none;">
+        outline:none;
+        display: inline-block; /* Controlado dinámicamente */
+    ">
     📸 VISTA EXCEL
 </button>
 
