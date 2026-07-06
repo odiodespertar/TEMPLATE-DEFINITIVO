@@ -1540,7 +1540,6 @@ USADAS
         </div>
     </div>
     <div id="visor" class="content-area">
-        {info_operativa['SDE']}
     </div>
 
 
