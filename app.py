@@ -606,7 +606,7 @@ def gen_poligonos(data_target=None):
 
 # --- BLOQUE CORREGIDO ---
 # Asegúrate de no dejar espacios extras antes del 'if'
-if tabId == 6: 
+tabId == 6: 
     st.markdown("---")
     st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
     
