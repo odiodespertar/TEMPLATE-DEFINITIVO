@@ -1742,28 +1742,33 @@ function toggleFleetFloating() {{
 
 
 function showTab(n, btn) {{
-
-    document.body.classList.remove("excel-view"); 
-
-    currentTab = n;
+    document.body.classList.remove("excel-view"); [cite: 346]
+    currentTab = n; [cite: 347]
+    
     document.querySelectorAll('.p-content, .t-content')
-        .forEach(el => el.style.display = 'none');
+        .forEach(el => el.style.display = 'none'); [cite: 347]
     document.querySelectorAll('.tab-btn')
-        .forEach(b => b.classList.remove('active'));
+        .forEach(b => b.classList.remove('active')); 
 
-    document.getElementById('polys-' + n).style.display = 'block';
-    document.getElementById('tab-' + n).style.display = 'block';
+    document.getElementById('polys-' + n).style.display = 'block'; [cite: 348]
+    document.getElementById('tab-' + n).style.display = 'block'; [cite: 349]
 
-    btn.classList.add('active');
+    btn.classList.add('active'); [cite: 349]
 
-    recalc();
-    actualizarVisibilidadContador();
-    updateFleetFloat();
+    recalc(); [cite: 349]
+    if (typeof actualizarVisibilidadContador === "function") actualizarVisibilidadContador(); [cite: 349]
+    updateFleetFloat(); [cite: 349]
 
-    const excelBtn = document.getElementById('excel-btn');
+    // ==============================================================================
+    // 🔒 CANDADO ESTRICTO: EL BOTÓN DE EXCEL SOLO EXISTE EN PESTAÑA 2 Y 6
+    // ==============================================================================
+    const excelBtn = document.getElementById('excel-btn'); [cite: 349]
     if (excelBtn) {{
-        // Habilitado para C1 (2) y C1 SJA1 (6)
-        excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
+        if (n === 2 || n === 6) {{
+            excelBtn.style.setProperty('display', 'inline-block', 'important'); [cite: 350, 351]
+        }} else {{
+            excelBtn.style.setProperty('display', 'none', 'important'); [cite: 351]
+        }}
     }}
 }}
 
