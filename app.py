@@ -604,17 +604,19 @@ def gen_poligonos(data_target=None):
 
 
 
-# 3. AQUÍ ES DONDE AGREGAS EL BLOQUE NUEVO (Justo después)
-    if tabId == 6: # Asegúrate que coincida con el ID de C1 SJA1
-           st.markdown("---")
-           st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
+# --- BLOQUE CORREGIDO ---
+# Asegúrate de no dejar espacios extras antes del 'if'
+if tabId == 6: 
+    st.markdown("---")
+    st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
     
-           if 'paquetes_c1' not in st.session_state:
-               st.session_state.paquetes_c1 = {
-               'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
-               'no_ruteado': 0, 'alchichica': 0
-              }
+    if 'paquetes_c1' not in st.session_state:
+        st.session_state.paquetes_c1 = {
+            'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
+            'no_ruteado': 0, 'alchichica': 0
+        }
 
+    # Usamos columnas para que se vea organizado
     cols = st.columns(5)
     st.session_state.paquetes_c1['antes_00'] = cols[0].number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
     st.session_state.paquetes_c1['despues_00'] = cols[1].number_input("Después 00:00", value=st.session_state.paquetes_c1['despues_00'], step=1)
