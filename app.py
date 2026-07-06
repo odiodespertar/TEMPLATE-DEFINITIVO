@@ -1520,6 +1520,7 @@ USADAS
         <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">NO RUT-EJA1</label><br><input type="number" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">DROPEO FINAL</label><br><input type="number" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#e74c3c;">ALCH ND</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        
         <div style="background: #333; border-radius: 3px; padding: 4px;">
             <label style="font-size: 9px; color: #26d4ca; font-weight: bold;">TOTAL</label>
             <input type="number" id="total-final" value="0" readonly style="width: 100%; padding: 4px; border: none; text-align: center; background: transparent; color: white; font-weight: bold;">
@@ -1723,6 +1724,24 @@ USADAS
     recalc();
 }}
 
+
+// --- AQUI PEGA LA LÓGICA DE LA SUMA ---
+document.addEventListener('DOMContentLoaded', () => {{
+    const inputs = document.querySelectorAll('.sum-input');
+    const totalDisplay = document.getElementById('total-final');
+
+    if (inputs.length > 0 && totalDisplay) {{
+        inputs.forEach(input => {{
+            input.addEventListener('input', () => {{
+                let sum = 0;
+                inputs.forEach(i => {{
+                    sum += parseFloat(i.value) || 0;
+                }});
+                totalDisplay.value = sum;
+            }});
+        }});
+    }}
+}});
 
 
 
