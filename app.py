@@ -278,45 +278,6 @@ def gen_master_rows(data_dict, table_id):
 
 
 
-# --- BLOQUE SEGURO PARA EL NUEVO FORMULARIO ---
-def mostrar_formulario_paquetes():
-    html_paquetes = """
-    <div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 12px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
-    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 13px; text-align: center;">RESUMEN PAQUETES (C1)</h4>
-    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center;">
-        
-        <div>
-            <label style="font-size: 9px; display: block; color: #aaa;">ANT 00:00</label>
-            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
-        </div>
-        
-        <div>
-            <label style="font-size: 9px; display: block; color: #aaa;">DES 00:00</label>
-            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
-        </div>
-        
-        <div>
-            <label style="font-size: 9px; display: block; color: #f1c40f;">NO RUT-EJA1</label>
-            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
-        </div>
-        
-        <div>
-            <label style="font-size: 9px; display: block; color: #f1c40f;">DROP FINAL</label>
-            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
-        </div>
-        
-        <div>
-            <label style="font-size: 9px; display: block; color: #e74c3c;">ALCH ND</label>
-            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
-        </div>
-    </div>
-</div>
-    """
-    st.markdown(html_paquetes, unsafe_allow_html=True)
-
-# Llama a esta función justo después de tu sección de "Disponibilidad de Flota"
-# Busca donde escribes "Disponibilidad de Flota" en tu código y pega esto debajo:
-mostrar_formulario_paquetes()
 
 
 
@@ -1551,17 +1512,16 @@ USADAS
 <div id="tabs-container" style="display: flex; gap: 5px; margin-bottom: 10px;">
         </div>
 
-    <div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
-        <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
-        <div style="display: flex; gap: 10px;">
-            <input type="number" placeholder="Antes" style="width:70px;">
-            <input type="number" placeholder="Después" style="width:70px;">
-            <input type="number" placeholder="EJA1" style="width:70px;">
-            <input type="number" placeholder="Dropeado" style="width:70px;">
-        </div>
+    <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
+    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px; text-align: center;">RESUMEN DE PAQUETES (C1)</h4>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">ANT 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">DES 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">NO RUT-EJA1</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">DROP FINAL</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#e74c3c;">ALCH ND</label><br><input type="number" style="width:70px; text-align:center;"></div>
     </div>
-    <div id="visor" class="content-area">
-    </div>
+</div>
 
 
 
