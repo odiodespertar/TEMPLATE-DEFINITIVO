@@ -62,13 +62,23 @@ st.markdown("""
 
 
 
-<div id="contenedor-paquetes-c1" style="display: block; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-bottom: 10px; border-radius: 5px;">
-        <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes (C1)</h4>
-        <div style="display: flex; gap: 10px;">
-            <input type="number" placeholder="Antes" style="width:80px;">
-            <input type="number" placeholder="Después" style="width:80px;">
+<div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%; box-sizing: border-box;">
+    <h4 style="margin:0 0 12px 0; color:#26d4ca; font-size: 14px; letter-spacing: 1px;">📊 RESUMEN DE PAQUETES (C1)</h4>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <label style="font-size: 9px; margin-bottom: 4px; color: #d0d0d0;">ANTES</label>
+            <input type="number" placeholder="00:00" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <label style="font-size: 9px; margin-bottom: 4px; color: #d0d0d0;">DESPUÉS</label>
+            <input type="number" placeholder="00:00" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <label style="font-size: 9px; margin-bottom: 4px; color: #d0d0d0;">SIN RUTEAR</label>
+            <input type="number" placeholder="0" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
         </div>
     </div>
+</div>
 
 
 
