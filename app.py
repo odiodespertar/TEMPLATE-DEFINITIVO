@@ -603,32 +603,26 @@ def gen_poligonos(data_target=None):
 
 
 
+# --- SECCIÓN DE CONTROL DE PAQUETES ---
+# (Asegúrate de que esto esté al final de tu archivo .py, sin sangría/espacios a la izquierda)
 
-# --- BLOQUE CORREGIDO ---
-# Asegúrate de no dejar espacios extras antes del 'if'
-tabId == 6: 
-    st.markdown("---")
-    st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
-    
-    if 'paquetes_c1' not in st.session_state:
-        st.session_state.paquetes_c1 = {
-            'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
-            'no_ruteado': 0, 'alchichica': 0
-        }
+st.markdown("---")
+st.subheader("📋 Control de Paquetes")
 
-    # Usamos columnas para que se vea organizado
-    cols = st.columns(5)
-    st.session_state.paquetes_c1['antes_00'] = cols[0].number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
-    st.session_state.paquetes_c1['despues_00'] = cols[1].number_input("Después 00:00", value=st.session_state.paquetes_c1['despues_00'], step=1)
-    st.session_state.paquetes_c1['sin_rutear'] = cols[2].number_input("Sin rutear", value=st.session_state.paquetes_c1['sin_rutear'], step=1)
-    st.session_state.paquetes_c1['no_ruteado'] = cols[3].number_input("EJA1 (At Station)", value=st.session_state.paquetes_c1['no_ruteado'], step=1)
-    st.session_state.paquetes_c1['alchichica'] = cols[4].number_input("Alchichica ND", value=st.session_state.paquetes_c1['alchichica'], step=1)
+if 'paquetes_c1' not in st.session_state:
+    st.session_state.paquetes_c1 = {
+        'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
+        'no_ruteado': 0, 'alchichica': 0
+    }
 
-    total_val = (st.session_state.paquetes_c1['antes_00'] + 
-                 st.session_state.paquetes_c1['despues_00'] + 
-                 st.session_state.paquetes_c1['sin_rutear'])
-    
-    st.info(f"**Total de paquetes disponibles para ruteo:** {total_val}")
+# Columnas para organizar los inputs
+col1, col2, col3, col4, col5 = st.columns(5)
+
+st.session_state.paquetes_c1['antes_00'] = col1.number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
+st.session_state.paquetes_c1['despues_00'] = col2.number_input("Después 00:00", value=st.session_state.paquetes_c1['despues_00'], step=1)
+st.session_state.paquetes_c1['sin_rutear'] = col3.number_input("Sin rutear", value=st.session_state.paquetes_c1['sin_rutear'], step=1)
+st.session_state.paquetes_c1['no_ruteado'] = col4.number_input("EJA1 (At Station)", value=st.session_state.paquetes_c1['no_ruteado'], step=1)
+st.session_state.paquetes_c1['alchichica'] = col5.number_input("Alchichica ND", value=st.session_state.paquetes_c1['alchichica'], step=1)
 
 
 
