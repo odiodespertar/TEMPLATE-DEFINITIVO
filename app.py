@@ -62,20 +62,6 @@ st.markdown("""
 
 
 
-app_html = f"""
-<div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
-    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <div style="text-align: center;"><label style="font-size:9px;">ANTES</label><br><input type="number" style="width:70px;"></div>
-        <div style="text-align: center;"><label style="font-size:9px;">DESPUÉS</label><br><input type="number" style="width:70px;"></div>
-        <div style="border-left: 1px solid #444; padding-left: 10px; text-align: center;">
-            <label style="font-size:9px; color:#f1c40f;">SIN RUTEAR</label><br>
-            <input type="number" placeholder="EJA1" style="width:60px; font-size:10px;">
-            <input type="number" placeholder="Dropeado" style="width:60px; font-size:10px;">
-        </div>
-    </div>
-</div>
-
 
 
 
@@ -1755,22 +1741,6 @@ function toggleFleetFloating() {{
 
 
 function showTab(n, btn) {{
-
-        // --- NUEVA LÓGICA: Mostrar/Ocultar formulario C1 ---
-        // Asumimos que n=6 es la pestaña que quieres (puedes cambiarlo si es otra)
-        const formularioC1 = document.getElementById('contenedor-paquetes-c1');
-        if (formularioC1) {{
-            if (n === 6) {{
-                formularioC1.style.display = 'block';
-            }} else {{
-                formularioC1.style.display = 'none';
-            }}
-        }}
-        // ---------------------------------------------------
-
-
-
-    
         // 1. Si la Vista Excel estaba activa, la apagamos de forma segura antes de cambiar de pestaña
         if (document.body.classList.contains("excel-view")) {{
             document.body.classList.remove("excel-view");
