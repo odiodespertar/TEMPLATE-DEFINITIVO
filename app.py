@@ -1762,8 +1762,12 @@ function showTab(n, btn) {{
 
     const excelBtn = document.getElementById('excel-btn');
     if (excelBtn) {{
-        // Habilitado para C1 (2) y C1 SJA1 (6)
-        excelBtn.style.display = (n === 2 || n === 6) ? 'inline-block' : 'none';
+        // Habilitado únicamente para C1 SCP1 (2) y C1 SJA1 (6)
+        if (n === 2 || n === 6) {{
+            excelBtn.style.setProperty('display', 'inline-block', 'important');
+        }} else {{
+            excelBtn.style.setProperty('display', 'none', 'important');
+        }}
     }}
 }}
 
