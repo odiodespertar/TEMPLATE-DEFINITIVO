@@ -278,6 +278,26 @@ def gen_master_rows(data_dict, table_id):
 
 
 
+# --- BLOQUE SEGURO PARA EL NUEVO FORMULARIO ---
+def mostrar_formulario_paquetes():
+    html_paquetes = """
+    <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
+        <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">📊 RESUMEN DE PAQUETES (C1)</h4>
+        <div style="display: flex; gap: 10px;">
+            <input type="number" placeholder="Antes" style="width:80px; padding: 5px;">
+            <input type="number" placeholder="Después" style="width:80px; padding: 5px;">
+            <input type="number" placeholder="EJA1" style="width:80px; padding: 5px;">
+            <input type="number" placeholder="Dropeado" style="width:80px; padding: 5px;">
+        </div>
+    </div>
+    """
+    st.markdown(html_paquetes, unsafe_allow_html=True)
+
+# Llama a esta función justo después de tu sección de "Disponibilidad de Flota"
+# Busca donde escribes "Disponibilidad de Flota" en tu código y pega esto debajo:
+# mostrar_formulario_paquetes()
+
+
 
 def export_c1_csv():
     data = []
