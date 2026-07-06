@@ -609,8 +609,8 @@ def gen_poligonos(data_target=None):
            st.markdown("---")
            st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
     
-        if 'paquetes_c1' not in st.session_state:
-                st.session_state.paquetes_c1 = {
+           if 'paquetes_c1' not in st.session_state:
+               st.session_state.paquetes_c1 = {
                'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
                'no_ruteado': 0, 'alchichica': 0
               }
