@@ -1742,34 +1742,67 @@ function toggleFleetFloating() {{
 
 
 function showTab(n, btn) {{
+        // 1. Si la Vista Excel estaba activa, la apagamos de forma segura antes de cambiar de pestaña
+        if (document.body.classList.contains("excel-view")) {{
+            document.body.classList.remove("excel-view");
+            
+            // Cambiamos el texto del botón a su estado original
+            let bExcel = document.getElementById("excel-btn");
+            if (bExcel) bExcel.innerHTML = "📸 VISTA EXCEL";
+            
+            // Ocultamos el bloque de la tabla espejo de Excel
+            let excelPanel = document.getElementById("excel-polys");
+            if (excelPanel) excelPanel.style.display = "none";
+            
+            // Restauramos de inmediato TODAS las filas de totales ocultas para que no se pierdan en SMX5/SDE
+            const idsArestaurar = [
+                "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
+                "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
+                "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
+                "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
+            ];
+            idsArestaurar.forEach(id => {{
+                let el = document.getElementById(id);
+                if (el) {{
+                    let fila = el.closest('tr');
+                    if (fila) fila.style.removeProperty('display');
+                }}
+            }});
+            
+            // Aseguramos que los footers de todas las tablas vuelvan a mostrarse normales
+            document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
+                fila.style.setProperty('display', 'table-row', 'important');
+            }});
+        }}
 
-    document.body.classList.remove("excel-view"); 
+        // 2. Lógica nativa de tu aplicación para mover pestañas
+        currentTab = n;
+        document.querySelectorAll('.p-content, .t-content')
+            .forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.tab-btn')
+            .forEach(b => b.classList.remove('active'));
 
-    currentTab = n;
-    document.querySelectorAll('.p-content, .t-content')
-        .forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.tab-btn')
-        .forEach(b => b.classList.remove('active'));
+        document.getElementById('polys-' + n).style.display = 'block';
+        document.getElementById('tab-' + n).style.display = 'block';
 
-    document.getElementById('polys-' + n).style.display = 'block';
-    document.getElementById('tab-' + n).style.display = 'block';
+        btn.classList.add('active');
 
-    btn.classList.add('active');
+        recalc();
+        if (typeof actualizarVisibilidadContador === "function") actualizarVisibilidadContador();
+        updateFleetFloat();
 
-    recalc();
-    actualizarVisibilidadContador();
-    updateFleetFloat();
-
-    const excelBtn = document.getElementById('excel-btn');
-    if (excelBtn) {{
-        // Habilitado únicamente para C1 SCP1 (2) y C1 SJA1 (6)
-        if (n === 2 || n === 6) {{
-            excelBtn.style.setProperty('display', 'inline-block', 'important');
-        }} else {{
-            excelBtn.style.setProperty('display', 'none', 'important');
+        // ==============================================================================
+        // 🔒 CANDADO DE VISIBILIDAD EXCLUSIVA (GANÁNDOLE AL CSS)
+        // ==============================================================================
+        const excelBtn = document.getElementById('excel-btn');
+        if (excelBtn) {{
+            if (n === 2 || n === 6) {{
+                excelBtn.style.setProperty('display', 'inline-block', 'important');
+            }} else {{
+                excelBtn.style.setProperty('display', 'none', 'important');
+            }}
         }}
     }}
-}}
 
 
 
