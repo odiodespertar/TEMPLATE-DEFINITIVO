@@ -62,21 +62,20 @@ st.markdown("""
 
 
 
-<div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
-    <h4 style="margin:0 0 12px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
+app_html = f"""
+<div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
+    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <div style="text-align: center;"><label style="font-size:9px; display:block;">ANTES</label><input type="number" style="width:70px;"></div>
-        <div style="text-align: center;"><label style="font-size:9px; display:block;">DESPUÉS</label><input type="number" style="width:70px;"></div>
-        
+        <div style="text-align: center;"><label style="font-size:9px;">ANTES</label><br><input type="number" style="width:70px;"></div>
+        <div style="text-align: center;"><label style="font-size:9px;">DESPUÉS</label><br><input type="number" style="width:70px;"></div>
         <div style="border-left: 1px solid #444; padding-left: 10px; text-align: center;">
-            <label style="font-size:9px; display:block; color:#f1c40f;">SIN RUTEAR</label>
-            <div style="display:flex; gap:5px;">
-                <input type="number" placeholder="EJA1 At St" style="width:70px; font-size:10px;">
-                <input type="number" placeholder="Dropeado" style="width:70px; font-size:10px;">
-            </div>
+            <label style="font-size:9px; color:#f1c40f;">SIN RUTEAR</label><br>
+            <input type="number" placeholder="EJA1" style="width:60px; font-size:10px;">
+            <input type="number" placeholder="Dropeado" style="width:60px; font-size:10px;">
         </div>
     </div>
 </div>
+"""
 
 
 
