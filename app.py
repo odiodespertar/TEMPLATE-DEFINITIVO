@@ -2643,6 +2643,23 @@ function toggleExcelView() {{
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
 
+
+       // 📊 RESTAURACIÓN INTELIGENTE: Devolvemos la visibilidad al contador que corresponda según la pestaña activa
+        if (contScp1 && contSja1) {{
+            if (currentTab == 2) {{
+                contScp1.style.display = 'block';
+                contSja1.style.display = 'none';
+            }} else if (currentTab == 6) {{
+                contScp1.style.display = 'none';
+                contSja1.style.display = 'block';
+            }} else {{
+                contScp1.style.display = 'none';
+                contSja1.style.display = 'none';
+            }}
+        }}
+
+
+
         // RESTAURACIÓN FORZADA:
         // 1. Quitar el 'display: none' de las filas ocultas
         idsAocultar.forEach(id => {{
