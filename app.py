@@ -1248,6 +1248,38 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </div>
 
 
+
+# --- FORMULARIO DINÁMICO (Independiente) ---
+st.markdown("""
+<div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
+    <h4 style="margin:0 0 10px 0; color:#008000;">📋 Resumen de Paquetes para Rutear (SJA1 C1)</h4>
+    <div style="display: flex; gap: 10px;">
+        <input type="number" placeholder="Antes 00:00" style="width:100px;">
+        <input type="number" placeholder="Después 00:00" style="width:100px;">
+        <input type="number" placeholder="Sin rutear" style="width:100px;">
+        <input type="number" placeholder="EJA1" style="width:100px;">
+        <input type="number" placeholder="Alchichica" style="width:100px;">
+    </div>
+</div>
+
+<script>
+    // Observador que vigila cuando cambia el contenido del visor
+    const visor = document.getElementById('visor');
+    const observer = new MutationObserver(() => {
+        // Si el visor contiene el título de C1, mostramos el formulario
+        const contenedor = document.getElementById('contenedor-paquetes-c1');
+        if (visor.innerHTML.includes('SJA1 C1')) {
+            contenedor.style.display = 'block';
+        } else {
+            contenedor.style.display = 'none';
+        }
+    });
+    observer.observe(visor, { childList: true, subtree: true });
+</script>
+""", unsafe_allow_html=True)
+
+
+
 <div id="fleet-sticky" class="fleet-normal">
   <div id="fleet-drag-handle">
    
