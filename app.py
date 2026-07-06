@@ -1725,22 +1725,27 @@ USADAS
 }}
 
 
-// --- AQUI PEGA LA LÓGICA DE LA SUMA ---
+// --- LÓGICA DE SUMA MEJORADA ---
 document.addEventListener('DOMContentLoaded', () => {{
+    console.log("El script de suma se ha cargado"); // Mira esto en la consola F12
+    
     const inputs = document.querySelectorAll('.sum-input');
     const totalDisplay = document.getElementById('total-final');
 
-    if (inputs.length > 0 && totalDisplay) {{
-        inputs.forEach(input => {{
-            input.addEventListener('input', () => {{
-                let sum = 0;
-                inputs.forEach(i => {{
-                    sum += parseFloat(i.value) || 0;
-                }});
-                totalDisplay.value = sum;
-            }});
-        }});
+    if (inputs.length === 0) {{
+        console.error("ERROR: No se encontraron elementos con la clase .sum-input");
     }}
+
+    inputs.forEach(input => {{
+        input.addEventListener('input', () => {{
+            let sum = 0;
+            inputs.forEach(i => {{
+                sum += parseFloat(i.value) || 0;
+            }});
+            totalDisplay.value = sum;
+            console.log("Nueva suma:", sum); // Mira esto al escribir
+        }});
+    }});
 }});
 
 
