@@ -607,7 +607,7 @@ def gen_poligonos(data_target=None):
 # (Asegúrate de que esto esté al final de tu archivo .py, sin sangría/espacios a la izquierda)
 
 st.markdown("---")
-st.subheader("📋 Control de Paquetes")
+st.subheader("Control de Paquetes")
 
 if 'paquetes_c1' not in st.session_state:
     st.session_state.paquetes_c1 = {
@@ -1252,7 +1252,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 # --- FORMULARIO DINÁMICO (Independiente) ---
 st.markdown("""
 <div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
-    <h4 style="margin:0 0 10px 0; color:#008000;">📋 Resumen de Paquetes para Rutear (SJA1 C1)</h4>
+    <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes para Rutear (SJA1 C1)</h4>
     <div style="display: flex; gap: 10px;">
         <input type="number" placeholder="Antes 00:00" style="width:100px;">
         <input type="number" placeholder="Después 00:00" style="width:100px;">
