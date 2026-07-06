@@ -1515,11 +1515,15 @@ USADAS
     <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
     <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px; text-align: center;">RESUMEN DE PAQUETES (C1)</h4>
     <div style="display: flex; gap: 10px; justify-content: center;">
-        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">ANT 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">DES 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">ANTES 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">DESPUÉS 00:00</label><br><input type="number" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">NO RUT-EJA1</label><br><input type="number" style="width:70px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">DROP FINAL</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">DROPEO FINAL</label><br><input type="number" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#e74c3c;">ALCH ND</label><br><input type="number" style="width:70px; text-align:center;"></div>
+        <div style="background: #333; border-radius: 3px; padding: 4px;">
+            <label style="font-size: 9px; color: #26d4ca; font-weight: bold;">TOTAL</label>
+            <input type="number" id="total-final" value="0" readonly style="width: 100%; padding: 4px; border: none; text-align: center; background: transparent; color: white; font-weight: bold;">
+        </div>
     </div>
 </div>
 
