@@ -610,10 +610,10 @@ def gen_poligonos(data_target=None):
            st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
     
             if 'paquetes_c1' not in st.session_state:
-             st.session_state.paquetes_c1 = {
-            'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
-            'no_ruteado': 0, 'alchichica': 0
-        }
+                st.session_state.paquetes_c1 = {
+               'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
+               'no_ruteado': 0, 'alchichica': 0
+              }
 
     cols = st.columns(5)
     st.session_state.paquetes_c1['antes_00'] = cols[0].number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
