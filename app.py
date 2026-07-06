@@ -316,7 +316,7 @@ def mostrar_formulario_paquetes():
 
 # Llama a esta función justo después de tu sección de "Disponibilidad de Flota"
 # Busca donde escribes "Disponibilidad de Flota" en tu código y pega esto debajo:
-# mostrar_formulario_paquetes()
+mostrar_formulario_paquetes()
 
 
 
