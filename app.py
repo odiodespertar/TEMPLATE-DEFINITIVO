@@ -1250,7 +1250,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 # --- FORMULARIO DINÁMICO (Independiente) ---
-# Asegúrate de que esta línea esté al mismo nivel de tus otras variables
+# Asegúrate de que no haya código HTML suelto fuera de las comillas triples
 app_html = """
 <div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
     <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes para Rutear (SJA1 C1)</h4>
@@ -1267,6 +1267,7 @@ app_html = """
     const visor = document.getElementById('visor');
     const observer = new MutationObserver(() => {
         const contenedor = document.getElementById('contenedor-paquetes-c1');
+        // Asegúrate de que el texto coincida exactamente con lo que aparece en tu visor
         if (visor.innerHTML.includes('SJA1 C1')) {
             contenedor.style.display = 'block';
         } else {
@@ -1277,7 +1278,7 @@ app_html = """
 </script>
 """
 
-# Luego renderízalo (si ya tienes un html(), úsalo en lugar de este si es necesario)
+# IMPORTANTE: Esta línea debe ir al final, fuera de la variable app_html
 from streamlit.components.v1 import html
 html(app_html, height=200)
 
