@@ -605,7 +605,7 @@ def gen_poligonos(data_target=None):
 
 
 # 3. AQUÍ ES DONDE AGREGAS EL BLOQUE NUEVO (Justo después)
-if tabId == 6: # Asegúrate que coincida con el ID de C1 SJA1
+  if tabId == 6: # Asegúrate que coincida con el ID de C1 SJA1
     st.markdown("---")
     st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
     
