@@ -1525,6 +1525,26 @@ USADAS
 </div>
 
 
+
+
+<div id="tabs-container" style="display: flex; gap: 5px; margin-bottom: 10px;">
+        </div>
+
+    <div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
+        <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
+        <div style="display: flex; gap: 10px;">
+            <input type="number" placeholder="Antes" style="width:70px;">
+            <input type="number" placeholder="Después" style="width:70px;">
+            <input type="number" placeholder="EJA1" style="width:70px;">
+            <input type="number" placeholder="Dropeado" style="width:70px;">
+        </div>
+    </div>
+    <div id="visor" class="content-area">
+        {info_operativa['SDE']}
+    </div>
+
+
+
         
         <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO --> 
         <div class="tools-panel">
