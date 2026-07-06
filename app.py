@@ -62,11 +62,12 @@ st.markdown("""
 
 
 
-<div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border: 1px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
-    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">RESUMEN DE PAQUETES (C1)</h4>
-    <div style="display: flex; gap: 10px;">
-        <input type="number" placeholder="Antes" style="width:80px; padding: 5px; border-radius: 4px; border: none;">
-        <input type="number" placeholder="Después" style="width:80px; padding: 5px; border-radius: 4px; border: none;">
+<div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
+    <h4 style="margin:0 0 12px 0; color:#26d4ca; font-size: 14px; letter-spacing: 1px;">📊 RESUMEN DE PAQUETES (C1)</h4>
+    <div style="display: flex; gap: 15px;">
+        <input type="number" placeholder="Antes" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
+        <input type="number" placeholder="Después" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
+        <input type="number" placeholder="Sin rutear" style="width: 80px; padding: 5px; border-radius: 4px; border: none; text-align: center;">
     </div>
 </div>
 
