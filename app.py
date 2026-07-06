@@ -281,7 +281,7 @@ def gen_master_rows(data_dict, table_id):
 # --- BLOQUE SEGURO PARA EL NUEVO FORMULARIO ---
 def mostrar_formulario_paquetes():
     html_paquetes = """
-    <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 12px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
+    <div id="contenedor-paquetes-c1" style="display: block; background: #25282b; padding: 12px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
     <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 13px; text-align: center;">RESUMEN PAQUETES (C1)</h4>
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center;">
         
