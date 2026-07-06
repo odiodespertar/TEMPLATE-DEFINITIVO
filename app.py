@@ -1250,8 +1250,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 # --- FORMULARIO DINÁMICO (Independiente) ---
-st.markdown("""
-<div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
+app_html = """
+    <div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
     <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes para Rutear (SJA1 C1)</h4>
     <div style="display: flex; gap: 10px;">
         <input type="number" placeholder="Antes 00:00" style="width:100px;">
@@ -1276,7 +1276,7 @@ st.markdown("""
     });
     observer.observe(visor, { childList: true, subtree: true });
 </script>
-""", unsafe_allow_html=True)
+"""
 
 
 
