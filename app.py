@@ -603,26 +603,30 @@ def gen_poligonos(data_target=None):
 
 
 
-# --- SECCIÓN DE CONTROL DE PAQUETES ---
-# (Asegúrate de que esto esté al final de tu archivo .py, sin sangría/espacios a la izquierda)
 
-st.markdown("---")
-st.subheader("Control de Paquetes")
+# 3. AQUÍ ES DONDE AGREGAS EL BLOQUE NUEVO (Justo después)
+  if tabId == 6: # Asegúrate que coincida con el ID de C1 SJA1
+    st.markdown("---")
+    st.subheader("📋 Resumen de Paquetes para Rutear (C1 SJA1)")
+    
+    if 'paquetes_c1' not in st.session_state:
+        st.session_state.paquetes_c1 = {
+            'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
+            'no_ruteado': 0, 'alchichica': 0
+        }
 
-if 'paquetes_c1' not in st.session_state:
-    st.session_state.paquetes_c1 = {
-        'antes_00': 0, 'despues_00': 0, 'sin_rutear': 0, 
-        'no_ruteado': 0, 'alchichica': 0
-    }
+    cols = st.columns(5)
+    st.session_state.paquetes_c1['antes_00'] = cols[0].number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
+    st.session_state.paquetes_c1['despues_00'] = cols[1].number_input("Después 00:00", value=st.session_state.paquetes_c1['despues_00'], step=1)
+    st.session_state.paquetes_c1['sin_rutear'] = cols[2].number_input("Sin rutear", value=st.session_state.paquetes_c1['sin_rutear'], step=1)
+    st.session_state.paquetes_c1['no_ruteado'] = cols[3].number_input("EJA1 (At Station)", value=st.session_state.paquetes_c1['no_ruteado'], step=1)
+    st.session_state.paquetes_c1['alchichica'] = cols[4].number_input("Alchichica ND", value=st.session_state.paquetes_c1['alchichica'], step=1)
 
-# Columnas para organizar los inputs
-col1, col2, col3, col4, col5 = st.columns(5)
-
-st.session_state.paquetes_c1['antes_00'] = col1.number_input("Antes 00:00", value=st.session_state.paquetes_c1['antes_00'], step=1)
-st.session_state.paquetes_c1['despues_00'] = col2.number_input("Después 00:00", value=st.session_state.paquetes_c1['despues_00'], step=1)
-st.session_state.paquetes_c1['sin_rutear'] = col3.number_input("Sin rutear", value=st.session_state.paquetes_c1['sin_rutear'], step=1)
-st.session_state.paquetes_c1['no_ruteado'] = col4.number_input("EJA1 (At Station)", value=st.session_state.paquetes_c1['no_ruteado'], step=1)
-st.session_state.paquetes_c1['alchichica'] = col5.number_input("Alchichica ND", value=st.session_state.paquetes_c1['alchichica'], step=1)
+    total_val = (st.session_state.paquetes_c1['antes_00'] + 
+                 st.session_state.paquetes_c1['despues_00'] + 
+                 st.session_state.paquetes_c1['sin_rutear'])
+    
+    st.info(f"**Total de paquetes disponibles para ruteo:** {total_val}")
 
 
 
@@ -1246,11 +1250,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         font-weight:bold;
         color:#25282b;">
 </div>
-
-
-
-
-
 
 
 <div id="fleet-sticky" class="fleet-normal">
@@ -3994,32 +3993,7 @@ function makeDraggableWithHandle(el, handleEl, storageKey) {{
 }}
 
 enableFleetVerticalDrag();   
-
-
-# Asegúrate de que no haya código HTML suelto fuera de las comillas triples
-app_html = """
-<div id="contenedor-paquetes-c1" style="display: none; background: #c8dee0; padding: 15px; border-top: 2px solid #008000; margin-top: -15px;">
-    <h4 style="margin:0 0 10px 0; color:#008000;">Resumen de Paquetes para Rutear (SJA1 C1)</h4>
-    <div style="display: flex; gap: 10px;">
-        <input type="number" placeholder="Antes 00:00" style="width:100px;">
-        <input type="number" placeholder="Después 00:00" style="width:100px;">
-        <input type="number" placeholder="Sin rutear" style="width:100px;">
-        <input type="number" placeholder="EJA1" style="width:100px;">
-        <input type="number" placeholder="Alchichica" style="width:100px;">
-    </div>
-</div>
-
-    const visor = document.getElementById('visor');
-    const observer = new MutationObserver(() => {{
-        const contenedor = document.getElementById('contenedor-paquetes-c1');
-        // Asegúrate de que el texto coincida exactamente con lo que aparece en tu visor
-        if (visor.innerHTML.includes('SJA1 C1')) {{
-            contenedor.style.display = 'block';
-        }} else {{
-            contenedor.style.display = 'none';
-        }}
-    }});
-    observer.observe(visor, {{ childList: true, subtree: true }});
+    
 
 </script>
 </body>
