@@ -1761,6 +1761,21 @@ function toggleFleetFloating() {{
 
 
 function showTab(n, btn) {{
+
+
+        // 1. --- LOGICA NUEVA PARA EL BLOQUE C1 ---
+    const bloqueC1 = document.getElementById('contenedor-paquetes-c1');
+        if (bloqueC1) {{
+            // Asumimos que la pestaña C1 es la que tiene el número 6 (si es otra, cambia el 6)
+           if (n === 6) {{
+            bloqueC1.style.display = 'block';
+           }} else {{
+              bloqueC1.style.display = 'none';
+           }}
+        }}
+
+
+    
         // 1. Si la Vista Excel estaba activa, la apagamos de forma segura antes de cambiar de pestaña
         if (document.body.classList.contains("excel-view")) {{
             document.body.classList.remove("excel-view");
