@@ -4009,7 +4009,6 @@ app_html = """
     </div>
 </div>
 
-<script>
     const visor = document.getElementById('visor');
     const observer = new MutationObserver(() => {{
         const contenedor = document.getElementById('contenedor-paquetes-c1');
