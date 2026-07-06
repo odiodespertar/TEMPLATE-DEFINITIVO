@@ -281,15 +281,36 @@ def gen_master_rows(data_dict, table_id):
 # --- BLOQUE SEGURO PARA EL NUEVO FORMULARIO ---
 def mostrar_formulario_paquetes():
     html_paquetes = """
-    <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
-        <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px;">📊 RESUMEN DE PAQUETES (C1)</h4>
-        <div style="display: flex; gap: 10px;">
-            <input type="number" placeholder="Antes" style="width:80px; padding: 5px;">
-            <input type="number" placeholder="Después" style="width:80px; padding: 5px;">
-            <input type="number" placeholder="EJA1" style="width:80px; padding: 5px;">
-            <input type="number" placeholder="Dropeado" style="width:80px; padding: 5px;">
+    <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 12px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white; width: 100%;">
+    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 13px; text-align: center;">RESUMEN PAQUETES (C1)</h4>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center;">
+        
+        <div>
+            <label style="font-size: 9px; display: block; color: #aaa;">ANT 00:00</label>
+            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
+        </div>
+        
+        <div>
+            <label style="font-size: 9px; display: block; color: #aaa;">DES 00:00</label>
+            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
+        </div>
+        
+        <div>
+            <label style="font-size: 9px; display: block; color: #f1c40f;">NO RUT-EJA1</label>
+            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
+        </div>
+        
+        <div>
+            <label style="font-size: 9px; display: block; color: #f1c40f;">DROP FINAL</label>
+            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
+        </div>
+        
+        <div>
+            <label style="font-size: 9px; display: block; color: #e74c3c;">ALCH ND</label>
+            <input type="number" style="width: 100%; padding: 4px; border-radius: 3px; border: none; text-align: center;">
         </div>
     </div>
+</div>
     """
     st.markdown(html_paquetes, unsafe_allow_html=True)
 
