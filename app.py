@@ -1515,8 +1515,8 @@ USADAS
     <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
     <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px; text-align: center;">RESUMEN DE PAQUETES (C1)</h4>
     <div style="display: flex; gap: 10px; justify-content: center;">
-        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">VOL. ANTES 00:00</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">VOL. DESPUÉS 00:00</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">VOL ANTES 00:00</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:9px; color:#aaa;">VOL DESPUÉS 00:00</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">NO RUT-EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#f1c40f;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:9px; color:#e74c3c;">ALCH ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
@@ -1792,6 +1792,7 @@ function toggleFleetFloating() {{
 function showTab(n, btn) {{
 
 
+    
         // 1. --- LOGICA NUEVA PARA EL BLOQUE C1 ---
     const bloqueC1 = document.getElementById('contenedor-paquetes-c1');
         if (bloqueC1) {{
