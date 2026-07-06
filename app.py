@@ -1748,6 +1748,22 @@ function toggleFleetFloating() {{
 
 
 function showTab(n, btn) {{
+
+        // --- NUEVA LÓGICA: Mostrar/Ocultar formulario C1 ---
+        // Asumimos que n=6 es la pestaña que quieres (puedes cambiarlo si es otra)
+        const formularioC1 = document.getElementById('contenedor-paquetes-c1');
+        if (formularioC1) {{
+            if (n === 6) {{
+                formularioC1.style.display = 'block';
+            }} else {{
+                formularioC1.style.display = 'none';
+            }}
+        }}
+        // ---------------------------------------------------
+
+
+
+    
         // 1. Si la Vista Excel estaba activa, la apagamos de forma segura antes de cambiar de pestaña
         if (document.body.classList.contains("excel-view")) {{
             document.body.classList.remove("excel-view");
