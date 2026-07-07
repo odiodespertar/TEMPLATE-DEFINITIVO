@@ -1513,19 +1513,35 @@ USADAS
 
 <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
     <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px; text-align: center;">RESUMEN DE PAQUETES (C1)</h4>
-    <div style="display: flex; gap: 10px; justify-content: center; align-items: flex-end;">
+    
+    <div style="display: flex; gap: 15px; justify-content: center; align-items: flex-end;">
         
-        <div style="text-align:center;"><label style="font-size:11px; color:#aaa;">VOL A LAS 23:30</label><br><input type="number" class="sum-input" style="width:73px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#aaa;">VOL DURANTE RUTEO</label><br><input type="number" class="sum-input" style="width:73px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#aaa;">VOL DESPUÉS RUTEO</label><br><input type="number" class="sum-input" style="width:73px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#FFD700;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-        
-        <div style="background: #333; border-radius: 3px; padding: 4px; min-width: 70px; text-align: center;">
-            <label style="font-size: 11px; color: #26d4ca; font-weight: bold;">TOTAL</label>
-            <input type="number" id="total-final" value="0" readonly style="width: 100%; padding: 6px 0; border: none; text-align: center; background: transparent; color: white; font-weight: bold; font-size: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="text-align:center;">
+                <label style="font-size:11px; color:#aaa;">VOL A LAS 23:30</label><br>
+                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
+            </div>
+            <div style="text-align:center;">
+                <label style="font-size:11px; color:#aaa;">VOL DURANTE RUTEO</label><br>
+                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
+            </div>
+            <div style="text-align:center;">
+                <label style="font-size:11px; color:#aaa;">VOL DESPUÉS RUTEO</label><br>
+                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
+            </div>
         </div>
+        
+        <div style="display: flex; gap: 10px; align-items: flex-end;">
+            <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
+            <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
+            <div style="text-align:center;"><label style="font-size:11px; color:#FFD700;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
+            
+            <div style="background: #333; border-radius: 3px; padding: 4px; min-width: 70px; text-align: center;">
+                <label style="font-size: 11px; color: #26d4ca; font-weight: bold;">TOTAL</label>
+                <input type="number" id="total-final" value="0" readonly style="width: 100%; padding: 6px 0; border: none; text-align: center; background: transparent; color: white; font-weight: bold; font-size: 16px;">
+            </div>
+        </div>
+
     </div>
 </div>
 
