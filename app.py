@@ -1533,7 +1533,8 @@ USADAS
         
         <div style="display: flex; gap: 10px; align-items: flex-end;">
             <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-            <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
+            <div style="text-align:center;"><label style="font-size:11px; color:#FF7F50;">DROPEO NODOS</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
+            <div style="text-align:center;"><label style="font-size:11px; color:#FF4500;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
             <div style="text-align:center;"><label style="font-size:11px; color:#FFD700;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
             
             <div style="background: #333; border-radius: 3px; padding: 4px; min-width: 70px; text-align: center;">
