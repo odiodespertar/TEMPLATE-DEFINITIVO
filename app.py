@@ -2750,7 +2750,7 @@ function toggleExcelView() {{
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
-        });
+        }});
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
             if(el) {{
