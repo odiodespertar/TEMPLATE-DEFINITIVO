@@ -1517,9 +1517,9 @@ USADAS
     <div style="display: flex; gap: 10px; justify-content: center;">
         <div style="text-align:center;"><label style="font-size:11px; color:#aaa;">VOL ANTES 00:00</label><br><input type="number" class="sum-input" style="width:73px; text-align:center;"></div>
         <div style="text-align:center;"><label style="font-size:11px; color:#aaa;">VOL DESPUÉS 00:00</label><br><input type="number" class="sum-input" style="width:73px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#f1c40f;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#f1c40f;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
-        <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:11px; color:#e74c3c;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
+        <div style="text-align:center;"><label style="font-size:11px; color:#FFD700;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center;"></div>
         
         <div style="background: #333; border-radius: 3px; padding: 4px;">
             <label style="font-size: 11px; color: #26d4ca; font-weight: bold;">TOTAL</label>
