@@ -1702,6 +1702,7 @@ USADAS
     let chronoInterval;
     let startTime;
     let elapsedTime = 0;
+    let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
 
@@ -2726,7 +2727,8 @@ function toggleExcelView() {{
     
     let btn = document.getElementById("excel-btn");
     let excel = document.getElementById("excel-polys");
-
+    let bPaquetes = document.getElementById("contenedor-paquetes-c1"); // <--- Captura el contenedor
+    
     // IDs de las filas que quieres ocultar en modo Excel
     const idsAocultar = [
         "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
@@ -2734,9 +2736,13 @@ function toggleExcelView() {{
         "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
         "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
     ];
-
     if (isExcel) {{
         // --- MODO EXCEL: OCULTAR ---
+        if (bPaquetes) {{
+            estadoPaquetesAntesDeExcel = bPaquetes.style.display; // Guarda el estado actual (si era block o none)
+            bPaquetes.style.display = "none"; // 🔥 Oculta el contenedor en Excel
+        }}
+        
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
@@ -2744,8 +2750,7 @@ function toggleExcelView() {{
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
-        }});
-
+        });
         idsAocultar.forEach(id => {{
             let el = document.getElementById(id);
             if(el) {{
@@ -2755,6 +2760,10 @@ function toggleExcelView() {{
         }});
     }} else {{
         // --- MODO NORMAL: RESTAURAR ---
+        if (bPaquetes) {{
+            bPaquetes.style.display = estadoPaquetesAntesDeExcel; // 🔥 Devuelve su estado correcto en Vista Normal
+        }}
+        
         btn.innerHTML = "📸 VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
@@ -2763,9 +2772,8 @@ function toggleExcelView() {{
             let el = document.getElementById(id);
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
-
-
-       // 📊 RESTAURACIÓN INTELIGENTE: Devolvemos la visibilidad al contador que corresponda según la pestaña activa
+        
+        // 📊 RESTAURACIÓN INTELIGENTE: Devolvemos la visibilidad al contador que corresponda según la pestaña activa
         if (contScp1 && contSja1) {{
             if (currentTab == 2) {{
                 contScp1.style.display = 'block';
@@ -2779,8 +2787,6 @@ function toggleExcelView() {{
             }}
         }}
 
-
-
         // RESTAURACIÓN FORZADA:
         // 1. Quitar el 'display: none' de las filas ocultas
         idsAocultar.forEach(id => {{
@@ -2790,7 +2796,6 @@ function toggleExcelView() {{
                 if(fila) fila.style.removeProperty('display');
             }}
         }});
-        
         // 2. Obligar a las filas del tfoot a mostrarse
         document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
             fila.style.setProperty('display', 'table-row', 'important');
@@ -2798,7 +2803,6 @@ function toggleExcelView() {{
         }});
     }}
 }}
-
 
 
 
