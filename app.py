@@ -1522,10 +1522,6 @@ USADAS
                 <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
             </div>
             <div style="text-align:center;">
-                <label style="font-size:11px; color:#aaa;">VOL DURANTE RUTEO</label><br>
-                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
-            </div>
-            <div style="text-align:center;">
                 <label style="font-size:11px; color:#aaa;">VOL DESPUÉS RUTEO</label><br>
                 <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
             </div>
