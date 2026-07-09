@@ -1509,7 +1509,7 @@ USADAS
 
 
 
-
+<!--
 <div id="tabs-container" style="display: flex; gap: 5px; margin-bottom: 10px;"></div>
 
 <div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
@@ -1528,7 +1528,7 @@ USADAS
             </div>
         </div>
 
-        <!--
+       
         <div style="display: flex; gap: 10px; align-items: flex-end;">
             <div style="text-align:center;"><label style="font-size:11px; color:#ADFF2F;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
             <div style="text-align:center;"><label style="font-size:11px; color:#FF7F50;">DROPEO NODOS</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
@@ -1542,7 +1542,8 @@ USADAS
         </div>
 
     </div>
-</div>-->
+</div>
+-->
 
 
 
