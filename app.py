@@ -1238,17 +1238,18 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
   </div>
 
 
-        
+
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
             <div>
+                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
                 <button class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
-                <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
                 <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
                 <!--
                 <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
                 -->
-                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
+                <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
             </div> 
+
 
             
             <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
