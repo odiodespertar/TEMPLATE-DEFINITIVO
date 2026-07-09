@@ -1527,7 +1527,8 @@ USADAS
                 <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
             </div>
         </div>
-        
+
+        <!--
         <div style="display: flex; gap: 10px; align-items: flex-end;">
             <div style="text-align:center;"><label style="font-size:11px; color:#ADFF2F;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
             <div style="text-align:center;"><label style="font-size:11px; color:#FF7F50;">DROPEO NODOS</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
@@ -1541,7 +1542,7 @@ USADAS
         </div>
 
     </div>
-</div>
+</div>-->
 
 
 
