@@ -1708,43 +1708,39 @@ USADAS
 
 
 
-    // Función para inyectar la columna de horas sin tocar el HTML base
-    function inyectarConversor() {{
-        // Buscamos todas las tablas o filas que tengan celdas .edit-orh
-        document.querySelectorAll('tr').forEach(tr => {{
-            let celdaOrh = tr.querySelector('.edit-orh');
-            // Si existe la celda pero aún no hemos inyectado el conversor
-            if (celdaOrh && !tr.querySelector('.orh-hm')) {{
-                let nuevaCelda = document.createElement('td');
-                nuevaCelda.className = 'orh-hm';
-                nuevaCelda.style.cssText = "text-align:center; border:0.2px solid #25282b; width:45px; background:#f7f7f7; color:#555; font-size:10px;";
-                nuevaCelda.innerText = "0h 0m";
-                celdaOrh.after(nuevaCelda);
+    function inyectarConversorSeguro() {{
+        document.querySelectorAll('.edit-orh').forEach(td => {{
+            // Solo inyectamos si no tiene ya el span para evitar duplicados
+            if (!td.querySelector('.orh-hm-span')) {{
+                td.style.position = 'relative'; // Necesario para el posicionamiento absoluto
+                
+                let span = document.createElement('span');
+                span.className = 'orh-hm-span';
+                // Posición absoluta: flota encima, no ocupa espacio, NO rompe la tabla
+                span.style.cssText = "position:absolute; bottom:2px; right:2px; font-size:8px; color:#999; pointer-events:none; background:white; padding:0 2px; border:1px solid #eee;";
+                span.innerText = "0h 0m";
+                td.appendChild(span);
             }}
         }});
     }}
 
-    // Actualizador de horas
-    function convertirORH(input) {{
-        let mins = parseInt(input.innerText.replace(/[^0-9]/g, '')) || 0;
-        let h = Math.floor(mins / 60);
-        let m = mins % 60;
-        let fila = input.closest("tr");
-        let hm = fila.querySelector('.orh-hm');
-        if (hm) hm.innerText = h + "h " + m + "m";
-    }}
-
-    // Delegación: detecta cambios incluso después de usar botones de Excel
+    // Delegado de eventos
     document.getElementById('visor').addEventListener('input', function(e) {{
         if (e.target.classList.contains('edit-orh')) {{
-            convertirORH(e.target);
+            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
+            let h = Math.floor(mins / 60);
+            let m = mins % 60;
+            let span = e.target.querySelector('.orh-hm-span');
+            if (span) span.innerText = h + "h " + m + "m";
         }}
     }});
 
-    // Ejecutar al cargar y al cambiar de tab
-    document.getElementById('visor').addEventListener('DOMNodeInserted', inyectarConversor);
-    inyectarConversor();
-
+    // Observador seguro que no bloquea la tabla
+    const obs = new MutationObserver(inyectarConversorSeguro);
+    obs.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
+    
+    // Ejecutar al cargar
+    inyectarConversorSeguro();
 
 
 
