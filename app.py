@@ -222,10 +222,11 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
+            # RESTAURACIÓN: Así es como el código no rompe las tablas
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
                 <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b;">
                     0
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
@@ -234,7 +235,6 @@ def gen_master_rows(data_dict, table_id):
                 </td>
                 '''
             else:
-                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
