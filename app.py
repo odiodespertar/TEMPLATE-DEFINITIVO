@@ -2904,8 +2904,8 @@ function generarExcelPolys() {{
             }}
             filaHtml += '</tr>';
             console.log(plan, unidad, asignadas);
-            body.innerHTML += filaHtml;
-            console.log(body.innerHTML);
+            body.insertAdjacentHTML("beforeend", filaHtml);
+            console.log("Filas finales:", body.rows.length);
         }});
     }});
 
