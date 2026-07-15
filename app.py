@@ -28,10 +28,7 @@ st.markdown("""
 
     #visor { padding-right: 210px !important; box-sizing: border-box; }
 
-    #visor {
-        margin-right: 20px !important; /* Ajusta este valor (20px, 30px, etc.) a tu gusto */
-        padding-right: 20px !important;
-    }
+   
     
     .tabla-flota-reducida {
         max-width: 80% !important;
