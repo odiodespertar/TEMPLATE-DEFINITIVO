@@ -1589,6 +1589,11 @@ USADAS
 </button>
 
 
+#visor {{
+        margin-right: 20px !important; /* Ajusta este valor (20px, 30px, etc.) a tu gusto */
+        padding-right: 20px !important;
+    }}
+
 
                 <!--
                 <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
