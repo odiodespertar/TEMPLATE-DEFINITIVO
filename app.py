@@ -222,12 +222,23 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
-            # ✅ Versión infalible: una sola línea para evitar errores de sintaxis
             if mostrar_orh_ocup:
-                celdas_orh_ocup = '<td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td><td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>'
+                celdas_orh_ocup = f'''
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
+                    0
+                </td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
+                    0
+                </td>
+                '''
             else:
-                # Si no se muestra, ponemos celdas vacías o ocultas pero sin romper el layout
-                celdas_orh_ocup = '<td class="edit-orh" style="display:none;">0</td><td class="edit-ocup" style="display:none;">0</td>'
+                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
+                celdas_orh_ocup = '''
+                <td class="edit-orh" style="display:none;">0</td>
+                <td class="edit-ocup" style="display:none;">0</td>
+                '''
 
             rows += f'''
             <tr class="master-row" style="{st_base}">
@@ -264,6 +275,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
             </tr>'''
     return rows
+
 
 
 
@@ -1298,11 +1310,10 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-                <th style="border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:58px;"> H:M </th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
+<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
 SCHEDULE
 </th>
 <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
@@ -1335,7 +1346,6 @@ DELTA
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-                <th style="border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:58px;"> H:M </th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
@@ -1366,7 +1376,6 @@ USADAS
     <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-    <th style="border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:58px;"> H:M </th>
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
@@ -1457,24 +1466,36 @@ USADAS
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-                <th style="border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:58px;"> H:M </th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+<th style="
+    border-right:0.5px solid #25282b;
+    padding:4px 8px;
+    font-size:11px;
+    color: #25282b !important;
+    width:60px;">
+    SCHEDULE
+</th>
+<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+<th style="
+    border-right:0.5px solid #25282b;
+    padding:4px 8px;
+    font-size:11px;
+    color: #25282b !important;
+    width:50px;">
+    DELTA
+</th>
+</tr>
+            
             </tr>
         </thead>
-        
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
        <tfoot class="fila-total">
 <tr class="fila-total">
     <td style="border:none;"></td>
-    <td colspan="5" style="padding:6px; text-align:right;">
+    <td colspan="3" style="padding:6px; text-align:right;">
         TOTAL CAR RUTEADAS
     </td>
     <td id="total-car-real-4"
@@ -1543,45 +1564,34 @@ USADAS
     border-radius: 7px;
             ">
             
-     <button id="toggle-tools-btn" onclick="toggleTools()"
-        style="display:none;
-               cursor:pointer;
-               background:#25282b !important;
-               background-image: none !important;
-               box-shadow: none !important;
-               color: #ffffff !important;
-               border: 1px solid #4682B4;
-               font-size: 11px;
-               padding: 5px 0;
-               border-radius: 3px;
-               font-weight: bold;
-               outline: none;
-               width: 100%;
-               margin-bottom: 15px;">
+                <button id="toggle-tools-btn" onclick="toggleTools()" 
+        style="cursor:pointer; 
+               background:#25282b !important; 
+               background-image: none !important; 
+               box-shadow: none !important; 
+               color: #ffffff !important; 
+               border: 1px solid #4682B4; 
+           font-size: 11px; 
+           padding: 5px 0; 
+           border-radius: 3px; 
+           font-weight: bold; 
+           outline: none; 
+           width: 100%; 
+           margin-bottom: 15px;">
     ❌ OCULTAR UTILERÍAS
 </button>
 
 
+
      
-                <div style="display:none;">
-
-    <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">
-        ⏱️ CONVERTIDOR DE TIEMPO
+                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
+                <div style="margin-top:10px;">
+                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
+                 </div>
+             </div>
+        </div>
     </div>
-
-    <input type="number"
-           id="min-in"
-           placeholder="Minutos"
-           style="width:80px; text-align:center;"
-           oninput="convertTime()">
-
-    <div style="margin-top:10px;">
-        <span id="time-res"
-              style="font-size:24px; font-weight:bold; color:#FF4500;">
-            0h 0m
-        </span>
-    </div>
-
 </div>
 
 
@@ -1696,67 +1706,6 @@ USADAS
     let elapsedTime = 0;
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
-
-    function actualizarHoraMinuto(celda){{
-
-    let minutos = parseInt(celda.innerText);
-
-    if(isNaN(minutos))
-        minutos = 0;
-
-    let horas = Math.floor(minutos/60);
-
-    let mins = minutos % 60;
-
-    let fila = celda.closest("tr");
-
-    let hm = fila.querySelector(".orh-hm");
-
-    if(hm)
-        hm.innerText = horas + "h " + mins + "m";
-}}
-
-
-
-    document.querySelectorAll(".edit-orh").forEach(function(celda){{
-
-    actualizarHoraMinuto(celda);
-
-}});
-
-
-
-    
-    function aplicarConversor() {{
-        document.querySelectorAll('.edit-orh').forEach(td => {{
-            // Si la celda es visible y no tiene el conversor, lo ponemos
-            if (td.style.display !== 'none' && !td.querySelector('.orh-hm-span')) {{
-                td.style.position = 'relative';
-                let span = document.createElement('span');
-                span.className = 'orh-hm-span';
-                span.style.cssText = "position:absolute; bottom:1px; right:2px; font-size:8px; color:#555; pointer-events:none; background:white; padding:0 1px;";
-                span.innerText = "0h 0m";
-                td.appendChild(span);
-            }}
-        }});
-    }}
-
-    // Actualiza el texto flotante cuando escribes
-    document.getElementById('visor').addEventListener('input', function(e) {{
-        if (e.target.classList.contains('edit-orh')) {{
-            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
-            let h = Math.floor(mins / 60);
-            let m = mins % 60;
-            let span = e.target.querySelector('.orh-hm-span');
-            if (span) span.innerText = h + "h " + m + "m";
-        }}
-    }});
-
-    // Observador para mantener el conversor aunque cambies de tabla
-    const obs = new MutationObserver(aplicarConversor);
-    obs.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
-    
-    aplicarConversor();
 
 
 
@@ -2865,8 +2814,6 @@ function generarExcelPolys() {{
 
     body.innerHTML = "";
     let tabId = currentTab;
-    console.log("TAB:", tabId);
-    console.log(document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').length);
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
         let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
         let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
@@ -2891,10 +2838,8 @@ function generarExcelPolys() {{
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
             if (fRow) {{
-                let celdas = fRow.querySelectorAll('td');
-
-                let sMin = celdas[4]?.innerText.trim() || "0";
-                let sMax = celdas[5]?.innerText.trim() || "0";
+                let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
+                let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
                 valSpr = sMin + " / " + sMax;
             }}
 
@@ -2914,9 +2859,7 @@ function generarExcelPolys() {{
                 filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
             }}
             filaHtml += '</tr>';
-            console.log(plan, unidad, asignadas);
             body.innerHTML += filaHtml;
-            console.log(body.innerHTML);
         }});
     }});
 
