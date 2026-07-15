@@ -222,13 +222,11 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
-            # RESTAURACIÓN: Así es como el código no rompe las tablas
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
-                    style="position: relative; text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b; font-weight:bold;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
                     0
-                    <div class="display-orh-hours" style="position: absolute; left:0; right:0; bottom:-12px; font-size:9px; color:#888; pointer-events:none; background:white; z-index:10;">0h 0m</div>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
@@ -236,6 +234,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
                 '''
             else:
+                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
@@ -601,12 +600,6 @@ def gen_poligonos(data_target=None):
                     
                 </tbody>
             </table>
-
-                <div id="visor-horas" style="margin-top:10px; padding:8px; background:#25282b; color:#aaa; font-size:12px; border:1px solid #444; border-radius:4px; text-align:center;">
-                    Selecciona ORH para ver conversión
-                </div>
-
-            
         </div>'''
     return polys
 
@@ -1339,10 +1332,9 @@ DELTA
         <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
+
+
     </table>
-  <div id="conversor-flotante" style="position: fixed; top: 100px; right: 20px; width: 150px; padding: 10px; background: #333; color: white; border-radius: 8px; font-size: 14px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-    <div style="font-size: 10px; color: #aaa; margin-bottom: 5px;">TIEMPO ORH</div>
-    <div id="resultado-conversion" style="font-weight: bold; font-size: 18px;">0h 0m</div>
 </div>
 
 
@@ -1715,15 +1707,7 @@ USADAS
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
-    function convertirORH(td) {{
-        let texto = td.innerText || "0";
-        let min = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
-        let h = Math.floor(min/60);
-        let m = min % 60;
-        
-        // Actualiza el cuadrito lateral
-        document.getElementById('resultado-conversion').innerText = h + "h " + m + "m";
-    }}
+
 
 
     function aplicarPerfil() {{
@@ -2710,16 +2694,6 @@ function resetRow(sel) {{
         }}
     }}
 
-
-    document.addEventListener('input', function(e) {{
-        // Solo actúa si el elemento editado es un ORH (ajusta la clase si tu clase es otra)
-        if (e.target.classList.contains('edit-orh')) {{
-            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
-            let h = Math.floor(mins / 60);
-            let m = mins % 60;
-            document.getElementById('visor-horas').innerText = "Conversión: " + h + "h " + m + "m";
-        }}
-    }});
 
 
 
