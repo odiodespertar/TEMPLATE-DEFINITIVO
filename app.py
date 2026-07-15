@@ -1809,6 +1809,29 @@ function toggleFleetFloating() {{
 
 
 
+    // Esta función se activará cada vez que escribas en una celda edit-orh
+    function convertirORH(td) {{
+        // 1. Tomamos el número de minutos
+        let minutos = parseInt(td.innerText.replace(/[^0-9]/g, '')) || 0;
+        
+        // 2. Calculamos horas y minutos
+        let h = Math.floor(minutos / 60);
+        let m = minutos % 60;
+        
+        // 3. Buscamos la celda de la derecha (donde pusimos la nueva cabecera 'HR')
+        // Si no tienes la celda creada en el HTML, esta parte fallará, 
+        // así que asegúrate de que el TR tenga una columna extra.
+        let celdaSiguiente = td.nextElementSibling;
+        
+        if (celdaSiguiente) {{
+            celdaSiguiente.innerText = h + "h " + m + "m";
+            celdaSiguiente.style.color = "#808080";
+            celdaSiguiente.style.fontSize = "10px";
+            celdaSiguiente.style.textAlign = "center";
+        }}
+    }}
+
+
 
 function showTab(n, btn) {{
 
