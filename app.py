@@ -2900,7 +2900,9 @@ function generarExcelPolys() {{
                 filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
             }}
             filaHtml += '</tr>';
+            console.log(plan, unidad, asignadas);
             body.innerHTML += filaHtml;
+            console.log(body.innerHTML);
         }});
     }});
 
