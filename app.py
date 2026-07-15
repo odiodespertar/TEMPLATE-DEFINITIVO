@@ -1708,7 +1708,15 @@ USADAS
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
-
+    function convertirORH(td) {{
+        let texto = td.innerText || "0";
+        let min = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
+        let h = Math.floor(min/60);
+        let m = min % 60;
+        
+        // Actualiza el cuadrito lateral
+        document.getElementById('resultado-conversion').innerText = h + "h " + m + "m";
+    }}
 
 
     function aplicarPerfil() {{
