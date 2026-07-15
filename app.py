@@ -224,17 +224,15 @@ def gen_master_rows(data_dict, table_id):
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b; font-weight:bold;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
                     0
-                    <div class="display-orh-hours" style="font-size:10px; color:#555; font-weight:normal; margin-top:2px; pointer-events:none;">0h 0m</div>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
                     0
                 </td>
                 '''
-                
             else:
                 # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
@@ -1311,8 +1309,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 60px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 50px;">HR</th> <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
@@ -1809,20 +1807,6 @@ function toggleFleetFloating() {{
   console.log("toggle ->", panel.className, "style=", panel.getAttribute("style"));
 }}
 
-
-
-    // Esta función se activará cada vez que escribas en una celda edit-orh
-    function convertirORH(td) {{
-        let texto = td.innerText || "0";
-        let numero = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
-        let h = Math.floor(numero / 60);
-        let m = numero % 60;
-        
-        let display = td.querySelector('.display-orh-hours');
-        if (display) {{
-            display.innerText = h + "h " + m + "m";
-        }}
-    }}
 
 
 
