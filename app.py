@@ -2911,11 +2911,10 @@ function generarExcelPolys() {{
             
         if (fRow) {{
 
-
-            console.log("Unidad:", unidad);
-            console.log("Fila:", fRow);
+            console.log("Fila encontrada:", fRow);
 
             console.log("ORH:", fRow.querySelector(".edit-orh"));
+            console.log("HORA:", fRow.querySelector(".orh-hora"));
             console.log("OCUP:", fRow.querySelector(".edit-ocup"));
 
             let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
@@ -2923,11 +2922,10 @@ function generarExcelPolys() {{
 
             console.log("Valores:", orh, ocup);
 
-
-            // ESTA ES LA QUE DEBE APARECER EN LA VISTA EXCEL
             valSpr = orh + " / " + ocup;
-
         }}
+
+
 
             let filaHtml = '<tr>';
             if (index === 0) {{
