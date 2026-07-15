@@ -222,18 +222,12 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
+            # ✅ Versión infalible: una sola línea para evitar errores de sintaxis
             if mostrar_orh_ocup:
-                # Asegúrate de que el f''' empiece limpio
-celdas_orh_ocup = f'''<td contenteditable="true" class="edit-orh" oninput="recalc()" 
-    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td>
-<td contenteditable="true" class="edit-ocup" oninput="recalc()" 
-    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>'''
+                celdas_orh_ocup = '<td contenteditable="true" class="edit-orh" oninput="recalc()" style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td><td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>'
             else:
-    # Si no es la tabla correcta, no generamos nada. ¡Cero celdas!
-                celdas_orh_ocup = ""
-                <td class="edit-orh" style="display:none;">0</td>
-                <td class="edit-ocup" style="display:none;">0</td>
-                '''
+                # Si no se muestra, ponemos celdas vacías o ocultas pero sin romper el layout
+                celdas_orh_ocup = '<td class="edit-orh" style="display:none;">0</td><td class="edit-ocup" style="display:none;">0</td>'
 
             rows += f'''
             <tr class="master-row" style="{st_base}">
