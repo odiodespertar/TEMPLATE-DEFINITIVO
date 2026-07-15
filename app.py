@@ -1577,23 +1577,23 @@ USADAS
     border-radius: 7px;
             ">
             
-                <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; 
-               background:#25282b !important; 
-               background-image: none !important; 
-               box-shadow: none !important; 
-               color: #ffffff !important; 
-               border: 1px solid #4682B4; 
-           font-size: 11px; 
-           padding: 5px 0; 
-           border-radius: 3px; 
-           font-weight: bold; 
-           outline: none; 
-           width: 100%; 
-           margin-bottom: 15px;">
+     <button id="toggle-tools-btn" onclick="toggleTools()"
+        style="display:none;
+               cursor:pointer;
+               background:#25282b !important;
+               background-image: none !important;
+               box-shadow: none !important;
+               color: #ffffff !important;
+               border: 1px solid #4682B4;
+               font-size: 11px;
+               padding: 5px 0;
+               border-radius: 3px;
+               font-weight: bold;
+               outline: none;
+               width: 100%;
+               margin-bottom: 15px;">
     ❌ OCULTAR UTILERÍAS
 </button>
-
 
 
      
