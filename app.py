@@ -2908,10 +2908,17 @@ function generarExcelPolys() {{
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
             if (fRow) {{
-                let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
-                let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
-                valSpr = sMin + " / " + sMax; 
-            }}
+
+            let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
+            let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
+
+            let sMin = fRow.querySelector(".edit-spr-min")?.innerText.trim() || "0";
+            let sMax = fRow.querySelector(".edit-spr-max")?.innerText.trim() || "0";
+
+            // lo que ya usabas
+            valSpr = sMin + " / " + sMax;
+
+        }}
 
             let filaHtml = '<tr>';
             if (index === 0) {{
