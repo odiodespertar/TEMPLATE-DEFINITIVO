@@ -1332,9 +1332,10 @@ DELTA
         <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
-
-
     </table>
+  <div id="conversor-flotante" style="position: fixed; top: 100px; right: 20px; width: 150px; padding: 10px; background: #333; color: white; border-radius: 8px; font-size: 14px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+    <div style="font-size: 10px; color: #aaa; margin-bottom: 5px;">TIEMPO ORH</div>
+    <div id="resultado-conversion" style="font-weight: bold; font-size: 18px;">0h 0m</div>
 </div>
 
 
