@@ -1718,7 +1718,32 @@ USADAS
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
+    function actualizarHoraMinuto(celda){{
 
+    let minutos = parseInt(celda.innerText);
+
+    if(isNaN(minutos))
+        minutos = 0;
+
+    let horas = Math.floor(minutos/60);
+
+    let mins = minutos % 60;
+
+    let fila = celda.closest("tr");
+
+    let hm = fila.querySelector(".orh-hm");
+
+    if(hm)
+        hm.innerText = horas + "h " + mins + "m";
+}}
+
+
+
+    document.querySelectorAll(".edit-orh").forEach(function(celda){{
+
+    actualizarHoraMinuto(celda);
+
+}});
 
 
     function aplicarPerfil() {{
