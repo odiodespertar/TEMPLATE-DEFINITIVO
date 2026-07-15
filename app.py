@@ -1980,38 +1980,43 @@ if (delta > 0 && left <= 0 && esFlexible) {{
 
 function actualizarHoraMinuto(celda){{
 
-    if(!celda) return;
-
-    // Lee el valor escrito en ORH
     let valor = celda.innerText.trim().replace(",", ".");
 
-    let orh = parseFloat(valor);
+    if(valor === "") valor = "0";
 
-    if(isNaN(orh))
-        orh = 0;
+    let numero = parseFloat(valor);
 
-    // Convierte horas decimales a minutos
-    let minutosTotales = Math.round(orh * 60);
+    if(isNaN(numero))
+        numero = 0;
 
-    let horas = Math.floor(minutosTotales / 60);
-    let minutos = minutosTotales % 60;
+    let minutosTotales;
 
-    // Busca la celda donde se mostrará la hora
-    let fila = celda.closest("tr");
-
-    if(!fila) return;
-
-    let hora = fila.querySelector(".orh-hora");
-
-    if(hora){{
-        hora.innerText =
-            String(horas).padStart(2,"0") +
-            ":" +
-            String(minutos).padStart(2,"0");
+    // Si tiene decimal, se interpreta como HORAS
+    if(valor.includes(".")){{
+        minutosTotales = Math.round(numero * 60);
+    }}
+    // Si es entero grande (ej. 145), se interpreta como MINUTOS
+    else if(numero >= 24){{
+        minutosTotales = Math.round(numero);
+    }}
+    // Si es entero pequeño (ej. 2), se interpreta como HORAS
+    else{{
+        minutosTotales = Math.round(numero * 60);
     }}
 
-}}
+    let horas = Math.floor(minutosTotales / 60);
+    let mins = minutosTotales % 60;
 
+    let fila = celda.closest("tr");
+    let hm = fila.querySelector(".orh-hora");
+
+    if(hm){{
+        hm.innerText =
+            String(horas).padStart(2,"0") +
+            ":" +
+            String(mins).padStart(2,"0");
+    }}
+}}
 
 document.querySelectorAll(".edit-orh").forEach(function(celda){{
 
