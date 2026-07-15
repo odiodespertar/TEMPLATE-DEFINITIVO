@@ -1333,7 +1333,7 @@ USADAS
 <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">
 DELTA
 </th>
-
+</tr>
         </thead>
         <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
 <tfoot class="fila-total">
@@ -1674,16 +1674,9 @@ USADAS
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
-
-
-
         <tbody id="excel-polys-body">
 </tbody>
-
-
-
     </table>
-
 </div>
         
         
