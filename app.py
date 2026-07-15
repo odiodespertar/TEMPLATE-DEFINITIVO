@@ -1708,6 +1708,46 @@ USADAS
 
 
 
+    // Función para inyectar la columna de horas sin tocar el HTML base
+    function inyectarConversor() {{
+        // Buscamos todas las tablas o filas que tengan celdas .edit-orh
+        document.querySelectorAll('tr').forEach(tr => {{
+            let celdaOrh = tr.querySelector('.edit-orh');
+            // Si existe la celda pero aún no hemos inyectado el conversor
+            if (celdaOrh && !tr.querySelector('.orh-hm')) {{
+                let nuevaCelda = document.createElement('td');
+                nuevaCelda.className = 'orh-hm';
+                nuevaCelda.style.cssText = "text-align:center; border:0.2px solid #25282b; width:70px; background:#f7f7f7; color:#555; font-size:10px;";
+                nuevaCelda.innerText = "0h 0m";
+                celdaOrh.after(nuevaCelda);
+            }}
+        }});
+    }}
+
+    // Actualizador de horas
+    function convertirORH(input) {{
+        let mins = parseInt(input.innerText.replace(/[^0-9]/g, '')) || 0;
+        let h = Math.floor(mins / 60);
+        let m = mins % 60;
+        let fila = input.closest("tr");
+        let hm = fila.querySelector('.orh-hm');
+        if (hm) hm.innerText = h + "h " + m + "m";
+    }}
+
+    // Delegación: detecta cambios incluso después de usar botones de Excel
+    document.getElementById('visor').addEventListener('input', function(e) {{
+        if (e.target.classList.contains('edit-orh')) {{
+            convertirORH(e.target);
+        }}
+    }});
+
+    // Ejecutar al cargar y al cambiar de tab
+    document.getElementById('visor').addEventListener('DOMNodeInserted', inyectarConversor);
+    inyectarConversor();
+
+
+
+
 
 
     function aplicarPerfil() {{
