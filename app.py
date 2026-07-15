@@ -1813,15 +1813,11 @@ function toggleFleetFloating() {{
 
     // Esta función se activará cada vez que escribas en una celda edit-orh
     function convertirORH(td) {{
-        // 1. Limpiamos cualquier rastro de texto para quedarnos solo con el número
         let texto = td.innerText || "0";
         let numero = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
-        
-        // 2. Calculamos horas y minutos
         let h = Math.floor(numero / 60);
         let m = numero % 60;
         
-        // 3. Buscamos el pequeño span DENTRO de la celda donde escribimos
         let display = td.querySelector('.display-orh-hours');
         if (display) {{
             display.innerText = h + "h " + m + "m";
