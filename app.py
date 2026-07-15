@@ -1589,28 +1589,27 @@ USADAS
                box-shadow: none !important; 
                color: #ffffff !important; 
                border: 1px solid #4682B4; 
-           font-size: 11px; 
-           padding: 5px 0; 
-           border-radius: 3px; 
-           font-weight: bold; 
-           outline: none; 
-           width: 100%; 
-           margin-bottom: 15px;">
-    ❌ OCULTAR UTILERÍAS
+               font-size: 11px; 
+               padding: 5px 0; 
+               border-radius: 3px; 
+               font-weight: bold; 
+               outline: none; 
+               width: 100%; 
+               margin-bottom: 15px; 
+               display: none;"> ❌ OCULTAR UTILERÍAS
 </button>
 
 
 
      
-                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
-                <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
-                 </div>
-             </div>
-        </div>
-    </div>
+                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px; display: none;"> ⏱️ CONVERTIDOR DE TIEMPO
 </div>
+<input type="number" id="min-in" placeholder="Minutos" 
+       style="width:80px; text-align:center; display: none;" 
+       oninput="convertTime()"> <div style="margin-top:10px; display: none;"> <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
+</div>
+
+
 
 
 <!-- COLUMNA IZQUIERDA -->
