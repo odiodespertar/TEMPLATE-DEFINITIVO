@@ -1812,7 +1812,7 @@ function toggleFleetFloating() {{
 
 
     // Esta función se activará cada vez que escribas en una celda edit-orh
-    unction convertirORH(td) {{
+    function convertirORH(td) {{
         // 1. Limpiamos cualquier rastro de texto para quedarnos solo con el número
         let texto = td.innerText || "0";
         let numero = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
