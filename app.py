@@ -2870,6 +2870,17 @@ function generarExcelPolys() {{
             return u !== "" && u !== "Seleccionar...";
         }});
 
+
+        console.log(
+    "Plan:",
+    plan,
+    "| Filas calc:",
+    filasCalc.length,
+    "| Filas válidas:",
+    filasValidas.length
+);
+        
+
         if (filasValidas.length === 0) return;
 
         filasValidas.forEach((r, index) => {{
@@ -2903,7 +2914,7 @@ function generarExcelPolys() {{
                 filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
             }}
             filaHtml += '</tr>';
-            console.log(plan, unidad, asignadas);
+            console.log("Agregando fila:", filaHtml);
             body.insertAdjacentHTML("beforeend", filaHtml);
             console.log("Filas finales:", body.rows.length);
         }});
