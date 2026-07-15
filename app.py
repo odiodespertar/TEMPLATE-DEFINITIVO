@@ -1708,39 +1708,7 @@ USADAS
 
 
 
-    function inyectarConversorSeguro() {{
-        document.querySelectorAll('.edit-orh').forEach(td => {{
-            // Solo inyectamos si no tiene ya el span para evitar duplicados
-            if (!td.querySelector('.orh-hm-span')) {{
-                td.style.position = 'relative'; // Necesario para el posicionamiento absoluto
-                
-                let span = document.createElement('span');
-                span.className = 'orh-hm-span';
-                // Posición absoluta: flota encima, no ocupa espacio, NO rompe la tabla
-                span.style.cssText = "position:absolute; bottom:2px; right:2px; font-size:8px; color:#999; pointer-events:none; background:white; padding:0 2px; border:1px solid #eee;";
-                span.innerText = "0h 0m";
-                td.appendChild(span);
-            }}
-        }});
-    }}
-
-    // Delegado de eventos
-    document.getElementById('visor').addEventListener('input', function(e) {{
-        if (e.target.classList.contains('edit-orh')) {{
-            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
-            let h = Math.floor(mins / 60);
-            let m = mins % 60;
-            let span = e.target.querySelector('.orh-hm-span');
-            if (span) span.innerText = h + "h " + m + "m";
-        }}
-    }});
-
-    // Observador seguro que no bloquea la tabla
-    const obs = new MutationObserver(inyectarConversorSeguro);
-    obs.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
     
-    // Ejecutar al cargar
-    inyectarConversorSeguro();
 
 
 
@@ -1805,6 +1773,48 @@ USADAS
             }});
         }});
     }})();
+
+
+
+
+
+
+function inyectarConversorSeguro() {{
+        document.querySelectorAll('.edit-orh').forEach(td => {{
+            // Solo inyectamos si no tiene ya el span para evitar duplicados
+            if (!td.querySelector('.orh-hm-span')) {{
+                td.style.position = 'relative'; // Necesario para el posicionamiento absoluto
+                
+                let span = document.createElement('span');
+                span.className = 'orh-hm-span';
+                // Posición absoluta: flota encima, no ocupa espacio, NO rompe la tabla
+                span.style.cssText = "position:absolute; bottom:2px; right:2px; font-size:8px; color:#999; pointer-events:none; background:white; padding:0 2px; border:1px solid #eee;";
+                span.innerText = "0h 0m";
+                td.appendChild(span);
+            }}
+        }});
+    }}
+
+    // Delegado de eventos
+    document.getElementById('visor').addEventListener('input', function(e) {{
+        if (e.target.classList.contains('edit-orh')) {{
+            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
+            let h = Math.floor(mins / 60);
+            let m = mins % 60;
+            let span = e.target.querySelector('.orh-hm-span');
+            if (span) span.innerText = h + "h " + m + "m";
+        }}
+    }});
+
+    // Observador seguro que no bloquea la tabla
+    const obs = new MutationObserver(inyectarConversorSeguro);
+    obs.observe(document.getElementById('visor'), {{ childList: true, subtree: true }});
+    
+    // Ejecutar al cargar
+    inyectarConversorSeguro();
+
+
+
 
 
 
