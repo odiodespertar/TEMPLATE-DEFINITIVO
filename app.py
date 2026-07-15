@@ -211,6 +211,7 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-spr-min" style="display:none;">0</td>
                 <td class="edit-spr-max" style="display:none;">0</td>
                 <td class="edit-orh" style="display:none;">0</td>
+                <td class="h:m" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
