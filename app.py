@@ -2851,6 +2851,8 @@ function generarExcelPolys() {{
 
     body.innerHTML = "";
     let tabId = currentTab;
+    console.log("TAB:", tabId);
+    console.log(document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').length);
     document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
         let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
         let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
@@ -2875,8 +2877,10 @@ function generarExcelPolys() {{
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
             if (fRow) {{
-                let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
-                let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
+                let celdas = fRow.querySelectorAll('td');
+
+                let sMin = celdas[4]?.innerText.trim() || "0";
+                let sMax = celdas[5]?.innerText.trim() || "0";
                 valSpr = sMin + " / " + sMax;
             }}
 
