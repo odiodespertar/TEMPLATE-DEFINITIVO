@@ -200,7 +200,7 @@ def gen_master_rows(data_dict, table_id):
         # Caso A: Encabezado/Divisor
         if "---" in name:
             # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
-            colspan = 7 if mostrar_orh_ocup else 5
+            colspan = 8 if mostrar_orh_ocup else 5
 
             rows += f'''
             <tr class="es-divisor" style="background: #25282b !important; color: #25282b; height: 28px;">
@@ -224,19 +224,33 @@ def gen_master_rows(data_dict, table_id):
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                <td contenteditable="true"
+                    class="edit-orh"
+                    oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
                     0
                 </td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+
+                <td class="orh-hora"
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold;">
+                    00:00
+                </td>
+
+                <td contenteditable="true"
+                    class="edit-ocup"
+                    oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
                     0
                 </td>
                 '''
+
+
+                
             else:
                 # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
+                <td class="orh-hora" style="display:none;">00:00</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 '''
 
@@ -1310,6 +1324,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
@@ -1346,6 +1361,7 @@ DELTA
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
@@ -1376,6 +1392,7 @@ USADAS
     <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
+    <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
@@ -1418,6 +1435,7 @@ USADAS
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 <th style="
