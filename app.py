@@ -1717,7 +1717,7 @@ USADAS
             if (celdaOrh && !tr.querySelector('.orh-hm')) {{
                 let nuevaCelda = document.createElement('td');
                 nuevaCelda.className = 'orh-hm';
-                nuevaCelda.style.cssText = "text-align:center; border:0.2px solid #25282b; width:70px; background:#f7f7f7; color:#555; font-size:10px;";
+                nuevaCelda.style.cssText = "text-align:center; border:0.2px solid #25282b; width:45px; background:#f7f7f7; color:#555; font-size:10px;";
                 nuevaCelda.innerText = "0h 0m";
                 celdaOrh.after(nuevaCelda);
             }}
