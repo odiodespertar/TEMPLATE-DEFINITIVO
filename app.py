@@ -1324,7 +1324,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
-<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
 SCHEDULE
 </th>
 <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
@@ -1484,29 +1484,14 @@ USADAS
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:60px;">
-    SCHEDULE
-</th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:50px;">
-    DELTA
-</th>
-</tr>
-            
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
             </tr>
         </thead>
+        
         <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
        <tfoot class="fila-total">
 <tr class="fila-total">
