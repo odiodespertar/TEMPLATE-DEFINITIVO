@@ -2911,8 +2911,18 @@ function generarExcelPolys() {{
             
         if (fRow) {{
 
+
+            console.log("Unidad:", unidad);
+            console.log("Fila:", fRow);
+
+            console.log("ORH:", fRow.querySelector(".edit-orh"));
+            console.log("OCUP:", fRow.querySelector(".edit-ocup"));
+
             let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
             let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
+
+            console.log("Valores:", orh, ocup);
+
 
             // ESTA ES LA QUE DEBE APARECER EN LA VISTA EXCEL
             valSpr = orh + " / " + ocup;
