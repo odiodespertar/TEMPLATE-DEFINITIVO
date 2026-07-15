@@ -2916,7 +2916,8 @@ function generarExcelPolys() {{
             filaHtml += '</tr>';
             console.log("Agregando fila:", filaHtml);
             body.insertAdjacentHTML("beforeend", filaHtml);
-            console.log("Filas finales:", body.rows.length);
+            console.log("HTML del tbody:");
+            console.log(body.innerHTML);
         }});
     }});
 
