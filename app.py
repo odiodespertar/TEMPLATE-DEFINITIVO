@@ -222,13 +222,11 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
-            # ESTO ES COMO DEBÍA ESTAR ORIGINALMENTE
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
                     0
-                    <div class="display-orh-hours" style="font-size:9px; color:#888; pointer-events:none; margin-top:2px;">0h 0m</div>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
@@ -1367,8 +1365,6 @@ USADAS
     </tr>
 </tfoot>
     </table>
-<div id="visor-horas" style="margin-top: 10px; font-weight: bold; color: #808080;">
-    Tiempo ORH seleccionado: 0h 0m
 </div>
 
 
@@ -1773,28 +1769,6 @@ USADAS
             }});
         }});
     }})();
-
-
-
-    function convertirORH(td) {{
-        // 1. Limpiamos el texto para obtener solo el número de minutos
-        let texto = td.innerText || "0";
-        // Convertimos a número, ignorando cualquier texto extra
-        const minutos = parseInt(texto.replace(/[^0-9]/g, '')) || 0;
-        
-        // 2. Calculamos horas y minutos
-        const h = Math.floor(minutos / 60);
-        const m = minutos % 60;
-        
-        // 3. Buscamos el pequeño span dentro de esa celda para mostrar el resultado
-        const display = td.querySelector('.display-orh-hours');
-        if (display) {{
-            display.innerText = h + "h " + m + "m";
-        }}
-    }}
-
-
-
 
 
 
