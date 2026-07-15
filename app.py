@@ -2840,7 +2840,7 @@ function generarExcelPolys() {{
             if (fRow) {{
                 let sMin = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[1]?.innerText.trim() || "0";
                 let sMax = fRows[fRows.indexOf(fRow)].querySelectorAll('td')[2]?.innerText.trim() || "0";
-                valSpr = sMin + " / " + sMax;
+                valSpr = sMin + " / " + sMax; 
             }}
 
             let filaHtml = '<tr>';
