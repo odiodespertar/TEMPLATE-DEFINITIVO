@@ -224,9 +224,12 @@ def gen_master_rows(data_dict, table_id):
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
-                    0
+                <td style="text-align:center; border:0.2px solid #25282b; background:#ffffff;">
+                    <input type="number" class="edit-orh" value="0" oninput="recalc(); convertirORH(this)" 
+                           style="width:45px; border:none; text-align:center; color:#25282b;">
+        
+                    <input type="text" class="display-orh-hours" readonly 
+                           style="width:50px; border:none; background:transparent; color:#888; font-size:10px; text-align:center;">
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
