@@ -225,9 +225,10 @@ def gen_master_rows(data_dict, table_id):
             # RESTAURACIÓN: Así es como el código no rompe las tablas
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
+                    style="position: relative; text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b; font-weight:bold;">
                     0
+                    <div class="display-orh-hours" style="position: absolute; left:0; right:0; bottom:-12px; font-size:9px; color:#888; pointer-events:none; background:white; z-index:10;">0h 0m</div>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
