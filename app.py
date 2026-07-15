@@ -2002,6 +2002,20 @@ function actualizarHoraMinuto(celda){{
 }}
 
 
+document.querySelectorAll(".edit-orh").forEach(function(celda){{
+
+    actualizarHoraMinuto(celda);
+
+    celda.addEventListener("input", function(){{
+
+        actualizarHoraMinuto(this);
+
+    }});
+
+}});
+
+
+
 
 function actualizarDosPorciento() {{
 
