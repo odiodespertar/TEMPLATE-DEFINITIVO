@@ -600,6 +600,12 @@ def gen_poligonos(data_target=None):
                     
                 </tbody>
             </table>
+
+                <div id="visor-horas" style="margin-top:10px; padding:8px; background:#25282b; color:#aaa; font-size:12px; border:1px solid #444; border-radius:4px; text-align:center;">
+                    Selecciona ORH para ver conversión
+                </div>
+
+            
         </div>'''
     return polys
 
@@ -2703,6 +2709,16 @@ function resetRow(sel) {{
         }}
     }}
 
+
+    document.addEventListener('input', function(e) {{
+        // Solo actúa si el elemento editado es un ORH (ajusta la clase si tu clase es otra)
+        if (e.target.classList.contains('edit-orh')) {{
+            let mins = parseInt(e.target.innerText.replace(/[^0-9]/g, '')) || 0;
+            let h = Math.floor(mins / 60);
+            let m = mins % 60;
+            document.getElementById('visor-horas').innerText = "Conversión: " + h + "h " + m + "m";
+        }}
+    }});
 
 
 
