@@ -222,12 +222,12 @@ def gen_master_rows(data_dict, table_id):
 
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
+            # ESTO ES COMO DEBÍA ESTAR ORIGINALMENTE
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b; font-weight:bold;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b;">
                     0
-                    <span class="display-orh-hours" style="display:block; font-size:9px; color:#888; pointer-events:none;">0h 0m</span>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
