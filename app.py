@@ -1569,18 +1569,7 @@ USADAS
 
 
         
-        <!-- COLUMNA DERECHA: PANEL DE HERRAMIENTAS REORDENADO --> 
-        <div class="tools-panel">
-            
         
-            <!-- 3. CONVERTIDOR (Ahora al final) -->
-            <div class="google-tool" style="
-                /* Mantén tus propiedades de espacio o fondo aquí, PERO agrega esto: */
-    border: none !important;      /* <--- QUITA EL BORDE */
-    box-shadow: none !important;  /* <--- QUITA LA SOMBRA/BRILLO */
-    background: transparent;      /* <--- O EL COLOR QUE TENGAS, PERO SIN GRADIENTES */
-    border-radius: 7px;
-            ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
         style="display: none !important; 
