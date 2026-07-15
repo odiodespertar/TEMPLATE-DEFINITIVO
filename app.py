@@ -2785,6 +2785,9 @@ function toggleExcelView() {{
         generarExcelPolys();
         btn.innerHTML = "🔙 VISTA NORMAL";
         if(excel) excel.style.display = "block";
+
+console.log(document.getElementById("excel-polys"));
+console.log(document.getElementById("excel-polys-body"));
         
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
             let el = document.getElementById(id);
