@@ -1712,32 +1712,34 @@ USADAS
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
-    function actualizarHoraMinuto(celda){{
+    function actualizarHoraMinuto(celda) {{
+        let minutos = parseInt(celda.innerText.replace(/[^0-9]/g, '')) || 0;
+        let horas = Math.floor(minutos / 60);
+        let mins = minutos % 60;
 
-    let minutos = parseInt(celda.innerText);
+        let fila = celda.closest("tr");
+        if (fila) {{
+            let hm = fila.querySelector(".orh-hm");
+            if (hm) {{
+                hm.innerText = horas + "h " + mins + "m";
+            }}
+        }}
+    }}
 
-    if(isNaN(minutos))
-        minutos = 0;
+    // Observador: Ejecuta la conversión cada vez que detecta cambios en la tabla
+    const observer = new MutationObserver(() => {{
+        document.querySelectorAll(".edit-orh").forEach(function(celda) {{
+            actualizarHoraMinuto(celda);
+        }});
+    }});
 
-    let horas = Math.floor(minutos/60);
-
-    let mins = minutos % 60;
-
-    let fila = celda.closest("tr");
-
-    let hm = fila.querySelector(".orh-hm");
-
-    if(hm)
-        hm.innerText = horas + "h " + mins + "m";
-}}
+    // Inicia la observación en el elemento que contiene las tablas (ej: el ID 'visor')
+    const contenedor = document.getElementById('visor');
+    if (contenedor) {{
+        observer.observe(contenedor, {{ childList: true, subtree: true }});
+    }}
 
 
-
-    document.querySelectorAll(".edit-orh").forEach(function(celda){{
-
-    actualizarHoraMinuto(celda);
-
-}});
 
 
     function aplicarPerfil() {{
