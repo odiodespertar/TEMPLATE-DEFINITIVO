@@ -179,7 +179,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
-    mostrar_orh_ocup = (table_id in [1, 2, 6, 4])
+    mostrar_orh_ocup = (table_id in [1, 2, 6])
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -211,7 +211,6 @@ def gen_master_rows(data_dict, table_id):
                 <td class="edit-spr-min" style="display:none;">0</td>
                 <td class="edit-spr-max" style="display:none;">0</td>
                 <td class="edit-orh" style="display:none;">0</td>
-                <td class="h:m" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 <td class="f-stock" style="display:none;">0</td>
                 <td class="f-left" style="display:none;">0</td>
@@ -225,28 +224,14 @@ def gen_master_rows(data_dict, table_id):
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td contenteditable="true"
-                    class="edit-orh"
-                    oninput="actualizarHoraMinuto(this); recalc();"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
-                    0
-                </td>
-
-                <td class="orh-hm"
-                    style="text-align:center; border:0.2px solid #25282b; width:82px; min-width:82px; white-space:nowrap; background:#f7f7f7; color:#25282b;">
-                    0h 0m
-                </td>
-
-                <td contenteditable="true"
-                    class="edit-ocup"
-                    oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
-                    0
-                </td>
+                <td contenteditable="true" class="edit-orh" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td>
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
+                    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>
                 '''
             else:
-                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
-                celdas_orh_ocup = '''
+    # Si no es la tabla correcta, no generamos nada. ¡Cero celdas!
+                celdas_orh_ocup = ""
                 <td class="edit-orh" style="display:none;">0</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 '''
@@ -286,7 +271,6 @@ def gen_master_rows(data_dict, table_id):
                 </td>
             </tr>'''
     return rows
-
 
 
 
