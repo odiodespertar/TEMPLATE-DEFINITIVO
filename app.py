@@ -1980,25 +1980,36 @@ if (delta > 0 && left <= 0 && esFlexible) {{
 
 function actualizarHoraMinuto(celda){{
 
-    let orh = parseFloat(celda.innerText.replace(",", "."));
+    if(!celda) return;
+
+    // Lee el valor escrito en ORH
+    let valor = celda.innerText.trim().replace(",", ".");
+
+    let orh = parseFloat(valor);
 
     if(isNaN(orh))
         orh = 0;
 
+    // Convierte horas decimales a minutos
     let minutosTotales = Math.round(orh * 60);
 
     let horas = Math.floor(minutosTotales / 60);
-    let mins = minutosTotales % 60;
+    let minutos = minutosTotales % 60;
 
+    // Busca la celda donde se mostrará la hora
     let fila = celda.closest("tr");
 
-    let hm = fila.querySelector(".orh-hora");
+    if(!fila) return;
 
-    if(hm)
-        hm.innerText =
+    let hora = fila.querySelector(".orh-hora");
+
+    if(hora){{
+        hora.innerText =
             String(horas).padStart(2,"0") +
             ":" +
-            String(mins).padStart(2,"0");
+            String(minutos).padStart(2,"0");
+    }}
+
 }}
 
 
