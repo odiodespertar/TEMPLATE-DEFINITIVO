@@ -1583,7 +1583,7 @@ USADAS
             ">
             
                 <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="cursor:pointer; 
+        style="display: none !important; 
                background:#25282b !important; 
                background-image: none !important; 
                box-shadow: none !important; 
