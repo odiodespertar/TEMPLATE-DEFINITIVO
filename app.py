@@ -1978,6 +1978,28 @@ if (delta > 0 && left <= 0 && esFlexible) {{
 
 
 
+function actualizarHoraMinuto(celda){{
+
+    let orh = parseFloat(celda.innerText.replace(",", "."));
+
+    if(isNaN(orh))
+        orh = 0;
+
+    let minutosTotales = Math.round(orh * 60);
+
+    let horas = Math.floor(minutosTotales / 60);
+    let mins = minutosTotales % 60;
+
+    let fila = celda.closest("tr");
+
+    let hm = fila.querySelector(".orh-hora");
+
+    if(hm)
+        hm.innerText =
+            String(horas).padStart(2,"0") +
+            ":" +
+            String(mins).padStart(2,"0");
+}}
 
 
 
