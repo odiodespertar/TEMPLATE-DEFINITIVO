@@ -223,12 +223,11 @@ def gen_master_rows(data_dict, table_id):
             # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
-                celdas_orh_ocup = f'''
-                <td contenteditable="true" class="edit-orh" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td>
-                <td contenteditable="true" class="edit-ocup" oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>
-                '''
+                # Asegúrate de que el f''' empiece limpio
+celdas_orh_ocup = f'''<td contenteditable="true" class="edit-orh" oninput="recalc()" 
+    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td>
+<td contenteditable="true" class="edit-ocup" oninput="recalc()" 
+    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">0</td>'''
             else:
     # Si no es la tabla correcta, no generamos nada. ¡Cero celdas!
                 celdas_orh_ocup = ""
