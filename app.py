@@ -1772,21 +1772,24 @@ USADAS
     }})();
 
 
-function convertirORH(td) {{
-        // Obtenemos solo el número, ignorando el texto de "0h 0m" que está en el span
-        let textoCompleto = td.innerText;
-        let numeroSolo = textoCompleto.split('\n')[0]; // Toma solo la primera línea (el número)
-        const minsTotal = parseInt(numeroSolo) || 0;
+<script>
+    function convertirORH(td) {{
+        // Obtenemos el texto y nos quedamos solo con los números (por si hay etiquetas HTML)
+        let texto = td.innerText || "0";
+        // Eliminamos todo lo que no sea número (incluyendo el texto "0h 0m" que pueda haber quedado)
+        let numeros = texto.replace(/[^0-9]/g, ''); 
+        const minutos = parseInt(numeros) || 0;
         
-        const h = Math.floor(minsTotal / 60);
-        const m = minsTotal % 60;
+        const horas = Math.floor(minutos / 60);
+        const mins = minutos % 60;
         
-        // Buscamos el span dentro de la celda
+        // Buscamos el span dentro de esa celda específica
         const display = td.querySelector('.display-orh-hours');
         if (display) {{
-            display.innerText = h + "h " + m + "m";
+            display.innerText = horas + "h " + mins + "m";
         }}
     }}
+
 
 
 
