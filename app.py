@@ -1629,7 +1629,7 @@ USADAS
     border-radius: 6px; 
     text-align: center; 
     font-weight: bold; 
-    margin-bottom: 10px;">
+    margin-bottom: 50px !important;">
     📋 PLANIFICACIÓN POR POLÍGONOS
 </div>
         
