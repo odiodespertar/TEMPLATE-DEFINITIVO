@@ -1773,19 +1773,18 @@ USADAS
 
 
 function convertirORH(td) {{
-        // Obtenemos el texto que escribió el usuario (los minutos)
-        // Usamos innerText y quitamos cualquier resto de texto que no sea número
-        let texto = td.innerText || "0";
-        let soloNumeros = texto.replace(/[^0-9]/g, '');
-        const minutos = parseInt(soloNumeros) || 0;
+        // Obtenemos solo el número, ignorando el texto de "0h 0m" que está en el span
+        let textoCompleto = td.innerText;
+        let numeroSolo = textoCompleto.split('\n')[0]; // Toma solo la primera línea (el número)
+        const minsTotal = parseInt(numeroSolo) || 0;
         
-        const horas = Math.floor(minutos / 60);
-        const mins = minutos % 60;
+        const h = Math.floor(minsTotal / 60);
+        const m = minsTotal % 60;
         
-        // Buscamos el div de las horas dentro de esta misma celda
+        // Buscamos el span dentro de la celda
         const display = td.querySelector('.display-orh-hours');
         if (display) {{
-            display.innerText = horas + "h " + mins + "m";
+            display.innerText = h + "h " + m + "m";
         }}
     }}
 
