@@ -1324,7 +1324,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">H:M</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
@@ -1361,7 +1361,7 @@ DELTA
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">H:M</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
@@ -1392,7 +1392,7 @@ USADAS
     <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">ORH</th>
-    <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
+    <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">H:M</th>
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 70px;">OCUPACIÓN</th>
 
     <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
@@ -1435,7 +1435,7 @@ USADAS
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
                 <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">HORA</th>
+                <th style=" border-right:0.5px solid #25282b; padding:2px; font-size:11px; width:60px;">H:M</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MIN</th>
                 <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR MAX</th>
 <th style="
