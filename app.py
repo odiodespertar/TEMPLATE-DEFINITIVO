@@ -224,12 +224,10 @@ def gen_master_rows(data_dict, table_id):
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
-                <td style="text-align:center; border:0.2px solid #25282b; background:#ffffff;">
-                    <input type="number" class="edit-orh" value="0" oninput="recalc(); convertirORH(this)" 
-                           style="width:45px; border:none; text-align:center; color:#25282b;">
-        
-                    <input type="text" class="display-orh-hours" readonly 
-                           style="width:50px; border:none; background:transparent; color:#888; font-size:10px; text-align:center;">
+                <td contenteditable="true" class="edit-orh" oninput="recalc(); convertirORH(this)"
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#ffffff; color:#25282b; font-weight:bold;">
+                    0
+                    <div class="display-orh-hours" style="font-size:9px; color:#888; font-weight:normal;">0h 0m</div>
                 </td>
                 <td contenteditable="true" class="edit-ocup" oninput="recalc()"
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
@@ -1772,6 +1770,24 @@ USADAS
             }});
         }});
     }})();
+
+
+function convertirORH(td) {{
+        // Obtenemos el texto que escribió el usuario (los minutos)
+        // Usamos innerText y quitamos cualquier resto de texto que no sea número
+        let texto = td.innerText || "0";
+        let soloNumeros = texto.replace(/[^0-9]/g, '');
+        const minutos = parseInt(soloNumeros) || 0;
+        
+        const horas = Math.floor(minutos / 60);
+        const mins = minutos % 60;
+        
+        // Buscamos el div de las horas dentro de esta misma celda
+        const display = td.querySelector('.display-orh-hours');
+        if (display) {{
+            display.innerText = horas + "h " + mins + "m";
+        }}
+    }}
 
 
 
