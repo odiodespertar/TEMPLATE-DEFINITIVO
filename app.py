@@ -232,7 +232,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="orh-hm"
-                    style="text-align:center; border:0.2px solid #25282b; width:58px; background:#f7f7f7; color:#25282b;">
+                    style="text-align:center; border:0.2px solid #25282b; width:82px; min-width:82px; white-space:nowrap; background:#f7f7f7; color:#25282b;">
                     0h 0m
                 </td>
 
