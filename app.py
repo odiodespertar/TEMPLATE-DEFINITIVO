@@ -2907,16 +2907,15 @@ function generarExcelPolys() {{
             let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
-            if (fRow) {{
+
+            
+        if (fRow) {{
 
             let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
             let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
 
-            let sMin = fRow.querySelector(".edit-spr-min")?.innerText.trim() || "0";
-            let sMax = fRow.querySelector(".edit-spr-max")?.innerText.trim() || "0";
-
-            // lo que ya usabas
-            valSpr = sMin + " / " + sMax;
+            // ESTA ES LA QUE DEBE APARECER EN LA VISTA EXCEL
+            valSpr = orh + " / " + ocup;
 
         }}
 
