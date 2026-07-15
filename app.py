@@ -1713,31 +1713,32 @@ USADAS
 
 
     function actualizarHoraMinuto(celda) {{
+        // Validación: Si la celda no existe o no tiene 'tr', salir inmediatamente
+        if (!celda) return;
+        
+        let fila = celda.closest("tr");
+        if (!fila) return;
+
         let minutos = parseInt(celda.innerText.replace(/[^0-9]/g, '')) || 0;
         let horas = Math.floor(minutos / 60);
         let mins = minutos % 60;
 
-        let fila = celda.closest("tr");
-        if (fila) {{
-            let hm = fila.querySelector(".orh-hm");
-            if (hm) {{
-                hm.innerText = horas + "h " + mins + "m";
-            }}
+        let hm = fila.querySelector(".orh-hm");
+        
+        // Solo intentamos escribir si encontramos la celda
+        if (hm) {{
+            hm.innerText = horas + "h " + mins + "m";
         }}
     }}
 
-    // Observador: Ejecuta la conversión cada vez que detecta cambios en la tabla
-    const observer = new MutationObserver(() => {{
-        document.querySelectorAll(".edit-orh").forEach(function(celda) {{
-            actualizarHoraMinuto(celda);
-        }});
+    // Delegado de eventos: Escucha clicks y cambios en el visor
+    document.getElementById('visor').addEventListener('input', function(e) {{
+        if (e.target.classList.contains('edit-orh')) {{
+            actualizarHoraMinuto(e.target);
+        }}
     }});
 
-    // Inicia la observación en el elemento que contiene las tablas (ej: el ID 'visor')
-    const contenedor = document.getElementById('visor');
-    if (contenedor) {{
-        observer.observe(contenedor, {{ childList: true, subtree: true }});
-    }}
+
 
 
 
