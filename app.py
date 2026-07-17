@@ -205,7 +205,7 @@ def gen_master_rows(data_dict, table_id):
             colspan = 8 if mostrar_orh_ocup else 5
 
             rows += f'''
-            <tr class="es-divisor" style="background: #dcdcdc !important; color: #25282b; height: 28px;">
+            <tr class="es-divisor" style="background: #25282b !important; color: #25282b; height: 28px;">
                 <td colspan="{colspan}" style="text-align: center; font-weight: bold; font-size: 13px; letter-spacing: 3px; border: none; pointer-events: none;"> 
                     {name}
                 </td>
