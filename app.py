@@ -2837,7 +2837,7 @@ function toggleExcelView() {{
             bPaquetes.style.display = estadoPaquetesAntesDeExcel; // 🔥 Devuelve su estado correcto en Vista Normal
         }}
         
-        btn.innerHTML = "📸 VISTA EXCEL";
+        btn.innerHTML = "📂";
         if(excel) excel.style.display = "none";
         
         // Restaurar bloques de pestañas
