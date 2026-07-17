@@ -1304,7 +1304,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         border:none;
         font-size:12px;
         padding:6px 12px;
-        border-radius:2px;
+        border-radius:4px;
         font-weight:bold;
         box-shadow:0 3px 0 #1c6d1c;
         transition:all 0.05s;
