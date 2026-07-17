@@ -235,8 +235,9 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold; display: flex; align-items: center; justify-content: center; gap: 2px; box-sizing: border-box;">
-                    <span>00:00</span><small style="font-size: 10px; color: #777; font-weight: normal;">hrs</small>
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold; display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0 2px;">
+                    <span style="font-size: 13px; color: #25282b;">00:00</span>
+                    <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
                 </td>
 
                 <td contenteditable="true"
