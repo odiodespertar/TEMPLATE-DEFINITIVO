@@ -2820,7 +2820,7 @@ function toggleExcelView() {{
         }}
         
         generarExcelPolys();
-        btn.innerHTML = "⬅️";
+        btn.innerHTML = "N";
         if(excel) excel.style.display = "block";
         
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
