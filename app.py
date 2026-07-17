@@ -1149,7 +1149,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
                 <li>🟢 Local ➤ <b>Rentals Electric = meto todas</b></li> 
                 <li>🟢 Local ➤ <b>Si meto 3.5, delivery y H&B, quito 2)</b></li>
                 <li>🟢 Local ➤ <b>Si meto 3.5 y delivery, quito 1)</b></li>
-                <li>🟢 Local ➤ <b>Truck 3.5 MLP (2 paradas), H&B (bulk), Delivery Large van (3 paradas)</b>, MLP y crowd.</li>
+                <li>🟢 Local ➤ <b>Truck 3.5 MLP (dedicada=2 paradas), H&B (bulk=híbrida), Delivery Large van (dedicada=3 paradas)</b>, MLP y crowd.</li>
                 <li>🟣 Planes foráneos ➤ MLP (nodo=híbrida) ➡️ Solo Xico/Tuzamapa ➤ MLP y Crowd.</li>
                 <li>🔵 EJA1-SP ➤ Media milla-ruteo fake.</li>
                 <li>🟤 Alchichica ND-AM0 ➤ 2 unidades Small Van MLP/330 min = 65 ids.</li>
