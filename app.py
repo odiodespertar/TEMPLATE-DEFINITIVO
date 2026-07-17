@@ -2011,10 +2011,12 @@ function actualizarHoraMinuto(celda){{
 
     if(hm){{
         let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
-        // 🔥 Reemplazamos por un diseño tipo Badge estilizado
+        // 🔥 Metemos el flex dentro de un div interno para eliminar el doble borde
         hm.innerHTML = `
-            <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
-            <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+                <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
+                <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
+            </div>
         `;
     }}
 }}
