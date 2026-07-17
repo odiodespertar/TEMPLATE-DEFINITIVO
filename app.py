@@ -1992,12 +1992,15 @@ function actualizarHoraMinuto(celda){{
 
     let minutosTotales;
 
+    // Si tiene decimal, se interpreta como HORAS
     if(valor.includes(".")){{
         minutosTotales = Math.round(numero * 60);
     }}
+    // Si es entero grande (ej. 145), se interpreta como MINUTOS
     else if(numero >= 24){{
         minutosTotales = Math.round(numero);
     }}
+    // Si es entero pequeño (ej. 2), se interpreta como HORAS
     else{{
         minutosTotales = Math.round(numero * 60);
     }}
@@ -2009,14 +2012,10 @@ function actualizarHoraMinuto(celda){{
     let hm = fila.querySelector(".orh-hora");
 
     if(hm){{
-        let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
-        // 🔥 Cambiamos el color de la hora a un tono naranja llamativo (#d97706)
-        hm.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box; padding: 0 4px;">
-                <span style="font-size: 13px; color: #d97706; font-weight: bold;">${{horaFormateada}}</span>
-                <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">⏰</span>
-            </div>
-        `;
+        hm.innerText =
+            String(horas).padStart(2,"0") +
+            ":" +
+            String(mins).padStart(2,"0");
     }}
 }}
 
