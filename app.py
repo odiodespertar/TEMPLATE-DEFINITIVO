@@ -1320,8 +1320,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     onmouseleave="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';">
     
     <!-- IMAGEN DEL LOGO EXCEL INCRUSTADA -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg" 
-         style="width:16px; height:16px; vertical-align:middle;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" 
+     style="width:16px; height:16px; display:inline-block; vertical-align:middle; pointer-events:none;">
     
     <span>VISTA EXCEL</span>
 </button>
