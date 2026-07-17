@@ -1324,7 +1324,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
          style="width:16px; height:16px; vertical-align:middle;">
     
     <span>VISTA EXCEL</span>
-</button>
+</button> 
 
 
         </div>
