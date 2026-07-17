@@ -235,8 +235,8 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#1a1b1c; font-weight:bold;">
-                    00:00 hs
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold; display: flex; align-items: center; justify-content: center; gap: 2px; box-sizing: border-box;">
+                    <span>00:00</span><small style="font-size: 10px; color: #777; font-weight: normal;">hrs</small>
                 </td>
 
                 <td contenteditable="true"
@@ -1992,15 +1992,12 @@ function actualizarHoraMinuto(celda){{
 
     let minutosTotales;
 
-    // Si tiene decimal, se interpreta como HORAS
     if(valor.includes(".")){{
         minutosTotales = Math.round(numero * 60);
     }}
-    // Si es entero grande (ej. 145), se interpreta como MINUTOS
     else if(numero >= 24){{
         minutosTotales = Math.round(numero);
     }}
-    // Si es entero pequeño (ej. 2), se interpreta como HORAS
     else{{
         minutosTotales = Math.round(numero * 60);
     }}
@@ -2012,12 +2009,12 @@ function actualizarHoraMinuto(celda){{
     let hm = fila.querySelector(".orh-hora");
 
     if(hm){{
-        hm.innerText =
-            String(horas).padStart(2,"0") +
-            ":" +
-            String(mins).padStart(2,"0");
+        // 🔥 Estructura flex interna para asegurar que todo quede en una sola línea limpia
+        let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
+        hm.innerHTML = `<span>${{horaFormateada}}</span><small style="font-size: 10px; color: #777; margin-left: 2px; font-weight: normal;">hrs</small>`;
     }}
 }}
+
 
 document.querySelectorAll(".edit-orh").forEach(function(celda){{
 
