@@ -230,12 +230,12 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true"
                     class="edit-orh"
                     oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#6495ED;">
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#808080;">
                     0
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#6495ED; font-weight:bold;">
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#808080; font-weight:bold;">
                     00:00 hs
                 </td>
 
@@ -2013,7 +2013,7 @@ function actualizarHoraMinuto(celda){{
 
     if(hm){{
         // 🔥 CAMBIO DE COLOR AQUÍ: Forzamos el color naranja/café llamativo (#d97706) en el texto nativo
-        hm.style.color = "#6495ED";
+        hm.style.color = "#808080";
         
         hm.innerText =
             String(horas).padStart(2,"0") +
