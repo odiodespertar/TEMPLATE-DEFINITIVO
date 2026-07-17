@@ -234,7 +234,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold;">
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#1a1b1c; font-weight:bold;">
                     00:00 hs
                 </td>
 
@@ -252,7 +252,7 @@ def gen_master_rows(data_dict, table_id):
                 # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
-                <td class="orh-hora" style="display:none;">00:00</td>
+                <td class="orh-hora" style="display:none;">00:00 hs</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 '''
 
