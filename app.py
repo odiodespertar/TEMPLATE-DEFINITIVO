@@ -238,7 +238,7 @@ def gen_master_rows(data_dict, table_id):
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#f5f5f5; color:#25282b; font-weight:bold; padding: 0;">
                     <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box; padding: 0 4px;">
                         <span style="font-size: 13px; color: #25282b;">00:00</span>
-                        <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">⏱️</span>
+                        <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">🕑</span>
                     </div>
                 </td>
 
@@ -1602,7 +1602,7 @@ USADAS
 
 
                 <!--
-                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
+                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">🕑 CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
                     <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
@@ -2017,7 +2017,7 @@ function actualizarHoraMinuto(celda){{
         hm.innerHTML = `
             <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box; padding: 0 4px;">
                 <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
-                <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">⏱️</span>
+                <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">🕑</span>
             </div>
         `;
     }}
