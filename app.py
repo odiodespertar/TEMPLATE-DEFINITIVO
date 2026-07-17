@@ -130,7 +130,8 @@ u_C1_SJA1 = {
     "Moto 3h": [30, 30],
     "Small Van 9h": [70, 70],
     "Small Van 9h Ext": [70, 70],
-    "Small Van Newbie": [70, 70]
+    "Small Van Newbie": [70, 70],
+    "Media Milla SP": [1, 1]
 }
 
 NOMBRES_PLANES_C1_SJA1 = [
