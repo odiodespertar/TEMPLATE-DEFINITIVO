@@ -1310,7 +1310,14 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         transition:all 0.05s;
         outline:none;
         display: inline-block; /* Controlado dinámicamente */
-    ">
+        
+        /* 🔥 ESTO LO MUEVE UN POCO MÁS ARRIBA */
+        transform: translateY(-4px);
+        position: relative;
+    "
+    onmousedown="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 1px 0 #1c6d1c';"
+    onmouseup="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';"
+    onmouseleave="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';">
     📂
 </button>
 
