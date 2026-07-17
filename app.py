@@ -2009,9 +2009,12 @@ function actualizarHoraMinuto(celda){{
     let hm = fila.querySelector(".orh-hora");
 
     if(hm){{
-        // 🔥 Estructura flex interna para asegurar que todo quede en una sola línea limpia
         let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
-        hm.innerHTML = `<span>${{horaFormateada}}</span><small style="font-size: 10px; color: #777; margin-left: 2px; font-weight: normal;">hrs</small>`;
+        // 🔥 Reemplazamos por un diseño tipo Badge estilizado
+        hm.innerHTML = `
+            <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
+            <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
+        `;
     }}
 }}
 
