@@ -1677,7 +1677,7 @@ USADAS
     <th style="border:1px solid #c0c0c0;">VOL</th>
     <th style="border:1px solid #c0c0c0;">UNIDAD</th>
     <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">ORH/%OCUP</th>
+    <th style="border:1px solid #c0c0c0;">ORH / % OCUP</th>
     <th style="border:1px solid #c0c0c0;">NODO</th>
 </tr>
 </thead>
