@@ -2007,7 +2007,7 @@ function actualizarHoraMinuto(celda){{
         hm.innerText =
             String(horas).padStart(2,"0") +
             ":" +
-            String(mins).padStart(2,"0");
+            String(mins).padStart(2,"0") + " hs";
     }}
 }}
 
