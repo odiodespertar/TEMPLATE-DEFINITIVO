@@ -1303,13 +1303,13 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         color:white;
         border:none;
         font-size:12px;
-        padding:4px 10px; /* Ajustado para que el logo quepa bien */
+        padding:4px 10px;
         border-radius:4px;
         font-weight:bold;
         box-shadow:0 3px 0 #1c6d1c;
         transition:all 0.05s;
         outline:none;
-        display: inline-flex; /* Cambiado a flex para alinear imagen y texto */
+        display: inline-flex;
         align-items: center;
         gap: 6px;
         transform: translateY(-6px);
@@ -1319,9 +1319,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     onmouseup="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';"
     onmouseleave="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';">
     
-    <!-- IMAGEN DEL LOGO EXCEL INCRUSTADA -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" 
-     style="width:16px; height:16px; display:inline-block; vertical-align:middle; pointer-events:none;">
+    <!-- Este símbolo es un carácter Unicode que parece un icono de Excel -->
+    <span style="font-size: 16px;">📊</span>
     
     <span>VISTA EXCEL</span>
 </button>
