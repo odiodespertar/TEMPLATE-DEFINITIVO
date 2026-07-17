@@ -1303,15 +1303,15 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         color:white;
         border:none;
         font-size:12px;
-        padding:6px 12px;
-        border-radius:4px;
+        padding:5px 10px;
+        border-radius:2px;
         font-weight:bold;
         box-shadow:0 3px 0 #1c6d1c;
         transition:all 0.05s;
         outline:none;
         display: inline-block; /* Controlado dinámicamente */
     ">
-    📸 VISTA EXCEL
+    📸EXCEL
 </button>
 
 
