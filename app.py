@@ -230,12 +230,12 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true"
                     class="edit-orh"
                     oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#d97706;">
                     0
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#1a1b1c; font-weight:bold;">
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#d97706; font-weight:bold;">
                     00:00 hs
                 </td>
 
