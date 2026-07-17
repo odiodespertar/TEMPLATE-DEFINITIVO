@@ -1852,7 +1852,7 @@ function showTab(n, btn) {{
             
             // Cambiamos el texto del botón a su estado original
             let bExcel = document.getElementById("excel-btn");
-            if (bExcel) bExcel.innerHTML = "📸 VISTA EXCEL";
+            if (bExcel) bExcel.innerHTML = "📂";
             
             // Ocultamos el bloque de la tabla espejo de Excel
             let excelPanel = document.getElementById("excel-polys");
@@ -2817,7 +2817,7 @@ function toggleExcelView() {{
         }}
         
         generarExcelPolys();
-        btn.innerHTML = "🔙 VISTA NORMAL";
+        btn.innerHTML = "NORMAL";
         if(excel) excel.style.display = "block";
         
         ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
