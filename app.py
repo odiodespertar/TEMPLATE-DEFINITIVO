@@ -2012,6 +2012,9 @@ function actualizarHoraMinuto(celda){{
     let hm = fila.querySelector(".orh-hora");
 
     if(hm){{
+        // 🔥 CAMBIO DE COLOR AQUÍ: Forzamos el color naranja/café llamativo (#d97706) en el texto nativo
+        hm.style.color = "#d97706";
+        
         hm.innerText =
             String(horas).padStart(2,"0") +
             ":" +
