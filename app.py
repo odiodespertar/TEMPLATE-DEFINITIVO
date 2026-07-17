@@ -1311,7 +1311,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         outline:none;
         display: inline-block; /* Controlado dinámicamente */
     ">
-    📸EXCEL
+    📂
 </button>
 
 
