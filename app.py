@@ -230,17 +230,17 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true"
                     class="edit-orh"
                     oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
+                    style="text-align:center; border:0.2px solid #25282b; width:40px; background:#ffffff; color:#25282b;">
                     0
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold; padding: 0;">
-                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
-                        <span style="font-size: 13px; color: #25282b;">00:00</span>
-                        <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
+                    style="text-align:center; border:0.2px solid #25282b; width:65px; background:#f5f5f5; color:#25282b; font-weight:bold; padding: 0;">
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box;">
+                        <span style="font-size: 12px; color: #25282b;">00:00</span>
+                        <span style="font-size: 8px; background: #e2e8f0; color: #4a5568; padding: 1px 3px; border-radius: 3px; margin-left: 3px; font-weight: bold; letter-spacing: 0.1px;">hrs</span>
                     </div>
-                 </td>
+                </td>
 
                 <td contenteditable="true"
                     class="edit-ocup"
@@ -248,7 +248,7 @@ def gen_master_rows(data_dict, table_id):
                     style="text-align:center; border:0.2px solid #25282b; width:70px; background:#ffffff; color:#25282b;">
                     0
                 </td>
-                '''
+                ''''
 
 
                 
@@ -2013,11 +2013,11 @@ function actualizarHoraMinuto(celda){{
 
     if(hm){{
         let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
-        // 🔥 Metemos el flex dentro de un div interno para eliminar el doble borde
+        // 🔥 Ajustamos sutilmente las fuentes para el nuevo espacio
         hm.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
-                <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
-                <span style="font-size: 9px; background: #e2e8f0; color: #4a5568; padding: 1px 4px; border-radius: 3px; margin-left: 4px; font-weight: bold; letter-spacing: 0.2px;">hrs</span>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box;">
+                <span style="font-size: 12px; color: #25282b;">${{horaFormateada}}</span>
+                <span style="font-size: 8px; background: #e2e8f0; color: #4a5568; padding: 1px 3px; border-radius: 3px; margin-left: 3px; font-weight: bold; letter-spacing: 0.1px;">hrs</span>
             </div>
         `;
     }}
