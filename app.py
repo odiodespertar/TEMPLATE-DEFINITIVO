@@ -235,7 +235,7 @@ def gen_master_rows(data_dict, table_id):
 
                 <td class="orh-hora"
                     style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#25282b; font-weight:bold;">
-                    00:00
+                    00:00 hs
                 </td>
 
                 <td contenteditable="true"
