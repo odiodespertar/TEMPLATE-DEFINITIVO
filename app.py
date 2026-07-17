@@ -230,16 +230,13 @@ def gen_master_rows(data_dict, table_id):
                 <td contenteditable="true"
                     class="edit-orh"
                     oninput="recalc()"
-                    style="text-align:center; border:0.2px solid #25282b; width:35px; background:#ffffff; color:#25282b;">
+                    style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">
                     0
                 </td>
 
                 <td class="orh-hora"
-                    style="text-align:center; border:0.2px solid #25282b; width:70px; background:#f5f5f5; color:#25282b; font-weight:bold; padding: 0;">
-                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box; padding: 0 4px;">
-                        <span style="font-size: 13px; color: #25282b;">00:00</span>
-                        <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">🕑</span>
-                    </div>
+                    style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#1a1b1c; font-weight:bold;">
+                    00:00 hs
                 </td>
 
                 <td contenteditable="true"
@@ -1602,7 +1599,7 @@ USADAS
 
 
                 <!--
-                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">🕑 CONVERTIDOR DE TIEMPO</div>
+                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
                 <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
                 <div style="margin-top:10px;">
                     <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
@@ -1995,12 +1992,15 @@ function actualizarHoraMinuto(celda){{
 
     let minutosTotales;
 
+    // Si tiene decimal, se interpreta como HORAS
     if(valor.includes(".")){{
         minutosTotales = Math.round(numero * 60);
     }}
+    // Si es entero grande (ej. 145), se interpreta como MINUTOS
     else if(numero >= 24){{
         minutosTotales = Math.round(numero);
     }}
+    // Si es entero pequeño (ej. 2), se interpreta como HORAS
     else{{
         minutosTotales = Math.round(numero * 60);
     }}
@@ -2012,17 +2012,12 @@ function actualizarHoraMinuto(celda){{
     let hm = fila.querySelector(".orh-hora");
 
     if(hm){{
-        let horaFormateada = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
-        // 🔥 Reemplazamos la etiqueta de texto por el emoji de reloj compacto
-        hm.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box; padding: 0 4px;">
-                <span style="font-size: 13px; color: #25282b;">${{horaFormateada}}</span>
-                <span style="font-size: 11px; margin-left: 4px; filter: grayscale(0.2);">🕑</span>
-            </div>
-        `;
+        hm.innerText =
+            String(horas).padStart(2,"0") +
+            ":" +
+            String(mins).padStart(2,"0");
     }}
 }}
-
 
 document.querySelectorAll(".edit-orh").forEach(function(celda){{
 
