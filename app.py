@@ -1344,7 +1344,7 @@ DELTA
 <tfoot class="fila-total">
     <tr class="fila-total">
         <td style="border:none;"></td>
-        <td colspan="5" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
+        <td colspan="6" style="padding:6px; text-align:right;">TOTAL RUTEADAS</td>
         <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
     </tr>
 </tfoot>
