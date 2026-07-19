@@ -2342,17 +2342,19 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let esExcluidaMLP = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
     let esExcluidaRental = (s.trim() === "Delivery Cell Large Van");
 
-    // 1. CLASIFICACIÓN
-    if (name.includes("mlp") && !esExcluidaMLP) {{
+    // 2. CLASIFICACIÓN (La lógica ahora asegura que si es excluida, NO entre a los bloques)
+    if (!esExcluidaMLP && name.includes("mlp")) {{
         totals.mlpRute += u;
-    }} else if (name.includes("rental") && !esExcluidaRental) {{
+    }} else if (!esExcluidaRental && name.includes("rental")) {{
         totals.rentalRute += u;
     }} else if (name.includes("delivery")) {{
         totals.otrosRute += u;
     }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
         totals.carRute += u;
     }} else {{
-        totals.otrosRute += u; 
+        // Aquí caerán las excluidas (porque no cumplen los otros if), 
+        // así que se suman a 'otros' automáticamente
+        totals.otrosRute += u;  
     }}
 
     // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
