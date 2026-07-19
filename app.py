@@ -2320,9 +2320,10 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     // EXCLUSIÓN: Lista las unidades que NO deben sumar
     let esExcluida = (name === "Extra Large Van MLP H&B" || name === "Truck 3.5 tons MLP");
 
-    // Lógica: Si es MLP Y NO está en la lista de exclusión, entonces suma
-    if (name.toLowerCase().includes("mlp") && !esExcluida) {{
-        totals.mlpDecl += sch;
+    // RESTAURA ESTO (como lo tenías al principio)
+    if (name.includes("mlp")) totals.mlpDecl += sch;
+    else if (name.includes("rental")) totals.rentalDecl += sch;
+    else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) totals.carDecl += sch;
     }} 
     else if (name.toLowerCase().includes("rental")) {{
         totals.rentalDecl += sch;
@@ -2351,14 +2352,14 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     // Lógica: Si es excluida, no la sumamos a ninguna categoría de ruteo
     if (esExcluida) {{
-        // No sumamos a totals.mlpRute ni a otros
+        // Ignoramos estas unidades
     }}
     else if (s.toLowerCase().includes("mlp")) {{
         totals.mlpRute += u;
     }} 
     else if (s.toLowerCase().includes("rental")) {{
         totals.rentalRute += u;
-    }} 
+    }}
     else if (s.toLowerCase().includes("car") || s.toLowerCase().includes("moto") || s.toLowerCase().includes("newbie") || s.toLowerCase().includes("9h")) {{
         totals.carRute += u;
     }} 
