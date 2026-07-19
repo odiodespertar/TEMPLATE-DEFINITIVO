@@ -2314,16 +2314,16 @@ let totals = {{
 
 // 1. DECLARADAS: Suma la columna "SCHEDULE"
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let name = row.querySelector('.edit-name')?.innerText.trim() || ""; // QUITAMOS EL LOWERCASE AQUÍ para comparar exacto
+    let name = row.querySelector('.edit-name')?.innerText.trim() || "";
     let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
     
-    // DEFINIMOS EXCLUSIONES AQUÍ TAMBIÉN
-    let esExcluidaMLP = (name === "Extra Large Van MLP H&B" || name === "Truck 3.5 tons MLP");
+    // EXCLUSIÓN: Lista las unidades que NO deben sumar
+    let esExcluida = (name === "Extra Large Van MLP H&B" || name === "Truck 3.5 tons MLP");
 
-    // LÓGICA DE SUMA CON EXCLUSIÓN
-    if (name.toLowerCase().includes("mlp") && !esExcluidaMLP) {{
+    // Lógica: Si es MLP Y NO está en la lista de exclusión, entonces suma
+    if (name.toLowerCase().includes("mlp") && !esExcluida) {{
         totals.mlpDecl += sch;
-    }}
+    }} 
     else if (name.toLowerCase().includes("rental")) {{
         totals.rentalDecl += sch;
     }} 
@@ -2341,41 +2341,31 @@ totals.carRute = 0;
 totals.otrosRute = 0; 
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
-    // ... dentro del bucle document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
     let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
     if (!s || s === "Seleccionar...") return;
 
-    let sTrimmed = s.trim();
-    let nameLower = s.toLowerCase().trim();
+    // EXCLUSIÓN
+    let esExcluida = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
 
-    // 1. PRIMERO: Identificamos los casos específicos que NO deben ser MLP ni CAR
-    let esExcluidaMLP = (sTrimmed === "Extra Large Van MLP H&B" || sTrimmed === "Truck 3.5 tons MLP");
-    let esExcluidaRental = (sTrimmed === "Delivery Cell Large Van");
-
-    // 2. AHORA: Clasificación con orden de prioridad estricta
-    
-    // A) Si es alguna de las excluidas, se van a "otros" o a donde tú decidas (aquí a otros)
-    if (esExcluidaMLP || esExcluidaRental) {{
-        totals.otrosRute += u;
+    // Lógica: Si es excluida, no la sumamos a ninguna categoría de ruteo
+    if (esExcluida) {
+        // No sumamos a totals.mlpRute ni a otros
     }}
-    // B) Si es MLP (y ya comprobamos arriba que no es de las excluidas)
-    else if (nameLower.includes("mlp")) {{
+    else if (s.toLowerCase().includes("mlp")) {{
         totals.mlpRute += u;
     }} 
-    // C) Si es Rental
-    else if (nameLower.includes("rental")) {{
+    else if (s.toLowerCase().includes("rental")) {{
         totals.rentalRute += u;
-    }}
-    // D) Si es Car, Moto, etc. (El orden de este 'else if' asegura que no sea MLP antes)
-    else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("newbie") || nameLower.includes("9h")) {{
+    }} 
+    else if (s.toLowerCase().includes("car") || s.toLowerCase().includes("moto") || s.toLowerCase().includes("newbie") || s.toLowerCase().includes("9h")) {{
         totals.carRute += u;
     }} 
-    // E) Cualquier otra cosa
     else {{
         totals.otrosRute += u;
     }}
+}});
 
 
     // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
