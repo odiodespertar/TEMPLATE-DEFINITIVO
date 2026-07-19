@@ -2323,7 +2323,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     // LÓGICA DE SUMA CON EXCLUSIÓN
     if (name.toLowerCase().includes("mlp") && !esExcluidaMLP) {{
         totals.mlpDecl += sch;
-    } }
+    }}
     else if (name.toLowerCase().includes("rental")) {{
         totals.rentalDecl += sch;
     }} 
