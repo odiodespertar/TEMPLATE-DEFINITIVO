@@ -2331,31 +2331,42 @@ totals.carRute = 0;
 totals.otrosRute = 0; 
 
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
+    // ... dentro del bucle document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let s = row.querySelector('.s-type').value; 
     let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
     if (!s || s === "Seleccionar...") return;
 
-    let name = s.toLowerCase().trim();
+    let sTrimmed = s.trim();
+    let nameLower = s.toLowerCase().trim();
 
-    // Ejemplo: Si quieres excluir "Extra Large Van MLP H&B" de MLP
-    let esExcluidaMLP = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
-    let esExcluidaRental = (s.trim() === "Delivery Cell Large Van");
+    // 1. PRIMERO: Identificamos los casos específicos que NO deben ser MLP ni CAR
+    let esExcluidaMLP = (sTrimmed === "Extra Large Van MLP H&B" || sTrimmed === "Truck 3.5 tons MLP");
+    let esExcluidaRental = (sTrimmed === "Delivery Cell Large Van");
 
-    // 2. CLASIFICACIÓN (La lógica ahora asegura que si es excluida, NO entre a los bloques)
-    if (!esExcluidaMLP && name.includes("mlp")) {{
-        totals.mlpRute += u;
-    }} else if (!esExcluidaRental && name.includes("rental")) {{
-        totals.rentalRute += u;
-    }} else if (name.includes("delivery")) {{
+    // 2. AHORA: Clasificación con orden de prioridad estricta
+    
+    // A) Si es alguna de las excluidas, se van a "otros" o a donde tú decidas (aquí a otros)
+    if (esExcluidaMLP || esExcluidaRental) {{
         totals.otrosRute += u;
-    }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
-        totals.carRute += u;
-    }} else {{
-        // Aquí caerán las excluidas (porque no cumplen los otros if), 
-        // así que se suman a 'otros' automáticamente
-        totals.otrosRute += u;  
     }}
+    // B) Si es MLP (y ya comprobamos arriba que no es de las excluidas)
+    else if (nameLower.includes("mlp")) {{
+        totals.mlpRute += u;
+    }} 
+    // C) Si es Rental
+    else if (nameLower.includes("rental")) {{
+        totals.rentalRute += u;
+    }}
+    // D) Si es Car, Moto, etc. (El orden de este 'else if' asegura que no sea MLP antes)
+    else if (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("newbie") || nameLower.includes("9h")) {{
+        totals.carRute += u;
+    }} 
+    // E) Cualquier otra cosa
+    else {
+        totals.otrosRute += u;
+    }}
+
 
     // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
     // Esto garantiza que el total siempre sea la suma de las partes
