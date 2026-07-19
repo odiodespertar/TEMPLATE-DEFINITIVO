@@ -2350,7 +2350,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
     let esExcluida = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
 
     // Lógica: Si es excluida, no la sumamos a ninguna categoría de ruteo
-    if (esExcluida) {
+    if (esExcluida) {{
         // No sumamos a totals.mlpRute ni a otros
     }}
     else if (s.toLowerCase().includes("mlp")) {{
