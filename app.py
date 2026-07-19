@@ -2363,7 +2363,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
         totals.carRute += u;
     }} 
     // E) Cualquier otra cosa
-    else {
+    else {{
         totals.otrosRute += u;
     }}
 
