@@ -2312,25 +2312,14 @@ let totals = {{
     totalRuteadas: 0
 }};
 
-// 1. DECLARADAS: Suma la columna "SCHEDULE"
+// 1. DECLARADAS: Suma la columna "SCHEDULE" de la tabla de arriba
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let name = row.querySelector('.edit-name')?.innerText.trim() || "";
+    let name = row.querySelector('.edit-name')?.innerText.toLowerCase().trim() || "";
     let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
     
-    // EXCLUSIÓN: Lista las unidades que NO deben sumar
-    let esExcluida = (name === "Extra Large Van MLP H&B" || name === "Truck 3.5 tons MLP");
-
-    // RESTAURA ESTO (como lo tenías al principio)
     if (name.includes("mlp")) totals.mlpDecl += sch;
     else if (name.includes("rental")) totals.rentalDecl += sch;
     else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) totals.carDecl += sch;
-    }} 
-    else if (name.toLowerCase().includes("rental")) {{
-        totals.rentalDecl += sch;
-    }} 
-    else if (name.toLowerCase().includes("car") || name.toLowerCase().includes("moto") || name.toLowerCase().includes("newbie") || name.toLowerCase().includes("9h")) {{
-        totals.carDecl += sch;
-    }}
 }});
 
 
@@ -2347,27 +2336,20 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     if (!s || s === "Seleccionar...") return;
 
-    // EXCLUSIÓN
-    let esExcluida = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
+    let name = s.toLowerCase().trim();
 
-    // Lógica: Si es excluida, no la sumamos a ninguna categoría de ruteo
-    if (esExcluida) {{
-        // Ignoramos estas unidades
-    }}
-    else if (s.toLowerCase().includes("mlp")) {{
+    // 1. CLASIFICACIÓN
+    if (name.includes("mlp")) {{
         totals.mlpRute += u;
-    }} 
-    else if (s.toLowerCase().includes("rental")) {{
+    }} else if (name.includes("rental")) {{
         totals.rentalRute += u;
-    }}
-    else if (s.toLowerCase().includes("car") || s.toLowerCase().includes("moto") || s.toLowerCase().includes("newbie") || s.toLowerCase().includes("9h")) {{
-        totals.carRute += u;
-    }} 
-    else {{
+    }} else if (name.includes("delivery")) {{
         totals.otrosRute += u;
+    }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
+        totals.carRute += u;
+    }} else {{
+        totals.otrosRute += u; 
     }}
-}});
-
 
     // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
     // Esto garantiza que el total siempre sea la suma de las partes
