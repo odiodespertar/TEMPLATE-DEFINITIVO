@@ -2338,10 +2338,14 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
 
     let name = s.toLowerCase().trim();
 
+    // Ejemplo: Si quieres excluir "Extra Large Van MLP H&B" de MLP
+    let esExcluidaMLP = (s.trim() === "Extra Large Van MLP H&B" || s.trim() === "Truck 3.5 tons MLP");
+    let esExcluidaRental = (s.trim() === "Delivery Cell Large Van");
+
     // 1. CLASIFICACIÓN
-    if (name.includes("mlp")) {{
+    if (name.includes("mlp") && !esExcluidaMLP) {{
         totals.mlpRute += u;
-    }} else if (name.includes("rental")) {{
+    }} else if (name.includes("rental") && !esExcluidaRental) {{
         totals.rentalRute += u;
     }} else if (name.includes("delivery")) {{
         totals.otrosRute += u;
