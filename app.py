@@ -2292,36 +2292,36 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
 
 
 
-       // 4. FILTRAR LISTA
+       // 4. FILTRAR LISTA (Solo Small Van MLP foráneo y Car 8h permanecen siempre visibles)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
-            const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h"];
+    // 🔥 Lista de unidades permitidas para seguir apareciendo sin stock
+    const permitidasSinStock = ["small van mlp foráneo", "car 8h", "car - 8h"];
 
-            bl.querySelectorAll('.s-type').forEach(s => {{
-                let cur = s.value; 
-                let opt = '<option value="">Seleccionar...</option>';
-                
-                Object.keys(fleet).forEach(k => {{
-                    let nameLower = k.toLowerCase();
-                    let stock = fleet[k].stock;
-                    let used = fleet[k].used;
-                    
-                    let esFlexible = listaNegativos.some(u => nameLower.includes(u));
-                    let tieneStockInicial = (stock > 0); 
-                    let tieneCapacidad = (stock - used > 0);
-                    
-                    if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
-                        opt += `<option value="${{k}}">${{k}}</option>`;
-                    }}
-                }});
-                
-                s.innerHTML = opt;
-                s.value = cur;
-
-                updateSelectColor(s);
-
-            }});
+    bl.querySelectorAll('.s-type').forEach(s => {{
+        let cur = s.value; 
+        let opt = '<option value="">Seleccionar...</option>';
+        
+        Object.keys(fleet).forEach(k => {{
+            let nameLower = k.toLowerCase().trim();
+            let stock = fleet[k].stock;
+            let used = fleet[k].used;
+            
+            let esPermitida = permitidasSinStock.some(u => nameLower.includes(u));
+            let tieneCapacidad = (stock - used > 0);
+            
+            // Muestra la unidad si tiene saldo libre, o si es de las permitidas, o si ya está seleccionada en esta fila
+            if (tieneCapacidad || esPermitida || k === cur) {{
+                opt += `<option value="${{k}}">${{k}}</option>`;
+            }}
         }});
+        
+        s.innerHTML = opt;
+        s.value = cur;
+
+        updateSelectColor(s);
+    }});
+}});
 
 
     // --- 5. CALCULO DE TOTALES (Lógica Precisa) ---
@@ -3752,14 +3752,12 @@ function togglePrioridades() {{
 // --- FUNCIÓN DE FILTRADO ---
 function actualizarSelects() {{
 
-    const listaNegativos = [
-    "Car - 8h",
-    "Car - 5h",
-    "Car - 3h"
-];
+    const listaPermitidas = [
+        "Small Van MLP foráneo",
+        "Car 8h",
+        "Car - 8h"
+    ];
 
-
-    
     document.querySelectorAll('.s-type').forEach(select => {{
         let valorActual = select.value;
         select.innerHTML = '<option value="">Seleccionar...</option>';
@@ -3772,10 +3770,10 @@ function actualizarSelects() {{
             let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
             let nameLower = name.toLowerCase();
 
-            let permiteNegativos = listaNegativos.some(u => nameLower.includes(u));
+            let permiteSinStock = listaPermitidas.some(u => nameLower.includes(u));
             
-            // Si permite negativos o aún tiene stock, la agregamos al select
-            if (permiteNegativos || stock > left) {{
+            // Si permite sin stock O aún tiene disponible en patio, la agregamos
+            if (permiteSinStock || left > 0 || stock > 0) {{
                 let opt = document.createElement('option');
                 opt.value = name;
                 opt.textContent = name;
