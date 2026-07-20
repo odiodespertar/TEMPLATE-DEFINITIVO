@@ -1660,51 +1660,25 @@ USADAS
 
 
         <div id="excel-polys" style="display:none; margin-top:10px;">
+            <div style="background:#25282b; color:white; font-weight:bold; text-align:center; padding:8px; font-size:18px; border:1px solid #0f5b84;">
+                📋 RESUMEN DE POLÍGONOS
+            </div>
 
-    <div style="
-        background:#25282b;
-        color:white;
-        font-weight:bold;
-        text-align:center;
-        padding:8px;
-        font-size:18px;
-        border:1px solid #0f5b84;
-    ">
-        📋 RESUMEN DE POLÍGONOS
-    </div>
-
-    <table style="
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    font-size:16px;
-    table-layout:fixed;
-">
-        <thead>
-<tr style="
-    background:#25282b;
-    color:white;
-    height:28px;
-">
-    <th style="border:1px solid #c0c0c0;">PLAN</th>
-    <th style="border:1px solid #c0c0c0;">VOL</th>
-    <th style="border:1px solid #c0c0c0;">UNIDAD</th>
-    <th style="border:1px solid #c0c0c0;">ASIG</th>
-    <th style="border:1px solid #c0c0c0;">ORH / % OCUP</th>
-    <th style="border:1px solid #c0c0c0;">NODO</th>
-</tr>
-</thead>
-
-
-
-        <tbody id="excel-polys-body">
-</tbody>
-
-
-
-    </table>
-
-</div>
+            <table style="width:100%; border-collapse:collapse; background:white; font-size:16px; table-layout:fixed;">
+                <thead>
+                    <tr style="background:#25282b; color:white; height:28px;">
+                        <th style="border:1px solid #c0c0c0;">PLAN</th>
+                        <th style="border:1px solid #c0c0c0;">VOL</th>
+                        <th style="border:1px solid #c0c0c0;">UNIDAD</th>
+                        <th style="border:1px solid #c0c0c0; width:55px;">ASIG</th>
+                        <th style="border:1px solid #c0c0c0; width:55px; color:#ff6b6b;">ADIC.</th> <!-- 🔥 NUEVA COLUMNA -->
+                        <th style="border:1px solid #c0c0c0;">ORH / % OCUP</th>
+                        <th style="border:1px solid #c0c0c0;">NODO</th>
+                    </tr>
+                </thead>
+                <tbody id="excel-polys-body"></tbody>
+            </table>
+        </div>
         
         
     </div>
