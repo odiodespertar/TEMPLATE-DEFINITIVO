@@ -3449,41 +3449,49 @@ function distribuirAutomatico() {{
         }});
     }}
 
-    // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO C1 SJA1 (TAB 6) CON REGLAS Y RESTRICCIONES REVISADAS
+   // ==============================================================================
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO C1 SJA1 (TAB 6) REPARADO (LISTO PARA F-STRING)
     // ==============================================================================
     if (currentTab == 6) {{
         
-        // 1. RESTRICCIÓN DE PLANES FORÁNEOS QUE NO ACEPTAN FLOTA LIGERA
-        const foraneosSinCar = ["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "TRAPICHE"];
+        // Función auxiliar para limpiar tildes y comparar nombres sin errores
+        const norm = (txt) => (txt || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+        const foraneosSinCar = [
+            "ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", 
+            "TEZUITLAN", "TLALTETELA", "TRAPICHE"
+        ];
         const foraneosFlexibles = ["TUZAMAPA", "XICO"];
         
-        // 2. ORDENAMIENTO DE PLANES PARA PROCESAR
-        // Se ordenan en la secuencia exacta: Locales -> Foráneos restringidos -> Tuzamapa y Xico
         let polysOrdenados = [];
         
-        // a) Locales primero
+        // a) Locales primero (Centro 1 y Centro 2)
         polys.forEach(p => {{
-            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let n = norm(p.bloque.querySelector('td[rowspan]')?.innerText);
             if (n === "CENTRO 1" || n === "CENTRO 2") polysOrdenados.push(p);
         }});
 
         // b) Foráneos restringidos (prioridad de arriba a abajo)
         polys.forEach(p => {{
-            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let n = norm(p.bloque.querySelector('td[rowspan]')?.innerText);
             if (foraneosSinCar.includes(n)) polysOrdenados.push(p);
         }});
 
-        // c) Tuzamapa y Xico al final para recibir sobrante MLP o asignación de Cars/Small Vans
+        // c) Tuzamapa y Xico al final
         polys.forEach(p => {{
-            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let n = norm(p.bloque.querySelector('td[rowspan]')?.innerText);
             if (foraneosFlexibles.includes(n)) polysOrdenados.push(p);
         }});
 
-        // 3. PROCESAR ASIGNACIÓN SECUENCIAL
+        // d) Resto de planes por seguridad
+        polys.forEach(p => {{
+            if (!polysOrdenados.includes(p)) polysOrdenados.push(p);
+        }});
+
+        // PROCESAR ASIGNACIÓN SECUENCIAL
         polysOrdenados.forEach(poly => {{
             let bloque = poly.bloque;
-            let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let nombrePlan = norm(bloque.querySelector('td[rowspan]')?.innerText);
             
             // Omitir EJA1 SP
             if (nombrePlan.includes("EJA1 SP")) return;
@@ -3529,15 +3537,13 @@ function distribuirAutomatico() {{
                     }}
                 }}
 
-                // 4.3 REGLA FORÁNEOS FLEXIBLES: TUZAMAPA Y XICO (Primer paso MLP, luego Flota Ligera)
+                // 4.3 REGLA FORÁNEOS FLEXIBLES: TUZAMAPA Y XICO (MLP primero, luego Flota Ligera)
                 else if (foraneosFlexibles.includes(nombrePlan)) {{
-                    // Intenta primero consumirse cualquier sobrante de MLP Foráneo
                     unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
                     if (!unidad) {{
                         unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
                     }}
 
-                    // Si se agotó el MLP, echa mano de la lista ligera permitida
                     if (!unidad) {{
                         const listaLigeras = [
                             "Car 8h", 
@@ -3554,7 +3560,6 @@ function distribuirAutomatico() {{
                     }}
                 }}
 
-                // Si no hay unidad aplicable según el rol de la zona, interrumpe la asignación
                 if (!unidad) break;
 
                 // MATEMÁTICA DE ASIGNACIÓN
@@ -3568,12 +3573,12 @@ function distribuirAutomatico() {{
                     let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
                     filaExistente.querySelector('.u-manual').innerText = actual + usar;
                     filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                    editedRowsPlan.add(filaExistente);
+                    if (typeof editedRowsPlan !== 'undefined') editedRowsPlan.add(filaExistente);
                 }} else {{
                     fila.querySelector('.s-type').value = unidad.nombre;
                     fila.querySelector('.u-manual').innerText = usar;
                     fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                    editedRowsPlan.add(fila);
+                    if (typeof editedRowsPlan !== 'undefined') editedRowsPlan.add(fila);
                 }}
 
                 unidad.restante -= usar;
@@ -3582,7 +3587,7 @@ function distribuirAutomatico() {{
         }});
         
         recalc();
-        return; // Finaliza la ejecución para la Tab 6
+        return; 
     }}
 
     
