@@ -1058,11 +1058,12 @@ body.excel-view .meli-table td {{
 }}
 
 body.excel-view .meli-table th {{
-    padding: 2px 1px !important; /* Disminuye márgenes para que no se desborde */
-    font-size: 11px !important;  /* Encabezados compactos para que quepan */
-    letter-spacing: -0.3px !important; /* Comprime ligeramente el texto */
-    white-space: nowrap !important;
+    padding: 2px 1px !important;       /* Espacio mínimo interno */
+    font-size: 11px !important;        /* Tamaño de letra compacto */
+    letter-spacing: -0.3px !important; /* Comprime ligeramente las letras */
     overflow: hidden !important;
+    word-wrap: break-word !important;  /* Permite que se dividan en 2 líneas si no caben */
+    line-height: 1.1 !important;        /* Junta los renglones cuando se dividen */
 }}
 
 
