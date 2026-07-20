@@ -2242,40 +2242,50 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 
-// 3.5 BADGE DE UNIDADES ADICIONALES EN POLÍGONOS (+EXCESO)
+// 3.5 BADGE DE UNIDADES ADICIONALES EN POLÍGONOS (CÁLCULO EXACTO POR FILA)
+let contadorAcumulado = {{}};
+
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
     let sel = r.querySelector('.s-type')?.value;
     let uCell = r.querySelector('.u-manual-cell');
     let divFlex = uCell ? uCell.querySelector('div') : null;
-    
+    let spanU = r.querySelector('.u-manual');
+    let uManual = parseInt(spanU?.innerText) || 0;
+
     if (!divFlex) return;
 
-    // Buscamos o creamos el badge del exceso
     let badge = divFlex.querySelector('.badge-adicional');
 
-    if (sel && sel !== "Seleccionar..." && fleet[sel]) {{
-        let exceso = fleet[sel].used - fleet[sel].stock;
-        
-        if (exceso > 0) {{
-            // 🔥 Si hay unidades por encima del Schedule, mostramos el badge (+4)
+    if (sel && sel !== "Seleccionar..." && fleet[sel] && uManual > 0) {{
+        let stockInicial = fleet[sel].stock;
+        let usadasPrevias = contadorAcumulado[sel] || 0;
+
+        // Calculamos cuántas de las unidades de ESTA FILA entran en el Schedule restante
+        let cubiertasPorSchedule = Math.max(0, Math.min(uManual, stockInicial - usadasPrevias));
+        let excesoFila = uManual - cubiertasPorSchedule;
+
+        // Acumulamos el uso para la siguiente fila
+        contadorAcumulado[sel] = usadasPrevias + uManual;
+
+        if (excesoFila > 0) {{
+            // 🔥 Si esta fila específica consumió unidades por encima del Schedule
             if (!badge) {{
                 badge = document.createElement('span');
                 badge.className = 'badge-adicional';
-                badge.style.cssText = 'font-size: 11px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
-                let spanU = divFlex.querySelector('.u-manual');
+                badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
                 if (spanU) spanU.after(badge);
             }}
-            badge.innerText = `+${{exceso}}`;
+            badge.innerText = `+${excesoFila}`;
             badge.style.display = 'inline-block';
-            badge.title = `${{fleet[sel].stock}} de Schedule + ${{exceso}} adicionales`;
-            uCell.style.backgroundColor = "#d3f0e5"; // Mantiene su verde normal
+            badge.title = `${cubiertasPorSchedule} de Schedule + ${excesoFila} adicionales en este plan`;
+            uCell.style.backgroundColor = "#d3f0e5";
         }} else {{
             if (badge) badge.style.display = 'none';
             uCell.style.backgroundColor = "#d3f0e5";
         }}
     }} else {{
         if (badge) badge.style.display = 'none';
-        uCell.style.backgroundColor = "#d3f0e5";
+        if (uCell) uCell.style.backgroundColor = "#d3f0e5";
     }}
 }});
 
