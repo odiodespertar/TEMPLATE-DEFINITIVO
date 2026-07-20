@@ -1051,11 +1051,11 @@ body.excel-view #btn-excel-view {{
     display: none !important;
 }}
 
-/* TABLAS COMPACTAS */
+/* TABLAS COMPACTAS CON LETRA LEGIBLE */
 body.excel-view .meli-table td,
 body.excel-view .meli-table th {{
     padding: 2px 3px !important;
-    font-size: 12px !important; /* Subimos un poco para que no se vea tan minúsculo */
+    font-size: 14px !important; /* 🔥 Mismo tamaño que en la vista normal */
 }}
 
 
