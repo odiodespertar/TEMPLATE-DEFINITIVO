@@ -3450,98 +3450,142 @@ function distribuirAutomatico() {{
     }}
 
     // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
+    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO C1 SJA1 (TAB 6) CON REGLAS Y RESTRICCIONES REVISADAS
     // ==============================================================================
-    function procesarAsignacionUnidadSJA1(poly) {{
-        let bloque = poly.bloque;
-        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
-
-        let yaAsignado = 0;
-        bloque.querySelectorAll('.calc-row').forEach(r => {{
-            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
-            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
-            yaAsignado += (unidades * spr);
+    if (currentTab == 6) {{
+        
+        // 1. RESTRICCIÓN DE PLANES FORÁNEOS QUE NO ACEPTAN FLOTA LIGERA
+        const foraneosSinCar = ["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "TRAPICHE"];
+        const foraneosFlexibles = ["TUZAMAPA", "XICO"];
+        
+        // 2. ORDENAMIENTO DE PLANES PARA PROCESAR
+        // Se ordenan en la secuencia exacta: Locales -> Foráneos restringidos -> Tuzamapa y Xico
+        let polysOrdenados = [];
+        
+        // a) Locales primero
+        polys.forEach(p => {{
+            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            if (n === "CENTRO 1" || n === "CENTRO 2") polysOrdenados.push(p);
         }});
 
-        let restante = objetivo - yaAsignado;
-        if (restante <= 0) return;
+        // b) Foráneos restringidos (prioridad de arriba a abajo)
+        polys.forEach(p => {{
+            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            if (foraneosSinCar.includes(n)) polysOrdenados.push(p);
+        }});
 
-        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-        for (let fila of filas) {{
-            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
-            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
-            let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
+        // c) Tuzamapa y Xico al final para recibir sobrante MLP o asignación de Cars/Small Vans
+        polys.forEach(p => {{
+            let n = p.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            if (foraneosFlexibles.includes(n)) polysOrdenados.push(p);
+        }});
 
-            if (yaTieneUnidad || yaTieneTipo) continue;
-            if (restante <= 0) break;
+        // 3. PROCESAR ASIGNACIÓN SECUENCIAL
+        polysOrdenados.forEach(poly => {{
+            let bloque = poly.bloque;
+            let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            
+            // Omitir EJA1 SP
+            if (nombrePlan.includes("EJA1 SP")) return;
 
-            let unidad = null;
+            let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+            let yaAsignado = 0;
+            
+            bloque.querySelectorAll('.calc-row').forEach(r => {{
+                let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
+                let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
+                yaAsignado += (unidades * spr);
+            }});
 
-            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
-            if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
-                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
-                for (let nombre of listaRental) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                    if (unidad) break;
+            let restante = objetivo - yaAsignado;
+            if (restante <= 0) return;
+
+            let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+
+            for (let fila of filas) {{
+                let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+                let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+                let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
+
+                if (yaTieneUnidad || yaTieneTipo) continue;
+                if (restante <= 0) break;
+
+                let unidad = null;
+
+                // 4.1 REGLA LOCALES: "CENTRO 1" Y "CENTRO 2" (Únicamente Rentals)
+                if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
+                    const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                    for (let nombre of listaRental) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
+                        if (unidad) break;
+                    }}
                 }}
-            }}
-            
-            // 4.2 PRIORIDAD PLANES FORÁNEOS
-        else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
-            
-            // CASCADA 1: MLP primero
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-            }}
-
-            // CASCADA 2: Si no hay MLP, prioridad a las NEWBIE (Car o Small Van)
-            if (!unidad) {{
-                // Definimos la jerarquía: Newbies primero, luego el resto
-                let listaLigeras = [
-                    "Newbie", // Al poner solo "Newbie", capturará "Small Van Newbie" Y "Car Newbie"
-                    "Car 8h", 
-                    "Small Van 9h", 
-                    "Small Van 9h Ext", 
-                    "Moto 3h"
-                ];
                 
-                // Usamos .includes para que si el nombre en la tabla tiene la palabra, la capture
-                for (let palabra of listaLigeras) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre.includes(palabra));
-                    if (unidad) break;
+                // 4.2 REGLA FORÁNEOS RESTRINGIDOS: Solo MLP Foráneas
+                else if (foraneosSinCar.includes(nombrePlan)) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+                    if (!unidad) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                    }}
                 }}
-            }}
-        }}
 
-        // Si no se encontró unidad en la jerarquía, frena
-        if (!unidad) break;
+                // 4.3 REGLA FORÁNEOS FLEXIBLES: TUZAMAPA Y XICO (Primer paso MLP, luego Flota Ligera)
+                else if (foraneosFlexibles.includes(nombrePlan)) {{
+                    // Intenta primero consumirse cualquier sobrante de MLP Foráneo
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
+                    if (!unidad) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
+                    }}
+
+                    // Si se agotó el MLP, echa mano de la lista ligera permitida
+                    if (!unidad) {{
+                        const listaLigeras = [
+                            "Car 8h", 
+                            "Car 5h", 
+                            "Car Newbie", 
+                            "Car Zona Extendida", 
+                            "Small Van 9h", 
+                            "Small Van 9h Ext"
+                        ];
+                        for (let nombre of listaLigeras) {{
+                            unidad = fleet.find(f => f.restante > 0 && f.nombre.includes(nombre));
+                            if (unidad) break;
+                        }}
+                    }}
+                }}
+
+                // Si no hay unidad aplicable según el rol de la zona, interrumpe la asignación
+                if (!unidad) break;
+
+                // MATEMÁTICA DE ASIGNACIÓN
+                let necesarias = Math.ceil(restante / unidad.spr);
+                let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+
+                if (usar <= 0) continue;
+
+                let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+                if (filaExistente) {{
+                    let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                    filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                    filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                    editedRowsPlan.add(filaExistente);
+                }} else {{
+                    fila.querySelector('.s-type').value = unidad.nombre;
+                    fila.querySelector('.u-manual').innerText = usar;
+                    fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                    editedRowsPlan.add(fila);
+                }}
+
+                unidad.restante -= usar;
+                restante -= (usar * unidad.spr);
+            }}
+        }});
         
-
-            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
-            let necesarias = Math.ceil(restante / unidad.spr);
-            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
-
-            if (usar <= 0) continue;
-
-            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-            if (filaExistente) {{
-                let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
-                filaExistente.querySelector('.u-manual').innerText = actual + usar;
-                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(filaExistente);
-            }} else {{
-                fila.querySelector('.s-type').value = unidad.nombre;
-                fila.querySelector('.u-manual').innerText = usar;
-                fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(fila);
-            }}
-
-            unidad.restante -= usar;
-            restante -= (usar * unidad.spr);
-        }}
+        recalc();
+        return; // Finaliza la ejecución para la Tab 6
     }}
+
+    
 
     // ============================================================================================
     // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES// TERMINA DISTRIBUIDOR AUTOMATICO
