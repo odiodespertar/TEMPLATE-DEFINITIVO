@@ -2258,6 +2258,34 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 }});
 
 
+
+
+// 3.5 ILUMINAR CASILLAS ADICIONALES EN POLÍGONOS
+document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
+    let sel = r.querySelector('.s-type')?.value;
+    let uCell = r.querySelector('.u-manual-cell');
+    
+    if (sel && sel !== "Seleccionar..." && fleet[sel]) {{
+        // Si las unidades usadas superan el Schedule disponible
+        if (fleet[sel].used > fleet[sel].stock) {{
+            if (uCell) {{
+                uCell.style.backgroundColor = "#ffcdd2"; // 🔴 Rojo pastel para adicionales
+            }}
+        }} else {{
+            if (uCell) {{
+                uCell.style.backgroundColor = "#d3f0e5"; // 🟢 Su verde claro habitual
+            }}
+        }}
+    }} else {{
+        if (uCell) {{
+            uCell.style.backgroundColor = "#d3f0e5"; // 🟢 Su verde claro habitual
+        }}
+    }}
+}});
+
+
+
+
        // 4. FILTRAR LISTA
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
