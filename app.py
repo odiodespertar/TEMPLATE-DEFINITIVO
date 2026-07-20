@@ -2924,16 +2924,16 @@ function generarExcelPolys() {{
             let unidad = r.querySelector('.s-type')?.value || "";
             let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
 
-            // 🔥 DETECTOR DE UNIDADES ADICIONALES PARA MODO EXCEL
+            // 🔥 SEPARACIÓN CLARA: ASIGNADAS VS ADICIONALES
             let badgeExceso = r.querySelector('.badge-adicional');
-            let estiloAsig = "text-align:center; vertical-align:middle; font-weight:bold;";
-            
+            let textoAdicional = "-";
+            let estiloAdicional = "text-align:center; vertical-align:middle; font-weight:normal; color:#808080;";
+
             if (badgeExceso && badgeExceso.style.display !== 'none') {{
-                let textoBadge = badgeExceso.innerText; // ej: (+4)
-                asignadas = `${{asignadas}} <span style="color:#d32f2f; font-size:12px;">(${{textoBadge}})</span>`;
-                estiloAsig += " color:#d32f2f;"; // Pinta la cantidad de la unidad en rojo
-            }} else {{
-                estiloAsig += " color:#25282b;";
+                // Extrae solo el número de adicionales (ej. convierte "+2" a "2")
+                let numAdic = badgeExceso.innerText.replace('+', '').trim();
+                textoAdicional = numAdic;
+                estiloAdicional = "text-align:center; vertical-align:middle; font-weight:bold; color:#d32f2f; background-color:#ffebee;";
             }}
 
             let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
@@ -2955,7 +2955,8 @@ function generarExcelPolys() {{
             }}
             filaHtml += `
                 <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
-                <td style="border:1px solid #808080; ${{estiloAsig}}">${{asignadas}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{asignadas}}</td>
+                <td style="border:1px solid #808080; ${{estiloAdicional}}">${{textoAdicional}}</td>
                 <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{valSpr}}</td>
             `;
             if (index === 0) {{
