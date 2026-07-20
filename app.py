@@ -1929,7 +1929,7 @@ function showTab(n, btn) {{
     let sel = row.querySelector('.s-type').value;
     
     // Si no hay unidad seleccionada, no hace nada
-    if(sel === "Seleccionar...") return;
+    if(sel === "Seleccionar..." || !sel) return;
 
     // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
     let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
@@ -1943,39 +1943,26 @@ function showTab(n, btn) {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
+        let newVal = val + delta;
+        if (newVal < 0) newVal = 0; // Evita valores negativos en la celda del polígono
 
-
-// 🔥 SOLO ALGUNOS CAR PUEDEN EXCEDERSE
-let nombreUpper = sel.toUpperCase();
-
-let esFlexible =
-    nombreUpper.includes("CAR - 3H") ||
-    nombreUpper.includes("CAR - 5H") ||
-    nombreUpper.includes("CAR - 8H");
-
-// Si NO es flexible, bloquear cuando ya no hay disponibles
-if (delta > 0 && left <= 0 && !esFlexible) {{
-    showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
-    return;
-}}
-
-// Si SÍ es flexible, permitir negativos pero mostrar alerta
-if (delta > 0 && left <= 0 && esFlexible) {{
-    showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
-}}
-        span.innerText = val + delta;
-                }} else {{
+        // 🔥 PERMITE AGREGAR CUALQUIER UNIDAD ADICIONAL CON EL BOTÓN +
+        if (delta > 0 && left <= 0) {{
+            showAlert("⚠️ UNIDAD ADICIONAL. Se registrará como exceso en Delta.");
+        }}
+        
+        span.innerText = newVal;
+    }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = Math.round(val + delta);
 
-        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
+        // VALIDACIÓN: Solo bloquea si intentas SUBIR el SPR por encima del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
             showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
             return; 
         }}
         
-        // Si es para bajar o está dentro del rango, permite el cambio
         span.innerText = newVal;
     }}
     editedRowsPlan.add(row);
