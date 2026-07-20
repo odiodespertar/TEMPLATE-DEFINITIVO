@@ -2279,7 +2279,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
             if (!badge) {{
                 badge = document.createElement('span');
                 badge.className = 'badge-adicional';
-                badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
+                badge.style.cssText = 'font-size: 11px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
                 let spanU = divFlex.querySelector('.u-manual');
                 if (spanU) spanU.after(badge);
             }}
