@@ -2932,19 +2932,24 @@ function generarExcelPolys() {{
 
         filasValidas.forEach((r, index) => {{
             let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
+            let totalManual = parseInt(r.querySelector('.u-manual')?.innerText.trim()) || 0;
 
-            // 🔥 SEPARACIÓN CLARA: ASIGNADAS VS ADICIONALES
             let badgeExceso = r.querySelector('.badge-adicional');
-            let textoAdicional = "-";
-            let estiloAdicional = "text-align:center; vertical-align:middle; font-weight:normal; color:#808080;";
+            let numAdic = 0;
 
             if (badgeExceso && badgeExceso.style.display !== 'none') {{
-                // Extrae solo el número de adicionales (ej. convierte "+2" a "2")
-                let numAdic = badgeExceso.innerText.replace('+', '').trim();
-                textoAdicional = numAdic;
-                estiloAdicional = "text-align:center; vertical-align:middle; font-weight:bold; color:#d32f2f; background-color:#ffebee;";
+                // Extrae el número de adicionales (ej. de "+3" o "-3" obtiene 3)
+                numAdic = parseInt(badgeExceso.innerText.replace(/[^0-9]/g, '')) || 0;
             }}
+
+            // 🔥 SEPARACIÓN LÓGICA DE UNIDADES:
+            // Unidades dentro del Schedule = Total Asignado - Adicionales
+            let numAsig = Math.max(0, totalManual - numAdic);
+
+            let textoAdicional = numAdic > 0 ? numAdic : "-";
+            let estiloAdicional = numAdic > 0 
+                ? "text-align:center; vertical-align:middle; font-weight:bold; color:#d32f2f; background-color:#ffebee;" 
+                : "text-align:center; vertical-align:middle; color:#808080;";
 
             let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
@@ -2965,7 +2970,7 @@ function generarExcelPolys() {{
             }}
             filaHtml += `
                 <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{asignadas}}</td>
+                <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{numAsig}}</td>
                 <td style="border:1px solid #808080; ${{estiloAdicional}}">${{textoAdicional}}</td>
                 <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{valSpr}}</td>
             `;
