@@ -2260,26 +2260,40 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
 
 
 
-// 3.5 ILUMINAR CASILLAS ADICIONALES EN POLÍGONOS
+// 3.5 BADGE DE UNIDADES ADICIONALES EN POLÍGONOS (+EXCESO)
 document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
     let sel = r.querySelector('.s-type')?.value;
     let uCell = r.querySelector('.u-manual-cell');
+    let divFlex = uCell ? uCell.querySelector('div') : null;
     
+    if (!divFlex) return;
+
+    // Buscamos o creamos el badge del exceso
+    let badge = divFlex.querySelector('.badge-adicional');
+
     if (sel && sel !== "Seleccionar..." && fleet[sel]) {{
-        // Si las unidades usadas superan el Schedule disponible
-        if (fleet[sel].used > fleet[sel].stock) {{
-            if (uCell) {{
-                uCell.style.backgroundColor = "#ffcdd2"; // 🔴 Rojo pastel para adicionales
+        let exceso = fleet[sel].used - fleet[sel].stock;
+        
+        if (exceso > 0) {{
+            // 🔥 Si hay unidades por encima del Schedule, mostramos el badge (+4)
+            if (!badge) {{
+                badge = document.createElement('span');
+                badge.className = 'badge-adicional';
+                badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
+                let spanU = divFlex.querySelector('.u-manual');
+                if (spanU) spanU.after(badge);
             }}
+            badge.innerText = `+${{exceso}}`;
+            badge.style.display = 'inline-block';
+            badge.title = `${{fleet[sel].stock}} de Schedule + ${{exceso}} adicionales`;
+            uCell.style.backgroundColor = "#d3f0e5"; // Mantiene su verde normal
         }} else {{
-            if (uCell) {{
-                uCell.style.backgroundColor = "#d3f0e5"; // 🟢 Su verde claro habitual
-            }}
+            if (badge) badge.style.display = 'none';
+            uCell.style.backgroundColor = "#d3f0e5";
         }}
     }} else {{
-        if (uCell) {{
-            uCell.style.backgroundColor = "#d3f0e5"; // 🟢 Su verde claro habitual
-        }}
+        if (badge) badge.style.display = 'none';
+        uCell.style.backgroundColor = "#d3f0e5";
     }}
 }});
 
