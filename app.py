@@ -2950,57 +2950,52 @@ function generarExcelPolys() {{
             let unidad = r.querySelector('.s-type')?.value || "";
             let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
 
+            // 🔥 DETECTOR DE UNIDADES ADICIONALES PARA MODO EXCEL
+            let badgeExceso = r.querySelector('.badge-adicional');
+            let estiloAsig = "text-align:center; vertical-align:middle; font-weight:bold;";
+            
+            if (badgeExceso && badgeExceso.style.display !== 'none') {{
+                let textoBadge = badgeExceso.innerText; // ej: (+4)
+                asignadas = `${{asignadas}} <span style="color:#d32f2f; font-size:12px;">(${{textoBadge}})</span>`;
+                estiloAsig += " color:#d32f2f;"; // Pinta la cantidad de la unidad en rojo
+            }} else {{
+                estiloAsig += " color:#25282b;";
+            }}
+
             let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
 
-            
-        if (fRow) {{
-
-            console.log("Fila encontrada:", fRow);
-
-            console.log("ORH:", fRow.querySelector(".edit-orh"));
-            console.log("HORA:", fRow.querySelector(".orh-hora"));
-            console.log("OCUP:", fRow.querySelector(".edit-ocup"));
-
-            let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
-            let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
-
-            console.log("Valores:", orh, ocup);
-
-            valSpr = orh + " / " + ocup;
-        }}
-
-
+            if (fRow) {{
+                let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
+                let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
+                valSpr = orh + " / " + ocup;
+            }}
 
             let filaHtml = '<tr>';
             if (index === 0) {{
                 filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">${{plan}}</td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{vol}}</td>
+                    <td rowspan="${filasValidas.length}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">${{plan}}</td>
+                    <td rowspan="${filasValidas.length}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{vol}}</td>
                 `;
             }}
             filaHtml += `
                 <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{asignadas}}</td>
+                <td style="border:1px solid #808080; ${{estiloAsig}}">${{asignadas}}</td>
                 <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{valSpr}}</td>
             `;
             if (index === 0) {{
-                filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
+                filaHtml += `<td rowspan="${filasValidas.length}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
             }}
             filaHtml += '</tr>';
             body.innerHTML += filaHtml;
         }});
     }});
 
-
-    // 1. Asignamos el valor del total
     let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
     let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
     if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
 
-    // 2. 🔥 LIMPIEZA EXCLUSIVA PARA EXCEL:
-    // Ocultamos todas las filas del tfoot de la tabla actual que NO sean la de "TOTAL RUTEADAS"
     let tablaActual = document.querySelector('#tab-' + tabId + ' table');
     if (tablaActual) {{
         let filasFooter = tablaActual.querySelectorAll('tfoot tr');
@@ -3011,7 +3006,6 @@ function generarExcelPolys() {{
         }});
     }}
 }}
-
 
 
 
