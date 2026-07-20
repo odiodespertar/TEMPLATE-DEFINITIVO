@@ -1924,20 +1924,18 @@ function showTab(n, btn) {{
     }}
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
-
-
     function stepVal(btn, delta, type) {{
     let row = btn.closest('tr');
     let sel = row.querySelector('.s-type').value;
     
     // Si no hay unidad seleccionada, no hace nada
-    if(sel === "Seleccionar..." || !sel) return;
+    if(sel === "Seleccionar...") return;
 
     // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
     let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
     let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
     
-    if (!fRow) return;
+    if (!fRow) return; // Seguridad por si no encuentra la unidad
 
     let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
     let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
@@ -1945,23 +1943,39 @@ function showTab(n, btn) {{
     if(type === 'u') {{
         let span = row.querySelector('.u-manual');
         let val = parseInt(span.innerText) || 0;
-        let newVal = val + delta;
-        if (newVal < 0) newVal = 0;
 
-        // 🔥 PERMITE AGREGAR CUALQUIER UNIDAD ADICIONAL SIN LÍMITE
-        if (delta > 0 && left <= 0) {{
-            showAlert("⚠️ UNIDAD ADICIONAL. Se registrará como exceso en Schedule.");
-        }}
-        span.innerText = newVal;
-    }} else {{
+
+// 🔥 SOLO ALGUNOS CAR PUEDEN EXCEDERSE
+let nombreUpper = sel.toUpperCase();
+
+let esFlexible =
+    nombreUpper.includes("CAR - 3H") ||
+    nombreUpper.includes("CAR - 5H") ||
+    nombreUpper.includes("CAR - 8H");
+
+// Si NO es flexible, bloquear cuando ya no hay disponibles
+if (delta > 0 && left <= 0 && !esFlexible) {{
+    showAlert("⚠️ NO PUEDES AGREGAR MÁS UNIDADES.");
+    return;
+}}
+
+// Si SÍ es flexible, permitir negativos pero mostrar alerta
+if (delta > 0 && left <= 0 && esFlexible) {{
+    showAlert("⚠️ EXCESO DE UNIDADES CAR. Se registrará como negativo.");
+}}
+        span.innerText = val + delta;
+                }} else {{
         let span = row.querySelector('.spr-real-val');
         let val = parseFloat(span.innerText) || 0;
         let newVal = Math.round(val + delta);
 
+        // VALIDACIÓN: Solo bloquea si intentas SUBIR (delta > 0) y YA te pasaste del máximo
         if (delta > 0 && newVal > sprMaxReal) {{
             showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
             return; 
         }}
+        
+        // Si es para bajar o está dentro del rango, permite el cambio
         span.innerText = newVal;
     }}
     editedRowsPlan.add(row);
@@ -2142,12 +2156,14 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
     let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
     let vCalcEl = bl.querySelector('.v-calculado-total');
 
+    // Obtenemos el nombre del plan aquí para identificar CENTRO 1 y CENTRO 2
     let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
     let esCentro = (nombrePlanPadre === "CENTRO 1" || nombrePlanPadre === "CENTRO 2");
     
     let celdaNodos = bl.querySelector('.nodos-val');
     let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
     
+    // Obtenemos todas las filas del bloque
     let filas = bl.querySelectorAll('.calc-row');
 
     filas.forEach((r, index) => {{
@@ -2155,11 +2171,15 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let uManual = r.querySelector('.u-manual');
         let sp = r.querySelector('.spr-real-val');
         
+        // 🔥 AQUÍ ESTÁ LA MAGIA:
+        // Si NO es Centro Y tiene nodo, aplica la regla (Funciona para todos los demás)
+        // Si ES Centro, esta condición da FALSE y se salta la asignación automática
         if (!esCentro && tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
             sType.value = "Large Van MLP foráneo";
             uManual.innerText = "1";
         }}
 
+        // Si el usuario cambió la unidad manualmente, aseguramos que si es "Seleccionar...", la cantidad sea 0
         if (sType.value === "" || sType.value === "Seleccionar...") {{
             uManual.innerText = "0";
         }}
@@ -2167,6 +2187,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let s = sType.value;
         let u = parseInt(uManual.innerText) || 0;
 
+        // 🔥 CANDADO ALCHICHICA
         let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
         if (nombrePlanPadre.includes("ALCHICHICA")) {{
             if (s !== "Seleccionar..." && s !== "") {{
@@ -2178,32 +2199,19 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             return; 
         }}
 
+        // Lógica de flota
         if(s !== "Seleccionar..." && s !== "" && fleet[s]) {{
             if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
             fleet[s].used += u; 
             vA += (u * (parseFloat(sp.innerText) || 0));
-
-            // 🔥 DETECTOR DE UNIDADES ADICIONALES (SI DELTA < 0, PINTA EN ROJO PASTEL)
-            let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
-            let fRow = fRows.find(fr => fr.querySelector('.edit-name').innerText.trim() === s);
-            let deltaVal = fRow ? parseInt(fRow.querySelector('.f-left').innerText) : 0;
-
-            if (deltaVal < 0) {{
-                // Color Rojo/Salmón Pastel para adicionales
-                r.querySelector('.u-manual-cell').style.setProperty("background-color", "#ffcdd2", "important");
-                sp.style.setProperty("background-color", "#ffcdd2", "important");
-                sp.style.setProperty("color", "#b71c1c", "important");
-            }} else {{
-                // Estilo verde/blanco normal
-                r.querySelector('.u-manual-cell').style.setProperty("background-color", "#d3f0e5");
-                sp.style.setProperty("background-color", "#edf2f2");
-                sp.style.setProperty("color", "#25282b");
-            }}
+            sp.style.setProperty("background-color", "#edf2f2");
+            sp.style.setProperty("color", "#25282b");
         }} else {{
             sp.style.setProperty("background-color", "#FFFFFF");
         }}
     }});
 
+    // ... (Cálculo de vCalcEl y vT igual que antes) ...
     vCalcEl.innerText = Math.round(vA);
     let d = bl.querySelector('.p-diff');
     let diffVal = Math.round(vA);
@@ -2214,21 +2222,85 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 }});
 
 
-// 4. FILTRAR LISTA (Permite seleccionar cualquier unidad siempre)
-document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-    bl.querySelectorAll('.s-type').forEach(s => {{
-        let cur = s.value; 
-        let opt = '<option value="">Seleccionar...</option>';
+
+// 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
+document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+    let nameCell = row.querySelector('.edit-name');
+    if (!nameCell) return;
+    
+    let n = nameCell.innerText.trim();
+    
+    // Buscamos el valor de Ruteadas (USADAS)
+    let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
+    let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
+    let cL = row.querySelector('.f-left'); // Columna DELTA
+    
+    // --- NUEVO: Lógica de color para columna USADAS ---
+    let ruteadaCell = row.querySelector('.f-ruteadas');
+    if (ruteadaCell) {{
+        if (ruteadasManuales > 0) {{
+            ruteadaCell.style.backgroundColor = "#d3f0e5"; // Color fondo usadas 
+            ruteadaCell.style.color = "#008B8B";           // numero verde usadas
+            ruteadaCell.style.fontWeight = "bold";
+        }} else {{
+            ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
+            ruteadaCell.style.color = "";
+            ruteadaCell.style.fontWeight = "bold";         // Mantenemos negrita si así lo quieres
+        }}
+    }}
+
+
+    // --- NUEVO: Lógica de color para columna DELTA ---
+    if (cL) {{
+        let diff = stock - ruteadasManuales;
+        cL.innerText = diff;
         
-        Object.keys(fleet).forEach(k => {{
-            opt += `<option value="${{k}}">${{k}}</option>`;
-        }});
-        
-        s.innerHTML = opt;
-        s.value = cur;
-        updateSelectColor(s);
-    }});
+        if (diff < 0) {{
+            cL.style.color = "red"; 
+            cL.style.fontWeight = "bold"; 
+            cL.style.background = "transparent";
+        }} else if (diff === 0 && stock > 0) {{
+            cL.style.color = "white"; 
+            cL.style.background = "#fc765d";
+        }} else {{
+            cL.style.color = "#17191a"; 
+            cL.style.background = "transparent"; 
+            cL.style.fontWeight = "normal";
+        }}
+    }}
 }});
+
+
+       // 4. FILTRAR LISTA
+document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+
+            const listaNegativos = ["Car - 8h", "Car - 5h", "Car - 3h"];
+
+            bl.querySelectorAll('.s-type').forEach(s => {{
+                let cur = s.value; 
+                let opt = '<option value="">Seleccionar...</option>';
+                
+                Object.keys(fleet).forEach(k => {{
+                    let nameLower = k.toLowerCase();
+                    let stock = fleet[k].stock;
+                    let used = fleet[k].used;
+                    
+                    let esFlexible = listaNegativos.some(u => nameLower.includes(u));
+                    let tieneStockInicial = (stock > 0); 
+                    let tieneCapacidad = (stock - used > 0);
+                    
+                    if (tieneStockInicial && (tieneCapacidad || esFlexible || k === cur)) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
+                    }}
+                }});
+                
+                s.innerHTML = opt;
+                s.value = cur;
+
+                updateSelectColor(s);
+
+            }});
+        }});
 
 
     // --- 5. CALCULO DE TOTALES (Lógica Precisa) ---
@@ -2607,26 +2679,50 @@ function resetRow(sel) {{
         let inventarioDisponibleReal = stockInicialFlota - totalUnidadesUsadasEnEstaPestana;
         if (inventarioDisponibleReal < 0) inventarioDisponibleReal = 0;
 
-
-        // 7. CÁLCULO DE LAS UNIDADES NECESARIAS (SIN BLOQUEO NI TOPES DE DISPONIBILIDAD)
+        // 7. CÁLCULO DE LAS UNIDADES NECESARIAS CON SU TOPE INVIOLABLE
         let unidadesCalculadas = 0;
         
         if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
             unidadesCalculadas = 1;
         }} else if (volumenRestantePlan > 0 && sprEncontrado > 0) {{
+            // Cuántas se necesitan idealmente para finiquitar los paquetes faltantes
             unidadesCalculadas = Math.ceil(volumenRestantePlan / sprEncontrado);
             
-            // Notifica cuando la asignación automática genera adicionales
-            if (unidadesCalculadas > inventarioDisponibleReal && inventarioDisponibleReal >= 0) {{
-                showAlert("⚠️ UNIDADES ADICIONALES. Se asignaron " + unidadesCalculadas + " de " + unidadSeleccionada + " (Supera el Schedule).");
+            // Reglas de excepciones infinitas/negativas para tus otras pestañas
+            let permiteInfinito = false;
+            let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
+            let activeTabBtn = document.querySelector('.tab-btn.active');
+            
+            if (activeTabBtn) {{
+                let tabId = activeTabBtn.textContent.trim();
+                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                    permiteInfinito = true;
+                }} else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                    if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
+                        permiteInfinito = true;
+                    }}
+                }}
+            }}
+
+            // CANDADO DE DISPONIBILIDAD: Si no es unidad infinita, limitamos estrictamente al stock físico real de la pestaña
+            if (!permiteInfinito) {{
+                if (unidadesCalculadas > inventarioDisponibleReal) {{
+                    unidadesCalculadas = inventarioDisponibleReal; // Agarra todo lo que queda de esta pestaña
+                    
+                    if (unidadesCalculadas === 0) {{
+                        showAlert("⚠️ FLOTA AGOTADA. No quedan unidades disponibles de: " + unidadSeleccionada);
+                    }} else {{
+                        showAlert("⚠️ FLOTA INSUFICIENTE. Se asignaron las últimas " + unidadesCalculadas + " unidades para amortiguar el volumen.");
+                    }}
+                }}
             }}
         }}
 
+        // Inyectar el resultado final calculado en la columna "# USADAS"
         let spanU = r.querySelector('.u-manual');
         if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
-
 
         // 8. ADICIÓN MANUAL DE FILA EXTRA (Conserva tu expansión automática de la tabla)
         let permiteInfinitoFila = false;
