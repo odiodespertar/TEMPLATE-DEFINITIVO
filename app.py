@@ -2221,7 +2221,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let opt = '<option value="">Seleccionar...</option>';
         
         Object.keys(fleet).forEach(k => {{
-            opt += `<option value="${k}">${k}</option>`;
+            opt += `<option value="${{k}}">${{k}}</option>`;
         }});
         
         s.innerHTML = opt;
