@@ -2275,9 +2275,9 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
                 badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
                 if (spanU) spanU.after(badge);
             }}
-            badge.innerText = `+${excesoFila}`;
+            badge.innerText = `+${{excesoFila}}`;
             badge.style.display = 'inline-block';
-            badge.title = `${cubiertasPorSchedule} de Schedule + ${excesoFila} adicionales en este plan`;
+            badge.title = `${{cubiertasPorSchedule}} de Schedule + ${{excesoFila}} adicionales en este plan`;
             uCell.style.backgroundColor = "#d3f0e5";
         }} else {{
             if (badge) badge.style.display = 'none';
