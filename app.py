@@ -1357,7 +1357,7 @@ SCHEDULE
 USADAS
 </th>
 <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">
-DELTA
++ADIC
 </th>
 
         </thead>
@@ -1390,7 +1390,7 @@ DELTA
                 <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">+ADIC</th>
             </tr>
         </thead>
         <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
@@ -1422,7 +1422,7 @@ USADAS
    <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
 USADAS
 </th>
-    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">+ADIC</th>
   </tr>
 </thead>
 
@@ -1475,7 +1475,7 @@ USADAS
     font-size:11px;
     color: #25282b !important;
     width:50px;">
-    DELTA
+    +ADIC
 </th>
 </tr>
             
@@ -1523,7 +1523,7 @@ USADAS
     font-size:11px;
     color: #25282b !important;
     width:50px;">
-    DELTA
+    +ADIC
 </th>
 </tr>
             
