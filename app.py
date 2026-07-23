@@ -2191,46 +2191,52 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
 
 
-// 3. REPLICAR NEGATIVOS Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
+// 3. REPLICAR Y CALCULAR +ADIC BASADO EN "RUTEADAS" MANUALES
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let nameCell = row.querySelector('.edit-name');
     if (!nameCell) return;
     
     let n = nameCell.innerText.trim();
     
-    // Buscamos el valor de Ruteadas (USADAS)
+    // Buscamos el valor de Ruteadas (USADAS) y del Schedule
     let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
     let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
-    let cL = row.querySelector('.f-left'); // Columna DELTA
+    let cL = row.querySelector('.f-left'); // Columna +ADIC
     
-    // --- NUEVO: Lógica de color para columna USADAS ---
+    // --- Lógica de color para columna USADAS ---
     let ruteadaCell = row.querySelector('.f-ruteadas');
     if (ruteadaCell) {{
         if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#d3f0e5"; // Color fondo usadas 
-            ruteadaCell.style.color = "#008B8B";           // numero verde usadas
+            ruteadaCell.style.backgroundColor = "#d3f0e5"; // Fondo verde claro
+            ruteadaCell.style.color = "#008B8B";           // Número verde
             ruteadaCell.style.fontWeight = "bold";
         }} else {{
-            ruteadaCell.style.backgroundColor = "#dcdcdc";        // Vuelve a su color original
+            ruteadaCell.style.backgroundColor = "#dcdcdc";
             ruteadaCell.style.color = "";
-            ruteadaCell.style.fontWeight = "bold";         // Mantenemos negrita si así lo quieres
+            ruteadaCell.style.fontWeight = "bold";
         }}
     }}
 
-
-    // --- NUEVO: Lógica de color para columna DELTA ---
+    // --- LÓGICA DE COLOR Y FORMATO POSITIVO PARA +ADIC ---
     if (cL) {{
-        let diff = stock - ruteadasManuales;
-        cL.innerText = diff;
+        let exceso = ruteadasManuales - stock; // Diferencia de adicionales
         
-        if (diff < 0) {{
+        if (exceso > 0) {{
+            // 🔥 Si excediste el Schedule, muestra +3 en color rojo
+            cL.innerText = "+" + exceso;
             cL.style.color = "red"; 
             cL.style.fontWeight = "bold"; 
             cL.style.background = "transparent";
-        }} else if (diff === 0 && stock > 0) {{
+        }} else if (ruteadasManuales === stock && stock > 0) {{
+            // Si consumiste exactamente todo el Schedule (0 sobrantes, 0 faltantes)
+            cL.innerText = "0";
             cL.style.color = "white"; 
-            cL.style.background = "#fc765d";
+            cL.style.background = "#fc765d"; // Naranja/Rojo de completado
+            cL.style.fontWeight = "bold";
         }} else {{
+            // Si todavía te quedan unidades por usar del Schedule
+            let restantes = stock - ruteadasManuales;
+            cL.innerText = restantes;
             cL.style.color = "#17191a"; 
             cL.style.background = "transparent"; 
             cL.style.fontWeight = "normal";
