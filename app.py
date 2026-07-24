@@ -195,8 +195,9 @@ def gen_master_rows(data_dict, table_id):
             p_name = nombres_prec[i-1]
         elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             p_name = nombres_smx2[i-1]
-        else:
-    if table_id == 1:   # PREC SMX5
+    else:
+  
+        if table_id == 1:   # PREC SMX5
 
         if i == 9:
             p_name = "ADICIONAL 1"
