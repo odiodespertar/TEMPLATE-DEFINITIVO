@@ -196,7 +196,7 @@ def gen_master_rows(data_dict, table_id):
         elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             p_name = nombres_smx2[i-1]
         else:
-            p_name = f"PLAN {i}"
+            p_name = f"ADICIONAL {i}"
 
         if (i-1) < total_items:
             name, spr = items[i-1]
