@@ -50,7 +50,7 @@ st.markdown("""
     @media (max-width: 1200px) {{
         .calc-row td, .calc-row select, .calc-row span {{
             font-size: 12px !important; /* En Windows se ve bien a 12px */
-        }
+        }}
     }}
 
     /* Si Windows sigue distorsionando, forzamos un zoom negativo leve */
