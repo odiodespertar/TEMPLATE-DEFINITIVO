@@ -518,8 +518,8 @@ def gen_poligonos(data_target=None):
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
             nombre_final = NOMBRES_PLANES_C1[i-1]
             
-        elif data_target == u_C1_SCH1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
-            nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
+        elif data_target == u_C1_SCH1 and (i-1) < len(NOMBRES_PLANES_C1_SCH1):
+            nombre_final = NOMBRES_PLANES_C1_SCH1[i-1]
 
         else:
              nombre_final = f"PLAN {i}"
