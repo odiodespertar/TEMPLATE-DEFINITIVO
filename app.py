@@ -114,7 +114,7 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 # --- DATOS NUEVOS PARA C1 SJA1 ---
-u_C1_SJA1 = { 
+u_C1_SCH1 = { 
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
     "Car MLP": [80, 100],
@@ -1275,7 +1275,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
                 <!--
                 <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
                 -->
-                <button class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
+                <button class="tab-btn" onclick="showTab(6, this)">C1 SCH1</button>
             </div> 
 
 
