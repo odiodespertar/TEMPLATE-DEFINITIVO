@@ -2333,7 +2333,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             
             // Muestra la unidad si tiene saldo libre, si es la permitida de la pestaña, o si ya está seleccionada
             if (tieneCapacidad || esPermitida || k === cur) {{
-                opt += `<option value="${k}">${k}</option>`;
+                opt += `<option value="${{k}}">${{k}}</option>`;
             }}
         }});
         
