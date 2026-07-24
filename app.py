@@ -2313,10 +2313,10 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
     // 🔥 Definir unidades permitidas sin stock dependiendo de la pestaña actual
     let permitidasSinStock = [];
-    if (tabId === 'sde') {{
-        permitidasSinStock = ["car 5h", "car - 5h"];
+    if (tabId === 'SDE') {{
+        permitidasSinStock = ["Car 5h", "Car - 5h"];
     }} else {{
-        permitidasSinStock = ["car 8h", "car - 8h"]; // Se mantiene para las demás pestañas
+        permitidasSinStock = ["Car 8h", "Car - 8h"]; // Se mantiene para las demás pestañas
     }}
 
     bl.querySelectorAll('.s-type').forEach(s => {{
