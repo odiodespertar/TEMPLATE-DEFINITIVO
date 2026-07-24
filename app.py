@@ -3753,7 +3753,8 @@ function actualizarSelects() {{
     const listaPermitidas = [
         "Small Van MLP foráneo",
         "Car 8h",
-        "Car - 8h"
+        "Car - 8h",
+        "Car - 5h"
     ];
 
     document.querySelectorAll('.s-type').forEach(select => {{
