@@ -199,23 +199,23 @@ def gen_master_rows(data_dict, table_id):
   
         if table_id == 1:   # PREC SMX5
 
-        if i == 9:
-            p_name = "ADICIONAL 1"
-        elif i == 10:
-            p_name = "ADICIONAL 2"
-        elif i == 11:
-            p_name = "ADICIONAL 3"
-        else:
-            p_name = f"PLAN {i}"
+            if i == 9:
+                p_name = "ADICIONAL 1"
+            elif i == 10:
+                p_name = "ADICIONAL 2"
+            elif i == 11:
+                p_name = "ADICIONAL 3"
+            else:
+                p_name = f"PLAN {i}"
 
-    else:
-        p_name = f"PLAN {i}"
+         else:
+             p_name = f"PLAN {i}"
 
-        if (i-1) < total_items:
+         if (i-1) < total_items:
             name, spr = items[i-1]
-        else:
+         else:
             name, spr = "", [0, 0]
-
+ 
         # Caso A: Encabezado/Divisor
         if "---" in name:
             # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
