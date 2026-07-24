@@ -2308,16 +2308,11 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
 
 
 
-// 4. FILTRAR LISTA (Regla específica por pestaña para unidades sin stock)
+// 4. FILTRAR LISTA (Solo Small Van MLP foráneo y Car 8h permanecen siempre visibles)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
-    // 🔥 Definir unidades permitidas sin stock dependiendo de la pestaña actual
-    let permitidasSinStock = [];
-    if (tabId === 'SDE') {{
-        permitidasSinStock = ["Car 5h", "Car - 5h"];
-    }} else {{
-        permitidasSinStock = ["Car 8h", "Car - 8h"]; // Se mantiene para las demás pestañas
-    }}
+    // 🔥 Lista de unidades permitidas para seguir apareciendo sin stock
+    const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h"];
 
     bl.querySelectorAll('.s-type').forEach(s => {{
         let cur = s.value; 
@@ -2331,7 +2326,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
             let esPermitida = permitidasSinStock.some(u => nameLower.includes(u));
             let tieneCapacidad = (stock - used > 0);
             
-            // Muestra la unidad si tiene saldo libre, si es la permitida de la pestaña, o si ya está seleccionada
+            // Muestra la unidad si tiene saldo libre, o si es de las permitidas, o si ya está seleccionada en esta fila
             if (tieneCapacidad || esPermitida || k === cur) {{
                 opt += `<option value="${{k}}">${{k}}</option>`;
             }}
