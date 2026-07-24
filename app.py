@@ -1393,7 +1393,7 @@ USADAS
                 <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">+ADIC</th>
             </tr>
         </thead>
-        <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
+        <tbody id="body-6">{gen_master_rows(u_C1_SCH1, 6)}</tbody>
         <tfoot class="fila-total"> 
     <tr class="fila-total">
         <td style="border:none;"></td>
