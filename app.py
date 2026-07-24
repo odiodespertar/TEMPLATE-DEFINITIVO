@@ -2156,13 +2156,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let uManual = r.querySelector('.u-manual');
         let sp = r.querySelector('.spr-real-val');
         
-        // 🔥 AQUÍ ESTÁ LA MAGIA:
-        // Si NO es Centro Y tiene nodo, aplica la regla (Funciona para todos los demás)
-        // Si ES Centro, esta condición da FALSE y se salta la asignación automática
-        if (!esCentro && tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
-            sType.value = "Large Van MLP foráneo";
-            uManual.innerText = "1";
-        }}
+    
 
         // Si el usuario cambió la unidad manualmente, aseguramos que si es "Seleccionar...", la cantidad sea 0
         if (sType.value === "" || sType.value === "Seleccionar...") {{
