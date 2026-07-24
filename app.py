@@ -501,7 +501,7 @@ def gen_poligonos(data_target=None):
 
     # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
     if data_target == u_C1_SCH1:
-        limite_tablas = 21
+        limite_tablas = 16
     elif es_sde:
         limite_tablas = 5  # 🌟 Renderizará exactamente 4 PLANES (1 al 4)
     else:
