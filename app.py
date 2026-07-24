@@ -105,7 +105,7 @@ NOMBRES_PLANES_C1 = [
     "PLAN 10"
 ]
 
-u_C1 = 
+u_C1 = {
     "Rental Large Van": [100, 100], "Large Van MLP": [100, 100], "Small Van MLP":[100, 100], "Delivery Cell Large Van": [1, 1], "Delivery Cell Small Van": [1, 1]
 }
 
