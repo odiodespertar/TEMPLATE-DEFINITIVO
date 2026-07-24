@@ -1154,7 +1154,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <div>
             <h4 style="margin: 0 0 10px 0; color: #808080; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
-                <li>🔴 Campeche ➤ Rental Large Van ➤ NODOS = Delivery Cell-Dedicada.</li>
+                <li>🔴 Campeche ➤ Rental Large Van (excluir=no lleva nodos) ➤ NODOS=Delivery Cell (Dedicada = #paradas).</li>
                 <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
             </ul>
         </div>
@@ -4221,7 +4221,7 @@ info_operativa = {
             - 👉 Vol aprox. 550<br>
             - 👉 Preguntar si habrá ids a descartar<br>
             - 🏍️ Motos SPR 30<br>
-            - 👉 fecha promesa + quemada</p> 
+            - 👉 fecha promesa + quemada (dependiendo del volumen que ellos manden, ves si agregas la fecha quemada)</p> 
         </div>
 
 
@@ -4235,7 +4235,7 @@ info_operativa = {
              - 📌 Ellos envían el volumen a tomar<br>
              - ✅ Poco volumen = polígonos que no salen en logis porque se pegan a otros que están cerca<br>
              - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
-             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos/p>
+             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos</p>
         </div>
 
 
