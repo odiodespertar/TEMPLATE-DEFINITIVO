@@ -327,7 +327,7 @@ def gen_poligonos(data_target=None):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
    
-    es_c1 = (data_target == u_C1 or data_target == u_C1_SJA1)
+    es_c1 = (data_target == u_C1 or data_target == u_C1_SCH1)
     es_sde = (data_target == u_SDE)
     es_prec = (data_target == u_PREC)
 
@@ -500,7 +500,7 @@ def gen_poligonos(data_target=None):
 
 
     # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
-    if data_target == u_C1_SJA1:
+    if data_target == u_C1_SCH1:
         limite_tablas = 21
     elif es_sde:
         limite_tablas = 5  # 🌟 Renderizará exactamente 4 PLANES (1 al 4)
@@ -518,7 +518,7 @@ def gen_poligonos(data_target=None):
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
             nombre_final = NOMBRES_PLANES_C1[i-1]
             
-        elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
+        elif data_target == u_C1_SCH1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
             nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
 
         else:
@@ -539,7 +539,7 @@ def gen_poligonos(data_target=None):
              rowspan_actual = 5
         elif es_prec:
              rowspan_actual = 4
-        elif data_target == u_C1_SJA1:
+        elif data_target == u_C1_SCH1:
             if nombre_final == "CENTRO 1":
                 rowspan_actual = 8  # 1 principal + 7 extra
             else:
@@ -552,7 +552,7 @@ def gen_poligonos(data_target=None):
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
         elif es_prec:
             filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
-        elif data_target == u_C1_SJA1:
+        elif data_target == u_C1_SCH1:
            if nombre_final == "CENTRO 1":
                filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 7 filas extra + 1 principal = 5 filas totales
            else:
@@ -1653,7 +1653,7 @@ USADAS
 </div>
         
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
-        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
+        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
