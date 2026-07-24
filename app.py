@@ -271,11 +271,10 @@ def gen_master_rows(data_dict, table_id):
                 '''
 
             rows += f'''
-            <tr class="master-row" style="{st_base}">
-                <td contenteditable="true" class="edit-name" oninput="recalc()"
-                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #25282b; width: 150px; color: #25282b;">
-                    {name}
-                </td>
+            <td contenteditable="true" class="edit-name" oninput="recalc()"
+    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #25282b; width: 150px; color: #25282b;">
+    {p_name if not name else name}
+</td>
 
                 {celdas_orh_ocup}
 
