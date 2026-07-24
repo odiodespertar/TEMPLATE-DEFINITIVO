@@ -195,26 +195,23 @@ def gen_master_rows(data_dict, table_id):
             p_name = nombres_prec[i-1]
         elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             p_name = nombres_smx2[i-1]
-    else:
-  
-        if table_id == 1:   # PREC SMX5
-
-            if i == 9:
-                p_name = "ADICIONAL 1"
-            elif i == 10:
-                p_name = "ADICIONAL 2"
-            elif i == 11:
-                p_name = "ADICIONAL 3"
+        else:
+            if table_id == 1:   # PREC SMX5
+                if i == 9:
+                    p_name = "ADICIONAL 1"
+                elif i == 10:
+                    p_name = "ADICIONAL 2"
+                elif i == 11:
+                    p_name = "ADICIONAL 3"
+                else:
+                    p_name = f"PLAN {i}"
             else:
                 p_name = f"PLAN {i}"
 
-         else:
-             p_name = f"PLAN {i}"
-
          if (i-1) < total_items:
-            name, spr = items[i-1]
+             name, spr = items[i-1]
          else:
-            name, spr = "", [0, 0]
+             name, spr = "", [0, 0]
  
         # Caso A: Encabezado/Divisor
         if "---" in name:
