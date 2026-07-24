@@ -3575,15 +3575,15 @@ function updateFleetFloat() {{
     let totalCarSchedule = 0;   // Declaradas
     let totalNoCar = 0;         // El total original de MLP que tu código ya calculaba
 
+    // ⬇️ A PARTIR DE AQUÍ REEMPLAZAS EL BUCLE (document.querySelectorAll...):
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
-        let left = parseInt(row.querySelector('.f-left')?.innerText) || 0;
         
-        // Calculamos lo asignado
-        let asignado = stock - left;
+        // 🔥 LEEMOS DIRECTAMENTE LO QUE DICE EN "USADAS"
+        let asignado = parseInt(row.querySelector('.f-ruteadas')?.innerText) || 0;
 
-        if(name && stock > 0) {{
+        if(name && (stock > 0 || asignado > 0)) {{
             let nameLower = name.toLowerCase();
 
             // 1. CONTEO DE CARS (INCLUYENDO MOTO, SMALL VANS, ETC)
@@ -3596,18 +3596,17 @@ function updateFleetFloat() {{
             totalCarSchedule += stock;
             }}
 
-            // 2. CONTEO DE MLP (Acepta las normales y las que dicen "foráneo")
+            // 2. CONTEO DE MLP
             if(name.includes("MLP")) {{
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }}
 
-            // 3. CONTEO DE RENTALS (Cualquiera con la palabra "rental")
+            // 3. CONTEO DE RENTALS
             if(nameLower.includes("rental")) {{
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }}
-
 
             let isCar = nameLower.includes("car") || 
             nameLower.includes("híbrida") || 
@@ -3615,27 +3614,23 @@ function updateFleetFloat() {{
             nameLower.includes("small van") || 
             nameLower.includes("newbie");
             
-            
             let colorCategoria = isCar ? "#FF4500" : "#0000CD";
 
-            // --- TU LÓGICA ORIGINAL INTACTA PARA LOS TOTALES DE ABAJO ---
+            // 🔥 SUMA DIRECTA DE LA COLUMNA USADAS SIN RESTAR LAS ADICIONALES
             if (isCar) {{
-                if (left < 0) {{
-                    totalCarReal += stock + Math.abs(left);
-                }} else {{
-                    totalCarReal += asignado;
-                }}
+                totalCarReal += asignado;
             }} else {{
-                // Mantenemos la regla exacta original para totalNoCar
                 if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo")) {{
                     totalNoCar += asignado;
                 }}
             }}
 
+            let leftDisplay = row.querySelector('.f-left')?.innerText || "0";
+
             htmlLeft += `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:14px;"> 
                     <span style="color:#0a2745;">${{name}}</span>
-                    <span style="color:${{colorCategoria}}; font-weight:bold;">${{left}}/${{stock}}</span>
+                    <span style="color:${{colorCategoria}}; font-weight:bold;">${{leftDisplay}}/${{stock}}</span>
                 </div>
             `;
         }}
