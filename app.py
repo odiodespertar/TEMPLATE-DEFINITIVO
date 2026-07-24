@@ -1163,7 +1163,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <div>
             <h4 style="margin: 0 0 10px 0; color: #808080; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
             <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
-                <li>🟠 Todos los planes ➤ Car 8h/Car extra 8h E1 Tlalpan Nte, Sur y Xochi</li>
+                <li>👉 Iztapalapa, Coyoacán y si alcanza Tláhuac = Small Van 9h</li>
+                <li>👉 Resto de planes con car 8h</li>
                 <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
             </ul>
         </div>
