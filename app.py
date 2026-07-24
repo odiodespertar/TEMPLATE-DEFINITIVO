@@ -208,9 +208,9 @@ def gen_master_rows(data_dict, table_id):
             else:
                 p_name = f"PLAN {i}"
 
-         if (i-1) < total_items:
+        if (i-1) < total_items:
              name, spr = items[i-1]
-         else:
+        else:
              name, spr = "", [0, 0]
  
         # Caso A: Encabezado/Divisor
