@@ -4193,7 +4193,7 @@ info_operativa = {
             <img src="{url_final}" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
         </div>
 
-        <h3 style='color: #000; margin-bottom: 5px;'>ROL VP04</h3>
+        <h3 style='color: #000; margin-bottom: 5px;'>ROL APOYO</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
         
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
@@ -4208,26 +4208,16 @@ info_operativa = {
         <h3 style='color: #000; margin-top: 25px;'>🟪 SDE 🟪</h3>
         <hr style='border: 1px solid #FF00FF; margin-bottom: 20px;'>
         
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
-            - 👉 fecha promesa</p>
-        </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SGD2 PM2 - ⏰ 17:00 - 17:20</strong><br>
-             - 📌 Orígenes: MXJC01<br>
-             - 👉 Vol aprox. __<br>
-             - 👉 fecha promesa + quemada</p>
+             - 📌 Orígenes: MXJC01 para SD3 y MXJC02 para SD2 (en caso de que no hayan ruteado sd2 en la mañana)<br>
+             - 👉 MXJC01 último despacho de hoy + fecha promesa y quemada + onway<br>
+             - 👉 MXJC02 - revisar el volumen que tenían en la mañana y revisar si te da lo mismo con el último despacho + fecha promesa y quemada + onway // si salen poquitos, agarra todo el despacho del día + fecha promesa y quemada + todo at station y manda pivot para que SVC te valide vol.<br>
+             - 👉 Vol aprox. 170 - 250 aprox<br>
+             - 👉 prefijo SD3 siempre</p>
         </div>
 
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX5 PM2 - ⏰ 17:20 - 17:40</strong><br>
-             - 📌 Orígenes: MXCD02, MXCD06<br>
-             - 👉 Vol aprox. 400<br>
-             - 👉 fecha promesa + quemada</p>
-        </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX4 PM2 - ⏰ 17:40 - 18:00</strong><br>
@@ -4235,24 +4225,6 @@ info_operativa = {
             - 👉 Vol aprox. 550<br>
             - 🏍️ Motos en donde sea con SPR 25<br>
             - 👉 fecha promesa + quemada</p> 
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM2 - ⏰ 18:00 - 18:20</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 fecha promesa + quemada</p>
-            - 👉 Vol aprox. 250<br>
-            - 👉 SPR 28</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMT2 PM2 - ⏰ 18:40 - 19:00</strong><br>
-            - 📌 Origen MXNL01<br>
-            - 👉 Despacho hoy después 3 pm<br>
-            - 👉 fecha promesa + quemada<br>
-            - 👉 Vol. 800 aprox.<br>
-            - 👉 SPR 27-28 / se van las 30 unidades<br>
-            - 👉 Pido validación</p>
         </div>
 
 
@@ -4263,13 +4235,10 @@ info_operativa = {
 
         <div style='background: white; border-left: 6px solid #DC143C; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #DC143C;">●</span> SCP1 AM1 - ⏰ 20:00 - 21:00</strong><br>
-             - 📌 Ellos envían el volumen a tomar, por lo que puede tomarse todo o descartarse ciertos despachos y orígenes<br>
-             - 👉 Vieja experiencia<br>
-             - 👉 Archivo de vehículos<br>
-             - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅ Volumen aprox. 3000<br>
-             - 🚛 Large Van MLP resto de planes / Cuando hay vol. normal y Nodos = Híbrida<br>
-             - 🚛 Rental Large Van en Campeche = vol. normal / Delivery Cell (dedicada) = NODOS solo Campeche</p>
+             - 📌 Ellos envían el volumen a tomar<br>
+             - ✅ Poco volumen = polígonos que no salen en logis porque se pegan a otros que están cerca<br>
+             - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
+             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos/p>
         </div>
 
 
@@ -4288,8 +4257,7 @@ info_operativa = {
             <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:30 - 22:10</strong><br>
              - 📌 Origen 09 + onway<br>
              - ➕ Agregan ids a ciclo (de origen 10)<br>
-             - ✅  Validan volumen / aprox. 2500-2600<br>
-             - 🚛 Tlalpan norte, sur y Xochimilco con car 8h extra E1 (para no dropear)</p>
+             - 🚛 Small van 9h en Iztapalapa, Coyoacán y si sobra en Tláhuac</p>
         </div>
 
 
