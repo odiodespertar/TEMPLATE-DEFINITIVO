@@ -80,8 +80,7 @@ u_PREC = {
     "Small 9h Ext Car": [70, 75] 
 }
 
-NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO", "ADICIONAL 1",  
-   "ADICIONAL 2", "ADICIONAL 3"]
+NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
 
 # --- AÑADE ESTO DEBAJO DE U_PREC ---
@@ -103,8 +102,7 @@ NOMBRES_PLANES_C1 = [
     "HOLPECHEN",
     "MAXCANUN",
     "SEYBAPLAYA",
-    "ADICIONAL 1",
-    "ADICIONAL 2"
+    "PLAN 10"
 ]
 
 u_C1 = {
@@ -180,8 +178,7 @@ def gen_master_rows(data_dict, table_id):
     items = list(data_dict.items())
     total_items = len(items)
 
-    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO", "ADICIONAL 1",  
-   "ADICIONAL 2", "ADICIONAL 3"]
+    nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
@@ -196,23 +193,13 @@ def gen_master_rows(data_dict, table_id):
         elif (data_dict == u_PREC_SMX2) and (i-1) < len(nombres_smx2):
             p_name = nombres_smx2[i-1]
         else:
-            if table_id == 1:   # PREC SMX5
-                if i == 9:
-                    p_name = "ADICIONAL 1"
-                elif i == 10:
-                    p_name = "ADICIONAL 2"
-                elif i == 11:
-                    p_name = "ADICIONAL 3"
-                else:
-                    p_name = f"PLAN {i}"
-            else:
-                p_name = f"PLAN {i}"
+            p_name = f"PLAN {i}"
 
         if (i-1) < total_items:
-             name, spr = items[i-1]
+            name, spr = items[i-1]
         else:
-             name, spr = "", [0, 0]
- 
+            name, spr = "", [0, 0]
+
         # Caso A: Encabezado/Divisor
         if "---" in name:
             # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
@@ -271,10 +258,11 @@ def gen_master_rows(data_dict, table_id):
                 '''
 
             rows += f'''
-            <td contenteditable="true" class="edit-name" oninput="recalc()"
-    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #25282b; width: 150px; color: #25282b;">
-    {p_name if not name else name}
-</td>
+            <tr class="master-row" style="{st_base}">
+                <td contenteditable="true" class="edit-name" oninput="recalc()"
+                    style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #25282b; width: 150px; color: #25282b;">
+                    {name}
+                </td>
 
                 {celdas_orh_ocup}
 
@@ -513,7 +501,7 @@ def gen_poligonos(data_target=None):
 
     # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
     if data_target == u_C1_SCH1:
-        limite_tablas = 15
+        limite_tablas = 21
     elif es_sde:
         limite_tablas = 5  # 🌟 Renderizará exactamente 4 PLANES (1 al 4)
     else:
