@@ -2291,7 +2291,7 @@ function showTab(n, btn) {{
         // ==============================================================================
         const excelBtn = document.getElementById('excel-btn');
         if (excelBtn) {{
-            if (n === 2 || n === 6 || n === 7 || n === 8 || n === 9) { // 🟢 Añadido "n === 9"
+            if (n === 2 || n === 6 || n === 7 || n === 8 || n === 9) {{ // 🟢 Añadido "n === 9"
                 excelBtn.style.setProperty('display', 'inline-block', 'important');
             }} else {{
                 excelBtn.style.setProperty('display', 'none', 'important');
