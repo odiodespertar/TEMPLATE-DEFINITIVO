@@ -6,10 +6,10 @@ reglas_ruteo = {
     "smx9_extendido": (
         "**Prioridades SMX9 SD2:**\n\n"
         "* 📌 Orígenes: MXCD02, MXCD06\n"
-        "* 👉 fecha promesa+fecha quemada\n"
-        "* 👉 Último despacho de hoy (3 pm en adelante)"
+        "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+        "* 👉 Fecha promesa + fecha quemada + onway"
     ),
-    "sgd_extendido": (
+    "sgd2_extendido": (
         "**Prioridades SGD2 SD3:**\n\n"
         "* 📌 Orígenes: MXJC01 para SD3 y MXJC02 para SD2 (en caso de que no hayan ruteado sd2 en la mañana)\n"
         "* 👉 MXJC01 - último despacho de hoy (3 pm adelante) + fecha promesa + onway\n"
@@ -29,29 +29,29 @@ reglas_ruteo = {
     "smx5_extendido": (
         "**Prioridades SMX5 (EXTENDIDO):**\n\n"
         "* 📌 Orígenes: MXCD02, MXCD06\n"
-        "* 👉 fecha promesa + quemada\n"
-        "* 👉 Último despacho de hoy (3 pm en adelante)"
+        "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+        "* 👉 Fecha promesa + fecha quemada + onway"
     ),
     "smx4_extendido": (
         "**Prioridades SMX4:**\n\n"
-        "* 📌 Orígenes: MXCD02, MXCD06\n"
         "* 👉 Preguntar si habrá ids a descartar\n"
-        "* 🏍️ Motos SPR 30\n"
-        "* 👉 fecha promesa + quemada\n"
-        "* 👉 Último despacho de hoy (3 pm en adelante)"
+        "* 📌 Orígenes: MXCD02, MXCD06\n"
+        "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+        "* 👉 Fecha promesa + fecha quemada + onway\n"
+        "* 🏍️ Motos SPR 30"
     ),
     "smx2_extendido": (
         "**Prioridades SMX2:**\n\n"
         "* 📌 Orígenes: MXCD02, MXCD06\n"
-        "* 👉 fecha promesa + quemada\n"
         "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+        "* 👉 fecha promesa + quemada + onway\n"
         "* 👉 Rutear con parámetros precargados en logis SIN SPR"
     ),
     "smt2_extendido": (
         "**Prioridades SMT2:**\n\n"
         "* 📌 Origen MXNL01\n"
-        "* 👉 fecha promesa + quemada\n"
         "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+        "* 👉 fecha promesa + quemada + onway\n"
         "* 👉 Se pide validación"
     ),
     "scp1": (
