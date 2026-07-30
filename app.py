@@ -412,9 +412,44 @@ NOMBRES_PLANES_C1_SCH1 = [
 
 
 # --- DATOS NUEVOS PARA C1 VACÍA (TAB 9) ---
-u_C1_VACIA = u_C1_SCH1.copy()
+u_C1_VACIA = { 
+    "Car MLP": [110, 120],
+    "Small Van MLP": [110, 120],
+    "Large Van MLP": [110, 120],
+    "Small Van MLP Newbie": [110, 120],
+    "Large Van MLP Newbie": [110, 120],
+    "Extra large Van MLP": [110, 120],
+    "Small Van MLP XPT": [110, 120],
+    "Small Van MLP foráneo": [110, 120],
+    "Large Van MLP foráneo": [110, 120],
+    "Car MLP foráneo": [110, 120],
+    "Extra large Van MLP H&B": [100, 100],
+    "Rental Car": [120, 150],
+    "Rental Electric Large Van": [120, 150],
+    "Rental Large Van": [120, 150],
+    "Rental Replacement": [120, 150],
+    "Rental Small Van Electrica": [120, 150],
+    "Rental Small Van": [120, 150],
+    "Delivery Cells Car": [1, 1],
+    "Truck 3.5 tons MLP": [1, 1],
+    "Delivery Cell Large Van": [1, 1],
+    "Car 8h": [70, 70],
+    "Car Newbie": [50, 50],
+    "Car Zona Extendida": [60, 60],
+    "Car 3h": [30,30],
+    "Car 5h": [30, 30],
+    "Moto 3h": [30, 30],
+    "Moto Newbie": [25, 25],
+    "Small Van 11h Ext": [70, 70],
+    "Small Van 9h": [70, 70],
+    "Small Van 9h Ext": [70, 70],
+    "Small Van Newbie": [70, 70]
+}
 
-NOMBRES_PLANES_C1_VACIA = [f"PLAN {i}" for i in range(1, 16)]
+NOMBRES_PLANES_C1_VACIA = [
+   "PLAN 1", "PLAN 2", "PLAN 3", "PLAN 4", "PLAN 5", "PLAN 6", "PLAN 7", "PLAN 8", "PLAN 9", "PLAN 10",  
+   "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
+]
 
 
 # --- DATOS NUEVOS PARA C1 SMD1 ---
