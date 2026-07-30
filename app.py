@@ -502,13 +502,14 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             else:
                 respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
 
-        # C) DETECCION ESPECIFICA SMX5
+        # C) DETECCION ESPECIFICA SMX5 (SOLO SI ESCRIBE "SMX5" A SECAS)
         elif query_lower == "smx5":
             st.session_state.esperando_subtipo_smx5 = True
             respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
         # D) BUSCADOR INTELIGENTE LOCAL (EXTRACTOR ESPECÍFICO SIN IA)
         else:
+            # Mapeo general de centros y casos especiales de SMX5
             mapeo_centros = {
                 "smx9": "smx9_extendido",
                 "sgd2": "sgd_extendido", "sgd": "sgd_extendido",
@@ -524,11 +525,21 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             centro_encontrado = None
             clave_regla = None
 
-            for termino, clave in mapeo_centros.items():
-                if termino in query_lower:
-                    centro_encontrado = termino.upper()
-                    clave_regla = clave
-                    break
+            # 🟢 1. MANEJO ESPECIAL PARA SMX5 (PRECARGA VS EXTENDIDO)
+            if "smx5" in query_lower:
+                centro_encontrado = "SMX5"
+                if "precarga" in query_lower:
+                    clave_regla = "smx5_precarga"
+                else:
+                    # Por defecto o si menciona extendido
+                    clave_regla = "smx5_extendido"
+            else:
+                # 🟢 2. BÚSQUEDA PARA EL RESTO DE LOS CENTROS
+                for termino, clave in mapeo_centros.items():
+                    if termino in query_lower:
+                        centro_encontrado = termino.upper()
+                        clave_regla = clave
+                        break
 
             if clave_regla and clave_regla in reglas_ruteo:
                 texto_regla = reglas_ruteo[clave_regla]
@@ -552,7 +563,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                     res = "\n".join(lineas_filtradas)
                     respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
                 else:
-                    # Si no preguntó algo específico o no hubo filtro, muestra la ficha completa
+                    # Si no preguntó un concepto específico (ej. solo escribió "smx5 precarga"), muestra la ficha completa
                     respuesta_main = texto_regla
             else:
                 respuesta_main = "No encontré regla para ese centro. Prueba con SMX9, SGD2, SMX5, SMX4, SMX2, SMT2, SCP1, SMD1, SCH1 o SJA1. También puedes escribir **'resumen'** para armar tu reporte."
