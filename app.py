@@ -48,7 +48,7 @@ st.markdown("""
         bottom: 20px !important;
         right: 20px !important;
         width: 500px !important;
-        max-height: 750px !important; /* 🔥 Permite que la ventana crezca bastante */
+        max-height: 760px !important; /* 🔥 Permite que la ventana crezca bastante */
         height: auto !important;
         z-index: 999999 !important;
         background-color: #D6C2F0 !important;
