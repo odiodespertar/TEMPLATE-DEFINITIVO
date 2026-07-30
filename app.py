@@ -112,7 +112,7 @@ st.markdown("""
 
     /* Altura fija del bloque de mensajes */
     div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] {
-        max-height: 700px !important;
+        max-height: 760px !important;
         overflow-y: auto !important;
         display: flex !important;
         flex-direction: column !important;
