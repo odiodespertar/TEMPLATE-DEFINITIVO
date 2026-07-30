@@ -182,7 +182,8 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             "**Prioridades SCP1 C1:**\n\n"
             "* 🔴 **Campeche:** ➤ Rental Large Van (excluír/sin nodos)\n"
             "* 🔴 **Campeche:** ➤ NODOS = Delivery Cell (Dedicada/lleva todos nodos)\n"
-            "* 🟢 **Resto planes:** Large Van MLP (si hay nodo=híbrida)."
+            "* 🟣 **Delivery Cell ➤ Parámetros de Large Van MLP\n"
+            "* 🟢 **Resto planes:** ➤ Large Van MLP (si hay nodo=híbrida)."
         ),
         "smd1": (
             "**Prioridades SMD1 C1:**\n"
