@@ -473,12 +473,13 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
                     st.rerun()
 
-    # 3. CAMPO DE ENTRADA
+    # 3. CAMPO DE ENTRADA AL FINAL (100% FUNCIONAL SIN API KEY NI IA)
     if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
         st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
         query_lower = query_main.lower().strip()
 
-        if "resumen" in query_lower or "cierre" in query_lower:
+        # A) RESUMEN O CIERRE
+        if "resumen" in query_lower or "cierre" in query_lower or "ciere" in query_lower:
             st.session_state.flujo_resumen = True
             st.session_state.paso_resumen = 1
             st.session_state.paso_historial = []
@@ -489,6 +490,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             })
             st.rerun()
 
+        # B) FLUJO INTERACTIVO SMX5
         elif st.session_state.esperando_subtipo_smx5:
             st.session_state.esperando_subtipo_smx5 = False
             if "extendido" in query_lower or "1" in query_lower:
@@ -498,16 +500,16 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             else:
                 respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
 
-        elif "smx5" in query_lower:
+        # C) DETECCION ESPECIFICA SMX5
+        elif query_lower == "smx5":
             st.session_state.esperando_subtipo_smx5 = True
             respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
+        # D) BUSCADOR INTELIGENTE LOCAL (EXTRACTOR ESPECÍFICO SIN IA)
         else:
-            respuesta_main = "No encontré regla para ese centro. Prueba con SMX9, SGD2, SMX5, SMX4, SMX2, SMT2, SCP1, SMD1, SCH1 o SJA1. También puedes escribir **'resumen'** para armar tu reporte."
-            mapeo_busqueda = {
+            mapeo_centros = {
                 "smx9": "smx9_extendido",
-                "sgd2": "sgd_extendido",
-                "sgd": "sgd_extendido",
+                "sgd2": "sgd_extendido", "sgd": "sgd_extendido",
                 "smx4": "smx4_extendido",
                 "smx2": "smx2_extendido",
                 "smt2": "smt2_extendido",
@@ -516,10 +518,42 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                 "sch1": "sch1",
                 "sja1": "sja1"
             }
-            for termino, clave_real in mapeo_busqueda.items():
+
+            centro_encontrado = None
+            clave_regla = None
+
+            for termino, clave in mapeo_centros.items():
                 if termino in query_lower:
-                    respuesta_main = reglas_ruteo[clave_real]
+                    centro_encontrado = termino.upper()
+                    clave_regla = clave
                     break
+
+            if clave_regla and clave_regla in reglas_ruteo:
+                texto_regla = reglas_ruteo[clave_regla]
+                lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
+
+                # Palabras clave de búsqueda específica
+                busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
+                busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
+                busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+
+                lineas_filtradas = []
+
+                if busqueda_origen:
+                    lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
+                elif busqueda_hora:
+                    lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
+                elif busqueda_unidad:
+                    lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
+
+                if lineas_filtradas:
+                    res = "\n".join(lineas_filtradas)
+                    respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
+                else:
+                    # Si no preguntó algo específico o no hubo filtro, muestra la ficha completa
+                    respuesta_main = texto_regla
+            else:
+                respuesta_main = "No encontré regla para ese centro. Prueba con SMX9, SGD2, SMX5, SMX4, SMX2, SMT2, SCP1, SMD1, SCH1 o SJA1. También puedes escribir **'resumen'** para armar tu reporte."
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
