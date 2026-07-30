@@ -171,7 +171,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                     # PASO 2: Unidades Dedicadas para Nodos
                     elif paso == 2:
-                        st.write("👇 **Unidades dedicadas para nodos:**")
+                        st.write("👇 **Unidades dedicadas para nodos (selecciona la casilla):**")
                         
                         u1 = st.checkbox("3.5 tons", key="chk_35")
                         u2 = st.checkbox("Delivery Cell", key="chk_del")
