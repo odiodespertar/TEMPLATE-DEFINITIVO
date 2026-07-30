@@ -126,7 +126,7 @@ st.markdown("""
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
 with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
-    st.write("➡️ Consulta un SVC o escribe **'resumen'** para tu informe de cierre.")
+    st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
 
     reglas_ruteo = {
         "smx9_extendido": (
