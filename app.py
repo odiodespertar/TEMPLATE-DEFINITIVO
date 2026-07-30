@@ -122,6 +122,7 @@ st.markdown("""
 
 
 
+
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
@@ -477,7 +478,6 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
-
 
 
 
