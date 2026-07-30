@@ -1801,8 +1801,8 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
           <!-- Botón de control con el menú desplegable -->
           <button onclick="toggleMenuPestanas()" 
               style="cursor:pointer; background:#25282b; color:white; border:1px solid #454545; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:6px; margin-right:4px;"
-              title="Configurar visibilidad de pestañas">
-              👁️ Pestañas
+              title="Elige que pestañas ver">
+              👁️ PESTAÑAS
           </button>
 
           <!-- Menú Flotante con Casillas de Verificación -->
