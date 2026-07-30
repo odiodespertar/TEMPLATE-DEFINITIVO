@@ -147,8 +147,10 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         ),
         "smx5_precarga": (
             "**Prioridades SMX5 (PRECARGA):**\n\n"
+            "* 📌 Origen: MXCD09 + onway\n"
             "* 👉 Iztapalapa, Coyoacán y si alcanza Tláhuac = Small Van 9h\n"
             "* 👉 Resto de planes con car 8h\n"
+            "* 👉 Revisar si mandan ids a agregar\n"
             "* 👉 **Cercanía de SVC:** Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta"
         ),
         "smx5_extendido": (
