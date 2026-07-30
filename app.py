@@ -1762,25 +1762,38 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </div>
 
 
-<div id="fleet-sticky" class="fleet-normal">
-  <div id="fleet-drag-handle">
+<div id="fleet-drag-handle" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 0;">
+    
+    <!-- BOTÓN FLOTAR (Con efecto 3D al presionar) -->
     <button id="fleet-toggle-btn"
       onclick="toggleFleetFloating();"
-      style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
+      style="cursor:pointer; border:none; background:#25282b; color:white; padding:4px 9px; border-radius:6px; font-weight:bold; font-size:12px; box-shadow:0 2px 0 #111213; transition:all 0.05s; outline:none;"
+      onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
+      onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #111213';"
+      onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #111213';">
       FLOTAR ☁️
     </button>
 
-<!-- 🟢 BOTÓN DE EXCEL MOVIDO AQUÍ -->
-    <button id="excel-btn" onclick="toggleExcelView()"
-        style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:3px 8px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 4px;">
-        <span style="font-size: 14px;">👁️</span>
-    </button>
+    <!-- BOTÓN EXCEL (Con efecto 3D al presionar + Tooltip) -->
+    <div class="btn-tooltip-container">
+        <button id="excel-btn" onclick="toggleExcelView()" title="VISTA EXCEL 📊"
+            style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 4px;"
+            onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
+            onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';"
+            onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';">
+            <span style="font-size: 14px;">👁️</span>
+        </button>
+        <span class="btn-tooltip-text">VISTA EXCEL 📊</span>
+    </div>
 
-<!-- 🟢 BOTÓN AUTO-CALCULAR MOVIDO AQUÍ -->
+    <!-- BOTÓN AUTO-CALCULAR (Con efecto 3D al presionar) -->
     <button onclick="distribuirAutomatico()" 
-              style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;">
-              🧠 AUTO-CALCULAR
-          </button>
+        style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #2d968f; transition: all 0.05s; outline: none;"
+        onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
+        onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #2d968f';"
+        onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #2d968f';">
+        🧠 AUTO-CALCULAR
+    </button>
           
           <button class="filter-btn" onclick="filterRows(true)" 
               style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
@@ -5192,6 +5205,17 @@ body:not(.tab-2) #excel-btn {{
 
     
     .content-area {{ background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 600px; color: #000; }}
+
+
+    /* 🟢 NUEVO: Efecto 3D al presionar botones */
+    #fleet-toggle-btn:active,
+    #excel-btn:active,
+    button[onclick*="distribuirAutomatico"]:active {{
+        transform: translateY(2px) !important;
+        box-shadow: none !important;
+    }}
+
+    
 </style>
 
 <div class="main-box">
