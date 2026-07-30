@@ -2741,7 +2741,7 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
     // 🔥 Lista de unidades permitidas para seguir apareciendo sin stock
-    const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h"];
+    const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h", "car 3h", "car - 3h"];
 
     bl.querySelectorAll('.s-type').forEach(s => {{ 
         let cur = s.value; 
