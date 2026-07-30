@@ -1787,7 +1787,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';">
             <span style="font-size: 14px;">👁️</span> <span>VISTA EXCEL</span>
         </button>
-        <span class="btn-tooltip-text">VISTA EXCEL 📊</span>
+        
     </div>
 
     <!-- BOTÓN AUTO-CALCULAR -->
