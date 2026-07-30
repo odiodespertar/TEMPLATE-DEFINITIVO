@@ -1,3 +1,4 @@
+import google.generativeai as genai
 import json
 import streamlit as st 
 import pandas as pd
