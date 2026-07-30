@@ -45,7 +45,7 @@ st.markdown("""
     /* --- VENTANA FLOTANTE MÁS ALTA Y AMPLIA --- */
     div[data-testid="stExpander"] {
         position: fixed !important;
-        bottom: 20px !important;
+        bottom: 40px !important;
         right: 20px !important;
         width: 500px !important;
         max-height: 760px !important; /* 🔥 Permite que la ventana crezca bastante */
