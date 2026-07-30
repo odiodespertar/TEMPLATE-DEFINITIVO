@@ -1781,7 +1781,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
             onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';"
             onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';">
-            <span style="font-size: 14px;">👁️</span>
+            <span style="font-size: 14px;">VISTA EXCEL 📊</span>
         </button>
         <span class="btn-tooltip-text">VISTA EXCEL 📊</span>
     </div>
@@ -2462,7 +2462,7 @@ function showTab(n, btn) {{
             
             // Cambiamos el texto del botón a su estado original
             let bExcel = document.getElementById("excel-btn");
-            if (bExcel) bExcel.innerHTML = "👁️";
+            if (bExcel) bExcel.innerHTML = "VISTA EXCEL 📊";
             
             // Ocultamos el bloque de la tabla espejo de Excel
             let excelPanel = document.getElementById("excel-polys");
@@ -3510,7 +3510,7 @@ function toggleExcelView() {{
             bPaquetes.style.display = estadoPaquetesAntesDeExcel; // 🔥 Devuelve su estado correcto en Vista Normal
         }}
         
-        btn.innerHTML = "👁️";
+        btn.innerHTML = "VISTA EXCEL 📊";
         if(excel) excel.style.display = "none";
         
         // Restaurar bloques de pestañas
