@@ -280,11 +280,13 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
 
         # PASO 2: Unidades Dedicadas para Nodos
         elif paso == 2:
-            st.write("Unidades en Centro:")
+            st.write("👇 **Unidades dedicadas para nodos:**")
             unidades_elegidas = st.multiselect(
-                "Selecciona las unidades dedicadas para nodos:",
+                "Selecciona:",
                 ["3.5 tons", "Delivery Cell"],
-                key="multi_unidades"
+                key="multi_unidades",
+                label_visibility="collapsed",
+                placeholder="Elige una o más opciones..."
             )
             
             st.write("¿Logis tomó todas?")
