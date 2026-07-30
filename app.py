@@ -227,6 +227,8 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         st.session_state.flujo_resumen = False
     if "paso_resumen" not in st.session_state:
         st.session_state.paso_resumen = 0
+    if "paso_historial" not in st.session_state:
+        st.session_state.paso_historial = []
     if "data_resumen" not in st.session_state:
         st.session_state.data_resumen = {}
 
@@ -236,7 +238,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
                 
-                # SI ES EL ÚLTIMO MENSAJE DEL BOT Y EL RESUMEN ESTÁ ACTIVO, DIBUJAMOS EL CUESTIONARIO AQUÍ
+                # CUESTIONARIO INTERACTIVO DENTRO DEL ÚLTIMO GLOBO DEL BOT
                 if st.session_state.flujo_resumen and idx == len(st.session_state.main_chat_messages) - 1:
                     paso = st.session_state.paso_resumen
 
@@ -246,10 +248,12 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         col1, col2 = st.columns(2)
                         if col1.button("1️⃣ Uniciclo", key="btn_resumen_uniciclo", use_container_width=True):
                             st.session_state.data_resumen["ciclo"] = "Uniciclo"
+                            st.session_state.paso_historial.append(1)
                             st.session_state.paso_resumen = 2
                             st.rerun()
                         if col2.button("2️⃣ Ciclo 1", key="btn_resumen_c1", use_container_width=True):
                             st.session_state.data_resumen["ciclo"] = "C1"
+                            st.session_state.paso_historial.append(1)
                             st.session_state.paso_resumen = 2
                             st.rerun()
 
@@ -271,11 +275,13 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         if col_s.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
                             st.session_state.data_resumen["logis_tomo_todas"] = True
+                            st.session_state.paso_historial.append(2)
                             st.session_state.paso_resumen = 2.5
                             st.rerun()
                         if col_n.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
                             st.session_state.data_resumen["logis_tomo_todas"] = False
+                            st.session_state.paso_historial.append(2)
                             st.session_state.paso_resumen = 2.2
                             st.rerun()
 
@@ -291,6 +297,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         
                         if st.button("Continuar ➡️", use_container_width=True):
                             st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
+                            st.session_state.paso_historial.append(2.2)
                             st.session_state.paso_resumen = 2.5
                             st.rerun()
 
@@ -300,10 +307,12 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         c1, c2 = st.columns(2)
                         if c1.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["hubo_bulk"] = True
+                            st.session_state.paso_historial.append(2.5)
                             st.session_state.paso_resumen = 3
                             st.rerun()
                         if c2.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["hubo_bulk"] = False
+                            st.session_state.paso_historial.append(2.5)
                             st.session_state.paso_resumen = 3
                             st.rerun()
 
@@ -313,11 +322,13 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         c1, c2 = st.columns(2)
                         if c1.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["dropeo_nodos"] = True
+                            st.session_state.paso_historial.append(3)
                             st.session_state.paso_resumen = 3.5
                             st.rerun()
                         if c2.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["dropeo_nodos"] = False
                             st.session_state.data_resumen["dropeo_restriccion"] = False
+                            st.session_state.paso_historial.append(3)
                             st.session_state.paso_resumen = 4
                             st.rerun()
 
@@ -327,10 +338,12 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         c1, c2 = st.columns(2)
                         if c1.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["dropeo_restriccion"] = True
+                            st.session_state.paso_historial.append(3.5)
                             st.session_state.paso_resumen = 4
                             st.rerun()
                         if c2.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["dropeo_restriccion"] = False
+                            st.session_state.paso_historial.append(3.5)
                             st.session_state.paso_resumen = 4
                             st.rerun()
 
@@ -340,10 +353,12 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         c1, c2 = st.columns(2)
                         if c1.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["alchichica"] = True
+                            st.session_state.paso_historial.append(4)
                             st.session_state.paso_resumen = 4.5
                             st.rerun()
                         if c2.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["alchichica"] = False
+                            st.session_state.paso_historial.append(4)
                             st.session_state.paso_resumen = 5
                             st.rerun()
 
@@ -353,10 +368,12 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                         c1, c2 = st.columns(2)
                         if c1.button("1️⃣ Sí", use_container_width=True):
                             st.session_state.data_resumen["alchichica_2sv"] = True
+                            st.session_state.paso_historial.append(4.5)
                             st.session_state.paso_resumen = 5
                             st.rerun()
                         if c2.button("2️⃣ No", use_container_width=True):
                             st.session_state.data_resumen["alchichica_2sv"] = False
+                            st.session_state.paso_historial.append(4.5)
                             st.session_state.paso_resumen = 5
                             st.rerun()
 
@@ -377,7 +394,6 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
                             lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
                             
-                            # Unidades Centro
                             unis = d.get("unidades_centro", [])
                             if unis:
                                 if len(unis) > 1:
@@ -422,7 +438,15 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             # Resetear flujo
                             st.session_state.flujo_resumen = False
                             st.session_state.paso_resumen = 0
+                            st.session_state.paso_historial = []
                             st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
+                            st.rerun()
+
+                    # 🔙 BOTÓN DE VOLVER / CORREGIR PASO ANTERIOR
+                    if len(st.session_state.paso_historial) > 0 and paso > 1:
+                        st.markdown("---")
+                        if st.button("↩️ Volver al paso anterior / Corregir", key="btn_atras_resumen"):
+                            st.session_state.paso_resumen = st.session_state.paso_historial.pop()
                             st.rerun()
 
         # 2. OPCIONES INTERACTIVAS SMX5
@@ -456,6 +480,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         if "resumen" in query_lower or "cierre" in query_lower:
             st.session_state.flujo_resumen = True
             st.session_state.paso_resumen = 1
+            st.session_state.paso_historial = []
             st.session_state.data_resumen = {}
             st.session_state.main_chat_messages.append({
                 "role": "assistant", 
@@ -497,7 +522,6 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
-
 
 
 
