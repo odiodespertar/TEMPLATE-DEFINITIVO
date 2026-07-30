@@ -1596,6 +1596,15 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
       style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
       FLOTAR ☁️
     </button>
+
+<!-- 🟢 BOTÓN DE EXCEL MOVIDO AQUÍ -->
+    <button id="excel-btn" onclick="toggleExcelView()"
+        style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:3px 8px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 4px;">
+        <span style="font-size: 14px;">👁️</span>
+    </button>
+
+
+    
   </div>
 
   <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
@@ -1651,10 +1660,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
           </button>
       </div>
 
-      <button id="excel-btn" onclick="toggleExcelView()"
-          style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold; box-shadow:0 3px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 6px; transform: translateY(-6px); position: relative;">
-          <span style="font-size: 16px;">👁️</span>
-      </button>
 
   </div>
 
