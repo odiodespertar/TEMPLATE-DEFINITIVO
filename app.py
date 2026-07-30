@@ -281,13 +281,19 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         # PASO 2: Unidades Dedicadas para Nodos
         elif paso == 2:
             st.write("👇 **Unidades dedicadas para nodos:**")
-            unidades_elegidas = st.multiselect(
-                "Selecciona:",
-                ["3.5 tons", "Delivery Cell"],
-                key="multi_unidades",
-                label_visibility="collapsed",
-                placeholder="Elige una o más opciones..."
-            )
+            
+            c1, c2, c3 = st.columns(3)
+            u1 = c1.checkbox("3.5 tons", key="chk_35")
+            u2 = c2.checkbox("Delivery Cell", key="chk_del")
+            u3 = c3.checkbox("Extra Large Van H&B", key="chk_hb")
+            
+            unidades_elegidas = []
+            if u1:
+                unidades_elegidas.append("3.5 tons")
+            if u2:
+                unidades_elegidas.append("Delivery Cell")
+            if u3:
+                unidades_elegidas.append("Extra Large Van H&B")
             
             st.write("¿Logis tomó todas?")
             col_s, col_n = st.columns(2)
