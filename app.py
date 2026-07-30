@@ -443,7 +443,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             st.session_state.data_resumen = {}
             st.session_state.main_chat_messages.append({
                 "role": "assistant", 
-                "content": "📋 **Generador de Cierre.** Responde seleccionando las opciones arriba:"
+                "content": "📋 **Generador de Cierre.** Responde seleccionando las opciones de abajo:"
             })
             st.rerun()
 
