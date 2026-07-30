@@ -10,7 +10,7 @@ reglas_ruteo = {
         "* 👉 Fecha promesa + fecha quemada + onway"
     ),
     "sgd2_extendido": (
-        "**Prioridades SGD2 SD3:**\n\n"
+        "**Prioridades SGD2 SD3:**\n\n" 
         "* 📌 Orígenes: MXJC01 para SD3 y MXJC02 para SD2 (en caso de que no hayan ruteado sd2 en la mañana)\n"
         "* 👉 MXJC01 - último despacho de hoy (3 pm adelante) + fecha promesa + onway\n"
         "* 👉 MXJC02 - último despacho de hoy (1 pm) + fecha promesa + onway // si salen poquitos, agarra todo el despacho del día + fecha promesa y quemada + todo at station y manda pivot para que SVC te valide vol.\n"
