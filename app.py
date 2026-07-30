@@ -6,70 +6,301 @@ from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
-
-
-# CSS para diseño limpio 
+# ==========================================
+# CSS GENERAL + ESTILO DE VENTANA FLOTANTE
+# ==========================================
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
     footer, #MainMenu, header {visibility: hidden;}
     body { background-color: #25282b; }
-
-    /* AÑADE AQUÍ EL NUEVO BLOQUE */
     .poligono-bloque {
         letter-spacing: -0.2px; 
         white-space: nowrap;    
-        zoom: 0.95; /* Añade esto si quieres que Windows lo comprima un poquito más */
+        zoom: 0.95; 
     }
-
     #contenedor-padre { display: flex; flex-direction: column; }
-    
     .delta { display: none !important; }
-
     #visor { padding-right: 210px !important; box-sizing: border-box; }
-
-   
-    
     .tabla-flota-reducida {
         max-width: 80% !important;
         margin-left: 0 !important;
         margin-right: auto;
     }
-    </style>
-
-
-<style>
-    /* Forzar que las tablas no se expandan más allá de su contenedor */
-    table {{
-        table-layout: fixed; /* Esto es clave: obliga a las celdas a respetar el ancho */
+    table {
+        table-layout: fixed;
         width: 100%;
         word-wrap: break-word;
-    }}
-
-    /* Reducir ligeramente la fuente solo cuando la pantalla es chica */
-    @media (max-width: 1200px) {{
-        .calc-row td, .calc-row select, .calc-row span {{
-            font-size: 12px !important; /* En Windows se ve bien a 12px */
-        }}
-    }}
-
-    /* Si Windows sigue distorsionando, forzamos un zoom negativo leve */
-    @media screen and (-webkit-min-device-pixel-ratio:0) {{
-        /* Solo aplica si el sistema detecta que no es Retina (Mac) */
-        .poligono-bloque {{
-            zoom: 0.95; /* Reduce el tamaño al 95% para ganar espacio en Windows */
-        }}
-    }}
-</style>
-
-
-
-
-
-
-
+    }
+    @media (max-width: 1200px) {
+        .calc-row td, .calc-row select, .calc-row span {
+            font-size: 12px !important;
+        }
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .poligono-bloque {
+            zoom: 0.95; 
+        }
+    }
+    /* --- VENTANA FLOTANTE MÁS ALTA Y AMPLIA --- */
+    div[data-testid="stExpander"] {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 500px !important;
+        max-height: 750px !important; /* 🔥 Permite que la ventana crezca bastante */
+        height: auto !important;
+        z-index: 999999 !important;
+        background-color: #D6C2F0 !important;
+        border-radius: 12px !important;
+        border: 2px solid #6A35C9 !important;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
+    }
     
-    """, unsafe_allow_html=True)
+    /* 🔥 TÍTULO DEL BOT ("🤖 BOT prioridades") EN NEGRO OSCURO BIEN VISIBLE */
+    div[data-testid="stExpander"] summary,
+    div[data-testid="stExpander"] summary p, 
+    div[data-testid="stExpander"] summary span,
+    div[data-testid="stExpander"] summary div,
+    div[data-testid="stExpander"] summary svg {
+        color: #1A0A33 !important;
+        fill: #1A0A33 !important;
+        font-weight: 800 !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* 🔥 TEXTO INDICATIVO INTERNO ("➡️ Escribe el SVC a consultar.") EN NEGRO */
+    div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
+        color: #1A0A33 !important;
+        font-weight: bold !important;
+    }
+
+    /* --- MENSAJE DEL USUARIO (Lila eléctrico con texto blanco) --- */
+    div[data-testid="stChatMessage"]:has(div[aria-label="user"]),
+    div[data-testid="stChatMessage"]:has([data-testid*="User"]) {
+        background-color: #7B42F6 !important;
+        border-radius: 10px !important;
+        padding: 8px !important;
+        margin: 6px 0 !important;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.2) !important;
+    }
+
+    div[data-testid="stChatMessage"]:has(div[aria-label="user"]) *,
+    div[data-testid="stChatMessage"]:has([data-testid*="User"]) * {
+        color: #FFFFFF !important;
+    }
+
+    /* --- MENSAJE DEL BOT / ASISTENTE (Fondo Blanco Puro y Esquema Claro) --- */
+    div[data-testid="stChatMessage"]:has(div[aria-label="assistant"]),
+    div[data-testid="stChatMessage"]:has([data-testid*="Assistant"]) {
+        color-scheme: light !important; /* 🔥 Bloquea la inversión del modo oscuro del navegador */
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border: 2px solid #8F60EC !important;
+        border-radius: 10px !important;
+        padding: 8px !important;
+        margin: 6px 0 !important;
+    }
+
+    /* 🔥 FORZAR A TODOS LOS ELEMENTOS HIJOS (párrafos, listas, viñetas, negritas, spans) */
+    div[data-testid="stChatMessage"]:has(div[aria-label="assistant"]) *,
+    div[data-testid="stChatMessage"]:has([data-testid*="Assistant"]) * {
+        color-scheme: light !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Altura fija del bloque de mensajes */
+    div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] {
+        max-height: 700px !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+
+# ==========================================
+# 🤖 ASISTENTE DE PRIORIDADES DE RUTEO
+# ==========================================
+with st.expander("🤖 BOT prioridades", expanded=False):
+    st.write("➡️ Escribe el SVC a consultar.")
+
+    reglas_ruteo = {
+        "smx9_extendido": (
+            "**Prioridades SMX9 SD2:**\n\n"
+            "* 📌 Orígenes: MXCD02, MXCD06\n"
+            "* 👉 fecha promesa+fecha quemada\n"
+            "* 👉 Último despacho de hoy (3 pm en adelante)"
+        ),
+        "sgd_extendido": (
+            "**Prioridades SGD2 SD3:**\n\n"
+            "* 📌 Orígenes: MXJC01 para SD3 y MXJC02 para SD2 (en caso de que no hayan ruteado sd2 en la mañana)\n"
+            "* 👉 MXJC01 - último despacho de hoy (3 pm adelante) + fecha promesa + onway\n"
+            "* 👉 MXJC02 - último despacho de hoy (1 pm) + fecha promesa + onway // si salen poquitos, agarra todo el despacho del día + fecha promesa y quemada + todo at station y manda pivot para que SVC te valide vol.\n"
+            "* 👉 Revisar unidades con SVC (a veces indica usar Small Van con la cantidad indicada para las car 5h de schedule\n"
+            "* 👉 Se pide validación\n"
+            "* 👉 Prefijo SD3 siempre"
+        ),
+        "smx5_precarga": (
+            "**Prioridades SMX5 (PRECARGA):**\n\n"
+            "* 👉 Iztapalapa, Coyoacán y si alcanza Tláhuac = Small Van 9h\n"
+            "* 👉 Resto de planes con car 8h\n"
+            "* 👉 **Cercanía de SVC:** Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta"
+        ),
+        "smx5_extendido": (
+            "**Prioridades SMX5 (EXTENDIDO):**\n\n"
+            "* 📌 Orígenes: MXCD02, MXCD06\n"
+            "* 👉 fecha promesa + quemada\n"
+            "* 👉 Último despacho de hoy (3 pm en adelante)"
+        ),
+        "smx4_extendido": (
+            "**Prioridades SMX4:**\n\n"
+            "* 📌 Orígenes: MXCD02, MXCD06\n"
+            "* 👉 Preguntar si habrá ids a descartar\n"
+            "* 🏍️ Motos SPR 30\n"
+            "* 👉 fecha promesa + quemada\n"
+            "* 👉 Último despacho de hoy (3 pm en adelante)"
+        ),
+        "smx2_extendido": (
+            "**Prioridades SMX2:**\n\n"
+            "* 📌 Orígenes: MXCD02, MXCD06\n"
+            "* 👉 fecha promesa + quemada\n"
+            "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+            "* 👉 Rutear con parámetros precargados en logis SIN SPR"
+        ),
+        "smt2_extendido": (
+            "**Prioridades SMT2:**\n\n"
+            "* 📌 Origen MXNL01\n"
+            "* 👉 fecha promesa + quemada\n"
+            "* 👉 Último despacho de hoy (3 pm en adelante)\n"
+            "* 👉 Se pide validación"
+        ),
+        "scp1": (
+            "**Prioridades SCP1 C1:**\n\n"
+            "* 🔴 **Campeche:** ➤ Rental Large Van (excluír/sin nodos)\n"
+            "* 🔴 **Campeche:** ➤ NODOS = Delivery Cell (Dedicada/lleva todos nodos)\n"
+            "* 🟢 **Resto planes:** Large Van MLP (si hay nodo=híbrida)."
+        ),
+        "smd1": (
+            "**Prioridades SMD1 C1:**\n"
+            "* 🟢 **Centro:** ➤ Rental(híbridas) / Crowd / LV(híbridas) / SV\n"
+            "* 🟢 **Centro:** ➤ Extra large van H&B / MLP Bulk (ver en qué centro hay + voluminosos y ahí se meten)\n"
+            "* 🔵 **Norte:** ➤ Crowd zon ext 10hrs / MLP\n"
+            "* 🟣 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n"
+            "* 🟤 Priorizar las LV y Rentals"
+        ),
+        "sch1": (
+            "**Prioridades SCH1 C1:**\n\n"
+            "* 🟢 Falta info\n"
+            "* 🟢 Falta info\n"
+            "* 🟢 Falta info\n"
+            "* 🟢 Falta info\n"
+            "* 🟣 Falta info\n"
+            "* 🔵 Falta info\n"
+            "* 🟤 Falta info"
+        ),
+        "sja1": (
+            "**Prioridades SJA1 C1:**\n\n"
+            "* 📌 Ellos envían el volumen a tomar /Apagado CP\n"
+            "* 🟢 **Centro 1/2:** ➤ PRIORIDAD\n"
+            "* 1. Rental Electric 2. Rental LV 3. Rental Replacement 4. MLP y Crowd\n"
+            "* 🟢 **Centro 1/2:** ➤ 3.5 tons (dedicada=3 paradas) y delivery (dedicada=3 paradas)\n"
+            "* 🟢 **Centro 1/2:** ➤ H&B (bulk=híbrida)\n"
+            "* 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida\n"
+            "* 🚛 FORÁNEOS = Small Van MLP / Sin nodos\n"
+            "* 🚛 FORÁNEOS = Xico y Tuzamapa / Mlp, Crowd\n"
+            "* 🔵 **EJA1-SP:**➤  Media milla-ruteo fake\n"
+            "* 🟤 **Alchichica ND-AM0:** ➤ 2 unidades Small Van MLP/330 min ó 65 ids c/u."
+        )
+    }
+
+    # Inicializar historial y estados de conversación
+    if "main_chat_messages" not in st.session_state:
+        st.session_state.main_chat_messages = []
+    if "esperando_subtipo_smx5" not in st.session_state:
+        st.session_state.esperando_subtipo_smx5 = False
+
+    # Contenedor con altura fija para los mensajes anteriores
+    with st.container(height=420):
+        for msg in st.session_state.main_chat_messages:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+
+    # 🔘 BOTONES INTERACTIVOS (Se muestran sólo cuando se consulta SMX5)
+    if st.session_state.esperando_subtipo_smx5:
+        st.write("👇 **Selecciona una opción o escribe 1 ó 2:**")
+        col1, col2 = st.columns(2)
+        
+        eleccion_btn = None
+        with col1:
+            if st.button("1️⃣ Extendido", use_container_width=True):
+                eleccion_btn = "1"
+        with col2:
+            if st.button("2️⃣ Precarga", use_container_width=True):
+                eleccion_btn = "2"
+
+        # Si el usuario hace clic en alguno de los botones
+        if eleccion_btn:
+            st.session_state.esperando_subtipo_smx5 = False
+            
+            if eleccion_btn == "1":
+                st.session_state.main_chat_messages.append({"role": "user", "content": "1️⃣ Extendido"})
+                st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_extendido"]})
+            else:
+                st.session_state.main_chat_messages.append({"role": "user", "content": "2️⃣ Precarga"})
+                st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
+            st.rerun()
+
+    # Campo de entrada de texto
+    if query_main := st.chat_input("Escribe tu consulta...", key="main_chat_input"):
+        st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
+        query_lower = query_main.lower().strip()
+
+        # CASO A: Respuesta al menú desplegado de SMX5
+        if st.session_state.esperando_subtipo_smx5:
+            st.session_state.esperando_subtipo_smx5 = False  # Resetear bandera
+            
+            if "extendido" in query_lower or "1" in query_lower:
+                respuesta_main = reglas_ruteo["smx5_extendido"]
+            elif "precarga" in query_lower or "2" in query_lower:
+                respuesta_main = reglas_ruteo["smx5_precarga"]
+            else:
+                respuesta_main = "⚠️ Opción no válida. Por favor consulta escribiendo **SMX5** nuevamente."
+
+        # CASO B: El usuario consulta SMX5 por primera vez
+        elif "smx5" in query_lower:
+            st.session_state.esperando_subtipo_smx5 = True
+            respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
+
+        # CASO C: Cualquier otro SVC
+        else:
+            respuesta_main = "No encontré regla para ese centro. Prueba con SMX9, SGD2, SMX5, SMX4, SMX2, SMT2, SCP1, SMD1, SCH1 o SJA1."
+            
+            # Mapeo de términos de búsqueda hacia sus claves reales en el diccionario
+            mapeo_busqueda = {
+                "smx9": "smx9_extendido",
+                "sgd2": "sgd_extendido",
+                "sgd": "sgd_extendido",
+                "smx4": "smx4_extendido",
+                "smx2": "smx2_extendido",
+                "smt2": "smt2_extendido",
+                "scp1": "scp1",
+                "smd1": "smd1",
+                "sch1": "sch1",
+                "sja1": "sja1"
+            }
+            
+            for termino, clave_real in mapeo_busqueda.items():
+                if termino in query_lower:
+                    respuesta_main = reglas_ruteo[clave_real]
+                    break
+
+        st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
+        st.rerun()
+
 
 
 # --- DATOS BASE ---
@@ -102,7 +333,8 @@ NOMBRES_PLANES_C1 = [
     "HOLPECHEN",
     "MAXCANUN",
     "SEYBAPLAYA",
-    "PLAN 10"
+    "PLAN 10",
+    "PLAN 11"
 ]
 
 u_C1 = {
@@ -114,6 +346,33 @@ u_C2["Large Van Híbrida"] = [100, 100]
 
 
 # --- DATOS NUEVOS PARA C1 SJA1 ---
+u_C1_SJA1 = { 
+    "Small Van MLP foráneo": [110, 120], 
+    "Large Van MLP foráneo": [110, 120], 
+    "Car MLP": [80, 100],
+    "Extra Large Van MLP H&B": [70, 70],
+    "Rental Electric Large Van": [150, 150],
+    "Rental Large Van": [120, 120],
+    "Rental Replacement": [120, 120],
+    "Truck 3.5 tons MLP": [1, 1],
+    "Delivery Cell Large Van": [1, 1],
+    "Car 8h": [70, 70], 
+    "Car Newbie": [70, 70],
+    "Car Zona Extendida": [70, 70],
+    "Moto 3h": [30, 30],
+    "Small Van 9h": [70, 70],
+    "Small Van 9h Ext": [70, 70],
+    "Small Van Newbie": [70, 70],
+    "Media Milla SP": [1, 1]
+}
+
+NOMBRES_PLANES_C1_SJA1 = [
+   "ACTOPAN", "⚠️ CENTRO 1", "⚠️ CENTRO 2", "EJA1 SP", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLAN", "TLALTETELA", "TRAPICHE",  
+   "TUZAMAPA", "XICO", "CONTINGENCIA NODO", "PLAN 14", "PLAN 15", "PLAN 16", "PLAN 17"
+]
+
+
+# --- DATOS NUEVOS PARA C1 SCH1 ---
 u_C1_SCH1 = { 
     "Car MLP": [110, 120],
     "Small Van MLP": [110, 120],
@@ -135,19 +394,15 @@ u_C1_SCH1 = {
     "Delivery Cells Car": [1, 1],
     "Truck 3.5 tons MLP": [1, 1],
     "Delivery Cell Large Van": [1, 1],
-    "Car 3h": [30, 30],
-    "Car 5h": [30, 30],
     "Car 8h": [70, 70],
     "Car Newbie": [50, 50],
     "Car Zona Extendida": [60, 60],
     "Moto 3h": [30, 30],
     "Moto Newbie": [25, 25],
     "Small Van 11h Ext": [70, 70],
-    "Small Van 5h": [70, 70],
     "Small Van 9h": [70, 70],
     "Small Van 9h Ext": [70, 70],
-    "Small Van Newbie": [70, 70],
-    "Car 3 Crowd": [30, 30]
+    "Small Van Newbie": [70, 70]
 }
 
 NOMBRES_PLANES_C1_SCH1 = [
@@ -155,6 +410,50 @@ NOMBRES_PLANES_C1_SCH1 = [
    "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
 ]
 
+
+# --- DATOS NUEVOS PARA C1 VACÍA (TAB 9) ---
+u_C1_VACIA = u_C1_SCH1.copy()
+
+NOMBRES_PLANES_C1_VACIA = [f"PLAN {i}" for i in range(1, 16)]
+
+
+# --- DATOS NUEVOS PARA C1 SMD1 ---
+u_C1_SMD1 = { 
+    "Car MLP": [110, 120],
+    "Small Van MLP": [110, 120],
+    "Large Van MLP": [110, 120],
+    "Small Van MLP Newbie": [110, 120],
+    "Large Van MLP Newbie": [110, 120],
+    "Extra large Van MLP": [110, 120],
+    "Small Van MLP XPT": [110, 120],
+    "Small Van MLP foráneo": [110, 120],
+    "Large Van MLP foráneo": [110, 120],
+    "Large Van MLP Bulk": [100, 100],
+    "Extra large Van MLP H&B": [50, 50],
+    "Rental Car": [120, 150],
+    "Rental Electric Large Van": [120, 150],
+    "Rental Large Van": [120, 150],
+    "Rental Replacement": [120, 150],
+    "Rental Small Van Electrica": [120, 150],
+    "Rental Small Van": [120, 150],
+    "Delivery Cells Car": [1, 1],
+    "Truck 3.5 tons MLP": [1, 1],
+    "Delivery Cell Large Van": [1, 1],
+    "Car 8h": [70, 70],
+    "Car Newbie": [50, 50],
+    "Car Zona Ext 10h": [70, 70],
+    "Moto 3h": [30, 30],
+    "Moto Newbie": [25, 25],
+    "Small Van 11h Ext": [70, 70],
+    "Small Van 9h": [70, 70],
+    "Small Van 9h Ext": [70, 70],
+    "Small Van Newbie": [70, 70]
+}
+
+NOMBRES_PLANES_C1_SMD1 = [
+   "⚠️ CENTRO 1", "⚠️ CENTRO 2", "⚠️ KANASIN", "MOTUL", "MUNA", "⚠️ NORTE", "SEYE", "UMAN", "PLAN 9", "PLAN 10",  
+   "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
+]
 
 
 # ================= ORH POR UNIDAD =================
@@ -198,7 +497,7 @@ def gen_master_rows(data_dict, table_id):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
-    mostrar_orh_ocup = (table_id in [1, 2, 6])
+    mostrar_orh_ocup = (table_id in [1, 2, 6, 7, 8, 5, 9])
 
     num_filas_objetivo = 45 if table_id == "PREC" else 4
     rango_final = max(total_items, num_filas_objetivo)
@@ -343,9 +642,16 @@ def gen_poligonos(data_target=None):
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
     nombres_c1 = ["ESCÁRCEGA", "CAMPECHE", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"]  
    
-    es_c1 = (data_target == u_C1 or data_target == u_C1_SCH1)
+    es_c1 = data_target in (
+        u_C1,
+        u_C1_SJA1,
+        u_C1_SCH1,
+        u_C1_SMD1,
+        u_C1_VACIA,
+    )
     es_sde = (data_target == u_SDE)
     es_prec = (data_target == u_PREC)
+    es_prec_smx2 = (data_target == u_PREC_SMX2)
 
     
     # Contenedor flex con ancho bloqueado al 100% de la celda
@@ -447,8 +753,9 @@ def gen_poligonos(data_target=None):
 
 <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
 
-<div style="font-size:13px;font-weight:bold;color:#25282b;">
-    Nodos:
+<!-- 🔥 NODOS EN DOS LÍNEAS (Palabra arriba, número 0 abajo) -->
+<div style="font-size:12px; font-weight:bold; color:#25282b; text-align:center;">
+    <div>Nodos:</div>
     <span class="nodos-val"
       contenteditable="true"
       style="
@@ -462,10 +769,10 @@ def gen_poligonos(data_target=None):
         font-weight:bold;
         color:#FF6347;
         padding:0 4px;
-        margin-left:3px;
+        margin-top:2px;
       ">
-    0
-</span>
+        0
+    </span>
 </div>
 '''
 
@@ -490,111 +797,139 @@ def gen_poligonos(data_target=None):
     </span>
 </div>
 
-<hr style="margin:4px 0; border:none; border-top:2px solid #999;">
+<hr style="margin:4px 0; border:none; border-top:1px solid #999;">
 
-<div style="font-size:13px;font-weight:bold;color:#25282b;">
+<div style="font-size:13px; font-weight:bold; color:#25282b; text-align:center;">
     Nodos:
-    <span class="nodos-campeche"
-          contenteditable="true"
-          style="
-            display:inline-block;
-            min-width:28px;
-            text-align:center;
-            border:none;
-            border-radius:4px;
-            background:#ededed;
-            font-size:16px;
-            font-weight:bold;
-            color:#FF6347;
-            padding:0 4px;
-            margin-left:3px;
-          ">
-        0
-    </span>
+    <div style="margin-top:2px;">
+        <span class="nodos-campeche"
+              contenteditable="true"
+              style="
+                display:inline-block;
+                min-width:28px;
+                text-align:center;
+                border:none;
+                border-radius:4px;
+                background:#ededed;
+                font-size:16px;
+                font-weight:bold;
+                color:#FF6347;
+                padding:0 4px;
+              ">
+            0
+        </span>
+    </div>
 </div>
 '''
 
 
-    # Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
-    if data_target == u_C1_SCH1:
+    ## Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
+    if data_target == u_C1_SJA1:
+        limite_tablas = len(NOMBRES_PLANES_C1_SJA1) + 1
+
+    elif data_target == u_C1_SCH1:
         limite_tablas = 16
+
+    elif data_target == u_C1_SMD1:
+        limite_tablas = 20
+
+    elif data_target == u_C1_VACIA:
+        limite_tablas = 16  # 👈 CORREGIDO: Renderiza 15 tablas (16 - 1)
+
     elif es_sde:
-        limite_tablas = 5  # 🌟 Renderizará exactamente 4 PLANES (1 al 4)
+        limite_tablas = 5
+
     else:
-        limite_tablas = 11
+        limite_tablas = 20
     
-    for i in range(1, limite_tablas): # <-- Asegúrate de que aquí tenga la "s" al final
+    for i in range(1, limite_tablas): 
 
         if data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
 
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
-             nombre_final = nombres_smx2[i-1]
+            nombre_final = nombres_smx2[i-1]
 
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
             nombre_final = NOMBRES_PLANES_C1[i-1]
             
+        elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
+            nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
+
         elif data_target == u_C1_SCH1 and (i-1) < len(NOMBRES_PLANES_C1_SCH1):
             nombre_final = NOMBRES_PLANES_C1_SCH1[i-1]
 
-        else:
-             nombre_final = f"PLAN {i}"
+        elif data_target == u_C1_SMD1 and (i-1) < len(NOMBRES_PLANES_C1_SMD1):
+            nombre_final = NOMBRES_PLANES_C1_SMD1[i-1]
 
-        # ← AGREGAR AQUÍ
+        elif data_target == u_C1_VACIA and (i-1) < len(NOMBRES_PLANES_C1_VACIA):
+            nombre_final = NOMBRES_PLANES_C1_VACIA[i-1]  # 👈 CORREGIDO: Asigna "PLAN 1", "PLAN 2"...
+
+        else:
+            nombre_final = f"PLAN {i}"
+
+        # Asignación de formato de volumen
         if nombre_final == "CAMPECHE":
-             contenido_volumen = campo_campeche
+            contenido_volumen = campo_campeche
 
         elif es_c1:
-             contenido_volumen = campo_volumen_c1
+            contenido_volumen = campo_volumen_c1
 
         else:
-             contenido_volumen = campo_volumen_normal
+            contenido_volumen = campo_volumen_normal
 
         # 🌟 DEFINIMOS EL ALTO DE LA CELDA GRIS (ROWSPAN)
         if es_sde:
-             rowspan_actual = 5
+            rowspan_actual = 5
         elif es_prec:
-             rowspan_actual = 4
-        elif data_target == u_C1_SCH1:
-            if nombre_final == "CENTRO 1":
-                rowspan_actual = 8  # 1 principal + 7 extra
+            rowspan_actual = 4
+        
+        elif data_target == u_C1_SJA1:
+            if nombre_final == "⚠️ CENTRO 1":
+                rowspan_actual = 8
             else:
-                rowspan_actual = 5  # Cambia a 5 para la celda gris de C1 SJA1
+                rowspan_actual = 5
+        
+        elif data_target in (u_C1_SMD1, u_C1_VACIA):
+            rowspan_actual = 5  # 👈 CORREGIDO: 5 filas por tabla para C1 VACÍA
+            
         else:
-             rowspan_actual = 3
+            rowspan_actual = 3
 
         # 🌟 AGREGAMOS LAS FILAS EXTRA CORRESPONDIENTES
         if es_sde:
-            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}"
+            filas_extra = fila_inner * 4
         elif es_prec:
-            filas_extra = f"{fila_inner}{fila_inner}{fila_inner}"
-        elif data_target == u_C1_SCH1:
-           if nombre_final == "CENTRO 1":
-               filas_extra = f"{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}{fila_inner}" # 7 filas extra + 1 principal = 5 filas totales
-           else:
-               filas_extra = f"{fila_inner * 4}" # 4 filas extra
+            filas_extra = fila_inner * 3
+        elif data_target == u_C1_SJA1:
+            if nombre_final == "⚠️ CENTRO 1":
+                filas_extra = fila_inner * 7
+            else:
+                filas_extra = fila_inner * 4
+        elif data_target in (u_C1_SMD1, u_C1_VACIA):
+            filas_extra = fila_inner * 4  # 👈 CORREGIDO: 4 filas extra (5 en total con la principal)
         else:
-            filas_extra = f"{fila_inner}{fila_inner}"
+            filas_extra = fila_inner * 2
 
         
         
         polys += f'''
-        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow: hidden; background: #ededed; border: 1.5px solid #25282b;">           
-            <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #25282b;">
+        <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow-x: auto; background: #ededed; border: 1.5px solid #25282b;">           
+            <table style="width: 100%; min-width: 630px; border-collapse: collapse; border: 1.5px solid #25282b;">
                 <thead>
                     <tr style="background: #25282b; color: white; font-size: 12px; height: 28px;">                        
-                        <th style="padding: 0 10px; border-right: 1px solid #25282b;">PLAN</th>
+                        <th style="padding: 0 10px; border-right: 1px solid #25282b; min-width: 130px; width: 130px;">PLAN</th>
                         <th style="border-right: 1px solid #25282b; width: 85px;">VOL. TOTAL</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #25282b;"># USADAS</th>
                         <th style="width: 105px; min-width: 105px; max-width: 105px; border-right: 1px solid #25282b;">SPR</th>
-                        <th style="width: 80px, border-right: 1px solid #25282b;">TIPO DE UNIDAD</th>
+                        <th style="width: 180px; min-width: 180px; max-width: 180px; border-right: 1px solid #25282b;">TIPO DE UNIDAD</th>
                         <th style="width: 45px; min-width: 45px; max-width: 45px; text-align: center;">OK</th> 
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="calc-row"> 
-                        <td rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight: bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
-                        <td rowspan="{rowspan_actual}"
+                        <td class="plan-cell" rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight: bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
+                        <td class="vol-cell" rowspan="{rowspan_actual}"
                             style="color:#808080;
                                    font-weight:bold;
                                    text-align:center;
@@ -632,7 +967,27 @@ def gen_poligonos(data_target=None):
                     </tr>
                     
                 </tbody>
-            </table>
+                
+                   <div style="text-align:center; padding:5px; background:#ededed;">
+                <button onclick="agregarFilaPlan(this)" 
+                        style="cursor:pointer; margin-right:5px;">
+                    ➕ 
+                </button>
+
+                <button onclick="quitarFilaPlan(this)"
+                        style="cursor:pointer;">
+                    ➖ 
+                </button>
+
+                <span class="contador-filas" style="margin-left:10px;font-weight:bold;">
+                    Filas: {rowspan_actual}
+                </span>
+            </div>     
+            
+        </table>
+
+            
+
         </div>'''
     return polys
 
@@ -1127,79 +1482,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </style> 
 </head>
 
-<body>
-<div id="panel-prioridades" style="
-        position: fixed; 
-        top: -600px; 
-        left: 0; 
-        width: 100%; 
-        height: 268px; 
-        background: #EEE8AA; 
-        border-bottom: 3px solid #FFD700; 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-        z-index: 9999999; 
-        transition: top 0.4s ease; 
-        padding: 5px 20px 20px 20px; 
-        box-sizing: border-box;
-        overflow-y: auto;
-        font-family: Arial, sans-serif;
-    ">
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #403f3e; padding-bottom: 8px; margin-bottom: 12px;">
-        <h3 style="margin: 0; color: #000000; font-size: 16px; font-weight: bold;">Prioridades de asignación</h3>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        
-        <div>
-            <h4 style="margin: 0 0 10px 0; color: #808080; font-size: 14px; font-weight: bold;">Prioridades SCP1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
-                <li>🔴 Campeche ➤ Rental Large Van (excluir=no lleva nodos) ➤ NODOS=Delivery Cell (Dedicada = #paradas).</li>
-                <li>🟢 Resto planes ➤ Large Van MLP (nodo=híbrida).</li>
-            </ul>
-        </div>
-
-
-        <div>
-            <h4 style="margin: 0 0 10px 0; color: #808080; font-size: 14px; font-weight: bold;">Prioridades SMX5</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
-                <li>👉 Iztapalapa, Coyoacán y si alcanza Tláhuac = Small Van 9h</li>
-                <li>👉 Resto de planes con car 8h</li>
-                <li>👉 Cercanía de SVC ➤ Coyoacán, Iztapalapa, Tláhuac, Tlalpan nte, Tlalpan sur, Xochi, Chalco y Milpa Alta</li>
-            </ul>
-        </div>
-
-        <div>
-            <h4 style="margin: 0 0 10px 0; color: #808080; font-size: 14px; font-weight: bold;">Prioridades SCH1 C1</h4>
-            <ul style="padding-left: 20px; margin: 0; line-height: 1.4; font-size: 13px; color: black;">
-                <li>🟢 Falta info</b></li> 
-                <li>🟢 Falta info</b></li>
-                <li>🟢 Falta info</b></li>
-                <li>🟢 Falta info</li>
-                <li>🟣 Falta info</li>
-                <li>🔵 Falta info</li>
-                <li>🟤 Falta info</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-    <button onclick="togglePrioridades()" style="
-        position: fixed; 
-        top: 25px; 
-        right: 25px; 
-        z-index: 99999999; /* Botón en la capa más alta */
-        background: #FFD700; 
-        color: #3c4040; 
-        border: 1px solid #333; 
-        padding: 8px 12px; 
-        font-weight: bold; 
-        cursor: pointer; 
-        border-radius: 4px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    ">
-    🚦 Prioridades
-</button>
 
 
 
@@ -1273,337 +1555,285 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 <div id="fleet-sticky" class="fleet-normal">
   <div id="fleet-drag-handle">
-   
-
     <button id="fleet-toggle-btn"
-      onclick="console.log('CLICK BOTON FLOTAR ☁️/NORMAL (enter)'); toggleFleetFloating();"
+      onclick="toggleFleetFloating();"
       style="float:center; cursor:pointer; border:none; background:#25282b; color:white; padding:3px 8px; border-radius:6px; font-weight:bold;">
       FLOTAR ☁️
     </button>
   </div>
 
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+      
+      <!-- CONTENEDOR DE PESTAÑAS Y MENÚ FLOTANTE DE PESTAÑAS -->
+      <div style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
+          <!-- Botón de control con el menú desplegable -->
+          <button onclick="toggleMenuPestanas()" 
+              style="cursor:pointer; background:#25282b; color:white; border:1px solid #454545; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:6px; margin-right:4px;"
+              title="Configurar visibilidad de pestañas">
+              👁️ Pestañas
+          </button>
+
+          <!-- Menú Flotante con Casillas de Verificación -->
+          <div id="panel-selector-pestanas" style="display:none; position:absolute; top:38px; left:0; background:#25282b; color:white; border:1px solid #454545; padding:10px 14px; border-radius:8px; z-index:99999; box-shadow:0 4px 12px rgba(0,0,0,0.5); font-size:13px; min-width:140px;">
+              <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; color:#26d4ca;">Mostrar / Ocultar:</div>
+              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sde', this.checked)"> SDE</label>
+              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx5', this.checked)"> PREC SMX5</label>
+              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx2', this.checked)"> PREC SMX2</label>
+              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-scp1', this.checked)"> C1 SCP1</label>
+              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sch1', this.checked)"> C1 SCH1</label>
+              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smd1', this.checked)"> C1 SMD1</label>
+              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sja1', this.checked)"> C1 SJA1</label>
+              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-vacia', this.checked)"> C1 VACÍA</label>
+          </div>
+
+          <!-- Botones de Pestañas con sus IDs -->
+          <button id="btn-tab-sde" class="tab-btn" onclick="showTab(4, this)">SDE</button>
+          <button id="btn-tab-smx5" class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
+          <button id="btn-tab-smx2" class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
+          <button id="btn-tab-scp1" class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
+          <button id="btn-tab-sch1" class="tab-btn" onclick="showTab(7, this)">C1 SCH1</button>
+          <button id="btn-tab-smd1" class="tab-btn" onclick="showTab(8, this)">C1 SMD1</button>
+          <button id="btn-tab-sja1" class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
+          <button id="btn-tab-vacia" class="tab-btn" onclick="showTab(9, this)">C1 VACÍA</button>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
+          <button onclick="distribuirAutomatico()" 
+              style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;">
+              🧠 AUTO-CALCULAR
+          </button>
+          
+          <button class="filter-btn" onclick="filterRows(true)" 
+              style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
+              ACTIVAS
+          </button>
+
+          <button class="filter-btn" onclick="filterRows(false)" 
+              style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #454545; transition: all 0.05s; outline: none;">
+              TODAS
+          </button>
+      </div>
+
+      <button id="excel-btn" onclick="toggleExcelView()"
+          style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold; box-shadow:0 3px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 6px; transform: translateY(-6px); position: relative;">
+          <span style="font-size: 16px;">👁️</span>
+      </button>
+
+  </div>
+
+  <!-- TABLAS DE DISPONIBILIDAD INTEGRADAS DENTRO DE FLEET-STICKY -->
+  <div id="tab-2" class="t-content">
+      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+          <thead>
+              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+              </tr>
+          </thead>
+          <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+          <tfoot class="fila-total">
+              <tr class="fila-total">
+                  <td style="border:none;"></td>
+                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                  <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
+
+  <div id="tab-6" class="t-content" style="display:none;">
+      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+          <thead>
+              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+              </tr>
+          </thead>
+          <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
+          <tfoot class="fila-total"> 
+              <tr class="fila-total">
+                  <td style="border:none;"></td>
+                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                  <td id="total-ruteadas-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
 
 
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
-            <div>
-                <button class="tab-btn" onclick="showTab(4, this)">SDE</button>
-                <button class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
-                <button class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-                <!--
-                <button class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
-                -->
-                <button class="tab-btn" onclick="showTab(6, this)">C1 SCH1</button>
-            </div> 
 
-
-            
-            <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
-    <button onclick="distribuirAutomatico()" 
-    style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;"
-    onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 1px 0 #1b4b4d';"
-    onmouseup="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';"
-    onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='0 3px 0 #1b4b4d';">
-
-    
-    🧠 AUTO-CALCULAR
-</button>
-    
-    <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
-        ACTIVAS
-    </button>
-
-    <button class="filter-btn" onclick="filterRows(false)" 
-        style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #454545; transition: all 0.05s; outline: none;">
-        TODAS
-    </button>
-</div>
-
-
-
-<button id="excel-btn" onclick="toggleExcelView()"
-    style="
-        cursor:pointer;
-        background:#228B22;
-        color:white;
-        border:none;
-        font-size:12px;
-        padding:4px 10px;
-        border-radius:4px;
-        font-weight:bold;
-        box-shadow:0 3px 0 #1c6d1c;
-        transition:all 0.05s;
-        outline:none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transform: translateY(-6px);
-        position: relative;
-    "
-    onmousedown="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 1px 0 #1c6d1c';"
-    onmouseup="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';"
-    onmouseleave="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 3px 0 #1c6d1c';">
-    
-    <!-- Este símbolo es un carácter Unicode que parece un icono de Excel -->
-    <span style="font-size: 16px;">👁️</span>
-    
-    <span></span>
-</button>
-
-
-
-        </div>
-
-        <!-- TABLAS CON ENCABEZADOS RESTAURADOS (CORREGIDO AL ORIGINAL) --> 
-
-       
-     <div id="tab-2" class="t-content">
-  
-       <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-        <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">
-SCHEDULE
-</th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-USADAS
-</th>
-<th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">
-+ADIC
-</th>
-
-        </thead>
-        <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-<tfoot class="fila-total">
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-    </tr>
-</tfoot>
-
-
-    </table>
-</div>
-
-
-
-<div id="tab-6" class="t-content" style="display:none;">
-
+<div id="tab-7" class="t-content" style="display:none;">
     <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-USADAS
-</th>
-                <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">+ADIC</th>
-            </tr>
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+              </tr>
         </thead>
-        <tbody id="body-6">{gen_master_rows(u_C1_SCH1, 6)}</tbody>
+        <tbody id="body-7">{gen_master_rows(u_C1_SCH1, 7)}</tbody>
         <tfoot class="fila-total"> 
     <tr class="fila-total">
         <td style="border:none;"></td>
         <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+        <td id="total-ruteadas-7" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
     </tr>
 </tfoot>
     </table>
 </div>
 
 
-       
-        <div id="tab-1" class="t-content" style="display:none;">
-            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<div id="tab-8" class="t-content" style="display:none;">
+    <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
-  <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-    <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+              </tr>
+        </thead>
+        <tbody id="body-8">{gen_master_rows(u_C1_SMD1, 8)}</tbody>
+        <tfoot class="fila-total"> 
+    <tr class="fila-total">
+        <td style="border:none;"></td>
+        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+        <td id="total-ruteadas-8" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+    </tr>
+</tfoot>
+    </table>
+</div>
 
-    <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
 
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-    <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
 
-    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
-   <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-USADAS
-</th>
-    <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">+ADIC</th>
-  </tr>
-</thead>
 
-        <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+  <div id="tab-1" class="t-content" style="display:none;">
+      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+          <thead>
+              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+              </tr>
+          </thead>
+          <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
           <tfoot class="fila-total">
+              <tr class="fila-total">
+                  <td style="border:none;"></td>
+                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                  <td id="total-car-real-1" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
+
+  <div id="tab-5" class="t-content" style="display:none;">
+      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+          <thead>
+              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+              </tr>
+          </thead>
+          <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+          <tfoot class="fila-total">
+              <tr class="fila-total">
+                  <td style="border:none;"></td>
+                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                  <td id="total-car-real-5" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
+
+  <div id="tab-4" class="t-content" style="display:none;">
+      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+          <thead>
+              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+              </tr>
+          </thead>
+          <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+          <tfoot class="fila-total">
+              <tr class="fila-total">
+                  <td style="border:none;"></td>
+                  <td colspan="3" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                  <td id="total-car-real-4" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
 
 
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="6" style="padding:6px; text-align:right;">
-        🚛 TOTAL RUTEADAS
-    </td>
-    <td id="total-car-real-1"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
 
-
-
-
-
-</tfoot>
-    </table>
-</div>
-
-       
-        <div id="tab-5" class="t-content" style="display:none;">
-            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<!-- TABLA FLOTA C1 VACÍA (ID 9) -->
+<div id="tab-9" class="t-content" style="display:none;">
+    <table class="meli-table">
         <thead>
             <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:60px;">
-    SCHEDULE
-</th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-USADAS
-</th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:50px;">
-    +ADIC
-</th>
-</tr>
-            
-            </tr>
+                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+              </tr>
         </thead>
-        <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-         <tfoot class="fila-total">
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="6" style="padding:6px; text-align:right;">
-        🚛 TOTAL RUTEADAS
-    </td>
-    <td id="total-car-real-5"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-</tfoot>
+        <tbody id="body-9">{gen_master_rows(u_C1_VACIA, 9)}</tbody>
+        <tfoot class="fila-total">
+            <tr class="fila-total">
+                <td style="border:none;"></td>
+                <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                <td id="total-ruteadas-9" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
 
-        
-        <div id="tab-4" class="t-content" style="display:none;">
-            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-        <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:60px;">
-    SCHEDULE
-</th>
-<th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">
-USADAS
-</th>
-<th style="
-    border-right:0.5px solid #25282b;
-    padding:4px 8px;
-    font-size:11px;
-    color: #25282b !important;
-    width:50px;">
-    +ADIC
-</th>
-</tr>
-            
-            </tr>
-        </thead>
-        <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-       <tfoot class="fila-total">
-<tr class="fila-total">
-    <td style="border:none;"></td>
-    <td colspan="3" style="padding:6px; text-align:right;">
-        🚛 TOTAL RUTEADAS
-    </td>
-    <td id="total-car-real-4"
-        style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">
-        0
-    </td>
-</tr>
-</tfoot>
-    </table>
-</div>
 
 
-</div>
-
-
-
-<!--
-<div id="tabs-container" style="display: flex; gap: 5px; margin-bottom: 10px;"></div>
-
-<div id="contenedor-paquetes-c1" style="display: none; background: #25282b; padding: 15px; border-top: 3px solid #26d4ca; margin: 10px 0; border-radius: 6px; color: white;">
-    <h4 style="margin:0 0 10px 0; color:#26d4ca; font-size: 14px; text-align: center;">RESUMEN DE PAQUETES (C1)</h4>
-    
-    <div style="display: flex; gap: 15px; justify-content: center; align-items: flex-end;">
-        
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="text-align:center;">
-                <label style="font-size:11px; color:#aaa;">VOL A LAS 23:30</label><br>
-                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
-            </div>
-            <div style="text-align:center;">
-                <label style="font-size:11px; color:#aaa;">VOL DESPUÉS RUTEO</label><br>
-                <input type="number" class="sum-input" style="width:130px; text-align:center; padding: 6px 0; font-size: 16px;">
-            </div>
-        </div>
-
-       
-        <div style="display: flex; gap: 10px; align-items: flex-end;">
-            <div style="text-align:center;"><label style="font-size:11px; color:#ADFF2F;">NO RUT - EJA1</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-            <div style="text-align:center;"><label style="font-size:11px; color:#FF7F50;">DROPEO NODOS</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-            <div style="text-align:center;"><label style="font-size:11px; color:#FF4500;">DROPEO FINAL</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-            <div style="text-align:center;"><label style="font-size:11px; color:#FFD700;">ALCHICHICA ND</label><br><input type="number" class="sum-input" style="width:70px; text-align:center; padding: 6px 0; font-size: 16px;"></div>
-            
-            <div style="background: #333; border-radius: 3px; padding: 4px; min-width: 70px; text-align: center;">
-                <label style="font-size: 11px; color: #26d4ca; font-weight: bold;">TOTAL</label>
-                <input type="number" id="total-final" value="0" readonly style="width: 100%; padding: 6px 0; border: none; text-align: center; background: transparent; color: white; font-weight: bold; font-size: 16px;">
-            </div>
-        </div>
-
-    </div>
-</div>
--->
-
-
+</div> <!-- CIERRE CORRECTO DEL PANEL FLOTANTE FLEET-STICKY -->
 
         
         
@@ -1670,10 +1900,13 @@ USADAS
 </div>
         
         <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
-        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
+        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
+        <div id="polys-7" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
+        <div id="polys-8" class="p-content" style="display:none;">{gen_poligonos(u_C1_SMD1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
         <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+        <div id="polys-9" class="p-content" style="display:none;">{gen_poligonos(u_C1_VACIA)}</div>
 
 
         <div id="excel-polys" style="display:none; margin-top:10px;">
@@ -1794,6 +2027,158 @@ USADAS
 
 
 
+function agregarFilaPlan(btn){{
+
+    const bloque = btn.closest(".poligono-bloque");
+    const tbody = bloque.querySelector("tbody");
+
+    const filas = tbody.querySelectorAll(".calc-row");
+
+    const filaBase = filas[0];
+
+    const nuevaFila = filaBase.cloneNode(true);
+
+
+    // quitar celdas con rowspan (PLAN y VOL)
+    nuevaFila.querySelectorAll("[rowspan]").forEach(td => {{
+        td.remove();
+    }});
+
+
+    // limpiar valores
+    const u = nuevaFila.querySelector(".u-manual");
+    if(u) u.innerText = "0";
+
+    const spr = nuevaFila.querySelector(".spr-real-val");
+    if(spr) spr.innerText = "0";
+
+    const select = nuevaFila.querySelector(".s-type");
+    if(select) select.selectedIndex = 0;
+
+    const check = nuevaFila.querySelector(".ok-check");
+    if(check) check.checked = false;
+
+
+    // insertar antes de ESTADO
+    const estado = tbody.querySelector("tr:last-child");
+
+    tbody.insertBefore(nuevaFila, estado);
+
+
+    actualizarRowspan(bloque);
+
+    recalc();
+}}
+
+
+
+function quitarFilaPlan(btn){{
+
+    const bloque = btn.closest(".poligono-bloque");
+    const tbody = bloque.querySelector("tbody");
+
+    const filas = tbody.querySelectorAll(".calc-row");
+
+
+    if(filas.length <= 1){{
+        return;
+    }}
+
+
+    filas[filas.length - 1].remove();
+
+
+    actualizarRowspan(bloque);
+
+
+    // 🔥 obliga al navegador a recalcular la tabla completa
+    const tabla = bloque.querySelector("table");
+
+    if(tabla){{
+
+        tabla.style.width = "100%";
+        tabla.style.tableLayout = "fixed";
+
+        // refresca el render
+        void tabla.offsetWidth;
+
+        setTimeout(() => {{
+            tabla.style.tableLayout = "fixed";
+        }}, 50);
+    }}
+
+
+    recalc();
+}}
+
+
+
+function actualizarContador(bloque){{
+
+    const filas = bloque.querySelectorAll(".calc-row");
+
+    const contador = bloque.querySelector(".contador-filas");
+
+    if(contador){{
+        contador.innerText = "Filas: " + filas.length;
+    }}
+
+}}
+
+
+function actualizarRowspan(bloque){{
+
+    let filas = bloque.querySelectorAll(".calc-row").length;
+
+    let plan = bloque.querySelector(".plan-cell");
+    let vol = bloque.querySelector(".vol-cell");
+
+    if(plan) plan.rowSpan = filas;
+    if(vol) vol.rowSpan = filas;
+}}
+
+
+function actualizarRowspan(bloque){{
+
+    const filas = bloque.querySelectorAll(".calc-row").length;
+
+    const plan = bloque.querySelector("td.plan-cell");
+    const volumen = bloque.querySelector("td.vol-cell");
+
+    if(plan){{
+        plan.rowSpan = filas;
+    }}
+
+    if(volumen){{
+        volumen.rowSpan = filas;
+    }}
+
+
+    const contador = bloque.querySelector(".contador-filas");
+
+    if(contador){{
+        contador.innerText = "Filas: " + filas;
+    }}
+}}
+
+
+function toggleMenuPestanas() {{
+    let panel = document.getElementById("panel-selector-pestanas");
+    if (panel) {{
+        panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
+    }}
+}}
+
+function toggleBtnPestana(btnId, visible) {{
+    let btn = document.getElementById(btnId);
+    if (btn) {{
+        btn.style.display = visible ? "inline-block" : "none";
+    }}
+}}
+
+
+
+
 function toggleFleetFloating() {{
   const panel = document.getElementById("fleet-sticky");
   const btn = document.querySelector("#fleet-drag-handle button");
@@ -1865,9 +2250,11 @@ function showTab(n, btn) {{
             const idsArestaurar = [
                 "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
                 "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
+                "total-no-car-7", "total-car-schedule-7", "total-car-real-7",
+                "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
                 "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
                 "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
-            ];
+             ];
             idsArestaurar.forEach(id => {{
                 let el = document.getElementById(id);
                 if (el) {{
@@ -1903,7 +2290,7 @@ function showTab(n, btn) {{
         // ==============================================================================
         const excelBtn = document.getElementById('excel-btn');
         if (excelBtn) {{
-            if (n === 2 || n === 6) {{
+            if (n === 2 || n === 6 || n === 7 || n === 8) {{
                 excelBtn.style.setProperty('display', 'inline-block', 'important');
             }} else {{
                 excelBtn.style.setProperty('display', 'none', 'important');
@@ -2143,7 +2530,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
     // Obtenemos el nombre del plan aquí para identificar CENTRO 1 y CENTRO 2
     let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-    let esCentro = (nombrePlanPadre === "CENTRO 1" || nombrePlanPadre === "CENTRO 2");
+    let esCentro = (nombrePlanPadre === "⚠️ CENTRO 1" || nombrePlanPadre === "⚠️ CENTRO 2");
     
     let celdaNodos = bl.querySelector('.nodos-val');
     let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
@@ -2156,7 +2543,13 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
         let uManual = r.querySelector('.u-manual');
         let sp = r.querySelector('.spr-real-val');
         
-    
+        // 🔥 AQUÍ ESTÁ LA MAGIA:
+        // Si NO es Centro Y tiene nodo, aplica la regla (Funciona para todos los demás)
+        // Si ES Centro, esta condición da FALSE y se salta la asignación automática
+        if (!esCentro && tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
+            sType.value = "Large Van MLP foráneo";
+            uManual.innerText = "1";
+        }}
 
         // Si el usuario cambió la unidad manualmente, aseguramos que si es "Seleccionar...", la cantidad sea 0
         if (sType.value === "" || sType.value === "Seleccionar...") {{
@@ -2202,7 +2595,7 @@ document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl =>
 
 
 
-// 3. REPLICAR Y CALCULAR +ADIC BASADO EN "RUTEADAS" MANUALES
+// 3. REPLICAR Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
 document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     let nameCell = row.querySelector('.edit-name');
     if (!nameCell) return;
@@ -2212,7 +2605,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
     // Buscamos el valor de Ruteadas (USADAS) y del Schedule
     let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
     let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
-    let cL = row.querySelector('.f-left'); // Columna +ADIC
+    let cL = row.querySelector('.f-left'); // Columna DELTA
     
     // --- Lógica de color para columna USADAS ---
     let ruteadaCell = row.querySelector('.f-ruteadas');
@@ -2228,7 +2621,7 @@ document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
         }}
     }}
 
-    // --- LÓGICA DE COLOR Y FORMATO POSITIVO PARA +ADIC ---
+    // --- LÓGICA DE COLOR Y FORMATO POSITIVO PARA DELTA ---
     if (cL) {{
         let exceso = ruteadasManuales - stock; // Diferencia de adicionales
         
@@ -2308,13 +2701,13 @@ document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
 
 
 
-// 4. FILTRAR LISTA (Solo Small Van MLP foráneo y Car 8h permanecen siempre visibles)
+       // 4. FILTRAR LISTA (Solo las crowd permanecen siempre visibles)
 document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
 
     // 🔥 Lista de unidades permitidas para seguir apareciendo sin stock
     const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h"];
 
-    bl.querySelectorAll('.s-type').forEach(s => {{
+    bl.querySelectorAll('.s-type').forEach(s => {{ 
         let cur = s.value; 
         let opt = '<option value="">Seleccionar...</option>';
         
@@ -2597,8 +2990,12 @@ function manualEdit(el) {{
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
                 
+                // Regla C: SCH1 (7) y SMD1 (8) con CAR 8H
+                if ((currentTab === 7 || currentTab === 8) && unidadSeleccionada.trim() === "CAR 8H") {{
+                    permiteInfinito = true;
+                }}
                 // Regra A: C1 con Large Van MLP
-                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                else if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
                 }} 
                 // Regla B: SDE o PREC con cualquier Car
@@ -2732,9 +3129,15 @@ function resetRow(sel) {{
             
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
-                if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+
+                // Regla nueva para CAR 8H en pestañas 7 y 8
+                if ((currentTab === 7 || currentTab === 8) && unidadSeleccionada.trim() === "CAR 8H") {{
                     permiteInfinito = true;
-                }} else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
+                }}
+                else if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
+                    permiteInfinito = true;
+                }} 
+                else if ((currentTab === 1 || currentTab === 5 || currentTab === 4) && esUnidadCar) {{
                     if (unidadSeleccionada.trim() !== "Small 9h Ext Car") {{
                         permiteInfinito = true;
                     }}
@@ -2851,6 +3254,8 @@ function toggleExcelView() {{
     const idsAocultar = [
         "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
         "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
+        "total-no-car-7", "total-car-schedule-7", "total-car-real-7",
+        "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
         "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
         "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
     ];
@@ -2865,7 +3270,7 @@ function toggleExcelView() {{
         btn.innerHTML = "N";
         if(excel) excel.style.display = "block";
         
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
+        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
@@ -2886,7 +3291,7 @@ function toggleExcelView() {{
         if(excel) excel.style.display = "none";
         
         // Restaurar bloques de pestañas
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6"].forEach(id => {{
+        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8",].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
@@ -3288,6 +3693,7 @@ function distribuirAutomatico() {{
         }}
     }}
 
+
     // --- 🔵 CARRIL PESTAÑA 2: C1 BASE / SCP1 (Incluye Campeche y sus Dedicadas) ---
     if (currentTab == 2) {{
         // Preasignación Large Van MLP
@@ -3402,6 +3808,18 @@ function distribuirAutomatico() {{
                             unidad = fleet.find(f => f.nombre.includes(opt));
                             if (unidad) break;
                         }}
+                    }} else if (currentTab == 7) {{ // C1 SCH1
+                        let options = ["Car - 8h"];
+                        for (let opt of options) {{
+                            unidad = fleet.find(f => f.nombre.includes(opt));
+                            if (unidad) break;
+                        }}
+                    }} else if (currentTab == 8) {{ // C1 SMD2
+                        let options = ["Car - 8h"];
+                        for (let opt of options) {{
+                            unidad = fleet.find(f => f.nombre.includes(opt));
+                            if (unidad) break;
+                        }}
                     }} else if (currentTab == 2) {{ // C1 SCP1
                         let options = ["Large Van MLP", "Car - 8h", "Car - 5h"];
                         for (let opt of options) {{
@@ -3452,99 +3870,138 @@ function distribuirAutomatico() {{
         }});
     }}
 
-    // ==============================================================================
-    // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
-    // ==============================================================================
-    function procesarAsignacionUnidadSJA1(poly) {{
-        let bloque = poly.bloque;
-        let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-        let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+// ==============================================================================
+// 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
+// ==============================================================================
+function procesarAsignacionUnidadSJA1(poly) {{
+    let bloque = poly.bloque;
+    let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+    let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
 
-        let yaAsignado = 0;
-        bloque.querySelectorAll('.calc-row').forEach(r => {{
-            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
-            let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
-            yaAsignado += (unidades * spr);
-        }});
+    let yaAsignado = 0;
+    bloque.querySelectorAll('.calc-row').forEach(r => {{
+        let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
+        let spr = parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0;
+        yaAsignado += (unidades * spr);
+    }});
 
-        let restante = objetivo - yaAsignado;
-        if (restante <= 0) return;
+    let restante = objetivo - yaAsignado;
+    if (restante <= 0) return;
 
-        let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-        for (let fila of filas) {{
-            let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
-            let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
-            let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
+    let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+    for (let fila of filas) {{
+        let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+        let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+        let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
 
-            if (yaTieneUnidad || yaTieneTipo) continue;
-            if (restante <= 0) break;
+        if (yaTieneUnidad || yaTieneTipo) continue;
+        if (restante <= 0) break;
 
-            let unidad = null;
+        let unidad = null;
 
-            // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2" (Cascada Rental estricta)
-            if (nombrePlan === "CENTRO 1" || nombrePlan === "CENTRO 2") {{
-                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
-                for (let nombre of listaRental) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre === nombre);
-                    if (unidad) break;
-                }}
-            }}
+        // 4.1 PRIORIDAD PLANES LOCALES: "CENTRO 1" Y "CENTRO 2"
+        if (nombrePlan === "⚠️ CENTRO 1" || nombrePlan === "⚠️ CENTRO 2") {{
             
-            // 4.2 PRIORIDAD PLANES FORÁNEOS
-        else if (["ACTOPAN", "MISANTLA", "NAOLINCO", "PEROTE", "TEZUITLÁN", "TEZUITLAN", "TLALTETELA", "TRAPICHE", "TUZAMAPA", "XICO"].includes(nombrePlan)) {{
-            
-            // CASCADA 1: MLP primero
-            unidad = fleet.find(f => f.restante > 0 && f.nombre === "Large Van MLP foráneo");
-            if (!unidad) {{
-                unidad = fleet.find(f => f.restante > 0 && f.nombre === "Small Van MLP foráneo");
-            }}
-
-            // CASCADA 2: Si no hay MLP, prioridad a las NEWBIE (Car o Small Van)
-            if (!unidad) {{
-                // Definimos la jerarquía: Newbies primero, luego el resto
-                let listaLigeras = [
-                    "Newbie", // Al poner solo "Newbie", capturará "Small Van Newbie" Y "Car Newbie"
-                    "Car 8h", 
-                    "Small Van 9h", 
-                    "Small Van 9h Ext", 
-                    "Moto 3h"
+            if (nombrePlan === "⚠️ CENTRO 1") {{
+                const listaEspecialesC1 = [
+                    "Extra Large Van MLP H&B", 
+                    "Truck 3.5 tons MLP", 
+                    "Delivery Cell Large Van"
                 ];
                 
-                // Usamos .includes para que si el nombre en la tabla tiene la palabra, la capture
-                for (let palabra of listaLigeras) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre.includes(palabra));
+                for (let nombre of listaEspecialesC1) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase() === nombre.toLowerCase());
+                    if (unidad) break;
+                }}
+
+                if (!unidad) {{
+                    const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                    for (let nombre of listaRental) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes(nombre.toLowerCase()));
+                        if (unidad) break;
+                    }}
+                }}
+
+            }} else if (nombrePlan === "⚠️ CENTRO 2") {{
+                const listaRental = ["Rental Electric Large Van", "Rental Large Van", "Rental Replacement"];
+                for (let nombre of listaRental) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes(nombre.toLowerCase()));
                     if (unidad) break;
                 }}
             }}
         }}
 
-        // Si no se encontró unidad en la jerarquía, frena
-        if (!unidad) break;
-        
+        // 4.2 PLAN ESPECÍFICO: EJA1 SP (Media Milla SP)
+        else if (nombrePlan.includes("EJA1 SP") || nombrePlan.includes("EJA1")) {{
+            unidad = fleet.find(f => f.restante > 0 && (f.nombre.toLowerCase().includes("media milla sp") || f.nombre.toLowerCase().includes("media milla")));
+        }}
 
-            // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
-            let necesarias = Math.ceil(restante / unidad.spr);
-            let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+        // 4.3 CASOS ESPECÍFICOS PARA XICO Y TUZAMAPA (MLP primero, y si no hay o faltan, pasa a CAR / Crowd)
+        else if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
+            // 1. Intentar asignar Large Van MLP foráneo disponible
+            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("large van mlp foráneo"));
 
-            if (usar <= 0) continue;
-
-            let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-            if (filaExistente) {{
-                let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
-                filaExistente.querySelector('.u-manual').innerText = actual + usar;
-                filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(filaExistente);
-            }} else {{
-                fila.querySelector('.s-type').value = unidad.nombre;
-                fila.querySelector('.u-manual').innerText = usar;
-                fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                editedRowsPlan.add(fila);
+            // 2. Si ya no hay Large, intentar con Small Van MLP foráneo disponible
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van mlp foráneo"));
             }}
 
-            unidad.restante -= usar;
-            restante -= (usar * unidad.spr);
+            // 3. Si no hay MLP Foráneas disponibles, asignar unidades ligeras / crowd
+            if (!unidad) {{
+                let listaSustitutas = [
+                    "car 8h", 
+                    "car newbie", 
+                    "car zona extendida", 
+                    "small van 9h", 
+                    "small van 9h ext", 
+                    "small van newbie", 
+                    "moto 3h"
+                ];
+                for (let palabra of listaSustitutas) {{
+                    unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes(palabra));
+                    if (unidad) break;
+                }}
+            }}
         }}
+
+        // 4.4 RESTO DE PLANES FORÁNEOS (Actopan, Misantla, Naolinco, Perote, Tezuitlan, Tlaltetela, Trapiche)
+        else {{
+            // CASCADA 1: Large Van MLP foráneo
+            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("large van mlp foráneo"));
+            
+            // CASCADA 2: Small Van MLP foráneo
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van mlp foráneo"));
+            }}
+        }}
+
+        // Si no se encontró unidad válida para la regla de la zona, detiene la asignación
+        if (!unidad) break;
+
+        // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
+        let necesarias = Math.ceil(restante / unidad.spr);
+        let usar = (unidad.restante > 0) ? Math.min(necesarias, unidad.restante) : 0;
+
+        if (usar <= 0) continue;
+
+        let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+        if (filaExistente) {{
+            let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+            filaExistente.querySelector('.u-manual').innerText = actual + usar;
+            filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+            editedRowsPlan.add(filaExistente);
+        }} else {{
+            fila.querySelector('.s-type').value = unidad.nombre;
+            fila.querySelector('.u-manual').innerText = usar;
+            fila.querySelector('.spr-real-val').innerText = unidad.spr;
+            editedRowsPlan.add(fila);
+        }}
+
+        unidad.restante -= usar;
+        restante -= (usar * unidad.spr);
     }}
+}}
+
 
     // ============================================================================================
     // 📊 SECCIÓN 5: RECALCULAR COMPLETO Y REFRESCAR TOTALES// TERMINA DISTRIBUIDOR AUTOMATICO
@@ -3586,7 +4043,7 @@ function updateFleetFloat() {{
     let totalCarSchedule = 0;   // Declaradas
     let totalNoCar = 0;         // El total original de MLP que tu código ya calculaba
 
-    // ⬇️ A PARTIR DE AQUÍ REEMPLAZAS EL BUCLE (document.querySelectorAll...):
+    // ⬇️ BUCLE DE ACTUALIZACIÓN
     document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
         let name = row.querySelector('.edit-name')?.innerText.trim();
         let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
@@ -3597,41 +4054,40 @@ function updateFleetFloat() {{
         if(name && (stock > 0 || asignado > 0)) {{
             let nameLower = name.toLowerCase();
 
-            // 1. CONTEO DE CARS (INCLUYENDO MOTO, SMALL VANS, ETC)
-            if(
-            nameLower.includes("car") || 
-            nameLower.includes("moto") || 
-            nameLower.includes("small van") || 
-            nameLower.includes("newbie")
-            ) {{
-            totalCarSchedule += stock;
+            // 🔥 EXCLUSIÓN EXPLÍCITA: Ignorar "Extra Large Van MLP H&B" y "Truck 3.5 tons MLP" de los cálculos MLP
+            let esExtraLargeMLP = nameLower.includes("extra large van mlp h&b") || nameLower.includes("extra large van mlp h & b");
+            let esTruck35MLP = nameLower.includes("truck 3.5 tons mlp") || nameLower.includes("truck 3.5 ton mlp");
+            let debeExcluirMLP = esExtraLargeMLP || esTruck35MLP;
+
+            // 1. CONTEO DE CARS (Ajustado para evitar falsos positivos)
+            let esCarStrict = (
+                (nameLower.includes("car") || nameLower.includes("moto") || nameLower.includes("small van") || nameLower.includes("newbie")) &&
+                !nameLower.includes("mlp") && !nameLower.includes("van grande") && !nameLower.includes("large van")
+            );
+
+            if (esCarStrict) {{
+                totalCarSchedule += stock;
             }}
 
-            // 2. CONTEO DE MLP
-            if(name.includes("MLP")) {{
+            // 2. CONTEO DE MLP (Excluyendo explícitamente las unidades añadidas)
+            if (name.includes("MLP") && !debeExcluirMLP) {{
                 totalMLPStock += stock;
                 totalMLPReal += asignado;
             }}
 
             // 3. CONTEO DE RENTALS
-            if(nameLower.includes("rental")) {{
+            if (nameLower.includes("rental")) {{
                 totalRentalStock += stock;
                 totalRentalReal += asignado;
             }}
 
-            let isCar = nameLower.includes("car") || 
-            nameLower.includes("híbrida") || 
-            nameLower.includes("moto") || 
-            nameLower.includes("small van") || 
-            nameLower.includes("newbie");
-            
-            let colorCategoria = isCar ? "#FF4500" : "#0000CD";
+            let colorCategoria = esCarStrict ? "#FF4500" : "#0000CD";
 
-            // 🔥 SUMA DIRECTA DE LA COLUMNA USADAS SIN RESTAR LAS ADICIONALES
-            if (isCar) {{
+            // 🔥 SUMA DIRECTA DE LA COLUMNA USADAS 
+            if (esCarStrict) {{
                 totalCarReal += asignado;
             }} else {{
-                if (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo")) {{
+                if (!debeExcluirMLP && (name === "Large Van MLP" || name === "Small Van MLP" || name.includes("foráneo"))) {{
                     totalNoCar += asignado;
                 }}
             }}
@@ -3647,7 +4103,7 @@ function updateFleetFloat() {{
         }}
     }});
 
-    // Columna derecha flotante: Aquí SÍ desglosamos Declaradas vs Ruteadas (Solo se ve en Vista Normal)
+    // Columna derecha flotante: Desglose Declaradas vs Ruteadas
     htmlRight = `
         <div style="margin-top: 5px; padding-top: 5px;"> 
             <div style="display:flex; justify-content:space-between; color: #D2691E; font-weight: 800; font-size: 14px;">
@@ -3684,12 +4140,9 @@ function updateFleetFloat() {{
     </div>
     `;
 
-    // ==============================================================================
-    // SE MANTIENEN LOS ELEMENTOS DE ABAJO CON EL COMPORTAMIENTO ORIGINAL INTACTO
-    // ==============================================================================
     let elNoCar = document.getElementById('total-no-car-' + currentTab);
     if (elNoCar) {{
-        elNoCar.innerText = totalNoCar; // Regresa al cálculo original (MLP Clásicas + Foráneas)
+        elNoCar.innerText = totalNoCar; 
     }}
 
     let elCarReal = document.getElementById('total-car-real-' + currentTab);
@@ -3710,21 +4163,16 @@ function updateFleetFloat() {{
 
     document.getElementById('fleet-float-body').innerHTML = html;
 
-
-    // --- ESTAS 3 LÍNEAS ACTUALIZAN TUS CUADRITOS DE LA IMAGEN ---
+    // Actualización de los cuadritos superiores
     document.getElementById("val-mlp-rute-2").innerText = totalMLPReal;
     document.getElementById("val-rental-rute-2").innerText = totalRentalReal;
     document.getElementById("val-car-rute-2").innerText = totalCarReal;
 
-
     if (typeof guardarEstado === 'function') {{ guardarEstado(); }}
 }}
 
-
 aplicarPerfil();
-
-    
-    recalc();
+recalc();
 
 
 // ==============================================================================
@@ -3753,8 +4201,7 @@ function actualizarSelects() {{
     const listaPermitidas = [
         "Small Van MLP foráneo",
         "Car 8h",
-        "Car - 8h",
-        "Car - 5h"
+        "Car - 8h"
     ];
 
     document.querySelectorAll('.s-type').forEach(select => {{
@@ -3911,20 +4358,10 @@ const ruteos = [
         nombre:"SMX9",
         hora:"16:40"
     }},
-
-    {{
-        nombre:"SGD2",
-        hora:"17:00"
-    }},
     
     {{
         nombre:"SMX5",
         hora:"17:20"
-    }},
-
-    {{
-        nombre:"SMX4",
-        hora:"17:40"
     }},
 
     {{
@@ -3935,16 +4372,6 @@ const ruteos = [
     {{
         nombre:"SMT2",
         hora:"18:40"
-    }},
-
-    {{
-        nombre:"SCP1 C1",
-        hora:"20:00"
-    }},
-
-    {{
-        nombre:"SMX5 PREC",
-        hora:"21:30"
     }},
     
     {{
@@ -4189,7 +4616,7 @@ info_operativa = {
             <img src="{url_final}" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
         </div>
 
-        <h3 style='color: #000; margin-bottom: 5px;'>ROL APOYO</h3>
+        <h3 style='color: #000; margin-bottom: 5px;'>ROL VP04</h3>
         <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
         
         <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
@@ -4204,6 +4631,12 @@ info_operativa = {
         <h3 style='color: #000; margin-top: 25px;'>🟪 SDE 🟪</h3>
         <hr style='border: 1px solid #FF00FF; margin-bottom: 20px;'>
         
+        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
+            - 📌 Orígenes: MXCD02, MXCD06<br>
+            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
+            - 👉 fecha promesa</p>
+        </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SGD2 PM2 - ⏰ 17:00 - 17:20</strong><br>
@@ -4214,6 +4647,12 @@ info_operativa = {
              - 👉 prefijo SD3 siempre</p>
         </div>
 
+        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX5 PM2 - ⏰ 17:20 - 17:40</strong><br>
+             - 📌 Orígenes: MXCD02, MXCD06<br>
+             - 👉 Vol aprox. 400<br>
+             - 👉 fecha promesa + quemada</p>
+        </div>
 
         <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
             <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX4 PM2 - ⏰ 17:40 - 18:00</strong><br>
@@ -4221,7 +4660,25 @@ info_operativa = {
             - 👉 Vol aprox. 550<br>
             - 👉 Preguntar si habrá ids a descartar<br>
             - 🏍️ Motos SPR 30<br>
-            - 👉 fecha promesa + quemada (dependiendo del volumen que ellos manden, ves si agregas la fecha quemada)</p> 
+            - 👉 fecha promesa + quemada</p> 
+        </div>
+
+        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM2 - ⏰ 18:00 - 18:20</strong><br>
+            - 📌 Orígenes: MXCD02, MXCD06<br>
+            - 👉 fecha promesa + quemada</br>
+            - 👉 Vol aprox. 250<br>
+            - 👉 Parámetros ORH=210 OCUP=66%</p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMT2 PM2 - ⏰ 18:40 - 19:00</strong><br>
+            - 📌 Origen MXNL01<br>
+            - 👉 Despacho hoy después 3 pm<br>
+            - 👉 fecha promesa + quemada<br>
+            - 👉 Vol. 800 aprox.<br>
+            - 👉 SPR 27-28 / se van las 30 unidades<br>
+            - 👉 Pido validación</p>
         </div>
 
 
@@ -4235,7 +4692,16 @@ info_operativa = {
              - 📌 Ellos envían el volumen a tomar<br>
              - ✅ Poco volumen = polígonos que no salen en logis porque se pegan a otros que están cerca<br>
              - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
-             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos</p>
+             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos/p>
+        </div>
+
+        <div style='background: white; border-left: 6px solid #DC143C; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
+            <p style='margin: 0;'><strong><span style="color: #DC143C;">●</span> SJA1 AM1 - ⏰ 23:30 - 00:30</strong><br>
+             - 📌 Ellos envían el volumen a tomar /Apagado CP<br>
+             - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
+             - 🚛 FORÁNEOS = Small Van MLP / Sin nodos<br>
+             - 🚛 FORÁNEOS = Xico y Tuzamapa / Mlp, Crowd<br>
+             - 🚛 CENTRO (local) = Rental Large Van = híbridas/ Delivery Cell (3 paradas) / 3.5 tons (2 paradas)/p>
         </div>
 
 
