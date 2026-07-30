@@ -171,6 +171,20 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                     # PASO 2: Unidades Dedicadas para Nodos
                     elif paso == 2:
+                        # 🎨 Estilo Exclusivo para los Checkboxes del Bot
+                        st.markdown("""
+                            <style>
+                            div[data-testid="stCheckbox"] p {
+                                font-size: 1.25rem !important;
+                                font-weight: 600 !important;
+                            }
+                            div[data-testid="stCheckbox"] [data-baseweb="checkbox"] {
+                                transform: scale(1.3);
+                                margin-right: 8px;
+                            }
+                            </style>
+                        """, unsafe_allow_html=True)
+                        
                         st.write("👇 **Unidades dedicadas para nodos (selecciona la casilla):**")
                         
                         u1 = st.checkbox("3.5 tons", key="chk_35")
