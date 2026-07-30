@@ -265,15 +265,15 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
     if st.session_state.flujo_resumen:
         paso = st.session_state.paso_resumen
 
-        # PASO 1: Ciclo
+        # PASO 1: Ciclo (Formato idéntico al menú de SMX5)
         if paso == 1:
-            st.write("¿Qué tipo de ciclo fue?")
-            c1, c2 = st.columns(2)
-            if c1.button("Uniciclo", use_container_width=True):
+            st.write("👇 **Selecciona una opción o escribe 1 ó 2:**")
+            col1, col2 = st.columns(2)
+            if col1.button("1️⃣ Uniciclo", key="btn_resumen_uniciclo", use_container_width=True):
                 st.session_state.data_resumen["ciclo"] = "Uniciclo"
                 st.session_state.paso_resumen = 2
                 st.rerun()
-            if c2.button("Ciclo 1", use_container_width=True):
+            if col2.button("2️⃣ Ciclo 1", key="btn_resumen_c1", use_container_width=True):
                 st.session_state.data_resumen["ciclo"] = "C1"
                 st.session_state.paso_resumen = 2
                 st.rerun()
