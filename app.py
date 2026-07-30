@@ -232,7 +232,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         st.session_state.data_resumen = {}
 
     # Historial de Chat
-    with st.container(height=380):
+    with st.container(height=480):
         for msg in st.session_state.main_chat_messages:
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
