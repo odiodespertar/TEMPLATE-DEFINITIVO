@@ -421,7 +421,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             # Mapeo general de centros y casos especiales de SMX5
             mapeo_centros = {
                 "smx9": "smx9_extendido",
-                "sgd2": "sgd_extendido", "sgd": "sgd_extendido",
+                "sgd2": "sgd2_extendido", "sgd2": "sgd2_extendido",
                 "smx4": "smx4_extendido",
                 "smx2": "smx2_extendido",
                 "smt2": "smt2_extendido",
