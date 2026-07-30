@@ -42,19 +42,19 @@ st.markdown("""
             zoom: 0.95; 
         }
     }
-    /* --- VENTANA FLOTANTE MÁS ALTA Y AMPLIA --- */
+    /* --- VENTANA FLOTANTE AJUSTADA Y ORDENADA --- */
     div[data-testid="stExpander"] {
         position: fixed !important;
         bottom: 40px !important;
         right: 20px !important;
-        width: 500px !important;
-        max-height: 760px !important; /* 🔥 Permite que la ventana crezca bastante */
-        height: auto !important;
+        width: 760px !important;
+        max-height: 80vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
         background-color: #D6C2F0 !important;
         border-radius: 12px !important;
         border: 2px solid #6A35C9 !important;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
+        overflow: hidden !important;
     }
     
     /* 🔥 TÍTULO DEL BOT ("🤖 BOT prioridades") EN NEGRO OSCURO BIEN VISIBLE */
