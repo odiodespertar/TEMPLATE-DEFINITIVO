@@ -283,7 +283,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             st.write("Unidades en Centro:")
             unidades_elegidas = st.multiselect(
                 "Selecciona las unidades dedicadas para nodos:",
-                ["3.5 tons", "Delivery Cell", "Extra Large Van H&B"],
+                ["3.5 tons", "Delivery Cell"],
                 key="multi_unidades"
             )
             
