@@ -279,6 +279,24 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             st.session_state.paso_resumen = 2.5
                             st.rerun()
 
+
+                    # PASO 2.2: Preguntar cuáles dejó fuera Logis (NUEVO PASO)
+                    elif paso == 2.2:
+                        st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
+                        unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
+                    
+                        fuera_elegidas = []
+                        for idx, u in enumerate(unis_pre):
+                            if st.checkbox(f"Dejó fuera: {u}", key=f"chk_fuera_{idx}"):
+                                fuera_elegidas.append(u)
+                    
+                        if st.button("Continuar ➡️", use_container_width=True):
+                            st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
+                            st.session_state.paso_resumen = 2.5  # Pasa a Bulk
+                            st.rerun()
+
+                    
+
                     # PASO 2.5: Bulk (H&B)
                     elif paso == 2.5:
                         st.write("👇 **¿Hubo Bulk (H&B)?**")
