@@ -254,61 +254,58 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             st.rerun()
 
                     # PASO 2: Unidades Dedicadas para Nodos
-                    elif paso == 2:
-                        st.write("👇 **Unidades dedicadas para nodos:**")
-                        
-                        u1 = st.checkbox("3.5 tons", key="chk_35")
-                        u2 = st.checkbox("Delivery Cell", key="chk_del")
-                        
-                        unidades_elegidas = []
-                        if u1:
-                            unidades_elegidas.append("3.5 tons")
-                        if u2:
-                            unidades_elegidas.append("Delivery Cell")
-                        
-                        st.write("¿Logis tomó todas?")
-                        col_s, col_n = st.columns(2)
-                        if col_s.button("1️⃣ Sí", use_container_width=True):
-                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                            st.session_state.data_resumen["logis_tomo_todas"] = True
-                            st.session_state.paso_resumen = 2.5
-                            st.rerun()
-                        if col_n.button("2️⃣ No", use_container_width=True):
-                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                            st.session_state.data_resumen["logis_tomo_todas"] = False
-                            st.session_state.paso_resumen = 2.5
-                            st.rerun()
-
-
-                    # PASO 2.2: Preguntar cuáles dejó fuera Logis (NUEVO PASO)
-                    elif paso == 2.2:
-                        st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
-                        unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
+                elif paso == 2:
+                    st.write("👇 **Unidades dedicadas para nodos:**")
                     
-                        fuera_elegidas = []
-                        for idx, u in enumerate(unis_pre):
-                            if st.checkbox(f"Dejó fuera: {u}", key=f"chk_fuera_{idx}"):
-                                fuera_elegidas.append(u)
+                    u1 = st.checkbox("3.5 tons", key="chk_35")
+                    u2 = st.checkbox("Delivery Cell", key="chk_del")
                     
-                        if st.button("Continuar ➡️", use_container_width=True):
-                            st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
-                            st.session_state.paso_resumen = 2.5  # Pasa a Bulk
-                            st.rerun()
-
+                    unidades_elegidas = []
+                    if u1:
+                        unidades_elegidas.append("3.5 tons")
+                    if u2:
+                        unidades_elegidas.append("Delivery Cell")
                     
+                    st.write("¿Logis tomó todas?")
+                    col_s, col_n = st.columns(2)
+                    if col_s.button("1️⃣ Sí", use_container_width=True):
+                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                        st.session_state.data_resumen["logis_tomo_todas"] = True
+                        st.session_state.paso_resumen = 2.5  # Pasa directo a Bulk
+                        st.rerun()
+                    if col_n.button("2️⃣ No", use_container_width=True):
+                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                        st.session_state.data_resumen["logis_tomo_todas"] = False
+                        st.session_state.paso_resumen = 2.2  # 👈 Pasa a preguntar cuál dejó fuera
+                        st.rerun()
 
-                    # PASO 2.5: Bulk (H&B)
-                    elif paso == 2.5:
-                        st.write("👇 **¿Hubo Bulk (H&B)?**")
-                        c1, c2 = st.columns(2)
-                        if c1.button("1️⃣ Sí", use_container_width=True):
-                            st.session_state.data_resumen["hubo_bulk"] = True
-                            st.session_state.paso_resumen = 3
-                            st.rerun()
-                        if c2.button("2️⃣ No", use_container_width=True):
-                            st.session_state.data_resumen["hubo_bulk"] = False
-                            st.session_state.paso_resumen = 3
-                            st.rerun()
+                # PASO 2.2: Preguntar cuáles dejó fuera Logis (NUEVO PASO)
+                elif paso == 2.2:
+                    st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
+                    unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
+                    
+                    fuera_elegidas = []
+                    for idx, u in enumerate(unis_pre):
+                        if st.checkbox(f"Dejó fuera: {u}", key=f"chk_fuera_{idx}"):
+                            fuera_elegidas.append(u)
+                    
+                    if st.button("Continuar ➡️", use_container_width=True):
+                        st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
+                        st.session_state.paso_resumen = 2.5  # Pasa a Bulk
+                        st.rerun()
+
+                # PASO 2.5: Bulk (H&B)
+                elif paso == 2.5:
+                    st.write("👇 **¿Hubo Bulk (H&B)?**")
+                    c1, c2 = st.columns(2)
+                    if c1.button("1️⃣ Sí", use_container_width=True):
+                        st.session_state.data_resumen["hubo_bulk"] = True
+                        st.session_state.paso_resumen = 3
+                        st.rerun()
+                    if c2.button("2️⃣ No", use_container_width=True):
+                        st.session_state.data_resumen["hubo_bulk"] = False
+                        st.session_state.paso_resumen = 3
+                        st.rerun()
 
                     # PASO 3: Dropeo de Nodos
                     elif paso == 3:
