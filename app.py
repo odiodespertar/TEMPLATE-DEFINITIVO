@@ -126,7 +126,7 @@ st.markdown("""
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
-with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
+with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
     st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
 
    
