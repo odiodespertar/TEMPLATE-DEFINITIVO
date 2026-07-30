@@ -1780,12 +1780,12 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
     <!-- BOTÓN VISTA EXCEL CON TOOLTIP EN HOVER -->
     <div class="btn-tooltip-container">
-        <button id="excel-btn" onclick="toggleExcelView()" title="VISTA EXCEL 📊"
+        <button id="excel-btn" onclick="toggleExcelView()" title="VISTA EXCEL"
             style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 4px;"
             onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
             onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';"
             onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';">
-            <span style="font-size: 14px;">👁️</span> <span>VISTA EXCEL</span>
+            <span style="font-size: 14px;"></span> <span>VISTA EXCEL</span>
         </button>
         
     </div>
@@ -2472,7 +2472,7 @@ function showTab(n, btn) {{
             
             // Cambiamos el texto del botón a su estado original
             let bExcel = document.getElementById("excel-btn");
-            if (bExcel) bExcel.innerHTML = "VISTA EXCEL 📊";
+            if (bExcel) bExcel.innerHTML = "VISTA EXCEL";
             
             // Ocultamos el bloque de la tabla espejo de Excel
             let excelPanel = document.getElementById("excel-polys");
@@ -3520,7 +3520,7 @@ function toggleExcelView() {{
             bPaquetes.style.display = estadoPaquetesAntesDeExcel; // 🔥 Devuelve su estado correcto en Vista Normal
         }}
         
-        btn.innerHTML = "VISTA EXCEL 📊";
+        btn.innerHTML = "VISTA EXCEL";
         if(excel) excel.style.display = "none";
         
         // Restaurar bloques de pestañas
