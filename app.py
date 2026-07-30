@@ -51,9 +51,9 @@ st.markdown("""
         width: 550px !important;
         max-height: 100vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
-        background-color: #D6C2F0 !important;
+        background-color: #ffc4ff !important;
         border-radius: 12px !important;
-        border: 2px solid #6A35C9 !important;
+        border: 2px solid #FF00FF !important;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
         overflow: hidden !important;
     }
@@ -64,22 +64,22 @@ st.markdown("""
     div[data-testid="stExpander"] summary span,
     div[data-testid="stExpander"] summary div,
     div[data-testid="stExpander"] summary svg {
-        color: #1A0A33 !important;
-        fill: #1A0A33 !important;
+        color: #1e1d1f !important;
+        fill: #19191a !important;
         font-weight: 800 !important;
         font-size: 1.1rem !important;
     }
 
     /* 🔥 TEXTO INDICATIVO INTERNO ("➡️ Escribe el SVC a consultar.") EN NEGRO */
     div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
-        color: #1A0A33 !important;
+        color: #19191a !important;
         font-weight: bold !important;
     }
 
     /* --- MENSAJE DEL USUARIO (Lila eléctrico con texto blanco) --- */
     div[data-testid="stChatMessage"]:has(div[aria-label="user"]),
     div[data-testid="stChatMessage"]:has([data-testid*="User"]) {
-        background-color: #7B42F6 !important;
+        background-color: #ff00ff !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
