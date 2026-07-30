@@ -254,58 +254,58 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             st.rerun()
 
                     # PASO 2: Unidades Dedicadas para Nodos
-                elif paso == 2:
-                    st.write("👇 **Unidades dedicadas para nodos:**")
-                    
-                    u1 = st.checkbox("3.5 tons", key="chk_35")
-                    u2 = st.checkbox("Delivery Cell", key="chk_del")
-                    
-                    unidades_elegidas = []
-                    if u1:
-                        unidades_elegidas.append("3.5 tons")
-                    if u2:
-                        unidades_elegidas.append("Delivery Cell")
-                    
-                    st.write("¿Logis tomó todas?")
-                    col_s, col_n = st.columns(2)
-                    if col_s.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                        st.session_state.data_resumen["logis_tomo_todas"] = True
-                        st.session_state.paso_resumen = 2.5  # Pasa directo a Bulk
-                        st.rerun()
-                    if col_n.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                        st.session_state.data_resumen["logis_tomo_todas"] = False
-                        st.session_state.paso_resumen = 2.2  # 👈 Pasa a preguntar cuál dejó fuera
-                        st.rerun()
+                    elif paso == 2:
+                        st.write("👇 **Unidades dedicadas para nodos:**")
+                        
+                        u1 = st.checkbox("3.5 tons", key="chk_35")
+                        u2 = st.checkbox("Delivery Cell", key="chk_del")
+                        
+                        unidades_elegidas = []
+                        if u1:
+                            unidades_elegidas.append("3.5 tons")
+                        if u2:
+                            unidades_elegidas.append("Delivery Cell")
+                        
+                        st.write("¿Logis tomó todas?")
+                        col_s, col_n = st.columns(2)
+                        if col_s.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                            st.session_state.data_resumen["logis_tomo_todas"] = True
+                            st.session_state.paso_resumen = 2.5
+                            st.rerun()
+                        if col_n.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                            st.session_state.data_resumen["logis_tomo_todas"] = False
+                            st.session_state.paso_resumen = 2.2
+                            st.rerun()
 
-                # PASO 2.2: Preguntar cuáles dejó fuera Logis (NUEVO PASO)
-                elif paso == 2.2:
-                    st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
-                    unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
-                    
-                    fuera_elegidas = []
-                    for idx, u in enumerate(unis_pre):
-                        if st.checkbox(f"Dejó fuera: {u}", key=f"chk_fuera_{idx}"):
-                            fuera_elegidas.append(u)
-                    
-                    if st.button("Continuar ➡️", use_container_width=True):
-                        st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
-                        st.session_state.paso_resumen = 2.5  # Pasa a Bulk
-                        st.rerun()
+                    # PASO 2.2: Preguntar cuáles dejó fuera Logis
+                    elif paso == 2.2:
+                        st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
+                        unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
+                        
+                        fuera_elegidas = []
+                        for i_idx, u in enumerate(unis_pre):
+                            if st.checkbox(f"Dejó fuera: {u}", key=f"chk_fuera_{i_idx}"):
+                                fuera_elegidas.append(u)
+                        
+                        if st.button("Continuar ➡️", use_container_width=True):
+                            st.session_state.data_resumen["unidades_fuera"] = fuera_elegidas
+                            st.session_state.paso_resumen = 2.5
+                            st.rerun()
 
-                # PASO 2.5: Bulk (H&B)
-                elif paso == 2.5:
-                    st.write("👇 **¿Hubo Bulk (H&B)?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["hubo_bulk"] = True
-                        st.session_state.paso_resumen = 3
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["hubo_bulk"] = False
-                        st.session_state.paso_resumen = 3
-                        st.rerun()
+                    # PASO 2.5: Bulk (H&B)
+                    elif paso == 2.5:
+                        st.write("👇 **¿Hubo Bulk (H&B)?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["hubo_bulk"] = True
+                            st.session_state.paso_resumen = 3
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["hubo_bulk"] = False
+                            st.session_state.paso_resumen = 3
+                            st.rerun()
 
                     # PASO 3: Dropeo de Nodos
                     elif paso == 3:
@@ -377,6 +377,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                             lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
                             lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
                             
+                            # Unidades Centro
                             unis = d.get("unidades_centro", [])
                             if unis:
                                 if len(unis) > 1:
@@ -387,7 +388,15 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                                 if d.get("logis_tomo_todas", True):
                                     lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema las tomó todas.")
                                 else:
-                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
+                                    unis_fuera = d.get("unidades_fuera", [])
+                                    if unis_fuera:
+                                        if len(unis_fuera) > 1:
+                                            fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
+                                        else:
+                                            fuera_str = unis_fuera[0]
+                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema dejó fuera {fuera_str}.")
+                                    else:
+                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
 
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
