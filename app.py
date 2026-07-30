@@ -47,7 +47,7 @@ st.markdown("""
         position: fixed !important;
         bottom: 40px !important;
         right: 20px !important;
-        width: 760px !important;
+        width: 550px !important;
         max-height: 80vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
         background-color: #D6C2F0 !important;
