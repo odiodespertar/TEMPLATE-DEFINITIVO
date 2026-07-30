@@ -280,7 +280,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
 
         # PASO 2: Unidades en Centro
         elif paso == 2:
-            st.write("¿Qué unidades hubo en Centro?")
+            st.write("¿Qué unidades para nodos hubo?")
             unidades_elegidas = st.multiselect(
                 "Elige las que aplicaron:",
                 ["3.5 tons", "Delivery Cell", "Extra Large Van H&B"],
