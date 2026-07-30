@@ -1776,7 +1776,21 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         <span style="font-size: 14px;">👁️</span>
     </button>
 
+<!-- 🟢 BOTÓN AUTO-CALCULAR MOVIDO AQUÍ -->
+    <button onclick="distribuirAutomatico()" 
+              style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;">
+              🧠 AUTO-CALCULAR
+          </button>
+          
+          <button class="filter-btn" onclick="filterRows(true)" 
+              style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
+              ACTIVAS
+          </button>
 
+          <button class="filter-btn" onclick="filterRows(false)" 
+              style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #454545; transition: all 0.05s; outline: none;">
+              TODAS
+          </button>
     
   </div>
 
@@ -1814,25 +1828,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
           <button id="btn-tab-sja1" class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
           <button id="btn-tab-vacia" class="tab-btn" onclick="showTab(9, this)">C1 VACÍA</button>
       </div>
-
-      <!-- BOTONES DE ACCIÓN -->
-      <div style="padding-bottom: 5px; display: flex; gap: 6px; align-items: center;"> 
-          <button onclick="distribuirAutomatico()" 
-              style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 7px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #2d968f; transition: all 0.05s; outline: none;">
-              🧠 AUTO-CALCULAR
-          </button>
-          
-          <button class="filter-btn" onclick="filterRows(true)" 
-              style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 6px 12px; border-radius: 4px; font-weight: bold; box-shadow: 0 3px 0 #0a3045; transition: all 0.05s; outline: none;">
-              ACTIVAS
-          </button>
-
-          <button class="filter-btn" onclick="filterRows(false)" 
-              style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:6px 12px; border-radius:4px; font-weight:bold; box-shadow: 0 3px 0 #454545; transition: all 0.05s; outline: none;">
-              TODAS
-          </button>
-      </div>
-
 
   </div>
 
