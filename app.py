@@ -278,11 +278,11 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                 st.session_state.paso_resumen = 2
                 st.rerun()
 
-        # PASO 2: Unidades en Centro
+        # PASO 2: Unidades Dedicadas para Nodos
         elif paso == 2:
-            st.write("¿Qué unidades para nodos hubo?")
+            st.write("Unidades en Centro:")
             unidades_elegidas = st.multiselect(
-                "Elige las que aplicaron:",
+                "Selecciona las unidades dedicadas para nodos:",
                 ["3.5 tons", "Delivery Cell", "Extra Large Van H&B"],
                 key="multi_unidades"
             )
@@ -292,11 +292,24 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
             if col_s.button("Sí", use_container_width=True):
                 st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
                 st.session_state.data_resumen["logis_tomo_todas"] = True
-                st.session_state.paso_resumen = 3
+                st.session_state.paso_resumen = 2.5 # Pasa a la nueva pregunta de Bulk
                 st.rerun()
             if col_n.button("No", use_container_width=True):
                 st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
                 st.session_state.data_resumen["logis_tomo_todas"] = False
+                st.session_state.paso_resumen = 2.5 # Pasa a la nueva pregunta de Bulk
+                st.rerun()
+
+        # PASO 2.5: Bulk (H&B) [NUEVA PREGUNTA]
+        elif paso == 2.5:
+            st.write("¿Hubo Bulk (H&B)?")
+            c1, c2 = st.columns(2)
+            if c1.button("Sí", use_container_width=True):
+                st.session_state.data_resumen["hubo_bulk"] = True
+                st.session_state.paso_resumen = 3
+                st.rerun()
+            if c2.button("No", use_container_width=True):
+                st.session_state.data_resumen["hubo_bulk"] = False
                 st.session_state.paso_resumen = 3
                 st.rerun()
 
@@ -366,7 +379,6 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                 d = st.session_state.data_resumen
                 ciclo_txt = d.get("ciclo", "C1")
                 
-                # Construcción del reporte formateado en lista con íconos
                 lineas = [f"Queda publicado {ciclo_txt} team:\n"]
                 lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
                 lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
@@ -376,9 +388,13 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                 if unis:
                     unis_str = ", ".join(unis)
                     if d.get("logis_tomo_todas", True):
-                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro, H&B: el sistema tomó todas.")
+                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro: el sistema tomó todas.")
                     else:
-                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro, H&B: el sistema tomó algunas y dejó fuera el resto.")
+                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
+
+                # Volumen Bulk (H&B)
+                if d.get("hubo_bulk", False):
+                    lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
 
                 # Dropeo Nodos y Restricción
                 if d.get("dropeo_nodos", False):
@@ -458,6 +474,7 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
+
 
 
 # --- DATOS BASE ---
