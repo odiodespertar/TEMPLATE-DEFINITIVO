@@ -122,7 +122,6 @@ st.markdown("""
 
 
 
-
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
@@ -231,205 +230,200 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
         st.session_state.data_resumen = {}
 
     with st.container(height=480):
-        # 🟢 CUESTIONARIO ARRIBA DEL HISTORIAL
-        if st.session_state.flujo_resumen:
-            with st.container(border=True):
-                paso = st.session_state.paso_resumen
-
-                # PASO 1: Ciclo (Formato idéntico al menú de SMX5)
-                if paso == 1:
-                    st.write("👇 **¿Qué tipo de ciclo fue?:**")
-                    col1, col2 = st.columns(2)
-                    if col1.button("1️⃣ Uniciclo", key="btn_resumen_uniciclo", use_container_width=True):
-                        st.session_state.data_resumen["ciclo"] = "Uniciclo"
-                        st.session_state.paso_resumen = 2
-                        st.rerun()
-                    if col2.button("2️⃣ Ciclo 1", key="btn_resumen_c1", use_container_width=True):
-                        st.session_state.data_resumen["ciclo"] = "C1"
-                        st.session_state.paso_resumen = 2
-                        st.rerun()
-
-                # PASO 2: Unidades Dedicadas para Nodos
-                elif paso == 2:
-                    st.write("👇 **Unidades dedicadas para nodos:**")
-                    
-                    u1 = st.checkbox("3.5 tons", key="chk_35")
-                    u2 = st.checkbox("Delivery Cell", key="chk_del")
-                    
-                    unidades_elegidas = []
-                    if u1:
-                        unidades_elegidas.append("3.5 tons")
-                    if u2:
-                        unidades_elegidas.append("Delivery Cell")
-                    
-                    st.write("¿Logis tomó todas?")
-                    col_s, col_n = st.columns(2)
-                    if col_s.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                        st.session_state.data_resumen["logis_tomo_todas"] = True
-                        st.session_state.paso_resumen = 2.5
-                        st.rerun()
-                    if col_n.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
-                        st.session_state.data_resumen["logis_tomo_todas"] = False
-                        st.session_state.paso_resumen = 2.5
-                        st.rerun()
-
-                # PASO 2.5: Bulk (H&B)
-                elif paso == 2.5:
-                    st.write("👇 **¿Hubo Bulk (H&B)?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["hubo_bulk"] = True
-                        st.session_state.paso_resumen = 3
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["hubo_bulk"] = False
-                        st.session_state.paso_resumen = 3
-                        st.rerun()
-
-                # PASO 3: Dropeo de Nodos
-                elif paso == 3:
-                    st.write("👇 **¿Hubo dropeo de nodos?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["dropeo_nodos"] = True
-                        st.session_state.paso_resumen = 3.5
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["dropeo_nodos"] = False
-                        st.session_state.data_resumen["dropeo_restriccion"] = False
-                        st.session_state.paso_resumen = 4
-                        st.rerun()
-
-                # PASO 3.5: Dropeo por Restricción
-                elif paso == 3.5:
-                    st.write("👇 **¿En la contingencia hubo dropeo de IDs por restricción?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["dropeo_restriccion"] = True
-                        st.session_state.paso_resumen = 4
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["dropeo_restriccion"] = False
-                        st.session_state.paso_resumen = 4
-                        st.rerun()
-
-                # PASO 4: Alchichica AM0
-                elif paso == 4:
-                    st.write("👇 **¿Se cargó Alchichica ND en AM0?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["alchichica"] = True
-                        st.session_state.paso_resumen = 4.5
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["alchichica"] = False
-                        st.session_state.paso_resumen = 5
-                        st.rerun()
-
-                # PASO 4.5: Unidades Alchichica
-                elif paso == 4.5:
-                    st.write("👇 **¿Fue con 2 Small Van MLP?**")
-                    c1, c2 = st.columns(2)
-                    if c1.button("1️⃣ Sí", use_container_width=True):
-                        st.session_state.data_resumen["alchichica_2sv"] = True
-                        st.session_state.paso_resumen = 5
-                        st.rerun()
-                    if c2.button("2️⃣ No", use_container_width=True):
-                        st.session_state.data_resumen["alchichica_2sv"] = False
-                        st.session_state.paso_resumen = 5
-                        st.rerun()
-
-                # PASO 5: Día
-                elif paso == 5:
-                    st.write("👇 **Día del ruteo:**")
-                    dia_sel = st.selectbox(
-                        "Selecciona:",
-                        ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
-                        index=4
-                    )
-                    
-                    if st.button("🚀 Generar Resumen", use_container_width=True):
-                        d = st.session_state.data_resumen
-                        ciclo_txt = d.get("ciclo", "C1")
-                        
-                        lineas = [f"Queda publicado {ciclo_txt} team:\n"]
-                        lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
-                        lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
-                        
-                        # Unidades Centro (Redacción fluida con "y")
-                        unis = d.get("unidades_centro", [])
-                        if unis:
-                            if len(unis) > 1:
-                                unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
-                            else:
-                                unis_str = unis[0]
-
-                            if d.get("logis_tomo_todas", True):
-                                lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema las tomó todas.")
-                            else:
-                                lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
-
-                        # Volumen Bulk (H&B)
-                        if d.get("hubo_bulk", False):
-                            lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
-
-                        # Dropeo Nodos y Restricción
-                        if d.get("dropeo_nodos", False):
-                            if d.get("dropeo_restriccion", False):
-                                lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
-                            else:
-                                lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
-
-                        # Alchichica
-                        if d.get("alchichica", False):
-                            if d.get("alchichica_2sv", True):
-                                lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0 con 2 unidades Small Van MLP.")
-                            else:
-                                lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0.")
-
-                        # Parámetros Día
-                        lineas.append(f"* 📌 Se usaron los parámetros establecidos para {ciclo_txt} del día {dia_sel}.")
-                        lineas.append("* 📋 Comparto template final.\n")
-                        lineas.append("¡Excelente turno! 👋")
-
-                        resumen_final = "\n".join(lineas)
-
-                        # Resetear flujo
-                        st.session_state.flujo_resumen = False
-                        st.session_state.paso_resumen = 0
-                        st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
-                        st.rerun()
-
-        # 🔘 OPCIONES INTERACTIVAS SMX5
-        if st.session_state.esperando_subtipo_smx5:
-            st.write("👇 **Selecciona una opción o escribe 1 ó 2:**")
-            col1, col2 = st.columns(2)
-            eleccion_btn = None
-            with col1:
-                if st.button("1️⃣ Extendido", key="btn_smx5_1", use_container_width=True):
-                    eleccion_btn = "1"
-            with col2:
-                if st.button("2️⃣ Precarga", key="btn_smx5_2", use_container_width=True):
-                    eleccion_btn = "2"
-
-            if eleccion_btn:
-                st.session_state.esperando_subtipo_smx5 = False
-                if eleccion_btn == "1":
-                    st.session_state.main_chat_messages.append({"role": "user", "content": "1️⃣ Extendido"})
-                    st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_extendido"]})
-                else:
-                    st.session_state.main_chat_messages.append({"role": "user", "content": "2️⃣ Precarga"})
-                    st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
-                st.rerun()
-
-        # 📜 HISTORIAL DE MENSAJES ABAJO
-        for msg in st.session_state.main_chat_messages:
+        # 1. MOSTRAR HISTORIAL DE MENSAJES
+        for idx, msg in enumerate(st.session_state.main_chat_messages):
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
+                
+                # SI ES EL ÚLTIMO MENSAJE DEL BOT Y EL RESUMEN ESTÁ ACTIVO, DIBUJAMOS EL CUESTIONARIO AQUÍ
+                if st.session_state.flujo_resumen and idx == len(st.session_state.main_chat_messages) - 1:
+                    paso = st.session_state.paso_resumen
 
-    # 💬 CAMPO DE ENTRADA
+                    # PASO 1: Ciclo
+                    if paso == 1:
+                        st.write("👇 **¿Qué tipo de ciclo fue?:**")
+                        col1, col2 = st.columns(2)
+                        if col1.button("1️⃣ Uniciclo", key="btn_resumen_uniciclo", use_container_width=True):
+                            st.session_state.data_resumen["ciclo"] = "Uniciclo"
+                            st.session_state.paso_resumen = 2
+                            st.rerun()
+                        if col2.button("2️⃣ Ciclo 1", key="btn_resumen_c1", use_container_width=True):
+                            st.session_state.data_resumen["ciclo"] = "C1"
+                            st.session_state.paso_resumen = 2
+                            st.rerun()
+
+                    # PASO 2: Unidades Dedicadas para Nodos
+                    elif paso == 2:
+                        st.write("👇 **Unidades dedicadas para nodos:**")
+                        
+                        u1 = st.checkbox("3.5 tons", key="chk_35")
+                        u2 = st.checkbox("Delivery Cell", key="chk_del")
+                        
+                        unidades_elegidas = []
+                        if u1:
+                            unidades_elegidas.append("3.5 tons")
+                        if u2:
+                            unidades_elegidas.append("Delivery Cell")
+                        
+                        st.write("¿Logis tomó todas?")
+                        col_s, col_n = st.columns(2)
+                        if col_s.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                            st.session_state.data_resumen["logis_tomo_todas"] = True
+                            st.session_state.paso_resumen = 2.5
+                            st.rerun()
+                        if col_n.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["unidades_centro"] = unidades_elegidas
+                            st.session_state.data_resumen["logis_tomo_todas"] = False
+                            st.session_state.paso_resumen = 2.5
+                            st.rerun()
+
+                    # PASO 2.5: Bulk (H&B)
+                    elif paso == 2.5:
+                        st.write("👇 **¿Hubo Bulk (H&B)?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["hubo_bulk"] = True
+                            st.session_state.paso_resumen = 3
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["hubo_bulk"] = False
+                            st.session_state.paso_resumen = 3
+                            st.rerun()
+
+                    # PASO 3: Dropeo de Nodos
+                    elif paso == 3:
+                        st.write("👇 **¿Hubo dropeo de nodos?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["dropeo_nodos"] = True
+                            st.session_state.paso_resumen = 3.5
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["dropeo_nodos"] = False
+                            st.session_state.data_resumen["dropeo_restriccion"] = False
+                            st.session_state.paso_resumen = 4
+                            st.rerun()
+
+                    # PASO 3.5: Dropeo por Restricción
+                    elif paso == 3.5:
+                        st.write("👇 **¿En la contingencia hubo dropeo de IDs por restricción?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["dropeo_restriccion"] = True
+                            st.session_state.paso_resumen = 4
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["dropeo_restriccion"] = False
+                            st.session_state.paso_resumen = 4
+                            st.rerun()
+
+                    # PASO 4: Alchichica AM0
+                    elif paso == 4:
+                        st.write("👇 **¿Se cargó Alchichica ND en AM0?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["alchichica"] = True
+                            st.session_state.paso_resumen = 4.5
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["alchichica"] = False
+                            st.session_state.paso_resumen = 5
+                            st.rerun()
+
+                    # PASO 4.5: Unidades Alchichica
+                    elif paso == 4.5:
+                        st.write("👇 **¿Fue con 2 Small Van MLP?**")
+                        c1, c2 = st.columns(2)
+                        if c1.button("1️⃣ Sí", use_container_width=True):
+                            st.session_state.data_resumen["alchichica_2sv"] = True
+                            st.session_state.paso_resumen = 5
+                            st.rerun()
+                        if c2.button("2️⃣ No", use_container_width=True):
+                            st.session_state.data_resumen["alchichica_2sv"] = False
+                            st.session_state.paso_resumen = 5
+                            st.rerun()
+
+                    # PASO 5: Día
+                    elif paso == 5:
+                        st.write("👇 **Día del ruteo:**")
+                        dia_sel = st.selectbox(
+                            "Selecciona:",
+                            ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"],
+                            index=4
+                        )
+                        
+                        if st.button("🚀 Generar Resumen", use_container_width=True):
+                            d = st.session_state.data_resumen
+                            ciclo_txt = d.get("ciclo", "C1")
+                            
+                            lineas = [f"Queda publicado {ciclo_txt} team:\n"]
+                            lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
+                            lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
+                            
+                            unis = d.get("unidades_centro", [])
+                            if unis:
+                                if len(unis) > 1:
+                                    unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
+                                else:
+                                    unis_str = unis[0]
+
+                                if d.get("logis_tomo_todas", True):
+                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema las tomó todas.")
+                                else:
+                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
+
+                            if d.get("hubo_bulk", False):
+                                lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
+
+                            if d.get("dropeo_nodos", False):
+                                if d.get("dropeo_restriccion", False):
+                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
+                                else:
+                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
+
+                            if d.get("alchichica", False):
+                                if d.get("alchichica_2sv", True):
+                                    lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0 con 2 unidades Small Van MLP.")
+                                else:
+                                    lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0.")
+
+                            lineas.append(f"* 📌 Se usaron los parámetros establecidos para {ciclo_txt} del día {dia_sel}.")
+                            lineas.append("* 📋 Comparto template final.\n")
+                            lineas.append("¡Excelente turno! 👋")
+
+                            resumen_final = "\n".join(lineas)
+
+                            # Resetear flujo
+                            st.session_state.flujo_resumen = False
+                            st.session_state.paso_resumen = 0
+                            st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
+                            st.rerun()
+
+        # 2. OPCIONES INTERACTIVAS SMX5
+        if st.session_state.esperando_subtipo_smx5:
+            with st.chat_message("assistant"):
+                st.write("👇 **Selecciona una opción o escribe 1 ó 2:**")
+                col1, col2 = st.columns(2)
+                eleccion_btn = None
+                with col1:
+                    if st.button("1️⃣ Extendido", key="btn_smx5_1", use_container_width=True):
+                        eleccion_btn = "1"
+                with col2:
+                    if st.button("2️⃣ Precarga", key="btn_smx5_2", use_container_width=True):
+                        eleccion_btn = "2"
+
+                if eleccion_btn:
+                    st.session_state.esperando_subtipo_smx5 = False
+                    if eleccion_btn == "1":
+                        st.session_state.main_chat_messages.append({"role": "user", "content": "1️⃣ Extendido"})
+                        st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_extendido"]})
+                    else:
+                        st.session_state.main_chat_messages.append({"role": "user", "content": "2️⃣ Precarga"})
+                        st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
+                    st.rerun()
+
+    # 3. CAMPO DE ENTRADA
     if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
         st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
         query_lower = query_main.lower().strip()
