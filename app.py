@@ -844,7 +844,11 @@ def gen_poligonos(data_target=None):
     
     for i in range(1, limite_tablas): 
 
-        if data_target == u_PREC and (i-1) < len(nombres_prec):
+        # 🟢 EVALUAR VACÍA PRIMERO
+        if data_target == u_C1_VACIA and (i-1) < len(NOMBRES_PLANES_C1_VACIA):
+            nombre_final = NOMBRES_PLANES_C1_VACIA[i-1]
+
+        elif data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
 
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
@@ -861,9 +865,6 @@ def gen_poligonos(data_target=None):
 
         elif data_target == u_C1_SMD1 and (i-1) < len(NOMBRES_PLANES_C1_SMD1):
             nombre_final = NOMBRES_PLANES_C1_SMD1[i-1]
-
-        elif data_target == u_C1_VACIA and (i-1) < len(NOMBRES_PLANES_C1_VACIA):
-            nombre_final = NOMBRES_PLANES_C1_VACIA[i-1]  # 👈 CORREGIDO: Asigna "PLAN 1", "PLAN 2"...
 
         else:
             nombre_final = f"PLAN {i}"
@@ -2290,7 +2291,7 @@ function showTab(n, btn) {{
         // ==============================================================================
         const excelBtn = document.getElementById('excel-btn');
         if (excelBtn) {{
-            if (n === 2 || n === 6 || n === 7 || n === 8) {{
+            if (n === 2 || n === 6 || n === 7 || n === 8 || n === 9) { // 🟢 Añadido "n === 9"
                 excelBtn.style.setProperty('display', 'inline-block', 'important');
             }} else {{
                 excelBtn.style.setProperty('display', 'none', 'important');
@@ -3257,6 +3258,7 @@ function toggleExcelView() {{
         "total-no-car-7", "total-car-schedule-7", "total-car-real-7",
         "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
         "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
+        "total-no-car-9", "total-car-schedule-9", "total-car-real-9",
         "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
     ];
     if (isExcel) {{
@@ -3270,7 +3272,7 @@ function toggleExcelView() {{
         btn.innerHTML = "N";
         if(excel) excel.style.display = "block";
         
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8"].forEach(id => {{
+        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = "none";
         }});
@@ -3291,7 +3293,7 @@ function toggleExcelView() {{
         if(excel) excel.style.display = "none";
         
         // Restaurar bloques de pestañas
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8",].forEach(id => {{
+        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
             let el = document.getElementById(id);
             if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
         }});
