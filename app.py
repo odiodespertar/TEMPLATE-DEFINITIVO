@@ -386,11 +386,16 @@ with st.expander("🤖 BOT prioridades y Resumen de Cierre", expanded=False):
                 # Unidades Centro
                 unis = d.get("unidades_centro", [])
                 if unis:
-                    unis_str = ", ".join(unis)
-                    if d.get("logis_tomo_todas", True):
-                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro: el sistema tomó todas.")
+                    # Formatea la lista con "y" de forma natural (ej: "3.5 tons y Delivery Cell")
+                    if len(unis) > 1:
+                        unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
                     else:
-                        lineas.append(f"* 👉 Se asignó la unidad {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
+                        unis_str = unis[0]
+
+                    if d.get("logis_tomo_todas", True):
+                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema las tomó todas.")
+                    else:
+                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
 
                 # Volumen Bulk (H&B)
                 if d.get("hubo_bulk", False):
