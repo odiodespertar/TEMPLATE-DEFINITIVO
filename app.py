@@ -1810,7 +1810,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
             <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #c6f7f3; padding: 8px; border-radius: 5px; border: 1px solid #68b0ac; text-align: center; width: 100px;">
-            <div style="font-size: 10px; font-weight: bold; color: #d021eb;">RENTAL</div>
+            <div style="font-size: 10px; font-weight: bold; color: #20B2AA;">RENTAL</div>
             <div id="val-rental-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
         </div>
         <div style="background: #d3f5d3; padding: 8px; border-radius: 5px; border: 1px solid #90EE90; text-align: center; width: 100px;">
