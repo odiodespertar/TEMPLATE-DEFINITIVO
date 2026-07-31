@@ -137,7 +137,7 @@ MAPA_ORIGENES = {
 # 💡 PREGUNTAS FRECUENTES Y REGLAS OPERATIVAS ADICIONALES
 # ==========================================
 PREGUNTAS_FRECUENTES = {
-    "large_van_mlp": (
+    "large_van_sdd": (
         "🚐 **Large Van SDD (SCP1 C1 y SJA1 C1):**\n\n"
         "* Ya vienen precargadas en Logis por defecto.\n"
         "* Se deben utilizar para **ambos services**."
