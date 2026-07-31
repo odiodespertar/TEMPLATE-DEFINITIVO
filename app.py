@@ -500,7 +500,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                 else:
                     coincidencias_faq.append(PREGUNTAS_FRECUENTES["bulk_general"])
             
-            if "alchichica" in query_lower:
+            if "alchichica" in query_lower: 
                 coincidencias_faq.append(PREGUNTAS_FRECUENTES["alchichica"])
             
             if any(w in query_lower for w in ["xico", "tuzamapa"]):
