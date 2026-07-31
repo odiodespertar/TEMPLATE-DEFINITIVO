@@ -85,9 +85,9 @@ st.markdown("""
         width: 550px !important;
         max-height: 100vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
-        background-color: #ffc4ff !important;
+        background-color: #fcc8b3 !important;
         border-radius: 12px !important;
-        border: 4px solid #FF00FF !important;
+        border: 4px solid #FF7F50 !important;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
         overflow: hidden !important;
     }
