@@ -463,7 +463,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
         
 
-# D) BUSCADOR INTELIGENTE LOCAL (MAPA DE ORIGENES + REGLAS ESPECIALES COMBINADAS)
+# D) BUSCADOR INTELIGENTE LOCAL (MAPA DE ORIGENES + REGLAS SIN DUPLICADOS)
         else:
             # 1. Mapeo general de centros para reglas_ruteo
             mapeo_centros = {
@@ -499,7 +499,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                         clave_regla = clave
                         break
 
-            # 4. Filtro de intenciones del usuario (para cuando consulta reglas)
+            # 4. Filtro de intenciones del usuario
             busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
             busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
             busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
@@ -523,16 +523,19 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                 )
                 partes_respuesta.append(bloque_mapa)
 
-            # B) Si además tiene reglas e indicaciones en reglas.py, las procesa y adjunta
+            # B) Si además tiene reglas en reglas.py, procesa y elimina duplicados
             if clave_regla and clave_regla in reglas_ruteo:
                 texto_regla = reglas_ruteo[clave_regla]
                 lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
+
+                # 🧼 SI YA MOSTRAMOS EL MAPA: Eliminamos las líneas relativas a origen o MX... para no duplicar
+                if svc_mapa:
+                    lineas = [l for l in lineas if not any(palabra in l.lower() for palabra in ["origen", "orígenes", "📌 origen"])]
+
                 lineas_filtradas = []
 
-                if busqueda_origen:
-                    lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
-                elif busqueda_hora:
-                    lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
+                if busqueda_hora:
+                    lineas_filtradas = [l for l in lineas if any(h in l.lower() for h in ["despacho", "pm", "am", "hora"])]
                 elif busqueda_unidad:
                     lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
 
@@ -540,10 +543,11 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                     res = "\n".join(lineas_filtradas)
                     bloque_regla = f"📌 **Indicaciones específicas ({centro_encontrado}):**\n\n{res}"
                 else:
-                    bloque_regla = f"📋 **Reglas de ruteo ({centro_encontrado}):**\n\n{texto_regla}"
+                    res = "\n".join(lineas)
+                    bloque_regla = f"📋 **Indicaciones complementarias ({centro_encontrado}):**\n\n{res}"
                 
-                # Si no buscó origen exclusivamente, o si no estaba en el mapa, agrega las reglas
-                if not (svc_mapa and busqueda_origen):
+                # Si las líneas restantes aportan información nueva, se agregan a la respuesta
+                if lineas and not (svc_mapa and busqueda_origen):
                     partes_respuesta.append(bloque_regla)
 
             # C) Si no coincidió con nada
@@ -557,6 +561,8 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
+
+
 
 
 
