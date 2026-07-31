@@ -131,3 +131,74 @@ MAPA_ORIGENES = {
     # 🟠 REGIÓN SUR
     "smd2": {"region": "Sur", "origen": "MXYU01", "val": "✔️ Sí"}
 }
+
+
+# ==========================================
+# 💡 PREGUNTAS FRECUENTES Y REGLAS OPERATIVAS ADICIONALES
+# ==========================================
+PREGUNTAS_FRECUENTES = {
+    "large_van_sdd": (
+        "🚐 **Large Van SDD (SCP1 C1 y SJA1 C1):**\n\n"
+        "* Ya vienen precargadas en Logis por defecto.\n"
+        "* Se deben utilizar para **ambos services y en todos los ciclos**."
+    ),
+    "bulk_general": (
+        "📦 **Ubicación de unidades Bulk (General):**\n\n"
+        "* Las unidades Bulk se deben asignar en los polígonos que tengan **mayor cantidad de paquetes voluminosos**."
+    ),
+    "bulk_sja1": (
+        "📦 **Bulk en SJA1 C1:**\n\n"
+        "* Van asignadas en **Centro 1** ó **Centro 2**, dependiendo en cuál de los dos haya mayor volumen de voluminosos."
+    ),
+    "prioridades_centro_sja1": (
+        "🎯 **Prioridades de Asignación en Centro (SJA1):**\n\n"
+        "Se deben asignar en este orden prioritario (en Centro 1 ó Centro 2):\n"
+        "1. 🚛 **Truck 3.5 Tons**\n"
+        "2. 📦 **Delivery Cell Large Van**\n"
+        "3. ⚡ **Rental Electric Large Van**\n"
+        "4. 🚐 **Rental Large Van**\n"
+        "5. 🔄 **Rental Replacement**\n"
+        "6. 📦 **Extra Large Van H&B**"
+    ),
+    "prioridades_foraneos_sja1": (
+        "🚛 **Prioridades Foráneos (SJA1):**\n\n"
+        "* **1º Lugar:** Large Van MLP (en Logis aparecen como *Large Van SDD*).\n"
+        "  * 👉 **PRIORIDAD ABSOLUTA:** Llenar primero los planes que llevan **nodos** (como Perote y Tlaltetela).\n"
+        "  * 👉 Después cubrir el resto de foráneos hasta agotar las Large Van.\n"
+        "* **2º Lugar:** Small Van MLP (en Logis aparecen como *Small Van SDD*)."
+    ),
+    "tuzamapa_xico": (
+        "🏞️ **Reglas Especiales para Xico y Tuzamapa (SJA1):**\n\n"
+        "* **Orden de prioridad:** Large Van MLP ➡️ Small Van MLP ➡️ Crowd (*Car 8h* y *Small Van 9h extra*).\n"
+        "* ⚠️ **Mínimos obligatorios de MLP (Restricción de Logis):**\n"
+        "  * **Xico:** Debe llevar **al menos 2 ó 3 MLP**.\n"
+        "  * **Tuzamapa:** Con **1 MLP** es suficiente.\n"
+        "  * **Nota:** El resto del volumen se cubre con Crowd. Es crucial poner las MLP mínimas porque, aunque sobren Crowds en schedule, Logis no acepta más de cierto límite y deja paquetes fuera por restricción."
+    ),
+    "dropeo_nodos_sja1": (
+        "⚠️ **Dropeo de Nodos (SJA1):**\n\n"
+        "* Se cargan en **contingencia** utilizando las unidades disponibles del schedule.\n"
+        "* Si sobran **Rentals**, se usan primero.\n"
+        "* El resto se cubre con **MLP** (si hay disponibles) y luego con **Crowd**.\n"
+        "* 📌 *Ten en cuenta que igual pueden quedar paquetes fuera por zona de restricción.*"
+    ),
+    "alchichica": (
+        "🚛 **Plan Alchichica ND (SJA1):**\n\n"
+        "* Se carga en **AM0** (Next Day).\n"
+        "* Se le asignan **2 unidades Small Van MLP** (en Logis aparecen como *Small Van SDD*).\n"
+        "* Si el sistema bota una unidad por bajo volumen, déjala así.\n"
+        "* 📏 **Requisitos obligatorios (debe cumplir al menos 1):**\n"
+        "  1. Tener **65 IDs** por cada unidad.\n"
+        "  2. Tener un **ORH de 300 minutos (5 hrs)**."
+    ),
+    "scp1_cambios": (
+        "🔄 **Ajustes y Quitar Unidades en SCP1:**\n\n"
+        "* Pueden solicitar quitar unidades o pasar planes a **Ciclo 2** (se realizan los cambios y se pide validación al SVC).\n"
+        "* 📏 **Regla de oro:** Las unidades deben cumplir con nuestro **ORH**; mientras cumplan con el tiempo, no hay problema.\n"
+        "* 📌 *Nota:* Cuando el SVC pide quitar unidades, generalmente es porque van un poco bajas en volumen."
+    ),
+    "smd1_prioridad": (
+        "📊 **Prioridades en SMD1:**\n\n"
+        "* Recuerda que en SMD1 la prioridad de unidades y asignación de flota es **diferente** al resto de las estaciones."
+    )
+}
