@@ -7,9 +7,41 @@ from reglas import reglas_ruteo
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
+
+
+# ==========================================
+# ESTADO Y CONTROL DEL MODO FLOTANTE
+# ==========================================
+if "flotar_activo" not in st.session_state:
+    st.session_state.flotar_activo = False
+
+def toggle_flotar():
+    st.session_state.flotar_activo = not st.session_state.flotar_activo
+
+if st.session_state.flotar_activo:
+    st.markdown("""
+        <style>
+            div[data-testid="stHorizontalBlock"]:has(> div:has(h3)), 
+            div.element-container:has(div.stMetric),
+            div.element-container:has(text),
+            div[data-testid="stHorizontalBlock"] button:not(:has(p:contains("FLOTAR"))),
+            .row-widget.stButton:not(:has(button:contains("FLOTAR"))) {
+                display: none !important;
+            }
+
+            table, div[data-testid="stTable"], .js-plotly-plot {
+                max-height: 380px !important;
+                overflow-y: auto !important;
+                display: block !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
+
+
 # ==========================================
 # CSS GENERAL + ESTILO DE VENTANA FLOTANTE
-# ==========================================
+# ========================================== 
 st.markdown("""
     <style>
     .block-container {padding: 0rem !important;}
@@ -118,6 +150,18 @@ st.markdown("""
         display: flex !important;
         flex-direction: column !important;
     }
+
+    /* Cuando el panel está flotando, oculta los botones y la barra de pestañas */
+    .fleet-floating .vista-excel-btn,
+    .fleet-floating .autocalcular-btn,
+    .fleet-floating .activas-btn,
+    .fleet-floating .todas-btn,
+    .fleet-floating .pestanas-container {
+        display: none !important;
+    }
+
+
+    
     </style>
 """, unsafe_allow_html=True)
 
@@ -421,7 +465,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
             # Mapeo general de centros y casos especiales de SMX5
             mapeo_centros = {
                 "smx9": "smx9_extendido",
-                "sgd2": "sgd2_extendido", "sgd2": "sgd2_extendido",
+                "sgd2": "sgd2_extendido",
                 "smx4": "smx4_extendido",
                 "smx2": "smx2_extendido",
                 "smt2": "smt2_extendido",
@@ -440,7 +484,6 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                 if "precarga" in query_lower:
                     clave_regla = "smx5_precarga"
                 else:
-                    # Por defecto o si menciona extendido
                     clave_regla = "smx5_extendido"
             else:
                 # 🟢 2. BÚSQUEDA PARA EL RESTO DE LOS CENTROS
@@ -450,14 +493,14 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                         clave_regla = clave
                         break
 
+            # 🔎 DETECCIÓN DE INTENCIONES
+            busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
+            busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
+            busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+
             if clave_regla and clave_regla in reglas_ruteo:
                 texto_regla = reglas_ruteo[clave_regla]
                 lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
-
-                # Palabras clave de búsqueda específica
-                busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
-                busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
-                busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
 
                 lineas_filtradas = []
 
@@ -472,10 +515,17 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                     res = "\n".join(lineas_filtradas)
                     respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
                 else:
-                    # Si no preguntó un concepto específico (ej. solo escribió "smx5 precarga"), muestra la ficha completa
-                    respuesta_main = texto_regla
+                    if busqueda_origen:
+                        respuesta_main = f"⚠️ No tengo registrado un origen específico para ese ruteo extendido en **{centro_encontrado}**. Por favor, revisa la **imagen del mapa** que se encuentra hasta el final de la página."
+                    else:
+                        respuesta_main = texto_regla
             else:
-                respuesta_main = "No encontré regla para ese centro. Prueba con SMX9, SGD2, SMX5, SMX4, SMX2, SMT2, SCP1, SMD1, SCH1 o SJA1. También puedes escribir **'resumen'** para armar tu reporte."
+                # Si ingresó cualquier otro servicio/centro que no está en el catálogo o incluye palabras clave de búsqueda
+                if "resumen" in query_lower:
+                    # Permite mantener la opción de resumen activa
+                    respuesta_main = "Aquí tienes la opción para armar tu reporte." # O la lógica que tengas para resumen
+                else:
+                    respuesta_main = "⚠️ No encontré ese centro o ruteo en el catálogo de respuestas. Por favor, revisa la **imagen del mapa** que se encuentra hasta el final de la página."
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
@@ -1396,90 +1446,49 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 
 
 
-
-/* ===== DISEÑO DE PANEL FLOTANTE PARA TABLA DE FLOTA ===== */
+/* ===== MODO FLOTANTE PERFECTAMENTE CENTRADO ===== */
 #fleet-sticky.fleet-floating {{
   position: fixed !important;
-  top: 70px;
-  left: 20px;
-  right: 20px;
-  width: min(1100px, 92vw) !important;
-  margin: 0 auto;
-  max-height: 360px !important;
+  top: 100px;
+  left: 50% !important;
+  transform: translateX(-50%);
+  width: min(1050px, 92vw) !important;
+  max-height: 380px !important;
   overflow: hidden !important;
   z-index: 999999 !important;
-  background: rgba(255,255,255,0.98) !important;
-  border: 4px solid #636363 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.30) !important;
-  padding: 10px !important;
+  background: #ffffff !important;
+  border: 3px solid #25282b !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.50) !important;
+  padding: 6px !important;
+  margin: 0 !important;
 }}
 
-/* scroll interno solo para la tabla activa */
+/* Muestra la barra superior de agarre al estar flotando */
+#fleet-sticky.fleet-floating #handle-moverse-flotante {{
+  display: block !important;
+}}
+
+/* Muestra la tabla limpia con scroll y oculta botones que estén dentro de las celdas */
 #fleet-sticky.fleet-floating .t-content {{
-  max-height: 200px !important; /* ajusta */
+  max-height: 320px !important;
   overflow: auto !important;
 }}
 
-/* una barrita para mover (opcional) */
-#fleet-drag-handle {{
-  position: relative;
-  z-index: 9999999;
-  cursor: grab;
-  
-  user-select: none;
-  -webkit-user-select: none;   /* Safari */
-
-  touch-action: none;          /* clave: evita scroll/zoom mientras arrastras */
-  -webkit-touch-callout: none; /* iOS: evita menú de selección */
-
-  font-weight: 900;
-  font-size: 12px;
-  padding: 6px 10px;
-  margin: -6px -6px 8px -6px;
-  border-bottom: 1px solid rgba(0,0,0,0.10);
-  color: #0a2e42;
+#fleet-sticky.fleet-floating .t-content button {{
+  display: none !important;
 }}
 
-#fleet-drag-handle:active {{
-  cursor: grabbing;
-}}
-
-
-
-
-/* Panel de flota en modo NORMAL (no se pega / no colapsa) */
-#fleet-sticky{{
-  position: static;
-  top: auto;
-  z-index: auto;
-
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-}}
-
-
-/* Panel de flota en modo NORMAL (forzado para revertir flotante/drag) */
+/* Panel en modo NORMAL */
 #fleet-sticky.fleet-normal {{
   position: static !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
   transform: none !important;
-  z-index: auto !important;
-
   background: transparent !important;
   border: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
   box-shadow: none !important;
-  backdrop-filter: none !important;
+  padding: 0 !important;
 }}
+
 
 
 
@@ -1768,99 +1777,93 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 </div>
 
 
-<!-- 🟢 CONTENEDOR CONTENEDOR PRINCIPAL QUE SE VUELVE FLOTANTE COMPLETO -->
-<div id="fleet-sticky" class="fleet-normal">
-  
-  <!-- 1. BARRA SUPERIOR DE BOTONES (FLOTAR, EXCEL, AUTO-CALCULAR, ACTIVAS, TODAS) -->
-  <div id="fleet-drag-handle" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 0; cursor: move;">
+
+<!-- 1. BOTONES SUPERIORES (SE QUEDAN SIEMPRE FIJOS ATRÁS) -->
+<div id="fleet-drag-handle" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 0; margin-bottom: 8px;">
     
-    <!-- BOTÓN FLOTAR -->
     <button id="fleet-toggle-btn"
       onclick="toggleFleetFloating();"
-      style="cursor:pointer; border:none; background:#25282b; color:white; padding:4px 9px; border-radius:6px; font-weight:bold; font-size:12px; box-shadow:0 2px 0 #111213; transition:all 0.05s; outline:none;"
-      onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
-      onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #111213';"
-      onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #111213';">
+      style="cursor:pointer; border:none; background:#25282b; color:white; padding:4px 9px; border-radius:6px; font-weight:bold; font-size:12px; box-shadow:0 2px 0 #111213; outline:none;">
       FLOTAR ☁️
     </button>
 
-    <!-- BOTÓN VISTA EXCEL CON TOOLTIP EN HOVER -->
     <div class="btn-tooltip-container">
         <button id="excel-btn" onclick="toggleExcelView()" title="VISTA EXCEL"
-            style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; transition:all 0.05s; outline:none; display: inline-flex; align-items: center; gap: 4px;"
-            onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
-            onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';"
-            onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #1c6d1c';">
-            <span style="font-size: 14px;"></span> <span>VISTA EXCEL</span>
+            style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; outline:none;">
+            VISTA EXCEL
         </button>
-        
     </div>
 
-    <!-- BOTÓN AUTO-CALCULAR -->
     <button onclick="distribuirAutomatico()" 
-        style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #2d968f; transition: all 0.05s; outline: none;"
-        onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
-        onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #2d968f';"
-        onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #2d968f';">
+        style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #2d968f; outline: none;">
         🧠 AUTO-CALCULAR
     </button>
     
-    <!-- BOTÓN ACTIVAS -->
     <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #0a3045; transition: all 0.05s; outline: none;"
-        onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
-        onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #0a3045';"
-        onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #0a3045';">
+        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; outline: none;">
         ACTIVAS
     </button>
 
-    <!-- BOTÓN TODAS -->
     <button class="filter-btn" onclick="filterRows(false)" 
-        style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow: 0 2px 0 #454545; transition: all 0.05s; outline: none;"
-        onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='none';"
-        onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #454545';"
-        onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 0 #454545';">
+        style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; outline: none;">
         TODAS
     </button>
 
+</div>
+
+<!-- 2. PESTAÑAS (SE QUEDAN SIEMPRE FIJAS ATRÁS) -->
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+    <div style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
+        <button onclick="toggleMenuPestanas()" 
+            style="cursor:pointer; background:#25282b; color:white; border:1px solid #454545; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:6px; margin-right:4px;">
+            👁️ PESTAÑAS
+        </button>
+
+        <div id="panel-selector-pestanas" style="display:none; position:absolute; top:38px; left:0; background:#25282b; color:white; border:1px solid #454545; padding:10px 14px; border-radius:8px; z-index:99999; box-shadow:0 4px 12px rgba(0,0,0,0.5); font-size:13px; min-width:140px;">
+            <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; color:#26d4ca;">Mostrar / Ocultar:</div>
+            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sde', this.checked)"> SDE</label>
+            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx5', this.checked)"> PREC SMX5</label>
+            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx2', this.checked)"> PREC SMX2</label>
+            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-scp1', this.checked)"> C1 SCP1</label>
+            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sch1', this.checked)"> C1 SCH1</label>
+            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smd1', this.checked)"> C1 SMD1</label>
+            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sja1', this.checked)"> C1 SJA1</label>
+            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-vacia', this.checked)"> C1 VACÍA</label>
+        </div>
+
+        <button id="btn-tab-sde" class="tab-btn" onclick="showTab(4, this)">SDE</button>
+        <button id="btn-tab-smx5" class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
+        <button id="btn-tab-smx2" class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
+        <button id="btn-tab-scp1" class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
+        <button id="btn-tab-sch1" class="tab-btn" onclick="showTab(7, this)">C1 SCH1</button>
+        <button id="btn-tab-smd1" class="tab-btn" onclick="showTab(8, this)">C1 SMD1</button>
+        <button id="btn-tab-sja1" class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
+        <button id="btn-tab-vacia" class="tab-btn" onclick="showTab(9, this)">C1 VACÍA</button>
+    </div>
+</div>
+
+<!-- 3. CONTENEDOR EXCLUSIVO PARA LA TABLA QUE SÍ VA A FLOTAR -->
+<div id="fleet-sticky" class="fleet-normal">
+
+  <!-- Barrita con evento pointerdown nativo para soltado perfecto -->
+  <div id="handle-moverse-flotante" 
+       onpointerdown="iniciarArrastreFlotante(event)"
+       style="display:none; width:100%; height:28px; background:#343a40; color:#ffffff; font-size:11px; font-weight:bold; line-height:28px; border-radius:6px 6px 0 0; margin:-6px -6px 6px -6px; cursor:grab; user-select:none; z-index:9999999; position:relative; padding:0 8px; box-sizing:border-box; touch-action:none;">
+    
+    <span style="float:left;">:: CLIC Y ARRASTRA AQUÍ PARA MOVER ::</span>
+    
+    <button onclick="toggleFleetFloating();" 
+            onpointerdown="event.stopPropagation();"
+            style="float:right; margin-top:3px; cursor:pointer; background:#dc3545; color:white; border:none; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold; outline:none;">
+      ✕ NORMAL (enter)
+    </button>
+    
+    <div style="clear:both;"></div>
   </div>
 
-  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
-      
-      <!-- CONTENEDOR DE PESTAÑAS Y MENÚ FLOTANTE DE PESTAÑAS -->
-      <div style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
-          <!-- Botón de control con el menú desplegable -->
-          <button onclick="toggleMenuPestanas()" 
-              style="cursor:pointer; background:#25282b; color:white; border:1px solid #454545; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:6px; margin-right:4px;"
-              title="Elige que pestañas ver">
-              👁️ PESTAÑAS
-          </button>
+  <!-- AQUÍ SIGUEN TODAS TUS TABLAS (tab-2, tab-6, tab-7, etc.) SIN CAMBIOS -->
 
-          <!-- Menú Flotante con Casillas de Verificación -->
-          <div id="panel-selector-pestanas" style="display:none; position:absolute; top:38px; left:0; background:#25282b; color:white; border:1px solid #454545; padding:10px 14px; border-radius:8px; z-index:99999; box-shadow:0 4px 12px rgba(0,0,0,0.5); font-size:13px; min-width:140px;">
-              <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; color:#26d4ca;">Mostrar / Ocultar:</div>
-              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sde', this.checked)"> SDE</label>
-              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx5', this.checked)"> PREC SMX5</label>
-              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx2', this.checked)"> PREC SMX2</label>
-              <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-scp1', this.checked)"> C1 SCP1</label>
-              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sch1', this.checked)"> C1 SCH1</label>
-              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smd1', this.checked)"> C1 SMD1</label>
-              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sja1', this.checked)"> C1 SJA1</label>
-              <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-vacia', this.checked)"> C1 VACÍA</label>
-          </div>
 
-          <!-- Botones de Pestañas con sus IDs -->
-          <button id="btn-tab-sde" class="tab-btn" onclick="showTab(4, this)">SDE</button>
-          <button id="btn-tab-smx5" class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-          <button id="btn-tab-smx2" class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
-          <button id="btn-tab-scp1" class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
-          <button id="btn-tab-sch1" class="tab-btn" onclick="showTab(7, this)">C1 SCH1</button>
-          <button id="btn-tab-smd1" class="tab-btn" onclick="showTab(8, this)">C1 SMD1</button>
-          <button id="btn-tab-sja1" class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
-          <button id="btn-tab-vacia" class="tab-btn" onclick="showTab(9, this)">C1 VACÍA</button>
-      </div>
-
-  </div>
 
   <!-- TABLAS DE DISPONIBILIDAD INTEGRADAS DENTRO DE FLEET-STICKY -->
   <div id="tab-2" class="t-content">
@@ -2301,7 +2304,7 @@ function agregarFilaPlan(btn){{
     const estado = tbody.querySelector("tr:last-child");
 
     tbody.insertBefore(nuevaFila, estado);
-
+ 
 
     actualizarRowspan(bloque);
 
@@ -2419,37 +2422,21 @@ function toggleBtnPestana(btnId, visible) {{
 
 function toggleFleetFloating() {{
   const panel = document.getElementById("fleet-sticky");
-  const btn = document.querySelector("#fleet-drag-handle button");
+  const btn = document.getElementById("fleet-toggle-btn");
   if (!panel) return;
 
   const goingToFloat = !panel.classList.contains("fleet-floating");
 
   if (goingToFloat) {{
-    // entrar a flotante
-    panel.removeAttribute("style");          // limpia restos previos
     panel.classList.remove("fleet-normal");
     panel.classList.add("fleet-floating");
-
-    const rect = panel.getBoundingClientRect();
-    panel.style.transform = "none";
-    panel.style.left = rect.left + "px";
-    panel.style.top  = rect.top + "px";
-    panel.style.right = "auto";
-    panel.style.bottom = "auto";
-    panel.style.margin = "0";
-
     if (btn) btn.textContent = "NORMAL (enter)";
   }} else {{
-    // volver a normal 
     panel.classList.remove("fleet-floating");
     panel.classList.add("fleet-normal");
-    panel.removeAttribute("style");          // <- clave
-
+    panel.removeAttribute("style");
     if (btn) btn.textContent = "FLOTAR ☁️";
   }}
-
-  // DEBUG rápido
-  console.log("toggle ->", panel.className, "style=", panel.getAttribute("style"));
 }}
 
 
@@ -3089,39 +3076,38 @@ actualizarDosPorciento();
 
 
 
-    // --- ENTER: CIERRA PRIORIDADES / ALERTAS (y opcional: devuelve flotante a NORMAL) ---
+// --- ENTER: SALIR DE FLOTANTE / CIERRA PRIORIDADES / ALERTAS ---
 document.addEventListener('keydown', function(event) {{
     if (event.key !== 'Enter') return;
 
-    // 0) NO interceptar Enter si el foco está en controles (inputs/botones/selects)
+    // 1️⃣ SI ESTÁ FLOTANDO: Salir inmediatamente a la vista NORMAL al dar Enter
+    const fleet = document.getElementById("fleet-sticky");
+    if (fleet && fleet.classList.contains("fleet-floating")) {{
+        event.preventDefault();
+        if (typeof toggleFleetFloating === "function") {{
+            toggleFleetFloating();
+        }}
+        return;
+    }}
+
+    // 2️⃣ SI NO ESTÁ FLOTANDO: Validar controles interactivos
     const ae = document.activeElement;
     const tag = ae && ae.tagName ? ae.tagName.toLowerCase() : "";
     if (tag === "button" || tag === "input" || tag === "select" || tag === "textarea") {{
         return;
     }}
-    // Si estás editando una celda contenteditable, tampoco
     if (ae && ae.isContentEditable) {{
         return;
     }}
 
-    // (Opcional) 0.5) Si tienes el fleet flotando, Enter lo devuelve a NORMAL
-    // Quita este bloque si NO quieres que Enter haga esto.
-    const fleet = document.getElementById("fleet-sticky");
-    if (fleet && fleet.classList.contains("fleet-floating")) {{
-        event.preventDefault();
-        // usa tu función real:
-        if (typeof toggleFleetFloating === "function") toggleFleetFloating();
-        return;
-    }}
-
-    // 1) LÓGICA PANEL PRIORIDADES
+    // 3️⃣ LÓGICA PANEL PRIORIDADES
     let panel = document.getElementById('panel-prioridades');
     if (panel && panel.style.top === "0px") {{
         panel.style.top = "-600px";
         if (document.activeElement) document.activeElement.blur();
     }}
 
-    // 2) LÓGICA ALERTAS ROJAS
+    // 4️⃣ LÓGICA ALERTAS ROJAS
     let alerta = document.querySelector('.alerta-roja, .p-diff');
     if (alerta && alerta.innerText.includes('EXCESO')) {{
         if (document.activeElement) document.activeElement.blur();
@@ -4666,167 +4652,68 @@ setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
 
 
+
 // ==============================================================================
-    // FUNCIÓN MOVER VERTICAL LA TABLA FLOTANTE
-    // ==============================================================================
-
-
-function enableFleetVerticalDrag(){{
-  const el = document.querySelector("#fleet-sticky");
-  const handle = document.querySelector("#fleet-drag-handle");
+// FUNCIÓN MOVER VERTICAL CON SOLTADO AUTOMÁTICO (POINTER CAPTURE)
+// ==============================================================================
+function iniciarArrastreFlotante(e) {{
+  const el = document.getElementById("fleet-sticky");
+  const handle = document.getElementById("handle-moverse-flotante");
   if (!el || !handle) return;
 
-  // guard para no duplicar listeners
-  if (el.dataset.vdragInit === "1") return;
-  el.dataset.vdragInit = "1";
+  // Previene selección accidental de texto
+  e.preventDefault();
+  e.stopPropagation();
 
-  let dragging = false;
-  let startY = 0;
-  let startTop = 0;
-
-  function down(e){{
-    if (!el.classList.contains("fleet-floating")) return;
-
-    dragging = true;
-    startY = e.clientY;
-    startTop = el.getBoundingClientRect().top;
-
-    // asegura que top sea controlable
-    el.style.position = "fixed";
-    el.style.bottom = "auto";
-    el.style.top = `${{startTop}}px`;
-
-    handle.style.cursor = "grabbing";
-    e.preventDefault();
-    handle.setPointerCapture(e.pointerId);
+  // 🔒 Amarra el puntero del ratón a la barra para no perder el evento mouseup/pointerup
+  if (e.pointerId !== undefined) {{
+    try {{
+      handle.setPointerCapture(e.pointerId);
+    }} catch(err) {{}}
   }}
 
-  function move(e){{
-    if (!dragging) return;
+  const startY = e.clientY;
+  const rect = el.getBoundingClientRect();
+  const startTop = rect.top;
 
-    const dy = e.clientY - startY;
+  handle.style.cursor = "grabbing";
+
+  function enMovimiento(evt) {{
+    const dy = evt.clientY - startY;
     let newTop = startTop + dy;
 
-    const pad = 8;
-    const minTop = pad;
-    const maxTop = window.innerHeight - el.offsetHeight - pad;
+    // Respeta los límites de la pantalla
+    const minTop = 10;
+    const maxTop = window.innerHeight - el.offsetHeight - 10;
     newTop = Math.max(minTop, Math.min(maxTop, newTop));
 
-    el.style.top = `${{newTop}}px`;
+    el.style.setProperty("top", newTop + "px", "important");
   }}
 
-  function up(e){{
-    if (!dragging) return;
-    dragging = false;
+  function alSoltar(evt) {{
     handle.style.cursor = "grab";
-    try {{ handle.releasePointerCapture(e.pointerId); }} catch {{}}
+    
+    // 🔓 Libera la captura del puntero
+    if (evt && evt.pointerId !== undefined) {{
+      try {{
+        handle.releasePointerCapture(evt.pointerId);
+      }} catch(err) {{}}
+    }}
+
+    // Remueve eventos al soltar el clic
+    window.removeEventListener("pointermove", enMovimiento, true);
+    window.removeEventListener("pointerup", alSoltar, true);
+    window.removeEventListener("pointercancel", alSoltar, true);
   }}
 
-  handle.addEventListener("pointerdown", down, {{ passive: false }});
-  window.addEventListener("pointermove", move, {{ passive: false }});
-  window.addEventListener("pointerup", up, {{ passive: true }});
+  // Escucha los Pointer Events globales
+  window.addEventListener("pointermove", enMovimiento, true);
+  window.addEventListener("pointerup", alSoltar, true);
+  window.addEventListener("pointercancel", alSoltar, true);
 }}
 
 
-
- // ==============================================================================
-    // FUNCIÓN TABLA FLOTANTE
-    // ==============================================================================
-
-function makeDraggableWithHandle(el, handleEl, storageKey) {{
-    if (!el) return;
-
-    // candado por llave (para que no se duplique)
-    const key = "dragReady_" + storageKey;
-    if (el.dataset[key] === "1") return;
-    el.dataset[key] = "1";
-
-    // restaurar
-    try {{
-        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-        if (saved && typeof saved.top === "number" && typeof saved.left === "number") {{
-            el.style.top = saved.top + "px";
-            el.style.left = saved.left + "px";
-            el.style.right = "auto";
-            el.style.transform = "none"; // importante si antes estaba centrado
-        }}
-    }} catch (e) {{}}
-
-    let isDown = false;
-    let startX = 0, startY = 0;
-    let startTop = 0, startLeft = 0;
-
-    const getPoint = (ev) => {{
-        if (ev.touches && ev.touches[0]) {{
-            return {{ x: ev.touches[0].clientX, y: ev.touches[0].clientY }};
-        }}
-        return {{ x: ev.clientX, y: ev.clientY }};
-    }};
-
-    const onDown = (ev) => {{
-        isDown = true;
-
-        // ✅ liberar centrado para que left/top funcionen
-        el.style.right = "auto";
-        el.style.margin = "0";
-
-        // quita el centrado por transform al comenzar a arrastrar
-        el.style.transform = "none";
-
-        const p = getPoint(ev);
-        startX = p.x; startY = p.y;
-
-        const rect = el.getBoundingClientRect();
-        startTop = rect.top;
-        startLeft = rect.left;
-
-        el.style.right = "auto";
-        el.style.left = startLeft + "px";
-        el.style.top = startTop + "px";
-        el.style.userSelect = "none";
-
-        ev.preventDefault();
-    }};
-
-    const onMove = (ev) => {{
-        if (!isDown) return;
-
-        const p = getPoint(ev);
-        const dx = p.x - startX;
-        const dy = p.y - startY;
-
-        const maxLeft = Math.max(0, window.innerWidth - el.offsetWidth);
-        const maxTop  = Math.max(0, window.innerHeight - el.offsetHeight);
-
-        el.style.left = Math.max(0, Math.min(maxLeft, startLeft + dx)) + "px";
-        el.style.top  = Math.max(0, Math.min(maxTop, startTop + dy)) + "px";
-
-        ev.preventDefault();
-    }};
-
-    const onUp = () => {{
-        if (!isDown) return;
-        isDown = false;
-        el.style.userSelect = "";
-
-        const rect = el.getBoundingClientRect();
-        localStorage.setItem(storageKey, JSON.stringify({{ top: rect.top, left: rect.left }}));
-    }};
-
-    const h = handleEl || el;
-
-    h.addEventListener("mousedown", onDown);
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-
-    h.addEventListener("touchstart", onDown, {{ passive: false }});
-    window.addEventListener("touchmove", onMove, {{ passive: false }});
-    window.addEventListener("touchend", onUp);
-}}
-
-enableFleetVerticalDrag();   
     
-
 </script>
 </body>
 </html>
@@ -4848,351 +4735,15 @@ import streamlit.components.v1 as components
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
 url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
 
-# 2. INFORMACIÓN OPERATIVA 100% COMPLETA
-info_operativa = {
-    "SDE": f"""
-        <div style='text-align: center; margin-bottom: 25px;'>
-            <img src="{url_final}" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-        </div>
-
-        <h3 style='color: #000; margin-bottom: 5px;'>ROL VP04</h3>
-        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
-        
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
-            <p style='margin: 0;'><strong>👉👉 PARA SDE</strong><br>
-            - 🔷 Revisar si SVC agrega blancos<br>
-            - Orígenes (imagen) + onway + despacho de hoy de las 3 pm en adelante + fecha promesa y/o quemada ...validar<br>
-            - SPR 30<br>
-            - ❌ delimitación / ❌ restricción<br>
-            - Quito puntos muy lejanos</p>
-        </div>
-
-        <h3 style='color: #000; margin-top: 25px;'>🟪 SDE 🟪</h3>
-        <hr style='border: 1px solid #FF00FF; margin-bottom: 20px;'>
-        
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX9 PM2 - ⏰ 16:40 - 17:00</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 800 / en peak puede aumentar hasta 1600<br>
-            - 👉 fecha promesa</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SGD2 PM2 - ⏰ 17:00 - 17:20</strong><br>
-             - 📌 Orígenes: MXJC01 para SD3 y MXJC02 para SD2 (en caso de que no hayan ruteado sd2 en la mañana)<br>
-             - 👉 MXJC01 último despacho de hoy + fecha promesa y quemada + onway<br>
-             - 👉 MXJC02 - revisar el volumen que tenían en la mañana y revisar si te da lo mismo con el último despacho + fecha promesa y quemada + onway // si salen poquitos, agarra todo el despacho del día + fecha promesa y quemada + todo at station y manda pivot para que SVC te valide vol.<br>
-             - 👉 Vol aprox. 170 - 250 aprox<br>
-             - 👉 prefijo SD3 siempre</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX5 PM2 - ⏰ 17:20 - 17:40</strong><br>
-             - 📌 Orígenes: MXCD02, MXCD06<br>
-             - 👉 Vol aprox. 400<br>
-             - 👉 fecha promesa + quemada</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX4 PM2 - ⏰ 17:40 - 18:00</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 Vol aprox. 550<br>
-            - 👉 Preguntar si habrá ids a descartar<br>
-            - 🏍️ Motos SPR 30<br>
-            - 👉 fecha promesa + quemada</p> 
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMX2 PM2 - ⏰ 18:00 - 18:20</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - 👉 fecha promesa + quemada</br>
-            - 👉 Vol aprox. 250<br>
-            - 👉 Parámetros ORH=210 OCUP=66%</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #FF00FF; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #FF00FF;">●</span> SMT2 PM2 - ⏰ 18:40 - 19:00</strong><br>
-            - 📌 Origen MXNL01<br>
-            - 👉 Despacho hoy después 3 pm<br>
-            - 👉 fecha promesa + quemada<br>
-            - 👉 Vol. 800 aprox.<br>
-            - 👉 SPR 27-28 / se van las 30 unidades<br>
-            - 👉 Pido validación</p>
-        </div>
-
-
-
-        <h3 style='color: #000; margin-top: 25px;'>🟥 CICLO 1 🟥</h3>
-        <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
-
-
-        <div style='background: white; border-left: 6px solid #DC143C; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #DC143C;">●</span> SCP1 AM1 - ⏰ 20:00 - 21:00</strong><br>
-             - 📌 Ellos envían el volumen a tomar<br>
-             - ✅ Poco volumen = polígonos que no salen en logis porque se pegan a otros que están cerca<br>
-             - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
-             - 🚛 CAMPECHE = Rental Large Van (local)= excluír/ Delivery Cell (dedicada/ORH de large van) = NODOS con paradas según # nodos/p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #DC143C; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #DC143C;">●</span> SJA1 AM1 - ⏰ 23:30 - 00:30</strong><br>
-             - 📌 Ellos envían el volumen a tomar /Apagado CP<br>
-             - 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida<br>
-             - 🚛 FORÁNEOS = Small Van MLP / Sin nodos<br>
-             - 🚛 FORÁNEOS = Xico y Tuzamapa / Mlp, Crowd<br>
-             - 🚛 CENTRO (local) = Rental Large Van = híbridas/ Delivery Cell (3 paradas) / 3.5 tons (2 paradas)/p>
-        </div>
-
-
-        <h3 style='color: #000; margin-top: 25px;'>🟧 PRE-CARGA 🟧</h3>
-        <hr style='border: 1px solid #ff8c00; margin-bottom: 20px;'>
-
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
-            <p style='margin: 0;'><strong>👉👉 INDICACIONES</strong><br>
-            - 📌 Origen + despachos (playbook - ó indicados por SVC) + onway<br>
-            - 👉 Schedule del día siguiente / apartado en archivo AMO<br>
-            - ➕ Mandan ids a agregar<br>
-            - ✅ delimitación / ✅ dejar restricción</p>
-        </div>
-        
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX5 AM3 - ⏰ 21:30 - 22:10</strong><br>
-             - 📌 Origen 09 + onway<br>
-             - ➕ Agregan ids a ciclo (de origen 10)<br>
-             - 🚛 Small van 9h en Iztapalapa, Coyoacán y si sobra en Tláhuac</p>
-        </div>
-
-
-        <h3 style='color: #000; margin-top: 25px;'>👉 OTROS RUTEOS PM2 (SDE)</h3>
-        <hr style='border: 1px solid #808080; margin-bottom: 20px;'> 
-
-
-        
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX20 (SMX10) PM2 - ⏰ 0:20 pm</strong><br>
-            - 📌 Origen 20 / ❌ SPR / ❌ Ocupación<br>
-            - 👉 Meto ORH de 4 hrs para crowd 5 hrs / solo para dividir paquetes uso SPR 30<br>
-            - 👉 Pido validación ➡️ @Luisa Itzel Perez y @Ibrahim</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX8 PM2 - ⏰ 5:30 pm</strong><br>
-            - 👉 Sin schedule</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMX3 PM2 - ⏰ 4:30 pm</strong><br>
-            - 📌 Orígenes: MXCD02, MXCD06<br>
-            - ✅ delimitación (salen planes) / ❌ restricción<br>
-            - SPR 30/Moto y Crowd<br>
-            - 🏍️ MOTOS ➡️ Cuauhtémoc-Polanco</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SBJ1 PM2 - ⏰ A partir de las 5:00 pm</strong><br>
-            - 👉 Pido autorización para iniciar ruteo / SPR 28 / 200-300 pqt aprox</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SHM1 PM2 - ⏰ 7:20 pm</strong><br>
-            - 👉 SPR 21 / crowd 5 hrs</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT1 PM2 - ⏰ 5:10 pm</strong><br>
-            - 📌 Orígen: MXNL01<br>
-            - 👉 SVC manda data (la envían tarde, solo hago el cruce para cotejo)</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMT3 PM2 - ⏰ 5:15 pm</strong><br>
-            - 👉 SPR 28 / crowd 5 hrs / 500 pqt aprox</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD1 PM2 - ⏰ 4:50 pm</strong><br>
-             - 📌 Orígen: MXJC01</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD2 PM2 - ⏰ 0:00 pm</strong><br>
-            - 👉 SPR 28</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SGD3 PM2 - ⏰ 4:50 pm</strong><br>
-            - 👉 SPR 30 / crowd 5 y 3 hrs</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SMD2 PM1 - ⏰ 5:30 pm</strong><br>
-            - 📌 Orígen: MXYU01<br>
-            - 👉 Sin schedule / contemplo crowd 5 hrs<br>
-            - 🚛 SVC manda en cuantas unidades y el SPR / entre 5 a 6 crowd 5 hrs con SPR 30<br>
-            - 👉 Espero a que carguen volumen (x lo general lo cargan 10 min. antes de las 6:00 pm)<br>
-            - 👉 Pido validación<br>
-            - 👉 Piden mejor dispersion, indico: "Se publicó de acuerdo a la herramienta team, ya no podemos manipular la dispersión como antes"</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #808080; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #808080;">●</span> SPB1 PM2 - ⏰ 6:00 pm</strong><br>
-            - 📌 Origen MXPB01<br>
-            - 👉 Sin schedule / ocupo crowd 5 hrs a 30 SPR - depende puede mandarlas a 25 SPR<br>
-            - 👉 Se carga en contingencia, no tiene ciclo normal creado<br>
-            - 👉 Revisan volumen, notifican con palomita<br>
-            - 👉 Pido validación</p>
-        </div>
-
-        <div style='background: white; border-left: 6px solid #ff8c00; padding: 12px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 12px;'>
-            <p style='margin: 0;'><strong><span style="color: #ff8c00;">●</span> SMX2 AM3 - ⏰ 22:40 - 23:20</strong><br>
-             - 📌 Orígenes: MXCD02 despacho de hoy hasta 16:00 / MXCD09  despacho de hoy hasta 14:00 / MXCD10  despacho de hoy hasta 21:00<br>
-             - 👉 Todo Onway<br>
-             - 👀 Revisar si se agrega ➕ forms<br>
-             - ✅ Validan volumen / aprox. 1900-2000<br>
-             - 🚛 Extendidas en Texcoco, Pueblos y Chalco</p>
-        </div>
-        
-    """,
-
-    
-    "SIDE_LINE": """
-        <h3 style='color: #000; margin-bottom: 5px;'>¿CÓMO LO HAGO?</h3>
-        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000; margin-bottom: 20px;'>
-            <p style='margin: 0;'>1️⃣ Descargo query de places (script job de SVC trabajado ▶️ ejecutar)<br>
-            2️⃣ Routing matutino ▶️ busco lista places (sáb / dom)</p>
-        </div>
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
-            <p style='margin: 0;'><strong>PASOS DETALLADOS:</strong><br>
-            ▶️ Docto script job ▶️ BuscarV ▶️ columna U (customer id) ▶️ clic 1a celda<br>
-            ▶️ En archivo places (copio desde place id / 5,0)<br>
-            ▶️ Sale A, B ó C ▶️ copio y pego esos id´s ▶️ nueva pestaña en data (nombro "places")<br>
-            ▶️ En data ▶️ buscarv para buscar en pestaña places<br>
-            ▶️ No deben coincidir todos los id´s<br>
-            ▶️ Lo que salga de cruce = places (no se rutea)<br><br>
-            <strong>- Elijo "pasar al siguiente día"</strong><br>
-            - C1 y C2 es el mismo proceso</p>
-        </div>
-    """,
-
-    
-    "ENLACES": """
-        <h3 style='color: #000; margin-bottom: 5px;'>ENLACES</h3>
-        <hr style='border: 1px solid #1E90FF; margin-bottom: 20px;'>
-        <div style='background: white; border-left: 6px solid #1E90FF; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); color: #000;'>
-            <div style='display: flex; flex-direction: column; gap: 15px;'>
-                <a href="https://drive.google.com/drive/folders/1VNCUhdFxnV6MltnBFt4sH6AN_FJjL5jj" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📁 SUBIR DATAS</a>
-                <a href="https://docs.google.com/spreadsheets/d/1mj1krN2hXQQ1yFzswDoPscd9tPhguDnB-mAxB4aLPy0/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE METRO</a>
-                <a href="https://docs.google.com/spreadsheets/d/1lcrV9kxqwZB8007DPn4binDfDoD4enX26nISPWkOXDM/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE CENTRO</a>
-                <a href="https://docs.google.com/spreadsheets/d/1Gw1RG4XGfDCyz2lKmoj01OoOHQcaPpVagWCeKj-oCzE/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE NORTE</a>
-                <a href="https://docs.google.com/spreadsheets/d/1irZgPeFGGtJL2rRu2CYK6NHsjoieX-9DEA-rQCrRjKI/edit" target="_blank" style="color: #1E90FF; text-decoration: none; font-weight: bold;">📅 SCHEDULE SUR</a>
-            </div>
-        </div>
-    """,
-    
-    "C1": """
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #25282b; padding: 5px;">
-            
-            <h2 style='color: #008000; margin-top: 10px; margin-bottom: 5px; font-weight: bold;'>👉 *** SJA1 C1 (Nueva exp)***</h2>
-            <hr style='border: 1.5px solid #008000; margin-bottom: 15px;'> 
-
-            <div style="background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px;">
-                <p style="margin: 0; font-size: 14px; line-height: 1.5;">
-                    • SVC indica si será uniciclo o 2 ciclos (mandan orígenes).
-                </p>
-            </div>
-
-            <h4 style="color: #ff8c00; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📦 VOLUMEN</h4>
-            <div style="background: white; border-left: 5px solid #ff8c00; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
-                • <strong>NO RUT:</strong> 🚫 Todo lo <em>At station (sorting+buffered) - EJA1</em> (está en id nodo/cluster) se manda a no rut (no sale en Pivot).<br>
-                • <strong>C1:</strong> Orígenes solo lo onway / si piden tomar <em>at station + buffered</em> se toma de toda la data para C1.<br>
-                • <strong>C2:</strong> Orígenes solo lo onway nada más.<br>
-                • <strong>En caso de BULK:</strong> Xalapa 60 ids. Revisar tipo de nodo y vigencia del nodo.<br>
-                • <strong>Fecha ETA:</strong> Fecha a trabajar y solita. 🚫 Prohibido fecha futura.
-            </div>
-
-            <h4 style="color: #1E90FF; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">⚙️ LOGIS</h4>
-            <div style="background: white; border-left: 5px solid #1E90FF; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
-                • <strong>👉 PIVOT:</strong> ✅ Subo lo NO ruteado (EJA1-at station + C2-depende si son 2 ciclos).<br>
-                • Identificar voluminosos (si hay BULK).<br>
-                • <strong>UNICICLO:</strong> 🚫 No se permite cherry.<br>
-                • <strong>2 CICLOS:</strong> ✅ Permitido cherry.
-            </div>
-
-            <h4 style="color: #6a1b9a; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🛑 DROPEO NODOS</h4>
-            <div style="background: white; border-left: 5px solid #6a1b9a; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
-                • Si dropea nodos de centro se cargan en <strong>AM1 Cont. con crowd</strong>:<br>
-                <span style="padding-left: 15px; display:block;">- Descargo data y se hace cruce con data original (con C1), subo lo ND.</span>
-                • No se quita delimitación.<br>
-                • Sale Alchichica (se borra).<br>
-                • Se publica XPT (no permite editar). ¿EJA1 SP también?
-            </div>
-
-            <h4 style="color: #d32f2f; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🛡️ ALCHICHICA ND (AM0)</h4>
-            <div style="background: white; border-left: 5px solid #d32f2f; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
-                • Se carga en AM0 con ✅ <strong>2 Small Van MLP</strong>.<br>
-                • Unidades no se descuentan de schedule.<br>
-                • <strong>Procedimiento:</strong> Se vuelve a subir data de no ruteado y se eliminan el resto de planes, solo se deja Alchichica.<br>
-                • Descargo data y se hace cruce con data original (con C1), subo lo ND.
-            </div>
-
-            <h4 style="color: #2e7d32; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">🚚 UNIDADES PARA ASIGNAR</h4>
-            <div style="background: white; border-left: 5px solid #2e7d32; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13.5px; line-height: 1.6;">
-                <strong>🟢 LOCAL:</strong><br>
-                • ✅ <strong>RENTALS como híbridas</strong> (SPR 150-170).<br>
-                • <strong>CROWD-newbie / 8h / 9h:</strong> (SPR aprox 70).<br>
-                • <strong>MLP:</strong> (SPR aprox 110-120).<br>
-                • Delivery cell y truck 3.5 con 3 paradas (dedicadas).<br>
-                • ⚡ Acabamos primero capacidad MLP y luego CROWD.<br>
-                • 🚫 No apagar reglas de restricción para los DM planeados.<br>
-                • Nodos = 👉 Rental híbrida.<br><br>
-
-                <strong>🟢 FORÁNEOS:</strong><br>
-                • ✅ <strong>Solo MLP</strong> (SPR aprox 110-120).<br>
-                • Nodos = MLP híbrida (large preferencia).<br>
-                • 💡 <strong>Xico y Tuzamapa SÍ pueden</strong> llevar unidades CROWD-newbie / 8h / 9h / 9h ext.<br>
-                • <strong>EJA1 - SP:</strong> ✅ Media milla </div>
-
-            <h4 style="color: #333333; margin: 15px 0 5px 0; font-weight: bold; font-size: 15px;">📢 REGLAS GENERALES </h4>
-            <div style="background: #fdfefe; border: 1px solid #d0d3d4; padding: 15px; border-radius: 6px; font-size: 13.5px; line-height: 1.6;">
-                <p style="margin-top:0; font-weight:bold;">Buenas noches, team. Les pido su apoyo considerando los siguientes puntos para el ruteo:</p>
-                • ✅ Contemplar toda la flota disponible en el schedule.<br>
-                • ✅ El polígono de Alchichica deberá operar con AM0 por temas de seguridad.<br>
-                • Procurar que las unidades Small no superen los 65 ID's en SPR o (300min = 5 hrs).<br>
-                • ✅ Utilizar todas las rentals disponibles y configurarlas como híbridas.<br>
-                • ✅ En el polígono Centro, cubrir primero la operación con rentals; si es necesario, complementar con crowd o MLP.<br>
-                • ✅ Considerar el Mega Nodo (TRUCK 3.5), ruteo de newbies y zonas extendidas con crowd, especialmente en Xico y Tuzamapan.<br><br>
-                
-                <div style="background: #fdf2f2; border: 1px solid #fadbd8; padding: 10px; border-radius: 4px; color: #c0392b; font-weight: bold; margin-top: 5px;">
-                    🚫 Las unidades CROWD NO pueden ir a Tezuitlán (zona muy alejada del SVC).<br>
-                    🚫 Las RENTALS NO pueden ir a zonas tan foráneas (Tlaltetela y Perote).
-                </div>
-            </div>
-
-        </div>
-    """,
-
-
-
-
-
-
-
-    "C2": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información C2 pendiente...</i></div>",
-    "PREC": "<div style='text-align:center; padding-top:100px; color:#666;'><i>Información PRECARGA pendiente...</i></div>"
-}
-
-# 3. HTML/CSS (DISEÑO FINAL)
-html_notitas = f"""
+# HTML/CSS: SOLO RELOJ RESTADOR E IMAGEN DE MAPA
+html_limpio = f"""
 <style>
     body {{ background-color: #25282b; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
-    .main-box {{ background: #25282b; padding: 10px; }}
+    .main-box {{ background: #25282b; padding: 10px; display: flex; flex-direction: column; align-items: center; }}
     
-    /* CONSOLA UNIFICADA (ARRIBA) */
     .unified-console {{
         background: #25282b; border-radius: 15px; padding: 15px; 
-        margin-bottom: 20px; border: 1px solid #25282b; text-align: center;
+        margin-bottom: 20px; border: 1px solid #25282b; text-align: center; width: 100%; max-width: 500px;
     }}
     .display-screen {{
         background: #25282b; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #25282b;
@@ -5203,38 +4754,19 @@ html_notitas = f"""
         font-weight: bold; cursor: pointer; box-shadow: 0 5px #0a56a3; transition: 0.1s;
     }}
     .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
-
-    .tab-bar {{ display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; }}
-    .tab-btn {{
-        background: #333; color: white; border: none; padding: 10px 18px;
-        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; white-space: nowrap;
-    }}
-    .tab-btn.active {{ background: #add8e6; color: black; box-shadow: 0 0 12px #add8e6; }}
-
-
-
-body:not(.tab-2) #excel-btn {{
-    display: none !important;
-}}
-
-
-
     
-    .content-area {{ background: #c8dee0; border-radius: 12px; padding: 20px; min-height: 600px; color: #000; }}
-
-
-    /* 🟢 NUEVO: Efecto 3D al presionar botones */
-    #fleet-toggle-btn:active,
-    #excel-btn:active,
-    button[onclick*="distribuirAutomatico"]:active {{
-        transform: translateY(2px) !important;
-        box-shadow: none !important;
+    /* Contenedor del Mapa */
+    .map-container {{
+        background: #1e1e1e; border-radius: 12px; padding: 15px; 
+        width: 100%; max-width: 900px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }}
-
-    
+    .map-container img {{
+        max-width: 100%; height: auto; border-radius: 8px; border: 2px solid #444;
+    }}
 </style>
 
 <div class="main-box">
+    <!-- Reloj Restador / Consola -->
     <div class="unified-console"> 
         <div class="display-screen">
             <div style="color: #ffffff; font-size: 10px; margin-bottom: 5px;">HORA / RESTADOR / CONVERTIDOR</div>
@@ -5250,30 +4782,14 @@ body:not(.tab-2) #excel-btn {{
         </div>
     </div>
 
-    <h3 style="color: #1E90FF; text-align: center; margin-bottom: 15px;">🍓 NOTITAS OPERATIVAS</h3>
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="changeTab(event, 'SDE')">SDE</button>
-        <button class="tab-btn" onclick="changeTab(event, 'C1')">C1</button>
-        <button class="tab-btn" onclick="changeTab(event, 'C2')">C2</button>
-        <button class="tab-btn" onclick="changeTab(event, 'PREC')">PREC</button>
-        <button class="tab-btn" onclick="changeTab(event, 'SIDE_LINE')">SIDE LINE</button>
-        <button class="tab-btn" onclick="changeTab(event, 'ENLACES')">ENLACES</button>
-    </div>
-    <div id="visor" class="content-area">
-        {info_operativa['SDE']}
+    <!-- Imagen del Mapa -->
+    <div class="map-container">
+        <h3 style="color: #1E90FF; margin-top: 0; margin-bottom: 15px;">🗺️ MAPA OPERATIVO</h3>
+        <img src="{url_final}" alt="Mapa de regiones">
     </div>
 </div>
 
 <script>
-    const allData = {info_operativa};  
-
-
-    function changeTab(e, name) {{
-        document.getElementById('visor').innerHTML = allData[name];
-        let btns = document.getElementsByClassName('tab-btn');
-        for (let b of btns) {{ b.classList.remove('active'); }}
-        e.currentTarget.classList.add('active');
-    }}
     function ejecutarTodo() {{
         const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
@@ -5286,6 +4802,6 @@ body:not(.tab-2) #excel-btn {{
 </script>
 """
 
-# 4. RENDERIZADO EN STREAMLIT
+# RENDERIZADO EN STREAMLIT
 st.markdown("---")
-components.html(html_notitas, height=1200, scrolling=True)
+components.html(html_limpio, height=850, scrolling=True)
