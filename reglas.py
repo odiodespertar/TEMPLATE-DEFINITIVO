@@ -140,12 +140,12 @@ PREGUNTAS_FRECUENTES = {
     "large_van_sdd": (
         "🚐 **Large Van SDD (SCP1 C1 y SJA1 C1):**\n\n"
         "* Ya vienen precargadas en Logis por defecto.\n"
-        "* Se deben utilizar para **ambos services y en todos los ciclos**."
+        "* Se deben utilizar para **ambos services**."
     ),
     "large_van_scp1": (
         "🚐 **Large Van MLP / Large Van SDD para SCP1 C1:**\n\n"
         "* En **SCP1 C1**, las unidades **Large Van MLP** aparecen en Logis registradas con el nombre **Large Van SDD**.\n"
-        "* Ya vienen precargadas por defecto en el sistema para usarse en ambos services y ciclos.\n"
+        "* Ya vienen precargadas por defecto en el sistema para usarse en ambos services.\n"
         "* 🟢 **Regla para resto de planes:** Asignar Large Van MLP (si el plan lleva nodo, se configura como híbrida)."
     ),
     "bulk_general": (
