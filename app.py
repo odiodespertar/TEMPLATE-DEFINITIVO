@@ -473,10 +473,14 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
             # Si el usuario consultó un SVC del mapa de orígenes
             if svc_detectado:
                 info = MAPA_ORIGENES[svc_detectado]
+                
+                # Etiqueta con estilo fijo para que NUNCA se ponga oscura por el navegador
+                origen_tag = f"<span style='background-color: #e2e8f0; color: #0f172a; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;'>{info['origen']}</span>"
+                
                 respuesta_main = (
                     f"📍 **Origen y Validación para {svc_detectado.upper()}:**\n\n"
                     f"* 🗺️ **Región:** Región {info['region']}\n"
-                    f"* 🏢 **Origen(es) On Way:** `{info['origen']}`\n"
+                    f"* 🏢 **Origen(es) On Way:** {origen_tag}\n"
                     f"* ✅ **Validación requerida:** {info['val']}\n\n"
                     f"*(Nota: Si el SVC solicita agregar blancos, se anexan)*"
                 )
