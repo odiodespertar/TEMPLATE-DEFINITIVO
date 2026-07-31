@@ -463,83 +463,97 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
         
 
-# D) BUSCADOR INTELIGENTE LOCAL (MAPA DE ORIGENES + FILTRADO DE REGLAS)
+# D) BUSCADOR INTELIGENTE LOCAL (MAPA DE ORIGENES + REGLAS ESPECIALES COMBINADAS)
         else:
-            # 1. Búsqueda prioritaria en el mapa operativo (SLE1, SMT1, SSL1, SMD2, etc.)
-            svc_detectado = None
+            # 1. Mapeo general de centros para reglas_ruteo
+            mapeo_centros = {
+                "smx9": "smx9_extendido",
+                "sgd2": "sgd2_extendido",
+                "smx4": "smx4_extendido",
+                "smx2": "smx2_extendido",
+                "smt2": "smt2_extendido",
+                "scp1": "scp1",
+                "smd1": "smd1",
+                "sch1": "sch1",
+                "sja1": "sja1"
+            }
+
+            # 2. Verificar si la consulta pertenece al Mapa de Orígenes
+            svc_mapa = None
             for key in MAPA_ORIGENES.keys():
                 if key in query_lower:
-                    svc_detectado = key
+                    svc_mapa = key
                     break
 
-            # 2. Si es un SVC del mapa, responde con la etiqueta del origen
-            if svc_detectado:
-                info = MAPA_ORIGENES[svc_detectado]
+            # 3. Verificar si la consulta pertenece a reglas_ruteo
+            centro_encontrado = None
+            clave_regla = None
+
+            if "smx5" in query_lower:
+                centro_encontrado = "SMX5"
+                clave_regla = "smx5_precarga" if "precarga" in query_lower else "smx5_extendido"
+            else:
+                for termino, clave in mapeo_centros.items():
+                    if termino in query_lower:
+                        centro_encontrado = termino.upper()
+                        clave_regla = clave
+                        break
+
+            # 4. Filtro de intenciones del usuario (para cuando consulta reglas)
+            busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
+            busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
+            busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+
+            # ==========================================
+            # CONSTRUCCIÓN DE LA RESPUESTA
+            # ==========================================
+            partes_respuesta = []
+
+            # A) Si el servicio está en el Mapa de Orígenes, agrega su tarjeta
+            if svc_mapa:
+                info = MAPA_ORIGENES[svc_mapa]
                 origen_tag = f"<span style='background-color: #e2e8f0; color: #0f172a; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;'>{info['origen']}</span>"
                 
-                respuesta_main = (
-                    f"📍 **Origen y Validación para {svc_detectado.upper()}:**\n\n"
+                bloque_mapa = (
+                    f"📍 **Origen y Validación para {svc_mapa.upper()}:**\n\n"
                     f"* 🗺️ **Región:** Región {info['region']}\n"
                     f"* 🏢 **Origen(es) On Way:** {origen_tag}\n"
                     f"* ✅ **Validación requerida:** {info['val']}\n\n"
                     f"*(Nota: Si el SVC solicita agregar blancos, se anexan)*"
                 )
+                partes_respuesta.append(bloque_mapa)
 
-            # 3. Si NO es del mapa, busca en el catálogo de reglas_ruteo y aplica tu detección de intenciones
+            # B) Si además tiene reglas e indicaciones en reglas.py, las procesa y adjunta
+            if clave_regla and clave_regla in reglas_ruteo:
+                texto_regla = reglas_ruteo[clave_regla]
+                lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
+                lineas_filtradas = []
+
+                if busqueda_origen:
+                    lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
+                elif busqueda_hora:
+                    lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
+                elif busqueda_unidad:
+                    lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
+
+                if lineas_filtradas:
+                    res = "\n".join(lineas_filtradas)
+                    bloque_regla = f"📌 **Indicaciones específicas ({centro_encontrado}):**\n\n{res}"
+                else:
+                    bloque_regla = f"📋 **Reglas de ruteo ({centro_encontrado}):**\n\n{texto_regla}"
+                
+                # Si no buscó origen exclusivamente, o si no estaba en el mapa, agrega las reglas
+                if not (svc_mapa and busqueda_origen):
+                    partes_respuesta.append(bloque_regla)
+
+            # C) Si no coincidió con nada
+            if partes_respuesta:
+                respuesta_main = "\n\n---\n\n".join(partes_respuesta)
             else:
-                mapeo_centros = {
-                    "smx9": "smx9_extendido",
-                    "sgd2": "sgd2_extendido",
-                    "smx4": "smx4_extendido",
-                    "smx2": "smx2_extendido",
-                    "smt2": "smt2_extendido",
-                    "scp1": "scp1",
-                    "smd1": "smd1",
-                    "sch1": "sch1",
-                    "sja1": "sja1"
-                }
-
-                centro_encontrado = None
-                clave_regla = None
-
-                # MANEJO ESPECIAL PARA SMX5
-                if "smx5" in query_lower:
-                    centro_encontrado = "SMX5"
-                    clave_regla = "smx5_precarga" if "precarga" in query_lower else "smx5_extendido"
+                if "resumen" in query_lower:
+                    respuesta_main = "Aquí tienes la opción para armar tu reporte."
                 else:
-                    for termino, clave in mapeo_centros.items():
-                        if termino in query_lower:
-                            centro_encontrado = termino.upper()
-                            clave_regla = clave
-                            break
-
-                # 🎯 AQUÍ QUEDA TU DETECCIÓN DE INTENCIONES ESPECÍFICAS
-                busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
-                busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
-                busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
-
-                if clave_regla and clave_regla in reglas_ruteo:
-                    texto_regla = reglas_ruteo[clave_regla]
-                    lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
-                    lineas_filtradas = []
-
-                    if busqueda_origen:
-                        lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
-                    elif busqueda_hora:
-                        lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
-                    elif busqueda_unidad:
-                        lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
-
-                    if lineas_filtradas:
-                        res = "\n".join(lineas_filtradas)
-                        respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
-                    else:
-                        respuesta_main = texto_regla
-                else:
-                    if "resumen" in query_lower:
-                        respuesta_main = "Aquí tienes la opción para armar tu reporte."
-                    else:
-                        respuesta_main = "⚠️ No encontré ese centro o ruteo en el catálogo de respuestas. Por favor, revisa la **imagen del mapa** al final de la página."
+                    respuesta_main = "⚠️ No encontré ese centro o ruteo en el catálogo de respuestas. Por favor, revisa la **imagen del mapa** al final de la página."
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
