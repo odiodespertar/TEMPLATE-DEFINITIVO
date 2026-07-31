@@ -4,6 +4,7 @@ import pandas as pd
 import io
 from streamlit.components.v1 import html  
 from reglas import reglas_ruteo
+from reglas import reglas_ruteo, MAPA_ORIGENES
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
@@ -460,72 +461,81 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
             st.session_state.esperando_subtipo_smx5 = True
             respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
-        # D) BUSCADOR INTELIGENTE LOCAL (EXTRACTOR ESPECÍFICO SIN IA)
+        # D) BUSCADOR INTELIGENTE LOCAL (SOPORTA ORIGENES DEL MAPA Y REGLAS)
         else:
-            # Mapeo general de centros y casos especiales de SMX5
-            mapeo_centros = {
-                "smx9": "smx9_extendido",
-                "sgd2": "sgd2_extendido",
-                "smx4": "smx4_extendido",
-                "smx2": "smx2_extendido",
-                "smt2": "smt2_extendido",
-                "scp1": "scp1",
-                "smd1": "smd1",
-                "sch1": "sch1",
-                "sja1": "sja1"
-            }
+            # 1. Búsqueda de SVC en el mapa de orígenes (SLE1, SMT1, SSL1, etc.)
+            svc_detectado = None
+            for key in MAPA_ORIGENES.keys():
+                if key in query_lower:
+                    svc_detectado = key
+                    break
 
-            centro_encontrado = None
-            clave_regla = None
+            # Si el usuario consultó un SVC del mapa de orígenes
+            if svc_detectado:
+                info = MAPA_ORIGENES[svc_detectado]
+                respuesta_main = (
+                    f"📍 **Origen y Validación para {svc_detectado.upper()}:**\n\n"
+                    f"* 🗺️ **Región:** Región {info['region']}\n"
+                    f"* 🏢 **Origen(es) On Way:** `{info['origen']}`\n"
+                    f"* ✅ **Validación requerida:** {info['val']}\n\n"
+                    f"*(Nota: Si el SVC solicita agregar blancos, se anexan)*"
+                )
 
-            # 🟢 1. MANEJO ESPECIAL PARA SMX5 (PRECARGA VS EXTENDIDO)
-            if "smx5" in query_lower:
-                centro_encontrado = "SMX5"
-                if "precarga" in query_lower:
-                    clave_regla = "smx5_precarga"
-                else:
-                    clave_regla = "smx5_extendido"
+            # 2. Búsqueda en el catálogo tradicional de centros y reglas de ruteo
             else:
-                # 🟢 2. BÚSQUEDA PARA EL RESTO DE LOS CENTROS
-                for termino, clave in mapeo_centros.items():
-                    if termino in query_lower:
-                        centro_encontrado = termino.upper()
-                        clave_regla = clave
-                        break
+                mapeo_centros = {
+                    "smx9": "smx9_extendido",
+                    "sgd2": "sgd2_extendido",
+                    "smx4": "smx4_extendido",
+                    "smx2": "smx2_extendido",
+                    "smt2": "smt2_extendido",
+                    "scp1": "scp1",
+                    "smd1": "smd1",
+                    "sch1": "sch1",
+                    "sja1": "sja1"
+                }
 
-            # 🔎 DETECCIÓN DE INTENCIONES
-            busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
-            busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
-            busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+                centro_encontrado = None
+                clave_regla = None
 
-            if clave_regla and clave_regla in reglas_ruteo:
-                texto_regla = reglas_ruteo[clave_regla]
-                lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
-
-                lineas_filtradas = []
-
-                if busqueda_origen:
-                    lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
-                elif busqueda_hora:
-                    lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
-                elif busqueda_unidad:
-                    lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
-
-                if lineas_filtradas:
-                    res = "\n".join(lineas_filtradas)
-                    respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
+                # MANEJO ESPECIAL PARA SMX5
+                if "smx5" in query_lower:
+                    centro_encontrado = "SMX5"
+                    clave_regla = "smx5_precarga" if "precarga" in query_lower else "smx5_extendido"
                 else:
+                    for termino, clave in mapeo_centros.items():
+                        if termino in query_lower:
+                            centro_encontrado = termino.upper()
+                            clave_regla = clave
+                            break
+
+                # DETECCIÓN DE INTENCIONES ESPECÍFICAS
+                busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
+                busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
+                busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+
+                if clave_regla and clave_regla in reglas_ruteo:
+                    texto_regla = reglas_ruteo[clave_regla]
+                    lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
+                    lineas_filtradas = []
+
                     if busqueda_origen:
-                        respuesta_main = f"⚠️ No tengo registrado un origen específico para ese ruteo extendido en **{centro_encontrado}**. Por favor, revisa la **imagen del mapa** que se encuentra hasta el final de la página."
+                        lineas_filtradas = [l for l in lineas if "origen" in l.lower() or "orígenes" in l.lower() or "mx" in l.lower()]
+                    elif busqueda_hora:
+                        lineas_filtradas = [l for l in lineas if "despacho" in l.lower() or "pm" in l.lower() or "am" in l.lower() or "hora" in l.lower()]
+                    elif busqueda_unidad:
+                        lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
+
+                    if lineas_filtradas:
+                        res = "\n".join(lineas_filtradas)
+                        respuesta_main = f"📌 **Información específica para {centro_encontrado}:**\n\n{res}"
                     else:
                         respuesta_main = texto_regla
-            else:
-                # Si ingresó cualquier otro servicio/centro que no está en el catálogo o incluye palabras clave de búsqueda
-                if "resumen" in query_lower:
-                    # Permite mantener la opción de resumen activa
-                    respuesta_main = "Aquí tienes la opción para armar tu reporte." # O la lógica que tengas para resumen
                 else:
-                    respuesta_main = "⚠️ No encontré ese centro o ruteo en el catálogo de respuestas. Por favor, revisa la **imagen del mapa** que se encuentra hasta el final de la página."
+                    if "resumen" in query_lower:
+                        respuesta_main = "Aquí tienes la opción para armar tu reporte."
+                    else:
+                        respuesta_main = "⚠️ No encontré ese centro o ruteo en el catálogo de respuestas. Por favor, revisa la **imagen del mapa** al final de la página."
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
@@ -3697,7 +3707,7 @@ function distribuirAutomatico() {{
     // 1.3 ORDENAR FLOTA POR CAPACIDAD (MAYOR SPR) REGLA NATIVA
     fleet.sort((a, b) => b.spr - a.spr);
 
-    // 1.4 CAPTURAR TODOS LOS POLÍGONOS CON VOLUMEN ACTIVO (MAYOR A 0)
+    // 1.4 CAPTURAR Y ORDENAR POLÍGONOS POR PRIORIDAD DE NODO/VOLUMEN
     let bloques = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
     let polys = [];
 
@@ -3710,6 +3720,20 @@ function distribuirAutomatico() {{
             }});
         }}
     }});
+
+    // 🔒 CONDICIONAL EXCLUSIVA: Solo se aplica si la pestaña activa es C1 SJA1 (ID 6)
+    if (currentTab == 6) {{
+        polys.sort((a, b) => {{
+            let nameA = a.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let nameB = b.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            
+            let esPrioritarioA = (nameA === "PEROTE" || nameA === "TLALTETELA") ? 1 : 0;
+            let esPrioritarioB = (nameB === "PEROTE" || nameB === "TLALTETELA") ? 1 : 0;
+            
+            // Coloca a Perote y Tlaltetela al principio del arreglo
+            return esPrioritarioB - esPrioritarioA;
+        }});
+    }}
 
 
     // ==============================================================================
@@ -4095,6 +4119,7 @@ function distribuirAutomatico() {{
         }});
     }}
 
+
 // ==============================================================================
 // 🔥 SECCIÓN 4: MOTOR EXCLUSIVO CON NUEVAS PRIORIDADES PARA C1 SJA1 (TAB 6)
 // ==============================================================================
@@ -4161,17 +4186,14 @@ function procesarAsignacionUnidadSJA1(poly) {{
             unidad = fleet.find(f => f.restante > 0 && (f.nombre.toLowerCase().includes("media milla sp") || f.nombre.toLowerCase().includes("media milla")));
         }}
 
-        // 4.3 CASOS ESPECÍFICOS PARA XICO Y TUZAMAPA (MLP primero, y si no hay o faltan, pasa a CAR / Crowd)
+        // 4.3 CASOS ESPECÍFICOS PARA XICO Y TUZAMAPA
         else if (nombrePlan === "XICO" || nombrePlan === "TUZAMAPA") {{
-            // 1. Intentar asignar Large Van MLP foráneo disponible
             unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("large van mlp foráneo"));
 
-            // 2. Si ya no hay Large, intentar con Small Van MLP foráneo disponible
             if (!unidad) {{
                 unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van mlp foráneo"));
             }}
 
-            // 3. Si no hay MLP Foráneas disponibles, asignar unidades ligeras / crowd
             if (!unidad) {{
                 let listaSustitutas = [
                     "car 8h", 
@@ -4189,18 +4211,26 @@ function procesarAsignacionUnidadSJA1(poly) {{
             }}
         }}
 
-        // 4.4 RESTO DE PLANES FORÁNEOS (Actopan, Misantla, Naolinco, Perote, Tezuitlan, Tlaltetela, Trapiche)
-        else {{
-            // CASCADA 1: Large Van MLP foráneo
+        // 4.4 🌟 PRIORIDAD MÁXIMA FORÁNEA: PEROTE Y TLALTETELA (FORÁNEOS CON NODO)
+        else if (nombrePlan === "PEROTE" || nombrePlan === "TLALTETELA") {{
+            // Exigen llenar con Large Van MLP foráneo para soportar los nodos
             unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("large van mlp foráneo"));
-            
-            // CASCADA 2: Small Van MLP foráneo
+
+            // Si se agotan, pasan a Small Van como respaldo
             if (!unidad) {{
                 unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van mlp foráneo"));
             }}
         }}
 
-        // Si no se encontró unidad válida para la regla de la zona, detiene la asignación
+        // 4.5 RESTO DE PLANES FORÁNEOS GENERALES
+        else {{
+            unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("large van mlp foráneo"));
+            
+            if (!unidad) {{
+                unidad = fleet.find(f => f.restante > 0 && f.nombre.toLowerCase().includes("small van mlp foráneo"));
+            }}
+        }}
+
         if (!unidad) break;
 
         // MATEMÁTICA DE ASIGNACIÓN REGULAR PARA SJA1
@@ -4226,6 +4256,8 @@ function procesarAsignacionUnidadSJA1(poly) {{
         restante -= (usar * unidad.spr);
     }}
 }}
+
+
 
 
     // ============================================================================================
