@@ -142,6 +142,12 @@ PREGUNTAS_FRECUENTES = {
         "* Ya vienen precargadas en Logis por defecto.\n"
         "* Se deben utilizar para **ambos services y en todos los ciclos**."
     ),
+    "large_van_scp1": (
+        "🚐 **Large Van MLP / Large Van SDD para SCP1 C1:**\n\n"
+        "* En **SCP1 C1**, las unidades **Large Van MLP** aparecen en Logis registradas con el nombre **Large Van SDD**.\n"
+        "* Ya vienen precargadas por defecto en el sistema para usarse en ambos services y ciclos.\n"
+        "* 🟢 **Regla para resto de planes:** Asignar Large Van MLP (si el plan lleva nodo, se configura como híbrida)."
+    ),
     "bulk_general": (
         "📦 **Ubicación de unidades Bulk (General):**\n\n"
         "* Las unidades Bulk se deben asignar en los polígonos que tengan **mayor cantidad de paquetes voluminosos**."
