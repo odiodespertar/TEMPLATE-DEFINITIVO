@@ -37,7 +37,7 @@ reglas_ruteo = {
         "* 👉 Preguntar si habrá ids a descartar\n"
         "* 📌 Orígenes: MXCD02, MXCD06\n"
         "* 👉 Último despacho de hoy (3 pm en adelante)\n"
-        "* 👉 Fecha promesa + fecha quemada + onway\n"
+        "* 👉 Fecha promesa + onway\n"
         "* 🏍️ Motos SPR 30"
     ),
     "smx2_extendido": (
@@ -56,6 +56,8 @@ reglas_ruteo = {
     ),
     "scp1": (
         "**Prioridades SCP1 C1:**\n\n"
+        "* 📌 Ellos envían el volumen a tomar\n"
+        "* 📌 Si no te especifican el despacho a excluir haz tu pivot con todo el volumen y ahí revisas cuál despacho o salida coincide con la cantidad a excluir, eso lo pones como NO RUT (recuerda que debe ser onway) y le pides validación al SVC antes de subirlo a logis\n"
         "* 🔴 **Campeche:** ➤ Rental Large Van (excluír/sin nodos)\n"
         "* 🔴 **Campeche:** ➤ Delivery Cell (Dedicada/lleva todos nodos/paradas=nodos)\n"
         "* 🟣 **Delivery Cell** ➤ Parámetros de Large Van MLP\n"
@@ -92,4 +94,40 @@ reglas_ruteo = {
         "* 🔵 **EJA1-SP:**➤  Media milla-ruteo fake\n"
         "* 🟤 **Alchichica ND-AM0:** ➤ 2 unidades Small Van MLP/330 min ó 65 ids c/u."
     )
+}
+
+
+# ==========================================
+# 🗺️ BASE DE DATOS DE ORIGENES (MAPA OPERATIVO)
+# ==========================================
+MAPA_ORIGENES = {
+    # 🔵 REGIÓN METRO (CDMX)
+    "smx2": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx3": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx4": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx5": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx7": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx8": {"region": "Metro (CDMX)", "origen": "MXCD10", "val": "❌ No"},
+    "smx9": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06", "val": "❌ No"},
+    "smx10": {"region": "Metro (CDMX)", "origen": "MXCD02, MXCD06, MXCD20", "val": "❌ No"},
+    "smx10 sd3": {"region": "Metro (CDMX)", "origen": "MXCD20", "val": "❌ No"},
+    "stl1": {"region": "Metro (CDMX)", "origen": "MXCD02", "val": "❌ No"},
+    "shp1": {"region": "Metro (CDMX)", "origen": "MXCD10", "val": "❌ No"},
+
+    # 🟡 REGIÓN CENTRO
+    "ssl1": {"region": "Centro", "origen": "MXGT01", "val": "❌ No"},
+    "sbj1": {"region": "Centro", "origen": "MXGT01", "val": "❌ No"},
+    "sle1": {"region": "Centro", "origen": "MXGT01", "val": "❌ No"},
+    "sgd1": {"region": "Centro", "origen": "MXJC01", "val": "❌ No"},
+    "sgd2": {"region": "Centro", "origen": "MXJC01", "val": "❌ No"},
+    "sgd3": {"region": "Centro", "origen": "MXJC01", "val": "❌ No"},
+
+    # 🩵 REGIÓN NORTE
+    "smt1": {"region": "Norte", "origen": "MXNL01", "val": "✔️ Sí"},
+    "smt2": {"region": "Norte", "origen": "MXNL01", "val": "✔️ Sí"},
+    "smt3": {"region": "Norte", "origen": "MXNL01", "val": "✔️ Sí"},
+    "shm1": {"region": "Norte", "origen": "MXSO01", "val": "✔️ Sí"},
+
+    # 🟠 REGIÓN SUR
+    "smd2": {"region": "Sur", "origen": "MXYU01", "val": "✔️ Sí"}
 }
