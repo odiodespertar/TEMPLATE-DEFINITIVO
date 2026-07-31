@@ -193,6 +193,7 @@ PREGUNTAS_FRECUENTES = {
     ),
     "scp1_cambios": (
         "🔄 **Ajustes y Quitar Unidades en SCP1:**\n\n"
+        "* Las Large Van MLP en logis aparecen como Large Van SDD, esas se usan.\n"
         "* Pueden solicitar quitar unidades o pasar planes a **Ciclo 2** (se realizan los cambios y se pide validación al SVC).\n"
         "* 📏 **Regla de oro:** Las unidades deben cumplir con nuestro **ORH**; mientras cumplan con el tiempo, no hay problema.\n"
         "* 📌 *Nota:* Cuando el SVC pide quitar unidades, generalmente es porque van un poco bajas en ORH."
