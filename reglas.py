@@ -195,7 +195,7 @@ PREGUNTAS_FRECUENTES = {
         "🔄 **Ajustes y Quitar Unidades en SCP1:**\n\n"
         "* Pueden solicitar quitar unidades o pasar planes a **Ciclo 2** (se realizan los cambios y se pide validación al SVC).\n"
         "* 📏 **Regla de oro:** Las unidades deben cumplir con nuestro **ORH**; mientras cumplan con el tiempo, no hay problema.\n"
-        "* 📌 *Nota:* Cuando el SVC pide quitar unidades, generalmente es porque van un poco bajas en volumen."
+        "* 📌 *Nota:* Cuando el SVC pide quitar unidades, generalmente es porque van un poco bajas en ORH."
     ),
     "smd1_prioridad": (
         "📊 **Prioridades en SMD1:**\n\n"
