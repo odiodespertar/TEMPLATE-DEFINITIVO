@@ -15,7 +15,7 @@ reglas_ruteo = {
         "* 👉 MXJC01 - último despacho de hoy (3 pm adelante) + fecha promesa + onway\n"
         "* 👉 MXJC02 - último despacho de hoy (1 pm) + fecha promesa + onway // si salen poquitos, agarra todo el despacho del día + fecha promesa y quemada + todo at station y manda pivot para que SVC te valide vol.\n"
         "* 👉 Revisar unidades con SVC (a veces indica usar Small Van con la cantidad indicada para las car 5h de schedule\n"
-        "* 👉 Se pide validación\n"
+        "* 👉 Puedes pedir validación (no es necesario)\n"
         "* 👉 Prefijo SD3 siempre"
     ),
     "smx5_precarga": (
