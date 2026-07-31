@@ -169,10 +169,36 @@ st.markdown("""
 
 
 
+
+
+
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
 with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
+
+    # 🎨 FORZAR COLORES CLAROS Y LEGIBLES EN COMPONENTES NATIVOS
+    st.markdown("""
+    <style>
+        div[data-testid="stExpander"] button {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+            font-weight: 600 !important;
+        }
+        div[data-testid="stExpander"] button:hover {
+            background-color: #e2e8f0 !important;
+            color: #0284c7 !important;
+            border-color: #0284c7 !important;
+        }
+        div[data-testid="stExpander"] label p {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    
     st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
 
    
