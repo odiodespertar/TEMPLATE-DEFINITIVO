@@ -113,7 +113,7 @@ st.markdown("""
     /* --- MENSAJE DEL USUARIO (Lila eléctrico con texto blanco) --- */
     div[data-testid="stChatMessage"]:has(div[aria-label="user"]),
     div[data-testid="stChatMessage"]:has([data-testid*="User"]) {
-        background-color: #ff00ff !important;
+        background-color: #FF7F50 !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
@@ -131,7 +131,7 @@ st.markdown("""
         color-scheme: light !important; /* 🔥 Bloquea la inversión del modo oscuro del navegador */
         background-color: #FFFFFF !important;
         color: #000000 !important;
-        border: 2px solid #8F60EC !important;
+        border: 2px solid #FF7F50 !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
