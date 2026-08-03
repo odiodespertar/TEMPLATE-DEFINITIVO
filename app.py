@@ -80,7 +80,7 @@ st.markdown("""
     /* --- VENTANA FLOTANTE AJUSTADA Y ORDENADA --- */
     div[data-testid="stExpander"] {
         position: fixed !important;
-        bottom: 40px !important;
+        bottom: 30px !important;
         right: 20px !important;
         width: 550px !important;
         max-height: 100vh !important; /* Limitado al alto de la pantalla */
