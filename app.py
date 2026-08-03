@@ -175,6 +175,47 @@ st.markdown("""
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
+
+# 🎨 1. INYECCIÓN CSS PARA MOVER EL SIDEBAR A LA DERECHA
+st.markdown("""
+<style>
+    /* Mover la barra lateral al borde derecho */
+    [data-testid="stSidebar"] {
+        right: 0 !important;
+        left: auto !important;
+        border-left: 1px solid #cbd5e1 !important;
+        border-right: none !important;
+        box-shadow: -4px 0px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    # Botón flotante para abrir/cerrar desde la derecha
+    [data-testid="stSidebarCollapseButton"] {
+        position: fixed !important;
+        top: 15px !important;
+        right: 15px !important;
+        left: auto !important;
+        z-index: 999999 !important;
+        background-color: #ff7700 !important; /* Color llamativo o tu estilo */
+        color: white !important;
+        border-radius: 50% !important;
+    }
+    
+    /* Estilos internos para componentes del chat */
+    div[data-testid="stSidebar"] button {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stSidebar"] label p {
+        color: #0f172a !important;
+        font-weight: 600 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
+
 with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
     # 🎨 FORZAR COLORES CLAROS Y LEGIBLES EN COMPONENTES NATIVOS
