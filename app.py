@@ -81,7 +81,7 @@ st.markdown("""
     div[data-testid="stExpander"] {
         position: fixed !important;
         bottom: 20px !important;
-        right: 20px !important;
+        right: 15px !important;
         width: 550px !important;
         max-height: 100vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
