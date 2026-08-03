@@ -1531,11 +1531,11 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* ===== MODO FLOTANTE PERFECTAMENTE CENTRADO ===== */
 #fleet-sticky.fleet-floating {{
   position: fixed !important;
-  top: 115px;
+  top: 130px;
   left: 50% !important;
   transform: translateX(-50%);
   width: min(1050px, 92vw) !important;
-  max-height: 380px !important;
+  max-height: 370px !important;
   overflow: hidden !important;
   z-index: 999999 !important;
   background: #ffffff !important;
