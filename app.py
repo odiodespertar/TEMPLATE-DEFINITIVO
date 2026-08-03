@@ -1531,7 +1531,7 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
 /* ===== MODO FLOTANTE PERFECTAMENTE CENTRADO ===== */
 #fleet-sticky.fleet-floating {{
   position: fixed !important;
-  top: 100px;
+  top: 95px;
   left: 50% !important;
   transform: translateX(-50%);
   width: min(1050px, 92vw) !important;
