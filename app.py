@@ -3,8 +3,6 @@ import streamlit as st
 import pandas as pd
 import io
 from streamlit.components.v1 import html  
-from reglas import reglas_ruteo
-from reglas import reglas_ruteo, MAPA_ORIGENES
 from reglas import reglas_ruteo, MAPA_ORIGENES, PREGUNTAS_FRECUENTES
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
