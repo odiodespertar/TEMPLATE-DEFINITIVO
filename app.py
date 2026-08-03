@@ -170,59 +170,38 @@ st.markdown("""
 
 
 
-# ==========================================
-# 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN (SIDEBAR DERECHO)
-# ==========================================
 
-# 🎨 1. INYECCIÓN CSS (Mueve el sidebar a la derecha y conserva los colores claros)
-st.markdown("""
-<style>
-    /* Mover el sidebar al borde derecho desplegable */
-    [data-testid="stSidebar"] {
-        right: 0 !important;
-        left: auto !important;
-        border-left: 1px solid #cbd5e1 !important;
-        border-right: none !important;
-        box-shadow: -4px 0px 12px rgba(0, 0, 0, 0.15) !important;
-    }
 
-    /* Botón flotante superior para abrir/cerrar desde la derecha */
-    [data-testid="stSidebarCollapseButton"] {
-        position: fixed !important;
-        top: 15px !important;
-        right: 15px !important;
-        left: auto !important;
-        z-index: 999999 !important;
-        background-color: #ff7700 !important;
-        color: white !important;
-        border-radius: 50% !important;
-    }
+# ==========================================
+# 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
+# ==========================================
+with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
+
+    # 🎨 FORZAR COLORES CLAROS Y LEGIBLES EN COMPONENTES NATIVOS
+    st.markdown("""
+    <style>
+        div[data-testid="stExpander"] button {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+            font-weight: 600 !important;
+        }
+        div[data-testid="stExpander"] button:hover {
+            background-color: #e2e8f0 !important;
+            color: #0284c7 !important;
+            border-color: #0284c7 !important;
+        }
+        div[data-testid="stExpander"] label p {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     
-    /* Estilos claros y legibles para botones dentro del sidebar */
-    div[data-testid="stSidebar"] button {
-        background-color: #f1f5f9 !important;
-        color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
-        font-weight: 600 !important;
-    }
-    div[data-testid="stSidebar"] button:hover {
-        background-color: #e2e8f0 !important;
-        color: #0284c7 !important;
-        border-color: #0284c7 !important;
-    }
-    /* Estilos claros para las etiquetas de checkboxes */
-    div[data-testid="stSidebar"] label p {
-        color: #0f172a !important;
-        font-weight: 600 !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# 2. TODO EL CONTENIDO DEL ASISTENTE DENTRO DEL SIDEBAR
-with st.sidebar:
-    st.title("🤖 ¿DUDAS CON LOS RUTEOS?")
     st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
 
+   
     # Inicialización de Estados
     if "main_chat_messages" not in st.session_state:
         st.session_state.main_chat_messages = []
@@ -422,6 +401,7 @@ with st.sidebar:
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
 
+                            # 🌟 NUEVO AJUSTE: Si NO hubo dropeo de nodos, agrega la frase solicitada
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
                                     lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
@@ -479,7 +459,7 @@ with st.sidebar:
                         st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
                     st.rerun()
 
-    # 3. CAMPO DE ENTRADA AL FINAL
+    # 3. CAMPO DE ENTRADA AL FINAL (100% FUNCIONAL SIN API KEY NI IA)
     if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
         st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
         query_lower = query_main.lower().strip()
@@ -506,12 +486,12 @@ with st.sidebar:
             else:
                 respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
 
-        # C) DETECCION ESPECIFICA SMX5
+        # C) DETECCION ESPECIFICA SMX5 (SOLO SI ESCRIBE "SMX5" A SECAS)
         elif query_lower == "smx5":
             st.session_state.esperando_subtipo_smx5 = True
             respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
-        # D) BUSCADOR INTELIGENTE LOCAL
+        # D) BUSCADOR INTELIGENTE LOCAL (MAPA + PREGUNTAS FRECUENTES + REGLAS)
         else:
             partes_respuesta = []
 
@@ -572,7 +552,7 @@ with st.sidebar:
             if coincidencias_faq:
                 partes_respuesta.append("\n\n---\n\n".join(coincidencias_faq))
 
-            # 3. BÚSQUEDA EN REGLAS DE RUTEO TRADICIONALES
+            # 3. BÚSQUEDA EN REGLAS DE RUTEO TRADICIONALES (SI NO HUBO COINCIDENCIA EN FAQ O SI PIDIÓ EL CENTRO)
             if not coincidencias_faq:
                 mapeo_centros = {
                     "smx9": "smx9_extendido", "sgd2": "sgd2_extendido", "smx4": "smx4_extendido",
@@ -631,8 +611,6 @@ with st.sidebar:
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
-
-
 
 
 
