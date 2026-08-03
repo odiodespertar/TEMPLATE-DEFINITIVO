@@ -386,7 +386,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                                     unis_str = unis[0]
 
                                 if d.get("logis_tomo_todas", True):
-                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema las tomó todas.")
+                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: logis tomó ambas.")
                                 else:
                                     unis_fuera = d.get("unidades_fuera", [])
                                     if unis_fuera:
