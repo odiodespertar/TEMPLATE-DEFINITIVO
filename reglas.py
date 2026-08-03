@@ -57,6 +57,7 @@ reglas_ruteo = {
     "scp1": (
         "**Prioridades SCP1 C1:**\n\n"
         "* 📌 Ellos envían el volumen a tomar\n"
+        "* 📌 Sale cherry (no olvidar compartir al SVC)\n"
         "* 📌 Si no te especifican el despacho a excluir haz tu pivot con todo el volumen y ahí revisas cuál despacho o salida coincide con la cantidad a excluir, eso lo pones como NO RUT (recuerda que debe ser onway) y le pides validación al SVC antes de subirlo a logis\n"
         "* 🔴 **Campeche:** ➤ Rental Large Van (excluír/sin nodos)\n"
         "* 🔴 **Campeche:** ➤ Delivery Cell (Dedicada/lleva todos nodos/paradas=nodos)\n"
@@ -65,10 +66,13 @@ reglas_ruteo = {
     ),
     "smd1": (
         "**Prioridades SMD1 C1:**\n"
-        "* 🟢 **Centro:** ➤ Rental(híbridas) / Crowd / LV(híbridas) / SV\n"
-        "* 🟢 **Centro:** ➤ Extra large van H&B / MLP Bulk (ver en qué centro hay + voluminosos y ahí se meten)\n"
-        "* 🔵 **Norte:** ➤ Crowd zon ext 10hrs / MLP\n"
-        "* 🟣 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n"
+        "* 📌 Sale cherry (no olvidar compartir al SVC-compartir captura de pantalla antes del cherry)\n"
+        "* 🔴 **Centro:** ➤ Prioridad = Rental (híbridas) / Crowd / LV (híbridas) / SV\n"
+        "* 🔴 **Centro:** ➤ Extra large van H&B (son 3 de 50 ids c/u = ciudad Mérida) / MLP Bulk (ver en qué centro hay + voluminosos y ahí se meten)\n"
+        "* 🟠 **Norte:** ➤ Prioridad = Crowd zon ext 10hrs / MLP\n"
+        "* 🟡 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n
+        "* 🟣 **Resto de planes:** ➤ Large Van MLP\n"
+        "* 🔵 **Planes ND:** ➤ Tekax y ___ = Large Van MLP\n"
         "* 🟤 Priorizar las LV y Rentals"
     ),
     "sch1": (
