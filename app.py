@@ -401,11 +401,14 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
 
+                            # 🌟 NUEVO AJUSTE: Si NO hubo dropeo de nodos, agrega la frase solicitada
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
                                     lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
                                 else:
                                     lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
+                            else:
+                                lineas.append("* 👉 No hubo dropeo de nodo.")
 
                             if d.get("alchichica", False):
                                 if d.get("alchichica_2sv", True):
@@ -488,9 +491,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
             st.session_state.esperando_subtipo_smx5 = True
             respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
-        
-
-# D) BUSCADOR INTELIGENTE LOCAL (MAPA + PREGUNTAS FRECUENTES + REGLAS)
+        # D) BUSCADOR INTELIGENTE LOCAL (MAPA + PREGUNTAS FRECUENTES + REGLAS)
         else:
             partes_respuesta = []
 
@@ -610,7 +611,6 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
         st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
         st.rerun()
-
 
 
 
