@@ -416,7 +416,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                                 else:
                                     lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0.")
 
-                            lineas.append(f"* 📌 Se usaron los parámetros establecidos para {ciclo_txt} del día {dia_sel}.")
+                            lineas.append(f"* 📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.")
                             lineas.append("* 📋 Comparto template final.\n")
                             lineas.append("¡Excelente turno! 👋")
 
