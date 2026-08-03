@@ -68,7 +68,7 @@ reglas_ruteo = {
         "**Prioridades SMD1 C1:**\n"
         "* 📌 Sale cherry (no olvidar compartir al SVC-compartir captura de pantalla antes del cherry)\n"
         "* 🔴 **Centro:** ➤ Prioridad = Rental (híbridas) / Crowd / LV (híbridas) / SV\n"
-        "* 🔴 **Centro:** ➤ Extra large van H&B (son 3 de 50 ids c/u = ciudad Mérida) / MLP Bulk (ver en qué centro hay + voluminosos y ahí se meten)\n"
+        "* 🔴 **Centro:** ➤ Extra large van H&B (son 3 de 50 ids c/u = ciudad Mérida) / MLP Bulk (pueden ir 2 en un centro y 1 en otro /depende en cuál haya + voluminosos)\n"
         "* 🟠 **Norte:** ➤ Prioridad = Crowd zon ext 10hrs / MLP\n"
         "* 🟡 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n"
         "* 🟣 **Resto de planes:** ➤ Large Van MLP\n"
