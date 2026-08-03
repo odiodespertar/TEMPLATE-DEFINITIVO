@@ -70,7 +70,7 @@ reglas_ruteo = {
         "* 🔴 **Centro:** ➤ Prioridad = Rental (híbridas) / Crowd / LV (híbridas) / SV\n"
         "* 🔴 **Centro:** ➤ Extra large van H&B (son 3 de 50 ids c/u = ciudad Mérida) / MLP Bulk (ver en qué centro hay + voluminosos y ahí se meten)\n"
         "* 🟠 **Norte:** ➤ Prioridad = Crowd zon ext 10hrs / MLP\n"
-        "* 🟡 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n
+        "* 🟡 **Kanasin:** ➤ Si sobran crowd colocarlas aquí\n"
         "* 🟣 **Resto de planes:** ➤ Large Van MLP\n"
         "* 🔵 **Planes ND:** ➤ Tekax y ___ = Large Van MLP\n"
         "* 🟤 Priorizar las LV y Rentals"
