@@ -4,6 +4,7 @@ import pandas as pd
 import io
 from streamlit.components.v1 import html  
 from reglas import reglas_ruteo, MAPA_ORIGENES, PREGUNTAS_FRECUENTES
+import requests  # 👈 AGREGA ESTA LÍNEA AQUÍ ARRIBA
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
@@ -368,7 +369,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             index=4
                         )
                         
-                        if st.button("🚀 Generar Resumen", use_container_width=True):
+                        if st.button("🚀 Generar Resumen y Publicar", use_container_width=True):
                             d = st.session_state.data_resumen
                             ciclo_txt = d.get("ciclo", "C1")
                             
@@ -420,6 +421,18 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             resumen_final = "\n".join(lineas)
 
+                            # 📡 ENVÍO AUTOMÁTICO A VERDI FLOWS
+                            WEBHOOK_URL = "http://verdi-flows.melisystems.com/webhook/ce121e75-339e-477a-98e5-27246b6b45b3"
+                            
+                            try:
+                                respuesta = requests.post(WEBHOOK_URL, json={"text": resumen_final}, timeout=5)
+                                if respuesta.status_code == 200:
+                                    st.success("✅ ¡Publicado automáticamente!")
+                                else:
+                                    st.warning("⚠️ No se pudo enviar por Webhook, pero se generó en pantalla.")
+                            except Exception as e:
+                                st.error("⚠️ Ocurrió un error al conectar con Verdi Flows.")
+
                             # Resetear flujo
                             st.session_state.flujo_resumen = False
                             st.session_state.paso_resumen = 0
@@ -427,13 +440,8 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
                             st.rerun()
 
-                    # 🔙 BOTÓN DE VOLVER / CORREGIR PASO ANTERIOR
-                    if len(st.session_state.paso_historial) > 0 and paso > 1:
-                        st.markdown("---")
-                        if st.button("↩️ Volver al paso anterior / Corregir", key="btn_atras_resumen"):
-                            st.session_state.paso_resumen = st.session_state.paso_historial.pop()
-                            st.rerun()
 
+        
         # 2. OPCIONES INTERACTIVAS SMX5
         if st.session_state.esperando_subtipo_smx5:
             with st.chat_message("assistant"):
