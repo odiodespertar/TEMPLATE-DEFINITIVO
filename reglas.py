@@ -92,7 +92,7 @@ reglas_ruteo = {
         "* 1. Rental Electric 2. Rental LV 3. Rental Replacement 4. MLP y Crowd\n"
         "* 🟢 **Centro 1/2:** ➤ 3.5 tons (dedicada=3 paradas) y delivery (dedicada=3 paradas)\n"
         "* 🟢 **Centro 1/2:** ➤ H&B (bulk=híbrida)\n"
-        "* 🔴 **BULK:** ➤ 60 ids (Xalapa)\n"
+        "* 🔴 **BULK:** ➤ 60 ids de Xalapa = Voluminosos se cargan después de lo no ruteado del ciclo\n"
         "* 🚛 FORÁNEOS = Large Van MLP / Con Nodos = Híbrida\n"
         "* 🚛 FORÁNEOS = Small Van MLP / Sin nodos\n"
         "* 🚛 FORÁNEOS = Xico y Tuzamapa / Mlp, Crowd\n"
