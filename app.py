@@ -384,9 +384,9 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             # Construcción del texto de dropeo
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
-                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción)."
+                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia (logis nos dejó fuera ids por zona de restricción)."
                                 else:
-                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}."
+                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia."
                             else:
                                 texto_dropeo = "👉 No hubo dropeo de nodo."
 
@@ -402,9 +402,10 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             # Bulk
                             texto_bulk = "📦 Se asignó H&B para el volumen Bulk." if d.get("hubo_bulk", False) else ""
 
-                            # Armar el HTML final con saltos limpios (<br>) y control total de negritas
+                            # HTML con contenedor de peso normal para contrarrestar el CSS global
                             lineas_html = [
-                                f"<b>Queda publicado {ciclo_txt} team:</b><br>",
+                                f"<b>Queda publicado {ciclo_txt} team:</b><br><br>",
+                                '<span style="font-weight: normal;">',
                                 "📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.<br>",
                                 "📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.<br>",
                                 f"{texto_unidades}<br>"
@@ -419,7 +420,8 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                                 lineas_html.append(f"{texto_alchichica}<br>")
                                 
                             lineas_html.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.<br>")
-                            lineas_html.append("📋 Comparto template final.<br><br>")
+                            lineas_html.append("📋 Comparto template final.")
+                            lineas_html.append("</span><br><br>")
                             lineas_html.append("<b>¡Excelente turno! 👋</b>")
 
                             resumen_final = "".join(lineas_html)
@@ -430,6 +432,8 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_historial = []
                             st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
                             st.rerun()
+
+                    
 
                     # 🔙 BOTÓN DE VOLVER / CORREGIR PASO ANTERIOR
                     if len(st.session_state.paso_historial) > 0 and paso > 1:
