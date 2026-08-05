@@ -378,12 +378,12 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             # Validar los 4 escenarios de unidades
                             if logis_tomo_todas or not unis_fuera:
-                                lineas.append("👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis tomó ambas.")
+                                lineas.append("\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis tomó ambas.")
                             elif len(unis_fuera) == len(unis):
-                                lineas.append("👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera ambas.")
+                                lineas.append("\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera ambas.")
                             else:
                                 fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
-                                lineas.append(f"👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
+                                lineas.append(f"\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
 
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
