@@ -404,7 +404,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             # HTML con contenedor de peso normal para contrarrestar el CSS global
                             lineas_html = [
-                                f"<b>Queda publicado {ciclo_txt} team:</b><br><br>",
+                                f"<b>**Queda publicado {ciclo_txt} team**:</b><br><br>",
                                 '<span style="font-weight: normal;">',
                                 "📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.<br>",
                                 "📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.<br>",
@@ -422,7 +422,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             lineas_html.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.<br>")
                             lineas_html.append("📋 Comparto template final.")
                             lineas_html.append("</span><br><br>")
-                            lineas_html.append("<b>¡Excelente turno! 👋</b>")
+                            lineas_html.append("<b>**¡Excelente turno! 👋**</b>")
 
                             resumen_final = "".join(lineas_html)
 
