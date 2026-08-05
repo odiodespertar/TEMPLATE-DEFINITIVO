@@ -368,7 +368,12 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             d = st.session_state.data_resumen
                             ciclo_txt = d.get("ciclo", "C1")
                             
-                            lineas = [f"**Queda publicado {ciclo_txt} team:**\n"]
+                            # Lista que contendrá cada línea del mensaje final
+                            lineas = []
+                            
+                            # Título en negritas
+                            lineas.append(f"**Queda publicado {ciclo_txt} team:**\n")
+                            
                             lineas.append("📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
                             lineas.append("📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
                             
@@ -376,26 +381,28 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             logis_tomo_todas = d.get("logis_tomo_todas", True)
                             unis_fuera = d.get("unidades_fuera", [])
 
-                            # Validar los 4 escenarios de unidades
+                            # Unidades 3.5 tons y Delivery Cell en negritas
                             if logis_tomo_todas or not unis_fuera:
-                                lineas.append("\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis tomó ambas.")
+                                lineas.append("👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis tomó ambas.")
                             elif len(unis_fuera) == len(unis):
-                                lineas.append("\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera ambas.")
+                                lineas.append("👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera ambas.")
                             else:
                                 fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
-                                lineas.append(f"\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
+                                lineas.append(f"👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
 
                             if d.get("hubo_bulk", False):
-                                lineas.append(" 📦 Se asignó H&B para el volumen Bulk.")
+                                lineas.append("📦 Se asignó H&B para el volumen Bulk.")
 
+                            # Hubo dropeo de nodo en negritas
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
-                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia (logis dejó fuera ids por zona de restricción).")
+                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
                                 else:
-                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia.")
+                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
                             else:
                                 lineas.append("👉 No hubo dropeo de nodo.")
 
+                            # Alchichica ND en negritas
                             if d.get("alchichica", False):
                                 if d.get("alchichica_2sv", True):
                                     lineas.append("🚛 Se cargó plan de **Alchichica ND** en AM0 con 2 unidades Small Van MLP.")
@@ -404,9 +411,12 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             lineas.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.")
                             lineas.append("📋 Comparto template final.\n")
+                            
+                            # Despedida en negritas
                             lineas.append("**¡Excelente turno! 👋**")
 
-                            resumen_final = "\n".join(lineas)
+                            # Unimos usando doble salto para forzar que Markdown baje de línea de manera limpia
+                            resumen_final = "\n\n".join(lineas)
 
                             # Resetear flujo
                             st.session_state.flujo_resumen = False
