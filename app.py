@@ -368,83 +368,33 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             index=4
                         )
                         
-                    
+                        if st.button("🚀 Generar Resumen", use_container_width=True):
+                            d = st.session_state.data_resumen
+                            ciclo_txt = d.get("ciclo", "C1")
                             
-
-
-
-                            if st.button("🚀 Generar Resumen", use_container_width=True):
-                                d = st.session_state.data_resumen
-                                ciclo_txt = d.get("ciclo", "C1")
-                                
-                                lineas = [f"Queda publicado {ciclo_txt} team:\n"]
-                                lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
-                                lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
-                                
-                                unis = d.get("unidades_centro", [])
-                                if unis:
-                                    # 1. Nombre de las unidades asignadas originalmente
-                                    if len(unis) > 1:
-                                        unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
-                                    else:
-                                        unis_str = unis[0]
-
-                                    logis_tomo_todas = d.get("logis_tomo_todas", True)
-                                    unis_fuera = d.get("unidades_fuera", [])
-
-                                    # CASO A: Logis tomó todas / ambas
-                                    if logis_tomo_todas or not unis_fuera:
-                                        texto_logis = (
-                                            "logis tomó ambas" if len(unis) > 1 else "logis la tomó"
-                                        )
-
-                                    # CASO B: Logis dejó fuera a todas / ambas
-                                    elif len(unis_fuera) == len(unis):
-                                        texto_logis = (
-                                            "logis dejó fuera ambas"
-                                            if len(unis) > 1
-                                            else "logis la dejó fuera"
-                                        )
-
-                                    # CASO C: Tomó una y dejó fuera otra
-                                    else:
-                                        unis_tomadas = [u for u in unis if u not in unis_fuera]
-                                        tomadas_str = (
-                                            " y ".join([", ".join(unis_tomadas[:-1]), unis_tomadas[-1]])
-                                            if unis_tomadas
-                                            else ""
-                                        )
-                                        fuera_str = (
-                                            " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
-                                            if unis_fuera
-                                            else ""
-                                        )
-
-                                        texto_logis = f"logis tomó {tomadas_str} y dejó fuera {fuera_str}"
-
-                                    # Añadir la línea formateada a las líneas del resumen
-                                    lineas.append(
-                                        f"* 👉 Se asignaron las unidades {unis_str} al polígono de"
-                                        f" Centro: {texto_logis}."
-                                    )
-
-                                if d.get("hubo_bulk", False):
-                                    lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
-
-                                # 🌟 NUEVO AJUSTE: Si NO hubo dropeo de nodos, agrega la frase solicitada
-                                if d.get("dropeo_nodos", False):
-                                    if d.get("dropeo_restriccion", False):
-                                        lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
-                                    else:
-                                        lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
+                            lineas = [f"Queda publicado {ciclo_txt} team:\n"]
+                            lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
+                            lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
+                            
+                            unis = d.get("unidades_centro", [])
+                            if unis:
+                                if len(unis) > 1:
+                                    unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
                                 else:
-                                    lineas.append("* 👉 No hubo dropeo de nodo.")
+                                    unis_str = unis[0]
 
-                                if d.get("alchichica", False):
-                                    if d.get("alchichica_2sv", True):
-                                        lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0 con 2 unidades Small Van MLP.")
+                                if d.get("logis_tomo_todas", True):
+                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: logis tomó ambas.")
+                                else:
+                                    unis_fuera = d.get("unidades_fuera", [])
+                                    if unis_fuera:
+                                        if len(unis_fuera) > 1:
+                                            fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
+                                        else:
+                                            fuera_str = unis_fuera[0]
+                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema dejó fuera {fuera_str}.")
                                     else:
-                                        lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0.")
+                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
 
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
