@@ -368,9 +368,9 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             d = st.session_state.data_resumen
                             ciclo_txt = d.get("ciclo", "C1")
                             
-                            lineas = [f"Queda publicado {ciclo_txt} team:\n"]
-                            lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
-                            lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
+                            lineas = [f"**Queda publicado {ciclo_txt} team:**\n"]
+                            lineas.append("📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
+                            lineas.append("📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
                             
                             unis = d.get("unidades_centro", [])
                             logis_tomo_todas = d.get("logis_tomo_todas", True)
@@ -378,33 +378,33 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             # Validar los 4 escenarios de unidades
                             if logis_tomo_todas or not unis_fuera:
-                                lineas.append("\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis tomó ambas.")
+                                lineas.append("\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis tomó ambas.")
                             elif len(unis_fuera) == len(unis):
-                                lineas.append("\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera ambas.")
+                                lineas.append("\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera ambas.")
                             else:
                                 fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
-                                lineas.append(f"\n* 👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
+                                lineas.append(f"\n👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
 
                             if d.get("hubo_bulk", False):
-                                lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
+                                lineas.append(" 📦 Se asignó H&B para el volumen Bulk.")
 
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
-                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia (logis dejó fuera ids por zona de restricción).")
+                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia (logis dejó fuera ids por zona de restricción).")
                                 else:
-                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia.")
+                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia.")
                             else:
-                                lineas.append("* 👉 No hubo dropeo de nodo.")
+                                lineas.append("👉 No hubo dropeo de nodo.")
 
                             if d.get("alchichica", False):
                                 if d.get("alchichica_2sv", True):
-                                    lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0 con 2 unidades Small Van MLP.")
+                                    lineas.append("🚛 Se cargó plan de **Alchichica ND** en AM0 con 2 unidades Small Van MLP.")
                                 else:
-                                    lineas.append("* 🚛 Se cargó plan de Alchichica ND en AM0.")
+                                    lineas.append("🚛 Se cargó plan de **Alchichica ND** en AM0.")
 
-                            lineas.append(f"* 📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.")
-                            lineas.append("* 📋 Comparto template final.\n")
-                            lineas.append("¡Excelente turno! 👋")
+                            lineas.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.")
+                            lineas.append("📋 Comparto template final.\n")
+                            lineas.append("**¡Excelente turno! 👋**")
 
                             resumen_final = "\n".join(lineas)
 
