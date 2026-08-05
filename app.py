@@ -390,9 +390,9 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
 
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
-                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
+                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia con unidades disponibles en schedule para {ciclo_txt} (logis dejó fuera ids por zona de restricción).")
                                 else:
-                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
+                                    lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia con unidades disponibles en el schedule para {ciclo_txt}.")
                             else:
                                 lineas.append("* 👉 No hubo dropeo de nodo.")
 
