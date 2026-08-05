@@ -368,13 +368,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             index=4
                         )
                         
-                        if st.button("🚀 Generar Resumen", use_container_width=True):
-                            d = st.session_state.data_resumen
-                            ciclo_txt = d.get("ciclo", "C1")
-                            
-                            lineas = [f"Queda publicado {ciclo_txt} team:\n"]
-                            lineas.append("* 📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
-                            lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
+                    
                             
 
 
