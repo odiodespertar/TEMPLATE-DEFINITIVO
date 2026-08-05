@@ -168,8 +168,6 @@ st.markdown("""
 
 
 
-
-
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
@@ -196,10 +194,8 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
     </style>
     """, unsafe_allow_html=True)
 
-    
     st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
 
-   
     # Inicialización de Estados
     if "main_chat_messages" not in st.session_state:
         st.session_state.main_chat_messages = []
@@ -359,7 +355,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 5
                             st.rerun()
 
-                    # PASO 5: Día
+                    # PASO 5: Día y Generación Final
                     elif paso == 5:
                         st.write("👇 **Día del ruteo:**")
                         dia_sel = st.selectbox(
@@ -377,56 +373,21 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             lineas.append("* 📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
                             
                             unis = d.get("unidades_centro", [])
-                            if unis:
-                                if len(unis) > 1:
-                                    unis_str = " y ".join([", ".join(unis[:-1]), unis[-1]])
-                                else:
-                                    unis_str = unis[0]
+                            logis_tomo_todas = d.get("logis_tomo_todas", True)
+                            unis_fuera = d.get("unidades_fuera", [])
 
-                                logis_tomo_todas = d.get("logis_tomo_todas", True)
-                                unis_fuera = d.get("unidades_fuera", [])
-                                
-                                if logis_tomo_todas or not unis_fuera:
-                                    texto_logis = (
-                                        "logis tomó ambas" if len(unis) > 1 else "logis la tomó"
-                                    )
-
-                                # CASO B: Logis dejó fuera a todas / ambas
-                                elif len(unis_fuera) == len(unis):
-                                    texto_logis = (
-                                        "logis dejó fuera ambas"
-                                        if len(unis) > 1
-                                        else "logis la dejó fuera"
-                                    )
-
-                                # CASO C: Tomó una y dejó fuera otra (especifica cuál tomó y cuál dejó)
-                                else:
-                                    unis_tomadas = [u for u in unis if u not in unis_fuera]
-                                    tomadas_str = (
-                                        " y ".join([", ".join(unis_tomadas[:-1]), unis_tomadas[-1]])
-                                        if unis_tomadas
-                                        else ""
-                                    )
-                                    fuera_str = (
-                                        " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
-                                        if unis_fuera
-                                        else ""
-                                    )
-
-                                    texto_logis = f"logis tomó {tomadas_str} y dejó fuera {fuera_str}"
-                                  # Añadir la línea formateada a las líneas del resumen
-                                lineas.append(
-                                    f"* 👉 Se asignaron las unidades {unis_str} al polígono de"
-                                    f" Centro: {texto_logis}."
-                                )
-                                    
-                                    
-                                    
+                            # Validar los 4 escenarios de unidades
+                            if logis_tomo_todas or not unis_fuera:
+                                lineas.append("👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis tomó ambas.")
+                            elif len(unis_fuera) == len(unis):
+                                lineas.append("👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera ambas.")
+                            else:
+                                fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
+                                lineas.append(f"👉 Unidades 3.5 tons y Delivery Cell: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
 
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
 
-                            # 🌟 NUEVO AJUSTE: Si NO hubo dropeo de nodos, agrega la frase solicitada
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
                                     lineas.append(f"* 👉 Hubo dropeo de nodo y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
@@ -484,158 +445,159 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                         st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
                     st.rerun()
 
-    # 3. CAMPO DE ENTRADA AL FINAL (100% FUNCIONAL SIN API KEY NI IA)
-    if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
-        st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
-        query_lower = query_main.lower().strip()
+        # 3. CAMPO DE ENTRADA AL FINAL
+        if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
+            st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
+            query_lower = query_main.lower().strip()
 
-        # A) RESUMEN O CIERRE
-        if "resumen" in query_lower or "cierre" in query_lower or "ciere" in query_lower:
-            st.session_state.flujo_resumen = True
-            st.session_state.paso_resumen = 1
-            st.session_state.paso_historial = []
-            st.session_state.data_resumen = {}
-            st.session_state.main_chat_messages.append({
-                "role": "assistant", 
-                "content": "📋 **Generador de Cierre.** Responde seleccionando las opciones de abajo:"
-            })
+            # A) RESUMEN O CIERRE
+            if "resumen" in query_lower or "cierre" in query_lower or "ciere" in query_lower:
+                st.session_state.flujo_resumen = True
+                st.session_state.paso_resumen = 1
+                st.session_state.paso_historial = []
+                st.session_state.data_resumen = {}
+                st.session_state.main_chat_messages.append({
+                    "role": "assistant", 
+                    "content": "📋 **Generador de Cierre.** Responde seleccionando las opciones de abajo:"
+                })
+                st.rerun()
+
+            # B) FLUJO INTERACTIVO SMX5
+            elif st.session_state.esperando_subtipo_smx5:
+                st.session_state.esperando_subtipo_smx5 = False
+                if "extendido" in query_lower or "1" in query_lower:
+                    respuesta_main = reglas_ruteo["smx5_extendido"]
+                elif "precarga" in query_lower or "2" in query_lower:
+                    respuesta_main = reglas_ruteo["smx5_precarga"]
+                else:
+                    respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
+
+            # C) DETECCION ESPECIFICA SMX5
+            elif query_lower == "smx5":
+                st.session_state.esperando_subtipo_smx5 = True
+                respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
+
+            # D) BUSCADOR INTELIGENTE LOCAL
+            else:
+                partes_respuesta = []
+
+                # 1. BÚSQUEDA EN MAPA OPERATIVO
+                svc_mapa = None
+                for key in MAPA_ORIGENES.keys():
+                    if key in query_lower:
+                        svc_mapa = key
+                        break
+
+                if svc_mapa:
+                    info = MAPA_ORIGENES[svc_mapa]
+                    origen_tag = f"<span style='background-color: #e2e8f0; color: #0f172a; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;'>{info['origen']}</span>"
+                    
+                    bloque_mapa = (
+                        f"📍 **Origen y Validación para {svc_mapa.upper()}:**\n\n"
+                        f"* 🗺️ **Región:** Región {info['region']}\n"
+                        f"* 🏢 **Origen(es) On Way:** {origen_tag}\n"
+                        f"* ✅ **Validación requerida:** {info['val']}\n\n"
+                        f"*(Nota: Si el SVC solicita agregar blancos, se anexan)*"
+                    )
+                    partes_respuesta.append(bloque_mapa)
+
+                # 2. BÚSQUEDA EN PREGUNTAS FRECUENTES
+                coincidencias_faq = []
+                
+                if any(w in query_lower for w in ["large van sdd", "sdd"]):
+                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["large_van_sdd"])
+                
+                if "bulk" in query_lower:
+                    if "sja1" in query_lower or "centro 1" in query_lower or "centro 2" in query_lower:
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["bulk_sja1"])
+                    else:
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["bulk_general"])
+                
+                if "alchichica" in query_lower: 
+                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["alchichica"])
+                
+                if any(w in query_lower for w in ["xico", "tuzamapa"]):
+                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["tuzamapa_xico"])
+                
+                if "dropeo" in query_lower or "drop" in query_lower:
+                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["dropeo_nodos_sja1"])
+                
+                if "prioridad" in query_lower or "prioridades" in query_lower or "asignacion" in query_lower or "asignación" in query_lower:
+                    if "sja1" in query_lower and any(w in query_lower for w in ["foraneo", "foráneo", "foraneos", "foráneos"]):
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_foraneos_sja1"])
+                    elif "sja1" in query_lower:
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_centro_sja1"])
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_foraneos_sja1"])
+                    elif "smd1" in query_lower:
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["smd1_prioridad"])
+
+                if any(w in query_lower for w in ["quitar", "quitar unidades", "ciclo 2", "pasar a ciclo 2", "orh"]):
+                    if "scp1" in query_lower or not svc_mapa:
+                        coincidencias_faq.append(PREGUNTAS_FRECUENTES["scp1_cambios"])
+
+                if coincidencias_faq:
+                    partes_respuesta.append("\n\n---\n\n".join(coincidencias_faq))
+
+                # 3. BÚSQUEDA EN REGLAS DE RUTEO TRADICIONALES
+                if not coincidencias_faq:
+                    mapeo_centros = {
+                        "smx9": "smx9_extendido", "sgd2": "sgd2_extendido", "smx4": "smx4_extendido",
+                        "smx2": "smx2_extendido", "smt2": "smt2_extendido", "scp1": "scp1",
+                        "smd1": "smd1", "sch1": "sch1", "sja1": "sja1"
+                    }
+
+                    centro_encontrado = None
+                    clave_regla = None
+
+                    if "smx5" in query_lower:
+                        centro_encontrado = "SMX5"
+                        clave_regla = "smx5_precarga" if "precarga" in query_lower else "smx5_extendido"
+                    else:
+                        for termino, clave in mapeo_centros.items():
+                            if termino in query_lower:
+                                centro_encontrado = termino.upper()
+                                clave_regla = clave
+                                break
+
+                    busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
+                    busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
+                    busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
+
+                    if clave_regla and clave_regla in reglas_ruteo:
+                        texto_regla = reglas_ruteo[clave_regla]
+                        lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
+
+                        if svc_mapa:
+                            lineas = [l for l in lineas if not any(palabra in l.lower() for palabra in ["origen", "orígenes", "📌 origen"])]
+
+                        lineas_filtradas = []
+                        if busqueda_hora:
+                            lineas_filtradas = [l for l in lineas if any(h in l.lower() for h in ["despacho", "pm", "am", "hora"])]
+                        elif busqueda_unidad:
+                            lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
+
+                        if lineas_filtradas:
+                            res = "\n".join(lineas_filtradas)
+                            bloque_regla = f"📌 **Indicaciones específicas ({centro_encontrado}):**\n\n{res}"
+                        else:
+                            res = "\n".join(lineas)
+                            bloque_regla = f"📋 **Indicaciones complementarias ({centro_encontrado}):**\n\n{res}"
+
+                        if lineas and not (svc_mapa and busqueda_origen):
+                            partes_respuesta.append(bloque_regla)
+
+                # 4. MONTAJE DE LA RESPUESTA FINAL
+                if partes_respuesta:
+                    respuesta_main = "\n\n---\n\n".join(partes_respuesta)
+                else:
+                    if "resumen" in query_lower:
+                        respuesta_main = "Aquí tienes la opción para armar tu reporte."
+                    else:
+                        respuesta_main = "⚠️ No encontré esa consulta en la base de datos. Puedes consultar por un SVC (ej. SJA1, SLE1, SCP1) o sobre temas específicos como **Alchichica, Xico, Dropeo, Bulk, SDD, etc.**"
+
+            st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
             st.rerun()
 
-        # B) FLUJO INTERACTIVO SMX5
-        elif st.session_state.esperando_subtipo_smx5:
-            st.session_state.esperando_subtipo_smx5 = False
-            if "extendido" in query_lower or "1" in query_lower:
-                respuesta_main = reglas_ruteo["smx5_extendido"]
-            elif "precarga" in query_lower or "2" in query_lower:
-                respuesta_main = reglas_ruteo["smx5_precarga"]
-            else:
-                respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
-
-        # C) DETECCION ESPECIFICA SMX5 (SOLO SI ESCRIBE "SMX5" A SECAS)
-        elif query_lower == "smx5":
-            st.session_state.esperando_subtipo_smx5 = True
-            respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
-
-        # D) BUSCADOR INTELIGENTE LOCAL (MAPA + PREGUNTAS FRECUENTES + REGLAS)
-        else:
-            partes_respuesta = []
-
-            # 1. BÚSQUEDA EN MAPA OPERATIVO
-            svc_mapa = None
-            for key in MAPA_ORIGENES.keys():
-                if key in query_lower:
-                    svc_mapa = key
-                    break
-
-            if svc_mapa:
-                info = MAPA_ORIGENES[svc_mapa]
-                origen_tag = f"<span style='background-color: #e2e8f0; color: #0f172a; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-family: monospace;'>{info['origen']}</span>"
-                
-                bloque_mapa = (
-                    f"📍 **Origen y Validación para {svc_mapa.upper()}:**\n\n"
-                    f"* 🗺️ **Región:** Región {info['region']}\n"
-                    f"* 🏢 **Origen(es) On Way:** {origen_tag}\n"
-                    f"* ✅ **Validación requerida:** {info['val']}\n\n"
-                    f"*(Nota: Si el SVC solicita agregar blancos, se anexan)*"
-                )
-                partes_respuesta.append(bloque_mapa)
-
-            # 2. BÚSQUEDA EN PREGUNTAS FRECUENTES Y REGLAS OPERATIVAS NUEVAS
-            coincidencias_faq = []
-            
-            if any(w in query_lower for w in ["large van sdd", "sdd"]):
-                coincidencias_faq.append(PREGUNTAS_FRECUENTES["large_van_sdd"])
-            
-            if "bulk" in query_lower:
-                if "sja1" in query_lower or "centro 1" in query_lower or "centro 2" in query_lower:
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["bulk_sja1"])
-                else:
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["bulk_general"])
-            
-            if "alchichica" in query_lower: 
-                coincidencias_faq.append(PREGUNTAS_FRECUENTES["alchichica"])
-            
-            if any(w in query_lower for w in ["xico", "tuzamapa"]):
-                coincidencias_faq.append(PREGUNTAS_FRECUENTES["tuzamapa_xico"])
-            
-            if "dropeo" in query_lower or "drop" in query_lower:
-                coincidencias_faq.append(PREGUNTAS_FRECUENTES["dropeo_nodos_sja1"])
-            
-            if "prioridad" in query_lower or "prioridades" in query_lower or "asignacion" in query_lower or "asignación" in query_lower:
-                if "sja1" in query_lower and any(w in query_lower for w in ["foraneo", "foráneo", "foraneos", "foráneos"]):
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_foraneos_sja1"])
-                elif "sja1" in query_lower:
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_centro_sja1"])
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["prioridades_foraneos_sja1"])
-                elif "smd1" in query_lower:
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["smd1_prioridad"])
-
-            if any(w in query_lower for w in ["quitar", "quitar unidades", "ciclo 2", "pasar a ciclo 2", "orh"]):
-                if "scp1" in query_lower or not svc_mapa:
-                    coincidencias_faq.append(PREGUNTAS_FRECUENTES["scp1_cambios"])
-
-            if coincidencias_faq:
-                partes_respuesta.append("\n\n---\n\n".join(coincidencias_faq))
-
-            # 3. BÚSQUEDA EN REGLAS DE RUTEO TRADICIONALES (SI NO HUBO COINCIDENCIA EN FAQ O SI PIDIÓ EL CENTRO)
-            if not coincidencias_faq:
-                mapeo_centros = {
-                    "smx9": "smx9_extendido", "sgd2": "sgd2_extendido", "smx4": "smx4_extendido",
-                    "smx2": "smx2_extendido", "smt2": "smt2_extendido", "scp1": "scp1",
-                    "smd1": "smd1", "sch1": "sch1", "sja1": "sja1"
-                }
-
-                centro_encontrado = None
-                clave_regla = None
-
-                if "smx5" in query_lower:
-                    centro_encontrado = "SMX5"
-                    clave_regla = "smx5_precarga" if "precarga" in query_lower else "smx5_extendido"
-                else:
-                    for termino, clave in mapeo_centros.items():
-                        if termino in query_lower:
-                            centro_encontrado = termino.upper()
-                            clave_regla = clave
-                            break
-
-                busqueda_origen = any(w in query_lower for w in ["origen", "origenes", "orígenes", "de donde", "de dónde", "sale"])
-                busqueda_hora = any(w in query_lower for w in ["despacho", "hora", "horario", "tiempo"])
-                busqueda_unidad = any(w in query_lower for w in ["unidad", "unidades", "moto", "motos", "van", "crowd", "rental"])
-
-                if clave_regla and clave_regla in reglas_ruteo:
-                    texto_regla = reglas_ruteo[clave_regla]
-                    lineas = [l.strip() for l in texto_regla.split("\n") if l.strip()]
-
-                    if svc_mapa:
-                        lineas = [l for l in lineas if not any(palabra in l.lower() for palabra in ["origen", "orígenes", "📌 origen"])]
-
-                    lineas_filtradas = []
-                    if busqueda_hora:
-                        lineas_filtradas = [l for l in lineas if any(h in l.lower() for h in ["despacho", "pm", "am", "hora"])]
-                    elif busqueda_unidad:
-                        lineas_filtradas = [l for l in lineas if any(u in l.lower() for u in ["moto", "van", "rental", "crowd", "mlp", "cell", "small"])]
-
-                    if lineas_filtradas:
-                        res = "\n".join(lineas_filtradas)
-                        bloque_regla = f"📌 **Indicaciones específicas ({centro_encontrado}):**\n\n{res}"
-                    else:
-                        res = "\n".join(lineas)
-                        bloque_regla = f"📋 **Indicaciones complementarias ({centro_encontrado}):**\n\n{res}"
-
-                    if lineas and not (svc_mapa and busqueda_origen):
-                        partes_respuesta.append(bloque_regla)
-
-            # 4. MONTAJE DE LA RESPUESTA FINAL
-            if partes_respuesta:
-                respuesta_main = "\n\n---\n\n".join(partes_respuesta)
-            else:
-                if "resumen" in query_lower:
-                    respuesta_main = "Aquí tienes la opción para armar tu reporte."
-                else:
-                    respuesta_main = "⚠️ No encontré esa consulta en la base de datos. Puedes consultar por un SVC (ej. SJA1, SLE1, SCP1) o sobre temas específicos como **Alchichica, Xico, Dropeo, Bulk, SDD, etc.**"
-
-        st.session_state.main_chat_messages.append({"role": "assistant", "content": respuesta_main})
-        st.rerun()
 
 
 
