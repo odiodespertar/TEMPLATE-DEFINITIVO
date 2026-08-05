@@ -368,55 +368,61 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                             d = st.session_state.data_resumen
                             ciclo_txt = d.get("ciclo", "C1")
                             
-                            # Lista que contendrá cada línea del mensaje final
-                            lineas = []
-                            
-                            # Título en negritas
-                            lineas.append(f"**Queda publicado {ciclo_txt} team:**\n")
-                            
-                            lineas.append("📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.")
-                            lineas.append("📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.")
-                            
                             unis = d.get("unidades_centro", [])
                             logis_tomo_todas = d.get("logis_tomo_todas", True)
                             unis_fuera = d.get("unidades_fuera", [])
 
-                            # Unidades 3.5 tons y Delivery Cell en negritas
+                            # Construcción del texto de unidades
                             if logis_tomo_todas or not unis_fuera:
-                                lineas.append("👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis tomó ambas.")
+                                texto_unidades = "👉 <b>Unidades 3.5 tons y Delivery Cell</b>: se asignaron al polígono de Centro, logis tomó ambas."
                             elif len(unis_fuera) == len(unis):
-                                lineas.append("👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera ambas.")
+                                texto_unidades = "👉 <b>Unidades 3.5 tons y Delivery Cell</b>: se asignaron al polígono de Centro, logis dejó fuera ambas."
                             else:
                                 fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
-                                lineas.append(f"👉 **Unidades 3.5 tons y Delivery Cell**: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}.")
+                                texto_unidades = f"👉 <b>Unidades 3.5 tons y Delivery Cell</b>: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}."
 
-                            if d.get("hubo_bulk", False):
-                                lineas.append("📦 Se asignó H&B para el volumen Bulk.")
-
-                            # Hubo dropeo de nodo en negritas
+                            # Construcción del texto de dropeo
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
-                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción).")
+                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt} (logis nos dejó fuera ids por zona de restricción)."
                                 else:
-                                    lineas.append(f"👉 **Hubo dropeo de nodo** y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}.")
+                                    texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia dentro del mismo ciclo, con las unidades disponibles en el schedule para {ciclo_txt}."
                             else:
-                                lineas.append("👉 No hubo dropeo de nodo.")
+                                texto_dropeo = "👉 No hubo dropeo de nodo."
 
-                            # Alchichica ND en negritas
+                            # Construcción del texto de Alchichica
                             if d.get("alchichica", False):
                                 if d.get("alchichica_2sv", True):
-                                    lineas.append("🚛 Se cargó plan de **Alchichica ND** en AM0 con 2 unidades Small Van MLP.")
+                                    texto_alchichica = "🚛 Se cargó plan de <b>Alchichica ND</b> en AM0 con 2 unidades Small Van MLP."
                                 else:
-                                    lineas.append("🚛 Se cargó plan de **Alchichica ND** en AM0.")
+                                    texto_alchichica = "🚛 Se cargó plan de <b>Alchichica ND</b> en AM0."
+                            else:
+                                texto_alchichica = ""
 
-                            lineas.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.")
-                            lineas.append("📋 Comparto template final.\n")
+                            # Bulk
+                            texto_bulk = "📦 Se asignó H&B para el volumen Bulk." if d.get("hubo_bulk", False) else ""
+
+                            # Armar el HTML final con saltos limpios (<br>) y control total de negritas
+                            lineas_html = [
+                                f"<b>Queda publicado {ciclo_txt} team:</b><br>",
+                                "📌 Se trabajó con el volumen disponible al momento de iniciar el ruteo.<br>",
+                                "📌 Se cargaron las Rentals como híbridas en Centro, pero el sistema no las consideró todas como híbridas.<br>",
+                                f"{texto_unidades}<br>"
+                            ]
                             
-                            # Despedida en negritas
-                            lineas.append("**¡Excelente turno! 👋**")
+                            if texto_bulk:
+                                lineas_html.append(f"{texto_bulk}<br>")
+                                
+                            lineas_html.append(f"{texto_dropeo}<br>")
+                            
+                            if texto_alchichica:
+                                lineas_html.append(f"{texto_alchichica}<br>")
+                                
+                            lineas_html.append(f"📌 Se usaron los parámetros establecidos para C1 del día {dia_sel}.<br>")
+                            lineas_html.append("📋 Comparto template final.<br><br>")
+                            lineas_html.append("<b>¡Excelente turno! 👋</b>")
 
-                            # Unimos usando doble salto para forzar que Markdown baje de línea de manera limpia
-                            resumen_final = "\n\n".join(lineas)
+                            resumen_final = "".join(lineas_html)
 
                             # Resetear flujo
                             st.session_state.flujo_resumen = False
