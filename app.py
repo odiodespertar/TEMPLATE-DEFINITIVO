@@ -383,18 +383,45 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                                 else:
                                     unis_str = unis[0]
 
-                                if d.get("logis_tomo_todas", True):
-                                    lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: logis tomó ambas.")
+                                logis_tomo_todas = d.get("logis_tomo_todas", True)
+                                unis_fuera = d.get("unidades_fuera", [])
+                                
+                                if logis_tomo_todas or not unis_fuera:
+                                    texto_logis = (
+                                        "logis tomó ambas" if len(unis) > 1 else "logis la tomó"
+                                    )
+
+                                # CASO B: Logis dejó fuera a todas / ambas
+                                elif len(unis_fuera) == len(unis):
+                                    texto_logis = (
+                                        "logis dejó fuera ambas"
+                                        if len(unis) > 1
+                                        else "logis la dejó fuera"
+                                    )
+
+                                # CASO C: Tomó una y dejó fuera otra (especifica cuál tomó y cuál dejó)
                                 else:
-                                    unis_fuera = d.get("unidades_fuera", [])
-                                    if unis_fuera:
-                                        if len(unis_fuera) > 1:
-                                            fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
-                                        else:
-                                            fuera_str = unis_fuera[0]
-                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema dejó fuera {fuera_str}.")
-                                    else:
-                                        lineas.append(f"* 👉 Se asignaron las unidades {unis_str} al polígono de Centro: el sistema tomó algunas y dejó fuera el resto.")
+                                    unis_tomadas = [u for u in unis if u not in unis_fuera]
+                                    tomadas_str = (
+                                        " y ".join([", ".join(unis_tomadas[:-1]), unis_tomadas[-1]])
+                                        if unis_tomadas
+                                        else ""
+                                    )
+                                    fuera_str = (
+                                        " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]])
+                                        if unis_fuera
+                                        else ""
+                                    )
+
+                                    texto_logis = f"logis tomó {tomadas_str} y dejó fuera {fuera_str}"
+                                  # Añadir la línea formateada a las líneas del resumen
+                                lineas.append(
+                                    f"* 👉 Se asignaron las unidades {unis_str} al polígono de"
+                                    f" Centro: {texto_logis}."
+                                )
+                                    
+                                    
+                                    
 
                             if d.get("hubo_bulk", False):
                                 lineas.append("* 📦 Se asignó H&B para el volumen Bulk.")
