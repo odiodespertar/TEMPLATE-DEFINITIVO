@@ -102,7 +102,7 @@ st.markdown("""
         font-size: 1.1rem !important;
     }
 
-    /* 🔥 TEXTO INDICATIVO INTERNO ("➡️ Escribe el SVC a consultar.") EN NEGRO */
+    /* 🔥 TEXTO INDICATIVO INTERNO ("👉 Escribe el SVC a consultar.🔍") EN NEGRO */
     div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
         color: #19191a !important;
         font-weight: bold !important;
@@ -171,7 +171,7 @@ st.markdown("""
 # ==========================================
 # 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
 # ==========================================
-with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
+with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
 
     # 🎨 FORZAR COLORES CLAROS Y LEGIBLES EN COMPONENTES NATIVOS
     st.markdown("""
@@ -194,7 +194,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
     </style>
     """, unsafe_allow_html=True)
 
-    st.write("➡️ Consulta un SVC para indicaciones o escribe **'resumen o ciere'** para tu mensaje de publicación en SJA1.")
+    st.write("👉 Consulta un SVC para indicaciones 🔍")
 
     # Inicialización de Estados
     if "main_chat_messages" not in st.session_state:
@@ -466,7 +466,7 @@ with st.expander("🤖 ¿DUDAS CON LOS RUTEOS? Te ayudo", expanded=False):
                     st.rerun()
 
         # 3. CAMPO DE ENTRADA AL FINAL
-        if query_main := st.chat_input("Escribe tu consulta o 'resumen'...", key="main_chat_input"):
+        if query_main := st.chat_input("✏️ Escribe tu consulta...", key="main_chat_input"):
             st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
             query_lower = query_main.lower().strip()
 
@@ -1724,8 +1724,6 @@ html body .meli-table tbody tr:last-child {{
 
 
 
-
-
 /* ===== MODO EXCEL CORREGIDO ===== */ 
 
 body.excel-view #fleet-float,
@@ -1900,36 +1898,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 </div>
 
-<!-- 2. PESTAÑAS (SE QUEDAN SIEMPRE FIJAS ATRÁS) -->
-<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
-    <div style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
-        <button onclick="toggleMenuPestanas()" 
-            style="cursor:pointer; background:#25282b; color:white; border:1px solid #454545; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:6px; margin-right:4px;">
-            👁️ PESTAÑAS
-        </button>
 
-        <div id="panel-selector-pestanas" style="display:none; position:absolute; top:38px; left:0; background:#25282b; color:white; border:1px solid #454545; padding:10px 14px; border-radius:8px; z-index:99999; box-shadow:0 4px 12px rgba(0,0,0,0.5); font-size:13px; min-width:140px;">
-            <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; color:#26d4ca;">Mostrar / Ocultar:</div>
-            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sde', this.checked)"> SDE</label>
-            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx5', this.checked)"> PREC SMX5</label>
-            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smx2', this.checked)"> PREC SMX2</label>
-            <label style="display:block; margin-bottom:6px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-scp1', this.checked)"> C1 SCP1</label>
-            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sch1', this.checked)"> C1 SCH1</label>
-            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-smd1', this.checked)"> C1 SMD1</label>
-            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-sja1', this.checked)"> C1 SJA1</label>
-            <label style="display:block; margin-bottom:2px; cursor:pointer;"><input type="checkbox" checked onchange="toggleBtnPestana('btn-tab-vacia', this.checked)"> C1 VACÍA</label>
-        </div>
-
-        <button id="btn-tab-sde" class="tab-btn" onclick="showTab(4, this)">SDE</button>
-        <button id="btn-tab-smx5" class="tab-btn" onclick="showTab(1, this)">PREC SMX5</button>
-        <button id="btn-tab-smx2" class="tab-btn" onclick="showTab(5, this)">PREC SMX2</button>
-        <button id="btn-tab-scp1" class="tab-btn active" onclick="showTab(2, this)">C1 SCP1</button>
-        <button id="btn-tab-sch1" class="tab-btn" onclick="showTab(7, this)">C1 SCH1</button>
-        <button id="btn-tab-smd1" class="tab-btn" onclick="showTab(8, this)">C1 SMD1</button>
-        <button id="btn-tab-sja1" class="tab-btn" onclick="showTab(6, this)">C1 SJA1</button>
-        <button id="btn-tab-vacia" class="tab-btn" onclick="showTab(9, this)">C1 VACÍA</button>
-    </div>
-</div>
 
 <!-- 3. CONTENEDOR EXCLUSIVO PARA LA TABLA QUE SÍ VA A FLOTAR -->
 <div id="fleet-sticky" class="fleet-normal">
@@ -1954,8 +1923,37 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 
 
 
+<!-- AQUÍ PEGAS EL NUEVO SELECTOR DESPLEGABLE -->
+<div style="margin: 10px 0; text-align: center;">
+    <select id="ciclo-selector" onchange="cambiarCiclo(this.value)" style="
+        background: #25282b;
+        color: #ffffff;
+        border: 1px solid #4682B4;
+        padding: 8px 15px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        width: 250px;
+        text-align-last: center;
+    ">
+        <option value="2">C1 SCP1</option>
+        <option value="6">C1 SJA1</option>
+        <option value="7">C1 SCH1</option>
+        <option value="8">C1 SMD1</option>
+        <option value="1">PREC SMX5</option>
+        <option value="5">PREC SMX2</option>
+        <option value="4" selected>EXTENDIDO</option> <!-- AQUÍ AGREGAS 'selected' -->
+        <option value="9">C1 VACÍA</option>
+</select>
+</div>
+
+
+
+
   <!-- TABLAS DE DISPONIBILIDAD INTEGRADAS DENTRO DE FLEET-STICKY -->
-  <div id="tab-2" class="t-content">
+  <div id="tab-2" class="t-content" style="display:none;">
       <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
           <thead>
               <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
@@ -2111,7 +2109,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
       </table>
   </div>
 
-  <div id="tab-4" class="t-content" style="display:none;">
+  <div id="tab-4" class="t-content">
       <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
           <thead>
               <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
@@ -2229,13 +2227,13 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     📋 PLANIFICACIÓN POR POLÍGONOS
 </div>
         
-        <div id="polys-2" class="p-content">{gen_poligonos(u_C1)}</div>
+        <div id="polys-2" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
         <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
         <div id="polys-7" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
         <div id="polys-8" class="p-content" style="display:none;">{gen_poligonos(u_C1_SMD1)}</div>
         <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
         <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-        <div id="polys-4" class="p-content" style="display:none;">{gen_poligonos(u_SDE)}</div>
+        <div id="polys-4" class="p-content">{gen_poligonos(u_SDE)}</div>
         <div id="polys-9" class="p-content" style="display:none;">{gen_poligonos(u_C1_VACIA)}</div>
 
 
@@ -2251,7 +2249,6 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
                         <th style="border:1px solid #c0c0c0;">VOL</th>
                         <th style="border:1px solid #c0c0c0;">UNIDAD</th>
                         <th style="border:1px solid #c0c0c0; width:55px;">ASIG</th>
-                        <th style="border:1px solid #c0c0c0;">ORH / % OCUP</th>
                         <th style="border:1px solid #c0c0c0;">NODO</th>
                     </tr>
                 </thead>
@@ -2292,6 +2289,34 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
 
 
+
+    function cambiarCiclo(valorTab) {{
+    // 1. Ocultar todas las tablas de disponibilidad y dejar visible solo la seleccionada
+    document.querySelectorAll('.t-content').forEach(el => {{
+        el.style.display = 'none';
+    }});
+    const tablaActiva = document.getElementById('tab-' + valorTab);
+    if (tablaActiva) {{
+        tablaActiva.style.display = 'block';
+    }}
+
+    // 2. Ocultar todos los bloques de polígonos y mostrar solo el del ciclo correspondiente
+    document.querySelectorAll('.p-content').forEach(el => {{
+        el.style.display = 'none';
+    }});
+    const polyActivo = document.getElementById('polys-' + valorTab);
+    if (polyActivo) {{
+        polyActivo.style.display = 'block';
+    }}
+
+    // 3. Actualizar la variable de control global
+    currentTab = parseInt(valorTab);
+    
+    // 4. Recalcular valores de la interfaz
+    if (typeof recalc === 'function') {{
+        recalc();
+    }}
+}}
 
 
 
@@ -3554,6 +3579,13 @@ function resetRow(sel) {{
     }});
 
 
+    document.addEventListener("DOMContentLoaded", function() {{
+        const selector = document.getElementById("ciclo-selector");
+        if (selector) {{
+            cambiarCiclo(selector.value);
+        }}
+    }});
+
 
 function toggleExcelView() {{
     const isExcel = !document.body.classList.contains("excel-view");
@@ -3673,11 +3705,7 @@ function generarExcelPolys() {{
             let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
             let valSpr = "-";
 
-            if (fRow) {{
-                let orh  = fRow.querySelector(".edit-orh")?.innerText.trim() || "0";
-                let ocup = fRow.querySelector(".edit-ocup")?.innerText.trim() || "0";
-                valSpr = orh + " / " + ocup;
-            }}
+            
 
             let filaHtml = '<tr>';
             if (index === 0) {{
@@ -3689,7 +3717,6 @@ function generarExcelPolys() {{
             filaHtml += `
                 <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
                 <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{asignadas}}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle;">${{valSpr}}</td>
             `;
             if (index === 0) {{
                 filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
