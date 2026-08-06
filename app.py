@@ -83,9 +83,9 @@ st.markdown("""
         width: 550px !important;
         max-height: 100vh !important; /* Limitado al alto de la pantalla */
         z-index: 999999 !important;
-        background-color: #e1d9fa !important;
+        background-color: #fcf1b6 !important;
         border-radius: 12px !important;
-        border: 4px solid #7e6bf2 !important;
+        border: 4px solid #FFD700 !important;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
         overflow: hidden !important;
     }
@@ -111,7 +111,7 @@ st.markdown("""
     /* --- MENSAJE DEL USUARIO (Lila eléctrico con texto blanco) --- */
     div[data-testid="stChatMessage"]:has(div[aria-label="user"]),
     div[data-testid="stChatMessage"]:has([data-testid*="User"]) {
-        background-color: #9370D8 !important;
+        background-color: #FFD700 !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
@@ -129,7 +129,7 @@ st.markdown("""
         color-scheme: light !important; /* 🔥 Bloquea la inversión del modo oscuro del navegador */
         background-color: #FFFFFF !important;
         color: #000000 !important;
-        border: 2px solid #6451d6 !important;
+        border: 2px solid #FFD700 !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
