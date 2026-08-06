@@ -129,7 +129,7 @@ st.markdown("""
         color-scheme: light !important; /* 🔥 Bloquea la inversión del modo oscuro del navegador */
         background-color: #FFFFFF !important;
         color: #000000 !important;
-        border: 2px solid #FF7F50 !important;
+        border: 2px solid #6451d6 !important;
         border-radius: 10px !important;
         padding: 8px !important;
         margin: 6px 0 !important;
