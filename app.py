@@ -161,6 +161,44 @@ st.markdown("""
     }
 
 
+
+
+
+
+
+    /* ===== ANIMACIÓN DE MANO SEÑALANDO EL DESPLEGABLE EN VISTA EXCEL ===== */
+
+@keyframes apuntarMano {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-6px) scale(1.1);
+    }
+}
+
+/* Pseudo-elemento que dibuja la mano animada justo antes del selector desplegable */
+body.excel-view select#sde-selector::before, /* O adapta el selector exacto de tu desplegable */
+body.excel-view .select-container::before {
+    content: "👆";
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 8px;
+    animation: apuntarMano 1s ease-in-out infinite;
+    vertical-align: middle;
+}
+
+/* Si prefieres usar una imagen GIF o icono flotante al lado del desplegable */
+body.excel-view select {
+    animation: apuntarMano 1.2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(102, 205, 170, 0.6) !important;
+    border: 2px solid #66CDAA !important;
+}
+
+
+
+
+
     
     </style>
 """, unsafe_allow_html=True)
