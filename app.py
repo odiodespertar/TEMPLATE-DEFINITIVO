@@ -1937,14 +1937,14 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         width: 250px;
         text-align-last: center;
     ">
-        <option value="2">C1 SCP1</option>
-        <option value="6">C1 SJA1</option>
-        <option value="7">C1 SCH1</option>
-        <option value="8">C1 SMD1</option>
-        <option value="1">PREC SMX5</option>
-        <option value="5">PREC SMX2</option>
-        <option value="4" selected>EXTENDIDO</option> <!-- AQUÍ AGREGAS 'selected' -->
-        <option value="9">C1 VACÍA</option>
+        <option value="2">👉 C1 SCP1</option>
+        <option value="6">👉 C1 SJA1</option>
+        <option value="7">👉 C1 SCH1</option>
+        <option value="8">👉 C1 SMD1</option>
+        <option value="1">👉 PREC SMX5</option>
+        <option value="5">👉 PREC SMX2</option>
+        <option value="4" selected>👉 EXTENDIDO</option> <!-- AQUÍ AGREGAS 'selected' -->
+        <option value="9">👉 C1 VACÍA</option>
 </select>
 </div>
 
