@@ -1926,7 +1926,7 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
 <!-- AQUÍ PEGAS EL NUEVO SELECTOR DESPLEGABLE -->
 <div style="margin: 10px 0; text-align: center;">
     <select id="ciclo-selector" onchange="cambiarCiclo(this.value)" style="
-        background: #25282b;
+        background: #FF00FF;
         color: #ffffff;
         border: 1px solid #4682B4;
         padding: 8px 15px;
