@@ -1233,9 +1233,9 @@ def gen_poligonos(data_target=None):
 
         # 🌟 DEFINIMOS EL ALTO DE LA CELDA GRIS (ROWSPAN)
         if es_sde:
-            rowspan_actual = 3
+            rowspan_actual = 5
         elif es_prec:
-            rowspan_actual = 3
+            rowspan_actual = 4
         
         elif data_target == u_C1_SJA1:
             if nombre_final == "⚠️ CENTRO 1":
