@@ -851,7 +851,7 @@ def gen_master_rows(data_dict, table_id):
     # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
     mostrar_orh_ocup = (table_id in [1, 2, 6, 7, 8, 5, 9])
 
-    num_filas_objetivo = 45 if table_id == "PREC" else 3
+    num_filas_objetivo = 45 if table_id == "PREC" else 2
     rango_final = max(total_items, num_filas_objetivo)
 
     for i in range(1, rango_final + 1):
