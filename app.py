@@ -85,7 +85,7 @@ st.markdown("""
         z-index: 999999 !important;
         background-color: #e1d9fa !important;
         border-radius: 12px !important;
-        border: 4px solid #6340c2 !important;
+        border: 4px solid #7e6bf2 !important;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7) !important;
         overflow: hidden !important;
     }
