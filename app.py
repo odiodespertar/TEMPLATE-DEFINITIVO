@@ -1233,9 +1233,9 @@ def gen_poligonos(data_target=None):
 
         # 🌟 DEFINIMOS EL ALTO DE LA CELDA GRIS (ROWSPAN)
         if es_sde:
-            rowspan_actual = 5
+            rowspan_actual = 3
         elif es_prec:
-            rowspan_actual = 4
+            rowspan_actual = 3
         
         elif data_target == u_C1_SJA1:
             if nombre_final == "⚠️ CENTRO 1":
@@ -1251,9 +1251,9 @@ def gen_poligonos(data_target=None):
 
         # 🌟 AGREGAMOS LAS FILAS EXTRA CORRESPONDIENTES
         if es_sde:
-            filas_extra = fila_inner * 4
+            filas_extra = fila_inner * 2
         elif es_prec:
-            filas_extra = fila_inner * 3
+            filas_extra = fila_inner * 2
         elif data_target == u_C1_SJA1:
             if nombre_final == "⚠️ CENTRO 1":
                 filas_extra = fila_inner * 7
