@@ -1,11 +1,39 @@
 import json
-import streamlit as st 
-import pandas as pd
 import io
+import pandas as pd
+import streamlit as st 
 from streamlit.components.v1 import html  
+from supabase import Client, create_client
 from reglas import reglas_ruteo, MAPA_ORIGENES, PREGUNTAS_FRECUENTES
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
+
+# ==========================================
+# CONEXIÓN NATIVA A SUPABASE
+# ==========================================
+@st.cache_resource
+def init_supabase():
+    try:
+        url = st.secrets["SUPABASE_URL"]
+        key = st.secrets["SUPABASE_KEY"]
+        return create_client(url, key)
+    except Exception:
+        return None
+
+supabase = init_supabase()
+
+def cargar_ruteos_bd():
+    if supabase:
+        try:
+            res = supabase.table("ruteos_guardados").select("*").order("created_at").execute()
+            return res.data
+        except Exception:
+            return []
+    return []
+
+
+
+
 
 
 
@@ -36,7 +64,6 @@ if st.session_state.flotar_activo:
             }
         </style>
     """, unsafe_allow_html=True)
-
 
 
 # ==========================================
@@ -75,13 +102,12 @@ st.markdown("""
             zoom: 0.95; 
         }
     }
-    /* --- VENTANA FLOTANTE AJUSTADA Y ORDENADA --- */
     div[data-testid="stExpander"] {
         position: fixed !important;
         bottom: 15px !important;
         right: 15px !important;
         width: 550px !important;
-        max-height: 100vh !important; /* Limitado al alto de la pantalla */
+        max-height: 100vh !important;
         z-index: 999999 !important;
         background-color: #fcf1b6 !important;
         border-radius: 12px !important;
@@ -90,7 +116,6 @@ st.markdown("""
         overflow: hidden !important;
     }
     
-    /* 🔥 TÍTULO DEL BOT ("🤖 BOT prioridades") EN NEGRO OSCURO BIEN VISIBLE */
     div[data-testid="stExpander"] summary,
     div[data-testid="stExpander"] summary p, 
     div[data-testid="stExpander"] summary span,
@@ -102,13 +127,11 @@ st.markdown("""
         font-size: 1.1rem !important;
     }
 
-    /* 🔥 TEXTO INDICATIVO INTERNO ("👉 Escribe el SVC a consultar.🔍") EN NEGRO */
     div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
         color: #19191a !important;
         font-weight: bold !important;
     }
 
-    /* --- MENSAJE DEL USUARIO (Lila eléctrico con texto blanco) --- */
     div[data-testid="stChatMessage"]:has(div[aria-label="user"]),
     div[data-testid="stChatMessage"]:has([data-testid*="User"]) {
         background-color: #FFD700 !important;
@@ -123,10 +146,9 @@ st.markdown("""
         color: #FFFFFF !important;
     }
 
-    /* --- MENSAJE DEL BOT / ASISTENTE (Fondo Blanco Puro y Esquema Claro) --- */
     div[data-testid="stChatMessage"]:has(div[aria-label="assistant"]),
     div[data-testid="stChatMessage"]:has([data-testid*="Assistant"]) {
-        color-scheme: light !important; /* 🔥 Bloquea la inversión del modo oscuro del navegador */
+        color-scheme: light !important;
         background-color: #FFFFFF !important;
         color: #000000 !important;
         border: 2px solid #FFD700 !important;
@@ -135,7 +157,6 @@ st.markdown("""
         margin: 6px 0 !important;
     }
 
-    /* 🔥 FORZAR A TODOS LOS ELEMENTOS HIJOS (párrafos, listas, viñetas, negritas, spans) */
     div[data-testid="stChatMessage"]:has(div[aria-label="assistant"]) *,
     div[data-testid="stChatMessage"]:has([data-testid*="Assistant"]) * {
         color-scheme: light !important;
@@ -143,7 +164,6 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Altura fija del bloque de mensajes */
     div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] {
         max-height: 760px !important;
         overflow-y: auto !important;
@@ -151,7 +171,6 @@ st.markdown("""
         flex-direction: column !important;
     }
 
-    /* Cuando el panel está flotando, oculta los botones y la barra de pestañas */
     .fleet-floating .vista-excel-btn,
     .fleet-floating .autocalcular-btn,
     .fleet-floating .activas-btn,
@@ -159,67 +178,425 @@ st.markdown("""
     .fleet-floating .pestanas-container {
         display: none !important;
     }
-
-    
     </style>
 """, unsafe_allow_html=True)
 
 
-
-
 # ==========================================
-# 🤖 ASISTENTE DE PRIORIDADES Y RESUMEN
+# 🤖 BOT DE PRIORIDADES Y RESUMEN
 # ==========================================
-with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
+with st.expander("🤖 ¿INDICACIONES DE RUTEO? Te ayudo", expanded=False):
 
-    # 🎨 FORZAR COLORES CLAROS Y LEGIBLES EN COMPONENTES NATIVOS
+    # ============================================================
+    # 🎨 ESTILO DEL BOT
+    # ============================================================
+
     st.markdown("""
     <style>
+	
+        /* CABECERA / EXPANDER */
+
         div[data-testid="stExpander"] button {
-            background-color: #f1f5f9 !important;
+            background: linear-gradient(
+                135deg,
+                #f8fafc,
+                #eef6fb
+            ) !important;
+
             color: #0f172a !important;
             border: 1px solid #cbd5e1 !important;
-            font-weight: 600 !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            transition: all 0.2s ease !important;
         }
+
         div[data-testid="stExpander"] button:hover {
-            background-color: #e2e8f0 !important;
+            background: linear-gradient(
+                135deg,
+                #e0f2fe,
+                #f8fafc
+            ) !important;
+
             color: #0284c7 !important;
             border-color: #0284c7 !important;
+
+            box-shadow:
+                0 4px 12px rgba(2, 132, 199, 0.12) !important;
         }
+
         div[data-testid="stExpander"] label p {
             color: #0f172a !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
         }
+
+
+        /* 🚚 CAMIONCITO ANIMADO */
+
+        .bot-animado {
+            text-align: center;
+            font-size: 42px;
+            margin: 5px 0 4px 0;
+
+            filter: drop-shadow(
+                0 4px 5px rgba(15, 23, 42, 0.15)
+            );
+
+            animation:
+                moverCamion 2s ease-in-out infinite;
+        }
+
+        @keyframes moverCamion {
+
+            0% {
+                transform: translateX(-15px);
+            }
+
+            50% {
+                transform: translateX(15px);
+            }
+
+            100% {
+                transform: translateX(-15px);
+            }
+
+        }
+
+
+        /* 🟢 ESTADO DEL BOT */
+
+        .bot-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin: 0 auto 8px auto;
+            font-size: 11px;
+            font-weight: 700;
+            color: #15803d;
+            letter-spacing: 0.4px;
+        }
+
+        .bot-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 4px rgba(34, 197, 94, 0.12);
+
+            animation: pulsoBot 1.8s infinite;
+        }
+
+        @keyframes pulsoBot {
+
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(34, 197, 94, 0.35);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 7px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(34, 197, 94, 0);
+            }
+
+        }
+
+
+        /* 💬 MENSAJES */
+
+        div[data-testid="stChatMessage"] {
+            border-radius: 16px !important;
+            padding: 12px 16px !important;
+            margin: 8px 4px !important;
+
+            border:
+                1px solid rgba(148, 163, 184, 0.20) !important;
+
+            box-shadow:
+                0 3px 12px rgba(15, 23, 42, 0.06) !important;
+
+            transition:
+                all 0.2s ease !important;
+        }
+
+        div[data-testid="stChatMessage"]:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 5px 16px rgba(15, 23, 42, 0.10) !important;
+        }
+
+
+        /* 🤖 MENSAJES DEL ASISTENTE */
+
+        div[data-testid="stChatMessage"]:has(
+            [data-testid="chatAvatarIcon-assistant"]
+        ) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc 0%,
+                    #eef6fb 100%
+                ) !important;
+
+            border-left:
+                4px solid #0284c7 !important;
+        }
+
+
+        /* 👤 MENSAJES DEL USUARIO */
+
+        div[data-testid="stChatMessage"]:has(
+            [data-testid="chatAvatarIcon-user"]
+        ) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff 0%,
+                    #f8fafc 100%
+                ) !important;
+
+            border-right:
+                4px solid #38bdf8 !important;
+        }
+
+
+        /* 📝 TEXTO */
+
+        div[data-testid="stChatMessage"] p {
+            font-size: 14px !important;
+            line-height: 1.55 !important;
+            color: #1e293b !important;
+        }
+
+        div[data-testid="stChatMessage"] strong {
+            color: #0f172a !important;
+        }
+
+
+        /* 🔵 BOTONES */
+
+        div[data-testid="stChatMessage"] button {
+            border-radius: 12px !important;
+
+            border:
+                1px solid #bae6fd !important;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f0f9ff
+                ) !important;
+
+            color: #0369a1 !important;
+            font-weight: 700 !important;
+
+            transition:
+                all 0.2s ease !important;
+
+            box-shadow:
+                0 2px 6px rgba(2, 132, 199, 0.08) !important;
+        }
+
+        div[data-testid="stChatMessage"] button:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #bae6fd
+                ) !important;
+
+            border-color:
+                #0284c7 !important;
+
+            color:
+                #075985 !important;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 5px 12px rgba(2, 132, 199, 0.16) !important;
+        }
+
+
+        /* ☑️ CHECKBOX */
+
+        div[data-testid="stChatMessage"] label {
+            border-radius: 10px !important;
+        }
+
+        div[data-testid="stChatMessage"] label p {
+            font-weight: 600 !important;
+            color: #334155 !important;
+        }
+
+
+        /* 🔽 SELECTBOX */
+
+        div[data-testid="stChatMessage"]
+        div[data-baseweb="select"] > div {
+            border-radius: 11px !important;
+
+            border:
+                1px solid #cbd5e1 !important;
+
+            background:
+                #ffffff !important;
+
+            transition:
+                all 0.2s ease !important;
+        }
+
+        div[data-testid="stChatMessage"]
+        div[data-baseweb="select"] > div:hover {
+            border-color:
+                #0284c7 !important;
+
+            box-shadow:
+                0 0 0 2px rgba(2, 132, 199, 0.08) !important;
+        }
+
+
+        /* ➖ SEPARADORES */
+
+        div[data-testid="stChatMessage"] hr {
+            border: none !important;
+
+            border-top:
+                1px dashed #cbd5e1 !important;
+
+            margin:
+                14px 0 !important;
+        }
+
+
+        /* ✏️ CAJA DE ESCRITURA */
+
+        div[data-testid="stChatInput"] {
+            margin-top: 10px !important;
+        }
+
+        div[data-testid="stChatInput"] > div {
+            border-radius: 16px !important;
+
+            border:
+                2px solid #cbd5e1 !important;
+
+            background:
+                #ffffff !important;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, 0.08) !important;
+
+            transition:
+                all 0.25s ease !important;
+        }
+
+        div[data-testid="stChatInput"] > div:focus-within {
+            border-color:
+                #0284c7 !important;
+
+            box-shadow:
+                0 0 0 3px rgba(2, 132, 199, 0.12),
+                0 6px 18px rgba(15, 23, 42, 0.10) !important;
+        }
+
+        div[data-testid="stChatInput"] textarea {
+            font-size: 14px !important;
+            color: #0f172a !important;
+        }
+
+        div[data-testid="stChatInput"]
+        textarea::placeholder {
+            color: #94a3b8 !important;
+        }
+
+
+        /* 🚀 BOTÓN ENVIAR */
+
+        div[data-testid="stChatInput"] button {
+            border-radius: 10px !important;
+            transition:
+                all 0.2s ease !important;
+        }
+
+        div[data-testid="stChatInput"] button:hover {
+            transform:
+                scale(1.08);
+        }
+
     </style>
     """, unsafe_allow_html=True)
 
+
+    # ============================================================
+    # 🚚 CABECERA DEL ASISTENTE
+    # ============================================================
+
+    st.markdown("""
+    <div class="bot-animado">🚚</div>
+
+    <div class="bot-status">
+        <span class="bot-status-dot"></span>
+        ROUTING
+    </div>
+    """, unsafe_allow_html=True)
+
+
     st.write("👉 Consulta un SVC para indicaciones 🔍")
 
-    # Inicialización de Estados
+
+    # ============================================================
+    # 🧠 VARIABLES DEL BOT
+    # ============================================================
+
     if "main_chat_messages" not in st.session_state:
         st.session_state.main_chat_messages = []
+
     if "esperando_subtipo_smx5" not in st.session_state:
         st.session_state.esperando_subtipo_smx5 = False
+
     if "flujo_resumen" not in st.session_state:
         st.session_state.flujo_resumen = False
+
     if "paso_resumen" not in st.session_state:
         st.session_state.paso_resumen = 0
+
     if "paso_historial" not in st.session_state:
         st.session_state.paso_historial = []
+
     if "data_resumen" not in st.session_state:
         st.session_state.data_resumen = {}
 
+
+    # ============================================================
+    # 💬 VENTANA DEL CHAT
+    # ============================================================
+
     with st.container(height=480):
-        # 1. MOSTRAR HISTORIAL DE MENSAJES
-        for idx, msg in enumerate(st.session_state.main_chat_messages):
+
+        for idx, msg in enumerate(
+            st.session_state.main_chat_messages
+        ):
+
             with st.chat_message(msg["role"]):
-                st.markdown(msg["content"], unsafe_allow_html=True)
+
+                st.markdown(
+                    msg["content"],
+                    unsafe_allow_html=True
+                )
                 
-                # CUESTIONARIO INTERACTIVO DENTRO DEL ÚLTIMO GLOBO DEL BOT
                 if st.session_state.flujo_resumen and idx == len(st.session_state.main_chat_messages) - 1:
                     paso = st.session_state.paso_resumen
 
-                    # PASO 1: Ciclo
                     if paso == 1:
                         st.write("👇 **¿Qué tipo de ciclo fue?:**")
                         col1, col2 = st.columns(2)
@@ -234,7 +611,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 2
                             st.rerun()
 
-                    # PASO 2: Unidades Dedicadas para Nodos
                     elif paso == 2:
                         st.write("👇 **Unidades dedicadas para nodos (selecciona la casilla):**")
                         
@@ -242,10 +618,8 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                         u2 = st.checkbox("Delivery Cell", key="chk_del")
                         
                         unidades_elegidas = []
-                        if u1:
-                            unidades_elegidas.append("3.5 tons")
-                        if u2:
-                            unidades_elegidas.append("Delivery Cell")
+                        if u1: unidades_elegidas.append("3.5 tons")
+                        if u2: unidades_elegidas.append("Delivery Cell")
                         
                         st.write("¿Logis tomó todas?")
                         col_s, col_n = st.columns(2)
@@ -262,7 +636,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 2.2
                             st.rerun()
 
-                    # PASO 2.2: Preguntar cuáles dejó fuera Logis
                     elif paso == 2.2:
                         st.write("👇 **¿Cuál o cuáles unidades dejó fuera Logis?**")
                         unis_pre = st.session_state.data_resumen.get("unidades_centro", [])
@@ -278,7 +651,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 2.5
                             st.rerun()
 
-                    # PASO 2.5: Bulk (H&B)
                     elif paso == 2.5:
                         st.write("👇 **¿Hubo Bulk (H&B)?**")
                         c1, c2 = st.columns(2)
@@ -293,7 +665,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 3
                             st.rerun()
 
-                    # PASO 3: Dropeo de Nodos
                     elif paso == 3:
                         st.write("👇 **¿Hubo dropeo de nodos?**")
                         c1, c2 = st.columns(2)
@@ -309,7 +680,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 4
                             st.rerun()
 
-                    # PASO 3.5: Dropeo por Restricción
                     elif paso == 3.5:
                         st.write("👇 **¿En la contingencia hubo dropeo de IDs por restricción?**")
                         c1, c2 = st.columns(2)
@@ -324,7 +694,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 4
                             st.rerun()
 
-                    # PASO 4: Alchichica AM0
                     elif paso == 4:
                         st.write("👇 **¿Se cargó Alchichica ND en AM0?**")
                         c1, c2 = st.columns(2)
@@ -339,7 +708,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 5
                             st.rerun()
 
-                    # PASO 4.5: Unidades Alchichica
                     elif paso == 4.5:
                         st.write("👇 **¿Fue con 2 Small Van MLP?**")
                         c1, c2 = st.columns(2)
@@ -354,7 +722,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             st.session_state.paso_resumen = 5
                             st.rerun()
 
-                    # PASO 5: Día y Generación Final
                     elif paso == 5:
                         st.write("👇 **Día del ruteo:**")
                         dia_sel = st.selectbox(
@@ -371,7 +738,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             logis_tomo_todas = d.get("logis_tomo_todas", True)
                             unis_fuera = d.get("unidades_fuera", [])
 
-                            # Construcción del texto de unidades
                             if logis_tomo_todas or not unis_fuera:
                                 texto_unidades = "👉 <b>Unidades 3.5 tons y Delivery Cell</b>: se asignaron al polígono de Centro, logis tomó ambas."
                             elif len(unis_fuera) == len(unis):
@@ -380,7 +746,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                                 fuera_str = " y ".join([", ".join(unis_fuera[:-1]), unis_fuera[-1]]) if len(unis_fuera) > 1 else unis_fuera[0]
                                 texto_unidades = f"👉 <b>Unidades 3.5 tons y Delivery Cell</b>: se asignaron al polígono de Centro, logis dejó fuera la {fuera_str}."
 
-                            # Construcción del texto de dropeo
                             if d.get("dropeo_nodos", False):
                                 if d.get("dropeo_restriccion", False):
                                     texto_dropeo = f"👉 <b>Hubo dropeo de nodo</b> y se cargó en contingencia (logis nos dejó fuera ids por zona de restricción)."
@@ -389,7 +754,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             else:
                                 texto_dropeo = "👉 No hubo dropeo de nodo."
 
-                            # Construcción del texto de Alchichica
                             if d.get("alchichica", False):
                                 if d.get("alchichica_2sv", True):
                                     texto_alchichica = "🚛 Se cargó plan de <b>Alchichica ND</b> en AM0 con 2 unidades Small Van MLP."
@@ -398,10 +762,8 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                             else:
                                 texto_alchichica = ""
 
-                            # Bulk
                             texto_bulk = "📦 Se asignó H&B para el volumen Bulk." if d.get("hubo_bulk", False) else ""
 
-                            # HTML con contenedor de peso normal para contrarrestar el CSS global
                             lineas_html = [
                                 f"**Queda publicado {ciclo_txt} team**:<br><br>",
                                 '<span style="font-weight: normal;">',
@@ -425,23 +787,18 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
 
                             resumen_final = "".join(lineas_html)
 
-                            # Resetear flujo
                             st.session_state.flujo_resumen = False
                             st.session_state.paso_resumen = 0
                             st.session_state.paso_historial = []
                             st.session_state.main_chat_messages.append({"role": "assistant", "content": resumen_final})
                             st.rerun()
 
-                    
-
-                    # 🔙 BOTÓN DE VOLVER / CORREGIR PASO ANTERIOR
                     if len(st.session_state.paso_historial) > 0 and paso > 1:
                         st.markdown("---")
                         if st.button("↩️ Volver al paso anterior / Corregir", key="btn_atras_resumen"):
                             st.session_state.paso_resumen = st.session_state.paso_historial.pop()
                             st.rerun()
 
-        # 2. OPCIONES INTERACTIVAS SMX5
         if st.session_state.esperando_subtipo_smx5:
             with st.chat_message("assistant"):
                 st.write("👇 **Selecciona una opción o escribe 1 ó 2:**")
@@ -464,12 +821,10 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                         st.session_state.main_chat_messages.append({"role": "assistant", "content": reglas_ruteo["smx5_precarga"]})
                     st.rerun()
 
-        # 3. CAMPO DE ENTRADA AL FINAL
         if query_main := st.chat_input("✏️ Escribe tu consulta...", key="main_chat_input"):
             st.session_state.main_chat_messages.append({"role": "user", "content": query_main})
             query_lower = query_main.lower().strip()
 
-            # A) RESUMEN O CIERRE
             if "resumen" in query_lower or "cierre" in query_lower or "ciere" in query_lower:
                 st.session_state.flujo_resumen = True
                 st.session_state.paso_resumen = 1
@@ -481,7 +836,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                 })
                 st.rerun()
 
-            # B) FLUJO INTERACTIVO SMX5
             elif st.session_state.esperando_subtipo_smx5:
                 st.session_state.esperando_subtipo_smx5 = False
                 if "extendido" in query_lower or "1" in query_lower:
@@ -491,16 +845,13 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                 else:
                     respuesta_main = "⚠️ Opción no válida. Consulta escribiendo **SMX5** nuevamente."
 
-            # C) DETECCION ESPECIFICA SMX5
             elif query_lower == "smx5":
                 st.session_state.esperando_subtipo_smx5 = True
                 respuesta_main = "🔍 Detecté **SMX5**. ¿De cuál requieres las prioridades?\n\n1️⃣ **Extendido**\n2️⃣ **Precarga**\n\n*(Elige dando clic en los botones superiores o escribe 1 ó 2)*"
 
-            # D) BUSCADOR INTELIGENTE LOCAL
             else:
                 partes_respuesta = []
 
-                # 1. BÚSQUEDA EN MAPA OPERATIVO
                 svc_mapa = None
                 for key in MAPA_ORIGENES.keys():
                     if key in query_lower:
@@ -520,7 +871,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                     )
                     partes_respuesta.append(bloque_mapa)
 
-                # 2. BÚSQUEDA EN PREGUNTAS FRECUENTES
                 coincidencias_faq = []
                 
                 if any(w in query_lower for w in ["large van sdd", "sdd"]):
@@ -557,7 +907,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                 if coincidencias_faq:
                     partes_respuesta.append("\n\n---\n\n".join(coincidencias_faq))
 
-                # 3. BÚSQUEDA EN REGLAS DE RUTEO TRADICIONALES
                 if not coincidencias_faq:
                     mapeo_centros = {
                         "smx9": "smx9_extendido", "sgd2": "sgd2_extendido", "smx4": "smx4_extendido",
@@ -605,7 +954,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
                         if lineas and not (svc_mapa and busqueda_origen):
                             partes_respuesta.append(bloque_regla)
 
-                # 4. MONTAJE DE LA RESPUESTA FINAL
                 if partes_respuesta:
                     respuesta_main = "\n\n---\n\n".join(partes_respuesta)
                 else:
@@ -618,8 +966,6 @@ with st.expander("🤖 ¿INDICACIONES DE RUTEOS? Te ayudo", expanded=False):
             st.rerun()
 
 
-
-
 # --- DATOS BASE ---
 u_SDE = {"Moto Car - 3": [25, 30], "Moto Car Newbie": [25, 25], "Car - 5h": [25, 30], "Car - 5 Extendida": [25, 30], "Car - 3h": [25, 28]}
 
@@ -630,15 +976,12 @@ u_PREC = {
 
 NOMBRES_PLANES_PREC = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
 
-
-# --- AÑADE ESTO DEBAJO DE U_PREC ---
 u_PREC_SMX2 = {
     "Car - 8h": [70, 75],
     "Small 9h Ext Car": [70, 75],
     "Car Zona Extendida": [65, 65]
 }
 NOMBRES_PLANES_PREG = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
-
 
 NOMBRES_PLANES_C1 = [
     "CALKINI", 
@@ -661,8 +1004,6 @@ u_C1 = {
 u_C2 = u_C1.copy()
 u_C2["Large Van Híbrida"] = [100, 100]
 
-
-# --- DATOS NUEVOS PARA C1 SJA1 ---
 u_C1_SJA1 = { 
     "Small Van MLP foráneo": [110, 120], 
     "Large Van MLP foráneo": [110, 120], 
@@ -688,8 +1029,6 @@ NOMBRES_PLANES_C1_SJA1 = [
    "TUZAMAPA", "XICO", "CONTINGENCIA NODO", "PLAN 14", "PLAN 15", "PLAN 16", "PLAN 17"
 ]
 
-
-# --- DATOS NUEVOS PARA C1 SCH1 ---
 u_C1_SCH1 = { 
     "Car MLP": [110, 120],
     "Small Van MLP": [110, 120],
@@ -727,8 +1066,6 @@ NOMBRES_PLANES_C1_SCH1 = [
    "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
 ]
 
-
-# --- DATOS NUEVOS PARA C1 VACÍA (TAB 9) ---
 u_C1_VACIA = { 
     "Car MLP": [110, 120],
     "Small Van MLP": [110, 120],
@@ -768,8 +1105,6 @@ NOMBRES_PLANES_C1_VACIA = [
    "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
 ]
 
-
-# --- DATOS NUEVOS PARA C1 SMD1 ---
 u_C1_SMD1 = { 
     "Car MLP": [110, 120],
     "Small Van MLP": [110, 120],
@@ -807,9 +1142,6 @@ NOMBRES_PLANES_C1_SMD1 = [
    "PLAN 11", "PLAN 12", "PLAN 13", "PLAN 14"
 ]
 
-
-# ================= ORH POR UNIDAD =================
-
 ORH_FIJOS = {
     "Rental E. Large Van": ["500", "70"],
     "Rental E. Small Van": ["450", "70"],
@@ -839,7 +1171,6 @@ ORH_FIJOS = {
 }
 
 
-
 def gen_master_rows(data_dict, table_id):
     rows = ""
     items = list(data_dict.items())
@@ -848,7 +1179,6 @@ def gen_master_rows(data_dict, table_id):
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
     nombres_smx2 = ["CHALCO", "CHIMAS", "IXTAPALUCA VALLE CHALCO", "IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ", "PUEBLOS", "TEXCOCO"]
 
-    # ✅ Mostrar ORH/OCUPACIÓN solo en C1 y PREC SMX5 (ajusta si tu id real de PREC SMX5 es otro)
     mostrar_orh_ocup = (table_id in [1, 2, 6, 7, 8, 5, 9])
 
     num_filas_objetivo = 45 if table_id == "PREC" else 3
@@ -867,9 +1197,9 @@ def gen_master_rows(data_dict, table_id):
         else:
             name, spr = "", [0, 0]
 
-        # Caso A: Encabezado/Divisor
+        
+        # Caso A: Encabezado/Divisor      
         if "---" in name:
-            # Antes colspaneabas 5; ahora depende si agregamos 2 columnas visibles
             colspan = 8 if mostrar_orh_ocup else 5
 
             rows += f'''
@@ -886,11 +1216,9 @@ def gen_master_rows(data_dict, table_id):
                 <td class="f-left" style="display:none;">0</td>
             </tr>'''
 
-        # Caso B: unidad normal o espacio vacío
         else:
             st_base = "background: #ebebeb; color: #969696;" if not name else ""
 
-            # ✅ Celdas extra visibles SOLO en C1 y PREC SMX5
             celdas_orh_ocup = ""
             if mostrar_orh_ocup:
                 celdas_orh_ocup = f'''
@@ -903,7 +1231,7 @@ def gen_master_rows(data_dict, table_id):
 
                 <td class="orh-hora"
                     style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#141414; font-weight:bold;">
-                    00:00 hs
+                    00:00
                 </td>
 
                 <td contenteditable="true"
@@ -913,14 +1241,10 @@ def gen_master_rows(data_dict, table_id):
                     0
                 </td>
                 '''
-
-
-                
             else:
-                # En tablas donde NO deben verse, se mantienen ocultas (como ya lo tenías)
                 celdas_orh_ocup = '''
                 <td class="edit-orh" style="display:none;">0</td>
-                <td class="orh-hora" style="display:none;">00:00 hs</td>
+                <td class="orh-hora" style="display:none;">00:00</td>
                 <td class="edit-ocup" style="display:none;">0</td>
                 '''
 
@@ -949,7 +1273,7 @@ def gen_master_rows(data_dict, table_id):
                 </td>
 
                 <td class="f-ruteadas" 
-                    style="text-align: center; border: 0.2px solid #25282b; width: 55px; background-color: #ffffff; font-weight: bold;">
+                    style="text-align: center; border: 0.2px solid #25282b; background-color: #ffffff; font-weight: bold;">
                     0
                 </td>
 
@@ -961,33 +1285,24 @@ def gen_master_rows(data_dict, table_id):
     return rows
 
 
-
-
-
-
 def export_c1_csv():
     data = []
     for unidad, spr in u_C1.items():
-        data.append({{
+        data.append({
             "PLAN": "C1",
             "UNIDAD": unidad,
             "SPR_MIN": spr[0],
             "SPR_MAX": spr[1]
-        }})
+        })
 
     df_c1 = pd.DataFrame(data)
     csv = df_c1.to_csv(index=False).encode("utf-8")
     return csv
 
 
-
-
-
-
 def gen_poligonos(data_target=None):
-    polys = ""  # ✅ NO usar triple comillas aquí
+    polys = ""
  
-    # Botones con dimensiones totalmente congeladas a nivel píxel
     btn_s = "cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; min-width:24px; max-width:24px; height:24px; min-height:24px; max-height:24px; border-radius:4px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;"
     
     nombres_prec = ["CHALCO", "COYOACÁN", "IZTAPALAPA", "MILPA ALTA", "TLAHUAC", "TLALPAN NORTE", "TLALPAN SUR", "XOCHIMILCO"]
@@ -1005,17 +1320,10 @@ def gen_poligonos(data_target=None):
     es_prec = (data_target == u_PREC)
     es_prec_smx2 = (data_target == u_PREC_SMX2)
 
-    
-    # Contenedor flex con ancho bloqueado al 100% de la celda
     div_flex = "display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; width: 100%; min-width: 100%; max-width: 100%; box-sizing: border-box;"
-    
-    # Cajas de texto para números (Unidades y SPR)
     span_num_u = "font-weight: bold; display: inline-block; text-align: center; width: 28px; min-width: 28px; max-width: 28px; flex-shrink: 0;"
     span_num_spr = "font-weight: bold; display: inline-block; text-align: center; width: 38px; min-width: 38px; max-width: 43px; flex-shrink: 0;"
-    
-    # 🔥 ESTILO DEL SELECTOR RECALIBRADO (Letra más grande, legible y cómoda para la operación)
     select_style = "width:160px; max-width: 160px; border:none; background:transparent; font-weight:600; font-size:14px; color:#25282b; padding: 4px; cursor: pointer;"
-
 
     fila_nodos = '''
 <tr class="fila-nodos">
@@ -1031,8 +1339,6 @@ def gen_poligonos(data_target=None):
 </tr>
 '''
 
-
-    
     fila_inner = f'''
     <tr class="calc-row">
         <td class="u-manual-cell" style="background: #d3f0e5; border: 0.6px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -1057,8 +1363,6 @@ def gen_poligonos(data_target=None):
         <td style="width: 45px; min-width: 45px; max-width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
     </tr>'''
 
-
-
     campo_volumen_normal = '''
 <div style="text-align:center;">
     <span class="v-total-val"
@@ -1081,7 +1385,6 @@ def gen_poligonos(data_target=None):
 </div>
 '''
 
-    
     campo_volumen_c1 = '''
 <div style="text-align:center;">
     <span class="v-total-val"
@@ -1174,60 +1477,43 @@ def gen_poligonos(data_target=None):
 </div>
 '''
 
-
     ## Definimos dinámicamente si renderiza 10 o 20 tablas de polígonos
     if data_target == u_C1_SJA1:
         limite_tablas = len(NOMBRES_PLANES_C1_SJA1) + 1
-
     elif data_target == u_C1_SCH1:
         limite_tablas = 16
-
     elif data_target == u_C1_SMD1:
         limite_tablas = 20
-
     elif data_target == u_C1_VACIA:
-        limite_tablas = 16  # 👈 CORREGIDO: Renderiza 15 tablas (16 - 1)
-
+        limite_tablas = 16
     elif es_sde:
         limite_tablas = 5
-
     else:
         limite_tablas = 20
     
     for i in range(1, limite_tablas): 
 
-        # 🟢 EVALUAR VACÍA PRIMERO
         if data_target == u_C1_VACIA and (i-1) < len(NOMBRES_PLANES_C1_VACIA):
             nombre_final = NOMBRES_PLANES_C1_VACIA[i-1]
-
         elif data_target == u_PREC and (i-1) < len(nombres_prec):
             nombre_final = nombres_prec[i-1]
-
         elif data_target == u_PREC_SMX2 and (i-1) < len(nombres_smx2):
             nombre_final = nombres_smx2[i-1]
-
         elif data_target == u_C1 and (i-1) < len(NOMBRES_PLANES_C1):
             nombre_final = NOMBRES_PLANES_C1[i-1]
-            
         elif data_target == u_C1_SJA1 and (i-1) < len(NOMBRES_PLANES_C1_SJA1):
             nombre_final = NOMBRES_PLANES_C1_SJA1[i-1]
-
         elif data_target == u_C1_SCH1 and (i-1) < len(NOMBRES_PLANES_C1_SCH1):
             nombre_final = NOMBRES_PLANES_C1_SCH1[i-1]
-
         elif data_target == u_C1_SMD1 and (i-1) < len(NOMBRES_PLANES_C1_SMD1):
             nombre_final = NOMBRES_PLANES_C1_SMD1[i-1]
-
         else:
             nombre_final = f"PLAN {i}"
 
-        # Asignación de formato de volumen
         if nombre_final == "CAMPECHE":
             contenido_volumen = campo_campeche
-
         elif es_c1:
             contenido_volumen = campo_volumen_c1
-
         else:
             contenido_volumen = campo_volumen_normal
 
@@ -1264,8 +1550,6 @@ def gen_poligonos(data_target=None):
         else:
             filas_extra = fila_inner * 2
 
-        
-        
         polys += f'''
         <div class="poligono-bloque" style="margin-bottom:12px; box-shadow: none; border-radius: 0px; overflow-x: auto; background: #ededed; border: 1.5px solid #25282b;">           
             <table style="width: 100%; min-width: 630px; border-collapse: collapse; border: 1.5px solid #25282b;">
@@ -1282,12 +1566,7 @@ def gen_poligonos(data_target=None):
                 <tbody>
                     <tr class="calc-row"> 
                         <td class="plan-cell" rowspan="{rowspan_actual}" contenteditable="true" style="background: #dcdcdc; font-weight: bold; text-align:center; border: 1px solid #25282b; padding: 5px; color:#141414;">{nombre_final}</td>
-                        <td class="vol-cell" rowspan="{rowspan_actual}"
-                            style="color:#808080;
-                                   font-weight:bold;
-                                   text-align:center;
-                                   border:1px solid #25282b;
-                                   padding:5px;">
+                        <td class="vol-cell" rowspan="{rowspan_actual}" style="color:#808080; font-weight:bold; text-align:center; border:1px solid #25282b; padding:5px;">
                             {contenido_volumen}
                         </td>
                         <td class="u-manual-cell" style="background: #d3f0e5; border: 0.5px solid #25282b; padding: 2px; width: 105px; min-width: 105px; max-width: 105px;">
@@ -1316,36 +1595,19 @@ def gen_poligonos(data_target=None):
                     <tr style="background:#ededed; height: 32px;">
                         <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #25282b; font-size: 14px; color:#25282b;">ESTADO:</td>
                         <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #25282b; text-align: center;">0</td>
-                      <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #25282b; font-size: 14px; color: #25282b">VACÍO:</td>
+                        <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #25282b; font-size: 14px; color: #25282b">VACÍO:</td>
                     </tr>
-                    
                 </tbody>
-                
-                   <div style="text-align:center; padding:5px; background:#ededed;">
-                <button onclick="agregarFilaPlan(this)" 
-                        style="cursor:pointer; margin-right:5px;">
-                    ➕ 
-                </button>
-
-                <button onclick="quitarFilaPlan(this)"
-                        style="cursor:pointer;">
-                    ➖ 
-                </button>
-
-                <span class="contador-filas" style="margin-left:10px;font-weight:bold;">
-                    Filas: {rowspan_actual}
-                </span>
-            </div>     
-            
-        </table>
-
-            
-
+                <div style="text-align:center; padding:5px; background:#ededed;">
+                    <button onclick="agregarFilaPlan(this)" style="cursor:pointer; margin-right:5px;">➕</button>
+                    <button onclick="quitarFilaPlan(this)" style="cursor:pointer;">➖</button>
+                    <span class="contador-filas" style="margin-left:10px;font-weight:bold;">Filas: {rowspan_actual}</span>
+                </div>     
+            </table>
         </div>'''
     return polys
 
 
-# --- PERFILES LIMPIOS (DESACTIVADOS) ---
 PERFILES = {}
 perfil_actual = "LUNES"
 
@@ -1354,10 +1616,8 @@ app_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-      
-         
-        /* Efecto de iluminación al pasar el mouse por las filas */
         tr.master-row:hover, tr.calc-row:hover {{
             background-color: #fffecd !important;
             box-shadow: inset 0 0 2px #ffc107 !important;
@@ -1365,14 +1625,10 @@ app_html = f"""
             cursor: pointer;
         }}
 
+        tr.master-row:hover td, tr.calc-row:hover td {{
+            color: #000 !important;
+        }}
 
-        /* Opcional: Para asegurar que el texto no se pierda al iluminar */
-tr.master-row:hover td, tr.calc-row:hover td {{
-    color: #000 !important; /* Asegura que el texto sea oscuro sobre el fondo amarillo */
-}}
-
-
-/* 📊 CONTADOR EXCLUSIVO PESTAÑA SCP1 */
         #mi-contador-scp1 {{
             position: fixed;
             top: 156px; 
@@ -1393,7 +1649,6 @@ tr.master-row:hover td, tr.calc-row:hover td {{
             display: block;
         }}
 
-        /* 📊 CONTADOR EXCLUSIVO PESTAÑA SJA1 */
         #mi-contador-sja1 {{
             position: fixed;
             top: 156px; 
@@ -1443,11 +1698,6 @@ tr.master-row:hover td, tr.calc-row:hover td {{
             font-size: 14px;
         }}
 
-
-
-
-
-        /* Redondear botones de +/- para que parezcan botones 3D físicos */
         .poligono-bloque button {{
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: all 0.1s;
@@ -1455,188 +1705,156 @@ tr.master-row:hover td, tr.calc-row:hover td {{
 
         .poligono-bloque button:active {{
             box-shadow: 0 0px 0px transparent;
-            transform: translateY(1px); /* Se hunde al presionar */
+            transform: translateY(1px);
         }}
 
-         /* Efecto de hundimiento para botones de filtro (ACTIVAS/TODAS) */
-.filter-btn:active {{
-    transform: translateY(4px); 
-    box-shadow: none !important;
-}}  
+        .filter-btn:active {{
+            transform: translateY(4px); 
+            box-shadow: none !important;
+        }}  
 
-
-/* 🔥 NUEVO: Color verde suave cuando la fila de polígono esté completada (OK) */
         tr.fila-ok {{
-            background-color: #e8f5e9 !important; /* Verde pastel muy limpio */
+            background-color: #e8f5e9 !important;
             transition: background-color 0.3s ease;
         }}
-        /* Mantiene el texto y celdas legibles en tonos verdes operativos */
+        
         tr.fila-ok td {{
             color: #1b5e20 !important;
         }}
-        
 
-    </style>
-    
-</head>
+        body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
+        #visor {{ margin-right: 250px !important; }}
 
-    <style>
-body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
-/* 1. ESTO EVITA QUE LA TABLA SE PEGUE AL CONTADOR FLOTANTE */
-#visor {{
-    margin-right: 250px !important; /* Deja espacio vacío a la derecha */
-}}
+        .meli-table {{
+            width: 100% !important; 
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+            table-layout: fixed;
+            background: white;
+            border: 1px solid #25282b;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            overflow: hidden;
+        }}
 
-/* 2. TABLA AL 100% PARA QUE NO SE VEA CORTADA */
-.meli-table {{
-    width: 100% !important; 
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    table-layout: fixed;
-    background: white;
-    border: 1px solid #25282b;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    overflow: hidden;
-}}
+        .meli-table th {{
+            background: #f3f3f3 !important;
+            color: #222 !important;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #25282b !important;
+            padding: 4px 6px;
+            text-align: center;
+            height: 24px;
+        }}
 
-.meli-table th {{
-    background: #f3f3f3 !important;
-    color: #222 !important;
-    font-size: 14px;
-    font-weight: 600;
-    border: 1px solid #25282b !important;
-    padding: 4px 6px;
-    text-align: center;
-    height: 24px;
-}}
+        .meli-table th:last-child {{
+            border-right: 2 !important;
+        }}
 
-/* Quitar el borde derecho del último elemento (OK) para no chocar con el borde externo */
-.meli-table th:last-child {{
-    border-right: 2 !important;
-}}
+        .meli-table {{
+            border: none !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+        }}
 
-/* Asegurar que la tabla mantenga su borde externo principal */
-.meli-table {{
-    border: none !important;
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
-}}
+        .meli-table td {{
+            border: 1px solid #25282b;
+            padding: 2px 4px;
+            font-size: 14px;
+            height: 24px;
+            background: white;
+            color: #25282b;
+        }}
 
-.meli-table td {{
-    border: 1px solid #25282b;
-    padding: 2px 4px;
-    font-size: 14px;
-    height: 24px;
-    background: white;
-    color: #25282b;
-}}
+        #fleet-sticky.fleet-floating {{
+            position: fixed !important;
+            top: 170px;
+            left: 50% !important;
+            transform: translateX(-50%);
+            width: min(1050px, 92vw) !important;
+            max-height: 370px !important;
+            overflow: hidden !important;
+            z-index: 999999 !important;
+            background: #ffffff !important;
+            border: 3px solid #25282b !important;
+            border-radius: 10px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.50) !important;
+            padding: 6px !important;
+            margin: 0 !important;
+        }}
 
+        #fleet-sticky.fleet-floating #handle-moverse-flotante {{
+            display: block !important;
+        }}
 
+        #fleet-sticky.fleet-floating .t-content {{
+            max-height: 320px !important;
+            overflow: auto !important;
+        }}
 
-/* ===== MODO FLOTANTE PERFECTAMENTE CENTRADO ===== */
-#fleet-sticky.fleet-floating {{
-  position: fixed !important;
-  top: 170px;
-  left: 50% !important;
-  transform: translateX(-50%);
-  width: min(1050px, 92vw) !important;
-  max-height: 370px !important;
-  overflow: hidden !important;
-  z-index: 999999 !important;
-  background: #ffffff !important;
-  border: 3px solid #25282b !important;
-  border-radius: 10px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.50) !important;
-  padding: 6px !important;
-  margin: 0 !important;
-}}
+        #fleet-sticky.fleet-floating .t-content button {{
+            display: none !important;
+        }}
 
-/* Muestra la barra superior de agarre al estar flotando */
-#fleet-sticky.fleet-floating #handle-moverse-flotante {{
-  display: block !important;
-}}
+        #fleet-sticky.fleet-normal {{
+            position: static !important;
+            transform: none !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }}
 
-/* Muestra la tabla limpia con scroll y oculta botones que estén dentro de las celdas */
-#fleet-sticky.fleet-floating .t-content {{
-  max-height: 320px !important;
-  overflow: auto !important;
-}}
-
-#fleet-sticky.fleet-floating .t-content button {{
-  display: none !important;
-}}
-
-/* Panel en modo NORMAL */
-#fleet-sticky.fleet-normal {{
-  position: static !important;
-  transform: none !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}}
-
-
-
-
-
-/* El efecto Neomórfico en cada fila */
         .master-row {{ 
             border-radius: 9px;
             box-shadow: 1px 1px 5px #ededed, -2px -2px 6px #efefef;
             transition: all 0.2s ease;
         }}
 
-/* Redondear las esquinas de las filas */
         .meli-table td:first-child {{ border-radius: 3px 0 0 3px; }}
         .meli-table td:last-child {{ border-radius: 0 3px 3px 0; }}
 
-        
         #google-alert {{ 
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: #d32f2f; color: white; padding: 15px 25px; border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.4s; z-index: 10000;
         }}
         #google-alert.show {{ top: 20px; }}
-/* Pestañas Modernas con Volumen */
-.tab-btn {{ 
-    padding: 10px 12px; 
-    cursor: pointer; 
-    border: 1px solid #25282b; 
-    background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%); /* Efecto 3D de relieve */
-    border-radius: 8px 8px 0 0; 
-    font-weight: bold; 
-    font-size: 13px;
-    color: #25282b;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
-    margin-right: 2px;
-    outline: none;
-}}
 
-/* Efecto al pasar el mouse (Hover) */
-.tab-btn:hover {{ 
-    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    color: #25282b;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transform: translateY(-2px); /* Se levanta un poco */
-}}
+        .tab-btn {{ 
+            padding: 10px 12px; 
+            cursor: pointer; 
+            border: 1px solid #25282b; 
+            background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%);
+            border-radius: 8px 8px 0 0; 
+            font-weight: bold; 
+            font-size: 13px;
+            color: #25282b;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.1);
+            margin-right: 2px;
+            outline: none;
+        }}
 
-/* Pestaña Activa (Seleccionada) */
-.tab-btn.active {{
-    background: linear-gradient(180deg, #424242 0%, #25282b 100%) !important;
-    color: #ffffff !important; 
-    border: 1px solid #061821 !important;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-    transform: translateY(0); /* Se queda pegada abajo */
-}}        .tab-btn.active {{ background: #333; color: white; }}
-        
+        .tab-btn:hover {{ 
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            color: #25282b;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }}
+
+        .tab-btn.active {{
+            background: linear-gradient(180deg, #424242 0%, #25282b 100%) !important;
+            color: #ffffff !important; 
+            border: 1px solid #061821 !important;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            transform: translateY(0);
+        }}
+
         .tools-panel {{ display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }}
         .google-tool {{ background: linear-gradient(145deg, #ffffff, #DDA0DD); padding: 15px; border-radius: 15px; border: 1px solid #25282b; text-align: center; box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; transition: transform 0.2s;}}
-        .google-tool:hover {{
-            transform: translateY(-3px);
-        }}
+        .google-tool:hover {{ transform: translateY(-3px); }}
         .google-tool input {{
             border-radius: 8px;
             border: 1px solid #25282b;
@@ -1646,17 +1864,14 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             box-shadow: inset 2px 2px 5px #d9dbde;
         }}
 
-        
-       /* CALCULADORA CON RESPLANDOR NEÓN */
         #calc_wrapper {{ background: #22c5bc; border-radius: 20px; padding: 15px; border: transparent; outline: none; transition: 0.3s; }}
         #calc_wrapper:focus {{ box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; border: 2px solid #FF00FF; }}
-        
         #calc_display_box {{ background: #fffacd; border-radius: 10px; padding: 10px; text-align: right; margin-bottom: 10px; min-height: 60px; }}
         .calc-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }}
         .btn-c {{ background: white; border: none; font-weight: bold; border-radius: 8px; padding: 12px; cursor: pointer; box-shadow: 0 3px #ccc; font-size: 14px; }}
         .btn-c-eq {{ background: #FF00FF; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }}
         .crono-card {{ background: #1c1c1c; border-radius: 12px; padding: 15px; color: white; font-family: sans-serif; text-align: center; }}
-        /* Botones con un relieve sutil */
+        
         .btn-c {{
             background: #f0f0f0; 
             border: none; 
@@ -1664,177 +1879,136 @@ body {{ font-family: sans-serif; background: #ffffff; padding: 14px; }}
             border-radius: 12px; 
             padding: 12px; 
             cursor: pointer; 
-            /* Sombra pequeña para que cada botón destaque */
             box-shadow: 3px 3px 6px #1da39b, -2px -2px 5px #27ebd2;
             transition: transform 0.1s;
         }}
 
-        /* Efecto de "clic" real */
         .btn-c:active {{
             transform: scale(0.95);
             box-shadow: inset 2px 2px 5px #b1b1b1;
         }}
 
+        html body .meli-table tbody tr:last-child td {{
+            height: 25px !important;
+            min-height: 25px !important;
+            max-height: 20px !important;
+            padding-top: 2px !important;
+            padding-bottom: 3px !important;
+            line-height: 25px !important;
+            font-size: 14px !important;
+        }}
 
-   /* FORZADO ULTRA-COMPACTO PARA LA FILA DE ESTADO */
+        html body .meli-table tbody tr:last-child {{
+            height: 16px !important;
+        }}
 
-/* SELECTOR DE ALTA ESPECIFICIDAD PARA LA FILA DE ESTADO */
-html body .meli-table tbody tr:last-child td {{
-    height: 25px !important;       /* Altura sin reducción */
-    min-height: 25px !important;   /* Elimina restricciones */
-    max-height: 20px !important;   /* Bloquea el crecimiento */
-    padding-top: 2px !important;
-    padding-bottom: 3px !important;
-    line-height: 25px !important;  /* Centra el texto en el nuevo alto */
-    font-size: 14px !important;    /* Reduce un poco la letra */
-}}
+        .btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
+        .btn-stop  {{ background: #ffc107; color: #333;  box-shadow: 0 5px 0 #d39e00; }}
+        .btn-reset {{ background: #dc3545; color: white; box-shadow: 0 5px 0 #bd2130; }}
 
-/* Forzar que la fila misma no tenga altura mínima */
-html body .meli-table tbody tr:last-child {{
-    height: 16px !important;
-}}
+        .crono-card button:active {{
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #333;
+        }}
 
+        .crono-card button:hover {{
+            filter: brightness(1.1);
+        }}
 
-/* Colores y sombras (la sombra da el efecto de grosor) */
-.btn-start {{ background: #28a745; color: white; box-shadow: 0 5px 0 #1e7e34; }}
-.btn-stop  {{ background: #ffc107; color: #333;  box-shadow: 0 5px 0 #d39e00; }}
-.btn-reset {{ background: #dc3545; color: white; box-shadow: 0 5px 0 #bd2130; }}
+        #body-plan-container th, 
+        .meli-table:nth-of-type(2) th {{
+            font-size: 22px !important;
+            height: 90px !important;
+            padding: 11px 6px !important;
+            vertical-align: middle !important;
+        }}
 
-/* EFECTO DE CLIC (REACCIÓN) */
-.crono-card button:active {{
-    transform: translateY(4px); /* El botón baja físicamente */
-    box-shadow: 0 1px 0 #333;   /* La sombra se reduce, pareciendo que se hunde */
-}}
+        /* MODO EXCEL */
+        body.excel-view #fleet-float,
+        body.excel-view #ruteo-float,
+        body.excel-view .tools-panel,
+        body.excel-view #btn-excel-view {{
+            display: none !important;
+        }}
 
-/* Efecto Hover (brillo sutil al pasar el mouse) */
-.crono-card button:hover {{
-    filter: brightness(1.1);
-}}
+        body.excel-view .meli-table td {{
+            padding: 2px 3px !important;
+            font-size: 14px !important;
+        }}
 
-/* Ajuste específico para los encabezados de Polígonos */
-#body-plan-container th, 
-.meli-table:nth-of-type(2) th {{
-    font-size: 22px !important;    /* Tamaño de la letra */
-    height: 90px !important;      /* Alto de la celda */
-    padding: 11px 6px !important; /* Espacio interno */
-    vertical-align: middle !important;
-}}
+        body.excel-view .meli-table th {{
+            padding: 2px 1px !important;       
+            font-size: 11px !important;        
+            letter-spacing: -0.3px !important; 
+            overflow: hidden !important;
+            line-height: 1.0 !important;
+            vertical-align: middle !important;
+        }}
 
+        body.excel-view .meli-table tfoot.fila-total td {{
+            font-size: 16px !important;
+            padding: 6px 8px !important;
+            line-height: 18px !important;
+            font-weight: 900 !important;
+        }}
 
+        body.excel-view .meli-table tfoot.fila-total td[id^="total-ruteadas-"] {{
+            font-size: 20px !important;
+            font-weight: 900 !important;
+            color: #66CDAA !important;
+            text-align: center !important;
+        }}
 
+        body.excel-view .poligono-bloque table {{
+            border-collapse: collapse !important;
+            width: 120% !important;
+            table-layout: fixed !important;
+        }}
 
-/* ===== MODO EXCEL CORREGIDO ===== */ 
+        body.excel-view .poligono-bloque td, 
+        body.excel-view .poligono-bloque th {{
+            padding: 8px 3px !important;
+            height: 60px !important;
+            font-size: 13px !important;
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+        }}
 
-body.excel-view #fleet-float,
-body.excel-view #ruteo-float,
-body.excel-view .tools-panel,
-body.excel-view #btn-excel-view {{
-    display: none !important;
-}}
-
-/* TABLAS MODO EXCEL: Encabezados compactos y datos legibles */
-body.excel-view .meli-table td {{
-    padding: 2px 3px !important;
-    font-size: 14px !important; /* Datos legibles de 14px */
-}}
-
-body.excel-view .meli-table th {{
-    padding: 2px 1px !important;       
-    font-size: 11px !important;        
-    letter-spacing: -0.3px !important; 
-    overflow: hidden !important;
-    line-height: 1.0 !important;        /* Hace que las dos líneas estén muy juntas y ordenadas */
-    vertical-align: middle !important;
-}}
-
-
-/* ===== TOTAL RUTEADAS EN VISTA EXCEL (más grande y visible) ===== */
-body.excel-view .meli-table tfoot.fila-total td {{
-    font-size: 16px !important;   /* tamaño letra */
-    padding: 6px 8px !important;  /* alto de la fila */
-    line-height: 18px !important;
-    font-weight: 900 !important;
-}}
-
-body.excel-view .meli-table tfoot.fila-total td[id^="total-ruteadas-"] {{
-    font-size: 20px !important;   /* tamaño del número */
-    font-weight: 900 !important;
-    color: #66CDAA !important;
-    text-align: center !important;
-}}
-
-
-/* ===== POLÍGONOS MODO EXCEL (FORZADO) ===== */
-
-body.excel-view .poligono-bloque table {{
-    border-collapse: collapse !important;
-    width: 120% !important;
-    table-layout: fixed !important; /* Mantiene las columnas bajo control estricto */
-}}
-
-body.excel-view .poligono-bloque td, 
-body.excel-view .poligono-bloque th {{
-    padding: 8px 3px !important;    /* Aumentamos el primer valor (6px) para dar altura */
-    height: 60px !important;        /* Forzamos una altura de fila más cómoda */
-    font-size: 13px !important;     /* Subimos un pelín la letra para que se lea bien */
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-}}
-
-/* Fuerza anchos mínimos para las columnas críticas */
-body.excel-view .poligono-bloque th:nth-child(5) {{ width: 90px !important; }} /* SCHEDULE */
-body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }} /* USADAS */
-body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /* DELTA */
-
-</style> 
+        body.excel-view .poligono-bloque th:nth-child(5) {{ width: 90px !important; }}
+        body.excel-view .poligono-bloque th:nth-child(6) {{ width: 55px !important; }}
+        body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }}
+    </style> 
 </head>
 
-
-
-
-
+<body>
 <div id="google-alert">⚠️ <span id="alert-msg"></span> [ENTER para cerrar]</div>
 <div style="display:flex; flex-direction:column; gap:20px; width:100%;">
 
-
-
-
-
-
-    <!-- COLUMNA DERECHA --> 
-
-
 <!-- PANEL SUPERIOR -->
-<div style="
-    width:100%;
-    padding:0;
-    margin-bottom:10px;
-">
+<div style="width:100%; padding:0; margin-bottom:10px;">
 
-        <div style="background-color: #25282b; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
-    
+    <div style="background-color: #25282b; color: white; padding: 10px; border-radius: 2px; font-weight: bold; text-align: center; margin-bottom: 10px;">🚚 🚚 DISPONIBILIDAD DE FLOTA 🚛 🚛</div>
 
-
-<div id="panel-control-unico" style="display: flex; gap: 20px; background: #25282b; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
-    <div style="text-align: center;">
-        <div id="hora-actual" style="font-size: 22px; font-weight: bold;">00:00:00</div>
-        <div style="font-size: 9px; color: #26d0ff; letter-spacing: 1px;">HORA ACTUAL</div>
+    <div id="panel-control-unico" style="display: flex; gap: 20px; background: #25282b; padding: 15px; border-radius: 10px; color: white; justify-content: center; align-items: center; margin: 20px 0;">
+        <div style="text-align: center;">
+            <div id="hora-actual" style="font-size: 22px; font-weight: bold;">00:00:00</div>
+            <div style="font-size: 9px; color: #26d0ff; letter-spacing: 1px;">HORA ACTUAL</div>
+        </div>
+        <div style="text-align: center; border-left: 1px solid #ffffff; padding-left: 20px; min-width: 120px;">
+            <div id="proximo-ruteo" style="font-size: 16px; font-weight: bold; color: #ff9b21; line-height: 1.1;">Sin tareas</div>
+            <div id="hora-ruteo" style="font-size: 14px; font-weight: bold; color: #ffffff; margin-top: 2px;">--</div>
+            <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px; margin-top: 2px;">SIGUIENTE RUTEO</div>
+        </div>
+        <div style="text-align: center; border-left: 1px solid #ffffff; padding-left: 20px;">
+            <div id="cuenta-regresiva" style="font-size: 22px; font-weight: bold; color: #7CFFB2;">00:00</div>
+            <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px;">TIEMPO RESTANTE</div>
+        </div>
     </div>
-    <div style="text-align: center; border-left: 1px solid #ffffff; padding-left: 20px; min-width: 120px;">
-        <div id="proximo-ruteo" style="font-size: 16px; font-weight: bold; color: #ff9b21; line-height: 1.1;">Sin tareas</div>
-        <div id="hora-ruteo" style="font-size: 14px; font-weight: bold; color: #ffffff; margin-top: 2px;">--</div>
-        <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px; margin-top: 2px;">SIGUIENTE RUTEO</div>
-    </div>
-    <div style="text-align: center; border-left: 1px solid #ffffff; padding-left: 20px;">
-        <div id="cuenta-regresiva" style="font-size: 22px; font-weight: bold; color: #7CFFB2;">00:00</div>
-        <div style="font-size: 9px; color: #d0d0d0; letter-spacing: 1px;">TIEMPO RESTANTE</div>
-    </div>
-</div>
 
-        <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
+    <div id="resumen-flota-ruteada" style="display: flex; gap: 15px; margin: 15px 0; justify-content: center;">
         <div style="background: #d7e5fa; padding: 8px; border-radius: 5px; border: 1px solid #bbdefb; text-align: center; width: 100px;">
             <div style="font-size: 10px; font-weight: bold; color: #0861c7;">MLP</div>
             <div id="val-mlp-rute-2" style="font-size: 14px; font-weight: bold;">0</div>
@@ -1849,433 +2023,398 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
         </div>
     </div>
 
+    <div id="dos-pct-global" style="background:#f5f5f5; border:1px solid #d0d0d0; border-radius:6px; padding:6px; margin-bottom:10px; text-align:center; font-weight:bold; color:#25282b;"></div>
 
-<div id="dos-pct-global"
-     style="
-        background:#f5f5f5;
-        border:1px solid #d0d0d0;
-        border-radius:6px;
-        padding:6px;
-        margin-bottom:10px;
-        text-align:center;
-        font-weight:bold;
-        color:#25282b;">
-</div>
+    <!-- BARRA DE ACCIONES Y CONTROLES -->
+    <div id="fleet-drag-handle" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 0; margin-bottom: 8px;">
+        <button id="fleet-toggle-btn" onclick="toggleFleetFloating();" style="cursor:pointer; border:none; background:#25282b; color:white; padding:4px 9px; border-radius:6px; font-weight:bold; font-size:12px; box-shadow:0 2px 0 #111213; outline:none;">
+            FLOTAR ☁️
+        </button>
 
+        <div class="btn-tooltip-container">
 
+        <button onclick="distribuirAutomatico()" style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #2d968f; outline: none;">
+            🧠 AUTO-CALCULAR
+        </button>
 
-<!-- 1. BOTONES SUPERIORES (SE QUEDAN SIEMPRE FIJOS ATRÁS) -->
-<div id="fleet-drag-handle" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 0; margin-bottom: 8px;">
-    
-    <button id="fleet-toggle-btn"
-      onclick="toggleFleetFloating();"
-      style="cursor:pointer; border:none; background:#25282b; color:white; padding:4px 9px; border-radius:6px; font-weight:bold; font-size:12px; box-shadow:0 2px 0 #111213; outline:none;">
-      FLOTAR ☁️
+        <div class="btn-tooltip-container" style="display:none;">
+    <button id="excel-btn"
+            onclick="toggleExcelView()">
+        VISTA EXCEL
     </button>
+</div>
+        
+        <button class="filter-btn" onclick="filterRows(true)" style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; outline: none;">
+            ACTIVAS
+        </button>
 
-    <div class="btn-tooltip-container">
-        <button id="excel-btn" onclick="toggleExcelView()" title="VISTA EXCEL"
-            style="cursor:pointer; background:#228B22; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; box-shadow:0 2px 0 #1c6d1c; outline:none;">
-            VISTA EXCEL
+        <button class="filter-btn" onclick="filterRows(false)" style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; outline: none;">
+            TODAS
         </button>
     </div>
 
-    <button onclick="distribuirAutomatico()" 
-        style="cursor:pointer; background: #26d4ca; color: #2e3030; border: none; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 0 #2d968f; outline: none;">
-        🧠 AUTO-CALCULAR
-    </button>
-    
-    <button class="filter-btn" onclick="filterRows(true)" 
-        style="cursor:pointer; background: linear-gradient(180deg, #4f4f4f 0%, #25282b 100%); color: white; border: 1px solid #25282b; font-size: 12px; padding: 4px 9px; border-radius: 6px; font-weight: bold; outline: none;">
-        ACTIVAS
-    </button>
+    <!-- CONTENEDOR PRINCIPAL FLOTANTE DE TABLAS -->
+    <div id="fleet-sticky" class="fleet-normal">
+        <div id="handle-moverse-flotante" onpointerdown="iniciarArrastreFlotante(event)" style="display:none; width:100%; height:28px; background:#343a40; color:#ffffff; font-size:11px; font-weight:bold; line-height:28px; border-radius:6px 6px 0 0; margin:-6px -6px 6px -6px; cursor:grab; user-select:none; z-index:9999999; position:relative; padding:0 8px; box-sizing:border-box; touch-action:none;">
+            <span style="float:left;">:: CLIC Y ARRASTRA AQUÍ PARA MOVER ::</span>
+            <button onclick="toggleFleetFloating();" onpointerdown="event.stopPropagation();" style="float:right; margin-top:3px; cursor:pointer; background:#dc3545; color:white; border:none; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold; outline:none;">
+                ✕ NORMAL (enter)
+            </button>
+            <div style="clear:both;"></div>
+        </div>
 
-    <button class="filter-btn" onclick="filterRows(false)" 
-        style="cursor:pointer; background: #808080; color:white; border:none; font-size:12px; padding:4px 9px; border-radius:6px; font-weight:bold; outline: none;">
-        TODAS
-    </button>
+        <div style="margin: 10px 0; text-align: center;">
+            <select id="ciclo-selector" onchange="cambiarCiclo(this.value)" style="display:none;" color: #000000; border: 2px solid #242526; padding: 8px 15px; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; cursor: pointer; width: 250px; text-align-last: center;">
+                <option value="2">🟠 C1 SCP1</option>
+                <option value="6">🔴 C1 SJA1</option>
+                <option value="7">🔴 C1 SCH1</option>
+                <option value="8">🔴 C1 SMD1</option>
+                <option value="1">🟡 PREC SMX5</option>
+                <option value="5">🟡 PREC SMX2</option>
+                <option value="4" selected>🟢 EXTENDIDO</option>
+                <option value="9">🟣 C1 VACÍA</option>
+            </select>
+        </div>
 
+
+
+        <!-- TABLAS DE DISPONIBILIDAD -->
+        <div id="tab-2" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-6" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
+                <tfoot class="fila-total"> 
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-7" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-7">{gen_master_rows(u_C1_SCH1, 7)}</tbody>
+                <tfoot class="fila-total"> 
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-7" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-8" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-8">{gen_master_rows(u_C1_SMD1, 8)}</tbody>
+                <tfoot class="fila-total"> 
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-8" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-1" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-car-real-1" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-5" class="t-content" style="display:none;">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-car-real-5" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-4" class="t-content">
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="3" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-car-real-4" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="tab-9" class="t-content" style="display:none;">
+            <table class="meli-table">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-9">{gen_master_rows(u_C1_VACIA, 9)}</tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-9" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </div>
 
-
-
-<!-- 3. CONTENEDOR EXCLUSIVO PARA LA TABLA QUE SÍ VA A FLOTAR -->
-<div id="fleet-sticky" class="fleet-normal">
-
-  <!-- Barrita con evento pointerdown nativo para soltado perfecto -->
-  <div id="handle-moverse-flotante" 
-       onpointerdown="iniciarArrastreFlotante(event)"
-       style="display:none; width:100%; height:28px; background:#343a40; color:#ffffff; font-size:11px; font-weight:bold; line-height:28px; border-radius:6px 6px 0 0; margin:-6px -6px 6px -6px; cursor:grab; user-select:none; z-index:9999999; position:relative; padding:0 8px; box-sizing:border-box; touch-action:none;">
-    
-    <span style="float:left;">:: CLIC Y ARRASTRA AQUÍ PARA MOVER ::</span>
-    
-    <button onclick="toggleFleetFloating();" 
-            onpointerdown="event.stopPropagation();"
-            style="float:right; margin-top:3px; cursor:pointer; background:#dc3545; color:white; border:none; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold; outline:none;">
-      ✕ NORMAL (enter)
-    </button>
-    
-    <div style="clear:both;"></div>
-  </div>
-
-  <!-- AQUÍ SIGUEN TODAS TUS TABLAS (tab-2, tab-6, tab-7, etc.) SIN CAMBIOS -->
-
-
-
-<!-- AQUÍ PEGAS EL NUEVO SELECTOR DESPLEGABLE -->
-<div style="margin: 10px 0; text-align: center;">
-    <select id="ciclo-selector" onchange="cambiarCiclo(this.value)" style="
-        background: #FFFFFF;
-        color: #000000;
-        border: 2px solid #242526;
-        padding: 8px 15px;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: bold;
-        outline: none;
-        cursor: pointer;
-        width: 250px;
-        text-align-last: center;
-    ">
-        <option value="2">🟠 C1 SCP1</option>
-        <option value="6">🔴 C1 SJA1</option>
-        <option value="7">🔴 C1 SCH1</option>
-        <option value="8">🔴 C1 SMD1</option>
-        <option value="1">🟡 PREC SMX5</option>
-        <option value="5">🟡 PREC SMX2</option>
-        <option value="4" selected>🟢 EXTENDIDO</option> <!-- AQUÍ AGREGAS 'selected' -->
-        <option value="9">🟣 C1 VACÍA</option>
-</select>
-</div>
-
-
-
-
-  <!-- TABLAS DE DISPONIBILIDAD INTEGRADAS DENTRO DE FLEET-STICKY -->
-  <div id="tab-2" class="t-content" style="display:none;">
-      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-          <thead>
-              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
-              </tr>
-          </thead>
-          <tbody id="body-2">{gen_master_rows(u_C1, 2)}</tbody>
-          <tfoot class="fila-total">
-              <tr class="fila-total">
-                  <td style="border:none;"></td>
-                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                  <td id="total-ruteadas-2" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-              </tr>
-          </tfoot>
-      </table>
-  </div>
-
-  <div id="tab-6" class="t-content" style="display:none;">
-      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-          <thead>
-              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
-              </tr>
-          </thead>
-          <tbody id="body-6">{gen_master_rows(u_C1_SJA1, 6)}</tbody>
-          <tfoot class="fila-total"> 
-              <tr class="fila-total">
-                  <td style="border:none;"></td>
-                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                  <td id="total-ruteadas-6" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
-              </tr>
-          </tfoot>
-      </table>
-  </div>
-
-
-
-<div id="tab-7" class="t-content" style="display:none;">
-    <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-        <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
-              </tr>
-        </thead>
-        <tbody id="body-7">{gen_master_rows(u_C1_SCH1, 7)}</tbody>
-        <tfoot class="fila-total"> 
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-7" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
-    </tr>
-</tfoot>
-    </table>
-</div>
-
-
-<div id="tab-8" class="t-content" style="display:none;">
-    <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-        <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
-              </tr>
-        </thead>
-        <tbody id="body-8">{gen_master_rows(u_C1_SMD1, 8)}</tbody>
-        <tfoot class="fila-total"> 
-    <tr class="fila-total">
-        <td style="border:none;"></td>
-        <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-        <td id="total-ruteadas-8" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold !important;">0</td>
-    </tr>
-</tfoot>
-    </table>
-</div>
-
-
-
-
-  <div id="tab-1" class="t-content" style="display:none;">
-      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-          <thead>
-              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
-              </tr>
-          </thead>
-          <tbody id="body-1">{gen_master_rows(u_PREC, 1)}</tbody>
-          <tfoot class="fila-total">
-              <tr class="fila-total">
-                  <td style="border:none;"></td>
-                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                  <td id="total-car-real-1" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-              </tr>
-          </tfoot>
-      </table>
-  </div>
-
-  <div id="tab-5" class="t-content" style="display:none;">
-      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-          <thead>
-              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
-              </tr>
-          </thead>
-          <tbody id="body-5">{gen_master_rows(u_PREC_SMX2, 5)}</tbody>
-          <tfoot class="fila-total">
-              <tr class="fila-total">
-                  <td style="border:none;"></td>
-                  <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                  <td id="total-car-real-5" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-              </tr>
-          </tfoot>
-      </table>
-  </div>
-
-  <div id="tab-4" class="t-content">
-      <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-          <thead>
-              <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color: #25282b !important; width:50px;">DELTA</th>
-              </tr>
-          </thead>
-          <tbody id="body-4">{gen_master_rows(u_SDE, 4)}</tbody>
-          <tfoot class="fila-total">
-              <tr class="fila-total">
-                  <td style="border:none;"></td>
-                  <td colspan="3" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                  <td id="total-car-real-4" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-              </tr>
-          </tfoot>
-      </table>
-  </div>
-
-
-
-<!-- TABLA FLOTA C1 VACÍA (ID 9) -->
-<div id="tab-9" class="t-content" style="display:none;">
-    <table class="meli-table">
-        <thead>
-            <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
-                  <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
-                  <th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
-                  <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
-                  <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center; display:table-cell; vertical-align:middle;">USADAS</th>
-                  <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
-              </tr>
-        </thead>
-        <tbody id="body-9">{gen_master_rows(u_C1_VACIA, 9)}</tbody>
-        <tfoot class="fila-total">
-            <tr class="fila-total">
-                <td style="border:none;"></td>
-                <td colspan="6" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
-                <td id="total-ruteadas-9" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-
-
-</div> <!-- CIERRE CORRECTO DEL PANEL FLOTANTE FLEET-STICKY -->
-
-        
-        
-            
-                <button id="toggle-tools-btn" onclick="toggleTools()" 
-        style="display: none !important; 
-               background:#25282b !important; 
-               background-image: none !important; 
-               box-shadow: none !important; 
-               color: #ffffff !important; 
-               border: 1px solid #4682B4; 
-           font-size: 11px; 
-           padding: 5px 0; 
-           border-radius: 3px; 
-           font-weight: bold; 
-           outline: none; 
-           width: 100%; 
-           margin-bottom: 15px;">
+<button id="toggle-tools-btn" onclick="toggleTools()" style="display: none !important; background:#25282b !important; background-image: none !important; box-shadow: none !important; color: #ffffff !important; border: 1px solid #4682B4; font-size: 11px; padding: 5px 0; border-radius: 3px; font-weight: bold; outline: none; width: 100%; margin-bottom: 15px;">
     ❌ OCULTAR UTILERÍAS
 </button>
 
-
-
-
-                <!--
-                <div style="font-weight:bold; color:#25282b; margin-bottom:10px; font-size:12px; letter-spacing:1px;">⏱️ CONVERTIDOR DE TIEMPO</div>
-                <input type="number" id="min-in" placeholder="Minutos" style="width:80px; text-align:center;" oninput="convertTime()">
-                <div style="margin-top:10px;">
-                    <span id="time-res" style="font-size: 24px; font-weight: bold; color: #FF4500;">0h 0m</span>
-                 </div>
-             </div>
-        </div>
+<!-- SECCIÓN IZQUIERDA DE POLÍGONOS -->
+<div style="width:100%; overflow-y:auto; overflow-x:hidden;">
+    <div style="background: #25282b !important; background-image: none !important; box-shadow: none !important; border: none !important; color: #20B2AA; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; margin-top: 50px !important; margin-bottom: 10px !important;">
+        📋 PLANIFICACIÓN POR POLÍGONOS
     </div>
-</div>
--->
-
-
-
-
-<!-- COLUMNA IZQUIERDA -->
-
-
-<!-- PLANNERS -->
-<div style="
-    width:100%;
-    overflow-y:auto;
-    overflow-x:hidden;
-">
-
     
-         <div style="
-    background: #25282b !important; 
-    background-image: none !important; 
-    box-shadow: none !important; 
-    border: none !important;
-    color: #20B2AA; 
-    padding: 10px; 
-    border-radius: 6px; 
-    text-align: center; 
-    font-weight: bold; 
-    margin-top: 50px !important;
-    margin-bottom: 10px !important;">
-    📋 PLANIFICACIÓN POR POLÍGONOS
-</div>
-        
-        <div id="polys-2" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
-        <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
-        <div id="polys-7" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
-        <div id="polys-8" class="p-content" style="display:none;">{gen_poligonos(u_C1_SMD1)}</div>
-        <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
-        <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
-        <div id="polys-4" class="p-content">{gen_poligonos(u_SDE)}</div>
-        <div id="polys-9" class="p-content" style="display:none;">{gen_poligonos(u_C1_VACIA)}</div>
+    <div id="polys-2" class="p-content" style="display:none;">{gen_poligonos(u_C1)}</div>
+    <div id="polys-6" class="p-content" style="display:none;">{gen_poligonos(u_C1_SJA1)}</div>
+    <div id="polys-7" class="p-content" style="display:none;">{gen_poligonos(u_C1_SCH1)}</div>
+    <div id="polys-8" class="p-content" style="display:none;">{gen_poligonos(u_C1_SMD1)}</div>
+    <div id="polys-1" class="p-content" style="display:none;">{gen_poligonos(u_PREC)}</div>
+    <div id="polys-5" class="p-content" style="display:none;">{gen_poligonos(u_PREC_SMX2)}</div>
+    <div id="polys-4" class="p-content">{gen_poligonos(u_SDE)}</div>
+    <div id="polys-9" class="p-content" style="display:none;">{gen_poligonos(u_C1_VACIA)}</div>
 
-
-        <div id="excel-polys" style="display:none; margin-top:10px;">
-            <div style="background:#25282b; color:white; font-weight:bold; text-align:center; padding:8px; font-size:18px; border:1px solid #0f5b84;">
-                📋 RESUMEN DE POLÍGONOS
-            </div>
-
-            <table style="width:100%; border-collapse:collapse; background:white; font-size:16px; table-layout:fixed;">
-                <thead>
-                    <tr style="background:#25282b; color:white; height:28px;">
-                        <th style="border:1px solid #c0c0c0;">PLAN</th>
-                        <th style="border:1px solid #c0c0c0;">VOL</th>
-                        <th style="border:1px solid #c0c0c0;">UNIDAD</th>
-                        <th style="border:1px solid #c0c0c0; width:55px;">ASIG</th>
-                        <th style="border:1px solid #c0c0c0;">NODO</th>
-                    </tr>
-                </thead>
-                <tbody id="excel-polys-body"></tbody>
-            </table>
+    <div id="excel-polys" style="display:none; margin-top:10px;">
+        <div style="background:#25282b; color:white; font-weight:bold; text-align:center; padding:8px; font-size:18px; border:1px solid #0f5b84;">
+            📋 RESUMEN DE POLÍGONOS
         </div>
-        
-        
+
+        <table style="width:100%; border-collapse:collapse; background:white; font-size:16px; table-layout:fixed;">
+            <thead>
+                <tr style="background:#25282b; color:white; height:28px;">
+                    <th style="border:1px solid #c0c0c0;">PLAN</th>
+                    <th style="border:1px solid #c0c0c0;">VOL</th>
+                    <th style="border:1px solid #c0c0c0;">UNIDAD</th>
+                    <th style="border:1px solid #c0c0c0; width:55px;">ASIG</th>
+                    <th style="border:1px solid #c0c0c0;">NODO</th>
+                </tr>
+            </thead>
+            <tbody id="excel-polys-body"></tbody>
+        </table>
     </div>
+</div>
 
-
-<!-- CONTADOR FLOTANTE OCULTO -->
 <div id="fleet-float" hidden>
     <div style="font-weight:bold; margin-bottom:8px;">
         🚛 DISPONIBLE
     </div>
-
     <div id="fleet-float-body">
         Cargando...
     </div>
 </div>
 
 
+<!-- ============================================================================== -->
+<!-- 🏢 MODAL 1: CREADOR DE RUTEO DINÁMICO -->
+<!-- ============================================================================== -->
+<div id="modal-crear-ruteo" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 15, 18, 0.96); z-index: 9999999; padding: 25px; box-sizing: border-box; overflow-y: auto; font-family: sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #8A2BE2; padding-bottom: 12px; margin-bottom: 20px;">
+        <h2 style="color: #26d4ca; margin: 0; font-size: 22px; display: flex; align-items: center; gap: 8px;">🛠️ CREADOR DE NUEVO RUTEO DESDE CERO</h2>
+        <button onclick="cerrarCreadorRuteo()" style="cursor: pointer; background: #d32f2f; color: white; border: none; padding: 8px 16px; font-weight: bold; border-radius: 6px; font-size: 14px;">❌ CERRAR</button>
+    </div>
 
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: #25282b; border: 1px solid #454545; border-radius: 10px; padding: 18px;">
+            <h3 style="color: #FFD700; margin-top: 0; font-size: 16px; border-bottom: 1px solid #444; padding-bottom: 8px;">1️⃣ CONFIGURACIÓN GENERAL</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;">
+                <div>
+                    <label style="color: #d0d0d0; font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Nombre de la Opción / Ruteo:</label>
+                    <input type="text" id="creador-nombre-ruteo" placeholder="Ej. C1 SMT1" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #555; background: #1a1c1e; color: white; font-size: 14px; font-weight: bold;">
+                </div>
+                <div>
+                    <label style="color: #d0d0d0; font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Número de Planes / Polígonos:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="creador-cant-planes" value="5" min="1" max="25" style="width: 100px; padding: 8px; border-radius: 6px; border: 1px solid #555; background: #1a1c1e; color: #26d4ca; font-size: 16px; font-weight: bold; text-align: center;">
+                        <button onclick="generarCamposPlanes()" style="cursor: pointer; background: #26d4ca; color: #1a1c1e; border: none; padding: 8px 15px; font-weight: bold; border-radius: 6px; font-size: 13px;">⚙️ Generar Campos de Planes</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed #444; display: flex; gap: 25px; align-items: center; flex-wrap: wrap;">
+                <span style="color: #aaa; font-size: 12px; font-weight: bold;">Configuración adicional:</span>
+                <label style="color: #FFD700; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="chk-incluir-nodos" style="transform: scale(1.2); accent-color: #FFD700;"> 📍 ¿Lleva Nodos?
+                </label>
+                <label style="color: #26d4ca; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="chk-incluir-orh" style="transform: scale(1.2); accent-color: #26d4ca;"> Incluir ORH
+                </label>
+                <label style="color: #26d4ca; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="chk-incluir-ocup" style="transform: scale(1.2); accent-color: #26d4ca;"> Incluir % OCUPACIÓN
+                </label>
+            </div>
+        </div>
+
+        <div style="background: #25282b; border: 1px solid #454545; border-radius: 10px; padding: 18px;">
+            <h3 style="color: #FFD700; margin-top: 0;">2️⃣ CONFIGURACIÓN DE POLÍGONOS Y UNIDADES</h3>
+            <div id="contenedor-lista-planes">
+                <p style="color: #888;">Define el número de planes arriba y haz clic en "Generar Campos de Planes" para configurar los nombres y requerimientos de flota.</p>
+            </div>
+        </div>
+
+        <div style="background: #25282b; border: 1px solid #454545; border-radius: 10px; padding: 18px; margin-top: 15px;">
+            <h3 style="color: #FFD700; margin-top: 0;">🚐 SELECCIÓN Y CONFIGURACIÓN DE FLOTA</h3>
+            <div id="contenedor-lista-flota" style="display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto;">
+                <p style="color: #888;">Cargando unidades de flota...</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; padding-top: 10px;">
+            <button onclick="cerrarCreadorRuteo()" style="cursor: pointer; background: #555; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; font-size: 14px;">Cancelar</button>
+            <button onclick="guardarNuevoRuteoCompleto()" style="cursor: pointer; background: #28a745; color: white; border: none; padding: 10px 25px; font-weight: bold; border-radius: 6px; font-size: 14px; box-shadow: 0 4px 10px rgba(40,167,69,0.4);">💾 Guardar y Sincronizar Ruteo</button>
+        </div>
+    </div>
+</div> <!-- 👈 AQUÍ CIERRA COMPLETAMENTE EL MODAL 1 -->
+
+
+<!-- ============================================================================== -->
+<!-- 🗑️ MODAL 2: GESTOR DE ELIMINACIÓN MASIVA (COMPLETAMENTE INDEPENDIENTE) -->
+<!-- ============================================================================== -->
+<div id="modal-eliminar-masivo" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 15, 18, 0.96); z-index: 9999999; padding: 25px; box-sizing: border-box; overflow-y: auto; font-family: sans-serif;">
+    <div style="max-width: 800px; margin: 0 auto; background: #25282b; border: 2px solid #dc3545; border-radius: 12px; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px;">
+            <h2 style="color: #FF7F7F; margin: 0; font-size: 20px;">🗑️ ELIMINACIÓN MASIVA DE RUTEOS PERSONALIZADOS</h2>
+            <button onclick="cerrarGestorEliminacionMasiva()" style="cursor: pointer; background: #555; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold;">✕ CERRAR</button>
+        </div>
+
+        <p style="color: #d0d0d0; font-size: 13px;">Marca la casilla de los ruteos repetidos o no deseados y presiona <b>"Eliminar Seleccionados"</b> para borrarlos todos de la base de datos y la pantalla en tiempo real:</p>
+
+        <div id="lista-ruteos-eliminar" style="max-height: 350px; overflow-y: auto; margin: 15px 0; padding-right: 5px;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #444; padding-top: 15px;">
+            <button onclick="ejecutarEliminacionMasiva()" style="cursor: pointer; background: #dc3545; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; font-size: 14px; box-shadow: 0 4px 10px rgba(220,53,69,0.4);">
+                🗑️ ELIMINAR SELECCIONADOS
+            </button>
+            <button onclick="cerrarGestorEliminacionMasiva()" style="cursor: pointer; background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold;">Cerrar</button>
+        </div>
+    </div>
+</div> <!-- 👈 AQUÍ CIERRA COMPLETAMENTE EL MODAL 2 -->
 
 
 <script>
-
     const perfiles = {json.dumps(PERFILES)};
     const perfilActual = "{perfil_actual}";
 
@@ -2285,85 +2424,857 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
     let chronoInterval;
     let startTime;
     let elapsedTime = 0;
-    let estadoPaquetesAntesDeExcel = "none"; // Guarda si el bloque estaba abierto o cerrado
+    let estadoPaquetesAntesDeExcel = "none";
+
+    const SUPABASE_URL = "https://srhqffxstkcraqwdxkkz.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyaHFmZnhzdGtjcmFxd2R4a2t6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5ODIzMzQsImV4cCI6MjEwMTU1ODMzNH0.kWRQfjsw-o6-ZHUGQnENyE-DoQXd1HyV664rBPLXAOk";
+    
+    const supabaseClient = (window.supabase && window.supabase.createClient) 
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) 
+        : null;
+
+    let contadorPestanaDinamica = 900;
 
 
+
+    // ==============================================================================
+    // 🗑️ GESTIÓN Y ELIMINACIÓN MASIVA EN TEMPO REAL DE RUTEOS DINÁMICOS
+    // ==============================================================================
+    
+    // Abrir Modal de Eliminación Masiva
+    async function abrirGestorEliminacionMasiva() {{
+        cerrarCreadorRuteo();
+        let modal = document.getElementById("modal-eliminar-masivo");
+        if (!modal) return;
+        modal.style.display = "block";
+
+        let contenedor = document.getElementById("lista-ruteos-eliminar");
+        contenedor.innerHTML = "<p style='color:#aaa;'>Cargando ruteos de Supabase...</p>";
+
+        if (supabaseClient) {{
+            try {{
+                const {{ data, error }} = await supabaseClient.from('ruteos_guardados').select('*').order('created_at', {{ ascending: false }});
+                if (error) {{
+                    contenedor.innerHTML = `<p style='color:red;'>Error al cargar: ${{error.message}}</p>`;
+                    return;
+                }}
+                if (!data || data.length === 0) {{
+                    contenedor.innerHTML = "<p style='color:#7CFFB2;'>No hay ruteos personalizados creados en la base de datos.</p>";
+                    return;
+                }}
+
+                let htmlLista = "";
+                data.forEach(r => {{
+                    htmlLista += `
+                        <div style="background: #1a1c1e; border: 1px solid #444; padding: 10px 14px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <label style="display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; font-size: 13px; cursor: pointer;">
+                                <input type="checkbox" class="chk-eliminar-ruteo" value="${{r.id}}" data-nombre="${{r.nombre}}" style="transform: scale(1.3); accent-color: #dc3545;">
+                                🟣 ${{r.nombre.toUpperCase()}}
+                            </label>
+
+                            <button onclick="eliminarRuteoIndividualRealTime('${{r.id}}', '${{r.nombre}}')" style="cursor: pointer; background: #dc3545; color: white; border: none; padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 4px;">🗑️ Eliminar</button>
+                        </div>
+                    `;
+                }});
+                contenedor.innerHTML = htmlLista;
+            }} catch (err) {{
+                contenedor.innerHTML = `<p style='color:red;'>Error de conexión.</p>`;
+            }}
+        }}
+    }}
+
+    function cerrarGestorEliminacionMasiva() {{
+        let modal = document.getElementById("modal-eliminar-masivo");
+        if (modal) modal.style.display = "none";
+    }}
+
+    // ELIMINACIÓN MASIVA SELECCIONANDO VARIOS DE GOLPE
+    async function ejecutarEliminacionMasiva() {{
+        let seleccionados = document.querySelectorAll(".chk-eliminar-ruteo:checked");
+        if (seleccionados.length === 0) {{
+            alert("⚠️ Selecciona al menos un ruteo para eliminar.");
+            return;
+        }}
+
+        let idsAEliminar = Array.from(seleccionados).map(cb => cb.value);
+        let nombres = Array.from(seleccionados).map(cb => cb.getAttribute("data-nombre")).join(", ");
+
+        if (!confirm(`¿Estás seguro de eliminar masivamente (${{seleccionados.length}}) ruteo(s):\n\n${{nombres}}?`)) return;
+
+        if (supabaseClient) {{
+            try {{
+                const {{ error }} = await supabaseClient.from('ruteos_guardados').delete().in('id', idsAEliminar);
+                if (error) {{
+                    alert("⚠️ Error al eliminar en lote: " + error.message);
+                    return;
+                }}
+
+                // Remover en tiempo real de la pantalla y selector sin reiniciar
+                idsAEliminar.forEach(id => removerRuteoDePantallaPorId(id));
+
+                alert(`✅ Se eliminaron ${{seleccionados.length}} ruteo(s) correctamente.`);
+                abrirGestorEliminacionMasiva(); // Refrescar modal
+            }} catch (err) {{
+                console.error("Error al eliminar masivamente:", err);
+            }}
+        }}
+    }}
+
+    // ELIMINAR INDIVIDUAL CON LIMPIEZA INMEDIATA
+    async function eliminarRuteoIndividualRealTime(idRuteoBD, nombreRuteo) {{
+        if (!confirm(`¿Eliminar el ruteo "${{nombreRuteo}}"?`)) return;
+
+        if (supabaseClient) {{
+            try {{
+                const {{ error }} = await supabaseClient.from('ruteos_guardados').delete().eq('id', idRuteoBD);
+                if (error) {{
+                    alert("⚠️ Error al eliminar: " + error.message);
+                    return;
+                }}
+
+                removerRuteoDePantallaPorId(idRuteoBD);
+                alert(`✅ Ruteo "${{nombreRuteo}}" eliminado.`);
+                abrirGestorEliminacionMasiva(); // Refrescar modal
+            }} catch (err) {{
+                console.error("Error al eliminar:", err);
+            }}
+        }}
+    }}
+
+
+    function removerRuteoDePantallaPorId(idBD) {{
+        let selectorCiclos = document.getElementById("ciclo-selector");
+        let tabIdARemover = null;
+
+        // 1. Quitar la opción del menú desplegable
+        if (selectorCiclos) {{
+            Array.from(selectorCiclos.options).forEach(opt => {{
+                if (opt.getAttribute("data-id-bd") == idBD || opt.value == idBD) {{
+                    tabIdARemover = opt.value;
+                    opt.remove();
+                }}
+            }});
+
+            // Si el ruteo eliminado era el seleccionado actualmente, cambiar de vista
+            if (selectorCiclos.value == tabIdARemover || !selectorCiclos.value) {{
+                if (selectorCiclos.options.length > 0) {{
+                    selectorCiclos.selectedIndex = 0;
+                    cambiarCiclo(selectorCiclos.value);
+                }}
+            }}
+        }}
+
+        // 2. Remover la tabla de flota de la pantalla en tiempo real
+        let divsFlota = document.querySelectorAll(".t-content");
+        divsFlota.forEach(el => {{
+            if (el.getAttribute("data-id-bd") == idBD || (tabIdARemover && el.id == `tab-${{tabIdARemover}}`)) {{
+                el.remove();
+            }}
+        }});
+
+        // 3. Remover los polígonos de la pantalla en tiempo real
+        let divsPoly = document.querySelectorAll(".p-content");
+        divsPoly.forEach(el => {{
+            if (el.getAttribute("data-id-bd") == idBD || (tabIdARemover && el.id == `polys-${{tabIdARemover}}`)) {{
+                el.remove();
+            }}
+        }});
+
+        if (typeof recalc === 'function') {{
+            recalc();
+        }}
+    }}
+
+
+    async function actualizarRuteoEnBD(idRuteoBD, nuevosDatos) {{
+        if (!supabaseClient) return;
+        try {{
+            const {{ error }} = await supabaseClient.from('ruteos_guardados').update({{ datos: nuevosDatos }}).eq('id', idRuteoBD);
+            if (error) alert("⚠️ Error al guardar los cambios: " + error.message);
+            else alert("✅ ¡Cambios guardados con éxito en la base de datos!");
+        }} catch (err) {{ console.error("Error al actualizar ruteo:", err); }}
+    }}
+
+
+    function abrirCreadorRuteo() {{
+        cerrarGestorEliminacionMasiva();
+        let modal = document.getElementById("modal-crear-ruteo");
+        if (modal) {{
+            modal.style.display = "block";
+            inicializarCreadorFlota();
+            generarCamposPlanes();
+        }}
+    }}
+
+    function cerrarCreadorRuteo() {{
+        let modal = document.getElementById("modal-crear-ruteo");
+        if (modal) modal.style.display = "none";
+    }}
+
+    const BASE_FLOTA_MASTER = {{
+        "Car MLP": [110, 120],
+        "Small Van MLP": [110, 120],
+        "Large Van MLP": [110, 120],
+        "Small Van MLP Newbie": [110, 120],
+        "Large Van MLP Newbie": [110, 120],
+        "Extra large Van MLP": [110, 120],
+        "Small Van MLP foráneo": [110, 120],
+        "Large Van MLP foráneo": [110, 120],
+        "Car MLP foráneo": [110, 120],
+        "Extra large Van MLP H&B": [100, 100],
+        "Rental Car": [120, 150],
+        "Rental Electric Large Van": [120, 150],
+        "Rental Large Van": [120, 150],
+        "Rental Replacement": [120, 150],
+        "Rental Small Van Electrica": [120, 150],
+        "Rental Small Van": [120, 150],
+        "Truck 3.5 tons MLP": [1, 1],
+        "Delivery Cell Large Van": [1, 1],
+        "Car 8h": [70, 70],
+        "Car Newbie": [50, 50],
+        "Car Zona Extendida": [60, 60],
+        "Moto 3h": [30, 30],
+        "Small Van 9h": [70, 70],
+        "Small Van 9h Ext": [70, 70],
+        "Small Van Newbie": [70, 70],
+        "Media Milla SP": [1, 1]
+    }};
+
+    function inicializarCreadorFlota() {{
+        let cont = document.getElementById("contenedor-lista-flota");
+        if (!cont) return;
+        let htmlFlota = "";
+        Object.keys(BASE_FLOTA_MASTER).forEach((unidad, idx) => {{
+            let sprDef = BASE_FLOTA_MASTER[unidad];
+            htmlFlota += `
+                <div style="background: #1a1c1e; border: 1px solid #3f4347; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: bold; cursor: pointer; color: white; flex: 1;">
+                        <input type="checkbox" class="chk-flota-unidad" value="${{unidad}}" checked style="transform: scale(1.2); accent-color: #8A2BE2;">
+                        ${{unidad}}
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="font-size: 10px; color: #aaa;">MIN:</span>
+                        <input type="number" class="spr-min-${{idx}}" value="${{sprDef[0]}}" style="width: 45px; text-align: center; background: #25282b; color: white; border: 1px solid #555; border-radius: 4px; font-size: 12px;">
+                        <span style="font-size: 10px; color: #aaa;">MAX:</span>
+                        <input type="number" class="spr-max-${{idx}}" value="${{sprDef[1]}}" style="width: 45px; text-align: center; background: #25282b; color: white; border: 1px solid #555; border-radius: 4px; font-size: 12px;">
+                    </div>
+                </div>`;
+        }});
+        cont.innerHTML = htmlFlota;
+    }}
+
+
+
+    // ==============================================================================
+    // 🛠️ GENERADOR DE PLANES CON MÚLTIPLES UNIDADES PRIORITARIAS
+    // ==============================================================================
+
+    function generarCamposPlanes() {{
+        let cantInput = document.getElementById("creador-cant-planes");
+        let cont = document.getElementById("contenedor-lista-planes");
+        if (!cantInput || !cont) return;
+
+        let cant = parseInt(cantInput.value) || 1;
+        let htmlPlanes = "";
+
+        for (let i = 1; i <= cant; i++) {{
+            htmlPlanes += `
+                <div class="bloque-config-plan" style="background: #1a1c1e; border: 1px solid #3f4347; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #26d4ca; font-weight: bold; font-size: 12px; width: 60px;">PLAN ${{i}}:</span>
+                        <input type="text" class="input-nombre-plan" value="PLAN ${{i}}" placeholder="Nombre del Plan" 
+                            style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #555; background: #25282b; color: white; font-weight: bold; font-size: 13px;">
+                        <span style="font-size: 11px; color: #aaa;">Filas:</span>
+                        <input type="number" class="input-filas-plan" value="4" min="1" max="15" 
+                            style="width: 45px; text-align: center; background: #25282b; color: #FFD700; border: 1px solid #555; border-radius: 4px; font-size: 12px; font-weight: bold;">
+                    </div>
+                    
+                    <!-- CONTENEDOR DINÁMICO DE UNIDADES PRIORITARIAS -->
+                    <div style="background: #25282b; padding: 8px; border-radius: 4px; border: 1px dashed #555; display: flex; flex-direction: column; gap: 6px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 11px; color: #FFD700; font-weight: bold;">🎯 Unidades Prioritarias / Requeridas:</span>
+                            <button onclick="agregarFilaUnidadPrioritaria(this)" style="cursor: pointer; background: #26d4ca; color: #1a1c1e; border: none; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;">➕ Añadir Unidad</button>
+                        </div>
+                        <div class="contenedor-unidades-prioritarias-plan" style="display: flex; flex-direction: column; gap: 6px;">
+                            ${{obtenerHTMLSelectorUnidad()}}
+                        </div>
+                    </div>
+                </div>`;
+        }}
+        cont.innerHTML = htmlPlanes;
+    }}
+
+    function obtenerHTMLSelectorUnidad() {{
+        let opcionesUnidades = `<option value="">-- Sin prioridad (Usar Flota Estándar) --</option>`;
+        Object.keys(BASE_FLOTA_MASTER).forEach(u => {{
+            opcionesUnidades += `<option value="${{u}}">${{u}}</option>`;
+        }});
+
+        return `
+            <div class="fila-unidad-prioritaria" style="display: flex; align-items: center; gap: 6px;">
+                <select class="input-unidad-prioritaria-plan" style="flex: 1; padding: 4px; border-radius: 4px; background: #1a1c1e; color: white; border: 1px solid #555; font-size: 12px;">
+                    ${{opcionesUnidades}}
+                </select>
+                <button onclick="eliminarFilaUnidadPrioritaria(this)" style="cursor: pointer; background: #dc3545; color: white; border: none; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;" title="Quitar esta unidad">❌</button>
+            </div>
+        `;
+    }}
+
+    function agregarFilaUnidadPrioritaria(btn) {{
+        let contenedor = btn.closest('div').nextElementSibling;
+        if (contenedor) {{
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = obtenerHTMLSelectorUnidad();
+            contenedor.appendChild(tempDiv.firstElementChild);
+        }}
+    }}
+
+    function eliminarFilaUnidadPrioritaria(btn) {{
+        let fila = btn.closest('.fila-unidad-prioritaria');
+        let contenedor = fila ? fila.parentElement : null;
+        if (fila && contenedor) {{
+            if (contenedor.querySelectorAll('.fila-unidad-prioritaria').length > 1) {{
+                fila.remove();
+            }} else {{
+                // Si es la última, solo resetea la opción
+                let select = fila.querySelector('select');
+                if (select) select.value = "";
+            }}
+        }}
+    }}
+
+    async function guardarNuevoRuteoCompleto() {{
+        let inputNombre = document.getElementById("creador-nombre-ruteo");
+        if (!inputNombre) return;
+
+        let nombreRuteo = inputNombre.value.trim().toUpperCase();
+        if (!nombreRuteo) {{ alert("⚠️ Por favor ingresa un nombre para el nuevo ruteo."); return; }}
+
+        let incluirORH = document.getElementById("chk-incluir-orh")?.checked || false;
+        let incluirOcup = document.getElementById("chk-incluir-ocup")?.checked || false;
+        let llevaNodos = document.getElementById("chk-incluir-nodos")?.checked || false;
+
+        let flotaElegida = [];
+        let itemsFlota = document.querySelectorAll("#contenedor-lista-flota > div");
+        itemsFlota.forEach((div, idx) => {{
+            let chk = div.querySelector(".chk-flota-unidad");
+            if (chk && chk.checked) {{
+                let nombreUnidad = chk.value;
+                let sprMin = parseInt(div.querySelector(`.spr-min-${{idx}}`)?.value) || 0;
+                let sprMax = parseInt(div.querySelector(`.spr-max-${{idx}}`)?.value) || 0;
+                flotaElegida.push({{ nombre: nombreUnidad, sprMin: sprMin, sprMax: sprMax }});
+            }}
+        }});
+
+        if (flotaElegida.length === 0) {{ alert("⚠️ Debes seleccionar al menos una unidad para la flota."); return; }}
+
+        let planesElegidos = [];
+        let bloquesPlanes = document.querySelectorAll("#contenedor-lista-planes .bloque-config-plan");
+        
+        bloquesPlanes.forEach((bloque) => {{
+            let nombrePlan = bloque.querySelector(".input-nombre-plan")?.value.trim().toUpperCase() || "PLAN";
+            let filasPlan = parseInt(bloque.querySelector(".input-filas-plan")?.value) || 3;
+            
+            // Capturar TODAS las unidades prioritarias seleccionadas para este plan
+            let unidadesPrioritarias = [];
+            bloque.querySelectorAll(".input-unidad-prioritaria-plan").forEach(select => {{
+                let val = select.value.trim();
+                if (val && !unidadesPrioritarias.includes(val)) {{
+                    unidadesPrioritarias.push(val);
+                }}
+            }});
+            
+            planesElegidos.push({{
+                nombre: nombrePlan, 
+                filas: filasPlan, 
+                unidadesPrioritarias: unidadesPrioritarias // Array de unidades en orden
+            }});
+        }});
+
+        let datosEstructura = {{
+            flota: flotaElegida, 
+            planes: planesElegidos, 
+            incluirORH: incluirORH, 
+            incluirOcup: incluirOcup,
+            llevaNodos: llevaNodos
+        }};
+
+        let nuevoIdBD = null;
+
+        if (supabaseClient) {{
+            try {{
+                const {{ data, error }} = await supabaseClient.from('ruteos_guardados').insert([{{ nombre: nombreRuteo, datos: datosEstructura }}]).select();
+                if (error) {{ alert("⚠️ Error al guardar en BD: " + error.message); return; }}
+                if (data && data.length > 0) nuevoIdBD = data[0].id;
+            }} catch (err) {{ console.error("Error Supabase:", err); }}
+        }}
+
+        crearTabYContenidoEnPantalla(nombreRuteo, flotaElegida, planesElegidos, nuevoIdBD, incluirORH, incluirOcup, llevaNodos);
+        cerrarCreadorRuteo();
+        alert(`¡Ruteo "${{nombreRuteo}}" guardado exitosamente!`);
+    }}
+    
+
+    async function cargarRuteosDesdeSupabase() {{
+        if (!supabaseClient) return;
+        try {{
+            const {{ data, error }} = await supabaseClient.from('ruteos_guardados').select('*').order('created_at', {{ ascending: true }});
+            if (data && data.length > 0) {{
+                data.forEach(ruteo => {{
+                    crearTabYContenidoEnPantalla(ruteo.nombre, ruteo.datos.flota || [], ruteo.datos.planes || [], ruteo.id, ruteo.datos.incluirORH || false, ruteo.datos.incluirOcup || false);
+                }});
+            }}
+        }} catch (err) {{ console.error("Error de conexión:", err); }}
+    }}
+
+
+
+
+    function crearTabYContenidoEnPantalla(nombreRuteo, flotaElegida, planesElegidos, idBD = null, incluirORH = false, incluirOcup = false, llevaNodos = false) {{
+        contadorPestanaDinamica++;
+        let nuevoTabId = contadorPestanaDinamica;
+
+        let selectorCiclos = document.getElementById("ciclo-selector");
+        if (selectorCiclos) {{
+            let existe = Array.from(selectorCiclos.options).some(opt => opt.getAttribute("data-id-bd") == idBD || opt.value == nuevoTabId);
+            if (!existe) {{
+                let opt = document.createElement("option");
+                opt.value = nuevoTabId;
+                if (idBD) opt.setAttribute("data-id-bd", idBD);
+                opt.innerText = `🟣 ${{nombreRuteo.toUpperCase()}}`;
+                selectorCiclos.appendChild(opt);
+            }}
+        }}
+
+        let fleetSticky = document.getElementById("fleet-sticky");
+        let nuevoContentFlota = document.createElement("div");
+        nuevoContentFlota.id = `tab-${{nuevoTabId}}`;
+        nuevoContentFlota.className = "t-content";
+        if (idBD) nuevoContentFlota.setAttribute("data-id-bd", idBD);
+        nuevoContentFlota.style.display = "none";
+
+        let botonesAccion = idBD ? `
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px;">
+                <button onclick="guardarCambiosRuteoActual(${{nuevoTabId}}, ${{idBD}})" style="cursor:pointer; background: #28a745; color: white; border: none; padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 4px;">💾 GUARDAR CAMBIOS</button>
+            </div>
+        ` : '';
+
+        let thORH = incluirORH ? `<th colspan="2" style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 105px;">ORH</th>` : '';
+        let thOcup = incluirOcup ? `<th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">% OCUP</th>` : '';
+        let colspanFooter = 1 + (incluirORH ? 2 : 0) + (incluirOcup ? 1 : 0) + 3;
+
+        let htmlFlota = botonesAccion + `
+            <table class="meli-table" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(180deg, #0a2e42 0%, #25282b 100%); color: white;">
+                        <th style="border-right: 0.5px solid #25282b; padding: 4px 8px; font-size: 14px; color: #25282b !important;">UNIDAD</th>
+                        ${{thORH}}
+                        ${{thOcup}}
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MIN</th>
+                        <th style="border-right: 0.5px solid #25282b; padding: 2px; font-size: 11px; color: #25282b !important; width: 45px;">SPR<br>MAX</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:60px;">SCHEDULE</th>
+                        <th style="border-right:0.7px solid #25282b; padding:4px 9px; font-size:11px; color:#25282b !important; width:57px; text-align:center;">USADAS</th>
+                        <th style="border-right:0.5px solid #25282b; padding:4px 8px; font-size:11px; color:#25282b !important; width:50px;">DELTA</th>
+                    </tr>
+                </thead>
+                <tbody id="body-${{nuevoTabId}}">`;
+
+        flotaElegida.forEach(f => {{
+            let tdORH = incluirORH ? `
+                <td contenteditable="true" class="edit-orh" oninput="actualizarHoraMinuto(this); recalc();" style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#141414;">0</td>
+                <td class="orh-hora" style="text-align:center; border:0.2px solid #25282b; width:60px; background:#f5f5f5; color:#141414; font-weight:bold;">00:00</td>
+            ` : '';
+
+            let tdOcup = incluirOcup ? `
+                <td contenteditable="true" class="edit-ocup" oninput="recalc()" style="text-align:center; border:0.2px solid #25282b; width:45px; background:#ffffff; color:#25282b;">0</td>
+            ` : '';
+
+            htmlFlota += `
+                <tr class="master-row">
+                    <td contenteditable="true" class="edit-name" oninput="recalc()" style="font-weight: bold; text-align: left; padding-left: 10px; border: 0.2px solid #25282b; color: #25282b;">${{f.nombre}}</td>
+                    ${{tdORH}}
+                    ${{tdOcup}}
+                    <td contenteditable="true" class="edit-spr-min" oninput="recalc()" style="text-align: center; border: 0.2px solid #25282b; background-color: #25282b; color: #ffffff; width: 45px;">${{f.sprMin}}</td>
+                    <td contenteditable="true" class="edit-spr-max" oninput="recalc()" style="text-align: center; border: 0.2px solid #25282b; background-color: #25282b; color: #ffffff; width: 45px;">${{f.sprMax}}</td>
+                    <td contenteditable="true" class="f-stock" oninput="recalc()" style="text-align: center; border: 0.2px solid #25282b; font-weight: bold; width: 60px;">0</td>
+                    <td class="f-ruteadas" style="text-align: center; border: 0.2px solid #25282b; background-color: #ffffff; font-weight: bold; width: 57px;">0</td>
+                    <td class="f-left" style="text-align:center; border:0.2px solid #25282b; font-weight:bold; width: 50px;">0</td>
+                </tr>`;
+        }});
+
+        htmlFlota += `
+                </tbody>
+                <tfoot class="fila-total">
+                    <tr class="fila-total">
+                        <td style="border:none;"></td>
+                        <td colspan="${{colspanFooter}}" style="padding:6px; text-align:right;">🚛 TOTAL RUTEADAS</td>
+                        <td id="total-ruteadas-${{nuevoTabId}}" style="text-align:center; color:#3CB371; font-size:16px; font-weight:bold;">0</td>
+                    </tr>
+                </tfoot>
+            </table>`;
+
+        nuevoContentFlota.innerHTML = htmlFlota;
+        if (fleetSticky) fleetSticky.appendChild(nuevoContentFlota);
+
+        let contenedorPolysPadre = document.getElementById("polys-4")?.parentNode || document.body;
+        let nuevoContentPolys = document.createElement("div");
+        nuevoContentPolys.id = `polys-${{nuevoTabId}}`;
+        nuevoContentPolys.className = "p-content";
+        if (idBD) nuevoContentPolys.setAttribute("data-id-bd", idBD);
+        nuevoContentPolys.style.display = "none";
+
+        let htmlPolys = "";
+        planesElegidos.forEach(p => {{
+            let bloqueVolumenNodos = llevaNodos ? `
+                <div style="text-align:center;">
+                    <span class="v-total-val" contenteditable="true" oninput="recalc()" style="display:inline-block; min-width:55px; padding:2px 8px; border-radius:4px; background:#ededed; font-size:22px; font-weight:bold; color:#808080;">0</span>
+                </div>
+                <hr style="margin:4px 0; border:none; border-top:2px solid #999;">
+                <div style="font-size:12px; font-weight:bold; color:#25282b; text-align:center;">
+                    <div>Nodos:</div>
+                    <span class="nodos-val" contenteditable="true" style="display:inline-block; min-width:28px; text-align:center; border:none; border-radius:4px; background:#ededed; font-size:16px; font-weight:bold; color:#FF6347; padding:0 4px; margin-top:2px;">0</span>
+                </div>
+            ` : `
+                <div style="text-align:center;">
+                    <span class="v-total-val" contenteditable="true" oninput="recalc()" style="display:inline-block; min-width:55px; padding:2px 8px; border-radius:4px; background:#ededed; font-size:22px; font-weight:bold; color:#808080;">0</span>
+                </div>
+            `;
+
+            let filasExtra = "";
+            for (let i = 1; i < p.filas; i++) {{
+                filasExtra += `
+                    <tr class="calc-row">
+                        <td class="u-manual-cell" style="background: #d3f0e5; border: 0.6px solid #25282b; padding: 2px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 4px;">
+                                <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, -1, 'u')">-</button>
+                                <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; text-align: center; width: 28px; color: #25282b !important;">0</span>
+                                <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, 1, 'u')">+</button>
+                            </div>
+                        </td>
+                        <td class="spr-real-cell" style="background: #FFFFFF; border: 0.6px solid #25282b; padding: 2px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 4px;">
+                                <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, -1, 's')">-</button>
+                                <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; text-align: center; width: 38px; color: #25282b !important;">0</span>
+                                <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, 1, 's')">+</button>
+                            </div>
+                        </td>
+                        <td style="border: 0.5px solid #25282b; padding: 2px;">
+                            <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="width:160px; border:none; background:transparent; font-weight:600; font-size:14px; color: #808080;">
+                                <option value="">Seleccionar...</option>
+                            </select>
+                        </td>
+                        <td style="width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+                    </tr>`;
+            }}
+
+            htmlPolys += `
+                <div class="poligono-bloque" data-unidad-prioritaria="${{p.unidadPrioritaria || ''}}" style="margin-bottom:12px; background: #ededed; border: 1.5px solid #25282b;">
+                    <table style="width: 100%; min-width: 630px; border-collapse: collapse; border: 1.5px solid #25282b;">
+                        <thead>
+                            <tr style="background: #25282b; color: white; font-size: 12px; height: 28px;">
+                                <th style="padding: 0 10px; border-right: 1px solid #25282b; width: 130px;">PLAN</th>
+                                <th style="border-right: 1px solid #25282b; width: 85px;">VOL. TOTAL</th>
+                                <th style="width: 105px; border-right: 1px solid #25282b;"># USADAS</th>
+                                <th style="width: 105px; border-right: 1px solid #25282b;">SPR</th>
+                                <th style="width: 180px; border-right: 1px solid #25282b;">TIPO DE UNIDAD</th>
+                                <th style="width: 45px; text-align: center;">OK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="calc-row">
+                                <td class="plan-cell" rowspan="${{p.filas}}" contenteditable="true" style="background: #dcdcdc; font-weight: bold; text-align:center; border: 1px solid #25282b; color:#141414;">${{p.nombre}}</td>
+                                <td class="vol-cell" rowspan="${{p.filas}}" style="color:#808080; font-weight:bold; text-align:center; border:1px solid #25282b; padding:5px;">
+                                    ${{bloqueVolumenNodos}}
+                                </td>
+                                <td class="u-manual-cell" style="background: #d3f0e5; border: 0.5px solid #25282b; padding: 2px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 4px;">
+                                        <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, -1, 'u')">-</button>
+                                        <span contenteditable="true" class="u-manual" oninput="manualEdit(this)" style="font-weight: bold; text-align: center; width: 28px; color: #25282b !important;">0</span>
+                                        <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, 1, 'u')">+</button>
+                                    </div>
+                                </td>
+                                <td class="spr-real-cell" style="background: #FFFFFF; border: 0.5px solid #25282b; padding: 2px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 4px;">
+                                        <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, -1, 's')">-</button>
+                                        <span contenteditable="true" class="spr-real-val" oninput="manualEdit(this)" style="font-weight: bold; text-align: center; width: 38px; color: #25282b !important;">0</span>
+                                        <button style="cursor:pointer; border:none; background:rgba(0,0,0,0.08); color:#25282b; font-weight:bold; width:24px; height:24px; border-radius:4px;" onclick="stepVal(this, 1, 's')">+</button>
+                                    </div>
+                                </td>
+                                <td style="border: 0.5px solid #25282b; padding: 2px;">
+                                    <select class="s-type" onchange="resetRow(this); updateSelectColor(this);" style="width:160px; border:none; background:transparent; font-weight:600; font-size:14px; color: #808080;">
+                                        <option value="">Seleccionar...</option>
+                                    </select>
+                                </td>
+                                <td style="width: 45px; text-align: center; border: 0.5px solid #25282b;"><input type="checkbox" class="ok-check" style="transform: scale(1.7); accent-color: #9ACD32; cursor: pointer;"></td>
+                            </tr>
+                            ${{filasExtra}}
+                            <tr style="background:#ededed; height: 32px;">
+                                <td colspan="3" style="text-align:center; font-weight:bold; border: 1px solid #25282b; font-size: 14px; color:#25282b;">ESTADO:</td>
+                                <td class="v-calculado-total" style="font-weight: bold; font-size: 14px; color: #d32f2f; border: 1px solid #25282b; text-align: center;">0</td>
+                                <td class="p-diff delta" colspan="2" style="text-align: center; font-weight: bold; border: 1px solid #25282b; font-size: 14px; color: #25282b">VACÍO:</td>
+                            </tr>
+                        </tbody>
+                        <div style="text-align:center; padding:5px; background:#ededed;">
+                            <button onclick="agregarFilaPlan(this)" style="cursor:pointer; margin-right:5px;">➕</button>
+                            <button onclick="quitarFilaPlan(this)" style="cursor:pointer;">➖</button>
+                            <span class="contador-filas" style="margin-left:10px;font-weight:bold;">Filas: ${{p.filas}}</span>
+                        </div>
+                    </table>
+                </div>`;
+        }});
+
+        nuevoContentPolys.innerHTML = htmlPolys;
+        if (contenedorPolysPadre) contenedorPolysPadre.appendChild(nuevoContentPolys);
+
+        if (selectorCiclos) {{
+            selectorCiclos.value = nuevoTabId;
+            cambiarCiclo(nuevoTabId);
+        }}
+    }}
+
+    
+
+    async function guardarCambiosRuteoActual(tabId, idBD) {{
+        let tbodyFlota = document.querySelectorAll(`#body-${{tabId}} tr.master-row`);
+        let flotaElegida = [];
+        tbodyFlota.forEach(row => {{
+            let nombre = row.querySelector('.edit-name')?.innerText.trim();
+            let sprMin = parseInt(row.querySelector('.edit-spr-min')?.innerText) || 0;
+            let sprMax = parseInt(row.querySelector('.edit-spr-max')?.innerText) || 0;
+            if (nombre) flotaElegida.push({{ nombre, sprMin, sprMax }});
+        }});
+
+        let bloquesPolys = document.querySelectorAll(`#polys-${{tabId}} .poligono-bloque`);
+        let planesElegidos = [];
+        bloquesPolys.forEach(bloque => {{
+            let nombre = bloque.querySelector('.plan-cell')?.innerText.trim() || "PLAN";
+            let filas = bloque.querySelectorAll('.calc-row').length || 3;
+            planesElegidos.push({{ nombre, filas }});
+        }});
+
+        let tieneORH = document.querySelectorAll(`#tab-${{tabId}} .edit-orh`).length > 0;
+        let tieneOcup = document.querySelectorAll(`#tab-${{tabId}} .edit-ocup`).length > 0;
+
+        let nuevosDatos = {{ flota: flotaElegida, planes: planesElegidos, incluirORH: tieneORH, incluirOcup: tieneOcup }};
+        await actualizarRuteoEnBD(idBD, nuevosDatos);
+    }}
 
     function cambiarCiclo(valorTab) {{
-    // 1. Ocultar todas las tablas de disponibilidad y dejar visible solo la seleccionada
-    document.querySelectorAll('.t-content').forEach(el => {{
-        el.style.display = 'none';
-    }});
-    const tablaActiva = document.getElementById('tab-' + valorTab);
-    if (tablaActiva) {{
-        tablaActiva.style.display = 'block';
+        document.querySelectorAll('.t-content').forEach(el => {{
+            el.style.display = 'none';
+        }});
+        const tablaActiva = document.getElementById('tab-' + valorTab);
+        if (tablaActiva) {{
+            tablaActiva.style.display = 'block';
+        }}
+
+        document.querySelectorAll('.p-content').forEach(el => {{
+            el.style.display = 'none';
+        }});
+        const polyActivo = document.getElementById('polys-' + valorTab);
+        if (polyActivo) {{
+            polyActivo.style.display = 'block';
+        }}
+
+        currentTab = parseInt(valorTab);
+        
+        if (typeof recalc === 'function') {{
+            recalc();
+        }}
     }}
 
-    // 2. Ocultar todos los bloques de polígonos y mostrar solo el del ciclo correspondiente
-    document.querySelectorAll('.p-content').forEach(el => {{
-        el.style.display = 'none';
-    }});
-    const polyActivo = document.getElementById('polys-' + valorTab);
-    if (polyActivo) {{
-        polyActivo.style.display = 'block';
-    }}
 
-    // 3. Actualizar la variable de control global
-    currentTab = parseInt(valorTab);
+
+    // ==============================================================================
+    // 💾 SISTEMA DE PERSISTENCIA EN TIEMPO REAL (LOCALSTORAGE)
+    // ==============================================================================
     
-    // 4. Recalcular valores de la interfaz
-    if (typeof recalc === 'function') {{
-        recalc();
+    function guardarEstadoEnVivo() {{
+        try {{
+            let estado = {{}};
+
+            // 1. Guardar Volúmenes Totales y Nodos por Polígono
+            document.querySelectorAll('.poligono-bloque').forEach((bloque, idx) => {{
+                let volEl = bloque.querySelector('.v-total-val');
+                let nodoEl = bloque.querySelector('.nodos-val') || bloque.querySelector('.nodos-campeche');
+                
+                estado[`poly_vol_${{idx}}`] = volEl ? volEl.innerText.trim() : "0";
+                if (nodoEl) {{
+                    estado[`poly_nodo_${{idx}}`] = nodoEl.innerText.trim();
+                }}
+
+                // Guardar las filas calculadas dentro del polígono
+                let filasData = [];
+                bloque.querySelectorAll('.calc-row').forEach(row => {{
+                    let uVal = row.querySelector('.u-manual')?.innerText.trim() || "0";
+                    let sprVal = row.querySelector('.spr-real-val')?.innerText.trim() || "0";
+                    let sType = row.querySelector('.s-type')?.value || "";
+                    let okCheck = row.querySelector('.ok-check')?.checked || false;
+
+                    filasData.push({{ u: uVal, spr: sprVal, type: sType, ok: okCheck }});
+                }});
+                estado[`poly_filas_${{idx}}`] = filasData;
+            }});
+
+            // 2. Guardar ORH, % Ocupación y Schedule en la Tabla de Flota
+            document.querySelectorAll('.master-row').forEach((row, idx) => {{
+                let stockEl = row.querySelector('.f-stock');
+                let orhEl = row.querySelector('.edit-orh');
+                let ocupEl = row.querySelector('.edit-ocup');
+
+                if (stockEl) estado[`flota_stock_${{idx}}`] = stockEl.innerText.trim();
+                if (orhEl) estado[`flota_orh_${{idx}}`] = orhEl.innerText.trim();
+                if (ocupEl) estado[`flota_ocup_${{idx}}`] = ocupEl.innerText.trim();
+            }});
+
+            // Guardar pestaña/ciclo activo
+            estado['currentTabActive'] = currentTab;
+
+            localStorage.setItem('monitor_logistico_estado_vivo', JSON.stringify(estado));
+        }} catch (e) {{
+            console.error("Error al guardar estado local:", e);
+        }}
     }}
-}}
+
+    function restaurarEstadoEnVivo() {{
+        try {{
+            let dataRaw = localStorage.getItem('monitor_logistico_estado_vivo');
+            if (!dataRaw) return;
+
+            let estado = JSON.parse(dataRaw);
+
+            // 1. Restaurar Volúmenes y Filas de Polígonos
+            document.querySelectorAll('.poligono-bloque').forEach((bloque, idx) => {{
+                let volEl = bloque.querySelector('.v-total-val');
+                let nodoEl = bloque.querySelector('.nodos-val') || bloque.querySelector('.nodos-campeche');
+
+                if (volEl && estado[`poly_vol_${{idx}}`] !== undefined) {{
+                    volEl.innerText = estado[`poly_vol_${{idx}}`];
+                }}
+                if (nodoEl && estado[`poly_nodo_${{idx}}`] !== undefined) {{
+                    nodoEl.innerText = estado[`poly_nodo_${{idx}}`];
+                }}
+
+                // Restaurar filas calculadas
+                let filasData = estado[`poly_filas_${{idx}}`];
+                if (Array.isArray(filasData)) {{
+                    let filasHTML = bloque.querySelectorAll('.calc-row');
+                    
+                    // Si el usuario tenía más filas agregadas que las por defecto, creamos las que falten
+                    while (filasHTML.length < filasData.length) {{
+                        let btnAgregar = bloque.querySelector('button[onclick*="agregarFilaPlan"]');
+                        if (btnAgregar) agregarFilaPlan(btnAgregar);
+                        filasHTML = bloque.querySelectorAll('.calc-row');
+                    }}
+
+                    filasData.forEach((fData, fIdx) => {{
+                        let row = filasHTML[fIdx];
+                        if (row) {{
+                            let uSpan = row.querySelector('.u-manual');
+                            let sprSpan = row.querySelector('.spr-real-val');
+                            let selectType = row.querySelector('.s-type');
+                            let checkOk = row.querySelector('.ok-check');
+
+                            if (uSpan) uSpan.innerText = fData.u;
+                            if (sprSpan) sprSpan.innerText = fData.spr;
+                            if (selectType && fData.type) {{
+                                selectType.value = fData.type;
+                                updateSelectColor(selectType);
+                            }}
+                            if (checkOk) checkOk.checked = fData.ok;
+                        }}
+                    }});
+                }}
+            }});
+
+            // 2. Restaurar Tabla de Flota (Stock, ORH, Ocupación)
+            document.querySelectorAll('.master-row').forEach((row, idx) => {{
+                let stockEl = row.querySelector('.f-stock');
+                let orhEl = row.querySelector('.edit-orh');
+                let ocupEl = row.querySelector('.edit-ocup');
+
+                if (stockEl && estado[`flota_stock_${{idx}}`] !== undefined) stockEl.innerText = estado[`flota_stock_${{idx}}`];
+                if (orhEl && estado[`flota_orh_${{idx}}`] !== undefined) {{
+                    orhEl.innerText = estado[`flota_orh_${{idx}}`];
+                    actualizarHoraMinuto(orhEl);
+                }}
+                if (ocupEl && estado[`flota_ocup_${{idx}}`] !== undefined) ocupEl.innerText = estado[`flota_ocup_${{idx}}`];
+            }});
+
+            if (typeof recalc === 'function') recalc();
+        }} catch (e) {{
+            console.error("Error al restaurar estado local:", e);
+        }}
+    }}
+
+    function limpiarPantallaCompleta() {{
+        if (!confirm("¿Deseas vaciar todos los valores editados de la pantalla para iniciar un nuevo ruteo de cero?")) return;
+        
+        localStorage.removeItem('monitor_logistico_estado_vivo');
+
+        // Resetear volúmenes a 0
+        document.querySelectorAll('.v-total-val, .nodos-val, .nodos-campeche').forEach(el => el.innerText = "0");
+        
+        // Resetear filas
+        document.querySelectorAll('.calc-row').forEach(row => {{
+            let uSpan = row.querySelector('.u-manual');
+            let sprSpan = row.querySelector('.spr-real-val');
+            let selectType = row.querySelector('.s-type');
+            let checkOk = row.querySelector('.ok-check');
+
+            if (uSpan) uSpan.innerText = "0";
+            if (sprSpan) sprSpan.innerText = "0";
+            if (selectType) {{
+                selectType.value = "";
+                updateSelectColor(selectType);
+            }}
+            if (checkOk) checkOk.checked = false;
+        }});
+
+        // Resetear stock de flota
+        document.querySelectorAll('.f-stock').forEach(el => el.innerText = "0");
+
+        if (typeof recalc === 'function') recalc();
+    }}
+
+    // LISTENERS DE GUARDA Y RESTAURACIÓN AUTOMÁTICA
+    document.addEventListener('input', function(e) {{
+        guardarEstadoEnVivo();
+    }});
+
+    document.addEventListener('change', function(e) {{
+        guardarEstadoEnVivo();
+    }});
+
+    window.addEventListener('load', function() {{
+        restaurarEstadoEnVivo();
+    }});
 
 
 
     function aplicarPerfil() {{
+        let perfil = perfiles[perfilActual];
+        if(!perfil) return;
 
-    let perfil = perfiles[perfilActual];
+        Object.keys(perfil).forEach(tabId => {{
+            document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+                let unidad = row.querySelector('.edit-name')?.innerText.trim(); 
+                if(perfil[tabId][unidad]) {{
+                    let data = perfil[tabId][unidad];
+                    let orh = row.querySelector('.edit-orh');
+                    let disp = row.querySelector('.edit-ocup');
 
-    if(!perfil) return;
-
-    Object.keys(perfil).forEach(tabId => {{
-
-        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-
-            let unidad =
-                row.querySelector('.edit-name')?.innerText.trim(); 
-
-            if(perfil[tabId][unidad]) {{
-
-                let data = perfil[tabId][unidad];
-
-                let orh =
-                    row.querySelector('.edit-orh');
-
-                let disp =
-                    row.querySelector('.edit-ocup');
-
-                if(orh)
-                    orh.innerText = data.orh;
-
-                if(disp)
-                    disp.innerText = data.disp;
-            }}
+                    if(orh) orh.innerText = data.orh;
+                    if(disp) disp.innerText = data.disp;
+                }}
+            }});
         }});
-   }});
+        recalc();
+    }}
 
-    recalc();
-}}
-
-
-// --- LÓGICA DE SUMA A PRUEBA DE ERRORES ---
     (function initSuma() {{
-        console.log("Iniciando lógica de suma...");
         const inputs = document.querySelectorAll('.sum-input');
         const totalDisplay = document.getElementById('total-final');
-
-        if (inputs.length === 0) {{
-            console.error("ERROR: No se encontraron los inputs con clase .sum-input");
-        }}
 
         inputs.forEach(input => {{
             input.addEventListener('input', () => {{
@@ -2373,218 +3284,124 @@ body.excel-view .poligono-bloque th:nth-child(7) {{ width: 45px !important; }} /
                 }});
                 if (totalDisplay) {{
                     totalDisplay.value = sum;
-                    console.log("Total actualizado:", sum);
                 }}
             }});
         }});
     }})();
 
+    function agregarFilaPlan(btn){{
+        const bloque = btn.closest(".poligono-bloque");
+        const tbody = bloque.querySelector("tbody");
+        const filas = tbody.querySelectorAll(".calc-row");
+        const filaBase = filas[0];
+        const nuevaFila = filaBase.cloneNode(true);
 
+        nuevaFila.querySelectorAll("[rowspan]").forEach(td => {{
+            td.remove();
+        }});
 
-function agregarFilaPlan(btn){{
+        const u = nuevaFila.querySelector(".u-manual");
+        if(u) u.innerText = "0";
 
-    const bloque = btn.closest(".poligono-bloque");
-    const tbody = bloque.querySelector("tbody");
+        const spr = nuevaFila.querySelector(".spr-real-val");
+        if(spr) spr.innerText = "0";
 
-    const filas = tbody.querySelectorAll(".calc-row");
+        const select = nuevaFila.querySelector(".s-type");
+        if(select) select.selectedIndex = 0;
 
-    const filaBase = filas[0];
+        const check = nuevaFila.querySelector(".ok-check");
+        if(check) check.checked = false;
 
-    const nuevaFila = filaBase.cloneNode(true);
+        const estado = tbody.querySelector("tr:last-child");
+        tbody.insertBefore(nuevaFila, estado);
 
-
-    // quitar celdas con rowspan (PLAN y VOL)
-    nuevaFila.querySelectorAll("[rowspan]").forEach(td => {{
-        td.remove();
-    }});
-
-
-    // limpiar valores
-    const u = nuevaFila.querySelector(".u-manual");
-    if(u) u.innerText = "0";
-
-    const spr = nuevaFila.querySelector(".spr-real-val");
-    if(spr) spr.innerText = "0";
-
-    const select = nuevaFila.querySelector(".s-type");
-    if(select) select.selectedIndex = 0;
-
-    const check = nuevaFila.querySelector(".ok-check");
-    if(check) check.checked = false;
-
-
-    // insertar antes de ESTADO
-    const estado = tbody.querySelector("tr:last-child");
-
-    tbody.insertBefore(nuevaFila, estado);
- 
-
-    actualizarRowspan(bloque);
-
-    recalc();
-}}
-
-
-
-function quitarFilaPlan(btn){{
-
-    const bloque = btn.closest(".poligono-bloque");
-    const tbody = bloque.querySelector("tbody");
-
-    const filas = tbody.querySelectorAll(".calc-row");
-
-
-    if(filas.length <= 1){{
-        return;
+        actualizarRowspan(bloque);
+        recalc();
     }}
 
+    function quitarFilaPlan(btn){{
+        const bloque = btn.closest(".poligono-bloque");
+        const tbody = bloque.querySelector("tbody");
+        const filas = tbody.querySelectorAll(".calc-row");
 
-    filas[filas.length - 1].remove();
-
-
-    actualizarRowspan(bloque);
-
-
-    // 🔥 obliga al navegador a recalcular la tabla completa
-    const tabla = bloque.querySelector("table");
-
-    if(tabla){{
-
-        tabla.style.width = "100%";
-        tabla.style.tableLayout = "fixed";
-
-        // refresca el render
-        void tabla.offsetWidth;
-
-        setTimeout(() => {{
-            tabla.style.tableLayout = "fixed";
-        }}, 50);
-    }}
-
-
-    recalc();
-}}
-
-
-
-function actualizarContador(bloque){{
-
-    const filas = bloque.querySelectorAll(".calc-row");
-
-    const contador = bloque.querySelector(".contador-filas");
-
-    if(contador){{
-        contador.innerText = "Filas: " + filas.length;
-    }}
-
-}}
-
-
-function actualizarRowspan(bloque){{
-
-    let filas = bloque.querySelectorAll(".calc-row").length;
-
-    let plan = bloque.querySelector(".plan-cell");
-    let vol = bloque.querySelector(".vol-cell");
-
-    if(plan) plan.rowSpan = filas;
-    if(vol) vol.rowSpan = filas;
-}}
-
-
-function actualizarRowspan(bloque){{
-
-    const filas = bloque.querySelectorAll(".calc-row").length;
-
-    const plan = bloque.querySelector("td.plan-cell");
-    const volumen = bloque.querySelector("td.vol-cell");
-
-    if(plan){{
-        plan.rowSpan = filas;
-    }}
-
-    if(volumen){{
-        volumen.rowSpan = filas;
-    }}
-
-
-    const contador = bloque.querySelector(".contador-filas");
-
-    if(contador){{
-        contador.innerText = "Filas: " + filas;
-    }}
-}}
-
-
-function toggleMenuPestanas() {{
-    let panel = document.getElementById("panel-selector-pestanas");
-    if (panel) {{
-        panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
-    }}
-}}
-
-function toggleBtnPestana(btnId, visible) {{
-    let btn = document.getElementById(btnId);
-    if (btn) {{
-        btn.style.display = visible ? "inline-block" : "none";
-    }}
-}}
-
-
-
-
-function toggleFleetFloating() {{
-  const panel = document.getElementById("fleet-sticky");
-  const btn = document.getElementById("fleet-toggle-btn");
-  if (!panel) return;
-
-  const goingToFloat = !panel.classList.contains("fleet-floating");
-
-  if (goingToFloat) {{
-    panel.classList.remove("fleet-normal");
-    panel.classList.add("fleet-floating");
-    if (btn) btn.textContent = "NORMAL (enter)";
-  }} else {{
-    panel.classList.remove("fleet-floating");
-    panel.classList.add("fleet-normal");
-    panel.removeAttribute("style");
-    if (btn) btn.textContent = "FLOTAR ☁️";
-  }}
-}}
-
-
-
-
-function showTab(n, btn) {{
-
-
-    
-        // 1. --- LOGICA NUEVA PARA EL BLOQUE C1 ---
-    const bloqueC1 = document.getElementById('contenedor-paquetes-c1');
-        if (bloqueC1) {{
-            // Asumimos que la pestaña C1 es la que tiene el número 6 (si es otra, cambia el 6)
-           if (n === 6) {{
-            bloqueC1.style.display = 'block';
-           }} else {{
-              bloqueC1.style.display = 'none';
-           }}
+        if(filas.length <= 1){{
+            return;
         }}
 
+        filas[filas.length - 1].remove();
+        actualizarRowspan(bloque);
 
-    
-        // 1. Si la Vista Excel estaba activa, la apagamos de forma segura antes de cambiar de pestaña
+        const tabla = bloque.querySelector("table");
+        if(tabla){{
+            tabla.style.width = "100%";
+            tabla.style.tableLayout = "fixed";
+            void tabla.offsetWidth;
+            setTimeout(() => {{
+                tabla.style.tableLayout = "fixed";
+            }}, 50);
+        }}
+        recalc();
+    }}
+
+    function actualizarContador(bloque){{
+        const filas = bloque.querySelectorAll(".calc-row");
+        const contador = bloque.querySelector(".contador-filas");
+        if(contador){{
+            contador.innerText = "Filas: " + filas.length;
+        }}
+    }}
+
+    function actualizarRowspan(bloque){{
+        const filas = bloque.querySelectorAll(".calc-row").length;
+        const plan = bloque.querySelector("td.plan-cell");
+        const volumen = bloque.querySelector("td.vol-cell");
+
+        if(plan) plan.rowSpan = filas;
+        if(volumen) volumen.rowSpan = filas;
+
+        const contador = bloque.querySelector(".contador-filas");
+        if(contador){{
+            contador.innerText = "Filas: " + filas;
+        }}
+    }}
+
+    function toggleFleetFloating() {{
+        const panel = document.getElementById("fleet-sticky");
+        const btn = document.getElementById("fleet-toggle-btn");
+        if (!panel) return;
+
+        const goingToFloat = !panel.classList.contains("fleet-floating");
+
+        if (goingToFloat) {{
+            panel.classList.remove("fleet-normal");
+            panel.classList.add("fleet-floating");
+            if (btn) btn.textContent = "NORMAL (enter)";
+        }} else {{
+            panel.classList.remove("fleet-floating");
+            panel.classList.add("fleet-normal");
+            panel.removeAttribute("style");
+            if (btn) btn.textContent = "FLOTAR ☁️";
+        }}
+    }}
+
+    function showTab(n, btn) {{
+        const bloqueC1 = document.getElementById('contenedor-paquetes-c1');
+        if (bloqueC1) {{
+            if (n === 6) {{
+                bloqueC1.style.display = 'block';
+            }} else {{
+                bloqueC1.style.display = 'none';
+            }}
+        }}
+
         if (document.body.classList.contains("excel-view")) {{
             document.body.classList.remove("excel-view");
-            
-            // Cambiamos el texto del botón a su estado original
             let bExcel = document.getElementById("excel-btn");
             if (bExcel) bExcel.innerHTML = "VISTA EXCEL";
             
-            // Ocultamos el bloque de la tabla espejo de Excel
             let excelPanel = document.getElementById("excel-polys");
             if (excelPanel) excelPanel.style.display = "none";
             
-            // Restauramos de inmediato TODAS las filas de totales ocultas para que no se pierdan en SMX5/SDE
             const idsArestaurar = [
                 "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
                 "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
@@ -2592,7 +3409,7 @@ function showTab(n, btn) {{
                 "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
                 "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
                 "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
-             ];
+            ];
             idsArestaurar.forEach(id => {{
                 let el = document.getElementById(id);
                 if (el) {{
@@ -2601,18 +3418,14 @@ function showTab(n, btn) {{
                 }}
             }});
             
-            // Aseguramos que los footers de todas las tablas vuelvan a mostrarse normales
             document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
                 fila.style.setProperty('display', 'table-row', 'important');
             }});
         }}
 
-        // 2. Lógica nativa de tu aplicación para mover pestañas
         currentTab = n;
-        document.querySelectorAll('.p-content, .t-content')
-            .forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn')
-            .forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.p-content, .t-content').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
         document.getElementById('polys-' + n).style.display = 'block';
         document.getElementById('tab-' + n).style.display = 'block';
@@ -2623,23 +3436,15 @@ function showTab(n, btn) {{
         if (typeof actualizarVisibilidadContador === "function") actualizarVisibilidadContador();
         updateFleetFloat();
 
-        // ==============================================================================
-        // 🔒 CANDADO DE VISIBILIDAD EXCLUSIVA (GANÁNDOLE AL CSS)
-        // ==============================================================================
         const excelBtn = document.getElementById('excel-btn');
         if (excelBtn) {{
-            if (n === 2 || n === 6 || n === 7 || n === 8 || n === 9) {{ // 🟢 Añadido "n === 9"
+            if (n === 2 || n === 6 || n === 7 || n === 8 || n === 9) {{
                 excelBtn.style.setProperty('display', 'inline-block', 'important');
             }} else {{
                 excelBtn.style.setProperty('display', 'none', 'important');
             }}
         }}
     }}
-
-
-
-
-
 
     function showAlert(msg) {{
         document.getElementById('alert-msg').innerText = msg;
@@ -2648,639 +3453,489 @@ function showTab(n, btn) {{
     function hideAlert() {{ document.getElementById('google-alert').classList.remove('show'); }}
 
     function stepVal(btn, delta, type) {{
-    let row = btn.closest('tr');
-    let sel = row.querySelector('.s-type').value;
-    
-    // Si no hay unidad seleccionada, no hace nada
-    if(sel === "Seleccionar..." || !sel) return;
+        let row = btn.closest('tr');
+        let sel = row.querySelector('.s-type').value;
+        
+        if(sel === "Seleccionar..." || !sel) return;
 
-    // Buscamos la fila correspondiente en la tabla de Flota para sacar el MAX
-    let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
-    let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
-    
-    if (!fRow) return; // Seguridad por si no encuentra la unidad
+        let fRows = Array.from(document.querySelectorAll('#body-' + currentTab + ' tr'));
+        let fRow = fRows.find(r => r.querySelector('.edit-name').innerText.trim() === sel);
+        
+        if (!fRow) return;
 
-    let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
-    let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
+        let left = parseInt(fRow.querySelector('.f-left').innerText) || 0;
+        let sprMaxReal = parseFloat(fRow.querySelector('.edit-spr-max').innerText) || 0;
 
-    if(type === 'u') {{
-        let span = row.querySelector('.u-manual');
-        let val = parseInt(span.innerText) || 0;
-        let newVal = val + delta;
-        if (newVal < 0) newVal = 0; // Evita valores negativos en la celda del polígono
+        if(type === 'u') {{
+            let span = row.querySelector('.u-manual');
+            let val = parseInt(span.innerText) || 0;
+            let newVal = val + delta;
+            if (newVal < 0) newVal = 0;
 
-        // 🔥 PERMITE AGREGAR CUALQUIER UNIDAD ADICIONAL CON EL BOTÓN +
-        if (delta > 0 && left <= 0) {{
-            showAlert("⚠️ UNIDAD ADICIONAL. Se registrará como exceso en Delta.");
+            if (delta > 0 && left <= 0) {{
+                showAlert("⚠️ UNIDAD ADICIONAL. Se registrará como exceso en Delta.");
+            }}
+            
+            span.innerText = newVal;
+        }} else {{
+            let span = row.querySelector('.spr-real-val');
+            let val = parseFloat(span.innerText) || 0;
+            let newVal = Math.round(val + delta);
+
+            if (delta > 0 && newVal > sprMaxReal) {{
+                showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
+                return; 
+            }}
+            
+            span.innerText = newVal;
         }}
-        
-        span.innerText = newVal;
-    }} else {{
-        let span = row.querySelector('.spr-real-val');
-        let val = parseFloat(span.innerText) || 0;
-        let newVal = Math.round(val + delta);
+        editedRowsPlan.add(row);
+        recalc();
+    }}
 
-        // VALIDACIÓN: Solo bloquea si intentas SUBIR el SPR por encima del máximo
-        if (delta > 0 && newVal > sprMaxReal) {{
-            showAlert("⚠️ NO PUEDES SOBREPASAR EL SPR MÁXIMO (" + sprMaxReal + ")");
-            return; 
+    function actualizarHoraMinuto(celda){{
+        let valor = celda.innerText.trim().replace(",", ".");
+        if(valor === "") valor = "0";
+
+        let numero = parseFloat(valor);
+        if(isNaN(numero)) numero = 0;
+
+        let minutosTotales;
+        if(valor.includes(".")){{
+            minutosTotales = Math.round(numero * 60);
+        }} else if(numero >= 24){{
+            minutosTotales = Math.round(numero);
+        }} else{{
+            minutosTotales = Math.round(numero * 60);
         }}
-        
-        span.innerText = newVal;
-    }}
-    editedRowsPlan.add(row);
-    recalc();
-}}
 
+        let horas = Math.floor(minutosTotales / 60);
+        let mins = minutosTotales % 60;
 
+        let fila = celda.closest("tr");
+        let hm = fila.querySelector(".orh-hora");
 
-function actualizarHoraMinuto(celda){{
-
-    let valor = celda.innerText.trim().replace(",", ".");
-
-    if(valor === "") valor = "0";
-
-    let numero = parseFloat(valor);
-
-    if(isNaN(numero))
-        numero = 0;
-
-    let minutosTotales;
-
-    // Si tiene decimal, se interpreta como HORAS
-    if(valor.includes(".")){{
-        minutosTotales = Math.round(numero * 60);
-    }}
-    // Si es entero grande (ej. 145), se interpreta como MINUTOS
-    else if(numero >= 24){{
-        minutosTotales = Math.round(numero);
-    }}
-    // Si es entero pequeño (ej. 2), se interpreta como HORAS
-    else{{
-        minutosTotales = Math.round(numero * 60);
+        if(hm){{
+            hm.style.color = "#141414";
+            hm.innerText = String(horas).padStart(2,"0") + ":" + String(mins).padStart(2,"0");
+        }}
     }}
 
-    let horas = Math.floor(minutosTotales / 60);
-    let mins = minutosTotales % 60;
-
-    let fila = celda.closest("tr");
-    let hm = fila.querySelector(".orh-hora");
-
-    if(hm){{
-        // 🔥 CAMBIO DE COLOR HORA ORH: Forzamos el color naranja/café llamativo (#d97706) en el texto nativo
-        hm.style.color = "#141414";
-        
-        hm.innerText =
-            String(horas).padStart(2,"0") +
-            ":" +
-            String(mins).padStart(2,"0");
-    }}
-}}
-
-document.querySelectorAll(".edit-orh").forEach(function(celda){{
-
-    actualizarHoraMinuto(celda);
-
-    celda.addEventListener("input", function(){{
-
-        actualizarHoraMinuto(this);
-
+    document.querySelectorAll(".edit-orh").forEach(function(celda){{
+        actualizarHoraMinuto(celda);
+        celda.addEventListener("input", function(){{
+            actualizarHoraMinuto(this);
+        }});
     }});
 
-}});
+    function actualizarDosPorciento() {{
+        let volumenTotal = 0;
+        document.querySelectorAll('#polys-' + currentTab + ' .v-total-val').forEach(el => {{
+            volumenTotal += parseFloat(el.innerText) || 0;
+        }});
 
+        let permitido = Math.round(volumenTotal * 0.02);
+        let div = document.getElementById('dos-pct-global');
 
-
-
-function actualizarDosPorciento() {{
-
-    let volumenTotal = 0;
-
-    document.querySelectorAll(
-        '#polys-' + currentTab + ' .v-total-val'
-    ).forEach(el => {{
-
-        volumenTotal +=
-            parseFloat(el.innerText) || 0;
-
-    }});
-
-    let permitido =
-        Math.round(volumenTotal * 0.02);
-
-    let div =
-        document.getElementById('dos-pct-global');
-
-    if (div) {{
-
-        div.innerHTML =
-            `<b>2% PERMITIDO:</b> ${{permitido.toLocaleString()}}`;
-
+        if (div) {{
+            div.innerHTML = `<b>2% PERMITIDO:</b> ${{permitido.toLocaleString()}}`;
+        }}
     }}
-}}
-
-
-
-
-
-
 
     function recalc() {{
         let fleet = {{}};
-        
-        // --- NORMALIZACIÓN DE PESTAÑA PARA MANEJO DE IDS ---
         let tabId = currentTab;
-        // ----------------------------------------------------
 
-
-        // 1. Capturar datos de la flota (Tabla de arriba)
-document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let nameCell = row.querySelector('.edit-name');
-    let name = nameCell.innerText.trim();
-    let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
-    let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
-    
-    if(sch > 0) {{
-        // --- ESTE ES EL COLOR DE FONDO DE LA FILA COMPLETA ---
-        row.style.background = "white"; 
-
-
-        // Eliminamos row.style.color para no forzar toda la fila 
-// --- ESTE ES EL COLOR DE FONDO DE LA CELDA DE STOCK Y MÍNIMOS ---
-        fs.style.background = "#fcf8cc"; 
-
-
-// =======================================================================
-        // 🔥 AQUÍ SE CAMBIA EL COLOR DE SPR MIN Y SPR MAX CUANDO SCHEDULE > 0
-        // =======================================================================
-        mi.style.background = "#ffffff"; mi.style.color = "#25282b"; mi.style.fontWeight = "bold";
-        ma.style.background = "#ffffff"; ma.style.color = "#25282b"; ma.style.fontWeight = "bold";
-
-
-// --- ESTE ES EL COLOR DEL NOMBRE DE LA UNIDAD ---
-        // Ponemos nombre en NEGRO
-        nameCell.style.color = "#25282b";
-        nameCell.style.fontWeight = "bold";
-    }} else {{
-        row.style.background = "#DCDCDC"; 
-        // Eliminamos row.style.color = "#969696"
-        fs.style.background = "#FFFF00"; 
-        mi.style.background = "#dcdcdc"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
-        ma.style.background = "#dcdcdc"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
-        
-        // Ponemos nombre en GRIS
-        nameCell.style.color = "#969696";
-        nameCell.style.fontWeight = "normal";
-    }}
-    
-    if(name !== "" && name !== "NUEVA UNIDAD") {{
-        fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
-    }}
-}});
-
-
-// --- INICIO DEL BLOQUE DE SINCRONIZACIÓN ---
-let mapeoRuteadas = {{}};
-document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
-    let s = row.querySelector('.s-type').value;
-    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
-    if (s && s !== "Seleccionar...") {{
-        mapeoRuteadas[s] = (mapeoRuteadas[s] || 0) + u;
-    }}
-}});
-
-document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let nameCell = row.querySelector('.edit-name');
-    let ruteadaCell = row.querySelector('.f-ruteadas');
-    if (nameCell && ruteadaCell) {{
-        let name = nameCell.innerText.trim();
-        ruteadaCell.innerText = mapeoRuteadas[name] || 0;
-    }}
-}});
-// --- FIN DEL BLOQUE DE SINCRONIZACIÓN ---
-
-
-
-// 2. Calcular ocupación por polígono (Tabla de abajo)
-document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-    let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
-    let vCalcEl = bl.querySelector('.v-calculado-total');
-
-    // Obtenemos el nombre del plan aquí para identificar CENTRO 1 y CENTRO 2
-    let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-    let esCentro = (nombrePlanPadre === "⚠️ CENTRO 1" || nombrePlanPadre === "⚠️ CENTRO 2");
-    
-    let celdaNodos = bl.querySelector('.nodos-val');
-    let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
-    
-    // Obtenemos todas las filas del bloque
-    let filas = bl.querySelectorAll('.calc-row');
-
-    filas.forEach((r, index) => {{
-        let sType = r.querySelector('.s-type');
-        let uManual = r.querySelector('.u-manual');
-        let sp = r.querySelector('.spr-real-val');
-        
-        // 🔥 AQUÍ ESTÁ LA MAGIA:
-        // Si NO es Centro Y tiene nodo, aplica la regla (Funciona para todos los demás)
-        // Si ES Centro, esta condición da FALSE y se salta la asignación automática
-        if (!esCentro && tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
-            sType.value = "Large Van MLP foráneo";
-            uManual.innerText = "1";
-        }}
-
-        // Si el usuario cambió la unidad manualmente, aseguramos que si es "Seleccionar...", la cantidad sea 0
-        if (sType.value === "" || sType.value === "Seleccionar...") {{
-            uManual.innerText = "0";
-        }}
-        
-        let s = sType.value;
-        let u = parseInt(uManual.innerText) || 0;
-
-        // 🔥 CANDADO ALCHICHICA
-        let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
-        if (nombrePlanPadre.includes("ALCHICHICA")) {{
-            if (s !== "Seleccionar..." && s !== "") {{
-                vA += (u * (parseFloat(sp.innerText) || 0));
-                sp.style.fontWeight = "bold";
-                sp.style.setProperty("background-color", "#edf2f2");
-                sp.style.setProperty("color", "#25282b");
-            }}
-            return; 
-        }}
-
-        // Lógica de flota
-        if(s !== "Seleccionar..." && s !== "" && fleet[s]) {{
-            if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
-            fleet[s].used += u; 
-            vA += (u * (parseFloat(sp.innerText) || 0));
-            sp.style.setProperty("background-color", "#edf2f2");
-            sp.style.setProperty("color", "#25282b");
-        }} else {{
-            sp.style.setProperty("background-color", "#FFFFFF");
-        }}
-    }});
-
-    // ... (Cálculo de vCalcEl y vT igual que antes) ...
-    vCalcEl.innerText = Math.round(vA);
-    let d = bl.querySelector('.p-diff');
-    let diffVal = Math.round(vA);
-    if (vT === 0) d.innerText = "VACÍO";
-    else if (diffVal === Math.round(vT)) {{ d.innerText = "OK"; d.style.background = "#61b888"; }}
-    else if (vA > vT) {{ d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; }}
-    else {{ d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fc9a88"; }}
-}});
-
-
-
-// 3. REPLICAR Y CALCULAR DELTA BASADO EN "RUTEADAS" MANUALES
-document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let nameCell = row.querySelector('.edit-name');
-    if (!nameCell) return;
-    
-    let n = nameCell.innerText.trim();
-    
-    // Buscamos el valor de Ruteadas (USADAS) y del Schedule
-    let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
-    let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
-    let cL = row.querySelector('.f-left'); // Columna DELTA
-    
-    // --- Lógica de color para columna USADAS ---
-    let ruteadaCell = row.querySelector('.f-ruteadas');
-    if (ruteadaCell) {{
-        if (ruteadasManuales > 0) {{
-            ruteadaCell.style.backgroundColor = "#d3f0e5"; // Fondo verde claro
-            ruteadaCell.style.color = "#008B8B";           // Número verde
-            ruteadaCell.style.fontWeight = "bold";
-        }} else {{
-            ruteadaCell.style.backgroundColor = "#dcdcdc";
-            ruteadaCell.style.color = "";
-            ruteadaCell.style.fontWeight = "bold";
-        }}
-    }}
-
-    // --- LÓGICA DE COLOR Y FORMATO POSITIVO PARA DELTA ---
-    if (cL) {{
-        let exceso = ruteadasManuales - stock; // Diferencia de adicionales
-        
-        if (exceso > 0) {{
-            // 🔥 Si excediste el Schedule, muestra +3 en color rojo
-            cL.innerText = "+" + exceso;
-            cL.style.color = "red"; 
-            cL.style.fontWeight = "bold"; 
-            cL.style.background = "transparent";
-        }} else if (ruteadasManuales === stock && stock > 0) {{
-            // Si consumiste exactamente todo el Schedule (0 sobrantes, 0 faltantes)
-            cL.innerText = "0";
-            cL.style.color = "white"; 
-            cL.style.background = "#fc765d"; // Naranja/Rojo de completado
-            cL.style.fontWeight = "bold";
-        }} else {{
-            // Si todavía te quedan unidades por usar del Schedule
-            let restantes = stock - ruteadasManuales;
-            cL.innerText = restantes;
-            cL.style.color = "#17191a"; 
-            cL.style.background = "transparent"; 
-            cL.style.fontWeight = "normal";
-        }}
-    }}
-}});
-
-
-
-
-// 3.5 BADGE DE UNIDADES ADICIONALES EN POLÍGONOS (CÁLCULO EXACTO POR FILA)
-let contadorAcumulado = {{}};
-
-document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
-    let sel = r.querySelector('.s-type')?.value;
-    let uCell = r.querySelector('.u-manual-cell');
-    let divFlex = uCell ? uCell.querySelector('div') : null;
-    let spanU = r.querySelector('.u-manual');
-    let uManual = parseInt(spanU?.innerText) || 0;
-
-    if (!divFlex) return;
-
-    let badge = divFlex.querySelector('.badge-adicional');
-
-    if (sel && sel !== "Seleccionar..." && fleet[sel] && uManual > 0) {{
-        let stockInicial = fleet[sel].stock;
-        let usadasPrevias = contadorAcumulado[sel] || 0;
-
-        // Calculamos cuántas de las unidades de ESTA FILA entran en el Schedule restante
-        let cubiertasPorSchedule = Math.max(0, Math.min(uManual, stockInicial - usadasPrevias));
-        let excesoFila = uManual - cubiertasPorSchedule;
-
-        // Acumulamos el uso para la siguiente fila
-        contadorAcumulado[sel] = usadasPrevias + uManual;
-
-        if (excesoFila > 0) {{
-            // 🔥 Si esta fila específica consumió unidades por encima del Schedule
-            if (!badge) {{
-                badge = document.createElement('span');
-                badge.className = 'badge-adicional';
-                badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
-                if (spanU) spanU.after(badge);
-            }}
-            badge.innerText = `+${{excesoFila}}`;
-            badge.style.display = 'inline-block';
-            badge.title = `${{cubiertasPorSchedule}} de Schedule + ${{excesoFila}} adicionales en este plan`;
-            uCell.style.backgroundColor = "#d3f0e5";
-        }} else {{
-            if (badge) badge.style.display = 'none';
-            uCell.style.backgroundColor = "#d3f0e5";
-        }}
-    }} else {{
-        if (badge) badge.style.display = 'none';
-        if (uCell) uCell.style.backgroundColor = "#d3f0e5";
-    }}
-}});
-
-
-
-
-       // 4. FILTRAR LISTA (Solo las crowd permanecen siempre visibles)
-document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-
-    // 🔥 Lista de unidades permitidas para seguir apareciendo sin stock
-    const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h", "car 3h", "car - 3h"];
-
-    bl.querySelectorAll('.s-type').forEach(s => {{ 
-        let cur = s.value; 
-        let opt = '<option value="">Seleccionar...</option>';
-        
-        Object.keys(fleet).forEach(k => {{
-            let nameLower = k.toLowerCase().trim();
-            let stock = fleet[k].stock;
-            let used = fleet[k].used;
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let nameCell = row.querySelector('.edit-name');
+            let name = nameCell.innerText.trim();
+            let sch = parseInt(row.querySelector('.f-stock').innerText) || 0;
+            let mi = row.querySelector('.edit-spr-min'), ma = row.querySelector('.edit-spr-max'), fs = row.querySelector('.f-stock');
             
-            let esPermitida = permitidasSinStock.some(u => nameLower.includes(u));
-            let tieneCapacidad = (stock - used > 0);
+            if(sch > 0) {{
+                row.style.background = "white"; 
+                fs.style.background = "#fcf8cc"; 
+                mi.style.background = "#ffffff"; mi.style.color = "#25282b"; mi.style.fontWeight = "bold";
+                ma.style.background = "#ffffff"; ma.style.color = "#25282b"; ma.style.fontWeight = "bold";
+                nameCell.style.color = "#25282b";
+                nameCell.style.fontWeight = "bold";
+            }} else {{
+                row.style.background = "#DCDCDC"; 
+                fs.style.background = "#FFFF00"; 
+                mi.style.background = "#dcdcdc"; mi.style.color = "#969696"; mi.style.fontWeight = "normal";
+                ma.style.background = "#dcdcdc"; ma.style.color = "#969696"; ma.style.fontWeight = "normal";
+                nameCell.style.color = "#969696";
+                nameCell.style.fontWeight = "normal";
+            }}
             
-            // Muestra la unidad si tiene saldo libre, o si es de las permitidas, o si ya está seleccionada en esta fila
-            if (tieneCapacidad || esPermitida || k === cur) {{
-                opt += `<option value="${{k}}">${{k}}</option>`;
+            if(name !== "" && name !== "NUEVA UNIDAD") {{
+                fleet[name] = {{ max: parseFloat(ma.innerText)||0, stock: sch, used: 0 }};
             }}
         }});
-        
-        s.innerHTML = opt;
-        s.value = cur;
 
-        updateSelectColor(s);
-    }});
-}});
+        let mapeoRuteadas = {{}};
+        document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
+            let s = row.querySelector('.s-type').value;
+            let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+            if (s && s !== "Seleccionar...") {{
+                mapeoRuteadas[s] = (mapeoRuteadas[s] || 0) + u;
+            }}
+        }});
 
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let nameCell = row.querySelector('.edit-name');
+            let ruteadaCell = row.querySelector('.f-ruteadas');
+            if (nameCell && ruteadaCell) {{
+                let name = nameCell.innerText.trim();
+                ruteadaCell.innerText = mapeoRuteadas[name] || 0;
+            }}
+        }});
 
-    // --- 5. CALCULO DE TOTALES (Lógica Precisa) ---
-let totals = {{
-    mlpDecl: 0, mlpRute: 0,
-    rentalDecl: 0, rentalRute: 0,
-    carDecl: 0, carRute: 0,
-    otrosRute: 0,
-    totalRuteadas: 0
-}};
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            let vT = parseFloat(bl.querySelector('.v-total-val').innerText) || 0, vA = 0;
+            let vCalcEl = bl.querySelector('.v-calculado-total');
 
-// 1. DECLARADAS: Suma la columna "SCHEDULE" de la tabla de arriba
-document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
-    let name = row.querySelector('.edit-name')?.innerText.toLowerCase().trim() || "";
-    let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            let esCentro = (nombrePlanPadre === "⚠️ CENTRO 1" || nombrePlanPadre === "⚠️ CENTRO 2");
+            
+            let celdaNodos = bl.querySelector('.nodos-val');
+            let tieneNodo = (tabId == 6 && celdaNodos && parseInt(celdaNodos.innerText) > 0);
+            
+            let filas = bl.querySelectorAll('.calc-row');
+
+            filas.forEach((r, index) => {{
+                let sType = r.querySelector('.s-type');
+                let uManual = r.querySelector('.u-manual');
+                let sp = r.querySelector('.spr-real-val');
+                
+                if (!esCentro && tieneNodo && index === 0 && (sType.value === "" || sType.value === "Seleccionar...")) {{
+                    sType.value = "Large Van MLP foráneo";
+                    uManual.innerText = "1";
+                }}
+
+                if (sType.value === "" || sType.value === "Seleccionar...") {{
+                    uManual.innerText = "0";
+                }}
+                
+                let s = sType.value;
+                let u = parseInt(uManual.innerText) || 0;
+
+                let nombrePlanPadre = bl.querySelector('td[rowspan]')?.innerText?.toUpperCase() || "";
+                if (nombrePlanPadre.includes("ALCHICHICA")) {{
+                    if (s !== "Seleccionar..." && s !== "") {{
+                        vA += (u * (parseFloat(sp.innerText) || 0));
+                        sp.style.fontWeight = "bold";
+                        sp.style.setProperty("background-color", "#edf2f2");
+                        sp.style.setProperty("color", "#25282b");
+                    }}
+                    return; 
+                }}
+
+                if(s !== "Seleccionar..." && s !== "" && fleet[s]) {{
+                    if(!editedRowsPlan.has(r)) sp.innerText = fleet[s].max; 
+                    fleet[s].used += u; 
+                    vA += (u * (parseFloat(sp.innerText) || 0));
+                    sp.style.setProperty("background-color", "#edf2f2");
+                    sp.style.setProperty("color", "#25282b");
+                }} else {{
+                    sp.style.setProperty("background-color", "#FFFFFF");
+                }}
+            }});
+
+            vCalcEl.innerText = Math.round(vA);
+            let d = bl.querySelector('.p-diff');
+            let diffVal = Math.round(vA);
+            if (vT === 0) d.innerText = "VACÍO";
+            else if (diffVal === Math.round(vT)) {{ d.innerText = "OK"; d.style.background = "#61b888"; }}
+            else if (vA > vT) {{ d.innerText = "EXCESO: " + Math.round(vA - vT); d.style.background = "#f2bd5c"; }}
+            else {{ d.innerText = "FALTAN: " + Math.round(vT - vA); d.style.background = "#fc9a88"; }}
+        }});
+
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let nameCell = row.querySelector('.edit-name');
+            if (!nameCell) return;
+            
+            let n = nameCell.innerText.trim();
     
-    if (name.includes("mlp")) totals.mlpDecl += sch;
-    else if (name.includes("rental")) totals.rentalDecl += sch;
-    else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) totals.carDecl += sch;
-}});
+            // Buscamos el valor de Ruteadas (USADAS) y del Schedule
+            let ruteadasManuales = parseFloat(row.querySelector('.f-ruteadas')?.innerText || 0);
+            let stock = parseFloat(row.querySelector('.f-stock')?.innerText || 0);
+            let cL = row.querySelector('.f-left'); // Columna DELTA
+            
+            let ruteadaCell = row.querySelector('.f-ruteadas');
+            if (ruteadaCell) {{
+                if (ruteadasManuales > 0) {{
+                    ruteadaCell.style.backgroundColor = "#d3f0e5";
+                    ruteadaCell.style.color = "#008B8B";
+                    ruteadaCell.style.fontWeight = "bold";
+                }} else {{
+                    ruteadaCell.style.backgroundColor = "#dcdcdc";
+                    ruteadaCell.style.color = "";
+                    ruteadaCell.style.fontWeight = "bold";
+                }}
+            }}
 
+            // --- LÓGICA DE COLOR Y FORMATO POSITIVO PARA DELTA ---
+            if (cL) {{
+                let exceso = ruteadasManuales - stock;
+                
+                if (exceso > 0) {{
+                    cL.innerText = "+" + exceso;
+                    cL.style.color = "red"; 
+                    cL.style.fontWeight = "bold"; 
+                    cL.style.background = "transparent";
+                }} else if (ruteadasManuales === stock && stock > 0) {{
+                    cL.innerText = "0";
+                    cL.style.color = "white"; 
+                    cL.style.background = "#fc765d";
+                    cL.style.fontWeight = "bold";
+                }} else {{
+                    let restantes = stock - ruteadasManuales;
+                    cL.innerText = restantes;
+                    cL.style.color = "#17191a"; 
+                    cL.style.background = "transparent"; 
+                    cL.style.fontWeight = "normal";
+                }}
+            }}
+        }});
 
-// 2. Calcular ocupación y totales
-totals.totalRuteadas = 0; // Reiniciamos el acumulador
-totals.mlpRute = 0;
-totals.rentalRute = 0;
-totals.carRute = 0;
-totals.otrosRute = 0; 
+        let contadorAcumulado = {{}};
+        document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(r => {{
+            let sel = r.querySelector('.s-type')?.value;
+            let uCell = r.querySelector('.u-manual-cell');
+            let divFlex = uCell ? uCell.querySelector('div') : null;
+            let spanU = r.querySelector('.u-manual');
+            let uManual = parseInt(spanU?.innerText) || 0;
 
-document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
-    let s = row.querySelector('.s-type').value; 
-    let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
+            if (!divFlex) return;
 
-    if (!s || s === "Seleccionar...") return;
+            let badge = divFlex.querySelector('.badge-adicional');
 
-    let name = s.toLowerCase().trim();
+            if (sel && sel !== "Seleccionar..." && fleet[sel] && uManual > 0) {{
+                let stockInicial = fleet[sel].stock;
+                let usadasPrevias = contadorAcumulado[sel] || 0;
 
-    // 1. CLASIFICACIÓN
-    if (name.includes("mlp")) {{
-        totals.mlpRute += u;
-    }} else if (name.includes("rental")) {{
-        totals.rentalRute += u;
-    }} else if (name.includes("delivery")) {{
-        totals.otrosRute += u;
-    }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
-        totals.carRute += u;
-    }} else {{
-        totals.otrosRute += u; 
-    }}
+                let cubiertasPorSchedule = Math.max(0, Math.min(uManual, stockInicial - usadasPrevias));
+                let excesoFila = uManual - cubiertasPorSchedule;
 
-    // 2. SUMA TOTAL (Aquí sumamos todas las categorías recién actualizadas)
-    // Esto garantiza que el total siempre sea la suma de las partes
-    totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
-}});
+                contadorAcumulado[sel] = usadasPrevias + uManual;
 
+                if (excesoFila > 0) {{
+                    if (!badge) {{
+                        badge = document.createElement('span');
+                        badge.className = 'badge-adicional';
+                        badge.style.cssText = 'font-size: 10px; background: #d32f2f; color: white; padding: 1px 4px; border-radius: 3px; font-weight: bold; margin-left: 2px;';
+                        if (spanU) spanU.after(badge);
+                    }}
+                    badge.innerText = `+${{excesoFila}}`;
+                    badge.style.display = 'inline-block';
+                    badge.title = `${{cubiertasPorSchedule}} de Schedule + ${{excesoFila}} adicionales en este plan`;
+                    uCell.style.backgroundColor = "#d3f0e5";
+                }} else {{
+                    if (badge) badge.style.display = 'none';
+                    uCell.style.backgroundColor = "#d3f0e5";
+                }}
+            }} else {{
+                if (badge) badge.style.display = 'none';
+                if (uCell) uCell.style.backgroundColor = "#d3f0e5";
+            }}
+        }});
 
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            const permitidasSinStock = ["car 8h", "car - 8h", "car 5h", "car - 5h", "car 3h", "car - 3h"];
 
-// 3. ACTUALIZACIÓN DE PANTALLA
+            bl.querySelectorAll('.s-type').forEach(s => {{ 
+                let cur = s.value; 
+                let opt = '<option value="">Seleccionar...</option>';
+                
+                Object.keys(fleet).forEach(k => {{
+                    let nameLower = k.toLowerCase().trim();
+                    let stock = fleet[k].stock;
+                    let used = fleet[k].used;
+                    
+                    let esPermitida = permitidasSinStock.some(u => nameLower.includes(u));
+                    let tieneCapacidad = (stock - used > 0);
+                    
+                    if (tieneCapacidad || esPermitida || k === cur) {{
+                        opt += `<option value="${{k}}">${{k}}</option>`;
+                    }}
+                }});
+                
+                s.innerHTML = opt;
+                s.value = cur;
+                updateSelectColor(s);
+            }});
+        }});
 
-totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+        let totals = {{
+            mlpDecl: 0, mlpRute: 0,
+            rentalDecl: 0, rentalRute: 0,
+            carDecl: 0, carRute: 0,
+            otrosRute: 0,
+            totalRuteadas: 0
+        }};
 
-console.log("DEBUG: MLP=" + totals.mlpRute + ", Rental=" + totals.rentalRute + ", Car=" + totals.carRute + ", Otros=" + totals.otrosRute + ", TOTAL=" + totals.totalRuteadas);
+        document.querySelectorAll('#body-' + tabId + ' tr').forEach(row => {{
+            let name = row.querySelector('.edit-name')?.innerText.toLowerCase().trim() || "";
+            let sch = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+            
+            if (name.includes("mlp")) totals.mlpDecl += sch;
+            else if (name.includes("rental")) totals.rentalDecl += sch;
+            else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) totals.carDecl += sch;
+        }});
 
-// 3. ACTUALIZACIÓN DE PANTALLA
-function setT(id, val) {{
-    let finalId = id + '-' + tabId;
-    let el = document.getElementById(finalId);
-    
-    if (el) {{
-        el.innerText = Math.round(val);
-        console.log("ÉXITO: Se actualizó el ID " + finalId + " con valor " + val);
-    }} else {{
-        console.error("¡ERROR! No encontré el ID: " + finalId);
-    }}
-}}
+        totals.totalRuteadas = 0;
+        totals.mlpRute = 0;
+        totals.rentalRute = 0;
+        totals.carRute = 0;
+        totals.otrosRute = 0; 
 
-// --- PONLO AQUÍ: Esto garantiza que la suma sea la correcta ---
-totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
-// -----------------------------------------------------------------
+        document.querySelectorAll('#polys-' + tabId + ' .calc-row').forEach(row => {{
+            let s = row.querySelector('.s-type').value; 
+            let u = parseInt(row.querySelector('.u-manual').innerText) || 0;
 
-// Ahora llamamos a los setT
-setT('total-mlp-decl', totals.mlpDecl);
-setT('total-mlp-rute', totals.mlpRute);
-setT('total-rental-decl', totals.rentalDecl);
-setT('total-rental-rute', totals.rentalRute);
-setT('total-car-schedule', totals.carDecl);
-setT('total-car-real', totals.carRute);
-setT('total-otros', totals.otrosRute); 
-// En lugar de llamar a setT normalmente para el total, hacemos esto:
-setTimeout(() => {{
-    let valorCorrecto = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
-    let el = document.getElementById('total-ruteadas-' + tabId);
-    if (el) {{
-        el.innerText = Math.round(valorCorrecto);
-        el.style.color = "#66CDAA"; // Le damos un color para saber que el forzado funcionó
-        console.log("FORZADO: El total ahora es " + valorCorrecto);
-    }}
-}}, 500); // Espera medio segundo después de que todo se ejecute para forzar el valor
+            if (!s || s === "Seleccionar...") return;
 
-updateFleetFloat();
+            let name = s.toLowerCase().trim();
 
-actualizarTotales();
+            if (name.includes("mlp")) {{
+                totals.mlpRute += u;
+            }} else if (name.includes("rental")) {{
+                totals.rentalRute += u;
+            }} else if (name.includes("delivery")) {{
+                totals.otrosRute += u;
+            }} else if (name.includes("car") || name.includes("moto") || name.includes("Newbie") || name.includes("9h")) {{
+                totals.carRute += u;
+            }} else {{
+                totals.otrosRute += u; 
+            }}
 
-actualizarDosPorciento();
+            totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+        }});
 
-// --- ACTUALIZACIÓN DINÁMICA SEGÚN LA PESTAÑA (tabId) ---
-    // Esto busca el ID específico de la pestaña actual (ej: val-mlp-rute-2)
-    let elMlp = document.getElementById('val-mlp-rute-' + tabId);
-    let elRental = document.getElementById('val-rental-rute-' + tabId);
-    let elCar = document.getElementById('val-car-rute-' + tabId);
+        totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
 
-    // Solo actualizamos si el elemento realmente existe en la pestaña actual
-    if(elMlp) elMlp.innerText = Math.round(totals.mlpRute);
-    if(elRental) elRental.innerText = Math.round(totals.rentalRute);
-    if(elCar) elCar.innerText = Math.round(totals.carRute);
+        console.log("DEBUG: MLP=" + totals.mlpRute + ", Rental=" + totals.rentalRute + ", Car=" + totals.carRute + ", Otros=" + totals.otrosRute + ", TOTAL=" + totals.totalRuteadas);
 
-    }}
-
-
-
-// --- ENTER: SALIR DE FLOTANTE / CIERRA PRIORIDADES / ALERTAS ---
-document.addEventListener('keydown', function(event) {{
-    if (event.key !== 'Enter') return;
-
-    // 1️⃣ SI ESTÁ FLOTANDO: Salir inmediatamente a la vista NORMAL al dar Enter
-    const fleet = document.getElementById("fleet-sticky");
-    if (fleet && fleet.classList.contains("fleet-floating")) {{
-        event.preventDefault();
-        if (typeof toggleFleetFloating === "function") {{
-            toggleFleetFloating();
+        function setT(id, val) {{
+            let finalId = id + '-' + tabId;
+            let el = document.getElementById(finalId);
+            if (el) {{
+                el.innerText = Math.round(val);
+                console.log("ÉXITO: Se actualizó el ID " + finalId + " con valor " + val);
+            }} else {{
+                console.error("¡ERROR! No encontré el ID: " + finalId);
+            }}
         }}
-        return;
+
+        // --- PONLO AQUÍ: Esto garantiza que la suma sea la correcta ---
+        totals.totalRuteadas = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+        // -----------------------------------------------------------------
+
+        setT('total-mlp-decl', totals.mlpDecl);
+        setT('total-mlp-rute', totals.mlpRute);
+        setT('total-rental-decl', totals.rentalDecl);
+        setT('total-rental-rute', totals.rentalRute);
+        setT('total-car-schedule', totals.carDecl);
+        setT('total-car-real', totals.carRute);
+        setT('total-otros', totals.otrosRute); 
+
+        setTimeout(() => {{
+            let valorCorrecto = totals.mlpRute + totals.rentalRute + totals.carRute + totals.otrosRute;
+            let el = document.getElementById('total-ruteadas-' + tabId);
+            if (el) {{
+                el.innerText = Math.round(valorCorrecto);
+                el.style.color = "#66CDAA";
+            }}
+        }}, 500);
+
+        updateFleetFloat();
+        actualizarTotales();
+        actualizarDosPorciento();
+
+        let elMlp = document.getElementById('val-mlp-rute-' + tabId);
+        let elRental = document.getElementById('val-rental-rute-' + tabId);
+        let elCar = document.getElementById('val-car-rute-' + tabId);
+
+        if(elMlp) elMlp.innerText = Math.round(totals.mlpRute);
+        if(elRental) elRental.innerText = Math.round(totals.rentalRute);
+        if(elCar) elCar.innerText = Math.round(totals.carRute);
     }}
 
-    // 2️⃣ SI NO ESTÁ FLOTANDO: Validar controles interactivos
-    const ae = document.activeElement;
-    const tag = ae && ae.tagName ? ae.tagName.toLowerCase() : "";
-    if (tag === "button" || tag === "input" || tag === "select" || tag === "textarea") {{
-        return;
-    }}
-    if (ae && ae.isContentEditable) {{
-        return;
-    }}
+    document.addEventListener('keydown', function(event) {{
+        if (event.key !== 'Enter') return;
 
-    // 3️⃣ LÓGICA PANEL PRIORIDADES
-    let panel = document.getElementById('panel-prioridades');
-    if (panel && panel.style.top === "0px") {{
-        panel.style.top = "-600px";
-        if (document.activeElement) document.activeElement.blur();
-    }}
+        const fleet = document.getElementById("fleet-sticky");
+        if (fleet && fleet.classList.contains("fleet-floating")) {{
+            event.preventDefault();
+            if (typeof toggleFleetFloating === "function") {{
+                toggleFleetFloating();
+            }}
+            return;
+        }}
 
-    // 4️⃣ LÓGICA ALERTAS ROJAS
-    let alerta = document.querySelector('.alerta-roja, .p-diff');
-    if (alerta && alerta.innerText.includes('EXCESO')) {{
-        if (document.activeElement) document.activeElement.blur();
-    }}
-}});
+        const ae = document.activeElement;
+        const tag = ae && ae.tagName ? ae.tagName.toLowerCase() : "";
+        if (tag === "button" || tag === "input" || tag === "select" || tag === "textarea") {{
+            return;
+        }}
+        if (ae && ae.isContentEditable) {{
+            return;
+        }}
 
+        let panel = document.getElementById('panel-prioridades');
+        if (panel && panel.style.top === "0px") {{
+            panel.style.top = "-600px";
+            if (document.activeElement) document.activeElement.blur();
+        }}
 
+        let alerta = document.querySelector('.alerta-roja, .p-diff');
+        if (alerta && alerta.innerText.includes('EXCESO')) {{
+            if (document.activeElement) document.activeElement.blur();
+        }}
+    }});
 
-
-    
     function focusCalc() {{
         document.getElementById('calc_wrapper').focus();
     }}
 
-
-
     function filterRows(onlyActive) {{
-        // 1. Filtrar las filas de la tabla de disponibilidad de flota (Derecha)
         const rows = document.querySelectorAll('#body-' + currentTab + ' .master-row');
         rows.forEach(row => {{
             const stock = parseInt(row.querySelector('.f-stock').innerText) || 0;
             row.style.display = (onlyActive && stock === 0) ? 'none' : '';
         }});
-        
-        // La lógica de polígonos fue eliminada para que no interfiera.
     }}
 
-
-
-            
+    
     // ==========================================
-// 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
-// ==========================================
+    // 🔥 PEGA LA FUNCIÓN TOGGLETOOLS EXACTAMENTE AQUÍ:
+    // ==========================================
     let herramientasVisibles = true;
 
     function toggleTools() {{
-    const crono = document.querySelector('.crono-card');
-    const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
-    const boton = document.getElementById('toggle-tools-btn');
+        const crono = document.querySelector('.crono-card');
+        const convertidorContenido = document.querySelectorAll('.google-tool > *:not(#toggle-tools-btn)');
+        const boton = document.getElementById('toggle-tools-btn');
 
-    herramientasVisibles = !herramientasVisibles;
+        herramientasVisibles = !herramientasVisibles;
 
-    if (crono) {{
-        crono.style.display = herramientasVisibles ? '' : 'none';
+        if (crono) {{
+            crono.style.display = herramientasVisibles ? '' : 'none';
+        }}
+
+        convertidorContenido.forEach(elemento => {{
+            elemento.style.display = herramientasVisibles ? '' : 'none';
+        }});
+
+        if (!herramientasVisibles) {{
+            boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
+            boton.className = 'btn-mostrar';
+        }} else {{
+            boton.innerHTML = '❌ OCULTAR UTILERÍAS';
+            boton.className = 'btn-ocultar';
+        }}
     }}
-
-    convertidorContenido.forEach(elemento => {{
-        elemento.style.display = herramientasVisibles ? '' : 'none';
-    }});
-
-    // AQUÍ ESTÁ EL CAMBIO:
-    if (!herramientasVisibles) {{
-        boton.innerHTML = '🛠️ MOSTRAR UTILERÍAS';
-        boton.className = 'btn-mostrar'; // Cambiamos la clase, no el estilo
-    }} else {{
-        boton.innerHTML = '❌ OCULTAR UTILERÍAS';
-        boton.className = 'btn-ocultar'; // Cambiamos la clase, no el estilo
-    }}
-}}
-
 
     function convertTime() {{
         let m = parseInt(document.getElementById('min-in').value) || 0;
@@ -3308,8 +3963,7 @@ document.addEventListener('keydown', function(event) {{
         document.getElementById('crono-main').innerText = `${{h}}:${{m}}:${{s}}.${{ms}}`;
     }}
 
-
-function manualEdit(el) {{ 
+    function manualEdit(el) {{ 
         let r = el.closest('tr');
         if (r) {{
             editedRowsPlan.add(r);
@@ -3322,26 +3976,21 @@ function manualEdit(el) {{
             let permiteInfinito = false;
             let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
 
-            // 1. Validamos la pestaña activa de la misma forma segura
             let activeTabBtn = document.querySelector('.tab-btn.active');
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
                 
-                // Regla C: SCH1 (7) y SMD1 (8) con CAR 8H
                 if ((currentTab === 7 || currentTab === 8) && unidadSeleccionada.trim() === "CAR 8H") {{
                     permiteInfinito = true;
                 }}
-                // Regra A: C1 con Large Van MLP
                 else if (tabId === "C1 SCP1" && unidadSeleccionada.trim() === "Large Van MLP") {{
                     permiteInfinito = true;
                 }} 
-                // Regla B: SDE o PREC con cualquier Car
                 else if ((tabId === "SDE" || tabId === "PREC") && esUnidadCar) {{
                     permiteInfinito = true;
                 }}
             }}
 
-            // 2. Si cumple la regla y es la última fila, la clonamos antes del recálculo
             if (permiteInfinito && tbody) {{
                 let filasCalculo = tbody.querySelectorAll('tr.calc-row');
                 let ultimaFila = filasCalculo[filasCalculo.length - 1];
@@ -3368,12 +4017,10 @@ function manualEdit(el) {{
                 }}
             }}
         }}
-        // 3. Ejecutamos tu recálculo original pase lo que pase
         recalc(); 
     }}
 
-
-function resetRow(sel) {{ 
+    function resetRow(sel) {{ 
         let r = sel.closest('tr');
         if (!r) return;
         let table = sel.closest('table');
@@ -3382,7 +4029,6 @@ function resetRow(sel) {{
         let tbody = table.querySelector('tbody');
         let unidadSeleccionada = sel.value;
 
-        // 1. Limpieza si se regresa a la opción por defecto
         if (unidadSeleccionada === "") {{
             r.querySelector('.u-manual').innerText = "0";
             r.querySelector('.spr-real-val').innerText = "0";
@@ -3391,11 +4037,9 @@ function resetRow(sel) {{
             return;
         }}
 
-        // 2. Capturar el Volumen Total de este bloque de polígono
         let volTotalSpan = table.querySelector('.v-total-val');
         let volumenTotal = volTotalSpan ? parseFloat(volTotalSpan.textContent) || 0 : 0;
 
-        // 3. Obtener el SPR, el Stock Total inicial (Schedule)
         let sprEncontrado = 0;
         let stockInicialFlota = 0;
         let totalUnidadesUsadasEnEstaPestana = 0;
@@ -3405,7 +4049,7 @@ function resetRow(sel) {{
             let celdaNombre = filaFlota.querySelector('.edit-name');
             if (celdaNombre && celdaNombre.innerText.trim() === unidadSeleccionada.trim()) {{
                 let celdaSprMax = filaFlota.querySelector('.edit-spr-max');
-                let celdaStock = filaFlota.querySelector('.f-stock'); // Columna SCHEDULE de la tabla superior activa
+                let celdaStock = filaFlota.querySelector('.f-stock');
                 
                 if (celdaSprMax) sprEncontrado = parseFloat(celdaSprMax.innerText) || 0;
                 if (celdaStock) stockInicialFlota = parseInt(celdaStock.innerText) || 0;
@@ -3413,13 +4057,11 @@ function resetRow(sel) {{
             }}
         }}
 
-        // 4. Inyectar el SPR en la celda correspondiente
         let spanS = r.querySelector('.spr-real-val');
         if (spanS) {{
             spanS.innerText = sprEncontrado;
         }}
 
-        // 5. CALCULAR EL VOLUMEN CUBIERTO POR LAS *OTRAS* FILAS DE ESTE MISMO POLÍGONO
         let volumenYaCubierto = 0;
         let todasLasFilasPlan = tbody.querySelectorAll('tr.calc-row');
         
@@ -3431,12 +4073,9 @@ function resetRow(sel) {{
             }}
         }});
 
-        // El volumen que verdaderamente nos falta cubrir
         let volumenRestantePlan = volumenTotal - volumenYaCubierto;
         if (volumenRestantePlan < 0) volumenRestantePlan = 0;
 
-        // 6. CORREGIDO: CONTAR UNIDADES OCUPADAS ÚNICAMENTE EN LA PESTAÑA ACTIVA
-        // Filtramos usando el ID específico de los polígonos activos (#polys-X)
         document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(fGlobal => {{
             if (fGlobal !== r) {{
                 let t = fGlobal.querySelector('.s-type')?.value || "";
@@ -3446,20 +4085,16 @@ function resetRow(sel) {{
             }}
         }});
 
-        // Inventario real remanente en el patio para la pestaña actual
         let inventarioDisponibleReal = stockInicialFlota - totalUnidadesUsadasEnEstaPestana;
         if (inventarioDisponibleReal < 0) inventarioDisponibleReal = 0;
 
-        // 7. CÁLCULO DE LAS UNIDADES NECESARIAS CON SU TOPE INVIOLABLE
         let unidadesCalculadas = 0;
         
         if (unidadSeleccionada.trim() === "Delivery Cell Large Van") {{
             unidadesCalculadas = 1;
         }} else if (volumenRestantePlan > 0 && sprEncontrado > 0) {{
-            // Cuántas se necesitan idealmente para finiquitar los paquetes faltantes
             unidadesCalculadas = Math.ceil(volumenRestantePlan / sprEncontrado);
             
-            // Reglas de excepciones infinitas/negativas para tus otras pestañas
             let permiteInfinito = false;
             let esUnidadCar = unidadSeleccionada.toLowerCase().includes("car");
             let activeTabBtn = document.querySelector('.tab-btn.active');
@@ -3467,7 +4102,6 @@ function resetRow(sel) {{
             if (activeTabBtn) {{
                 let tabId = activeTabBtn.textContent.trim();
 
-                // Regla nueva para CAR 8H en pestañas 7 y 8
                 if ((currentTab === 7 || currentTab === 8) && unidadSeleccionada.trim() === "CAR 8H") {{
                     permiteInfinito = true;
                 }}
@@ -3481,10 +4115,9 @@ function resetRow(sel) {{
                 }}
             }}
 
-            // CANDADO DE DISPONIBILIDAD: Si no es unidad infinita, limitamos estrictamente al stock físico real de la pestaña
             if (!permiteInfinito) {{
                 if (unidadesCalculadas > inventarioDisponibleReal) {{
-                    unidadesCalculadas = inventarioDisponibleReal; // Agarra todo lo que queda de esta pestaña
+                    unidadesCalculadas = inventarioDisponibleReal;
                     
                     if (unidadesCalculadas === 0) {{
                         showAlert("⚠️ FLOTA AGOTADA. No quedan unidades disponibles de: " + unidadSeleccionada);
@@ -3495,13 +4128,11 @@ function resetRow(sel) {{
             }}
         }}
 
-        // Inyectar el resultado final calculado en la columna "# USADAS"
         let spanU = r.querySelector('.u-manual');
         if (spanU) {{
             spanU.innerText = unidadesCalculadas;
         }}
 
-        // 8. ADICIÓN MANUAL DE FILA EXTRA (Conserva tu expansión automática de la tabla)
         let permiteInfinitoFila = false;
         let esUnidadCarFila = unidadSeleccionada.toLowerCase().includes("car");
         let activeTabBtnFila = document.querySelector('.tab-btn.active');
@@ -3542,7 +4173,6 @@ function resetRow(sel) {{
             }}
         }}
 
-        // Disparar recálculo general para sincronizar los paneles flotantes y contadores
         if (typeof manualEdit === 'function' && spanU) {{
             manualEdit(spanU);
         }} else {{
@@ -3550,10 +4180,6 @@ function resetRow(sel) {{
         }}
     }}
 
-
-
-
-    // === TU ESCUCHADOR DE TECLADO SIGUE TOTALMENTE INTACTO ABAJO ===
     document.addEventListener('keydown', (e) => {{
         const calc = document.getElementById('calc_wrapper');
         const alerta = document.getElementById('google-alert');
@@ -3577,7 +4203,6 @@ function resetRow(sel) {{
         }}
     }});
 
-
     document.addEventListener("DOMContentLoaded", function() {{
         const selector = document.getElementById("ciclo-selector");
         if (selector) {{
@@ -3585,165 +4210,153 @@ function resetRow(sel) {{
         }}
     }});
 
-
-function toggleExcelView() {{
-    const isExcel = !document.body.classList.contains("excel-view");
-    document.body.classList.toggle("excel-view", isExcel);
-    
-    let btn = document.getElementById("excel-btn");
-    let excel = document.getElementById("excel-polys");
-    let bPaquetes = document.getElementById("contenedor-paquetes-c1"); // <--- Captura el contenedor
-    
-    // IDs de las filas que quieres ocultar en modo Excel
-    const idsAocultar = [
-        "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
-        "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
-        "total-no-car-7", "total-car-schedule-7", "total-car-real-7",
-        "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
-        "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
-        "total-no-car-9", "total-car-schedule-9", "total-car-real-9",
-        "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
-    ];
-    if (isExcel) {{
-        // --- MODO EXCEL: OCULTAR ---
-        if (bPaquetes) {{
-            estadoPaquetesAntesDeExcel = bPaquetes.style.display; // Guarda el estado actual (si era block o none)
-            bPaquetes.style.display = "none"; // 🔥 Oculta el contenedor en Excel
-        }}
+    function toggleExcelView() {{
+        const isExcel = !document.body.classList.contains("excel-view");
+        document.body.classList.toggle("excel-view", isExcel);
         
-        generarExcelPolys();
-        btn.innerHTML = "VISTA NORMAL";
-        if(excel) excel.style.display = "block";
+        let btn = document.getElementById("excel-btn");
+        let excel = document.getElementById("excel-polys");
+        let bPaquetes = document.getElementById("contenedor-paquetes-c1");
         
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
-            let el = document.getElementById(id);
-            if(el) el.style.display = "none";
-        }});
-        idsAocultar.forEach(id => {{
-            let el = document.getElementById(id);
-            if(el) {{
-                let fila = el.closest('tr');
-                if(fila) fila.style.display = 'none';
+        const idsAocultar = [
+            "total-no-car-2", "total-car-schedule-2", "total-car-real-2",
+            "total-no-car-6", "total-car-schedule-6", "total-car-real-6",
+            "total-no-car-7", "total-car-schedule-7", "total-car-real-7",
+            "total-no-car-8", "total-car-schedule-8", "total-car-real-8",
+            "total-no-car-1", "total-car-schedule-1", "total-car-real-1",
+            "total-no-car-9", "total-car-schedule-9", "total-car-real-9",
+            "total-no-car-5", "total-car-schedule-5", "total-car-real-5"
+        ];
+        if (isExcel) {{
+            if (bPaquetes) {{
+                estadoPaquetesAntesDeExcel = bPaquetes.style.display;
+                bPaquetes.style.display = "none";
             }}
-        }});
-    }} else {{
-        // --- MODO NORMAL: RESTAURAR ---
-        if (bPaquetes) {{
-            bPaquetes.style.display = estadoPaquetesAntesDeExcel; // 🔥 Devuelve su estado correcto en Vista Normal
-        }}
-        
-        btn.innerHTML = "VISTA EXCEL";
-        if(excel) excel.style.display = "none";
-        
-        // Restaurar bloques de pestañas
-        ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
-            let el = document.getElementById(id);
-            if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
-        }});
-        
-        // 📊 RESTAURACIÓN INTELIGENTE: Devolvemos la visibilidad al contador que corresponda según la pestaña activa
-        if (contScp1 && contSja1) {{
-            if (currentTab == 2) {{
-                contScp1.style.display = 'block';
-                contSja1.style.display = 'none';
-            }} else if (currentTab == 6) {{
-                contScp1.style.display = 'none';
-                contSja1.style.display = 'block';
-            }} else {{
-                contScp1.style.display = 'none';
-                contSja1.style.display = 'none';
-            }}
-        }}
-
-        // RESTAURACIÓN FORZADA:
-        // 1. Quitar el 'display: none' de las filas ocultas
-        idsAocultar.forEach(id => {{
-            let el = document.getElementById(id);
-            if(el) {{
-                let fila = el.closest('tr');
-                if(fila) fila.style.removeProperty('display');
-            }}
-        }});
-        // 2. Obligar a las filas del tfoot a mostrarse
-        document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
-            fila.style.setProperty('display', 'table-row', 'important');
-            actualizarVisibilidadContador();
-        }});
-    }}
-}}
-
-
-
-function generarExcelPolys() {{
-    let body = document.getElementById("excel-polys-body");
-    if(!body) return;
-
-    body.innerHTML = "";
-    let tabId = currentTab;
-    document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
-        let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
-        let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
-
-        let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
-                        bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
-        let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
-
-        let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
-        let filasValidas = filasCalc.filter(r => {{
-            let u = r.querySelector('.s-type')?.value || "";
-            return u !== "" && u !== "Seleccionar...";
-        }});
-
-        if (filasValidas.length === 0) return;
-
-        filasValidas.forEach((r, index) => {{
-            let unidad = r.querySelector('.s-type')?.value || "";
-            let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
-
-            let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
-            let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
-            let valSpr = "-";
-
             
-
-            let filaHtml = '<tr>';
-            if (index === 0) {{
-                filaHtml += `
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">${{plan}}</td>
-                    <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{vol}}</td>
-                `;
+            generarExcelPolys();
+            btn.innerHTML = "VISTA NORMAL";
+            if(excel) excel.style.display = "block";
+            
+            ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
+                let el = document.getElementById(id);
+                if(el) el.style.display = "none";
+            }});
+            idsAocultar.forEach(id => {{
+                let el = document.getElementById(id);
+                if(el) {{
+                    let fila = el.closest('tr');
+                    if(fila) fila.style.display = 'none';
+                }}
+            }});
+        }} else {{
+            if (bPaquetes) {{
+                bPaquetes.style.display = estadoPaquetesAntesDeExcel;
             }}
-            filaHtml += `
-                <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
-                <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{asignadas}}</td>
-            `;
-            if (index === 0) {{
-                filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
+            
+            btn.innerHTML = "VISTA EXCEL";
+            if(excel) excel.style.display = "none";
+            
+            ["polys-1", "polys-2", "polys-4", "polys-5", "polys-6", "polys-7", "polys-8", "polys-9"].forEach(id => {{
+                let el = document.getElementById(id);
+                if(el) el.style.display = (id === "polys-" + currentTab) ? "block" : "none";
+            }});
+            
+            // 📊 RESTAURACIÓN INTELIGENTE: Devolvemos la visibilidad al contador que corresponda según la pestaña activa
+            if (contScp1 && contSja1) {{
+                if (currentTab == 2) {{
+                    contScp1.style.display = 'block';
+                    contSja1.style.display = 'none';
+                }} else if (currentTab == 6) {{
+                    contScp1.style.display = 'none';
+                    contSja1.style.display = 'block';
+                }} else {{
+                    contScp1.style.display = 'none';
+                    contSja1.style.display = 'none';
+                }}
             }}
-            filaHtml += '</tr>';
-            body.innerHTML += filaHtml;
-        }});
-    }});
 
-    let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
-    let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
-    if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
-
-    let tablaActual = document.querySelector('#tab-' + tabId + ' table');
-    if (tablaActual) {{
-        let filasFooter = tablaActual.querySelectorAll('tfoot tr');
-        filasFooter.forEach(fila => {{
-            if (!fila.innerText.includes("TOTAL RUTEADAS")) {{
-                fila.style.display = 'none';
-            }}
-        }});
+            // RESTAURACIÓN FORZADA:
+            // 1. Quitar el 'display: none' de las filas ocultas
+            idsAocultar.forEach(id => {{
+                let el = document.getElementById(id);
+                if(el) {{
+                    let fila = el.closest('tr');
+                    if(fila) fila.style.removeProperty('display');
+                }}
+            }});
+            // 2. Obligar a las filas del tfoot a mostrarse
+            document.querySelectorAll('.meli-table tfoot tr').forEach(fila => {{
+                fila.style.setProperty('display', 'table-row', 'important');
+                actualizarVisibilidadContador();
+            }});
+        }}
     }}
-}}
 
+    function generarExcelPolys() {{
+        let body = document.getElementById("excel-polys-body");
+        if(!body) return;
 
+        body.innerHTML = "";
+        let tabId = currentTab;
+        document.querySelectorAll('#polys-' + tabId + ' .poligono-bloque').forEach(bl => {{
+            let plan = bl.querySelector('tbody tr td')?.innerText.trim() || "";
+            let vol = bl.querySelector('.v-total-val')?.innerText.trim() || "0";
 
+            let nodoExcel = bl.querySelector('.nodos-val')?.innerText.trim() ||
+                            bl.querySelector('.nodos-campeche')?.innerText.trim() || "0";
+            let nodoTxt = (parseInt(nodoExcel) || 0) > 0 ? nodoExcel : "-";
 
-function obtenerCarFlexible() {{
+            let filasCalc = Array.from(bl.querySelectorAll('.calc-row'));
+            let filasValidas = filasCalc.filter(r => {{
+                let u = r.querySelector('.s-type')?.value || "";
+                return u !== "" && u !== "Seleccionar...";
+            }});
+
+            if (filasValidas.length === 0) return;
+
+            filasValidas.forEach((r, index) => {{
+                let unidad = r.querySelector('.s-type')?.value || "";
+                let asignadas = r.querySelector('.u-manual')?.innerText.trim() || "0";
+
+                let fRows = Array.from(document.querySelectorAll('#body-' + tabId + ' tr'));
+                let fRow = fRows.find(fr => fr.querySelector('.edit-name')?.innerText.trim() === unidad);
+                let valSpr = "-";
+
+                let filaHtml = '<tr>';
+                if (index === 0) {{
+                    filaHtml += `
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; padding:3px; text-align:center; font-weight:bold; vertical-align:middle;">${{plan}}</td>
+                        <td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{vol}}</td>
+                    `;
+                }}
+                filaHtml += `
+                    <td style="border:1px solid #808080; padding-left:6px; vertical-align:middle;">${{unidad}}</td>
+                    <td style="border:1px solid #808080; text-align:center; vertical-align:middle; font-weight:bold;">${{asignadas}}</td>
+                `;
+                if (index === 0) {{
+                    filaHtml += `<td rowspan="${{filasValidas.length}}" style="border:1px solid #808080; text-align:center; font-weight:bold; vertical-align:middle;">${{nodoTxt}}</td>`;
+                }}
+                filaHtml += '</tr>';
+                body.innerHTML += filaHtml;
+            }});
+        }});
+
+        let valRuteadasNormal = document.getElementById('total-ruteadas-' + tabId)?.innerText || "0";
+        let celdaTotalExcel = document.getElementById('excel-total-ruteadas-naranja');
+        if(celdaTotalExcel) celdaTotalExcel.innerText = valRuteadasNormal;
+
+        let tablaActual = document.querySelector('#tab-' + tabId + ' table');
+        if (tablaActual) {{
+            let filasFooter = tablaActual.querySelectorAll('tfoot tr');
+            filasFooter.forEach(fila => {{
+                if (!fila.innerText.includes("TOTAL RUTEADAS")) {{
+                    fila.style.display = 'none';
+                }}
+            }});
+        }}
+    }}
+
+    function obtenerCarFlexible() {{
 
     const opciones = [
         "Car - 8h",
@@ -3768,125 +4381,83 @@ function obtenerCarFlexible() {{
 }}
 
 
-
-
-
-function distribuirAutomatico() {{
-
+   
+   // ==============================================================================
+    // 🧠 DISTRIBUIDOR AUTOMÁTICO COMPLETO (TODOS LOS RUTEOS + C1 SJA1 INTACTO)
     // ==============================================================================
-    // ⚙️ SECCIÓN 1: CAPTURA DE DATOS EN PANTALLA Y CONFIGURACIÓN INICIAL
-    // ==============================================================================
-    
-    // 1.1 LEER FLOTA DISPONIBLE DESDE LA TABLA SUPERIOR ACTIVA
-    let fleet = [];
-    document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
-        let nombre = row.querySelector('.edit-name')?.innerText.trim();
-        let sprMax = parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
-        let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
+    function distribuirAutomatico() {{
+        let fleet = [];
+        document.querySelectorAll('#body-' + currentTab + ' tr').forEach(row => {{
+            let nombre = row.querySelector('.edit-name')?.innerText.trim();
+            let sprMax = parseFloat(row.querySelector('.edit-spr-max')?.innerText) || 0;
+            let stock = parseInt(row.querySelector('.f-stock')?.innerText) || 0;
 
-        if (nombre && nombre !== "IGNORAR" && stock > 0) {{
-            fleet.push({{
-                nombre: nombre,
-                spr: sprMax,
-                stock: stock,
-                restante: stock
-            }});
-        }}
-    }});
-
-    // 1.2 DESCONTAR DEL INVENTARIO LO QUE YA INGRESASTE MANUALMENTE EN LOS POLÍGONOS
-    document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(r => {{
-        let tipo = r.querySelector('.s-type')?.value;
-        let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
-
-        if (tipo && tipo !== "Seleccionar..." && unidades > 0) {{
-            let unidadReal = fleet.find(f => f.nombre === tipo);
-            if (unidadReal) {{
-                unidadReal.restante -= unidades;
+            if (nombre && nombre !== "IGNORAR" && stock > 0) {{
+                fleet.push({{
+                    nombre: nombre,
+                    spr: sprMax,
+                    stock: stock,
+                    restante: stock
+                }});
             }}
-        }}
-    }});
-
-    console.log("FLEET DISPONIBLE EN PESTAÑA ACTIVA:", fleet.map(f => f.nombre));
-
-    // 1.3 ORDENAR FLOTA POR CAPACIDAD (MAYOR SPR) REGLA NATIVA
-    fleet.sort((a, b) => b.spr - a.spr);
-
-    // 1.4 CAPTURAR Y ORDENAR POLÍGONOS POR PRIORIDAD DE NODO/VOLUMEN
-    let bloques = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
-    let polys = [];
-
-    bloques.forEach(bl => {{
-        let volumen = parseFloat(bl.querySelector('.v-total-val')?.innerText) || 0;
-        if (volumen > 0) {{
-            polys.push({{
-                bloque: bl,
-                volumen: volumen
-            }});
-        }}
-    }});
-
-    // 🔒 CONDICIONAL EXCLUSIVA: Solo se aplica si la pestaña activa es C1 SJA1 (ID 6)
-    if (currentTab == 6) {{
-        polys.sort((a, b) => {{
-            let nameA = a.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-            let nameB = b.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-            
-            let esPrioritarioA = (nameA === "PEROTE" || nameA === "TLALTETELA") ? 1 : 0;
-            let esPrioritarioB = (nameB === "PEROTE" || nameB === "TLALTETELA") ? 1 : 0;
-            
-            // Coloca a Perote y Tlaltetela al principio del arreglo
-            return esPrioritarioB - esPrioritarioA;
         }});
-    }}
 
+        // Descontar lo ya asignado manualmente en la pestaña activa
+        document.querySelectorAll('#polys-' + currentTab + ' .calc-row').forEach(r => {{
+            let tipo = r.querySelector('.s-type')?.value;
+            let unidades = parseInt(r.querySelector('.u-manual')?.innerText) || 0;
 
-    // ==============================================================================
-    // 🚚 SECCIÓN 2: BLOQUE DE PREASIGNACIONES ESPECÍFICAS (PASO 1 DEL MOTOR)
-    // ==============================================================================
-    
-    // --- 🟢 CARRIL PESTAÑA 1: PREC SMX5 ---
-    if (currentTab == 1) {{
-        let small9h = fleet.find(f => f.nombre === "Small 9h Ext Car");
-        if (small9h && small9h.restante > 0) {{
-            let planesPrioridad = ["IZTAPALAPA", "COYOACÁN"];
-            planesPrioridad.forEach(nombreBuscado => {{
-                let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
-                if (!polyPlan) return;
-
-                let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
-                let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
-                    yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                }});
-
-                let restante = objetivo - yaAsignado;
-                if (restante <= 0) return;
-
-                let usar = Math.min(Math.ceil(restante / small9h.spr), small9h.restante);
-                if (usar <= 0) return;
-
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
-                    let tipo = f.querySelector('.s-type')?.value?.trim() || "";
-                    let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                }});
-
-                if (filaLibre) {{
-                    filaLibre.querySelector('.s-type').value = small9h.nombre;
-                    filaLibre.querySelector('.u-manual').innerText = usar;
-                    filaLibre.querySelector('.spr-real-val').innerText = small9h.spr;
-                    editedRowsPlan.add(filaLibre);
-                    small9h.restante -= usar;
+            if (tipo && tipo !== "Seleccionar..." && unidades > 0) {{
+                let unidadReal = fleet.find(f => f.nombre === tipo);
+                if (unidadReal) {{
+                    unidadReal.restante -= unidades;
                 }}
-            }});
+            }}
+        }});
 
-            // Asignación de stock sobrante a Tláhuac
-            if (small9h.restante > 0) {{
-                polys.forEach(polyPlan => {{
-                    if (small9h.restante <= 0) return;
-                    let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
-                    if (nombrePlan !== "TLAHUAC") return;
+        fleet.sort((a, b) => b.spr - a.spr);
+
+        let bloques = Array.from(document.querySelectorAll('#polys-' + currentTab + ' .poligono-bloque'));
+        let polys = [];
+
+        bloques.forEach(bl => {{
+            let volumen = parseFloat(bl.querySelector('.v-total-val')?.innerText) || 0;
+            if (volumen > 0) {{
+                polys.push({{
+                    bloque: bl,
+                    volumen: volumen
+                }});
+            }}
+        }});
+
+        // ==============================================================================
+        // 🔒 CONDICIONAL EXCLUSIVA: Solo se aplica si la pestaña activa es C1 SJA1 (ID 6)
+        // ==============================================================================
+        if (currentTab == 6) {{
+            polys.sort((a, b) => {{
+                let nameA = a.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+                let nameB = b.bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+            
+                let esPrioritarioA = (nameA === "PEROTE" || nameA === "TLALTETELA") ? 1 : 0;
+                let esPrioritarioB = (nameB === "PEROTE" || nameB === "TLALTETELA") ? 1 : 0;
+            
+                // Coloca a Perote y Tlaltetela al principio del arreglo
+                return esPrioritarioB - esPrioritarioA;
+            }});
+        }} 
+        
+        // ==============================================================================
+        // 🚚 SECCIÓN 2: BLOQUE DE PREASIGNACIONES ESPECÍFICAS (PASO 1 DEL MOTOR)
+        // ==============================================================================
+    
+        // --- 🟢 CARRIL PESTAÑA 1: PREC SMX5 ---
+        if (currentTab == 1) {{
+            let small9h = fleet.find(f => f.nombre === "Small 9h Ext Car");
+            if (small9h && small9h.restante > 0) {{
+                let planesPrioridad = ["IZTAPALAPA", "COYOACÁN"];
+                planesPrioridad.forEach(nombreBuscado => {{
+                    let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
+                    if (!polyPlan) return;
 
                     let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                     let yaAsignado = 0;
@@ -3914,53 +4485,53 @@ function distribuirAutomatico() {{
                         small9h.restante -= usar;
                     }}
                 }});
+
+                // Asignación de stock sobrante a Tláhuac
+                if (small9h.restante > 0) {{
+                    polys.forEach(polyPlan => {{
+                        if (small9h.restante <= 0) return;
+                        let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
+                        if (nombrePlan !== "TLAHUAC") return;
+
+                        let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
+                        let yaAsignado = 0;
+                        polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
+                            yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
+                        }});
+
+                        let restante = objetivo - yaAsignado;
+                        if (restante <= 0) return;
+
+                        let usar = Math.min(Math.ceil(restante / small9h.spr), small9h.restante);
+                        if (usar <= 0) return;
+
+                        let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
+                            let tipo = f.querySelector('.s-type')?.value?.trim() || "";
+                            let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                            return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
+                        }});
+
+                        if (filaLibre) {{
+                            filaLibre.querySelector('.s-type').value = small9h.nombre;
+                            filaLibre.querySelector('.u-manual').innerText = usar;
+                            filaLibre.querySelector('.spr-real-val').innerText = small9h.spr;
+                            editedRowsPlan.add(filaLibre);
+                            small9h.restante -= usar;
+                        }}
+                    }});
+                }}
             }}
         }}
-    }}
 
-    // --- 🟡 CARRIL PESTAÑA 5: PREC SMX2 ---
-    if (currentTab == 5) {{
-        // Preasignación Small Van SDD
-        let smallVan = fleet.find(f => f.nombre === "Small Van SDD");
-        if (smallVan && smallVan.restante > 0) {{
-            let planesPrioridad = ["IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ"];
-            planesPrioridad.forEach(nombreBuscado => {{
-                let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
-                if (!polyPlan) return;
-
-                let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
-                let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
-                    yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                }});
-
-                let restante = objetivo - yaAsignado;
-                if (restante <= 0) return;
-
-                let usar = Math.min(Math.ceil(restante / smallVan.spr), smallVan.restante);
-                if (usar <= 0) return;
-
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
-                    let tipo = f.querySelector('.s-type')?.value?.trim() || "";
-                    let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                }});
-
-                if (filaLibre) {{
-                    filaLibre.querySelector('.s-type').value = smallVan.nombre;
-                    filaLibre.querySelector('.u-manual').innerText = usar;
-                    filaLibre.querySelector('.spr-real-val').innerText = smallVan.spr;
-                    editedRowsPlan.add(filaLibre);
-                    smallVan.restante -= usar;
-                }}
-            }});
-
-            // Sobrante de Small Van a Chimas
-            if (smallVan.restante > 0) {{
-                polys.forEach(polyPlan => {{
-                    if (smallVan.restante <= 0) return;
-                    let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
-                    if (!nombrePlan.includes("CHIMAS")) return;
+        // --- 🟡 CARRIL PESTAÑA 5: PREC SMX2 ---
+        if (currentTab == 5) {{
+            // Preasignación Small Van SDD
+            let smallVan = fleet.find(f => f.nombre === "Small Van SDD");
+            if (smallVan && smallVan.restante > 0) {{
+                let planesPrioridad = ["IZTAPALAPA 1", "IZTAPALAPA 2", "LA PAZ"];
+                planesPrioridad.forEach(nombreBuscado => {{
+                    let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
+                    if (!polyPlan) return;
 
                     let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
                     let yaAsignado = 0;
@@ -3988,241 +4559,275 @@ function distribuirAutomatico() {{
                         smallVan.restante -= usar;
                     }}
                 }});
-            }}
-        }}
 
-        // Preasignación Car Zona Extendida
-        let CarZonaExtendida = fleet.find(f => f.nombre === "Car Zona Extendida");
-        if (CarZonaExtendida && CarZonaExtendida.restante > 0) {{
-            let planesPrioridad = ["PUEBLOS", "TEXCOCO"];
-            planesPrioridad.forEach(nombreBuscado => {{
-                let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
-                if (!polyPlan) return;
+                // Sobrante de Small Van a Chimas
+                if (smallVan.restante > 0) {{
+                    polys.forEach(polyPlan => {{
+                        if (smallVan.restante <= 0) return;
+                        let nombrePlan = polyPlan.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "";
+                        if (!nombrePlan.includes("CHIMAS")) return;
 
-                let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
-                let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
-                    yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-                }});
+                        let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
+                        let yaAsignado = 0;
+                        polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
+                            yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
+                        }});
 
-                let restante = objetivo - yaAsignado;
-                if (restante <= 0) return;
+                        let restante = objetivo - yaAsignado;
+                        if (restante <= 0) return;
 
-                let usar = Math.min(Math.ceil(restante / CarZonaExtendida.spr), CarZonaExtendida.restante);
-                if (usar <= 0) return;
+                        let usar = Math.min(Math.ceil(restante / smallVan.spr), smallVan.restante);
+                        if (usar <= 0) return;
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
-                    let tipo = f.querySelector('.s-type')?.value?.trim() || "";
-                    let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                }});
+                        let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
+                            let tipo = f.querySelector('.s-type')?.value?.trim() || "";
+                            let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                            return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
+                        }});
 
-                if (filaLibre) {{
-                    filaLibre.querySelector('.s-type').value = CarZonaExtendida.nombre;
-                    filaLibre.querySelector('.u-manual').innerText = usar;
-                    filaLibre.querySelector('.spr-real-val').innerText = CarZonaExtendida.spr;
-                    editedRowsPlan.add(filaLibre);
-                    CarZonaExtendida.restante -= usar;
+                        if (filaLibre) {{
+                            filaLibre.querySelector('.s-type').value = smallVan.nombre;
+                            filaLibre.querySelector('.u-manual').innerText = usar;
+                            filaLibre.querySelector('.spr-real-val').innerText = smallVan.spr;
+                            editedRowsPlan.add(filaLibre);
+                            smallVan.restante -= usar;
+                        }}
+                    }});
                 }}
-            }});
+            }}
 
-            // Sobrante de Car Zona Extendida a Chalco
-            if (CarZonaExtendida.restante > 0) {{
-                let chalco = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CHALCO");
-                if (chalco) {{
-                    let filaLibre = Array.from(chalco.bloque.querySelectorAll('.calc-row')).find(f => {{
+            // Preasignación Car Zona Extendida
+            let CarZonaExtendida = fleet.find(f => f.nombre === "Car Zona Extendida");
+            if (CarZonaExtendida && CarZonaExtendida.restante > 0) {{
+                let planesPrioridad = ["PUEBLOS", "TEXCOCO"];
+                planesPrioridad.forEach(nombreBuscado => {{
+                    let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
+                    if (!polyPlan) return;
+
+                    let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
+                    let yaAsignado = 0;
+                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
+                        yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
+                    }});
+
+                    let restante = objetivo - yaAsignado;
+                    if (restante <= 0) return;
+
+                    let usar = Math.min(Math.ceil(restante / CarZonaExtendida.spr), CarZonaExtendida.restante);
+                    if (usar <= 0) return;
+
+                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
                         let tipo = f.querySelector('.s-type')?.value?.trim() || "";
                         let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
                         return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
                     }});
+
                     if (filaLibre) {{
                         filaLibre.querySelector('.s-type').value = CarZonaExtendida.nombre;
-                        filaLibre.querySelector('.u-manual').innerText = CarZonaExtendida.restante;
+                        filaLibre.querySelector('.u-manual').innerText = usar;
                         filaLibre.querySelector('.spr-real-val').innerText = CarZonaExtendida.spr;
                         editedRowsPlan.add(filaLibre);
-                        CarZonaExtendida.restante = 0;
+                        CarZonaExtendida.restante -= usar;
+                    }}
+                }});
+
+                // Sobrante de Car Zona Extendida a Chalco
+                if (CarZonaExtendida.restante > 0) {{
+                    let chalco = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CHALCO");
+                    if (chalco) {{
+                        let filaLibre = Array.from(chalco.bloque.querySelectorAll('.calc-row')).find(f => {{
+                            let tipo = f.querySelector('.s-type')?.value?.trim() || "";
+                            let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                            return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
+                        }});
+                        if (filaLibre) {{
+                            filaLibre.querySelector('.s-type').value = CarZonaExtendida.nombre;
+                            filaLibre.querySelector('.u-manual').innerText = CarZonaExtendida.restante;
+                            filaLibre.querySelector('.spr-real-val').innerText = CarZonaExtendida.spr;
+                            editedRowsPlan.add(filaLibre);
+                            CarZonaExtendida.restante = 0;
+                        }}
                     }}
                 }}
             }}
         }}
-    }}
 
 
-    // --- 🔵 CARRIL PESTAÑA 2: C1 BASE / SCP1 (Incluye Campeche y sus Dedicadas) ---
-    if (currentTab == 2) {{
-        // Preasignación Large Van MLP
-        let largeVanMLP = fleet.find(f => f.nombre === "Large Van MLP");
-        if (largeVanMLP && largeVanMLP.restante > 0) {{
-            let planesPrioridad = ["ESCÁRCEGA", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"];
-            planesPrioridad.forEach(nombreBuscado => {{
-                let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
-                if (!polyPlan) return;
+        // --- 🔵 CARRIL PESTAÑA 2: C1 BASE / SCP1 (Incluye Campeche y sus Dedicadas) ---
+        if (currentTab == 2) {{
+            // Preasignación Large Van MLP
+            let largeVanMLP = fleet.find(f => f.nombre === "Large Van MLP");
+            if (largeVanMLP && largeVanMLP.restante > 0) {{
+                let planesPrioridad = ["ESCÁRCEGA", "ESCÁRCEGA EXT", "MAXCANUN", "CANDELARIA", "SEYBAPLAYA", "CHAMPOTÓN", "HOLPECHEN"];
+                planesPrioridad.forEach(nombreBuscado => {{
+                    let polyPlan = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === nombreBuscado);
+                    if (!polyPlan) return;
 
-                let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
+                    let objetivo = parseFloat(polyPlan.bloque.querySelector('.v-total-val')?.innerText) || 0;
+                    let yaAsignado = 0;
+                    polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
+                        yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
+                    }});
+
+                    let restante = objetivo - yaAsignado;
+                    if (restante <= 0) return;
+
+                    let usar = Math.min(Math.ceil(restante / largeVanMLP.spr), largeVanMLP.restante);
+                    if (usar <= 0) return;
+
+                    let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
+                        let tipo = f.querySelector('.s-type')?.value?.trim() || "";
+                        let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                        return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
+                    }});
+
+                    if (filaLibre) {{
+                        filaLibre.querySelector('.s-type').value = largeVanMLP.nombre;
+                        filaLibre.querySelector('.u-manual').innerText = usar;
+                        filaLibre.querySelector('.spr-real-val').innerText = largeVanMLP.spr;
+                        editedRowsPlan.add(filaLibre);
+                        largeVanMLP.restante -= usar;
+                    }}
+                }});
+            }}
+
+            // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
+            let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
+            if (deliveryCell && deliveryCell.restante > 0) {{
+                let campeche = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CAMPECHE");
+                if (campeche) {{
+                    let nodos = parseInt(campeche.bloque.querySelector('.nodos-campeche')?.innerText) || 0;
+                    if (nodos > 0) {{
+                        let filaLibre = Array.from(campeche.bloque.querySelectorAll('.calc-row')).find(f => {{
+                            let tipo = f.querySelector('.s-type')?.value?.trim() || "";
+                            let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
+                            return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
+                        }});
+                        if (filaLibre) {{
+                            filaLibre.querySelector('.s-type').value = deliveryCell.nombre;
+                            filaLibre.querySelector('.u-manual').innerText = 1;
+                            filaLibre.querySelector('.spr-real-val').innerText = deliveryCell.spr;
+                            editedRowsPlan.add(filaLibre);
+                            deliveryCell.restante -= 1;
+                        }}
+                    }}
+                }}
+            }}
+        }}
+
+
+        // ==============================================================================
+        // 🎛️ SECCIÓN 3: MOTOR DE DISTRIBUCIÓN PRINCIPAL POR PESTAÑA (PASO 2 DEL MOTOR)
+        // ==============================================================================
+        if (currentTab == 6) {{
+            // 🚀 EJECUTA EL NUEVO MOTOR EN CARRIL AISLADO PARA C1 SJA1
+            polys.forEach(poly => {{
+                procesarAsignacionUnidadSJA1(poly);
+            }});
+        }} else {{
+            // 🔴 OPERACIÓN ORIGINAL PARA EL RESTO DE LAS PESTAÑAS (C1 SCP1, SDE, PREC)
+            polys.forEach(poly => {{
+                let bloque = poly.bloque;
+                let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
+                let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
+
                 let yaAsignado = 0;
-                polyPlan.bloque.querySelectorAll('.calc-row').forEach(r => {{
+                bloque.querySelectorAll('.calc-row').forEach(r => {{
                     yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
                 }});
 
                 let restante = objetivo - yaAsignado;
                 if (restante <= 0) return;
 
-                let usar = Math.min(Math.ceil(restante / largeVanMLP.spr), largeVanMLP.restante);
-                if (usar <= 0) return;
+                let filas = Array.from(bloque.querySelectorAll('.calc-row'));
+                for (let fila of filas) {{
+                    let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
+                    let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
+                    let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
 
-                let filaLibre = Array.from(polyPlan.bloque.querySelectorAll('.calc-row')).find(f => {{
-                    let tipo = f.querySelector('.s-type')?.value?.trim() || "";
-                    let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                    return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                }});
+                    if (yaTieneUnidad || yaTieneTipo) continue;
+                    if (restante <= 0) break;
 
-                if (filaLibre) {{
-                    filaLibre.querySelector('.s-type').value = largeVanMLP.nombre;
-                    filaLibre.querySelector('.u-manual').innerText = usar;
-                    filaLibre.querySelector('.spr-real-val').innerText = largeVanMLP.spr;
-                    editedRowsPlan.add(filaLibre);
-                    largeVanMLP.restante -= usar;
+                    let unidad = null;
+
+                    // Regla Nativa de Flota para Pestaña 2 (Asignación General vs Campeche)
+                    if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
+                        unidad = fleet.find(f => f.nombre === "Rental Large Van");
+                    }} else if (currentTab == 2) {{
+                        unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
+                    }} else {{
+                        unidad = fleet.find(f => f.restante > 0);
+                    }}
+
+                    // Desborde de Emergencia Tradicional Nativo (Si se vacía el stock principal)
+                    if (!unidad) {{
+                        if (currentTab == 4) {{ // SDE
+                            let options = ["Car - 5h", "Car - 3h"];
+                            for (let opt of options) {{
+                                unidad = fleet.find(f => f.nombre.includes(opt));
+                                if (unidad) break;
+                            }}
+                        }} else if (currentTab == 7) {{ // C1 SCH1
+                            let options = ["Car - 8h"];
+                            for (let opt of options) {{
+                                unidad = fleet.find(f => f.nombre.includes(opt));
+                                if (unidad) break;
+                            }}
+                        }} else if (currentTab == 8) {{ // C1 SMD2
+                            let options = ["Car - 8h"];
+                            for (let opt of options) {{
+                                unidad = fleet.find(f => f.nombre.includes(opt));
+                                if (unidad) break;
+                            }}
+                        }} else if (currentTab == 2) {{ // C1 SCP1
+                            let options = ["Large Van MLP", "Car - 8h", "Car - 5h"];
+                            for (let opt of options) {{
+                                unidad = fleet.find(f => f.nombre.includes(opt));
+                                if (unidad) break;
+                            }}
+                        }} else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
+                            let options = ["Car - 8h", "Car - 5h"];
+                            for (let opt of options) {{
+                                unidad = fleet.find(f => f.nombre.includes(opt));
+                                if (unidad) break;
+                            }}
+                        }}
+                        if (!unidad) break;
+                    }}
+
+                    // MATEMÁTICA TRADICIONAL DE REPARTO REAL NATIVO
+                    let necesarias = Math.ceil(restante / unidad.spr);
+                    let usar;
+
+                    let permiteNegativo = unidad.nombre === "Car - 8h" || unidad.nombre === "Car - 5h" || unidad.nombre === "Car - 3h" || (currentTab == 2 && unidad.nombre === "Large Van MLP");
+                    if (unidad.restante > 0) {{
+                        usar = Math.min(necesarias, unidad.restante);
+                    }} else if (permiteNegativo) {{
+                        usar = necesarias;
+                    }} else {{
+                        usar = 0;
+                    }}
+
+                    if (usar <= 0) continue;
+
+                    let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
+                    if (filaExistente) {{
+                        let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
+                        filaExistente.querySelector('.u-manual').innerText = actual + usar;
+                        filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
+                        editedRowsPlan.add(filaExistente);
+                    }} else {{
+                        fila.querySelector('.s-type').value = unidad.nombre;
+                        fila.querySelector('.u-manual').innerText = usar;
+                        fila.querySelector('.spr-real-val').innerText = unidad.spr;
+                        editedRowsPlan.add(fila);
+                    }}
+
+                    unidad.restante -= usar;
+                    restante -= (usar * unidad.spr);
                 }}
             }});
         }}
-
-        // Preasignación Exclusiva de Delivery Cell para los Nodos de CAMPECHE
-        let deliveryCell = fleet.find(f => f.nombre === "Delivery Cell Large Van");
-        if (deliveryCell && deliveryCell.restante > 0) {{
-            let campeche = polys.find(p => (p.bloque.querySelector('td[rowspan]')?.innerText?.trim()?.toUpperCase() || "") === "CAMPECHE");
-            if (campeche) {{
-                let nodos = parseInt(campeche.bloque.querySelector('.nodos-campeche')?.innerText) || 0;
-                if (nodos > 0) {{
-                    let filaLibre = Array.from(campeche.bloque.querySelectorAll('.calc-row')).find(f => {{
-                        let tipo = f.querySelector('.s-type')?.value?.trim() || "";
-                        let unidades = parseInt(f.querySelector('.u-manual')?.innerText) || 0;
-                        return unidades === 0 && (tipo === "" || tipo === "Seleccionar...");
-                    }});
-                    if (filaLibre) {{
-                        filaLibre.querySelector('.s-type').value = deliveryCell.nombre;
-                        filaLibre.querySelector('.u-manual').innerText = 1;
-                        filaLibre.querySelector('.spr-real-val').innerText = deliveryCell.spr;
-                        editedRowsPlan.add(filaLibre);
-                        deliveryCell.restante -= 1;
-                    }}
-                }}
-            }}
-        }}
-    }}
-
-
-    // ==============================================================================
-    // 🎛️ SECCIÓN 3: MOTOR DE DISTRIBUCIÓN PRINCIPAL POR PESTAÑA (PASO 2 DEL MOTOR)
-    // ==============================================================================
-    if (currentTab == 6) {{
-        // 🚀 EJECUTA EL NUEVO MOTOR EN CARRIL AISLADO PARA C1 SJA1
-        polys.forEach(poly => {{
-            procesarAsignacionUnidadSJA1(poly);
-        }});
-    }} else {{
-        // 🔴 OPERACIÓN ORIGINAL PARA EL RESTO DE LAS PESTAÑAS (C1 SCP1, SDE, PREC)
-        polys.forEach(poly => {{
-            let bloque = poly.bloque;
-            let nombrePlan = bloque.querySelector('td[rowspan]')?.innerText?.toUpperCase()?.trim() || "";
-            let objetivo = parseFloat(bloque.querySelector('.v-total-val')?.innerText) || 0;
-
-            let yaAsignado = 0;
-            bloque.querySelectorAll('.calc-row').forEach(r => {{
-                yaAsignado += (parseInt(r.querySelector('.u-manual')?.innerText) || 0) * (parseFloat(r.querySelector('.spr-real-val')?.innerText) || 0);
-            }});
-
-            let restante = objetivo - yaAsignado;
-            if (restante <= 0) return;
-
-            let filas = Array.from(bloque.querySelectorAll('.calc-row'));
-            for (let fila of filas) {{
-                let yaTieneUnidad = parseInt(fila.querySelector('.u-manual')?.innerText) > 0;
-                let tipoActual = fila.querySelector('.s-type')?.value?.trim() || "";
-                let yaTieneTipo = tipoActual !== "" && tipoActual !== "Seleccionar...";
-
-                if (yaTieneUnidad || yaTieneTipo) continue;
-                if (restante <= 0) break;
-
-                let unidad = null;
-
-                // Regla Nativa de Flota para Pestaña 2 (Asignación General vs Campeche)
-                if (currentTab == 2 && nombrePlan == "CAMPECHE") {{
-                    unidad = fleet.find(f => f.nombre === "Rental Large Van");
-                }} else if (currentTab == 2) {{
-                    unidad = fleet.find(f => f.restante > 0 && f.nombre !== "Rental Large Van");
-                }} else {{
-                    unidad = fleet.find(f => f.restante > 0);
-                }}
-
-                // Desborde de Emergencia Tradicional Nativo (Si se vacía el stock principal)
-                if (!unidad) {{
-                    if (currentTab == 4) {{ // SDE
-                        let options = ["Car - 5h", "Car - 3h"];
-                        for (let opt of options) {{
-                            unidad = fleet.find(f => f.nombre.includes(opt));
-                            if (unidad) break;
-                        }}
-                    }} else if (currentTab == 7) {{ // C1 SCH1
-                        let options = ["Car - 8h"];
-                        for (let opt of options) {{
-                            unidad = fleet.find(f => f.nombre.includes(opt));
-                            if (unidad) break;
-                        }}
-                    }} else if (currentTab == 8) {{ // C1 SMD2
-                        let options = ["Car - 8h"];
-                        for (let opt of options) {{
-                            unidad = fleet.find(f => f.nombre.includes(opt));
-                            if (unidad) break;
-                        }}
-                    }} else if (currentTab == 2) {{ // C1 SCP1
-                        let options = ["Large Van MLP", "Car - 8h", "Car - 5h"];
-                        for (let opt of options) {{
-                            unidad = fleet.find(f => f.nombre.includes(opt));
-                            if (unidad) break;
-                        }}
-                    }} else if (currentTab == 1 || currentTab == 5) {{ // PRECARGAS
-                        let options = ["Car - 8h", "Car - 5h"];
-                        for (let opt of options) {{
-                            unidad = fleet.find(f => f.nombre.includes(opt));
-                            if (unidad) break;
-                        }}
-                    }}
-                    if (!unidad) break;
-                }}
-
-                // MATEMÁTICA TRADICIONAL DE REPARTO REAL NATIVO
-                let necesarias = Math.ceil(restante / unidad.spr);
-                let usar;
-
-                let permiteNegativo = unidad.nombre === "Car - 8h" || unidad.nombre === "Car - 5h" || unidad.nombre === "Car - 3h" || (currentTab == 2 && unidad.nombre === "Large Van MLP");
-                if (unidad.restante > 0) {{
-                    usar = Math.min(necesarias, unidad.restante);
-                }} else if (permiteNegativo) {{
-                    usar = necesarias;
-                }} else {{
-                    usar = 0;
-                }}
-
-                if (usar <= 0) continue;
-
-                let filaExistente = filas.find(f => f.querySelector('.s-type')?.value === unidad.nombre);
-                if (filaExistente) {{
-                    let actual = parseInt(filaExistente.querySelector('.u-manual')?.innerText) || 0;
-                    filaExistente.querySelector('.u-manual').innerText = actual + usar;
-                    filaExistente.querySelector('.spr-real-val').innerText = unidad.spr;
-                    editedRowsPlan.add(filaExistente);
-                }} else {{
-                    fila.querySelector('.s-type').value = unidad.nombre;
-                    fila.querySelector('.u-manual').innerText = usar;
-                    fila.querySelector('.spr-real-val').innerText = unidad.spr;
-                    editedRowsPlan.add(fila);
-                }}
-
-                unidad.restante -= usar;
-                restante -= (usar * unidad.spr);
-            }}
-        }});
-    }}
 
 
 // ==============================================================================
@@ -4612,14 +5217,12 @@ actualizarDosPorciento();
 
 
 
+
 // ==============================================================================
 // NAVEGACIÓN TIPO EXCEL
 // ==============================================================================
-
 document.addEventListener("keydown", function(e){{
-
     const celda = document.activeElement;
-
     if (!celda || !celda.hasAttribute("contenteditable")) return;
 
     const fila = celda.closest("tr");
@@ -4627,88 +5230,63 @@ document.addEventListener("keydown", function(e){{
 
     const tabla = fila.closest("table");
     if (!tabla) return;
-
-    const filas = Array.from(
-        tabla.querySelectorAll("tbody tr")
-    );
-
+	const filas = Array.from(
+	    tabla.querySelectorAll("tbody tr")
+	);
     const filaIdx = filas.indexOf(fila);
-
-    const celdasFila = Array.from(
-        fila.querySelectorAll('[contenteditable="true"]')
-    );
-
+	const celdasFila = Array.from(
+	    fila.querySelectorAll('[contenteditable="true"]')
+	);
     const colIdx = celdasFila.indexOf(celda);
 
     if(e.key === "ArrowDown"){{
         e.preventDefault();
-
-        const sigFila = filas[filaIdx + 1];
-
+		const sigFila = filas[filaIdx + 1];
         if(sigFila){{
             const celdas = sigFila.querySelectorAll('[contenteditable="true"]');
-            if(celdas[colIdx]) celdas[colIdx].focus();
+			if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
 
     if(e.key === "ArrowUp"){{
         e.preventDefault();
-
-        const antFila = filas[filaIdx - 1];
-
+		const antFila = filas[filaIdx - 1];
         if(antFila){{
             const celdas = antFila.querySelectorAll('[contenteditable="true"]');
-            if(celdas[colIdx]) celdas[colIdx].focus();
+			if(celdas[colIdx]) celdas[colIdx].focus();
         }}
     }}
 
     if(e.key === "ArrowRight"){{
-        e.preventDefault();
-
+	    e.preventDefault();
         if(celdasFila[colIdx + 1]){{
-            celdasFila[colIdx + 1].focus();
+		    celdasFila[colIdx + 1].focus();
         }}
     }}
 
     if(e.key === "ArrowLeft"){{
         e.preventDefault();
-
         if(celdasFila[colIdx - 1]){{
             celdasFila[colIdx - 1].focus();
         }}
     }}
-
 }});
-
-// ==============================================================================
-
-
 
 // =====================================
 // SELECCIONAR TODO AL ENTRAR A UNA CELDA
 // =====================================
-
 document.addEventListener("focusin", function(e) {{
-
     const celda = e.target;
-
     if (!celda.hasAttribute("contenteditable")) return;
 
     setTimeout(() => {{
-
         const rango = document.createRange();
         rango.selectNodeContents(celda);
-
         const seleccion = window.getSelection();
-        seleccion.removeAllRanges();
+		seleccion.removeAllRanges();
         seleccion.addRange(rango);
-
     }}, 0);
-
 }});
-
-
-
 
 // ======================================================
 // RELOJ Y RUTEOS
@@ -4745,7 +5323,6 @@ const ruteos = [
 
 let ultimaAlerta = "";
 
-
 function actualizarRelojRuteos() {{
     const ahora = new Date();
     document.getElementById("hora-actual").innerText = ahora.toLocaleTimeString();
@@ -4763,7 +5340,7 @@ function actualizarRelojRuteos() {{
 
     const elProximo = document.getElementById("proximo-ruteo");
     const elCuenta = document.getElementById("cuenta-regresiva");
-    const elHora = document.getElementById("hora-ruteo");
+	const elHora = document.getElementById("hora-ruteo");
 
     if (!siguiente) {{
         elProximo.innerText = "Fin del turno";
@@ -4771,23 +5348,20 @@ function actualizarRelojRuteos() {{
         elCuenta.innerText = "--:--";
     }} else {{
         elProximo.innerText = siguiente.tarea.nombre;
-        
-        // 🕒 AQUÍ SE INYECTA LA HORA AUTOMÁTICAMENTE
         if (elHora) {{
-            elHora.innerText = "A LAS " + siguiente.tarea.hora;
+             elHora.innerText = "A LAS " + siguiente.tarea.hora;
         }}
-        
+            
         let diff = siguiente.fechaTarea - ahora;
         let mins = Math.floor(diff / 60000);
         let secs = Math.floor((diff % 60000) / 1000);
-        
+            
         elCuenta.innerText = String(mins).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
         elCuenta.style.color = mins < 5 ? "#FF0000" : "#7CFFB2";
     }}
 }}
 setInterval(actualizarRelojRuteos, 1000);
 actualizarRelojRuteos();
-
 
 
 // ==============================================================================
@@ -4849,57 +5423,524 @@ function iniciarArrastreFlotante(e) {{
   window.addEventListener("pointercancel", alSoltar, true);
 }}
 
-
-    
 </script>
+
+
+
+<!-- ============================================================
+     ☰ MENÚ LATERAL PRINCIPAL
+     ============================================================ -->
+
+<style>
+
+    #btn-menu-lateral {{
+        position: fixed;
+        top: 0px;
+        left: 5px;
+        z-index: 9999999;
+
+        width: 42px;
+        height: 42px;
+
+        border: 1px solid #444;
+        border-radius: 6px;
+
+        background: #25282b;
+        color: white;
+
+        font-size: 22px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        box-shadow: 0 3px 8px rgba(0,0,0,0.45);
+    }}
+
+    #btn-menu-lateral:hover {{
+        background: #34383c;
+    }}
+
+
+    #menu-lateral-ruteos {{
+       position: fixed;
+
+       top: 0;
+       left: -310px;
+
+       width: 290px;
+       height: 100vh;
+
+       background: #1e2022;
+
+       z-index: 9999998;
+
+       /* Bordes redondeados del lado derecho */
+       border-radius: 0 18px 18px 0;
+
+       /* Volumen / profundidad */
+       box-shadow:
+           8px 0 20px rgba(0, 0, 0, 0.65),
+           2px 0 5px rgba(255, 255, 255, 0.05);
+
+       transition: left 0.3s ease;
+
+       padding: 20px 15px;
+
+       box-sizing: border-box;
+
+       color: white;
+
+       overflow-y: auto;
+   }}
+
+
+    #menu-lateral-ruteos.abierto {{
+        left: 0;
+    }}
+
+
+    .menu-ruteos-header {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+
+        border-bottom: 1px solid #444;
+    }}
+
+
+    .menu-ruteos-titulo {{
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+
+        color: #66CDAA;
+    }}
+
+
+    #submenu-ruteos-lateral {{
+        display: none;
+        margin: -2px 0 10px 10px;
+        padding: 6px;
+        background: #17191b;
+        border-left: 2px solid #66CDAA;
+        border-radius: 0 6px 6px 0;
+        max-height: 300px;
+        overflow-y: auto;
+    }}
+
+
+    .ruteo-submenu-item {{
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 9px 10px;
+        margin-bottom: 4px;
+
+        background: #25282b;
+        color: #e4e6e8;
+
+        border: 1px solid #3b3f43;
+        border-radius: 5px;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        text-align: left;
+        cursor: pointer;
+    }}
+
+
+    .ruteo-submenu-item:hover {{
+        background: #363a3f;
+        border-color: #66CDAA;
+        color: white;
+    }}
+
+
+    .ruteo-submenu-item.activo {{
+        background: #315c4f;
+        border-color: #66CDAA;
+        color: white;
+    }}
+
+
+
+    #cerrar-menu-ruteos {{
+        border: none;
+        background: transparent;
+
+        color: white;
+
+        font-size: 21px;
+
+        cursor: pointer;
+    }}
+
+
+    #cerrar-menu-ruteos:hover {{
+        color: #ff6b6b;
+    }}
+
+
+    .opcion-menu-ruteos {{
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+        padding: 13px 15px;
+
+        margin-bottom: 9px;
+
+        border-radius: 7px;
+
+        border: 1px solid #3b3f43;
+
+        background: #292c30;
+
+        color: #e4e6e8;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        text-align: left;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+    }}
+
+
+    .opcion-menu-ruteos:hover {{
+
+        background: #363a3f;
+
+        border-color: #66CDAA;
+
+        color: white;
+
+        transform: translateX(4px);
+    }}
+
+</style>
+
+
+<!-- BOTÓN ☰ -->
+
+<button
+    id="btn-menu-lateral"
+    onclick="abrirCerrarMenuRuteos()"
+    title="Abrir menú">
+    ☰
+</button>
+
+
+<!-- PANEL LATERAL -->
+
+<div id="menu-lateral-ruteos">
+
+    <div class="menu-ruteos-header">
+
+        <span class="menu-ruteos-titulo">
+            MENÚ PRINCIPAL
+        </span>
+
+        <button
+            id="cerrar-menu-ruteos"
+            onclick="abrirCerrarMenuRuteos()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <!-- VISTA EXCEL -->
+
+    <button
+        class="opcion-menu-ruteos"
+        onclick="accionMenuRuteos('excel')">
+        📊 &nbsp; VISTA EXCEL
+    </button>
+
+
+    <!-- CREAR NUEVO RUTEO -->
+
+    <button
+        class="opcion-menu-ruteos"
+        onclick="accionMenuRuteos('nuevo')">
+        ➕ &nbsp; CREAR NUEVO RUTEO
+    </button>
+
+
+    <!-- SELECCIONAR RUTEO -->
+
+    <button
+        class="opcion-menu-ruteos"
+        onclick="toggleSubmenuRuteos()">
+        🔽 &nbsp; SELECCIONAR RUTEO
+    </button>
+
+    <div id="submenu-ruteos-lateral">
+        <!-- Aquí se cargarán automáticamente los ruteos -->
+    </div>
+
+
+
+    <!-- GESTIONAR / BORRAR -->
+
+    <button
+        class="opcion-menu-ruteos"
+        onclick="accionMenuRuteos('gestionar')">
+        🗑️ &nbsp; GESTIONAR / BORRAR RUTEOS
+    </button>
+
+
+    <!-- LIMPIAR -->
+
+    <button
+        class="opcion-menu-ruteos"
+        onclick="accionMenuRuteos('limpiar')">
+        🧹 &nbsp; LIMPIAR PANTALLA
+    </button>
+
+</div>
+
+
+<script>
+
+    function abrirCerrarMenuRuteos() {{
+
+        const menu =
+            document.getElementById("menu-lateral-ruteos");
+
+        const boton =
+            document.getElementById("btn-menu-lateral");
+
+        if (!menu || !boton) return;
+
+        menu.classList.toggle("abierto");
+
+        if (menu.classList.contains("abierto")) {{
+
+            // Ocultar ☰
+            boton.style.display = "none";
+
+        }} else {{
+
+            // Mostrar ☰
+            boton.style.display = "block";
+
+        }}
+    }}
+
+
+    function cerrarMenuRuteos() {{
+
+        const menu =
+            document.getElementById("menu-lateral-ruteos");
+
+        if (!menu) return;
+
+        menu.classList.remove("abierto");
+    }}
+
+
+    function toggleSubmenuRuteos() {{
+
+        const submenu =
+            document.getElementById("submenu-ruteos-lateral");
+
+        if (!submenu) return;
+
+        if (submenu.style.display === "block") {{
+
+            submenu.style.display = "none";
+
+        }} else {{
+
+            cargarRuteosEnMenuLateral();
+
+            submenu.style.display = "block";
+
+        }}
+    }}
+
+
+    function cargarRuteosEnMenuLateral() {{
+
+        const selector =
+            document.getElementById("ciclo-selector");
+
+        const submenu =
+            document.getElementById("submenu-ruteos-lateral");
+
+        if (!selector || !submenu) return;
+
+
+        // Limpiar la lista anterior
+        submenu.innerHTML = "";
+
+
+        // Leer directamente las opciones reales
+        // del selector original
+        Array.from(selector.options).forEach(opcion => {{
+
+            const boton =
+                document.createElement("button");
+
+            boton.type = "button";
+
+            boton.className = "ruteo-submenu-item";
+
+            boton.innerText = opcion.textContent;
+
+            boton.setAttribute("data-valor", opcion.value);
+
+
+            // Marcar el ruteo actualmente seleccionado
+            if (opcion.value === selector.value) {{
+                boton.classList.add("activo");
+            }}
+
+
+            boton.onclick = function() {{
+
+                seleccionarRuteoDesdeMenu(this.getAttribute("data-valor"));
+
+            }};
+
+
+            submenu.appendChild(boton);
+
+        }});
+    }}
+
+
+    function seleccionarRuteoDesdeMenu(valor) {{
+
+        const selector =
+            document.getElementById("ciclo-selector");
+
+        if (!selector) return;
+
+
+        // Cambiar el selector real
+        selector.value = valor;
+
+
+        // Ejecutar EXACTAMENTE la función
+        // que ya utilizaba tu selector original
+        cambiarCiclo(valor);
+
+
+        // Actualizar visualmente la lista
+        cargarRuteosEnMenuLateral();
+
+    }}
+
+
+
+    function accionMenuRuteos(accion) {{
+
+
+        if (accion === 'excel') {{
+
+            toggleExcelView();
+
+        }} else if (accion === 'nuevo') {{
+
+            abrirCreadorRuteo();
+
+        }} else if (accion === 'gestionar') {{
+
+            abrirGestorEliminacionMasiva();
+
+        }} else if (accion === 'limpiar') {{
+
+            limpiarPantallaCompleta();
+
+        }}
+    }}
+
+</script>
+
+
+
 </body>
 </html>
 """
 
+
+
+
+
+# INYECCIÓN DE RUTEO BD DE SUPABASE SI EXISTEN
+ruteos_bd = cargar_ruteos_bd()
+if ruteos_bd:
+    ruteos_json_str = json.dumps(ruteos_bd)
+    script_cargas = """
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let ruteosCargados = """ + ruteos_json_str + """;
+            if (Array.isArray(ruteosCargados)) {
+                ruteosCargados.forEach(ruteo => {
+                    crearTabYContenidoEnPantalla(
+                        ruteo.nombre, 
+                        ruteo.datos.flota || [], 
+                        ruteo.datos.planes || [], 
+                        ruteo.id, 
+                        ruteo.datos.incluirORH || false, 
+                        ruteo.datos.incluirOcup || false,
+                        ruteo.datos.llevaNodos || false
+                    );
+                });
+            }
+        });
+    </script>
+    </body>
+    """
+    app_html = app_html.replace("</body>", script_cargas)
+
 html(app_html, height=1200, scrolling=True)
 
 
-
-
-
-
-
-
-import streamlit as st
-import streamlit.components.v1 as components
-
-# 1. ENLACE DE IMAGEN (Mapa de regiones)
+# ==============================================================================
+# 8. COMPONENTE FINAL DE STREAMLIT (CONSOLA + MAPA OPERATIVO)
+# ==============================================================================
 ID_IMAGEN = "1M4GLEwFzhLrZjV-zmvGrdTQhC6IjwxOJ"
-url_final = f"https://drive.google.com/thumbnail?id={ID_IMAGEN}&sz=w1000"
+url_final = "https://drive.google.com/thumbnail?id=" + ID_IMAGEN + "&sz=w1000"
 
-# HTML/CSS: SOLO RELOJ RESTADOR E IMAGEN DE MAPA
-html_limpio = f"""
+html_limpio = """
 <style>
-    body {{ background-color: #25282b; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }}
-    .main-box {{ background: #25282b; padding: 10px; display: flex; flex-direction: column; align-items: center; }}
+    body { background-color: #25282b; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; }
+    .main-box { background: #25282b; padding: 10px; display: flex; flex-direction: column; align-items: center; }
     
-    .unified-console {{
+    .unified-console {
         background: #25282b; border-radius: 15px; padding: 15px; 
         margin-bottom: 20px; border: 1px solid #25282b; text-align: center; width: 100%; max-width: 500px;
-    }}
-    .display-screen {{
+    }
+    .display-screen {
         background: #25282b; border-radius: 10px; padding: 10px; margin-bottom: 15px; border: 2px solid #25282b;
-    }}
-    .btn-3d {{
+    }
+    .btn-3d {
         background: linear-gradient(145deg, #1e90ff, #1c82e6);
         color: white; border: none; padding: 12px 25px; border-radius: 10px;
         font-weight: bold; cursor: pointer; box-shadow: 0 5px #0a56a3; transition: 0.1s;
-    }}
-    .btn-3d:active {{ box-shadow: 0 2px #0a56a3; transform: translateY(3px); }}
+    }
+    .btn-3d:active { box-shadow: 0 2px #0a56a3; transform: translateY(3px); }
     
-    /* Contenedor del Mapa */
-    .map-container {{
+    .map-container {
         background: #1e1e1e; border-radius: 12px; padding: 15px; 
         width: 100%; max-width: 900px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }}
-    .map-container img {{
+    }
+    .map-container img {
         max-width: 100%; height: auto; border-radius: 8px; border: 2px solid #444;
-    }}
+    }
 </style>
 
 <div class="main-box">
@@ -4922,23 +5963,23 @@ html_limpio = f"""
     <!-- Imagen del Mapa -->
     <div class="map-container">
         <h3 style="color: #1E90FF; margin-top: 0; margin-bottom: 15px;">🗺️ MAPA OPERATIVO</h3>
-        <img src="{url_final}" alt="Mapa de regiones">
+        <img src='""" + url_final + """' alt="Mapa de regiones">
     </div>
 </div>
 
 <script>
-    function ejecutarTodo() {{
+    function ejecutarTodo() {
         const mins = document.getElementById('minInput').value || 0;
         const ahora = new Date();
         const nuevaFecha = new Date(ahora.getTime() - (mins * 60000));
         const h = String(nuevaFecha.getHours()).padStart(2, '0');
         const m = String(nuevaFecha.getMinutes()).padStart(2, '0');
         document.getElementById('horaReal').innerText = h + ":" + m;
-    }}
+    }
     ejecutarTodo();
 </script>
 """
 
-# RENDERIZADO EN STREAMLIT
+# Renderizado final del componente inferior
 st.markdown("---")
-components.html(html_limpio, height=850, scrolling=True)
+html(html_limpio, height=850, scrolling=True)
