@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st 
 from streamlit.components.v1 import html  
 from supabase import Client, create_client
-from reglas import reglas_ruteo, MAPA_ORIGENES, PREGUNTAS_FRECUENTES
+from reglas import reglas_ruteo, MAPA_ORIGENES, PREGUNTAS_FRECUENTES 
 
 st.set_page_config(page_title="Monitor Logístico - Liliana García", layout="wide", initial_sidebar_state="expanded")
 
